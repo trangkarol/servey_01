@@ -4,9 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use App\Model;
-use Socialite;
 use Auth;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -38,5 +37,37 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest', ['except' => 'logout']);
+    }
+
+    public function getLogin()
+    {
+        return view('user.login');
+    }
+
+    public function login(Request $request)
+    {
+        $data = $request->only([
+            'email',
+            'password',
+        ]);
+
+        if (Auth::attempt([
+            'email' => $data['email'],
+            'password' => $data['password'],
+            'status' => config('users.status.active')
+        ])) {
+            return redirect()->action('HomeController@index');
+        }
+
+        return redirect()->action('Auth\LoginController@getLogin')->with('message', trans('auth.failed'));
+    }
+
+    public function logout(Request $request)
+    {
+        $this->guard()->logout();
+        $request->session()->flush();
+        $request->session()->regenerate();
+
+        return redirect()->action('Auth\LoginController@getLogin');
     }
 }

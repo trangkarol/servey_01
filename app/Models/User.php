@@ -52,18 +52,18 @@ class User extends Authenticatable
 
     public function setImageAttribute($value)
     {
-        $this->attributes['image'] = $value ?: config('settings.avatar_default');
+        $this->attributes['image'] = $value ?: config('users.avatar_default');
     }
 
     public function getImageAttribute()
     {
-        $userImgUrl = config('settings.avatar_default');
+        $userImgUrl = config('users.avatar_default');
 
         if ($this->attributes['image']) {
             $userImgUrl = $this->attributes['image'];
         }
 
-        return asset(config('settings.image_url' . $userImgUrl));
+        return asset(config('users.image_url' . $userImgUrl));
     }
 
     public function setPasswordAttribute($value)
@@ -75,12 +75,12 @@ class User extends Authenticatable
 
     public function setLevelAttribute($value)
     {
-        $this->attributes['level'] = $value ?: config('settings.level.user');
+        $this->attributes['level'] = $value ?: config('users.level.user');
     }
 
     public function setStatusAttribute($value)
     {
-        $this->attributes['status'] = $value ?: config('settings.status.user');
+        $this->attributes['status'] = $value ?: config('users.status.user');
     }
 
     public function reciveResults()
@@ -105,11 +105,16 @@ class User extends Authenticatable
 
     public function isAdmin()
     {
-        return $this->level == config('settings.level.admin');
+        return $this->level == config('users.level.admin');
     }
 
     public function isActive()
     {
-        return $this->status == config('settings.status.active');
+        return $this->status == config('users.status.active');
+    }
+
+    public function setGenderAttribute($value)
+    {
+        $this->attributes['gender'] = $value ?: config('users.gender.male');
     }
 }

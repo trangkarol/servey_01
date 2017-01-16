@@ -45,7 +45,6 @@ $factory->define(App\Models\Question::class, function (Faker\Generator $faker) {
         'content' => $faker->paragraph,
         'image' => config('settings.image_default'),
         'required' => $faker->numberBetween(0,1),
-        'type' => $faker->numberBetween(1,4),
         'survey_id' => $faker->randomElement($surveyIds ?: $surveyIds = App\Models\Survey::pluck('id')->toArray()),
     ];
 });
@@ -55,6 +54,7 @@ $factory->define(App\Models\Answer::class, function (Faker\Generator $faker) {
 
     return [
         'content' => $faker->paragraph,
+        'type' => $faker->numberBetween(1,4),
         'question_id' => $faker->randomElement($questionIds ?: $questionIds = App\Models\Question::pluck('id')->toArray()),
     ];
 });
