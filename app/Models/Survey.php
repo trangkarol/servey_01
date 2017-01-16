@@ -9,6 +9,7 @@ class Survey extends Model
     protected $fillable = [
         'title',
         'user_id',
+        'feature',
     ];
 
     public function invites()
@@ -29,10 +30,5 @@ class Survey extends Model
     public function likes()
     {
         return $this->hasMany(Like::class);
-    }
-
-    public function setLikeAttributes($value)
-    {
-        $this->attributes['like'] = $value ?: config('settings.like_default');
     }
 }
