@@ -15,5 +15,10 @@ require('laravel-elixir-vue-2');
 
 elixir(mix => {
     mix.sass('app.scss')
-       .webpack('app.js');
+       .webpack('app.js')
+       .scripts(['admin-script.js'], 'public/admin/js/admin-script.js')
+       .copy('resources/assets/fonts', 'public/admin/fonts')
+       .browserSync({
+        proxy: 'http://localhost:8000/'	
+      });
 });
