@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "de37cadb243c220f52155579b13361de",
+    "content-hash": "8cf4e5746363cae89f00ba780e4d2104",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -774,60 +774,6 @@
             "time": "2014-08-17T21:15:53+00:00"
         },
         {
-            "name": "doctrine/lexer",
-            "version": "v1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/doctrine/lexer.git",
-                "reference": "83893c552fd2045dd78aef794c31e694c37c0b8c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/lexer/zipball/83893c552fd2045dd78aef794c31e694c37c0b8c",
-                "reference": "83893c552fd2045dd78aef794c31e694c37c0b8c",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.2"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Doctrine\\Common\\Lexer\\": "lib/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Roman Borschel",
-                    "email": "roman@code-factory.org"
-                },
-                {
-                    "name": "Guilherme Blanco",
-                    "email": "guilhermeblanco@gmail.com"
-                },
-                {
-                    "name": "Johannes Schmitt",
-                    "email": "schmittjoh@gmail.com"
-                }
-            ],
-            "description": "Base library for a lexer that can be used in Top-Down, Recursive Descent Parsers.",
-            "homepage": "http://www.doctrine-project.org",
-            "keywords": [
-                "lexer",
-                "parser"
-            ],
-            "time": "2014-09-09T13:34:57+00:00"
-        },
-        {
             "name": "jakub-onderka/php-console-color",
             "version": "0.1",
             "source": {
@@ -1155,7 +1101,6 @@
             "time": "2015-03-13T02:40:10+00:00"
         },
         {
->>>>>>> gulp css and js admin pages
             "name": "laravelcollective/html",
             "version": "v5.3.0",
             "source": {
@@ -1479,26 +1424,32 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "1.21.0",
+            "version": "1.22.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "7b08ec6f75791e130012f206e3f7b0e76e18e3d7"
+                "reference": "3b114ab800c6432ad42387ccf6bc8d4388a2885a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/7b08ec6f75791e130012f206e3f7b0e76e18e3d7",
-                "reference": "7b08ec6f75791e130012f206e3f7b0e76e18e3d7",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/3b114ab800c6432ad42387ccf6bc8d4388a2885a",
+                "reference": "3b114ab800c6432ad42387ccf6bc8d4388a2885a",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.0",
-                "symfony/translation": "~2.6|~3.0"
+                "symfony/translation": "~2.6 || ~3.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.0|~5.0"
+                "friendsofphp/php-cs-fixer": "~2",
+                "phpunit/phpunit": "~4.0 || ~5.0"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.23-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Carbon\\": "src/Carbon/"
@@ -1522,7 +1473,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2015-11-04T20:07:17+00:00"
+            "time": "2017-01-15T14:47:48+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -1672,16 +1623,16 @@
         },
         {
             "name": "psy/psysh",
-            "version": "v0.8.0",
+            "version": "v0.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bobthecow/psysh.git",
-                "reference": "4a8860e13aa68a4bbf2476c014f8a1f14f1bf991"
+                "reference": "701e8a1cc426ee170f1296f5d9f6b8a26ad25c4a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/4a8860e13aa68a4bbf2476c014f8a1f14f1bf991",
-                "reference": "4a8860e13aa68a4bbf2476c014f8a1f14f1bf991",
+                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/701e8a1cc426ee170f1296f5d9f6b8a26ad25c4a",
+                "reference": "701e8a1cc426ee170f1296f5d9f6b8a26ad25c4a",
                 "shasum": ""
             },
             "require": {
@@ -1711,7 +1662,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-develop": "0.8.x-dev"
+                    "dev-develop": "0.9.x-dev"
                 }
             },
             "autoload": {
@@ -1741,7 +1692,7 @@
                 "interactive",
                 "shell"
             ],
-            "time": "2016-12-07T17:15:07+00:00"
+            "time": "2017-01-15T17:54:13+00:00"
         },
         {
             "name": "ramsey/uuid",
