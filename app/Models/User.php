@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -63,7 +63,7 @@ class User extends Authenticatable
             $userImgUrl = $this->attributes['image'];
         }
 
-        return asset(config('settings.image_url' . $userImgUrl);
+        return asset(config('settings.image_url' . $userImgUrl));
     }
 
     public function setPasswordAttribute($value)
@@ -73,14 +73,14 @@ class User extends Authenticatable
         }
     }
 
-    public function setLevelAttributes($value)
+    public function setLevelAttribute($value)
     {
-        $this->attributes['level'] = $value ?: config('settings.level_default');
+        $this->attributes['level'] = $value ?: config('settings.level.user');
     }
 
-    public function setStatusAttributes($value)
+    public function setStatusAttribute($value)
     {
-        $this->attributes['status'] = $value ?: config('settings.status_default');
+        $this->attributes['status'] = $value ?: config('settings.status.user');
     }
 
     public function reciveResults()
@@ -101,5 +101,15 @@ class User extends Authenticatable
     public function sendSurveys()
     {
         return $this->hasMany(Survey::class, 'sender_id');
+    }
+
+    public function isAdmin()
+    {
+        return $this->level == config('settings.level.admin');
+    }
+
+    public function isActive()
+    {
+        return $this->status == config('settings.status.active');
     }
 }

@@ -36,6 +36,6 @@ class Question extends Model
             $questionImgUrl = $this->attributes['image'];
         }
 
-        return asset(config('settings.question_img_url' . $questionImgUrl);
+        return asset(config('settings.question_img_url' . $questionImgUrl));
     }
 }
