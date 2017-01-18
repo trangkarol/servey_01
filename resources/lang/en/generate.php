@@ -1,0 +1,31 @@
+<?php
+
+return [
+    'id' => 'Id',
+    'login' => 'Login',
+    'logout' => 'Logout',
+    'account' => 'Account',
+    'profile' => 'Profile',
+    'list' => 'List',
+    'user' => 'User',
+    'notification' => 'Notification',
+    'search' => 'Search',
+    'survey' => 'Survey',
+    'company' => 'Company',
+    'email' => 'Email',
+    'birthday' => 'Birthday',
+    'address' => 'Address',
+    'phone' => 'Phone',
+    'gender' => 'gender',
+    'close' => 'x',
+    'edit' => 'Edit',
+    'name' => 'Name',
+    'update' => 'Update',
+    'avatar' => 'Avartar',
+    'status' => [
+        'generate' => 'Status',
+        'block' => 'Block',
+        'active' => 'Acvite',
+    ],
+    'exampe' => 'Exampe',
+];
