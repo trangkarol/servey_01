@@ -1,4 +1,4 @@
 $(document).ready(function(){
-	
-	charts.initChartist();
+    
+    charts.initChartist();
 });

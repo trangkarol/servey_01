@@ -12,14 +12,11 @@
     {!! Html::style(elixir('/admin/css/bootstrap.css')) !!}
     {!! Html::style(elixir('/admin/css/bootstrap.min.css')) !!}
     {!! Html::style(elixir('/css/app.css')) !!}
-    {!! Html::script(elixir('/admin/js/jquery.js')) !!}
-    {!! Html::script(elixir('/admin/js/bootstrap.min.js')) !!}
-    {!! Html::script(elixir('/admin/js/admin-script.js')) !!}
-    {!! Html::script(elixir('/admin/js/chart.js')) !!}
 
 <body>
     <div class="wrapper">
         <div class="sidebar" data-color="blue" data-image="assets/img/sidebar-5.jpg">
+            <input type="hidden" data-number="0" idtoken="{{ csrf_token() }}" data-route="{!! url('/') !!}" class="url-token"/>
             <div class="sidebar-wrapper">
                 <div class="logo">
                     <a href="" class="simple-text">
@@ -28,19 +25,19 @@
                 </div>
                 <ul class="nav">
                     <li class="active">
-                        <a href="">
+                        <a href="{{ action('HomeController@index') }}">
                             <i class="pe-7s-graph"></i>
                             <p>{{ trans('admin.dashboard') }}</p>
                         </a>
                     </li>
                     <li>
-                        <a href="">
+                        <a href="{{ action('Admin\UserController@index') }}">
                             <i class="pe-7s-user"></i>
                             <p>{{ trans('generate.list') }} {{ trans('generate.user') }}</p>
                         </a>
                     </li>
                     <li>
-                        <a href="">
+                        <a href="{{ action('Admin\SurveyController@index') }}">
                             <i class="pe-7s-note2"></i>
                             <p>{{ trans('generate.list') }} {{ trans('generate.survey') }}</p>
                         </a>
@@ -66,5 +63,12 @@
             @include('admin.blocks.footer')
         </div>
     </div>
+    {!! Html::script(elixir('/js/app.js')) !!}
+    {!! Html::script(elixir('/admin/js/jquery.js')) !!}
+    {!! Html::script(elixir('/admin/js/bootstrap.min.js')) !!}
+    {!! Html::script(elixir('/admin/js/admin-script.js')) !!}
+    {!! Html::script(elixir('/admin/js/chart.js')) !!}
+    {!! Html::script(elixir('/admin/js/survey.js')) !!}
+    {!! Html::script(elixir('bower/bootstrap/dist/js/bootstrap.min.js')) !!}
 </body>
 </html>
