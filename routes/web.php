@@ -14,12 +14,21 @@
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/login', function () {
-    return view('user.login');
-});
+
 Auth::routes();
-Route::get('/home', 'HomeController@index');
-Route::get('/redirect/{provider}', 'User\SocialAuthController@redirect');
-Route::get('/callback/{provider}', 'User\SocialAuthController@callback');
+Route::group(['prefix' => '/', 'middleware' => 'guest'], function () {
+    Route::get('/register-user', 'Auth\RegisterController@getRegister');
+    Route::post('/register-user', [
+        'as' => 'register-user',
+        'uses' => 'Auth\RegisterController@register',
+    ]);
+    Route::get('/login-user', 'Auth\LoginController@getLogin');
+    Route::post('login-user', [
+        'as' => 'login-user',
+        'uses' => 'Auth\LoginController@login',
+    ]);
+    Route::get('/redirect/{provider}', 'User\SocialAuthController@redirect');
+    Route::get('/callback/{provider}', 'User\SocialAuthController@callback');
+});
 Route::get('/logout', 'Auth\LoginController@logout');
-Route::post('/login', 'Auth\LoginController@login');
+Route::get('/home', 'HomeController@index');
