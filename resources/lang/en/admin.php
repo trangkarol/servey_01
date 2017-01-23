@@ -17,4 +17,17 @@ return [
     'edit' => 'Edit',
     'remove' => 'Remove',
     'add' => 'Store',
+    'update' => [
+        'success' => 'Update Successfull',
+        'fail' => 'Fail To Update',
+    ],
+    'delete' => [
+        'success' => 'Delete Successfull',
+        'fail' => 'Fail To Delete',
+    ],
+    'create' => [
+        'success' => 'Create Successfull',
+        'fail' => 'Fail To Create',
+    ],
+    'go_home' => 'View Home',
 ];

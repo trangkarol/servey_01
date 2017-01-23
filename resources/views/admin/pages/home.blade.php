@@ -8,8 +8,8 @@
                 <p class="category">{{ trans('generate.exampe') }}</p>
             </div>
             <div class="content">
-                <div id="chartPreferences" class="ct-chart ct-perfect-fourth"></div>
-
+                <div id="chartPreferences" class="ct-chart ct-perfect-fourth">
+                </div>
                 <div class="footer">
                     <div class="legend">
                         <i class="fa fa-circle text-info"></i> {{ trans('generate.exampe') }}
@@ -79,13 +79,13 @@
                 <div class="table-full-width">
                     <table class="table">
                         <tbody>
+                        <td></td>
+                        <td>{{ trans('generate.id') }}</td>
+                        <td>{{ trans('generate.title') }}</td>
+                        @foreach ($surveys as $survey)
                             <tr>
-                                <td>
-                                    <label class="checkbox">
-                                        {!! Form::checkbox('', '', '', ['data-toggle' => 'checkbox']) !!}
-                                    </label>
-                                </td>
-                                <td>{{ trans('generate.exampe') }}</td>
+                                <td>{{ $survey->id }}</td>
+                                <td>{{ $survey->title }}</td>
                                 <td class="td-actions text-right">
                                     {!! Form::button('<i class="fa fa-edit"></i>',
                                         [
@@ -103,30 +103,7 @@
                                     !!}
                                 </td>
                             </tr>
-                            <tr>
-                                <td>
-                                    <label class="checkbox">
-                                        {!! Form::checkbox('', '', '', ['data-toggle' => 'checkbox']) !!}
-                                    </label>
-                                </td>
-                                <td>{{ trans('generate.exampe') }}</td>
-                                <td class="td-actions text-right">
-                                    {!! Form::button('<i class="fa fa-edit"></i>',
-                                        [
-                                            'class' => 'btn btn-info btn-simple btn-xs',
-                                            'title' => trans('admin.edit'),
-                                            'rel' => 'tooltip'
-                                        ])
-                                    !!}
-                                    {!! Form::button('<i class="fa fa-remove"></i>',
-                                        [
-                                            'class' => 'btn btn-info btn-simple btn-xs',
-                                            'title' => trans('admin.remove'),
-                                            'rel' => 'tooltip'
-                                        ])
-                                    !!}
-                                </td>
-                            </tr>
+                        @endforeach
                         </tbody>
                     </table>
                 </div>

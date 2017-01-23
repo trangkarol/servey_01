@@ -9,25 +9,7 @@
                 <h4 class="title">{{ trans('generate.list') }} {{ trans('generate.survey') }}</h4>
                 <p class="category">{{ trans('generate.exampe') }}</p>
             </div>
-            <div class="alert-message">
-                @if (Session::get('message-success'))
-                    <div class="alert alert-success">
-                        <span>
-                            <p>
-                                {{ Session::get('message-success') }}
-                            </p>
-                        </span>
-                    </div>
-                @elseif (Session::get('message-fail'))
-                    <div class="alert alert-warning">
-                        <span>
-                            <p>
-                                {{ Session::get('message-fail') }}
-                            </p>
-                        </span>
-                    </div>
-                @endif
-            </div>
+            @include('admin.blocks.alert')
             @include('admin.blocks.list', ['surveys' => $surveyFeatures])
         </div>
         {!! Form::button(trans('admin.change_feature'), [
