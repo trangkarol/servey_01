@@ -14,10 +14,15 @@ require('laravel-elixir-vue-2');
  */
 
 elixir(mix => {
+
     mix.sass('app.scss')
    .sass('site.scss', 'public/user/css/site.css')
+   .sass('home.scss', 'public/user/css/home.css')
+   .sass('admin-style-1.scss', 'public/admin/css/admin-style-1.css')
    .webpack('app.js')
    .scripts('chart.js', 'public/admin/js/chart.js')
+   .scripts('question.js', 'public/user/js/question.js')
+   .scripts('survey.js', 'public/admin/js/survey.js')
    .scripts('admin-script.js', 'public/admin/js/admin-script.js')
    .copy('resources/assets/fonts', 'public/admin/fonts')
    .copy([
@@ -29,7 +34,6 @@ elixir(mix => {
             'public/bower/bootstrap/dist/css/bootstrap.css',
             'public/bower/bootstrap/dist/css/bootstrap.min.css'
          ], 'public/admin/css')
-
    .browserSync({
         proxy: 'http://localhost:8000/',
         proxy: 'http://survey.com/'

@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{{ trans('login.get_survey') }}!</title>
         {!! Html::style(elixir('/css/app.css')) !!}
+        {!! Html::style(elixir('/user/css/site.css')) !!}
     </head>
     <body class="body-login">
         <!-- Top content -->
