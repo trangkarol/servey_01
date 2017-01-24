@@ -57,13 +57,9 @@ class User extends Authenticatable
 
     public function getImageAttribute()
     {
-        $userImgUrl = config('users.avatar_default');
-
-        if ($this->attributes['image']) {
-            $userImgUrl = $this->attributes['image'];
-        }
-
-        return asset(config('users.image_url' . $userImgUrl));
+        return preg_match('#^(http)|(https).*$#', $this->attributes['image'])
+            ? $this->attributes['image']
+            : asset('/' . config('users.avatar_path') . '/' . $this->attributes['image']);
     }
 
     public function setPasswordAttribute($value)

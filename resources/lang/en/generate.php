@@ -16,7 +16,11 @@ return [
     'birthday' => 'Birthday',
     'address' => 'Address',
     'phone' => 'Phone',
-    'gender' => 'gender',
+    'gender' => [
+        'name' => 'Gender',
+        'male' => 'Male',
+        'female' => 'Female',
+    ],
     'close' => 'x',
     'edit' => 'Edit',
     'name' => 'Name',
@@ -28,4 +32,11 @@ return [
         'active' => 'Acvite',
     ],
     'exampe' => 'Exampe',
+    'remove' => 'Remove',
+    'chocies' => 'Chocies',
+    'feature' => [
+        'generate' => 'Feature',
+        'yes_feature' => 'Yes',
+        'not_feature' => 'No',
+    ],
 ];

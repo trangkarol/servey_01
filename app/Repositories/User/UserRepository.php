@@ -29,4 +29,12 @@ class UserRepository extends BaseRepository implements UserInterface
             return false;
         }
     }
+
+    public function uploadAvatar($file)
+    {
+        $fileName = uniqid(rand(), true) . '.' . $file->getClientOriginalExtension();
+        $file->move(public_path(config('users.avatar_path')), $fileName);
+
+        return $fileName;
+    }
 }

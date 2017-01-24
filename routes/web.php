@@ -17,18 +17,25 @@ Route::get('/', function () {
 
 Auth::routes();
 Route::group(['prefix' => '/', 'middleware' => 'guest'], function () {
-    Route::get('/register-user', 'Auth\RegisterController@getRegister');
-    Route::post('/register-user', [
+    Route::get('/register', 'Auth\RegisterController@getRegister');
+    Route::post('/register', [
         'as' => 'register-user',
         'uses' => 'Auth\RegisterController@register',
     ]);
-    Route::get('/login-user', 'Auth\LoginController@getLogin');
-    Route::post('login-user', [
+    Route::get('/login', 'Auth\LoginController@getLogin');
+    Route::post('login', [
         'as' => 'login-user',
         'uses' => 'Auth\LoginController@login',
     ]);
     Route::get('/redirect/{provider}', 'User\SocialAuthController@redirect');
     Route::get('/callback/{provider}', 'User\SocialAuthController@callback');
 });
-Route::get('/logout', 'Auth\LoginController@logout');
 Route::get('/home', 'HomeController@index');
+Route::get('/logout', 'Auth\LoginController@logout');
+Route::group(['prefix' => '/admin', 'middleware' => 'admin'], function () {
+    Route::resource('/dashboard', 'Admin\DashboardController', ['only' => ['index']]);
+    Route::resource('survey', 'Admin\SurveyController', ['only' => ['index', 'update']]);
+    Route::post('/destroy-survey', 'Admin\SurveyController@destroySurvey');
+    Route::resource('user', 'Admin\UserController', ['only' => ['index', 'update', 'show']]);
+    Route::post('/change-status-user/{status}', 'Admin\UserController@changeStatus');
+});
