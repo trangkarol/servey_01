@@ -39,4 +39,9 @@ return [
         'yes_feature' => 'Yes',
         'not_feature' => 'No',
     ],
+    'invite' => 'Inivte User',
+    'profile' => 'Profile',
+    'create' => [
+        'survey' => 'Create Survey',
+    ],
 ];

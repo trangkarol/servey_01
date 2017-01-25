@@ -39,7 +39,7 @@
                         </div>
                     @endif
                 </div>
-                <div class="form-group">
+                <div class="alert-message">
                     @if(Session::has('message'))
                         <div class="alert alert-danger">
                             {{Session::get('message')}}

@@ -33,9 +33,10 @@ Route::group(['prefix' => '/', 'middleware' => 'guest'], function () {
 Route::get('/home', 'HomeController@index');
 Route::get('/logout', 'Auth\LoginController@logout');
 Route::group(['prefix' => '/admin', 'middleware' => 'admin'], function () {
-    Route::resource('/dashboard', 'Admin\DashboardController', ['only' => ['index']]);
+    Route::resource('/dashboard', 'Admin\DashboardController', ['only' => ['index', 'show']]);
     Route::resource('survey', 'Admin\SurveyController', ['only' => ['index', 'update']]);
     Route::post('/destroy-survey', 'Admin\SurveyController@destroySurvey');
     Route::resource('user', 'Admin\UserController', ['only' => ['index', 'update', 'show']]);
     Route::post('/change-status-user/{status}', 'Admin\UserController@changeStatus');
+    Route::get('/search', 'Admin\UserController@search');
 });

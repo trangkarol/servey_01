@@ -23,4 +23,6 @@ return [
         'success' => 'true',
         'fail' => 'false',
     ],
+    'feature' => 1,
+    'not_feature' => 0,
 ];
