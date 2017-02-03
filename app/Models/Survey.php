@@ -10,6 +10,7 @@ class Survey extends Model
         'title',
         'user_id',
         'feature',
+        'token',
     ];
 
     public function invites()
@@ -30,5 +31,10 @@ class Survey extends Model
     public function likes()
     {
         return $this->hasMany(Like::class);
+    }
+
+    public function setTokenAttribute($value)
+    {
+        return $this->attributes['token'] = (strlen($value) >= 32) ? $value : md5(uniqid(rand(), true));
     }
 }

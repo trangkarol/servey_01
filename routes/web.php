@@ -40,3 +40,14 @@ Route::group(['prefix' => '/admin', 'middleware' => 'admin'], function () {
     Route::post('/change-status-user/{status}', 'Admin\UserController@changeStatus');
     Route::get('/search', 'Admin\UserController@search');
 });
+
+Route::group(['prefix' => '/survey', 'middleware' => 'auth'], function () {
+    Route::get('/invite/send', 'SurveyController@inviteUser');
+    Route::get('/invite/{token}', [
+        'as' => 'invite',
+        'uses' => 'SurveyController@answer',
+    ]);
+    Route::get('/user/detail', 'User\UserController@show');
+    Route::post('/user/update', 'User\UserController@update');
+});
+Route::resource('/survey/public', 'SurveyController', ['only' => ['index', 'show']]);

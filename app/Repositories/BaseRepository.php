@@ -72,17 +72,7 @@ abstract class BaseRepository implements BaseInterface
 
     public function multiCreate($input)
     {
-        DB::beginTransaction();
-        try {
-            $this->model->insert($input);
-            DB::commit();
-
-            return true;
-        } catch (Exception $e) {
-            DB::rollback();
-
-            return false;
-        }
+        return $this->model->insert($input);
     }
 
     public function update($id, $input)

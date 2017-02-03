@@ -7,6 +7,7 @@ return [
     'level' => [
         'user' => 0,
         'admin' => 1,
+        'supperadmin' => 2,
     ],
     'status' => [
         'block' => 0,
