@@ -22,7 +22,7 @@ const app = new Vue({
 $(document).ready(function() {
     $.ajaxSetup({
         headers: {
-            'X-CSRF-TOKEN': $(".url-token").attr('idtoken')
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
 });
