@@ -49,9 +49,11 @@ class RegisterController extends Controller
         if ($user) {
             Auth::login($user);
 
-            return redirect()->action('HomeController@index');
+            return redirect()->action('SurveyController@getHome');
         }
 
-        return redirect()->action('Auth\LoginController@getRegister')->with('message', trans('message.register_fail'));
+        return redirect()
+            ->action('Auth\LoginController@getRegister')
+            ->with('message', trans('message.register_fail'));
     }
 }

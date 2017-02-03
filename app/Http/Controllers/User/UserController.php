@@ -28,37 +28,41 @@ class UserController extends Controller
     public function update(EditUserRequest $request)
     {
         $isSuccess = false;
-            $updateData = $request->only([
-                'email',
-                'password',
-                'name',
-                'image',
-                'phone',
-                'gender',
-                'birthday',
-                'address',
-                'old-password',
-            ]);
+        $updateData = $request->only([
+            'email',
+            'password',
+            'name',
+            'image',
+            'phone',
+            'gender',
+            'birthday',
+            'address',
+            'old-password',
+        ]);
 
-            if ($updateData['password'] && Hash::check($updateData['old-password'], Auth::user()->password)
-                || !$updateData['password']
-            ) {
-                $updateData = $request->except(['old-password']);
+        if ($updateData['password'] && Hash::check($updateData['old-password'], Auth::user()->password)
+            || !$updateData['password']
+        ) {
+            $updateData = $request->except(['old-password']);
 
-                if (isset($updateData['image'])) {
-                    $updateData['image'] = $this->userRepository->uploadAvatar($input['image']);
-                } else {
-                    $updateData = $request->except(['image']);
-                }
-
-                if ($this->userRepository->update(auth()->id(), $updateData)) {
-                    $isSuccess = true;
-                }
+            if (isset($updateData['image'])) {
+                $updateData['image'] = $this->userRepository->uploadAvatar($input['image']);
+            } else {
+                $updateData = $request->except(['image']);
             }
+
+            if ($this->userRepository->update(auth()->id(), $updateData)) {
+                $isSuccess = true;
+            }
+        }
 
         return redirect()->action('User\UserController@show')
             ->with('message', ($isSuccess)
-                ? trans('messages.object_updated_successfully', ['object' => class_basename(User::class)])
-                : trans('messages.object_updated_unsuccessfully', ['object' => class_basename(User::class)]));
+                ? trans('messages.object_updated_successfully', [
+                    'object' => class_basename(User::class),
+                    ])
+                : trans('messages.object_updated_unsuccessfully', [
+                    'object' => class_basename(User::class),
+                    ]));
     }
 }
