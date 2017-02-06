@@ -47,5 +47,7 @@ Route::group(['prefix' => '/survey', 'middleware' => 'auth'], function () {
         'as' => 'invite',
         'uses' => 'SurveyController@answer',
     ]);
+    Route::get('/user/detail', 'User\UserController@show');
+    Route::post('/user/update', 'User\UserController@update');
 });
 Route::resource('/survey/public', 'SurveyController', ['only' => ['index', 'show']]);
