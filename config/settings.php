@@ -25,4 +25,5 @@ return [
     ],
     'feature' => 1,
     'not_feature' => 0,
+    'google' => 'google',
 ];
