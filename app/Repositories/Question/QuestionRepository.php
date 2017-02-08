@@ -51,6 +51,7 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
         $answersAdd = [];
 
         foreach ($questions as $value) {
+
             if (!strlen($value)) {
                 $value = config('survey.question_default');
             }
@@ -72,10 +73,20 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
             foreach (array_keys($questions) as $number => $index) {
                 foreach ($answers[$index] as $key => $value) {
                     $type = array_keys($value)[0];
-                    $temp = $value[$type];
 
-                    if (!strlen($temp)) {
-                        $temp = config('survey.question_default');
+                    switch ($type) {
+                        case config('survey.type_other_radio'): case config('survey.type_other_checkbox'):
+                            $temp = trans('temp.other');
+                            break;
+                        case config('survey.type_short'):
+                            $temp = trans('temp.short_text');
+                            break;
+                        case config('survey.type_long'):
+                            $temp = trans('temp.long_text');
+                            break;
+                        default:
+                            $temp = $value[$type];
+                            break;
                     }
 
                     $answersAdd[] = [

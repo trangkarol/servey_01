@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'other' => 'Other',
     'short_text' => 'Short text',
     'long_text' => 'Long text',
     'title' => 'A survey is a list of questions aimed at extracting specific data from a particular group of people.',

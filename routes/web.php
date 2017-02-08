@@ -108,6 +108,8 @@ Route::group(['prefix' => '/survey', 'middleware' => 'auth'], function () {
     Route::get('/user/detail', 'User\UserController@show');
 
     Route::post('/user/update', 'User\UserController@update');
+
+    Route::get('/view/charts/{token}', 'SurveyController@viewChart');
 });
 
 Route::post('/text-other', 'User\SurveyController@textOther');
