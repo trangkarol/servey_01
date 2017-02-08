@@ -40,9 +40,7 @@
 }
 
 .title-question {
-    margin-top:10px;
-    padding-top:20px;
-    padding-bottom:25px;
+    margin-left: 20px;
 
     .glyphicon.glyphicon-picture {
         font-size: 25px;
@@ -65,11 +63,10 @@
 
 .content-question {
     background: #f4f7dc;
-    margin-top:-150px;
     border-radius: 5px;
     padding-bottom: 50px;
-    margin-bottom: 120px;
-    position: relative;width: 60%;
+    margin: 0px 0px 120px 10%;
+    background: white;
 
     >div:nth-child(1) {
         margin-top: 50px;
@@ -84,6 +81,11 @@
             border-radius:5px;
             border-bottom: 1px solid gray;
         }
+    }
+    .col-md-6.col-md-offset-3 {
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
     }
 }
 
@@ -122,6 +124,9 @@
 }
 
 .text-question {
+    margin-top: 14px;
+    margin-bottom: 10px;
+
     input[type="text"]{
         border: 0px;
         border-bottom: 1px solid gray;
@@ -133,26 +138,50 @@
 }
 
 .div-text-answer {
-    position: absolute;width: 100%;
+    width: 100%;
     >input[type="text"] {
         border: 0px;
         border-bottom: 1px solid gray;
         width: 100%; height: 40px;
-        padding: 7px 40px;
+        padding: 7px 15px;
         font-size: 20px;
         margin: 0px 0px 0px 10px;
     }
 }
 
 .div-radio {
-    position: relative;
     margin-top: 9px;
     margin-left: 20px;
     width: 20px;
 }
 
 .div-content-answer {
-    margin-top:20px;
+    margin-top:5px;
+    margin-bottom: 5px;
+    width: 65%;
+}
+
+.div-radius {
+    border: 1px solid gray;
+    border-radius: 15px;
+    height: 30px;
+    width: 30px;
+    margin-top: 10px;
+}
+
+.div-square {
+    border: 1px solid gray;
+    border-radius: 3px;
+    height: 30px;
+    width: 30px;
+    margin-top: 10px;
+}
+
+.img-trash {
+    padding-top: 32px;
+    >a {
+        float:left;
+    }
 }
 
 .clear {
@@ -160,24 +189,28 @@
 }
 
 .choose-action {
+    margin-top: 15px;
 
     button {
         border:0px;
-        padding:5px 10px;
+        padding: -15px 8px;
+        letter-spacing: 0px;
         border-radius: 5px;
         font-size:20;
-        background:gray;
         color:white;
         font-weight:bold;
+        text-transform: none;
         &:hover{
-            background: #53d6af;
-
+            background: #c2e5c0;
+            color: white;
         }
     }
 }
 
 .add-question.col-md-1 {
-    position: fixed;color: gray;
+    position: fixed;
+    color: gray;
+    margin-top: -90px;
     margin-left:860px;
     >a {
         cursor: pointer;
@@ -192,13 +225,13 @@
             li {
                 width:190px;
                 button{
-                    padding:5px 10px;
-                    padding-bottom:10px;
-                    border:0px;
-                    border-bottom: 1px solid gray;
+
+                    border: 0px;
                     border-radius:5px;
                     font-size:17px;
-                    margin-top: -10px;
+                    letter-spacing: 0px;
+                    text-transform: none;
+                    padding-bottom: 10px;
                     font-weight: bold;
                     &:hover {
                         background: #53d6af;
@@ -244,9 +277,8 @@
         border-bottom: 1px solid gray;
         width: 106%;
         height: 40px;
-        padding: 7px 40px;
+        padding: 7px 15px;
         font-size: 20px;
-        margin: 0px 0px 0px 10px;
         &:nth-child(2) {
             margin-top: 5px;
         }
@@ -257,11 +289,20 @@
         border: 0px;
         font-size: 20px;
         resize: none;
-        height: 80px;
+        height: 10px;
         width: 106%;
         padding: 7px 12px;
+        border-bottom: 1px solid gray;
     }
 
+}
+
+.text-icon {
+    padding: 8px;
+    span{
+        font-size: 30px;
+        color: #b1b1b1;
+    }
 }
 
 .navbar.navbar-inverse {
@@ -328,22 +369,28 @@
     padding: 20px 30px;
     background: #aeb789;
     margin: 20px auto;
+    background: white;
+    border-bottom: 1px solid #a3f7c2;
+
     h2 {
         margin: 0px;
         margin-bottom: 7px;
     }
 }
 
+.qs-content {
+    font-size: 30px;
+    font-weight: bold;
+}
+
 .container-other {
+    margin-top: -5px;
     >div:nth-child(1) {
         float: left;
-        margin-left: 15px;
-        margin-top: 6px;
     }
     >div:nth-child(2) {
         float: left;
-        margin-left: 8px;
-
+        margin-left: -10px;
         >div:nth-child(1) {
             position: absolute;
             width: 54%;
@@ -357,8 +404,14 @@
         }
         >div:nth-child(2) {
             position: relative;
-            margin-top: 5px;
             margin-left: 5px;
+        }
+    }
+    >.col-md-5 {
+        margin-top: 4px;
+
+        >input[type="text"] {
+                height: 2em;
         }
     }
 }
@@ -379,11 +432,11 @@
 }
 
 .long-text {
-    width: 70%;
     resize: none;
     border: 0px;
     padding: 10px 20px;
-    border-radius: 15px;
+    height: 100px;
+    border-bottom: 1px solid #bec1c4;
 }
 
 .row-checkbox {
@@ -407,23 +460,32 @@
 
 .content-question {
     width: 70%;
-    background: url("/user/image/bg-sv.png");
+    margin-top:0px;
+    margin-left: 10%;
+    background: white;
 }
 
 .title-survey {
     color: white;
     text-align: center;
+    padding-top: 30px;
+    border-bottom: 1px dashed gray;
+
+    h1 {
+        color: gray;
+    }
 }
 
 .bt-finish {
     margin-top: 10px;
+    margin-right: 60px;
     padding: 5px 10px;;
     border: 0;
     font-weight: bold;
     border-radius: 5px;
     float: right;
     &:hover {
-        background: #1ee4e8;
+        background: #c3ed9c;
         color: white;
     }
 }
@@ -484,15 +546,113 @@
     text-align: center;
     >input[type='submit'] {
         border: 1px solid white;
-        padding: 8px 15px;
+        padding:0px 30px 65px 30px;
         background: transparent;
         color: white;
         font-weight:bold;
         font-size: 18px;
         border-radius: 5px;
         &:hover {
-            background: gray;
             color: white;
         }
+    }
+}
+
+.choose-link {
+    >a {
+        border: 1px solid gray;
+        padding: 5px 15px;
+        border-radius: 5px;
+        margin-right: 10px;
+
+        &:hover {
+            text-decoration: none;
+            background: white;
+            border: 1px solid white;
+        }
+    }
+}
+
+.render {
+    margin-top: 40px;
+}
+
+.ct-option {
+    margin: 5px;
+}
+
+.info-update {
+    width: 100%;
+
+    >div {
+        width: 80%;
+        margin:auto;
+
+        h2 {
+            margin-left: 10%;
+            color: #f477a9;
+        }
+    }
+}
+
+.ct-info {
+    padding-top: 27px;
+
+    .col-md-1 {
+        padding-top: 5px;
+    }
+
+    .col-md-4 {
+        input[type="text"] {
+            height: 2em;
+            padding-left: 7px;
+        }
+    }
+
+    .col-image {
+        padding-top: 5px;
+    }
+
+    .col-radio {
+        padding-top: 5px;
+
+        >div {
+            float: left;
+            >label {
+                margin-bottom: 0px;
+            }
+        }
+    }
+    .col-female {
+        margin-left: 55px;
+    }
+
+}
+
+.info-last {
+    margin-top: 10px;
+}
+
+.div-search {
+    margin-bottom: 30px;
+
+    >div:nth-child(1) {
+        float: left;
+        width: 87%;
+        margin-right: 20px;
+
+        >input[type="text"] {
+            height: 53px;
+            width: 100%;
+            border-radius: 5px;
+            margin-bottom: -3px;
+            font-size: 25px;
+            padding-left: 10px;
+
+        }
+    }
+    >input[type="submit"] {
+        margin-bottom: 5px;
+        float: left;
     }
 }
