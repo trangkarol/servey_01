@@ -5,19 +5,19 @@ return [
     'image_default' => 'questionDefault.png',
     'image_path' => 'image/',
     'survey' => [
-        'not_feature' => '0',
-        'feature' => '1',
+        'not_feature' => 0,
+        'feature' => 1,
     ],
     'question' => [
-        'not_required' => '0',
-        'required' => '1',
+        'not_required' => 0,
+        'required' => 1,
     ],
-    'paginate'=> '9',
+    'paginate'=> 9,
     'type_answer' => [
-        'radiobutton' => '1',
-        'checkbox' => '2',
-        'textfield' => '3',
-        'selectbox' => '4',
+        'radiobutton' => 1,
+        'checkbox' => 2,
+        'textfield' => 3,
+        'selectbox' => 4,
     ],
     'result' => [
         'success' => 'true',
@@ -26,4 +26,8 @@ return [
     'feature' => 1,
     'not_feature' => 0,
     'google' => 'google',
+    'required' => [
+        'true' => 1,
+        'false' => 0,
+    ],
 ];

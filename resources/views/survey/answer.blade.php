@@ -98,6 +98,11 @@
                             @endswitch
                         @endforeach
                     </div>
+                    @if ($errors->has('answer.' . $question->id))
+                        <div class="alert alert-warning alert-message">
+                            {{ $errors->first('answer.' . $question->id) }}
+                        </div>
+                    @endif
                 </div>
             @endforeach
             <div class="div-submit">

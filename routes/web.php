@@ -103,8 +103,6 @@ Route::group(['prefix' => '/survey', 'middleware' => 'auth'], function () {
 
     Route::get('/survey-private', 'SurveyController@listSurveyUser');
 
-    Route::get('/view/chart/{token}', 'SurveyController@viewResult');
-
     Route::get('/user/detail', 'User\UserController@show');
 
     Route::post('/user/update', 'User\UserController@update');
