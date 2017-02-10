@@ -1,6 +1,6 @@
 @extends('user.master')
 @section('content')
-    {!! Form::open([ 'action ' => 'User\SurveyController@create', 'class' => 'form-horizontal']) !!}
+    {!! Form::open([ 'action ' => 'SurveyController@create', 'class' => 'form-horizontal']) !!}
         <div class="content-question container">
             <div class="row">
             <div class="col-md-1"></div>
@@ -16,28 +16,28 @@
                     <ul>
                         <li>
                             {!! Form::button(trans('home.choices'), [
-                                'url' => action('User\SurveyController@radioQuestion'),
+                                'url' => action('SurveyController@radioQuestion'),
                                 'id' => 'radio-button',
                                 'typeId' => config('survey.type_radio'),
                             ]) !!}
                         </li>
                         <li>
                             {!! Form::button(trans('home.checkboxes'), [
-                                'url' => action('User\SurveyController@checkboxQuestion'),
+                                'url' => action('SurveyController@checkboxQuestion'),
                                 'id' => 'checkbox-button',
                                 'typeId' => config('survey.type_checkbox'),
                             ]) !!}
                         </li>
                         <li>
                             {!! Form::button(trans('home.short_answer'), [
-                                'url' => action('User\SurveyController@shortQuestion'),
+                                'url' => action('SurveyController@shortQuestion'),
                                 'id' => 'short-button',
                                 'typeId' => config('survey.type_short'),
                             ]) !!}
                         </li>
                         <li>
                             {!! Form::button(trans('home.passage'), [
-                                'url' => action('User\SurveyController@longQuestion'),
+                                'url' => action('SurveyController@longQuestion'),
                                 'id' => 'long-button',
                                 'typeId' => config('survey.type_long'),
                             ]) !!}
