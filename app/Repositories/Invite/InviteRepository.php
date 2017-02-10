@@ -106,4 +106,18 @@ class InviteRepository extends BaseRepository implements InviteInterface
             return false;
         }
     }
+
+    public function getResult($surveyId)
+    {
+        $charts = [];
+        $charts['questions'] = $questions = $this->questionRepository->where('survey_id', $surveyId)->get();
+        $charts['answers'] = $answers = $this->answerRepository
+            ->whereIn('question_id', $questions->pluck('id')->toArray())
+            ->get();
+        $charts['results'] = $results = $this->resultRepository
+            ->whereIn('answer_id', $answers->pluck('id')->toArray())
+            ->get();
+
+        return $charts;
+    }
 }

@@ -16,4 +16,5 @@ return [
     'object_created_unsuccessfully' => 'Error create :object',
     'object_updated_unsuccessfully' => 'Error update :object',
     'object_deleted_unsuccessfully' => 'Error delete :object',
+    'object_not_have' => 'No :object recored to this pages',
 ];

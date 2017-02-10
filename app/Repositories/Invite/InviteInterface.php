@@ -9,4 +9,6 @@ interface InviteInterface
     public function delete($ids);
 
     public function invite($senderId, array $recevier, $surveyId);
+
+    public function getResult($surveyId);
 }

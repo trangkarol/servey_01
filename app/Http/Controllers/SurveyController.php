@@ -293,4 +293,43 @@ class SurveyController extends Controller
 
         return response()->json(['success' => $isSuccess]);
     }
+
+    public function chart(array $inputs)
+    {
+        $result = [];
+
+        foreach ($inputs as $key => $value) {
+            $results[] = [
+                'answer' => $value['content'],
+                'percent' => $value['percent'],
+            ];
+        }
+
+        return $results;
+    }
+
+    public function viewChart($token)
+    {
+        $results = $this->surveyRepository->getResutlSurvey($token);
+        $charts = [];
+        if (!$results) {
+
+            return view('view-charts', [
+                'charts' => null,
+                'status' => false,
+            ]);
+        }
+
+        foreach ($results as $key => $value) {
+            $charts[] = [
+                'question' => $value['question'],
+                'chart' => $this->chart($value['answers']),
+            ];
+        }
+
+        return view('view-charts', [
+            'charts' => $charts,
+            'status' => true,
+        ]);
+    }
 }
