@@ -6,21 +6,27 @@ use Illuminate\Http\Request;
 use App\Repositories\Result\ResultInterface;
 use App\Repositories\Survey\SurveyInterface;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AnswerRequest;
+use App\Repositories\Invite\InviteInterface;
+use Auth;
 
 class ResultController extends Controller
 {
     protected $resultRepository;
     protected $surveyRepository;
+    protected $inviteReposirory;
 
     public function __construct(
         ResultInterface $resultRepository,
-        SurveyInterface $surveyRepository
+        SurveyInterface $surveyRepository,
+        InviteInterface $inviteReposirory
     ) {
         $this->resultRepository = $resultRepository;
         $this->surveyRepository = $surveyRepository;
+        $this->inviteReposirory = $inviteReposirory;
     }
 
-    public function result($token, Request $request)
+    public function result($token, AnswerRequest $request)
     {
         $isSuccess = false;
         $answers = $request->get('answer');
@@ -31,15 +37,14 @@ class ResultController extends Controller
             ->where('survey_id', $recevier->id)
             ->orWhere(function ($query) use ($recevier) {
                 $query->where('survey_id', $recevier->id)
-                    ->Where('mail', Auth::user()->mail)
+                    ->Where('mail', (Auth::guard()->check()) ? Auth::user()->email : null);
             })
             ->exists();
 
         if ($recevier->feature
-            || (!$recevier->feature && Auth::user()->check() && $check))
+            || (!$recevier->feature && Auth::guard()->check() && $check)
             || auth()->id() == $recevier->user_id
         ) {
-
             foreach ($answers as $answer) {
                 if (!is_array($answer)) {
                     $answer = [$answer => null];
