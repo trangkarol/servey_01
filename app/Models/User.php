@@ -118,4 +118,14 @@ class User extends Authenticatable
     {
         $this->attributes['gender'] = $value ?: config('users.gender.male');
     }
+
+    public function requestAdmin()
+    {
+        return $this->hasMany(Request::class, 'admin_id');
+    }
+
+    public function requestMember()
+    {
+        return $this->hasOne(Request::class, 'member_id');
+    }
 }

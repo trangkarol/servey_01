@@ -26,5 +26,16 @@ class UserTableSeeder extends Seeder
             'birthday' => Carbon::now()->format('Y-m-d'),
             'address' => config('users.address_default'),
         ]);
+        factory(User::class)->create([
+            'email' => 'supperadmin@gmail.com',
+            'name' => 'Supper Admin',
+            'password' => config('users.password_default'),
+            'image' => config('users.avatar_default'),
+            'phone' => config('users.phone_default'),
+            'gender' => rand(0,1),
+            'level' => config('users.level.supperadmin'),
+            'birthday' => Carbon::now()->format('Y-m-d'),
+            'address' => config('users.address_default'),
+        ]);
     }
 }
