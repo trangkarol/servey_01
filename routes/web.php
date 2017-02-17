@@ -19,7 +19,7 @@ Auth::routes();
 
 Route::group(['prefix' => '/', 'middleware' => 'guest'], function () {
 
-    Route::get('/register', 'User\SurveyController@register');
+    Route::get('/register', 'SurveyController@register');
 
     Route::post('/register', [
         'as' => 'register-user',
@@ -42,25 +42,47 @@ Route::get('/logout', 'Auth\LoginController@logout');
 
 Route::get('/home', 'SurveyController@getHome');
 
+Route::group(['prefix' => '/supper-admin', 'middleware' => 'supperadmin'], function () {
+    Route::resource('/request', 'Admin\RequestController', [
+        'only' => [
+            'index',
+        ],
+    ]);
+    Route::post('/request/update/{id}', 'Admin\RequestController@update');
+});
+
 Route::group(['prefix' => '/admin', 'middleware' => 'admin'], function () {
 
     Route::resource('/dashboard', 'Admin\DashboardController', [
-        'only' => ['index']
+        'only' => [
+            'index',
+        ],
     ]);
 
     Route::resource('/survey', 'Admin\SurveyController', [
-        'only' => ['index', 'update']
+        'only' => [
+            'index',
+            'update',
+        ],
     ]);
 
     Route::post('/destroy-survey', 'Admin\SurveyController@destroySurvey');
 
     Route::resource('/user', 'Admin\UserController', [
-        'only' => ['index', 'update', 'show']
+        'only' => [
+            'index',
+            'update',
+            'show',
+        ],
     ]);
 
-    Route::post('/change-status-user/{status}', 'Admin\UserController@changeStatus');
+    Route::post('/change-status-user/{status}/{type?}', 'Admin\UserController@changeStatus');
 
     Route::get('/search', 'Admin\UserController@search');
+
+    Route::resource('/request', 'Admin\RequestController', ['only' => 'store']);
+
+    Route::post('/request/delete', 'Admin\RequestController@destroy');
 });
 
 Route::group(['prefix' => '/survey', 'middleware' => 'auth'], function () {
@@ -115,5 +137,7 @@ Route::post('/text-other', 'User\SurveyController@textOther');
 Route::post('/survey/result/{token}', 'User\ResultController@result');
 
 Route::resource('/survey/answer', 'SurveyController', [
-    'only' => ['show']
+    'only' => [
+        'show',
+    ],
 ]);
