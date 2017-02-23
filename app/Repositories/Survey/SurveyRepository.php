@@ -50,33 +50,40 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
     public function getResutlSurvey($token)
     {
         $survey = $this->where('token', $token)->first();
-        $datasInput = $this->inviteRepository->getResult($survey->id);
-        $questions = $datasInput['questions'];
+
+        if (!$survey) {
+            return false;
+        }
+
+        $dataInput = $this->inviteRepository->getResult($survey->id);
+        $questions = $dataInput['questions'];
         $temp = [];
         $results = [];
 
-        if (empty($datasInput['results']->toArray())) {
-
+        if (empty($dataInput['results']->toArray())) {
             return false;
         }
 
         foreach ($questions as $key => $question) {
-            $answers = $datasInput['answers']->where('question_id', $question->id);
+            $answers = $dataInput['answers']->where('question_id', $question->id);
 
             foreach ($answers as $answer) {
-                $total = $datasInput['results']
+                $total = $dataInput['results']
                     ->whereIn('answer_id', $answers->pluck('id')->toArray())
                     ->pluck('id')
                     ->toArray();
-                $answerResult = $datasInput['results']
+                $answerResult = $dataInput['results']
                     ->whereIn('answer_id', $answer->id)
                     ->pluck('id')
                     ->toArray();
                 $temp[] = [
                     'answerId' => $answer->id,
-                    'content' => ($answer->type == config('survey.type_long') || $answer->type == config('survey.type_short'))
-                        ? $datasInput['results']->whereIn('answer_id', $answer->id) : $answer->content,
-                    'percent' => (double)(count($answerResult)*100)/(count($total)),
+                    'content' => ($answer->type == config('survey.type_time')
+                        || $answer->type == config('survey.type_text')
+                        || $answer->type == config('survey.type_date'))
+                        ? $dataInput['results']->whereIn('answer_id', $answer->id)
+                        : $answer->content,
+                    'percent' => (count($total) > 0) ? (double)(count($answerResult) * 100) / (count($total)) : 0,
                 ];
             }
 
