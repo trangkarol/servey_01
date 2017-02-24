@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Repositories\Result\ResultInterface;
 use App\Repositories\Survey\SurveyInterface;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AnswerRequest;
 use App\Repositories\Invite\InviteInterface;
 use Auth;
+use DB;
+use App\Http\Requests\AnswerRequest;
 
 class ResultController extends Controller
 {
@@ -32,17 +33,19 @@ class ResultController extends Controller
         $answers = $request->get('answer');
         $data = [];
         $recevier = $this->surveyRepository->where('token', $token)->first();
-        $check = $this->inviteReposirory
+        $invite = $this->inviteReposirory
             ->where('recevier_id', auth()->id())
             ->where('survey_id', $recevier->id)
+            ->where('number_answer', '>', 0)
             ->orWhere(function ($query) use ($recevier) {
                 $query->where('survey_id', $recevier->id)
-                    ->Where('mail', (Auth::guard()->check()) ? Auth::user()->email : null);
+                    ->where('mail', (Auth::guard()->check()) ? Auth::user()->email : null)
+                    ->where('number_answer', '>', 0);
             })
-            ->exists();
+            ->first();
 
         if ($recevier->feature
-            || (!$recevier->feature && Auth::guard()->check() && $check)
+            || (!$recevier->feature && Auth::guard()->check() && $invite)
             || auth()->id() == $recevier->user_id
         ) {
             foreach ($answers as $answer) {
@@ -59,21 +62,39 @@ class ResultController extends Controller
                     ];
                 }
             }
-        }
 
-        if (!empty($data) && $this->resultRepository->multiCreate($data)) {
             $isSuccess = true;
         }
 
+        DB::beginTransaction();
+        try {
+            if (!empty($data)
+                && $this->resultRepository->multiCreate($data)
+                && $data[0]['sender_id'] != auth()->id()
+            ) {
+                $isSuccess = $this->inviteReposirory->update($recevier->id, [
+                    'number_answer' => ($invite->number_answer) ? ($invite->number_answer--) : null,
+                    'status' => config('survey.invite.old'),
+                ]);
+            }
+
+            if (!$isSuccess) {
+                throw new Exception;
+            }
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollback();
+        }
+
         return redirect()
-            ->action('SurveyController@getHome')
-            ->with('message', ($isSuccess)
+            ->action('SurveyController@index')
+            ->with(($isSuccess) ? 'message' : 'message-fail', ($isSuccess)
                 ? trans('messages.object_created_successfully', [
                     'object' => class_basename(Answer::class),
                 ])
-                : trans('messages.object_created_unsuccessfully', [
+                : trans('generate.permisstion', [
                     'object' => class_basename(Answer::class),
                 ]));
     }
 }
-

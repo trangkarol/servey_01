@@ -8,9 +8,14 @@ use App\Repositories\Survey\SurveyInterface;
 use App\Repositories\Question\QuestionInterface;
 use App\Repositories\Answer\AnswerInterface;
 use App\Repositories\Invite\InviteInterface;
+use App\Repositories\User\UserInterface;
+use App\Repositories\Like\LikeInterface;
+use Khill\Lavacharts\Lavacharts;
 use App\Mail\InviteSurvey;
+use Carbon\Carbon;
 use Mail;
 use Auth;
+use DB;
 
 class SurveyController extends Controller
 {
@@ -18,6 +23,7 @@ class SurveyController extends Controller
     protected $questionRepository;
     protected $answerRepository;
     protected $inviteRepository;
+    protected $likeRepository;
 
     public function __construct(
         SurveyInterface $surveyRepository,
@@ -31,39 +37,21 @@ class SurveyController extends Controller
         $this->inviteRepository = $inviteRepository;
     }
 
-    public function getHome()
+    public function index()
     {
-        $surveys = $this->surveyRepository
-            ->where('feature', config('settings.survey.feature'))
-            ->orderBy('id', 'desc')
-            ->paginate(config('settings.paginate'));
-
-        return view('user.pages.home-user', compact('surveys'));
-    }
-
-    public function register()
-    {
-        $surveys = $this->surveyRepository
-            ->where('feature', config('settings.survey.feature'))
-            ->orderBy('id', 'desc')
-            ->paginate(config('settings.paginate'));
-
-        return view('user.pages.register', compact('surveys'));
+        return view('user.pages.home');
     }
 
     public function listSurveyUser()
     {
+        $invites = $this->inviteRepository
+            ->where('recevier_id', auth()->id())
+            ->paginate(config('settings.paginate'));
         $surveys = $this->surveyRepository
-            ->where('user_id', Auth::user()->id)
-            ->orderBy('id', 'desc')
+            ->where('user_id', auth()->id())
             ->paginate(config('settings.paginate'));
 
-        return view('user.pages.home-user', compact('surveys'));
-    }
-
-    public function createSurvey()
-    {
-        return view('survey.create');
+        return view('user.pages.list-survey', compact('surveys', 'invites'));
     }
 
     public function delete(Request $request)
@@ -82,254 +70,167 @@ class SurveyController extends Controller
         ];
     }
 
-    public function show($token)
+    public function detailSurvey($token)
     {
         $surveys = $this->surveyRepository->where('token', $token)->first();
 
-        return view('survey.answer', compact('surveys'));
+        return $surveys;
     }
 
-    public function radioAnswer(Request $request)
+    public function show($token)
     {
-        if ($request->ajax()) {
-            $param = $request->only('number', 'num_as');
+        $surveys = $this->detailSurvey($token);
 
-            return [
-                'success' => true,
-                'data' => view('temps.text_radio', $param)->render(),
-            ];
-        }
-
-        return [
-            'success' => false,
-        ];
-    }
-
-    public function otherRadio(Request $request)
-    {
-        if ($request->ajax()) {
-            $number = $request->get('number');
-
-            return [
-                'success' => true,
-                'data' => view('temps.text_other_radio', compact('number'))->render(),
-            ];
-        }
-
-        return [
-            'success' => false,
-        ];
-    }
-
-    public function checkboxAnswer(Request $request)
-    {
-        if ($request->ajax()) {
-            $param = $request->only('number', 'num_as', 'type');
-
-            return [
-                'success' => true,
-                'data' => view('temps.text_checkbox', $param)->render(),
-            ];
-        }
-
-        return [
-            'success' => false,
-        ];
-    }
-
-    public function otherCheckbox(Request $request)
-    {
-        if ($request->ajax()) {
-            $number = $request->get('number');
-
-            return [
-                'success' => true,
-                'data' => view('temps.text_other_checkbox', compact('number'))->render(),
-            ];
-        }
-
-        return [
-            'success' => false,
-        ];
-    }
-
-    public function radioQuestion(Request $request)
-    {
-        if ($request->ajax()) {
-            $number = $request->get('number');
-
-            return [
-                'success' => true,
-                'data' => view('temps.radio_question', compact('number'))->render(),
-            ];
-        }
-
-        return [
-            'success' => false,
-        ];
-    }
-
-    public function checkboxQuestion(Request $request)
-    {
-        if ($request->ajax()) {
-            $number = $request->get('number');
-
-            return [
-                'success' => true,
-                'data' => view('temps.checkbox_question', compact('number'))->render(),
-            ];
-        }
-
-        return [
-            'success' => false,
-        ];
-    }
-
-    public function shortQuestion(Request $request)
-    {
-        if ($request->ajax()) {
-            $number = $request->get('number');
-
-            return [
-                'success' => true,
-                'data' => view('temps.short_question', compact('number'))->render(),
-            ];
-        }
-
-        return [
-            'success' => false,
-        ];
-    }
-
-    public function longQuestion(Request $request)
-    {
-        if ($request->ajax()) {
-            $number = $request->get('number');
-
-            return [
-                'success' => true,
-                'data' => view('temps.long_question', compact('number'))->render(),
-            ];
-        }
-
-        return [
-            'success' => false,
-        ];
-    }
-
-    public function textOther(Request $request)
-    {
-        if ($request->ajax()) {
-            $idQuestion = $request->get('idQuestion');
-            $idAnswer = $request->get('idAnswer');
-
-            return [
-                'success' => true,
-                'data' => view('temps.text_other', compact('idAnswer', 'idQuestion'))
-                    ->render(),
-            ];
-        }
-
-        return [
-            'success' => false,
-        ];
+        return view('user.pages.answer', compact('surveys'));
     }
 
     public function create(Request $request)
     {
-        $value = $request->get('survey-name');
+        $value = $request->only([
+            'title',
+            'feature',
+            'deadline',
+            'description',
+            'txt-question',
+            'checkboxRequired',
+            'email',
+            'emails',
+            'number_answer',
+        ]);
 
-        if (!strlen($value)) {
-            $value = config('survey.title_default');
+        if (!strlen($value['title'])) {
+            $value['title'] = config('survey.title_default');
         }
 
-        $survey = $this->surveyRepository
-            ->create([
-                'user_id' => Auth::user()->id,
-                'title' => $value,
-                'feature' => config('settings.survey.not_feature'),
-                'token' => md5(uniqid(rand(), true)),
-            ]);
-        $txtQuestion = $request->get('txt-question');
-        $questions = $txtQuestion['question'];
-        $answers =  $txtQuestion['answers'];
+        $token = md5(uniqid(rand(), true));
+        DB::beginTransaction();
+        try {
+            $survey = $this->surveyRepository
+                ->create([
+                    'user_id' => (Auth::guard()->check()) ? auth()->id() : null,
+                    'mail' => (!Auth::guard()->check()) ? $value['email'] : null,
+                    'title' => $value['title'],
+                    'feature' => ($value['feature']) ? config('settings.not_feature') : config('settings.feature'),
+                    'token' => $token,
+                    'status' => ($value['deadline']) ? config('survey.status.avaiable') : config('survey.status.always'),
+                    'deadline' => Carbon::parse($value['deadline'])->format('Y/m/d H:i'),
+                    'description' => ($value['description']) ? : null,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ]);
+            $txtQuestion = $value['txt-question'];
+            $questions = $txtQuestion['question'];
+            $answers = $txtQuestion['answers'];
+            $questionRequired = $value['checkboxRequired'];
 
-        if ($survey) {
-            $this->questionRepository->createMultiQuestion($survey, $questions, $answers);
+            if ($survey) {
+                $this->questionRepository
+                    ->createMultiQuestion($survey, $questions, $answers, $questionRequired['question']);
+                $isSuccess = $this->inviteUser($request, $survey, config('settings.return.bool'));
+
+                if (!$isSuccess) {
+                    DB::rollback();
+
+                    return redirect()->action('SurveyController@index')
+                        ->with('message-fail', trans('messages.object_created_unsuccessfully', [
+                            'object' => class_basename(Survey::class),
+                        ]));
+                }
+            }
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollback();
+
+            return redirect()->action('SurveyController@index')
+                ->with('message-fail', trans('messages.object_created_unsuccessfully', [
+                            'object' => class_basename(Survey::class),
+            ]));
         }
 
-        return redirect()->action('SurveyController@listSurveyUser');
+        return view('user.pages.complete', [
+            'token' => $token,
+            'feature' => $value['feature'],
+        ]);
     }
 
-    public function viewResult($token)
-    {
-        return $this->surveyRepository->resultSurvey($token);
-    }
-
-    public function inviteUser(Request $request)
+    public function inviteUser(Request $request, $surveyId, $type)
     {
         $isSuccess = false;
+        $data['name'] = $request->get('name');
+        $data['email'] = $request->get(($type == config('settings.return.bool')) ? 'email' : 'emailUser');
+        $data['emails'] = $request->get(($type == config('settings.return.bool')) ? 'emails' : 'emailsUser');
+        $data['number_answer'] = $request->get('number_answer');
 
-        if ($request->ajax()) {
-            $data['emails'] = $request->get('emails');
-            $data['survey'] = $request->get('surveyId');
+        if (empty($data['emails'])) {
+            return true;
+        }
 
-            if ($data['emails'] && $data['survey']) {
-                $survey = $this->surveyRepository->find($data['survey']);
-                $invite = $this->inviteRepository->invite(auth()->id(), $data['emails'], $data['survey']);
+        $data['emails'] = explode(',', $data['emails']);
 
-                if ($invite) {
-                    Mail::to($data['emails'])->queue(new InviteSurvey([
-                        'senderName' => Auth::user()->name,
-                        'email' => Auth::user()->email,
-                        'title' => $survey->title,
-                        'link' => action('SurveyController@answer', $survey->token),
-                    ]));
+        if ($data['emails'] && $surveyId) {
+            $survey = $this->surveyRepository->find($surveyId);
+            $invite = $this->inviteRepository
+                ->invite(auth()->id(), $data['emails'], $surveyId, $data['number_answer']);
 
-                    $isSuccess = true;
-                }
+            if ($invite) {
+                Mail::to($data['emails'])->queue(new InviteSurvey([
+                    'senderName' => (Auth::guard()->check()) ? Auth::user()->name : $data['name'],
+                    'email' => (Auth::guard()->check()) ? Auth::user()->email : $data['email'],
+                    'title' => $survey->title,
+                    'link' => action(($survey->feature)
+                        ? 'AnswerController@answerPrivate'
+                        : 'AnswerController@answerPublic', [
+                            'token' => $survey->token,
+                    ]),
+                ]));
+
+                $isSuccess = true;
             }
         }
 
-        return response()->json(['success' => $isSuccess]);
+        return ($type == config('setttings.return.bool')) ? $isSuccess : ($isSuccess)
+            ? redirect()->action('SurveyController@listSurveyUser')
+                ->with('message', trans('survey.invite_success'))
+            : redirect()->action('SurveyController@listSurveyUser')
+                ->with('message-fail', trans('survey.invite_fail'));
     }
 
-    public function chart(array $inputs)
+    public function updateSurvey(Request $request, $id)
     {
-        $result = [];
-
-        foreach ($inputs as $key => $value) {
-            $results[] = [
-                'answer' => $value['content'],
-                'percent' => $value['percent'],
-            ];
-        }
-
-        return $results;
-    }
-
-    public function viewChart($token)
-    {
-        $results = $this->surveyRepository->getResutlSurvey($token);
-        $charts = [];
-        if (!$results) {
-
-            return view('view-charts', [
-                'charts' => null,
-                'status' => false,
-            ]);
-        }
-
-        foreach ($results as $key => $value) {
-            $charts[] = [
-                'question' => $value['question'],
-                'chart' => $this->chart($value['answers']),
-            ];
-        }
-
-        return view('view-charts', [
-            'charts' => $charts,
-            'status' => true,
+        $survey = $this->surveyRepository->find($id);
+        $isSuccess = false;
+        $data = $request->only([
+            'title',
+            'description',
+            'deadline',
         ]);
+
+        if ($survey) {
+            DB::beginTransaction();
+            try {
+                $isSuccess = $this->surveyRepository->update($id, $data);
+                DB::commit();
+            } catch (Exception $e) {
+                DB::rollback();
+            }
+        }
+
+        return redirect()->action('')
+            ->with(($isSuccess) ? 'message' : 'message-fail', ($isSuccess)
+                ? trans('messages.object_updated_successfully', [
+                    'object' => class_basename(Survey::class),
+                ])
+                : trans('messages.object_updated_unsuccessfully',[
+                    'object' => class_basename(Survey::class)
+                ])
+            );
+    }
+
+    public function showDetail($token)
+    {
+        $survey = $this->detailSurvey($token);
+
+        return view('user.pages.detail-survey', compact('survey'));
     }
 }

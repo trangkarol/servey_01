@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     'title_default' => 'Title Name',
     'question_default' => 'Question Name',
     'answer_default' => 'Answer Name',
@@ -23,4 +22,6 @@ return [
     ],
     'private' => 1,
     'public' => 0,
+    'type_xls' => 'xls',
+    'type_xlsx' => 'xlsx',
 ];

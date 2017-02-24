@@ -8,6 +8,7 @@ use App\Repositories\User\UserInterface;
 use App\Http\Requests\EditUserRequest;
 use Illuminate\Support\Facades\Hash;
 use Auth;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -22,7 +23,7 @@ class UserController extends Controller
     {
         $user = $this->userRepository->find(auth()->id());
 
-        return view('user.edit', compact('user'));
+        return view('user.pages.update-info', compact('user'));
     }
 
     public function update(EditUserRequest $request)
@@ -45,10 +46,16 @@ class UserController extends Controller
         ) {
             $updateData = $request->except(['old-password']);
 
-            if (isset($updateData['image'])) {
-                $updateData['image'] = $this->userRepository->uploadAvatar($input['image']);
+            if (!empty($updateData['image'])) {
+                $updateData['image'] = $this->userRepository->uploadAvatar($updateData['image']);
             } else {
                 $updateData = $request->except(['image']);
+            }
+
+            if (empty($updateData['birthday'])) {
+                $updateData = $request->except(['birthday']);
+            } else {
+                $updateData['birthday'] = Carbon::parse($updateData['birthday'])->format('Y/m/d');
             }
 
             if ($this->userRepository->update(auth()->id(), $updateData)) {
@@ -56,13 +63,9 @@ class UserController extends Controller
             }
         }
 
-        return redirect()->action('User\UserController@show')
-            ->with('message', ($isSuccess)
-                ? trans('messages.object_updated_successfully', [
-                    'object' => class_basename(User::class),
-                    ])
-                : trans('messages.object_updated_unsuccessfully', [
-                    'object' => class_basename(User::class),
-                    ]));
+    return redirect()->action('User\UserController@show')
+        ->with('message', ($isSuccess)
+            ? trans('messages.object_updated_successfully', ['object' => class_basename(User::class)])
+            : trans('messages.object_updated_unsuccessfully', ['object' => class_basename(User::class)]));
     }
 }
