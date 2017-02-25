@@ -11,6 +11,8 @@ class Invite extends Model
         'recevier_id',
         'survey_id',
         'mail',
+        'number_answer',
+        'status',
     ];
 
     public function sender()

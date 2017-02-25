@@ -128,4 +128,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(Request::class, 'member_id');
     }
+
+    public function getPartNameAttribute()
+    {
+        return str_limit($this->attributes['name'], config('users.name_length_default'));
+    }
 }

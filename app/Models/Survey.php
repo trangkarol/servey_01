@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Survey extends Model
 {
@@ -11,6 +12,10 @@ class Survey extends Model
         'user_id',
         'feature',
         'token',
+        'status',
+        'deadline',
+        'description',
+        'mail',
     ];
 
     public function invites()
@@ -36,5 +41,12 @@ class Survey extends Model
     public function setTokenAttribute($value)
     {
         return $this->attributes['token'] = (strlen($value) >= 32) ? $value : md5(uniqid(rand(), true));
+    }
+
+    public function getDeadlineAttribute()
+    {
+        return (!empty($this->attributes['deadline']))
+            ? Carbon::parse($this->attributes['deadline'])->format('Y/m/d H:i')
+            : null;
     }
 }
