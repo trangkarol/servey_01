@@ -45,12 +45,20 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
         }
     }
 
-    public function createMultiQuestion($survey, $questions, $answers)
+    public function createMultiQuestion($survey, $questions, $answers, $required = null)
     {
         $questionsAdd = [];
         $answersAdd = [];
 
-        foreach ($questions as $value) {
+        if (array_keys($questions) !== array_keys($answers)) {
+            return false;
+        }
+
+        if (empty($required)) {
+            $required = [];
+        }
+
+        foreach ($questions as $key => $value) {
 
             if (!strlen($value)) {
                 $value = config('survey.question_default');
@@ -60,7 +68,7 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
                 'content' => $value,
                 'survey_id' => $survey,
                 'image' => config('survey.image_default'),
-                'required' => true,
+                'required' => in_array($key, $required),
             ];
         }
 
@@ -78,11 +86,11 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
                         case config('survey.type_other_radio'): case config('survey.type_other_checkbox'):
                             $temp = trans('temp.other');
                             break;
-                        case config('survey.type_short'):
-                            $temp = trans('temp.short_text');
+                        case config('survey.type_text'):
+                            $temp = trans('temp.text');
                             break;
-                        case config('survey.type_long'):
-                            $temp = trans('temp.long_text');
+                        case config('survey.type_time'):
+                            $temp = trans('temp.time');
                             break;
                         default:
                             $temp = $value[$type];

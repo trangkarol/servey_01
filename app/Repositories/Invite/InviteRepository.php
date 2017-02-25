@@ -10,6 +10,7 @@ use App\Models\Invite;
 use App\Repositories\User\UserInterface;
 use DB;
 use Exception;
+use Carbon\Carbon;
 
 class InviteRepository extends BaseRepository implements InviteInterface
 {
@@ -69,7 +70,7 @@ class InviteRepository extends BaseRepository implements InviteInterface
         }
     }
 
-    public function invite($senderId, array $recevier, $surveyId)
+    public function invite($senderId, array $recevier, $surveyId, $numberAnswer = null)
     {
         DB::beginTransaction();
         try {
@@ -77,10 +78,14 @@ class InviteRepository extends BaseRepository implements InviteInterface
             $inputsAvailable = [];
 
             foreach ($usersAvailable as $id => $email) {
-                $inputsAvailbale[] = [
+                $inputsAvailable[] = [
                     'sender_id' => $senderId,
                     'recevier_id' => $id,
                     'survey_id' => $surveyId,
+                    'number_answer' => $numberAnswer,
+                    'status' => config('survey.invite.new'),
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ];
             }
 
@@ -92,6 +97,10 @@ class InviteRepository extends BaseRepository implements InviteInterface
                     'sender_id' => $senderId,
                     'survey_id' => $surveyId,
                     'mail' => $user,
+                    'number_answer' => $numberAnswer,
+                    'status' => config('survey.invite.new'),
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ];
             }
 
