@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -22,9 +22,10 @@ class SocialAuthController extends Controller
         if ($user->isActive()) {
             auth()->login($user);
 
-            return redirect()->action('HomeController@index');
+            return  redirect()->intended(action('SurveyController@index'));
         }
 
-        return redirect()->action('Auth\LoginController@getLogin')->with('message', trans('message.block'));
+        return redirect()->action('Auth\LoginController@getLogin')
+            ->with('message', trans('message.block'));
     }
 }

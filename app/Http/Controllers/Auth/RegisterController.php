@@ -24,32 +24,38 @@ class RegisterController extends Controller
 
     public function getRegister()
     {
-        return view('user.register');
+        if (Auth::guard()->check()) {
+            return view('user.pages.home');
+        }
+
+        return view('user.pages.register');
     }
 
     public function register(RegisterRequest $request)
     {
         $data = $request->only([
-            'first-name',
-            'last-name',
+            'name',
             'email',
             'password',
+            'gender',
+            'image',
         ]);
+
         $input = [
-            'name' => $data['first-name'] . ' ' . $data['last-name'],
+            'name' => $data['name'],
             'email' => $data['email'],
             'password' => $data['password'],
             'level' => config('users.level.user'),
             'status' => config('users.status.active'),
-            'image' => config('users.avatar_default'),
+            'image' => $this->userRepository->uploadAvatar($data['image']),
+            'gender' => $data['gender'],
         ];
-
         $user = $this->userRepository->firstOrCreate($input);
 
         if ($user) {
             Auth::login($user);
 
-            return redirect()->action('SurveyController@getHome');
+            return redirect()->action('SurveyController@index');
         }
 
         return redirect()
