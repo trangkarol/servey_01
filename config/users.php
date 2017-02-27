@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'avatar_default' => 'uploads/images/default.png',
+    'avatar_default' => 'default.png',
     'avatar_path' => 'uploads/images',
     'password_default' => '123123',
     'level' => [
@@ -17,4 +17,6 @@ return [
         'male' => 0,
         'female' => 1,
     ],
+    'name_length_default' => 11,
+    'name_replace' => '...',
 ];
