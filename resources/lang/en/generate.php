@@ -30,6 +30,8 @@ return [
         'generate' => 'Status',
         'block' => 'Block',
         'active' => 'Acvite',
+        'process' => 'Watting',
+        'finish' => 'Accept',
     ],
     'exampe' => 'Exampe',
     'remove' => 'Remove',
@@ -44,16 +46,6 @@ return [
     'create' => [
         'survey' => 'Create Survey',
     ],
-    'view' => [
-        'login' => 'Login',
-        'register' => 'Register',
-        'home' => 'Home',
-        'detail' => 'Detail :object',
-        'list' => 'List :object',
-        'update' => 'Update :object',
-        'profile' => 'Profile :object',
-        'chart' => 'Chart',
-        'delete' => 'Delete :object',
-        'request' => 'Request :object',
-    ],
+    'title' => 'Title',
+    'requests' => 'Requests',
 ];

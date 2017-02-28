@@ -10,12 +10,9 @@
 | to using a Closure or controller method. Build something great!
 |
 */
-
-Route::get('/login-page', function () {
-    return view('user.login');
-});
-
 Auth::routes();
+
+Route::post('/language', 'LanguageController@index');
 
 Route::group(['prefix' => '/', 'middleware' => 'guest'], function () {
 

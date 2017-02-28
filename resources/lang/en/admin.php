@@ -30,4 +30,7 @@ return [
         'fail' => 'Fail To Create',
     ],
     'go_home' => 'View Home',
+    'active' => 'Active',
+    'change_feature' => 'Change feature',
+    'update_feature' => 'Update feature',
 ];
