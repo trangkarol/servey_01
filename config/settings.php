@@ -26,4 +26,14 @@ return [
         'bool' => 0,
         'view' => 1,
     ],
+    'locale' => [
+        'en',
+        'vn',
+        'jp',
+    ],
+    'language' => [
+        'en' => 'English',
+        'vn' => 'VietNamese',
+        'jp' => 'Japanese',
+    ],
 ];
