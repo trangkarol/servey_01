@@ -19,7 +19,7 @@ return [
     'your_email' => 'Your email',
     'your_name' => 'Your name',
     'avatar' => 'Avatar',
-    'enter_email_password' => 'Enter your email and passowrd',
+    'enter_email_password' => 'Enter your email and password',
     'login' => 'Login',
     'logout' => 'Logout',
 ];

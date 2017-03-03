@@ -4,11 +4,11 @@ return [
     'footer' => [
         'about' => [
             'title' => 'About us',
-            'content' => 'Vietnam is Framgia Japanese IT company specializing in the design, application development, Games run on smartphones, social networking platforms, production and application development website.,',
+            'content' => 'Framgia South Vietnam Japanese company in the field of information technology specializing in the design, application development, game running on smartphones, social networking platforms, production and application development site.,',
         ],
         'contact' => [
-            'title' => 'Contact info',
-            'content' => 'Nec ea case eirmod dissentiunt. Etiam denique has cu, nam quando accusamus dissentiunt ne.',
+            'title' => 'Contact',
+            'content' => 'Fsurvey - average survey system creates a simple, powerful and convenient',
             'home' => '13F Keangnam Landmark 72 Tower, Plot E6, Pham Hung Road, Nam Tu Liem, Ha Noi, Viet Nam',
             'email' => 'hr_team@framgia.com',
             'phone' => '84-4-3795-5417',
@@ -17,16 +17,16 @@ return [
     ],
     'body' => [
         'intro' => [
-            'fully_responsive' => 'Fully responsive',
-            'content_fully_responsive' => 'Our website offers a full range of questions which you can freely choose the types of questions such as: radio, checkbox, date, time or text style. Easier to help you in creating one survey',
-            'userful_survey_data' => 'Userful survey data',
-            'content_userful_survey_data' => 'Online surveys can be tailored to the situation. The entire data collection period is significantly shortened. You can be sent to multiple people at one time. Data collection with an overview via display detailed results and charts.',
-            'receive_by_email' =>'Receive by email',
-            'content_receive_by_email' => 'By accepting incoming email. The user will be able to reply to your email. Encouraging more transparent relationships within your organization. When you leave web, correspondence history remains in tact in your email and you can access link to manage your survey.',
-            'thank_your_time' => 'Thank you for your time',
-            'content_thank_your_time' => 'This help us to improve our service and everyone satisfaction.',
-            'some_devices' => 'Some devices',
-            'content_some_devices' => 'You can make a survey with this devices',
+            'fully_responsive' => 'Fullfill the needs',
+            'content_fully_responsive' => 'Our website provides a complete range of questions that you can freely choose the types of questions such as: one or more options, date, time or type text. Easier to help you in creating a survey.',
+            'userful_survey_data' => 'The survey data useful',
+            'content_userful_survey_data' => 'Online surveys can be changed is the situation. The entire data collection period is shortened considerably. You can send to multiple people at once. Data collection with an overview via display detailed results and rankings.',
+            'receive_by_email' =>'Receive email survey',
+            'content_receive_by_email' => 'By accepting the incoming email. Users will be able to answer your email. Encouraging more transparent relationships in your organization. When you leave the web, a history remains intact in your email and you can access the link to manage your survey.',
+            'thank_your_time' => 'Cảm ơn bạn đã dành thời gian.',
+            'content_thank_your_time' => 'This helps us improve our services and the satisfaction of everyone.',
+            'some_devices' => 'Some devices.',
+            'content_some_devices' => 'You can perform a survey with this device.',
         ],
     ],
 ];

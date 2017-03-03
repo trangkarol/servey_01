@@ -1,9 +1,8 @@
 <?php
 
 return [
-    'overview' => 'Overview',
+    'overview' => 'All',
     'see_detail' => 'See detail',
     'answer' => 'Answer',
     'result' => 'Result',
-    'overview' => 'Overview',
 ];
