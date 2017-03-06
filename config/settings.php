@@ -4,6 +4,7 @@ return [
 
     'image_default' => 'questionDefault.png',
     'image_path' => 'image/',
+    'image_path_system' => 'user/images/',
     'question' => [
         'not_required' => 0,
         'required' => 1,
@@ -35,5 +36,20 @@ return [
         'en' => 'English',
         'vn' => 'VietNamese',
         'jp' => 'Japanese',
+    ],
+    'options' => [
+        1,
+        2,
+        3,
+    ],
+    'key' => [
+        'requireAnswer' => 1,
+        'limitAnswer' => 2,
+        'hideResult' => 3,
+    ],
+    'require' => [
+        'email' => 1,
+        'name' => 2,
+        'both' => 3,
     ],
 ];

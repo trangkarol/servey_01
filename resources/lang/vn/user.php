@@ -18,4 +18,8 @@ return [
     'update_info' => 'Cập nhập thông tin',
     'phone' => 'Số điện thoại',
     'chooser_new_image' => 'Chọn hình ảnh mới',
+    'name' => 'Tên',
+    'Email' =>'Email',
+    'date' => 'Ngày trả lời',
+    'detail' => 'Chi tiết',
 ];
