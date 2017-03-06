@@ -47,7 +47,7 @@
         .content-survey {
             padding-left: 3%;
             padding-right: 3%;
-            margin-top: -3%;
+            margin-top: -5%;
         }
         a {
             word-wrap: break-word;
@@ -62,15 +62,20 @@
             {{ trans('temp.name') }}
         </div>
         <div class="body">
-            <p>{{ trans('temp.participant') }}</p>
-            <p>{{ trans('messages.email.from') . $email . '(' . $senderName . ')' )
-        <hr>
+            <h4>Dear, {{ trans('temp.dear') . $name }}</h4>
+            <p>{{ trans('temp.thank') }}</p>
+            <p>{{ trans('object_created_successfully', ['object' => class_basename(Survey::class)]) }}</p>
+            <p>{{ trans('temp.two_link') }}</p>
+            <p>{{ trans('temp.manage') }}</p>
+            <a href="{{ $link_manage }}">{{ $link_manage }}</a>
+            <hr>
         </div>
         <div class="content-survey">
-            <p>{{ trans('temp.title') . $survey->title }}</p>
-            <p>{{ trans('temp.description') . $survey->description }}</p>
+            <h4>{{ trans('temp.info') }}</h4>
+            <p>{{ $title }}</p>
+            <p>{{ $description }}</p>
             <div class="hr-heading-body">
-                <p>{{ trans('temp.link') }}</p>
+                <p>{{ trans('temp.participant') }}</p>
                 <a href="{{ $link }}">{{ $link }}</a>
             </div>
         </div>

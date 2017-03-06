@@ -15,4 +15,12 @@ return [
     'email_invalid' => 'Email không hợp lệ, vui lòng kiểm tra lại.',
     'text' => 'Văn bản',
     'require' => 'Yêu cầu',
+    'participant' => 'Bạn đã được mời tham gia cuộc khảo sát này.',
+    'home' => 'FSURVEY',
+    'title' => 'Tiêu đề: ',
+    'description' => 'Mô tả: ',
+    'link' => "Hãy nhấp vào liên kết dưới đây để tham gia.",
+    'manage' => 'Truy cập liên kết này giúp bạn có thể thay đổi, đóng hoặc xóa khảo sát của bạn.',
+    'two_link' => "Dưới đây, đó là hai liên kết được gửi mail của bạn.",
+    'thank' => 'Cảm ơn bạn vì bạn đã sử dụng trang web của chúng tôi.',
 ];
