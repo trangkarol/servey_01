@@ -6,23 +6,26 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repositories\Invite\InviteInterface;
 use App\Repositories\Survey\SurveyInterface;
-use Auth;
+use App\Repositories\Setting\SettingInterface;
 use Carbon\Carbon;
 
 class AnswerController extends Controller
 {
     protected $surveyRepository;
     protected $inviteRepository;
+    protected $settingRepository;
 
     public function __construct(
         SurveyInterface $surveyRepository,
-        InviteInterface $inviteRepository
+        InviteInterface $inviteRepository,
+        SettingInterface $settingRepository
     ) {
         $this->surveyRepository = $surveyRepository;
         $this->inviteRepository = $inviteRepository;
+        $this->settingRepository = $settingRepository;
     }
 
-    protected function chart(array $inputs)
+    private function chart(array $inputs)
     {
         $result = [];
 
@@ -36,7 +39,7 @@ class AnswerController extends Controller
         return $results;
     }
 
-    protected function viewChart($token)
+    private function viewChart($token)
     {
         $results = $this->surveyRepository->getResutlSurvey($token);
         $charts = [];
@@ -61,41 +64,37 @@ class AnswerController extends Controller
         ];
     }
 
-    public function checkSurvey($surveyId, $deadline, $status, $type)
+    public function answer($token, $view = 'detail', $isPublic = true)
     {
-        $date = $deadline->gt(Carbon::now());
-        $flage = true;
-
-        if (!$date || !$status) {
-            return false;
-        } elseif ($type == config('survey.private')) {
-            $flage =  $this->inviteRepository
-                ->where('recevier_id', auth()->id())
-                ->where('survey_id', $surveyId)
-                ->exists();
-        }
-
-        return $flage;
-    }
-
-    public function answer($token, $type)
-    {
-        $getCharts = $this->viewChart($token);
-        $status = $getCharts['status'];
-        $charts = $getCharts['charts'];
         $survey = $this->surveyRepository
-            ->where('token', $token)
+            ->where(($view == 'detail') ? 'token_manage' : 'token', $token)
             ->first();
 
+        if (!$survey || ($survey->feature != $isPublic)) {
+            return view('errors.404');
+        }
+
+        $access = $this->surveyRepository->getSettings($survey->id);
+        $listUserAnswer = $this->showUserAnswer($token);
+        $history = ($view == 'answer') ? $this->surveyRepository->getHistory(auth()->id(), $survey->id) : null;
+        $getCharts = $this->viewChart($survey->token);
+        $status = $getCharts['status'];
+        $charts = $getCharts['charts'];
+        $check = $this->surveyRepository->checkSurveyCanAnswer([
+            'surveyId' => $survey->id,
+            'deadline' => $survey->deadline,
+            'status' => $survey->status,
+            'type' => $isPublic,
+            'userId' => auth()->id(),
+            'email' => auth()->check() ? auth()->user()->email : null,
+        ]);
+
         if ($survey) {
-            if ($survey->user_id == auth()->id()
-                || $this->checkSurvey($survey->id, $survey->deadline, $survey->status, $type)
-            ) {
-                return view('user.pages.answer', [
-                    'surveys' => $survey,
-                    'status' => $status,
-                    'charts' => $charts,
-                ]);
+            if ($survey->user_id == auth()->id() || $check) {
+                return view(($view == 'answer')
+                    ? 'user.pages.answer'
+                    : 'user.pages.detail-survey', compact('survey', 'status', 'charts', 'access', 'history', 'listUserAnswer')
+                );
             }
         }
 
@@ -107,11 +106,21 @@ class AnswerController extends Controller
 
     public function answerPublic($token)
     {
-        return $this->answer($token, config('survey.public'));
+        return $this->answer($token, 'answer', true);
     }
 
     public function answerPrivate($token)
     {
-        return $this->answer($token, config('survey.private'));
+        return $this->answer($token, 'answer', false);
+    }
+
+    public function show($token)
+    {
+        return $this->answer($token, 'detail', false);
+    }
+
+    public function showUserAnswer($token)
+    {
+        return $this->surveyRepository->getUserAnswer($token);
     }
 }
