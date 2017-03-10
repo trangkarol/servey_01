@@ -1,4 +1,6 @@
-{!! Form::text("answer[$idQuestion][$idAnswer]", '', [
-    'class' => 'input-radio input' . $idQuestion,
-    'required' => true,
-]) !!}
+@if (!$tempAnswers)
+    {!! Form::textarea("answer[$idQuestion][$idAnswer]", '', [
+        'class' => 'animated zoomIn form-control input' . $idQuestion,
+        'required' => true,
+    ]) !!}
+@endif

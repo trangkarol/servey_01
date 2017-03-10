@@ -60,8 +60,8 @@ class TempController extends Controller
             case config('temp.text_other'):
                 $idQuestion = $request->get('idQuestion');
                 $idAnswer = $request->get('idAnswer');
-                $data = view('temps.text_other', compact('idAnswer', 'idQuestion'))
-                    ->render();
+                $tempAnswers = null;
+                $data = view('temps.text_other', compact('idAnswer', 'idQuestion', 'tempAnswers'))->render();
                 break;
             case config('temp.get_popup'):
                 $data = view('temps.temp-popup')

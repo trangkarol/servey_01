@@ -133,4 +133,9 @@ class User extends Authenticatable
     {
         return str_limit($this->attributes['name'], config('users.name_length_default'));
     }
+
+    public function temps()
+    {
+        return $this->hasMany(Temp::class);
+    }
 }
