@@ -49,4 +49,6 @@ return [
     'send_email_for' => 'Bạn muốn gữi survey này cho ai',
     'list_survey' => 'Danh sách survey',
     'detail_survey' => 'Chi tiết survey',
+    'message' => 'Tin nhắn',
+    'settings' => 'Cài đặt',
 ];

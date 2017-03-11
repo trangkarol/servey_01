@@ -81,62 +81,120 @@ $(document).ready(function() {
         $(this).addClass('active-menu');
     });
 
-    $('.alert-message').delay(3000).slideUp(300);
+    $('.alert-message').delay(5000).slideUp(300);
+
+    $('.save-message-success').delay(5000).slideUp(300);
+
+    $('.save-message-fail').delay(5000).slideUp(300);
+
+    $('.save-survey').on('click', function () {
+        var surveyId = $(this).attr('survey-id');
+        var url = $(this).attr('data-url');
+        var feature = $(this).attr('feature');
+        var userId = $(this).attr('user-id');
+        var answer = $('#wrapped').serializeArray().reduce(function(obj, item) {
+            obj[item.name] = item.value;
+    
+            return obj;
+        }, {});
+
+        $.post(
+            url,
+            {
+                'surveyId': surveyId,
+                'answer': answer,
+                'feature': feature,
+                'userId': userId,
+            },
+            function (response){
+                if (response.success) {
+                    $(".save-message-success").css("display", "block");
+                    $('.save-message-success').append(response.message);
+                } else {
+                    $(".save-message-fail").css("display", "block");
+                    $('.save-message-false').append(response.message);
+                }
+        });
+    });
+
+    $('.show-survey').on('click', function () {
+        var url = $(this).attr('data-url');
+        var surveyId = $(this).attr('survey-id');
+
+        $.get(
+            url,
+            {
+                'surveyId': surveyId,
+            },
+            function (response) {
+                if (response.success) {
+                    $(".save-message-success").css("display", "block");
+                    $('.save-message-success').append(response.message);
+                    $('#container-survey').html(response.view);
+                } else {
+                    $(".save-message-fail").css("display", "block");   
+                    $('.save-message-fail').append(response.message);
+                }
+        });
+    });
 
     var number = parseInt($('.ct-data').attr('data-number'));
     var charts = $('.ct-data').attr('data-content');
-    var obj = jQuery.parseJSON( charts );
+    
+    if (charts) {
+        var obj = jQuery.parseJSON( charts );
 
-    for (i = 0; i < obj.length; i++) {
-        var dataInput = new Array();
+        for (i = 0; i < obj.length; i++) {
+            var dataInput = new Array();
 
-        for (j = 0; j < obj[i]['chart'].length; j++) {
-            dataInput.push([obj[i]['chart'][j]['answer'], obj[i]['chart'][j]['percent']]);
-        }
-        var count = i + 1;
-        if(dataInput.length != 1) {
-            Highcharts.chart('container' + i, {
-                chart: {
-                    type: 'pie',
-                    options3d: {
-                        enabled: true,
-                        alpha: 45,
-                        beta: 0
-                    },
-                    style: {
-                        fontFamily: 'Arial'
-                    },
-                    spacingBottom: 15,
-                    spacingTop: 70,
-                    spacingLeft: 70,
-                    spacingRight: 70,
-                },
-                title: {
-                    text: count + '.' + obj[i]['question']['content'],
-                    floating: true,
-                    align: 'left',
-
-                },
-                tooltip: {
-                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-                },
-                plotOptions: {
-                    pie: {
-                        allowPointSelect: true,
-                        cursor: 'pointer',
-                        depth: 35,
-                        dataLabels: {
+            for (j = 0; j < obj[i]['chart'].length; j++) {
+                dataInput.push([obj[i]['chart'][j]['answer'], obj[i]['chart'][j]['percent']]);
+            }
+            var count = i + 1;
+            if(dataInput.length != 1) {
+                Highcharts.chart('container' + i, {
+                    chart: {
+                        type: 'pie',
+                        options3d: {
                             enabled: true,
-                            format: '{point.name}'
+                            alpha: 45,
+                            beta: 0
+                        },
+                        style: {
+                            fontFamily: 'Arial'
+                        },
+                        spacingBottom: 15,
+                        spacingTop: 70,
+                        spacingLeft: 70,
+                        spacingRight: 70,
+                    },
+                    title: {
+                        text: count + '.' + obj[i]['question']['content'],
+                        floating: true,
+                        align: 'left',
+
+                    },
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            depth: 35,
+                            dataLabels: {
+                                enabled: true,
+                                format: '{point.name}'
+                            }
                         }
-                    }
-                },
-                series: [{
-                    type: 'pie',
-                    name: 'Browser share',
-                    data: dataInput
-                }]
-            });
+                    },
+                    series: [{
+                        type: 'pie',
+                        name: 'Browser share',
+                        data: dataInput
+                    }]
+                });
+            }
         }
     }
 });

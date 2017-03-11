@@ -49,4 +49,6 @@ return [
     'send_email_for' => 'Who do you want to send this survey for?',
     'list_survey' => 'List survey',
     'detail_survey' => 'Detail survey',
+    'message' => 'Messages',
+    'settings' => 'Settings',
 ];
