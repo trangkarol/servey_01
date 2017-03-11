@@ -44,4 +44,17 @@ class AnswerRepository extends BaseRepository implements AnswerInterface
             return false;
         }
     }
+
+    public function getAnswerIds($questionIds)
+    {
+        return $this->whereIn('question_id', $questionIds)->lists('id')->toArray();
+    }
+
+    public function getResultByAnswer($questionIds)
+    {
+        $answerIds = $this->getAnswerIds($questionIds);
+
+        return $this->resultRepository
+                ->whereIn('answer_id', $answerIds);
+    }
 }

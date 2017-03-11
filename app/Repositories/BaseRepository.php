@@ -84,6 +84,18 @@ abstract class BaseRepository implements BaseInterface
         return $this;
     }
 
+    public function uploadImage($file, $path)
+    {
+        if (!$file) {
+            return null;
+        }
+
+        $fileName = uniqid(rand(), true) . '.' . $file->getClientOriginalExtension();
+        $file->move(public_path($path), $fileName);
+
+        return $fileName;
+    }
+
     public function multiUpdate($column, $value, $input)
     {
         $value = is_array($value) ? $value : [$value];

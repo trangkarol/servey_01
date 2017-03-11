@@ -70,7 +70,21 @@ class InviteRepository extends BaseRepository implements InviteInterface
         }
     }
 
-    public function invite($senderId, array $recevier, $surveyId, $numberAnswer = null)
+    public function getResult($surveyId)
+    {
+        $charts = [];
+        $charts['questions'] = $questions = $this->questionRepository->where('survey_id', $surveyId)->get();
+        $charts['answers'] = $answers = $this->answerRepository
+            ->whereIn('question_id', $questions->pluck('id')->toArray())
+            ->get();
+        $charts['results'] = $results = $this->resultRepository
+            ->whereIn('answer_id',$answers->pluck('id')->toArray())
+            ->get();
+
+        return $charts;
+    }
+
+    public function invite($senderId, array $recevier, $surveyId)
     {
         DB::beginTransaction();
         try {
@@ -79,10 +93,9 @@ class InviteRepository extends BaseRepository implements InviteInterface
 
             foreach ($usersAvailable as $id => $email) {
                 $inputsAvailable[] = [
-                    'sender_id' => $senderId,
+                    'sender_id' => ($senderId) ?: null,
                     'recevier_id' => $id,
                     'survey_id' => $surveyId,
-                    'number_answer' => $numberAnswer,
                     'status' => config('survey.invite.new'),
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
@@ -97,7 +110,6 @@ class InviteRepository extends BaseRepository implements InviteInterface
                     'sender_id' => $senderId,
                     'survey_id' => $surveyId,
                     'mail' => $user,
-                    'number_answer' => $numberAnswer,
                     'status' => config('survey.invite.new'),
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
@@ -114,19 +126,5 @@ class InviteRepository extends BaseRepository implements InviteInterface
 
             return false;
         }
-    }
-
-    public function getResult($surveyId)
-    {
-        $charts = [];
-        $charts['questions'] = $questions = $this->questionRepository->where('survey_id', $surveyId)->get();
-        $charts['answers'] = $answers = $this->answerRepository
-            ->whereIn('question_id', $questions->pluck('id')->toArray())
-            ->get();
-        $charts['results'] = $results = $this->resultRepository
-            ->whereIn('answer_id', $answers->pluck('id')->toArray())
-            ->get();
-
-        return $charts;
     }
 }

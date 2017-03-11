@@ -32,6 +32,10 @@ class UserRepository extends BaseRepository implements UserInterface
 
     public function uploadAvatar($file)
     {
+        if (!$file) {
+            return config('users.avatar_default');
+        }
+
         $fileName = uniqid(rand(), true) . '.' . $file->getClientOriginalExtension();
         $file->move(public_path(config('users.avatar_path')), $fileName);
 

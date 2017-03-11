@@ -7,7 +7,9 @@ use Exception;
 use App\Repositories\Question\QuestionInterface;
 use App\Repositories\Like\LikeInterface;
 use App\Repositories\Invite\InviteInterface;
+use App\Repositories\Setting\SettingInterface;
 use App\Repositories\BaseRepository;
+use Carbon\Carbon;
 use App\Models\Survey;
 
 class SurveyRepository extends BaseRepository implements SurveyInterface
@@ -15,17 +17,20 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
     protected $likeRepository;
     protected $questionRepository;
     protected $inviteRepository;
+    protected $settingRepository;
 
     public function __construct(
         Survey $survey,
         QuestionInterface $question,
         LikeInterface $like,
-        InviteInterface $invite
+        InviteInterface $invite,
+        SettingInterface $setting
     ) {
         parent::__construct($survey);
         $this->likeRepository = $like;
         $this->inviteRepository = $invite;
         $this->questionRepository = $question;
+        $this->settingRepository = $setting;
     }
 
     public function delete($ids)
@@ -52,27 +57,28 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         $survey = $this->where('token', $token)->first();
 
         if (!$survey) {
-            return false;
+            return view('errors.503');
         }
 
-        $dataInput = $this->inviteRepository->getResult($survey->id);
-        $questions = $dataInput['questions'];
+        $datasInput = $this->inviteRepository->getResult($survey->id);
+        $questions = $datasInput['questions'];
         $temp = [];
         $results = [];
 
-        if (empty($dataInput['results']->toArray())) {
-            return false;
+        if (empty($datasInput['results']->toArray())) {
+            return $results = false;
         }
 
         foreach ($questions as $key => $question) {
-            $answers = $dataInput['answers']->where('question_id', $question->id);
+            $answers = $datasInput['answers']->where('question_id', $question->id);
 
             foreach ($answers as $answer) {
-                $total = $dataInput['results']
-                    ->whereIn('answer_id', $answers->pluck('id')->toArray())
+                $total = $datasInput['results']
+                    ->whereIn('answer_id', $answers->pluck('id')
+                        ->toArray())
                     ->pluck('id')
                     ->toArray();
-                $answerResult = $dataInput['results']
+                $answerResult = $datasInput['results']
                     ->whereIn('answer_id', $answer->id)
                     ->pluck('id')
                     ->toArray();
@@ -81,18 +87,184 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                     'content' => ($answer->type == config('survey.type_time')
                         || $answer->type == config('survey.type_text')
                         || $answer->type == config('survey.type_date'))
-                        ? $dataInput['results']->whereIn('answer_id', $answer->id)
+                        ? $datasInput['results']->whereIn('answer_id', $answer->id)
                         : $answer->content,
-                    'percent' => (count($total) > 0) ? (double)(count($answerResult) * 100) / (count($total)) : 0,
+                    'percent' => (count($total) > 0) ? (double)(count($answerResult)*100)/(count($total)) : 0,
                 ];
             }
-
             $results[] = [
                 'question' => $question,
                 'answers' => $temp,
             ];
             $temp = [];
         }
+
+        return $results;
+    }
+
+    public function createSurvey(
+        $inputs,
+        array $settings,
+        array $arrayQuestionWithAnswer,
+        array $questionsRequired,
+        array $images
+    ) {
+        $surveyInputs = $inputs->only([
+            'user_id',
+            'mail',
+            'title',
+            'feature',
+            'token',
+            'token_manage',
+            'status',
+            'deadline',
+            'description',
+        ]);
+
+        $surveyInputs['feature'] = ($inputs['feature'])
+            ? config('settings.feature')
+            : config('settings.not_feature');
+        $surveyInputs['status'] = (Carbon::parse($inputs['deadline'])->gt(Carbon::now()) || (empty($inputs['deadline'])))
+            ? config('survey.status.avaiable')
+            : config('survey.status.block');
+        $surveyInputs['deadline'] = ($inputs['deadline'])
+            ? Carbon::parse($inputs['deadline'])->format('Y/m/d H:i')
+            : null;
+        $surveyInputs['created_at'] = $surveyInputs['updated_at'] = Carbon::now();
+        $surveyId = parent::create($surveyInputs->toArray());
+
+        if (!$surveyId) {
+            return false;
+        }
+
+        $this->settingRepository->createMultiSetting($settings, $surveyId);
+        $txtQuestion = $arrayQuestionWithAnswer;
+        $questions = $txtQuestion['question'];
+        $answers = $txtQuestion['answers'];
+
+        $this->questionRepository
+            ->createMultiQuestion(
+                $surveyId,
+                $questions,
+                $answers,
+                $images,
+                $questionsRequired
+            );
+
+        return $surveyId;
+    }
+
+    public function checkCloseSurvey($inviteIds, $surveyIds)
+    {
+        $ids = array_merge(
+            $inviteIds->lists('survey_id')->toArray(),
+            $surveyIds->lists('id')->toArray()
+        );
+
+        return $this->settingRepository
+            ->whereIn('survey_id', $ids)
+            ->where([
+                'key' => config('settings.key.limitAnswer'),
+                'value' => 0,
+            ])
+            ->lists('survey_id')
+            ->toArray();
+    }
+
+    public function listsSurvey($userId, $email = null)
+    {
+        $invites = $inviteIds = $this->inviteRepository
+            ->where('recevier_id', $userId)
+            ->orWhere('mail', $email);
+        $surveys = $surveyIds = $this->where('user_id', $userId)->orWhere('mail', $email);
+        $settings = $this->checkCloseSurvey($inviteIds, $surveyIds);
+        $invites = $invites
+            ->orderBy('id', 'desc')
+            ->paginate(config('settings.paginate'));
+        $surveys = $surveys
+            ->orderBy('id', 'desc')
+            ->paginate(config('settings.paginate'));
+
+        return compact('surveys', 'surveys', 'settings');
+    }
+
+    public function checkSurveyCanAnswer(array $inputs)
+    {
+        $date = ($inputs['deadline']) ? Carbon::parse($inputs['deadline'])->gt(Carbon::now()) : true;
+        $invite = true;
+        $email = $inputs['email'];
+        $surveyId = $inputs['surveyId'];
+
+        if (!$date || !$inputs['status']) {
+            return false;
+        } elseif (!$inputs['type']) {
+            $invite = $this->inviteRepository
+                ->where('recevier_id', $inputs['userId'])
+                ->where('survey_id', $inputs['surveyId'])
+                ->orWhere(function ($query) use ($email, $surveyId) {
+                    $query->where('mail', $email)->where('survey_id', $surveyId);
+                })
+                ->exists();
+        }
+
+        return $invite;
+    }
+
+    public function getSettings($surveyId)
+    {
+        if (!$surveyId) {
+            return [];
+        }
+
+        return $this->settingRepository
+            ->where('survey_id', $surveyId)
+            ->whereIn('key', config('settings.options'))
+            ->lists('value', 'key')
+            ->toArray();
+    }
+
+    public function getHistory($userId, $surveyId)
+    {
+        if (!$userId) {
+            return [];
+        }
+
+        $results = $this->questionRepository
+            ->getResultByQuestionIds($surveyId)
+            ->where('sender_id', $userId)
+            ->get();
+
+        if (!$results) {
+            return [];
+        }
+
+        $history = [];
+        $maxCreate = $results->max('created_at');
+
+        foreach ($results as $key => $value) {
+            if ($value->created_at == $maxCreate) {
+                $history[$value->answer_id] = $value->content;
+            }
+        }
+
+        return $history;
+    }
+
+    public function getUserAnswer($token)
+    {
+        $survey = $this->where('token', $token)->orWhere('token_manage', $token)->first();
+
+        if (!$survey) {
+            return false;
+        }
+
+        $results = $this->questionRepository
+            ->getResultByQuestionIds($survey->id);
+        $results = $results->distinct('created_at')->get([
+            'created_at',
+            'name',
+            'email',
+        ]);
 
         return $results;
     }
