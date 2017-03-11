@@ -18,4 +18,8 @@ return [
     'update_info' => 'Update information',
     'phone' => 'Telephone',
     'chooser_new_image' => 'Choose new image',
+    'name' => 'Name',
+    'Email' =>'Email',
+    'date' => 'Date',
+    'detail' => 'Detail',
 ];
