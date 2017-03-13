@@ -10,7 +10,7 @@
                                 (Auth::guard()->check()) ? Auth::user()->email : '', [
                                 'placeholder' => trans('info.your_email'),
                                 'class' => 'input-email form-control',
-                                (Auth::user()->email) ? ('disabled = true') : '',
+                                auth()->check() ? ('disabled = true') : '',
                             ]) !!}
                         </div>
                     </div>

@@ -61,8 +61,8 @@
                                                         <td>
                                                             {{ ++$key }}.
                                                             <a href="{{ action(($survey->feature)
-                                                                ? 'AnswerController@answerPrivate'
-                                                                : 'AnswerController@answerPublic', [
+                                                                ? 'AnswerController@answerPublic'
+                                                                : 'AnswerController@answerPrivate', [
                                                                     'token' => $survey->token,
                                                             ]) }}">
                                                             {{ $survey->title }}

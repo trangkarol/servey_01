@@ -54,10 +54,10 @@
                         <div class="clear-shadow"></div>
                         <div class="content">
                             <div class="content-1">
-                                @include('user.component.tap-info')
+                                @include('user.component.tab-info')
                             </div>
                             <div class="content-2 div-hidden">
-                                @include('user.component.tap-setting')
+                                @include('user.component.tab-setting')
                             </div>
                             <div class="content-3 div-hidden">
                                  <div class="div-result-survey">
@@ -82,7 +82,7 @@
                                                 </ul>
                                             </div>
                                             <div class="col-md-9">
-                                                @include('user.component.tap-result')
+                                                @include('user.component.tab-result')
                                             </div>
                                         </div>
                                     </div>

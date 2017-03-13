@@ -7,18 +7,18 @@
             <ul class="data-list">
                 <li>
                     <div class="container-infor">
-                        {!! Html::image(config('settings.image_system') . 'email1.png', '') !!}
+                        {!! Html::image(config('settings.image_path_system') . 'email1.png', '') !!}
                         {!! Form::email('email', (Auth::user() ? Auth::user()->email : ''), [
                             'id' => 'email',
                             'class' => 'required form-control',
                             'placeholder' => trans('info.email'),
-                            'readonly' => (Auth::user()->email) ? 'true' : 'false',
+                            'readonly' => auth()->check() ? 'true' : 'false',
                         ]) !!}
                     </div>
                 </li>
                 <li>
                     <div class="container-infor">
-                        {!! Html::image(config('settings.image_system') . 'title1.png', '') !!}
+                        {!! Html::image(config('settings.image_path_system') . 'title1.png', '') !!}
                         {!! Form::text('title', '', [
                             'placeholder' => trans('info.title'),
                             'id' => 'title',
@@ -35,12 +35,12 @@
             <ul class="data-list">
                 <li>
                     <div class="container-infor">
-                        {!! Html::image(config('settings.image_system') . 'name.png', '') !!}
+                        {!! Html::image(config('settings.image_path_system') . 'name.png', '') !!}
                         {!! Form::text('name', ((Auth::user()) ? Auth::user()->name : ''), [
                             'placeholder' => trans('info.name'),
                             'id' => 'name',
                             'class' => 'required form-control',
-                            'readonly' => ((Auth::guard()->check()) ? 'true' : 'false'),
+                            'readonly' => auth()->check() ? 'true' : 'false',
                         ]) !!}
                     </div>
                 </li>
@@ -48,7 +48,7 @@
             <ul class="data-list">
                 <li>
                     <div class="container-infor">
-                        {!! Html::image(config('settings.image_system') . 'date.png', '') !!}
+                        {!! Html::image(config('settings.image_path_system') . 'date.png', '') !!}
                         {!! Form::text('deadline', '', [
                             'placeholder' =>  trans('info.duration'),
                             'id' => 'deadline',
@@ -64,7 +64,7 @@
     </div>
     <div class="row">
         <div class="frm-textarea container-infor">
-            {!! Html::image(config('settings.image_system') . 'description.png', '') !!}
+            {!! Html::image(config('settings.image_path_system') . 'description.png', '') !!}
             {!! Form::textarea('description', '', [
                 'class' => 'form-control',
                 'placeholder' => trans('info.description'),
