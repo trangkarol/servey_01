@@ -18,5 +18,6 @@ return [
         'female' => 1,
     ],
     'name_length_default' => 11,
-    'name_replace' => '...',
+    'undentified_name' => 'Undentified name',
+    'undentified_email' => 'Undentified email',
 ];

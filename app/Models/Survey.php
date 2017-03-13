@@ -49,4 +49,9 @@ class Survey extends Model
             ? Carbon::parse($this->attributes['deadline'])->format('Y/m/d H:i')
             : null;
     }
+
+    public function temps()
+    {
+        return $this->hasMany(Temp::class);
+    }
 }

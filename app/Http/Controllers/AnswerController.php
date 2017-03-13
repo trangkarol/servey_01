@@ -91,9 +91,19 @@ class AnswerController extends Controller
 
         if ($survey) {
             if ($survey->user_id == auth()->id() || $check) {
+                $tempAnswers = null;
+
                 return view(($view == 'answer')
                     ? 'user.pages.answer'
-                    : 'user.pages.detail-survey', compact('survey', 'status', 'charts', 'access', 'history', 'listUserAnswer')
+                    : 'user.pages.detail-survey', compact(
+                        'survey',
+                        'status',
+                        'charts',
+                        'access',
+                        'history',
+                        'listUserAnswer',
+                        'tempAnswers'
+                    )
                 );
             }
         }

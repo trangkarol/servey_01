@@ -10,20 +10,22 @@
 | to using a Closure or controller method. Build something great!
 |
 */
-Auth::routes();
+Route::post('/languages', 'LanguageController@index');
 
-Route::post('/language', 'LanguageController@index');
+Auth::routes();
 
 Route::group(['prefix' => '/', 'middleware' => 'guest'], function () {
 
-    Route::get('/register', 'SurveyController@register');
+    Route::get('/', 'Auth\LoginController@getLogin');
+
+    Route::get('/register', 'Auth\RegisterController@getRegister');
 
     Route::post('/register', [
         'as' => 'register-user',
         'uses' => 'Auth\RegisterController@register',
     ]);
 
-    Route::get('/login', 'SurveyController@getHome');
+    Route::get('/login', 'Auth\LoginController@getLogin');
 
     Route::post('/login', [
         'as' => 'login-user',
@@ -35,106 +37,99 @@ Route::group(['prefix' => '/', 'middleware' => 'guest'], function () {
     Route::get('/callback/{provider}', 'User\SocialAuthController@callback');
 });
 
+Route::get('/', 'SurveyController@index');
+
 Route::get('/logout', 'Auth\LoginController@logout');
 
-Route::get('/home', 'SurveyController@getHome');
 
 Route::group(['prefix' => '/supper-admin', 'middleware' => 'supperadmin'], function () {
+
     Route::resource('/request', 'Admin\RequestController', [
-        'only' => [
-            'index',
-        ],
+        'only' => ['index'],
     ]);
+
     Route::post('/request/update/{id}', 'Admin\RequestController@update');
+
+    Route::post('/request/delete', 'Admin\RequestController@destroy');
 });
 
 Route::group(['prefix' => '/admin', 'middleware' => 'admin'], function () {
 
     Route::resource('/dashboard', 'Admin\DashboardController', [
-        'only' => [
-            'index',
-        ],
+        'only' => ['index'],
     ]);
 
     Route::resource('/survey', 'Admin\SurveyController', [
-        'only' => [
-            'index',
-            'update',
-        ],
+        'only' => ['index', 'update'],
     ]);
 
     Route::post('/destroy-survey', 'Admin\SurveyController@destroySurvey');
 
     Route::resource('/user', 'Admin\UserController', [
-        'only' => [
-            'index',
-            'update',
-            'show',
-        ],
+        'only' => ['index', 'update', 'show'],
     ]);
 
-    Route::post('/change-status-user/{status}/{type?}', 'Admin\UserController@changeStatus');
+    Route::post('/change-status-user/{status}', 'Admin\UserController@changeStatus');
 
     Route::get('/search', 'Admin\UserController@search');
 
     Route::resource('/request', 'Admin\RequestController', ['only' => 'store']);
 
-    Route::post('/request/delete', 'Admin\RequestController@destroy');
+    Route::post('/request/cancel', 'Admin\RequestController@cancel');
 });
 
-Route::group(['prefix' => '/survey', 'middleware' => 'auth'], function () {
+Route::get('/', 'SurveyController@index');
 
-    Route::get('/invite/send', 'SurveyController@inviteUser');
+Route::post('/invite/send/{id}/{type}', 'SurveyController@inviteUser');
 
-    Route::get('/invite/{token}', [
-        'as' => 'invite',
-        'uses' => 'SurveyController@answer',
-    ]);
+Route::post('/delete-survey', 'SurveyController@delete');
 
-    Route::post('/delete-survey', 'SurveyController@delete');
+Route::get('explore/{token}/{type}', 'User\ExcelController@explore');
 
-    Route::get('/create', 'SurveyController@createSurvey');
+Route::group(['prefix' => '/home'], function () {
 
-    Route::post('radio-answer', 'SurveyController@radioAnswer');
+    Route::get('/', 'SurveyController@index');
 
-    Route::post('other-radio', 'SurveyController@otherRadio');
+    Route::group(['prefix' => '/', 'middleware' => 'auth'], function () {
 
-    Route::post('checkbox-answer', 'SurveyController@checkboxAnswer');
+        Route::post('/mark-survey', 'User\LikeController@markLike');
 
-    Route::post('other-checkbox', 'SurveyController@otherCheckbox');
+        Route::get('/list-invited', 'SurveyController@getInviteSurvey');
 
-    Route::post('radio-question', 'SurveyController@radioQuestion');
+        Route::get('/survey-individual', 'SurveyController@listSurveyUser');
 
-    Route::post('checkbox-question', 'SurveyController@checkboxQuestion');
+        Route::get('/user/detail', 'User\UserController@show');
 
-    Route::post('short-question', 'SurveyController@shortQuestion');
+        Route::put('/user/update', 'User\UserController@update');
 
-    Route::post('long-question', 'SurveyController@longQuestion');
+        Route::get('/survey-private/{token}', 'AnswerController@answerPrivate');
 
-    Route::post('/create', [
-        'as' => 'create',
-        'uses' => 'SurveyController@create',
-    ]);
+        Route::resource('/save', 'User\SaveTempController', [
+            'only' => ['store', 'index'],
+        ]);
 
-    Route::post('/invite-user', 'User\MailController@sendMail');
+        Route::get('/show-temp', 'User\SaveTempController@show');
+    });
 
-    Route::get('/invite-user', 'User\MailController@index');
-
-    Route::get('/survey-private', 'SurveyController@listSurveyUser');
-
-    Route::get('/user/detail', 'User\UserController@show');
-
-    Route::post('/user/update', 'User\UserController@update');
-
-    Route::get('/view/charts/{token}', 'SurveyController@viewChart');
 });
 
-Route::post('/text-other', 'User\SurveyController@textOther');
+Route::get('/survey/detail/{token}', 'AnswerController@show');
 
-Route::post('/survey/result/{token}', 'User\ResultController@result');
+Route::post('/add-temp/{type}', 'TempController@addTemp');
 
-Route::resource('/survey/answer', 'SurveyController', [
-    'only' => [
-        'show',
-    ],
+Route::post('/create', [
+    'as' => 'create',
+    'uses' => 'SurveyController@create',
 ]);
+
+Route::post('/update-setting/{id}', 'SettingController@update');
+
+Route::post('/survey/result/{token}', 'ResultController@result');
+
+Route::get('/autocomplete', 'SurveyController@autocomplete');
+
+Route::post('/search', 'SurveyController@search');
+
+Route::get('/survey-public/{token}', 'AnswerController@answerPublic');
+
+Route::get('/show/{token}', 'SurveyController@showDetail');
