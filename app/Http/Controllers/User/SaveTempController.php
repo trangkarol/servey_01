@@ -113,6 +113,13 @@ class SaveTempController extends Controller
                 }
             }
 
+            if (empty($data)) {
+                return response()->json([
+                    'success' => $isSuccess,
+                    'message' => trans('messages.save_fail', ['object' => class_basename(Answer::class)]),
+                ]);
+            }
+
             DB::beginTransaction();
             try {
                 $key = auth()->id() . '/' . $surveyId;

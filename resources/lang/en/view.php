@@ -29,4 +29,6 @@ return [
             'content_some_devices' => 'You can perform a survey with this device.',
         ],
     ],
+    '404' => '404',
+    'error' => 'Error',
 ];

@@ -19,6 +19,7 @@ elixir(mix => {
    .sass('main.scss', 'public/user/css/main.css')
    .sass('new-style.scss', 'public/user/css/new-style.css')
    .sass('style.scss', 'public/user/css/style.css')
+   .sass('404.scss', 'public/user/errors/404.css')
    .sass('socialize-bookmarks.scss', 'public/user/css/socialize-bookmarks.css')
    .sass('home.scss', 'public/user/css/home.css')
    .sass('admin-style-1.scss', 'public/admin/css/admin-style-1.css')

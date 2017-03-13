@@ -21,4 +21,5 @@ return [
     'max' => 'This: object must be no more than 255 characters',
     'result_success' => ':object successfully',
     'result_fail' => ':object failed',
+    '404_message' => 'The page you are looking for does not exists',
 ];
