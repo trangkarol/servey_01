@@ -1,6 +1,7 @@
 <?php
 
 return [
+
     'password' => 'Mật khẩu',
     'gender' => 'Giới tính',
     'enter_info' => 'Nhập thông tin của bạn',
@@ -22,5 +23,5 @@ return [
     'Email' =>'Email',
     'date' => 'Ngày trả lời',
     'detail' => 'Chi tiết',
-    'go_home' => 'Về trang chủ',
+    'go_home' => 'Về trang chủ'
 ];

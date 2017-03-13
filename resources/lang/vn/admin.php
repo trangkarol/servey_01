@@ -5,9 +5,9 @@ return [
     'dashboard' => 'Bảng điều khiển',
     'home' => 'Đi tới trang chủ',
     'top' => [
-        'left' => 'Góc trái',
-        'right' => 'Góc phải',
-        'center' => 'Giữa',
+        'left' => 'Góc bên trái',
+        'right' => 'Góc bên phải',
+        'center' => 'Ở giữa',
     ],
     'bottom' => [
         'left' => 'Phía dưới bên trái',
@@ -30,4 +30,7 @@ return [
         'fail' => 'Tạo không thành công',
     ],
     'go_home' => 'Về trang chủ',
+    'active' => 'Kích hoạt',
+    'change_feature' => 'Đổi tỉnh năng',
+    'update_feature' => 'Cập nhập tính năng',
 ];

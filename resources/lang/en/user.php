@@ -1,16 +1,17 @@
 <?php
 
 return [
+
     'password' => 'Password',
     'gender' => 'Gender',
-    'enter_info' => 'Enter your information',
+    'enter_info' => 'Enter your personal info',
     'your_email' => 'Your email',
-    'your_name' => 'Your Name',
-    'avatar' => 'Image',
-    'old_password' => 'Password tubers',
+    'your_name' => 'Your name',
+    'avatar' => 'Avatar',
+    'old_password' => 'Old password',
     'new_password' => 'New password',
-    'retype_new_password' => 'Reset password',
-    'birthday' => 'Date of Birth',
+    'retype_new_password' => 'Re-type new password',
+    'birthday' => 'Birthday',
     'address' => 'Address',
     'male' => 'Male',
     'female' => 'Female',

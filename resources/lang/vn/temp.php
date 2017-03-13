@@ -1,13 +1,12 @@
 <?php
 
 return [
-    'short_text' => 'Văn bản ngắn',
     'time_text' => 'Văn bản thời gian',
-    'time' => 'Thời gian',
+    'time' => 'Giờ',
     'other' => 'Khác',
     'confirm' => 'Bạn có chắc chắn xóa survey này không?',
-    'send_to' => 'Gữi đến:',
-    'send_mail' => 'Gữi đến các mail',
+    'send_to' => 'Gửi đến:',
+    'send_mail' => 'Gửi đến các mail',
     'email_name' => 'Nhập email tại đây. . .',
     'send' => 'Gửi',
     'view_result' => 'Xem kết quả',
@@ -15,12 +14,8 @@ return [
     'email_invalid' => 'Email không hợp lệ, vui lòng kiểm tra lại.',
     'text' => 'Văn bản',
     'require' => 'Yêu cầu',
-    'participant' => 'Bạn đã được mời tham gia cuộc khảo sát này.',
-    'home' => 'FSURVEY',
-    'title' => 'Tiêu đề: ',
-    'description' => 'Mô tả: ',
-    'link' => "Hãy nhấp vào liên kết dưới đây để tham gia.",
-    'manage' => 'Truy cập liên kết này giúp bạn có thể thay đổi, đóng hoặc xóa khảo sát của bạn.',
-    'two_link' => "Dưới đây, đó là hai liên kết được gửi mail của bạn.",
-    'thank' => 'Cảm ơn bạn vì bạn đã sử dụng trang web của chúng tôi.',
+    'one_choose' => 'Một lựa chọn',
+    'multi_choose' => 'Nhiều lựa chọn',
+    'date' => 'Ngày',
+    'date_month' => 'dd/mm/yy',
 ];

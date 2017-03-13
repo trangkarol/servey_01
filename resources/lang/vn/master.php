@@ -1,0 +1,25 @@
+<?php
+
+return [
+    'satisfaction_survey' => 'SATISFACTION SURVEY',
+    'help_us' => 'Giúp chúng tôi cải tiến dịch vụ và sự hài lòng của khách hàng.',
+    'login_our' => 'Đăng nhập vào trang của chúng tôi',
+    'enter_username' => 'Nhập tên người dùng và mật khẩu để đăng nhập:',
+    'username' => 'Tên đăng nhập',
+    'password' => 'Mật khẩu',
+    'register' => 'Đăng ký',
+    'sign_in' => 'Đăng nhập',
+    'google_plus' => 'Google Plus',
+    'sign_up_now' => 'Đăng ký ngay bây giờ',
+    'fill_in_form' => 'Điền vào mẫu dưới đây để truy cập nhanh:',
+    'repassword' => 'Nhập lại mật khẩu',
+    'email' => 'Email',
+    'get_survey' => 'Nhận Khảo sát',
+    'enter_info' => 'Nhập thông tin cá nhân của bạn',
+    'your_email' => 'Email của bạn',
+    'your_name' => 'Tên bạn',
+    'avatar' => 'Ảnh đại diện',
+    'enter_email_password' => 'Nhập email và passowrd của bạn',
+    'login' => 'Đăng nhập',
+    'logout' => 'Đăng xuất',
+];

@@ -22,4 +22,9 @@ return [
     'result_success' => ':object successfully',
     'result_fail' => ':object failed',
     '404_message' => 'The page you are looking for does not exists',
+    'save_success' => 'Save :object success',
+    'save_fail' => 'Error save :object ',
+    'load_success' => ' Load :object success',
+    'load_fail' => 'Error load :object error',
+    'permisstion' => 'You are not login or :object have permisstion to access this pages',
 ];
