@@ -3,13 +3,13 @@
 return [
     'footer' => [
         'about' => [
-            'title' => 'Thông tin về chúng tôi',
-            'content' => 'Framgia Việt Nam là công ty Nhật Bản về lĩnh vực công nghệ thông tin chuyên thiết kế, phát triển ứng dụng, trò chơi chạy trên điện thoại thông minh, nền tảng mạng xã hội, sản xuất và ứng dụng trang web phát triển.,',
+            'title' => 'About us',
+            'content' => 'Fram gia việt Nam là công ty Nhật Bản về lĩnh vực công nghệ thông tin chuyên thiết kế, phát triển ứng dụng, trò chơi chạy trên điện thoại thông minh, nền tảng mạng xã hội, sản xuất và ứng dụng trang web phát triển.,',
         ],
         'contact' => [
             'title' => 'Thông tin liên lạc',
-            'content' => 'Fsurvey - một hệ thống bình tạo survey đơn giản, mạnh mẽ và tiện lợi',
-            'home' => '13F Keangnam Landmark 72 Tower, Lô E6, Đường Phạm Hùng, Nam Từ Liêm, Hà Nội, Việt Nam',
+            'content' => 'Nec ea case eirmod dissentiunt. Etiam denique has cu, nam quando accusamus dissentiunt ne.',
+            'home' => '13F Keangnam Landmark 72 Tower, Plot E6, Pham Hung Road, Nam Tu Liem, Ha Noi, Viet Nam',
             'email' => 'hr_team@framgia.com',
             'phone' => '84-4-3795-5417',
         ],
@@ -17,6 +17,7 @@ return [
     ],
     'body' => [
         'intro' => [
+            'slogan' => 'Giúp mọi người cải thiện dịch vụ và sự hài lòng của khách hàng.',
             'fully_responsive' => 'Đáp ứng đầy đủ',
             'content_fully_responsive' => 'Trang web của chúng tôi cung cấp một loạt đầy đủ các câu hỏi mà bạn có thể tự do lựa chọn các loại câu hỏi như: một hoặc nhiều lựa chọn, ngày, giờ hoặc kiểu văn bản. Dễ dàng hơn để giúp bạn trong việc tạo ra một cuộc khảo sát.',
             'userful_survey_data' => 'Số liệu điều tra hữu dụng',
@@ -31,4 +32,5 @@ return [
     ],
     '404' => '404',
     'error' => 'Lỗi',
+    'title_web' => 'Satisfaction survey',
 ];

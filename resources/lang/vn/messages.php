@@ -21,4 +21,10 @@ return [
     'max' => 'Trường : object không nên dài quá 255 ký tự',
     'permisstion' => 'Bạn không phải là:object có sự cho phép',
     '404_message' => 'Trang bạn tìm không tồn tại',
+    'save_success' => 'Lưu :object thành công',
+    'save_fail' => 'Lưu :object tất bại',
+    'load_success' => 'Tải :object thành công',
+    'load_fail' => 'Tải :object thất bại',
+    'result_success' => ':object thành công',
+    'result_fail' => ':object thât bại',
 ];

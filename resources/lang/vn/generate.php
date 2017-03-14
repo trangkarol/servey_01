@@ -30,6 +30,8 @@ return [
         'generate' => 'Trạng thái',
         'block' => 'Bị khóa',
         'active' => 'Kích hoạt',
+        'process' => 'Chờ',
+        'finish' => 'Chấp nhận',
     ],
     'exampe' => 'Ví dụ',
     'remove' => 'Xóa',
@@ -40,10 +42,12 @@ return [
         'not_feature' => 'No',
     ],
     'invite' => 'Mời người khác',
+    'requests' => 'Yêu cầu',
     'profile' => 'Thông tin cá nhân',
     'create' => [
         'survey' => 'Tạo survey',
     ],
+    'title' => 'Tiêu đề',
     'view' => [
         'login' => 'Đăng nhập',
         'register' => 'Đăng ký',

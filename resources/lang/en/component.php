@@ -16,4 +16,3 @@ return [
     'input_content' => 'Input Content',
     'action' => 'Action',
 ];
-

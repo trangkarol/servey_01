@@ -48,4 +48,16 @@ return [
     ],
     'title' => 'Title',
     'requests' => 'Requests',
+    'view' => [
+        'login' => 'Login',
+        'register' => 'register',
+        'home' => 'Home',
+        'detail' => 'Details: object',
+        'list' => 'List: object',
+        'update' => 'update: object',
+        'profile' => 'Details: object',
+        'chart' => 'chart',
+        'delete' => 'Delete: object',
+        'request' => 'Request: object',
+    ],
 ];
