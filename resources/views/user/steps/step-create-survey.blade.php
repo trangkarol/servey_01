@@ -7,7 +7,7 @@
         </div>
         <div class="col-md-3">
             <span>
-                {{ Html::image(config('settings.image_system') . 'arrow-down1.png', '', [
+                {{ Html::image(config('settings.image_path_system') . 'arrow-down1.png', '', [
                     'class' => 'animated bounceInDown'
                 ]) }}
             </span>
@@ -31,7 +31,7 @@
                 <span class="span-option-1">
                     {{ trans('temp.one_choose') }}
                 </span>
-                {{ Html::image(config('settings.image_system') . 'radio.png', '', [
+                {{ Html::image(config('settings.image_path_system') . 'radio.png', '', [
                     'class' => 'image-type-option',
                     'url' => action('TempController@addTemp', config('temp.radio_question')),
                     'id' => 'radio-button',
@@ -42,7 +42,7 @@
                 <span class="span-option-2">
                     {{ trans('temp.multi_choose') }}
                 </span>
-                {{ Html::image(config('settings.image_system') . 'checkbox.png', '', [
+                {{ Html::image(config('settings.image_path_system') . 'checkbox.png', '', [
                     'class' => 'image-type-option',
                     'url' => action('TempController@addTemp', config('temp.checkbox_question')),
                     'id' => 'checkbox-button',
@@ -53,7 +53,7 @@
                 <span class="span-option-3">
                     {{ trans('temp.text') }}
                 </span>
-                {{ Html::image(config('settings.image_system') . 'text.png', '', [
+                {{ Html::image(config('settings.image_path_system') . 'text.png', '', [
                     'class' => 'image-type-option',
                     'url' => action('TempController@addTemp', config('temp.text_question')),
                     'id' => 'text-button',
@@ -64,7 +64,7 @@
                 <span class="span-option-4">
                     {{ trans('temp.time') }}
                 </span>
-                {{ Html::image(config('settings.image_system') . 'time.png', '', [
+                {{ Html::image(config('settings.image_path_system') . 'time.png', '', [
                     'class' => 'image-type-option',
                     'url' => action('TempController@addTemp', config('temp.time_question')),
                     'id' => 'time-button',
@@ -75,7 +75,7 @@
                 <span class="span-option-5">
                     {{ trans('temp.date') }}
                 </span>
-                {{ Html::image(config('settings.image_system') . 'type-date.png', '', [
+                {{ Html::image(config('settings.image_path_system') . 'type-date.png', '', [
                     'class' => 'image-type-option',
                     'url' => action('TempController@addTemp', config('temp.date_question')),
                     'id' => 'date-button',

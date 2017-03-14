@@ -71,6 +71,18 @@ $(document).ready(function() {
         });
     }
 
+    function readURL(input, $class) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $($class).attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
     $(document).on('click', '.add-radio', function() {
         addAnwser($(this));
     });
@@ -110,8 +122,53 @@ $(document).ready(function() {
     });
 
     $(document).on('click', '.title-question', function() {
-        $(this).children('.choose-action').fadeIn(2000);
-        $(this).find('.remove-answer').fadeIn(2000);
+        $(this).children('.choose-action').fadeIn(1700);
+        $(this).find('.remove-answer').fadeIn(1700);
+        $('.title-question').css('box-shadow', '').css('border-radius', '');
+        $(this).css('box-shadow', '0px 2px 10px rgba(119, 132, 130, 0.56)')
+            .css('border-radius', '5px');
+    });
+
+    $(document).on('click', '.glyphicon-picture', function() {
+        var idQuestion = $(this).siblings('.glyphicon-trash').attr('id-question');
+        $('.fileImg' + idQuestion).click();
+        $(document).on('change', '.fileImg' + idQuestion, function () {
+            $('.content-image-question' + idQuestion).css('display', 'block');
+            readURL(this, '.image-question' + idQuestion);
+        });
+    });
+
+    $(document).on('click', '.remove-image-question', function() {
+        var idQuestion = $(this).attr('id-question');
+        $('.content-image-question' + idQuestion).fadeOut(500);
+        setTimeout(function() {
+            $('.image-question' + idQuestion).attr('src', '/');
+            $('.content-image-question' + idQuestion).css('display', 'none');
+        }, 1000);
+
+    });
+
+    $(document).on('click', '.picture-answer', function() {
+        var idAnswer = $(this).siblings('.glyphicon-remove').attr('id-as');
+        $('.fileImgAnswer' + idAnswer).click();
+        $(document).on('change', '.fileImgAnswer' + idAnswer, function () {
+            $('.content-image-answer' + idAnswer).css('display', 'block');
+            readURL(this, '.image-answer' + idAnswer);
+        });
+    });
+
+    $(document).on('click', '.remove-image-answer', function() {
+        var idAnswer = $(this).attr('id-answer');
+        $('.content-image-answer' + idAnswer).fadeOut(500);
+        setTimeout(function() {
+            $('.image-answer' + idAnswer).attr('src', '/');
+            $('.content-image-answer' + idAnswer).css('display', 'none');
+        }, 1000);
+
+    });
+
+    $(document).on('click', '.btn-require-answer', function() {
+        addQuestion($(this));
     });
 
     $(document).on('click', '.glyphicon-trash', function() {

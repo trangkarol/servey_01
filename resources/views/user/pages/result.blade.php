@@ -1,5 +1,5 @@
 <div class="container-list-result">
-    <div id="middle-wizard" class="div-show-result wizard-branch wizard-wrapper">
+    <div class="div-show-result wizard-branch wizard-wrapper">
         <div class="tab-bootstrap">
             <ul class="nav nav-tabs">
                 <li class="active">
@@ -14,11 +14,14 @@
                         {{ trans('result.see_detail') }}
                     </a>
                 </li>
-               @if (!empty($history))
-                 <li><a data-toggle="tab" href="#menu2">{{ trans('survey.history') }}</a></li>
-               @endif
+                @if ($listUserAnswer)
+                    <li><a data-toggle="tab" href="#menu3">ListsUser</a></li>
+                @endif
+                @if ($history)
+                    <li><a data-toggle="tab" href="#menu2">{{ trans('survey.history') }}</a></li>
+                @endif
             </ul>
-            @include('user.component.tap-result')
+            @include('user.component.tab-result')
         </div>
     </div>
     <div id="bottom-wizard bottom-wizard-anwser"></div>

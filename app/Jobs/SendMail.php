@@ -7,6 +7,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Collection;
 
 class SendMail implements ShouldQueue
 {
@@ -20,7 +21,7 @@ class SendMail implements ShouldQueue
     protected $inputs;
     protected $type;
 
-    public function __construct(array $inputs, $type)
+    public function __construct(Collection $inputs, $type)
     {
         $this->inputs = $inputs;
         $this->type = $type;
@@ -28,30 +29,25 @@ class SendMail implements ShouldQueue
 
     public function handle()
     {
-        $link = action($this->inputs['feature']
-            ? 'AnswerController@answerPublic'
-            : 'AnswerController@answerPrivate', [
-                'token' => $this->inputs['token'],
+        $data = $this->inputs->only([
+            'name',
+            'title',
+            'description',
+            'link',
         ]);
-        $linkManage = '';
-        $view = 'emails.email_invite';
 
         if ($this->type == 'mailManage') {
             $view = 'emails.email_manage';
-            $linkManage = action('AnswerController@show', [
-                'token' =>  $this->inputs['token_manage'],
-            ]);
+            $data->put('linkManage', $this->inputs['linkManage']);
+        } else {
+            $view = 'emails.email_invite';
+            $data->put('emailSender', $this->inputs['emailSender']);
         }
 
-        Mail::send($view, [
-            'name' => $this->inputs['name'],
-            'title' => $this->inputs['title'],
-            'description' => $this->inputs['description'],
-            'link' => $link,
-            'link_manage' => $linkManage,
-       ], function ($message) {
+        $email = $this->inputs['email'];
+        Mail::send($view, $data->toArray(), function ($message) use ($email) {
            $message->from(config('mail.from.address') , trans('survey.title_web'));
-           $message->to($this->inputs['email']);
+           $message->to($email)->subject(trans('survey.subject_web'));
        });
     }
 }

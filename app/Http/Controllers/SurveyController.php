@@ -9,9 +9,6 @@ use App\Repositories\Question\QuestionInterface;
 use App\Repositories\Invite\InviteInterface;
 use App\Repositories\Setting\SettingInterface;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Support\Facades\Auth;
-use App\Mail\InviteSurvey;
-use App\Mail\ManageSurvey;
 use App\Jobs\SendMail;
 use Carbon\Carbon;
 use Mail;
@@ -125,7 +122,7 @@ class SurveyController extends Controller
             }
         }
 
-        return redirect()->action('')
+        return redirect()->action('AnswerController@show', $survey->token)
             ->with(($isSuccess) ? 'message' : 'message-fail', ($isSuccess)
                 ? trans('messages.object_updated_successfully', [
                     'object' => class_basename(Survey::class),
@@ -187,12 +184,19 @@ class SurveyController extends Controller
                     'email',
                     'title',
                     'description',
-                    'feature',
                 ]);
-                $inputInfo['token'] = $token;
-                $inputInfo['token_manage'] = $tokenManage;
-                $isSuccess = ($this->dispatch(new SendMail($inputInfo, 'mailManage'))
-                    && $this->inviteUser($request, $survey, config('settings.return.bool')));
+                $inputInfo['link'] = action($inputs['feature']
+                    ? 'AnswerController@answerPublic'
+                    : 'AnswerController@answerPrivate', [
+                        'token' => $token,
+                ]);
+                $inputInfo['linkManage'] = action('AnswerController@show', [
+                    'tokenManage' =>  $tokenManage,
+                ]);
+                $job = (new SendMail(collect($inputInfo), 'mailManage'))
+                    ->onConnection('database')
+                    ->onQueue('emails');
+                $isSuccess = ($this->dispatch($job) && $this->inviteUser($request, $survey, config('settings.return.bool')));
 
                 if (!$isSuccess) {
                     DB::rollback();
@@ -226,6 +230,7 @@ class SurveyController extends Controller
 
     public function inviteUser(Request $request, $surveyId, $type)
     {
+        // type nếu là bool thì hàm inviteUser sẽ trả về true hoặc flase, view thì hàm inviteUser sẽ trả về action('SurveyController@listSurveyUser')
         $isSuccess = false;
         $data['name'] = $request->get('name') ?: auth()->user()->name;
         $data['email'] = $request->get(($type == config('settings.return.bool')) ? 'email' : 'emailUser') ?: auth()->user()->email;
@@ -250,11 +255,17 @@ class SurveyController extends Controller
                     'email' => $data['emails'],
                     'title' => $survey->title,
                     'description' => $survey->description,
-                    'feature' => $survey->feature,
-                    'token' => $survey->token,
-                    'token_manage' => $survey->token_manage,
+                    'link' => action($survey->feature
+                        ? 'AnswerController@answerPublic'
+                        : 'AnswerController@answerPrivate', [
+                            'token' => $survey->token,
+                    ]),
+                    'emailSender' => $data['email'],
                 ];
-                $this->dispatch(new SendMail($inputInfo, 'user'));
+                $job = (new SendMail(collect($inputInfo), 'mailInvite'))
+                    ->onConnection('database')
+                    ->onQueue('emails');
+                $this->dispatch($job);
                 $isSuccess = true;
             }
         }

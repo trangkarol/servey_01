@@ -43,7 +43,7 @@
                             ]) !!}
                          </span>
                             <a href="{{ action('User\UserController@show') }}">
-                                {{ Auth::user()->getName() }}
+                                {{ Auth::user()->part_name }}
                             </a>
                         </li>
                         <li>
