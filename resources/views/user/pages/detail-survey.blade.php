@@ -61,28 +61,51 @@
                             </div>
                             <div class="content-3 div-hidden">
                                  <div class="div-result-survey">
-                                    <div class="div-table-list" style="">
-                                        <div class="row">
-                                            <div class="first-col-result col-md-3">
+                                    <div class="div-table-list">
+                                        <div class="table-list-row row">
+                                            <div class="col-md-3">
                                                 <ul class="nav nav-tabs tabs-left sideways">
                                                     <li class=" active">
                                                         <a href="#home-v" data-toggle="tab" style="">
-                                                            <span class="glyphicon glyphicon-th-list"></span>
+                                                            <span class="glyphicon glyphicon-adjust"></span>
                                                             {{  trans('survey.overview') }}
                                                         </a>
                                                     </li>
                                                     <li>
                                                         <a href="#profile-v" data-toggle="tab">
-                                                        <span class="glyphicon glyphicon-envelope"></span>
+                                                            <span class="glyphicon glyphicon-asterisk"></span>
                                                             {{  trans('survey.see_detail') }}
                                                         </a>
                                                     </li>
-                                                    <li><a href="#messages-v" data-toggle="tab">{{ trans('home.message') }}</a></li>
-                                                    <li><a href="#settings-v" data-toggle="tab">{{ trans('home.settings') }}</a></li>
+                                                    <li>
+                                                        <a href="#messages-v" data-toggle="tab">
+                                                            <span class="glyphicon glyphicon-list"></span>
+                                                            {{ trans('survey.users_anwser') }}
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#settings-v" data-toggle="tab">
+                                                            <span class="glyphicon glyphicon-export"></span>
+                                                            {{ trans('survey.export') }}
+                                                        </a>
+                                                    </li>
                                                 </ul>
                                             </div>
                                             <div class="col-md-9">
-                                                @include('user.component.tab-result')
+                                                <div class="tab-content">
+                                                    <div class="tab-pane active" id="home-v">
+                                                        @include('user.result.chart')
+                                                    </div>
+                                                    <div class="tab-pane" id="profile-v">
+                                                        @include('user.result.over-view')
+                                                    </div>
+                                                    <div class="tab-pane" id="messages-v">
+                                                        @include('user.result.users-answer')
+                                                    </div>
+                                                    <div class="tab-pane" id="settings-v">
+                                                        {{ trans('survey.setting') }}
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

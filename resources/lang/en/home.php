@@ -10,7 +10,6 @@ return [
     'add_other' => 'Other answers',
     'checkboxes' => 'checkbox',
     'short_answer' => 'Short answer',
-    'passage' => 'Paragraph',
     'choices' => 'Select',
     'enter_answer_here' => 'Enter answer here',
     'other' => 'Other:',
@@ -20,9 +19,9 @@ return [
     'search' => 'Search',
     'enter_question_here' => 'Enter question here',
     'create_survey' => 'Create survey',
-    'survey' => 'survey'
+    'survey' => 'survey',
     'remove' => 'Delete',
-    'submit' => 'submit',
+    'submit' => 'Submit',
     'error' => 'Error',
     'me' => 'yours',
     'dont_have' => 'Not having any surveys',
@@ -42,7 +41,7 @@ return [
     'invited' => 'Invited',
     'progress' => 'process',
     'backward' => 'Previous',
-    'forward' => 'Next'
+    'forward' => 'Next',
     'submit_survey' => 'Submit Survey',
     'survey_complete' => 'Complete survey',
     'choose_question' => 'Create your questions here',
