@@ -20,4 +20,5 @@ return [
     'required' => 'Trường :object bị bỏ trống',
     'max' => 'Trường : object không nên dài quá 255 ký tự',
     'permisstion' => 'Bạn không phải là:object có sự cho phép',
+    '404_message' => 'Trang bạn tìm không tồn tại',
 ];

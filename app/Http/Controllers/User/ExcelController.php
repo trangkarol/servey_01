@@ -17,24 +17,17 @@ class ExcelController extends Controller
         $this->surveyRepository = $survey;
     }
 
-    public function explore($token, $type)
+    public function explore($id)
     {
-        $survey = $this->surveyRepository
-            ->where('token', $token)
-            ->first();
+        $survey = $this->surveyRepository->find($id);
 
-        if ($survey && ($type == config('survey.type_xls') || $type == config('survey.type_xlsx') )) {
+        if ($survey) {
             return Excel::create($survey->title, function($excel) use ($survey) {
                 $excel->sheet($survey->title, function($sheet) use ($survey) {
                     $sheet->loadView('explore.excel', compact('survey'));
                     $sheet->setOrientation('landscape');
                 });
-
-                $excel->sheet('detail', function($sheet) use ($survey) {
-                    $sheet->loadView('explore.detail', compact('survey'));
-                    $sheet->setOrientation('landscape');
-                });
-            })->export($type);
+            })->export('xls');
         }
     }
 }

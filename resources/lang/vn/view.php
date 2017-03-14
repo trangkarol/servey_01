@@ -29,4 +29,6 @@ return [
             'content_some_devices' => 'Bạn có thể thực hiện một cuộc khảo sát với các thiết bị này',
         ],
     ],
+    '404' => '404',
+    'error' => 'Lỗi',
 ];

@@ -8,5 +8,5 @@ interface QuestionInterface
 
     public function delete($ids);
 
-    public function createMultiQuestion($survey, $questions, $answers, $required = null);
+    public function createMultiQuestion($survey, $questions, $answers, $image, $required = null);
 }

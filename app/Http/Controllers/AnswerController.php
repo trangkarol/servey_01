@@ -70,7 +70,7 @@ class AnswerController extends Controller
             ->where(($view == 'detail') ? 'token_manage' : 'token', $token)
             ->first();
 
-        if (!$survey || ($survey->feature != $isPublic)) {
+        if (!$survey || ($view == 'answer' && $survey->feature != $isPublic)) {
             return view('errors.404');
         }
 
@@ -126,7 +126,7 @@ class AnswerController extends Controller
 
     public function show($token)
     {
-        return $this->answer($token, 'detail', false);
+        return $this->answer($token, 'detail');
     }
 
     public function showUserAnswer($token)

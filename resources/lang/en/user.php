@@ -22,4 +22,5 @@ return [
     'Email' =>'Email',
     'date' => 'Date',
     'detail' => 'Detail',
+    'go_home' => 'Go back the home',
 ];

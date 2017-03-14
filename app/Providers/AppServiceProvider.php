@@ -20,6 +20,8 @@ use App\Repositories\Like\LikeInterface;
 use App\Repositories\Like\LikeRepository;
 use App\Repositories\Temp\TempInterface;
 use App\Repositories\Temp\TempRepository;
+use App\Repositories\Setting\SettingInterface;
+use App\Repositories\Setting\SettingRepository;
 use Blade;
 
 class AppServiceProvider extends ServiceProvider
@@ -57,5 +59,6 @@ class AppServiceProvider extends ServiceProvider
         App::bind(InviteInterface::class, InviteRepository::class);
         App::bind(LikeInterface::class, LikeRepository::class);
         App::bind(TempInterface::class, TempRepository::class);
+        App::bind(SettingInterface::class, SettingRepository::class);
     }
 }

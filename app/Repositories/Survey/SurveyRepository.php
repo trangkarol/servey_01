@@ -141,7 +141,6 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         $txtQuestion = $arrayQuestionWithAnswer;
         $questions = $txtQuestion['question'];
         $answers = $txtQuestion['answers'];
-
         $this->questionRepository
             ->createMultiQuestion(
                 $surveyId,
