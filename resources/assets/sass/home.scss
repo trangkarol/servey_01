@@ -40,12 +40,16 @@
 }
 
 .title-question {
-    margin-left: 20px;
+    margin-left: -0.5%;
     margin-bottom: 12px;
+    padding-left: 3%;
 
     .glyphicon.glyphicon-picture {
-        font-size: 25px;
+        font-size: 20px;
         color: gray;
+        &:hover {
+            color: #1ab9a7;
+        }
     }
 
     .col-md-2.row{
@@ -53,8 +57,19 @@
     }
 
     .glyphicon.glyphicon-trash {
-        font-size: 25px;
+        font-size: 20px;
         color: gray;
+        &:hover {
+            color: #ff6262;
+        }
+    }
+    .glyphicon-sort {
+        margin-left: 2px;
+        font-size: 18px;
+        color: gray;
+        &:hover {
+            color: #00a1ff;
+        }
     }
 }
 
@@ -73,7 +88,7 @@
         margin-top: 50px;
         margin-bottom:50px;
 
-        input[type=text] {
+        input[type="text"] {
             text-align:center;
             padding: 17px 17px;
             width:100%;
@@ -162,6 +177,7 @@
     margin-top:5px;
     margin-bottom: 5px;
     width: 102%;
+    margin-left: 2%;
 }
 
 .div-radius {
@@ -196,7 +212,7 @@
     display: none;
     button {
         padding: 5px 25px;
-        border: 3px solid gray;
+        border: 2px solid gray;
         font-size: 14px;
         font-weight: bold;
         border-radius: 5px;
@@ -716,16 +732,18 @@
     font-size: 17px;
     border-radius: 3px;
     &:hover {
-        background: #63b7ab;
+        background: #5ba4a4;
         color: white;
     }
 }
 
-.btn-save-survey {
+.btn-save-survey, .btn-remove-survey {
     color: #fdfdfd;
-    background: #1ab9a7;
     font-size: 17px;
     border-radius: 0px;
+    box-shadow: 1px 2px 4px rgba(119, 132, 130, 0.56);
+    border-radius: 5px;
+    background: #1ab9a7;
 }
 
 .popup-input {
@@ -877,7 +895,7 @@
         }
     }
 
-    input[type=checkbox] {
+    input[type="checkbox"] {
         visibility: hidden;
         &:checked + label:after {
            opacity: 1;
@@ -962,6 +980,7 @@
     margin:0px !important;
     font-size: 16px;
     padding-top: 10px;
+    margin-right: -7% !important;
 }
 
 .time-text {
@@ -970,8 +989,8 @@
 
 .button-require {
     top: -7px;
-    left: 44px;
 }
+
 .tag-absolute {
     position: absolute !important;
     opacity: 0 !important;
@@ -1040,4 +1059,8 @@ input[type="text"] {
     &:hover {
         background: #1992ce;
     }
+}
+
+.remove-other {
+    margin-left: -43%;
 }

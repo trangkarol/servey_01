@@ -11,8 +11,8 @@
             </div>
         </div>
         <div class="remove-answer col-md-2">
-            {!! Html::image(config('settings.image_system') . 'img-answer.png', '', [
-                'class' => 'picture-answer'
+            {!! Html::image(config('settings.image_path_system') . 'img-answer.png', '', [
+                'class' => 'picture-answer',
             ]) !!}
             {!! Form::file("image[answers][$number][]", [
                 'class' => 'hidden-image fileImgAnswer' . $number . $num_as,

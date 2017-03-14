@@ -11,9 +11,9 @@
     </head>
     <body>
         @include('user.blocks.popup-send-mail')
-        {!! Form::hidden('', [
+        {!! Form::hidden('', '', [
             'data-number' => config('temp.data_number'),
-            'data-question' => config('temp.data_question',
+            'data-question' => config('temp.data_question'),
             'data-error' => trans('home.error'),
             'data-confirm' => trans('temp.confirm'),
             'data-email-invalid' => trans('temp.email_invalid'),
