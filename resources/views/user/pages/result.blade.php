@@ -15,10 +15,10 @@
                     </a>
                 </li>
                 @if ($listUserAnswer)
-                    <li><a data-toggle="tab" href="#menu3">ListsUser</a></li>
+                    <li><a data-toggle="tab" href="#menu3">{{ trans('result.users_answer') }}</a></li>
                 @endif
                 @if ($history)
-                    <li><a data-toggle="tab" href="#menu2">{{ trans('survey.history') }}</a></li>
+                    <li><a data-toggle="tab" href="#menu2">{{ trans('result.history') }}</a></li>
                 @endif
             </ul>
             @include('user.component.tab-result')
