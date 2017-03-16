@@ -34,7 +34,7 @@ return [
     ],
     'language' => [
         'en' => 'English',
-        'vn' => 'VietNamese',
+        'vn' => 'Việt Nam',
         'jp' => 'Japanese',
     ],
     'options' => [
@@ -52,4 +52,6 @@ return [
         'name' => 2,
         'both' => 3,
     ],
+    'feature' => 1,
+    'not_feature' => 0,
 ];

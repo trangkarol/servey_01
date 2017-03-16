@@ -12,7 +12,7 @@
                             'id' => 'email',
                             'class' => 'required form-control',
                             'placeholder' => trans('info.email'),
-                            'readonly' => auth()->check() ? 'true' : 'false',
+                            auth()->check() ? ('readonly = true') : false,
                         ]) !!}
                     </div>
                 </li>
@@ -40,7 +40,7 @@
                             'placeholder' => trans('info.name'),
                             'id' => 'name',
                             'class' => 'required form-control',
-                            'readonly' => auth()->check() ? 'true' : 'false',
+                            auth()->check() ? ('readonly = true') : false,
                         ]) !!}
                     </div>
                 </li>

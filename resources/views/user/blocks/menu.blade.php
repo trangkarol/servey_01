@@ -55,7 +55,7 @@
                         </li>
                     @endif
                     <li>
-                        {!! Form::select('lang', config('settings.language'), Session::get('locale'), [
+                        {!! Form::select('language', config('settings.language'), Session::get('locale'), [
                             'id' => 'langs',
                             'data-url' => action('LanguageController@index'),
                         ]) !!}

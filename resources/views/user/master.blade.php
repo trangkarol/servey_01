@@ -12,6 +12,7 @@
     <body>
         @include('user.blocks.popup-send-mail')
         {!! Form::hidden('', '', [
+            'class' => 'data',
             'data-number' => config('temp.data_number'),
             'data-question' => config('temp.data_question'),
             'data-error' => trans('home.error'),
