@@ -5,6 +5,7 @@ return [
     'question_default' => 'Question Name',
     'answer_default' => 'Answer Name',
     'image_default' => 'None',
+    'set_public' => 1,
     'type_radio' => 1,
     'type_checkbox' => 2,
     'type_text' => 3,
@@ -13,15 +14,19 @@ return [
     'type_other_checkbox' => 6,
     'type_date' => 7,
     'status' => [
-        'active' => 1,
+        'avaiable' => 1,
         'block' => 0,
     ],
     'invite' => [
         'new' => 1,
-        'isAnswer' => 0,
+        'old' => 0,
     ],
-    'private' => 1,
-    'public' => 0,
+    'private' => 0,
+    'public' => 1,
+    'result' => [
+        'history' => 0,
+        'all' => 1,
+    ],
     'type_xls' => 'xls',
     'type_xlsx' => 'xlsx',
 ];

@@ -38,7 +38,6 @@ if (window['innerWidth'] < 340) {
 };
 
 jQuery(function(_0xae65x1) {
-
     _0xae65x1('#survey_container')['wizard']({
         stepsWrapper: '#wrapped',
         submit: '.submit',
@@ -49,19 +48,12 @@ jQuery(function(_0xae65x1) {
              if (!_0xae65x5['isMovingForward']) {
                 return true
             };
+            var _temp = _0xae65x1(this)['wizard']('state')['step']['find'](':input[type="email"]');
+            var _0xae65x6 = _0xae65x1(this)['wizard']('state')['step']['find'](':input[type="text"]');
 
-            var _0xae65x6 = _0xae65x1(this)['wizard']('state')['step']['find'](':input');
-            return !_0xae65x6['length'] || !!_0xae65x6['valid']()
+            return (!_temp['length'] || !!_temp['valid']()) && (!_0xae65x6['length'] || !!_0xae65x6['valid']())
         }
-    })['validate']({
-        errorPlacement: function(_0xae65x2, _0xae65x3) {
-            if (_0xae65x3['is'](':radio') || _0xae65x3['is'](':checkbox')) {
-                _0xae65x2['insertBefore'](_0xae65x3['next']())
-            } else {
-                _0xae65x2['insertAfter'](_0xae65x3)
-            }
-        }
-    });
+    })['validate'];
     _0xae65x1('#progressbar')['progressbar']();
     _0xae65x1('#survey_container')['wizard']({
         afterSelect: function(_0xae65x4, _0xae65x5) {

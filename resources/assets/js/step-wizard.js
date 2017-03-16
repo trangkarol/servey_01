@@ -9,6 +9,12 @@ $(document).ready(function() {
         return re.test(email);
     }
 
+    function validateTailmail(email) {
+        var text = /^@[A-Z0-9-]+(\.+([A-Z]+)){1,4}$/i;
+
+        return text.test(email);
+    }
+
     function formatDate(date) {
         var hours = date.getHours();
         var minutes = date.getMinutes();
@@ -50,24 +56,119 @@ $(document).ready(function() {
                     return false;
                 }
             } else if ( state.stepIndex === 3 ) {
-                var emails = $('input:text[name=emails]').tagsinput('items');
-                var flag = true;
-                emails.forEach(function (email) {
+                    var flag = temp = true;
+                    var c1 = $('#requirement-answer').is(':checked');
+                    var c2 = $('.option-choose-answer').is(':checked');
+                    var c3 = $('#limit-answer').is(':checked');
+                    var c4 = $('.quantity-limit').val();
+                    var c5 = c4 % 1;
+                    var c6 = $('#require-tail-email').is(':checked');
+                    var c7 = $('.frm-tailmail').val();
+                    var tailMails = $('.frm-tailmail').tagsinput('items');
 
-                    if (!validateEmail(email)) {
+                    tailMails.forEach(function (tailemail) {
+
+                        if (!validateTailmail(tailemail)) {
+                            temp = false;
+                        }
+                    });
+
+                    if ((c1 && !c2) ){
+                        $('.validate-requirement-answer')
+                            .css('display', 'block')
+                            .addClass('animated fadeInDown')
+                            .delay(3000)
+                            .slideUp(1000);
                         flag = false;
                     }
-                });
 
-                if (emails.length != 0 && !flag) {
-                    $('.validate-email').css('display', 'block')
+                    if ((c3 && !c4.length) || (c3 && c4.length && (c5 || parseInt(c4) < 1))) {
+                        $('.validate-limit-answer')
+                            .css('display', 'block')
+                            .addClass('animated fadeInDown')
+                            .delay(3000)
+                            .slideUp(1000);
+                        flag = false;
+                    }
 
-                    return false;
-                }
+                    if ((c6 && !c7.length) || (c6 && c7.length && !temp)) {
+                        $('.validate-tailmail')
+                            .css('display', 'block')
+                            .addClass('animated fadeInDown')
+                            .delay(3000)
+                            .slideUp(1000);
+                        flag = false;
+                    }
 
-                $('.validate-email').css('display', 'none');
+                    return flag;
+
+                } else if ( state.stepIndex === 4 ) {
+                    var emails = $('input:text[name=emails]').tagsinput('items');
+                    var flag = true;
+                    emails.forEach(function (email) {
+
+                        if (!validateEmail(email)) {
+                            flag = false;
+                        }
+                    });
+
+                    if (emails.length != 0 && !flag) {
+                        $('.validate-email').css('display', 'block')
+
+                        return false;
+                    }
+
+                    $('.validate-email').css('display', 'none');
             }
         }
+    });
+
+    $(document).on('click', '.btn-save-setting', function() {
+        var flag = temp = true;
+        var c1 = $('#requirement-answer').is(':checked');
+        var c2 = $('.option-choose-answer').is(':checked');
+        var c3 = $('#limit-answer').is(':checked');
+        var c4 = $('.quantity-limit').val();
+        var c5 = c4 % 1;
+        var c6 = $('#require-tail-email').is(':checked');
+        var c7 = $('.frm-tailmail').val();
+        var tailMails = $('.frm-tailmail').tagsinput('items');
+
+        tailMails.forEach(function (tailemail) {
+
+            if (!validateTailmail(tailemail)) {
+                temp = false;
+            }
+        });
+
+        if ((c1 && !c2) ){
+            $('.validate-requirement-answer')
+                .css('display', 'block')
+                .addClass('animated fadeInDown')
+                .delay(3000)
+                .slideUp(1000);
+            flag = false;
+        }
+
+        if ((c3 && !c4.length) || (c3 && c4.length && (c5 || parseInt(c4) < 1))) {
+            $('.validate-limit-answer')
+                .css('display', 'block')
+                .addClass('animated fadeInDown')
+                .delay(3000)
+                .slideUp(1000);
+            flag = false;
+        }
+
+        if ((c6 && !c7.length) || (c6 && c7.length && !temp)) {
+            $('.validate-tailmail')
+                .css('display', 'block')
+                .addClass('animated fadeInDown')
+                .delay(3000)
+                .slideUp(1000);
+            flag = false;
+        }
+
+        return flag;
     });
 
     $(document).on('click', '.btn-close-popup', function() {
@@ -114,5 +215,11 @@ $(document).ready(function() {
         }
 
         return true;
+    });
+
+    $(document).on('click', '.submit-survey', function() {
+        if(!$('.quantity-limit').val().length) {
+            $('.setting-limit').remove();
+        }
     });
 });
