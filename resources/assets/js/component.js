@@ -98,6 +98,7 @@ $(document).ready(function() {
         $('#require-oneTime').prop('checked', false);
         $('.div-option-require').slideUp();
         $('.tail-email').slideUp();
+        $('.frm-tailmail').tagsinput('removeAll');
     });
 
     $(document).on('click', '#limit-answer', function() {
@@ -196,17 +197,20 @@ $(document).ready(function() {
             $('.tail-email').slideDown();
         } else {
             $('.tail-email').slideUp();
+            $('.frm-tailmail').tagsinput('removeAll');
         }
     });
 
     $(document).on('change', '.option-choose-answer', function() {
         if ($(this).val() == 1 || $(this).val() == 3) {
-            $('.div-option-require').fadeIn();
+            $('.div-option-require').slideDown();
         } else {
             $('.div-option-require').slideUp();
             $('.tail-email').slideUp();
+            $('.frm-tailmail').val('');
             $('#require-tail-email').prop('checked', false);
             $('#require-oneTime').prop('checked', false);
+            $('.frm-tailmail').tagsinput('removeAll');
         }
     });
 
