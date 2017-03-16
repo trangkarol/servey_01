@@ -1,8 +1,8 @@
 <div class="tab-content">
-    <div id="home" class="tab-pane fade in ">
+    <div id="home" class="tab-pane fade in active">
         @include('user.result.chart')
     </div>
-    <div id="menu1" class="tab-pane fade in active">
+    <div id="menu1" class="tab-pane fade in">
         @include('user.result.over-view')
     </div>
     @if ($listUserAnswer)

@@ -15,7 +15,7 @@ class LanguageController extends Controller
             ]);
         }
 
-        Session::put('locale', $request->get('language'));
+        Session::put('locale', $request->get('locale'));
 
         return response()->json([
             'success' => true,
