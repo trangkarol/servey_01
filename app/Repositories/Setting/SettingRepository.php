@@ -62,4 +62,34 @@ class SettingRepository extends BaseRepository implements SettingInterface
 
         return $this->multiCreate($inputs);
     }
+
+    public function update($surveyId, $value)
+    {
+        if (!$surveyId || !$value) {
+            return false;
+        }
+
+        $settings = $this
+            ->where('survey_id', $surveyId)
+            ->whereIn('key', config('settings.listKey'))
+            ->get();
+
+        foreach ($settings as $setting) {
+            if(!array_has($value['setting'], $setting->key)) {
+                $value['setting'][$setting->key] = '';
+            }
+
+            $input = [
+                'key' => $setting->key,
+                'value' => $value['setting'][$setting->key],
+            ];
+            parent::update($setting->id, $input);
+
+            if ($setting !== end($settings)) {
+                $this->newQuery($setting);
+            }
+        }
+
+        return true;
+    }
 }

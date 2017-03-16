@@ -4,6 +4,9 @@
             {{ trans('info.enter_info') }}
         </div>
         <div class="content-setting">
+            {!! Html::image(config('settings.image_system') . 'setup.png', '', [
+                'class' => 'img-setting animated flipInX'
+            ]) !!}
             <div class="setting-label">
             {{ trans('survey.required_answer') }}
             </div>
@@ -54,6 +57,41 @@
                 </div>
             </div>
         </div>
+        <div class="div-option-require div-hidden row">
+            <div class="col-md-1"></div>
+            <div class="squaredThree col-md-1">
+                {{ Form::checkbox('setting[' . config('settings.key.requireOnce') . ']', config('settings.key.requireOnce'), '', [
+                    'id' => 'require-oneTime',
+                ]) }}
+                {{ Form::label('require-oneTime', ' ') }}
+            </div>
+            <div class="tag-once col-md-5">{{ trans('survey.require_once') }}</div>
+        </div>
+        <div class="div-option-require div-hidden row">
+            <div class="col-md-1"></div>
+            <div class="squaredThree col-md-1">
+                {{ Form::checkbox('setting[' . config('settings.key.tailMail') . ']', '', '', [
+                    'id' => 'require-tail-email',
+                ]) }}
+                {{ Form::label('require-tail-email', ' ') }}
+            </div>
+            <div class="tag-once col-md-5">{{ trans('survey.tail_mail') }}</div>
+        </div>
+        <div class="clear"></div>
+        <div class="tail-email div-hidden">
+            {{ Form::text('setting[' . config('settings.key.tailMail') . ']', '', [
+                'placeholder' => trans('survey.placeholder.example'),
+                'class' => 'frm-tailmail',
+                'data-role' => 'tagsinput',
+            ]) }}
+        </div>
+        <div class="validate-tailmail div-hidden row">
+            <div class="col-md-6">
+                <div class="alert alert-warning warning-center">
+                    {{ trans('survey.validate.tailmail') }}
+                </div>
+            </div>
+        </div>
         <div>
             <div class="setting-label">
                 {{ trans('survey.replies_limits') }}
@@ -73,7 +111,7 @@
                             'class' => 'qtyplus',
                         ]) }}
                         {{ Form::text('setting[' . config('settings.key.limitAnswer') . ']', '', [
-                            'placeholder' => 'none',
+                            'placeholder' => trans('survey.placeholder.none'),
                             'class' => 'quantity-limit qty form-control',
                         ]) }}
                         {{ Form::button('', [
@@ -98,10 +136,26 @@
             <div class="setting-option row">
                 <div class="col-md-2">
                     <div class="slideThree">
-                        {{ Form::checkbox('settings[' . config('settings.key.hideResult') . ']', '', '', [
+                        {{ Form::checkbox('setting[' . config('settings.key.hideResult') . ']', config('settings.key.hideResult'), '', [
                             'id' => 'hide-answer',
                         ]) }}
                         {{ Form::label('hide-answer', ' ') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="setting-label">
+                <a>{{ trans('info.public') }}</a>
+                {{ trans('info.this_survey') }}?
+            </div>
+            <div class="setting-option row">
+                <div class="col-md-2">
+                    <div class="slideThree">
+                        {{ Form::checkbox('feature', config('settings.feature'), '', [
+                            'id' => 'feature',
+                        ]) }}
+                        {{ Form::label('feature', ' ') }}
                     </div>
                 </div>
             </div>

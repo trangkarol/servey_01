@@ -23,11 +23,6 @@ class Question extends Model
         return $this->hasMany(Answer::class);
     }
 
-    public function setImageAttribute($value)
-    {
-        $this->attributes['image'] = $value ?: config('settings.image_default');
-    }
-
     public function getImageAttribute()
     {
         $questionImgUrl = config('settings.image_default');
