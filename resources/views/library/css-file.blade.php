@@ -9,3 +9,6 @@
 {{ Html::style(elixir('/user/css/home.css')) }}
 {{ Html::style(elixir('/bower/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css')) }}
 {{ Html::style(elixir('/bower/owlcarousel/owl-carousel/owl.carousel.css')) }}
+{{ Html::style(elixir('/bower/ms-Dropdown/css/msdropdown/dd.css')) }}
+{{ Html::style(elixir('/bower/ms-Dropdown/css/msdropdown/flags.css')) }}
+{{ Html::style(elixir('/bower/ms-Dropdown/css/msdropdown/skin2.css')) }}

@@ -35,6 +35,7 @@ elixir(mix => {
    .scripts('form-request.js', 'public/admin/js/form-request.js')
    .scripts('admin-script.js', 'public/admin/js/admin-script.js')
    .copy('resources/assets/fonts', 'public/admin/fonts')
+   .copy('resources/assets/images', 'public/user/images')
    .copy([
             'public/bower/bootstrap/dist/css/bootstrap.css',
             'public/bower/bootstrap/dist/css/bootstrap.min.css'
