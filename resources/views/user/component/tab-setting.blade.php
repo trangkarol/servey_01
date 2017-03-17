@@ -182,10 +182,12 @@
                     </div>
                 </div>
             </div>
-            <div class="setting-save">
-                {!! Form::submit(trans('survey.save'), [
-                    'class' => 'btn-save-setting  btn-action',
-                ]) !!}
+            <div class="setting-save row">
+                <div class="col-md-4 col-md-offset-4">
+                    {!! Form::submit(trans('survey.save'), [
+                        'class' => 'btn-save-setting  btn-action',
+                    ]) !!}
+                </div>
             </div>
         </div>
     {!! Form::close() !!}

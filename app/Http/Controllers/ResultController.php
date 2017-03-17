@@ -173,6 +173,7 @@ class ResultController extends Controller
         $redis = LRedis::connection();
         $redis->publish('answer', json_encode([
             'success' => true,
+            'surveyId' => $survey->id,
             'viewChart' => view('user.result.chart', compact('status', 'charts'))->render(),
             'viewDetailResult' => view('user.result.detail-result', compact('survey'))->render(),
             'viewUserAnswer' => view('user.result.users-answer', compact('listUserAnswer', 'survey'))->render(),

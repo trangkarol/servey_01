@@ -32,12 +32,13 @@
                                 </li>
                                 <li>
                                     <a href="#profile-v" data-toggle="tab">
-                                    <span class="glyphicon glyphicon-envelope"></span>
+                                        <span class="glyphicon glyphicon-envelope"></span>
                                         {{ trans('home.survey_invited') }}
                                     </a>
                                 </li>
                                 <li>
                                     <a href="#messages-v" data-toggle="tab">
+                                        <span class="glyphicon glyphicon-dashboard"></span>
                                         {{ trans('home.survey_closed') }}
                                     </a>
                                 </li>

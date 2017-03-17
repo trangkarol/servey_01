@@ -1,8 +1,8 @@
 @extends('user.master')
 @section('content')
     <div class="survey_container animated zoomIn wizard" novalidate="novalidate">
-        <div id="top-wizard">
-            <div class="container-menu-wizard row">
+        <div id="top-wizard" class="top-wizard{{ $survey->id }}">
+            <div class="menu-wizard{{ $survey->id }} container-menu-wizard row">
                 @if (!$access[config('settings.key.hideResult')] || ($survey->user_id == auth()->id()))
                     <div class="menu-wizard col-md-5 active-answer active-menu">
                         {{ trans('result.answer') }}
@@ -18,8 +18,22 @@
                 <div class="alert alert-info save-message-success alert-message"></div>
                 <div class="alert alert-danger save-message-fail alert-message"></div>
             </div>
+            <div class="shadow"></div>
         </div>
         <div class="container-list-answer">
+            <div class="del-survey{{ $survey->id }} del-survey animated zoomIn">
+                {!! Html::image(config('settings.image_system') . 'remove.png', '', [
+                    'class' => 'img-remove-survey',
+                ]) !!}
+                 <div class="row">
+                    <div class="col-md-6 col-md-offset-3">
+                        <div class="alert alert-danger warning-center">
+                            <span class="glyphicon glyphicon-alert"></span>
+                            {{ trans('result.sorry_user') }}
+                        </div>
+                    </div>
+                </div>
+            </div>
             {!! Form::open([
                 'id' => 'wrapped',
                 'class' => 'wizard-form',
@@ -27,7 +41,7 @@
                 'action' => ['ResultController@result', $survey->token],
                 'method' => 'POST',
             ]) !!}
-                <div class="container-answer wizard-branch wizard-wrapper">
+                <div class="container-answer{{ $survey->id }} container-answer wizard-branch wizard-wrapper">
                     <div class="get-title-survey">
                         {{ $survey->title }}
                     </div>
@@ -152,33 +166,40 @@
                         </div>
                     @endif
                 </div>
-                <div id="bottom-wizard">
-                <?php $inArray = in_array(config('settings.key.limitAnswer'), array_keys($access));
-                    $check = ($inArray && ($access[config('settings.key.limitAnswer')]
-                    || !$access[config('settings.key.limitAnswer')])); ?>
-                    @if ($survey->status
-                        && (Carbon\Carbon::parse($survey->deadline)->gt(Carbon\Carbon::now()) || empty($survey->deadline))
-                        && $check)
-                        @if (auth()->check())
-                            {!! Form::button(trans('home.save'), [
-                                'class' => 'submit-answer btn btn-info save-survey',
-                                'survey-id' => $survey->id,
-                                'data-url' => action('User\SaveTempController@store'),
-                                'feature' => $survey->feature,
-                                'user-id' => $survey->user_id,
-                                'id' => 'btn-save',
-                            ]) !!}
-                            {!! Form::button(trans('home.load'), [
-                                'class' => 'submit-answer btn btn-info show-survey',
-                                'survey-id' => $survey->id,
-                                'data-url' => action('User\SaveTempController@show'),
-                                'id' => 'btn-load',
+                <div id="bottom-wizard" class="bot-wizard{{ $survey->id }}">
+                    <div class="shadow-bottom"></div>
+                    <div class="option-answer{{ $survey->id }}">
+                        @php
+                            $inArray = in_array(config('settings.key.limitAnswer'), array_keys($access));
+                            $check = ($inArray && ($access[config('settings.key.limitAnswer')] || !$access[config('settings.key.limitAnswer')]));
+                        @endphp
+                        @if ($survey->status
+                            && (Carbon\Carbon::parse($survey->deadline)->gt(Carbon\Carbon::now()) || empty($survey->deadline))
+                            && $check)
+                            @if (auth()->check())
+                                {!! Form::button(trans('home.save'), [
+                                    'class' => 'submit-answer btn btn-info save-survey',
+                                    'survey-id' => $survey->id,
+                                    'data-url' => action('User\SaveTempController@store'),
+                                    'feature' => $survey->feature,
+                                    'user-id' => $survey->user_id,
+                                    'id' => 'btn-save',
+                                ]) !!}
+                                {!! Form::button(trans('home.load'), [
+                                    'class' => 'submit-answer btn btn-info show-survey',
+                                    'survey-id' => $survey->id,
+                                    'data-url' => action('User\SaveTempController@show'),
+                                    'id' => 'btn-load',
+                                ]) !!}
+                            @endif
+                            {!! Form::submit(trans('home.finish'), [
+                                'class' => 'submit-answer btn btn-info',
                             ]) !!}
                         @endif
-                        {!! Form::submit(trans('home.finish'), [
-                            'class' => 'submit-answer btn btn-info',
-                        ]) !!}
-                    @endif
+                    </div>
+                    <a href="{{ action('SurveyController@index') }}" class="back-home{{ $survey->id }} back-home">
+                        {{ trans('result.back_home') }}
+                    </a>
                 </div>
             {!! Form::close() !!}
         </div>

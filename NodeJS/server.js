@@ -6,7 +6,7 @@ server.listen(8890);
 
 io.on('connection', function (socket) {
     var redisClient = redis.createClient();
-    redisClient.subscribe('answer');
+    redisClient.subscribe('answer', 'delete');
 
     redisClient.on("message", function(channel, message) {
         socket.emit(channel, message);

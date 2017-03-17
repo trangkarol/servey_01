@@ -815,7 +815,7 @@ $darkenColor: darken($activeColor, 20%);
 
 .tab-detail-survey.tab-class {
     >.tabs >.tab-choose:checked + label{
-        background: rgb(26, 185, 167);
+        background: #516b77;
         color: white;
     }
 }
@@ -1148,6 +1148,12 @@ $darkenColor: darken($activeColor, 20%);
 
 .setting-save {
     margin-top: 6%;
+    input[type="submit"]{
+        color: #ffffff;
+        background: #516b77 !important;
+        font-size: 17px;
+        border-radius: 30px !important;
+    }
 }
 
 .save-message-success,.save-message-fail {
@@ -1477,4 +1483,41 @@ textarea.form-control {
 .btn-save-setting {
     box-shadow: 1px 2px 4px rgba(119, 132, 130, 0.56);
     width: 25%;
+}
+
+.del-survey {
+    display: none;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    .row {
+        margin-top: 3%;
+        .alert-danger {
+            color: #a94442;
+            background-color: #ffffff;
+            border-color: #ce6673;
+        }
+    }
+}
+
+.img-remove-survey {
+    margin: 5% auto 1%;
+    width: 25%;
+    margin-left: 5%;
+}
+
+.back-home {
+    display: none;
+    font-size: 16px;
+    font-weight: bold;
+    background: #fe3d54;
+    border: 0px;
+    border-radius: 47px;
+    color: white;
+    padding: 8px 35px;
+    margin: auto;
+    &:hover {
+        background: #1ab9a7;
+        color: white;
+    }
 }
