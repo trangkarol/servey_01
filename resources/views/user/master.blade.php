@@ -18,7 +18,6 @@
             'data-error' => trans('home.error'),
             'data-confirm' => trans('temp.confirm'),
             'data-email-invalid' => trans('temp.email_invalid'),
-            'data-link' => action('SurveyController@autocomplete'),
         ]) !!}
         <section id="top-area">
             @include('user.blocks.menu')

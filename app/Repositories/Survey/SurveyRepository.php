@@ -137,6 +137,13 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
             return false;
         }
 
+        //(1,5) That is the settings quantity for a survey
+        foreach (range(1, 5) as $key) {
+            if(!array_has($settings, $key)) {
+                $settings[$key] = '';
+            }
+        }
+
         $this->settingRepository->createMultiSetting($settings, $surveyId);
         $txtQuestion = $arrayQuestionWithAnswer;
         $questions = $txtQuestion['question'];
@@ -217,7 +224,6 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
 
         return $this->settingRepository
             ->where('survey_id', $surveyId)
-            ->whereIn('key', config('settings.options'))
             ->lists('value', 'key')
             ->toArray();
     }
