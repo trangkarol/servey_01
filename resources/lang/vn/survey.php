@@ -30,7 +30,7 @@ return [
     'information' => 'Thông tin',
     'closed_or_private' => 'Survey này đã đóng hoặc hết thời hạn trả lời',
     'index' => 'Stt',
-    'answerIndex' => 'Stt câu trả lời',
+    'answerIndex' => 'Stt',
     'quantity' => 'Số người trả lời',
     'answer' => 'Câu trả lời',
     'question' => 'Câu hỏi',

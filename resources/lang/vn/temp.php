@@ -16,6 +16,7 @@ return [
     'require' => 'Yêu cầu',
     'one_choose' => 'Một lựa chọn',
     'multi_choose' => 'Nhiều lựa chọn',
+    'time' => 'Giờ',
     'date' => 'Ngày',
     'date_month' => 'dd/mm/yy',
 ];

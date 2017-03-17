@@ -8,12 +8,17 @@ return [
         ],
         'contact' => [
             'title' => 'Contact info',
-            'content' => 'Nec ea case eirmod dissentiunt. Etiam denique has cu, nam quando accusamus dissentiunt ne.',
+            'content' => 'You can contact us through the information',
             'home' => '13F Keangnam Landmark 72 Tower, Plot E6, Pham Hung Road, Nam Tu Liem, Ha Noi, Viet Nam',
             'email' => 'hr_team@framgia.com',
             'phone' => '84-4-3795-5417',
+            'telephone' => 'Telephone',
+            'more_info' => 'More information',
+            'intro' => 'Fsurvey - a simple, convenient and powerful survey system.',
         ],
         'back_to_top' => 'Back to top',
+        'copyright' => 'Copyright 2016 Framgia, Inc.',
+        'reserved' => 'All rights reserved.',
     ],
     'body' => [
         'intro' => [

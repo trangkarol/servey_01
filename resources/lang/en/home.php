@@ -9,7 +9,6 @@ return [
     'add_option' => 'Add an answer',
     'add_other' => 'Other answers',
     'checkboxes' => 'checkbox',
-    'short_answer' => 'Short answer',
     'choices' => 'Select',
     'enter_answer_here' => 'Enter answer here',
     'other' => 'Other:',

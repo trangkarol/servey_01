@@ -20,7 +20,7 @@ return [
     'phone' => 'Telephone',
     'chooser_new_image' => 'Choose new image',
     'name' => 'Name',
-    'Email' =>'Email',
+    'email' =>'Email',
     'date' => 'Date',
     'detail' => 'Detail',
     'go_home' => 'Go back the home',

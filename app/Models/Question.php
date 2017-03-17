@@ -25,12 +25,12 @@ class Question extends Model
 
     public function getImageAttribute()
     {
-        $questionImgUrl = config('settings.image_default');
-
-        if ($this->attributes['image']) {
-            $questionImgUrl = $this->attributes['image'];
+        if (empty($this->attributes['image'])) {
+            return null;
         }
 
-        return asset(config('settings.image_question_path' . $questionImgUrl));
+        $questionImgUrl = $this->attributes['image'];
+
+        return asset(config('settings.image_question_path') . $questionImgUrl);
     }
 }

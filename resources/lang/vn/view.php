@@ -3,17 +3,22 @@
 return [
     'footer' => [
         'about' => [
-            'title' => 'About us',
+            'title' => 'Giới thiệu về chúng tôi',
             'content' => 'Fram gia việt Nam là công ty Nhật Bản về lĩnh vực công nghệ thông tin chuyên thiết kế, phát triển ứng dụng, trò chơi chạy trên điện thoại thông minh, nền tảng mạng xã hội, sản xuất và ứng dụng trang web phát triển.,',
         ],
         'contact' => [
             'title' => 'Thông tin liên lạc',
-            'content' => 'Nec ea case eirmod dissentiunt. Etiam denique has cu, nam quando accusamus dissentiunt ne.',
-            'home' => '13F Keangnam Landmark 72 Tower, Plot E6, Pham Hung Road, Nam Tu Liem, Ha Noi, Viet Nam',
+            'content' => 'Bạn có thể liên lạc với chúng tôi thông qua',
+            'home' => '13F Keangnam Landmark 72 Tower, Plot E6, Phạm Hùng, Nam Từ Liêm, Hà Nội, Việt Nam',
             'email' => 'hr_team@framgia.com',
             'phone' => '84-4-3795-5417',
+            'telephone' => 'Điện thoại',
+            'more_info' => 'Thông tin thêm',
+            'intro' => 'Fsurvey - Một hệ thống điều tra đơn giản, tiện lợi và mạnh mẽ.',
         ],
         'back_to_top' => 'Về đầu trang',
+        'copyright' => 'Bản quyền tập đoàn Framgia 2016.',
+        'reserved' => 'Tất cả các quyền được bảo lưu.',
     ],
     'body' => [
         'intro' => [
