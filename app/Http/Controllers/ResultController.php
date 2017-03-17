@@ -12,6 +12,7 @@ use App\Repositories\Question\QuestionInterface;
 use App\Http\Requests\AnswerRequest;
 use Carbon\Carbon;
 use Exception;
+use LRedis;
 use DB;
 
 class ResultController extends Controller
@@ -164,6 +165,18 @@ class ResultController extends Controller
                 ->action(($survey->feature) ? 'AnswerController@answerPublic' : 'AnswerController@answerPrivate', $survey->token)
                 ->with(!$flag ? 'message-validate-tailmail' : 'message-fail', $message);
         }
+
+        $getCharts = $this->surveyRepository->viewChart($survey->token);
+        $listUserAnswer = $this->surveyRepository->getUserAnswer($token);
+        $status = $getCharts['status'];
+        $charts = $getCharts['charts'];
+        $redis = LRedis::connection();
+        $redis->publish('answer', json_encode([
+            'success' => true,
+            'viewChart' => view('user.result.chart', compact('status', 'charts'))->render(),
+            'viewDetailResult' => view('user.result.detail-result', compact('survey'))->render(),
+            'viewUserAnswer' => view('user.result.users-answer', compact('listUserAnswer', 'survey'))->render(),
+        ]));
 
         return redirect()
             ->action(($survey->feature) ? 'AnswerController@answerPublic' : 'AnswerController@answerPrivate', $survey->token)

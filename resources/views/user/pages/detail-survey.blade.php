@@ -93,13 +93,13 @@
                                             </div>
                                             <div class="col-md-9">
                                                 <div class="tab-content">
-                                                    <div class="tab-pane active" id="home-v">
+                                                    <div class="tab-pane-chart tab-pane active" id="home-v">
                                                         @include('user.result.chart')
                                                     </div>
-                                                    <div class="tab-pane" id="profile-v">
+                                                    <div class="tab-pane-detail-result tab-pane" id="profile-v">
                                                         @include('user.result.detail-result')
                                                     </div>
-                                                    <div class="tab-pane" id="messages-v">
+                                                    <div class="tab-pane-users-answer tab-pane" id="messages-v">
                                                         @include('user.result.users-answer')
                                                     </div>
                                                     <div class="tab-pane" id="settings-v">

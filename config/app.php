@@ -135,6 +135,11 @@ return [
     |
     */
 
+    'socket' => [
+        'socket_host' => env('SOCKET_HOST', ''),
+        'socket_port' => env('SOCKET_PORT', ''),
+    ],
+
     'providers' => [
 
         /*

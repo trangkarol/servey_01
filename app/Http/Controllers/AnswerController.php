@@ -25,45 +25,6 @@ class AnswerController extends Controller
         $this->settingRepository = $settingRepository;
     }
 
-    private function chart(array $inputs)
-    {
-        $result = [];
-
-        foreach ($inputs as $key => $value) {
-            $results[] = [
-                'answer' => $value['content'],
-                'percent' => $value['percent'],
-            ];
-        }
-
-        return $results;
-    }
-
-    private function viewChart($token)
-    {
-        $results = $this->surveyRepository->getResutlSurvey($token);
-        $charts = [];
-
-        if (!$results) {
-            return [
-                'charts' => null,
-                'status' => false,
-            ];
-        }
-
-        foreach ($results as $key => $value) {
-            $charts[] = [
-                'question' => $value['question'],
-                'chart' => ($this->chart($value['answers'])) ?: null,
-            ];
-        }
-
-        return [
-            'charts' => $charts,
-            'status' => true,
-        ];
-    }
-
     public function answer($token, $view = 'detail', $isPublic = true)
     {
         $survey = $this->surveyRepository
@@ -78,15 +39,14 @@ class AnswerController extends Controller
             return view('errors.404');
         }
 
-        if ($survey->user_id && !auth()->check()) {
+        if (!$isPublic && $survey->user_id && !auth()->check()) {
             return redirect()->action('Auth\LoginController@getLogin');
         }
 
         $access = $this->surveyRepository->getSettings($survey->id);
-        $listUserAnswer = $this->showUserAnswer($token);
-        $history = ($view == 'detail')
-            ? null : $this->surveyRepository->getHistory(auth()->id(), $survey->id, ['type' => 'history']);
-        $getCharts = $this->viewChart($survey->token);
+        $listUserAnswer = $this->surveyRepository->getUserAnswer($token);
+        $history = ($view == 'answer') ? $this->surveyRepository->getHistory(auth()->id(), $survey->id, ['type' => 'history']) : null;
+        $getCharts = $this->surveyRepository->viewChart($survey->token);
         $status = $getCharts['status'];
         $charts = $getCharts['charts'];
         $check = $this->surveyRepository->checkSurveyCanAnswer([
@@ -138,11 +98,6 @@ class AnswerController extends Controller
     public function show($token)
     {
         return $this->answer($token, 'detail');
-    }
-
-    public function showUserAnswer($token)
-    {
-        return $this->surveyRepository->getUserAnswer($token);
     }
 
     public function showMultiHistory(Request $request, $surveyId, $userId = null, $email = null)

@@ -39,17 +39,20 @@ class SendMail implements ShouldQueue
         if ($this->type == 'mailManage') {
             $view = 'emails.email_manage';
             $data->put('linkManage', $this->inputs['linkManage']);
+            $subject = trans('survey.thank_you');
         } elseif ($this->type == 'reAnswer') {
             $view = 'emails.email_resend_answer';
+            $subject = trans('survey.resend');
         } else {
             $view = 'emails.email_invite';
             $data->put('emailSender', $this->inputs['emailSender']);
+            $subject = trans('survey.invite');
         }
 
         $email = $this->inputs['email'];
         Mail::send($view, $data->toArray(), function ($message) use ($email) {
            $message->from(config('mail.from.address') , trans('survey.title_web'));
-           $message->to($email)->subject(trans('survey.subject_web'));
+           $message->to($email)->subject($subject);
        });
     }
 }
