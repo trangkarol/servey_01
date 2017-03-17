@@ -24,6 +24,7 @@
 {{ Html::script(elixir('/bower/moment/min/moment.min.js')) }}
 {{ Html::script(elixir('/bower/bootstrap/dist/js/bootstrap.min.js')) }}
 {{ Html::script(elixir('/bower/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js')) }}
+{{ Html::script(elixir('/bower/ms-Dropdown/js/msdropdown/jquery.dd.min.js')) }}
 {{ Html::script(elixir('/user/js/question.js')) }}
 {{ Html::script(elixir('/user/js/component.js')) }}
 
