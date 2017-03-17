@@ -81,6 +81,14 @@ $(document).ready(function() {
         }
     });
 
+    $(document).on('click', '.export-excel', function() {
+        $('.exportExecl').click();
+    });
+
+    $(document).on('click', '.export-PDF', function() {
+        $('.exportPDF').click();
+    });
+
     $(document).on('click', '.qtyminus', function() {
         var getNumber = parseInt($('.quantity-limit').val());
 
@@ -117,11 +125,11 @@ $(document).ready(function() {
         }
     });
 
-    $('#langs').on('change', function () {
+    $('#countries').on('change', function () {
         var url = $(this).attr('data-url');
         var lang = $(this).val();
 
-        $.post(
+        $.get(
             url,
             {
                 'locale': lang,
@@ -154,6 +162,8 @@ $(document).ready(function() {
             $(this).siblings('span').css('display', 'none');
         }
     );
+
+    $("#countries").msDropDown();
 
     setTimeout(function() {
         $('.complete-image').addClass('jello');
