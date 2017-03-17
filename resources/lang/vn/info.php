@@ -32,4 +32,5 @@ return [
     'sender_email' => 'Nhập email người mà bạn muốn gửi...',
     'survey_created' => 'Survey của bạn đã được tạo',
     'link_send' => 'Gửi link này đến bất cứ người nào mà bạn muốn mời',
+    'datetime_format' => 'd M Y',
 ];

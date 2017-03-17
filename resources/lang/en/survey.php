@@ -28,7 +28,7 @@ return [
     'save' => 'Save',
     'sender' => 'Sender',
     'information' => 'Information',
-    'closed_or_private' => 'This survey closed or private mode',
+    'closed_or_private' => 'This survey closed',
     'index' => 'Index',
     'answerIndex' => 'No.',
     'quantity' => 'quantity',

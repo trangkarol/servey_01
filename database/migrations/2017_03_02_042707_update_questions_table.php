@@ -26,7 +26,7 @@ class UpdateQuestionsTable extends Migration
     public function down()
     {
         Schema::table('questions', function (Blueprint $table) {
-            $table->string('image')->nullable(false)->change();
+            $table->string('image')->change();
         });
     }
 }

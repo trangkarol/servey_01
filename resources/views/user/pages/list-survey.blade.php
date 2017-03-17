@@ -107,7 +107,7 @@
                                                             @endif
                                                         @else
                                                             <td class="margin-center" colspan="2">
-                                                                {{ trans('survey.closed_or_private') }}
+                                                                {{ trans('survey.closed') }}
                                                             </td>
                                                         @endif
                                                         <td class="margin-center">
