@@ -60,6 +60,13 @@
                     'token' => $survey->token,
             ]) }}
         </a>
+        (<a class="tag-send-email" data-url="{{ action('SurveyController@inviteUser', [
+            'id' => $survey->id,
+            'type' => config('settings.return.view'),
+        ]) }}">
+            <span class="glyphicon glyphicon-send"></span>
+            {{ trans('survey.send') }}
+        </a>)
     </div>
     <div class="note-detail-survey">
         {{ trans('survey.date_create') }}:

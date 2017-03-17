@@ -103,7 +103,43 @@
                                                         @include('user.result.users-answer')
                                                     </div>
                                                     <div class="tab-pane" id="settings-v">
-                                                        {{ trans('survey.setting') }}
+                                                        <div class="excel row">
+                                                            <div class="export-excel col-md-4">
+                                                                {!! Html::image(config('settings.image_path_system') . 'excel.png', '') !!}
+                                                                <span>
+                                                                    {{ trans('survey.exportExecl') }}
+                                                                </span>
+                                                            </div>
+                                                            <div class="col-md-1"></div>
+                                                            <div class="export-PDF col-md-4">
+                                                                {!! Html::image(config('settings.image_path_system') . 'pdf.png', '') !!}
+                                                                <span>
+                                                                    {{ trans('survey.exportPDF') }}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        {!! Form::open(['action' => [
+                                                                'User\ExportController@export',
+                                                                'id' => $survey->id,
+                                                                'type'=>'excel'
+                                                            ],
+                                                            'method' => 'GET',
+                                                        ]) !!}
+                                                            {!! Form::submit('', [
+                                                                'class' => 'div-hidden exportExecl',
+                                                            ]) !!}
+                                                        {!! Form::close() !!}
+                                                        {!! Form::open(['action' => [
+                                                                'User\ExportController@export',
+                                                                'id' => $survey->id,
+                                                                'type'=>'PDF'
+                                                            ],
+                                                            'method' => 'GET',
+                                                        ]) !!}
+                                                            {!! Form::submit('', [
+                                                                'class' => 'div-hidden exportPDF',
+                                                            ]) !!}
+                                                        {!! Form::close() !!}
                                                     </div>
                                                 </div>
                                             </div>
@@ -111,8 +147,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="content-4 div-hidden">
-                            </div>
+                            <div class="content-4 div-hidden"></div>
                         </div>
                     </section>
                 </div>
@@ -121,3 +156,4 @@
         </div>
     </div>
 @endsection
+

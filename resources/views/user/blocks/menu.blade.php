@@ -54,11 +54,24 @@
                             </a>
                         </li>
                     @endif
-                    <li>
-                        {!! Form::select('language', config('settings.language'), Session::get('locale'), [
-                            'id' => 'langs',
-                            'data-url' => action('LanguageController@index'),
-                        ]) !!}
+                    <li class="li-lang">
+                        <select name="locale" id="countries" data-url="{{ action('LanguageController@index') }}">
+                            <option value='en' {{ Session::get('locale') == 'en' ? 'selected' : '' }}
+                                data-image="{{ asset('bower/ms-Dropdown/images/msdropdown/icons/blank.gif') }}"
+                                data-imagecss="flag england">
+                                {{ config('settings.language.en') }}
+                            </option>
+                            <option value='vn' {{ Session::get('locale') == 'vn' ? 'selected' : '' }}
+                                data-image="{{ asset('bower/ms-Dropdown/images/msdropdown/icons/blank.gif') }}"
+                                data-imagecss="flag vn">
+                                 {{ config('settings.language.vn') }}
+                                </option>
+                            <option value='jp' {{ Session::get('locale') == 'jp' ? 'selected' : '' }}
+                                data-image="{{ asset('bower/ms-Dropdown/images/msdropdown/icons/blank.gif') }}"
+                                data-imagecss="flag jp">
+                                {{ config('settings.language.jp') }}
+                            </option>
+                        </select>
                     </li>
                 </ul>
             </nav>

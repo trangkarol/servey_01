@@ -10,7 +10,7 @@
 | to using a Closure or controller method. Build something great!
 |
 */
-Route::post('/languages', 'LanguageController@index');
+Route::get('/languages', 'LanguageController@index');
 
 Auth::routes();
 
@@ -84,7 +84,7 @@ Route::post('/invite/send/{id}/{type}', 'SurveyController@inviteUser');
 
 Route::post('/delete-survey', 'SurveyController@delete');
 
-Route::get('explore/{token}/{type}', 'User\ExcelController@explore');
+Route::get('/export/{id}/{type}', 'User\ExportController@export');
 
 Route::group(['prefix' => '/home'], function () {
 
@@ -122,7 +122,7 @@ Route::post('/create', [
     'uses' => 'SurveyController@create',
 ]);
 
-Route::post('/update-setting/{id}', 'SettingController@update');
+Route::post('/update-setting/{id}/{token}', 'SettingController@update');
 
 Route::post('/survey/result/{token}', 'ResultController@result');
 
@@ -135,3 +135,4 @@ Route::get('/survey-public/{token}', 'AnswerController@answerPublic');
 Route::get('/show/{token}', 'SurveyController@showDetail');
 
 Route::get('/show-user-answer-detail/{surveyId}/{userId?}/{email?}', 'AnswerController@showMultiHistory');
+

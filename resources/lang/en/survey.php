@@ -31,7 +31,7 @@ return [
     'closed_or_private' => 'This survey closed or private mode',
     'index' => 'Index',
     'answerIndex' => 'No.',
-    'quatily' => 'Quatily',
+    'quantity' => 'Quatity',
     'answer' => 'Answer',
     'question' => 'Question',
     'history' => 'History',
@@ -39,6 +39,7 @@ return [
     'validate' => [
         'choose_option' => 'Please select a requirement',
         'validate_number' => 'Please type in the box a figure and it must be greater than one',
+        'tailmail' => 'Please enter the tails mail',
     ],
     'specific_result' => 'Specific results',
     'require' => [
@@ -47,5 +48,18 @@ return [
         'email_and_name' => 'Both',
         'none' => 'None',
     ],
-    'question_type' => 'Question type'
+    'placeholder' => [
+        'example' => 'Example: @gmail.com,....',
+        'none' => 'None',
+    ],
+    'question_type' => 'Question type',
+    'title_web' => 'Fsurvey',
+    'export' => 'Export',
+    'users_anwser' => 'Users Anwser',
+    'update_success' => 'Update successful',
+    'update_fail' => 'Update failed',
+    'require_once' => 'Each person is answered only once',
+    'tail_mail' => 'Requirements tail email',
+    'exportExecl' => 'Export to Execl',
+    'exportPDF' => 'Export to PDF',
 ];

@@ -23,7 +23,7 @@
                     {{ trans('survey.answer') }}
                 </th>
                 <th>
-                    {{ trans('survey.quatily') }}
+                    {{ trans('survey.quantity') }}
                 </th>
             </tr>
         </thead>
