@@ -9,8 +9,6 @@ return [
     'add_option' => 'Thêm câu trả lời',
     'add_other' => 'Câu trả lời khác',
     'checkboxes' => 'Hộp kiểm',
-    'short_answer' => 'Câu trả lời ngắn',
-    'passage' => 'Đoạn văn',
     'choices' => 'Chọn',
     'enter_answer_here' => 'Điền câu trả lời tại đây',
     'other' => 'Khác:',

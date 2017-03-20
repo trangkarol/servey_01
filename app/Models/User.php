@@ -57,6 +57,10 @@ class User extends Authenticatable
 
     public function getImageAttribute()
     {
+        if (empty($this->attributes['image'])) {
+            $this->attributes['image'] = config('settings.image_default');
+        }
+
         return preg_match('#^(http)|(https).*$#', $this->attributes['image'])
             ? $this->attributes['image']
             : asset('/' . config('users.avatar_path') . '/' . $this->attributes['image']);
@@ -91,12 +95,12 @@ class User extends Authenticatable
 
     public function reciveSurveys()
     {
-        return $this->hasMany(Survey::class, 'reciver_id');
+        return $this->hasMany(Invite::class, 'reciver_id');
     }
 
     public function sendSurveys()
     {
-        return $this->hasMany(Survey::class, 'sender_id');
+        return $this->hasMany(Invite::class, 'sender_id');
     }
 
     public function isAdmin()

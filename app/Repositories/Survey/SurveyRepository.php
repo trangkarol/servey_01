@@ -287,6 +287,10 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
             'sender_id',
         ])
         ->toArray();
+
+        if (!$results) {
+            return [];
+        }
         /*
             Get all user answer survey and group by user id.
             Sender_id can be null.
