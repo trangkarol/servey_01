@@ -52,111 +52,106 @@
                                                         @break
                                                     @endif
                                                 @endforeach
-                                                    <li class="{{ ($question->required) ? 'required' : '' }}">
-                                                        @switch($answer->type)
-                                                            @case(config('survey.type_radio'))
-                                                                {{ Form::radio("$time", $answer->id, '', [
-                                                                    'class' => 'option-choose input-radio',
+                                                <li class="{{ ($question->required) ? 'required' : '' }}">
+                                                    @switch($answer->type)
+                                                        @case(config('survey.type_radio'))
+                                                            {{ Form::radio("$time", $answer->id, '', [
+                                                                'class' => 'option-choose input-radio',
+                                                                ($checked) ? 'checked = checked' : null,
+                                                            ]) }}
+                                                            {{ Form::label($loop->index, $answer->content, [
+                                                                'class' => 'label-radio',
+                                                            ]) }}
+                                                            @breakswitch
+                                                        @case(config('survey.type_checkbox'))
+                                                            <div>
+                                                                {{ Form::checkbox("answer[$question->id][$answer->id]", $answer->id, '', [
+                                                                    'class' => 'input-checkbox',
                                                                     ($checked) ? 'checked = checked' : null,
                                                                 ]) }}
                                                                 {{ Form::label($loop->index, $answer->content, [
-                                                                    'class' => 'label-radio',
+                                                                    'class' => 'label-checkbox'
                                                                 ]) }}
-                                                                @if ($answer->image)
-                                                                    <div>
-                                                                        {!! Html::image($answer->image, '',[
-                                                                            'class' => 'show-img-answer',
-                                                                        ]) !!}
-                                                                    </div>
-                                                                @endif
-                                                                @breakswitch
-                                                            @case(config('survey.type_checkbox'))
-                                                                <div>
-                                                                    {{ Form::checkbox("answer[$question->id][$answer->id]", $answer->id, '', [
-                                                                        'class' => 'input-checkbox',
+                                                            </div>
+                                                            @breakswitch
+                                                        @case(config('survey.type_text'))
+                                                            {!! Form::textarea("answer[$question->id][$answer->id]", $checked, [
+                                                                'class' => 'form-control answer',
+                                                                'disabled' => 'true',
+                                                            ]) !!}
+                                                            @breakswitch
+                                                        @case(config('survey.type_time'))
+                                                            {!! Form::text("answer[$question->id][$answer->id]", $checked, [
+                                                                'class' => 'frm-time form-control',
+                                                                'disabled' => 'true',
+                                                            ]) !!}
+                                                            @breakswitch
+                                                        @case(config('survey.type_date'))
+                                                            {!! Form::text("answer[$question->id][$answer->id]", $checked, [
+                                                                'class' => 'form-control frm-date-2',
+                                                                'disabled' => 'true',
+                                                            ]) !!}
+                                                            @breakswitch
+                                                        @case(config('survey.type_other_radio'))
+                                                            <div class="row">
+                                                                <div class="col-md-2">
+                                                                    {{ Form::radio("$time", $answer->id, '', [
+                                                                        'class' => 'input-radio option-add',
                                                                         ($checked) ? 'checked = checked' : null,
                                                                     ]) }}
-                                                                    {{ Form::label($loop->index, $answer->content, [
-                                                                        'class' => 'label-checkbox'
+                                                                    {{ Form::label($loop->index, trans('home.other'), [
+                                                                        'class' => 'label-radio',
                                                                     ]) }}
                                                                 </div>
-                                                                @if ($answer->image)
-                                                                    <div>
-                                                                        {!! Html::image($answer->image, '',[
-                                                                            'class' => 'show-img-answer',
+                                                                <div class="append-input col-md-8 append-as{{ $question->id }}">
+                                                                    @if ($checked)
+                                                                        {!! Form::textarea("answer[$question->id][$answer->id]", $checked, [
+                                                                            'class' => 'animated zoomIn form-control input' . $question->id,
+                                                                            'disabled' => 'true',
                                                                         ]) !!}
-                                                                    </div>
-                                                                @endif
-                                                                @breakswitch
-                                                            @case(config('survey.type_text'))
-                                                                {!! Form::textarea("answer[$question->id][$answer->id]", $checked, [
-                                                                    'class' => 'form-control answer',
-                                                                    'disabled' => 'true',
-                                                                ]) !!}
-                                                                @breakswitch
-                                                            @case(config('survey.type_time'))
-                                                                {!! Form::text("answer[$question->id][$answer->id]", $checked, [
-                                                                    'class' => 'frm-time form-control',
-                                                                    'disabled' => 'true',
-                                                                ]) !!}
-                                                                @breakswitch
-                                                            @case(config('survey.type_date'))
-                                                                {!! Form::text("answer[$question->id][$answer->id]", $checked, [
-                                                                    'class' => 'form-control frm-date-2',
-                                                                    'disabled' => 'true',
-                                                                ]) !!}
-                                                                @breakswitch
-                                                            @case(config('survey.type_other_radio'))
-                                                                <div class="row">
-                                                                    <div class="col-md-2">
-                                                                        {{ Form::radio("$time", $answer->id, '', [
-                                                                            'class' => 'input-radio option-add',
-                                                                            ($checked) ? 'checked = checked' : null,
-                                                                        ]) }}
-                                                                        {{ Form::label($loop->index, trans('home.other'), [
-                                                                            'class' => 'label-radio',
-                                                                        ]) }}
-                                                                    </div>
-                                                                    <div class="append-input col-md-8 append-as{{ $question->id }}">
-                                                                        @if ($checked)
-                                                                            {!! Form::textarea("answer[$question->id][$answer->id]", $checked, [
-                                                                                'class' => 'animated zoomIn form-control input' . $question->id,
-                                                                                'disabled' => 'true',
-                                                                            ]) !!}
-                                                                        @endif
-                                                                    </div>
+                                                                    @endif
                                                                 </div>
-                                                                @breakswitch
-                                                            @case(config('survey.type_other_checkbox'))
-                                                                <div class="row">
-                                                                    <div class="col-md-2">
-                                                                        {{ Form::checkbox("answer[$question->id][$answer->id]", $answer->id, '', [
-                                                                            'class' => 'input-checkbox option-add',
-                                                                            ($checked) ? ('checked = checked') : '',
-                                                                        ]) }}
-                                                                        {{ Form::label($loop->index, trans('home.other'), [
-                                                                            'class' => 'label-checkbox',
-                                                                        ]) }}
-                                                                    </div>
-                                                                    <div class="col-md-8 append-input-checkbox append-as{{ $question->id }}">
-                                                                        @if ($checked)
-                                                                            {!! Form::textarea("answer[$question->id][$answer->id]", $checked, [
-                                                                                'class' => 'animated zoomIn form-control input' . $question->id,
-                                                                                'disabled' => 'true',
-                                                                            ]) !!}
-                                                                        @endif
-                                                                    </div>
-                                                                </div>
+                                                            </div>
                                                             @breakswitch
-                                                        @endswitch
-                                                    </li>
-                                                @if ($answer->image)
-                                                    <li>
-                                                        {!! Html::image($answer->image, '', [
-                                                            'class' => 'set-image image-question',
-                                                        ]) !!}
-                                                    </li>
-                                                @endif
+                                                        @case(config('survey.type_other_checkbox'))
+                                                            <div class="row">
+                                                                <div class="col-md-2">
+                                                                    {{ Form::checkbox("answer[$question->id][$answer->id]", $answer->id, '', [
+                                                                        'class' => 'input-checkbox option-add',
+                                                                        ($checked) ? ('checked = checked') : '',
+                                                                    ]) }}
+                                                                    {{ Form::label($loop->index, trans('home.other'), [
+                                                                        'class' => 'label-checkbox',
+                                                                    ]) }}
+                                                                </div>
+                                                                <div class="col-md-8 append-input-checkbox append-as{{ $question->id }}">
+                                                                    @if ($checked)
+                                                                        {!! Form::textarea("answer[$question->id][$answer->id]", $checked, [
+                                                                            'class' => 'animated zoomIn form-control input' . $question->id,
+                                                                            'disabled' => 'true',
+                                                                        ]) !!}
+                                                                    @endif
+                                                                </div>
+                                                            </div>
+                                                        @breakswitch
+                                                        @default
+                                                            <div class="row">
+                                                                <div class="col-md-2">
+                                                                    <div class="alert alert-danger">
+                                                                        {{ trans('view.error') }}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        @breakswitch
+                                                    @endswitch
+                                                    @if ($answer->image)
+                                                        <div>
+                                                            {!! Html::image($answer->image, '',[
+                                                                'class' => 'show-img-answer',
+                                                            ]) !!}
+                                                        </div>
+                                                    @endif
+                                                </li>
                                             @endforeach
                                         </ul>
                                     </div>
