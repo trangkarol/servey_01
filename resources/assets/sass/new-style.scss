@@ -186,6 +186,10 @@
     position: relative;
 }
 
+.ui-progressbar {
+    height: 17px;
+}
+
 .ui-progressbar-value.ui-widget-header {
     display: none; width: 0%;
 }
@@ -1189,6 +1193,7 @@ $darkenColor: darken($activeColor, 20%);
 
 .result-by-time {
     display:block !important;
+}
 
 .image-tab-setting{
     position: relative;
@@ -1307,4 +1312,17 @@ $darkenColor: darken($activeColor, 20%);
         font-size: 13px;
         font-weight: bold;
     }
+}
+
+.div-require-info {
+    width: 100%;
+    padding-left: 10%;
+    margin-bottom: 1%;
+    font-size: 13px;
+    color: #2f5669;
+    font-weight: bold;
+}
+
+.container-answer {
+    padding: 25px 60px 20px;
 }
