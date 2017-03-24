@@ -32,4 +32,5 @@ return [
     'sender_email' => 'Enter email which you want send here...',
     'survey_created' => 'Your survey has been created',
     'link_send' => 'Send this link to anyone you wish to invite',
+    'datetime_format' => 'M d Y',
 ];

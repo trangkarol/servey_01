@@ -109,8 +109,8 @@ class SurveyController extends Controller
         $data = $request->only([
             'title',
             'description',
-            'deadline',
         ]);
+        $data['deadline'] = Carbon::parse($request->get('deadline'))->format('Y/m/d H:i');
 
         if ($survey) {
             DB::beginTransaction();
@@ -122,7 +122,7 @@ class SurveyController extends Controller
             }
         }
 
-        return redirect()->action('AnswerController@show', $survey->token)
+        return redirect()->action('AnswerController@show', $survey->token_manage)
             ->with(($isSuccess) ? 'message' : 'message-fail', ($isSuccess)
                 ? trans('messages.object_updated_successfully', [
                     'object' => class_basename(Survey::class),
