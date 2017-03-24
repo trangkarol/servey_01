@@ -60,7 +60,7 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td>{{ $key . '.' . $loop->iteration }}</td>
+                        <td>{{ ($key + 1) . '.' . $loop->iteration }}</td>
                         <td>{{ $answer->content }}</td>
                         <td>{{ count($answer->results) }}</td>
                     </tr>

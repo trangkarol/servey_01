@@ -17,7 +17,7 @@ return [
     'title' => 'Title',
     'email' => 'Email',
     'do_you_want' => 'Do you want',
-    'public' => 'public',
+    'public' => 'Public',
     'this_survey' => 'this survey',
     'description' => 'Enter a description for this survey',
     'enter_info' => 'Enter your info',
