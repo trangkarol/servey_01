@@ -17,7 +17,7 @@ return [
     'title' => 'Tiêu đề',
     'email' => 'Email',
     'do_you_want' => 'Bạn có muốn',
-    'public' => 'công khai',
+    'public' => 'Công khai',
     'this_survey' => 'cuộc khảo sát này',
     'description' => 'Nhập mô tả cho cuộc khảo sát này',
     'enter_info' => 'Nhập thông tin của bạn',

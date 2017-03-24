@@ -6,7 +6,7 @@
         </h4>
         @if ($question->image)
             {!! Html::image($question->image, '',[
-                'class' => 'show-img-answer',
+                'class' => 'show-img-question',
             ]) !!}
         @endif
         <ul class="data-list">
