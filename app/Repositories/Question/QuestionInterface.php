@@ -13,4 +13,6 @@ interface QuestionInterface
     public function getQuestionIds($surveyId);
 
     public function getResultByQuestionIds($surveyId, $time = null);
+
+    public function updateSurvey(array $inputs, $surveyId);
 }

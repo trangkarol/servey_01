@@ -40,7 +40,7 @@
                             @breakswitch
                         @case(config('survey.type_checkbox'))
                             <div>
-                                {{ Form::checkbox("answer[$question->id][$answer->id]", $answer->id, '', [
+                            {{ Form::checkbox("answer[$question->id][$answer->id]", $answer->id, '', [
                                 'id' => "$key$temp",
                                 'class' => 'input-checkbox',
                                 ($checked) ? 'checked = checked' : null,
@@ -58,7 +58,7 @@
                             @endif
                             @breakswitch
                         @case(config('survey.type_text'))
-                             {!! Form::textarea("answer[$question->id][$answer->id]", $checked, [
+                            {!! Form::textarea("answer[$question->id][$answer->id]", $checked, [
                                 'class' => 'form-control answer',
                                 'id' => "answer[$question->id][$answer->id]",
                             ]) !!}

@@ -11,6 +11,7 @@ class Question extends Model
         'image',
         'required',
         'survey_id',
+        'sequence',
     ];
 
     public function survey()
@@ -20,7 +21,12 @@ class Question extends Model
 
     public function answers()
     {
-        return $this->hasMany(Answer::class);
+        /*
+        * Sort the answers of question with the answer orther radio or orther checkbox is last of the list answer in question
+        * The config other checkbox will be larger than the type checkbox, orther radio will be larger than the type radio
+        * Config radio and checkbox = [1, 2], config orther radio and orther checkbox = [5, 6]
+        */
+        return $this->hasMany(Answer::class)->orderBy('type');
     }
 
     public function getImageAttribute()

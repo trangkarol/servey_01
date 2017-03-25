@@ -138,3 +138,4 @@ Route::put('/update-survey/{id}', 'SurveyController@updateSurvey');
 
 Route::get('/show-user-answer-detail/{surveyId}/{userId?}/{email?}', 'AnswerController@showMultiHistory');
 
+Route::post('/update/{id}/{token}', 'SurveyController@updateSurveyContent');

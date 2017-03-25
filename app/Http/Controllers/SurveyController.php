@@ -110,7 +110,10 @@ class SurveyController extends Controller
             'title',
             'description',
         ]);
-        $data['deadline'] = Carbon::parse($request->get('deadline'))->format('Y/m/d H:i');
+
+        if ($request->get('deadline')) {
+            $data['deadline'] = Carbon::parse($request->get('deadline'));
+        }
 
         if ($survey) {
             DB::beginTransaction();
@@ -131,6 +134,36 @@ class SurveyController extends Controller
                     'object' => class_basename(Survey::class)
                 ])
             );
+    }
+
+
+    public function updateSurveyContent(Request $request, $surveyId, $token)
+    {
+        DB::beginTransaction();
+        try {
+            $inputs = $request->only([
+                'txt-question',
+                'checkboxRequired',
+                'required-question',
+                'image',
+                'del-question',
+                'del-answer',
+                'del-question-image',
+                'del-answer-image',
+            ]);
+            $this->questionRepository->updateSurvey($inputs, $surveyId);
+            DB::commit();
+
+            return redirect()->action('AnswerController@show', $token)->with('message', trans('messages.object_updated_successfully', [
+                'object' => class_basename(Survey::class)
+            ]));
+        } catch (Exception $e) {
+            DB::rollback();
+
+            return redirect()->action('AnswerController@show', $token)->with('message-fail', trans('messages.object_updated_unsuccessfully', [
+                'object' => class_basename(Survey::class)
+            ]));
+        }
     }
 
     public function create(Request $request)
