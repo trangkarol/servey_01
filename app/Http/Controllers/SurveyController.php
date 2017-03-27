@@ -141,6 +141,12 @@ class SurveyController extends Controller
     {
         DB::beginTransaction();
         try {
+            $survey = $this->surveyRepository->find($surveyId);
+
+            if (!$survey) {
+                return view('errors.404');
+            }
+
             $inputs = $request->only([
                 'txt-question',
                 'checkboxRequired',
@@ -151,17 +157,33 @@ class SurveyController extends Controller
                 'del-question-image',
                 'del-answer-image',
             ]);
-            $this->questionRepository->updateSurvey($inputs, $surveyId);
+            $emails = $this->questionRepository->updateSurvey($inputs, $surveyId);
+            $mailInput = [
+                'title' => $survey->title,
+                'description' => $survey->description,
+                'link' => action($survey->feature
+                        ? 'AnswerController@answerPublic'
+                        : 'AnswerController@answerPrivate', [
+                            'token' => $survey->token,
+                    ]),
+                'name' => $survey->user_name,
+                'email' => $emails,
+            ];
+            $job = (new SendMail(collect($mailInput), 'reSend'))
+                ->onConnection('database')
+                ->onQueue('emails');
             DB::commit();
 
-            return redirect()->action('AnswerController@show', $token)->with('message', trans('messages.object_updated_successfully', [
-                'object' => class_basename(Survey::class)
+            return redirect()->action('AnswerController@show', $token)
+                ->with('message', trans('messages.object_updated_successfully', [
+                    'object' => class_basename(Survey::class)
             ]));
         } catch (Exception $e) {
             DB::rollback();
 
-            return redirect()->action('AnswerController@show', $token)->with('message-fail', trans('messages.object_updated_unsuccessfully', [
-                'object' => class_basename(Survey::class)
+            return redirect()->action('AnswerController@show', $token)
+                ->with('message-fail', trans('messages.object_updated_unsuccessfully', [
+                    'object' => class_basename(Survey::class)
             ]));
         }
     }
@@ -201,6 +223,7 @@ class SurveyController extends Controller
                 'status' => $value['deadline'],
                 'deadline' => $value['deadline'],
                 'description' => $value['description'],
+                'user_name' => $value['name'],
             ]);
 
             $survey = $this->surveyRepository->createSurvey(

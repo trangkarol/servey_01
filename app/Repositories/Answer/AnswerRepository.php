@@ -72,10 +72,17 @@ class AnswerRepository extends BaseRepository implements AnswerInterface
     public function deleteResultWhenUpdateAnswer($ids)
     {
         $this->resultRepository->newQuery(new Result());
-        $isSuccess = $this->resultRepository
-            ->delete($this->resultRepository->whereIn('answer_id', is_array($ids) ? $ids : [$ids])->lists('id')->toArray());
+        $results = $this->resultRepository->whereIn('answer_id', is_array($ids) ? $ids : [$ids])->lists('email', 'id')->toArray();
+        $ids = array_keys($results);
+        $emails = array_where($results, function($value, $key) {
+            if ($value != (string)config('settings.undentified_email')) {
+                return $value;
+            }
+        });
+        $this->resultRepository->newQuery(new Result());
+        $this->resultRepository->delete($ids);
 
-        return $isSuccess;
+        return $emails;
     }
 
     public function createOrUpdateAnswer(
@@ -90,6 +97,7 @@ class AnswerRepository extends BaseRepository implements AnswerInterface
     ) {
         if ($answersInQuestion && !$answersInQuestion->isEmpty()) {
             $index = 0;
+            $maxUpdate = $answersInQuestion->max('update');
             $arrayInfoUpdate = $answers[$questionId];
             // check image answer is exists in question
             $checkImages = ($imagesAnswer && array_key_exists($questionId, $imagesAnswer));
@@ -125,6 +133,7 @@ class AnswerRepository extends BaseRepository implements AnswerInterface
                 $modelAnswer = $answer->fill($updateAnswer);
 
                 if ($modelAnswer->getDirty()) {
+                    $modelAnswer->update = $maxUpdate + 1;
                     $modelAnswer->save();
 
                     if (!$isDelete) {
@@ -133,6 +142,8 @@ class AnswerRepository extends BaseRepository implements AnswerInterface
                 }
 
                 if ($isDelete) {
+                    $modelAnswer->update = $maxUpdate + 1;
+                    $modelAnswer->save();
                     $removeAnswerIds[] = $answer->id;
                 }
 
