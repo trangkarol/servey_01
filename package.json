@@ -24,6 +24,7 @@
     "bootstrap-select": "^1.12.1",
     "chart": "^0.1.2",
     "chartist": "^0.10.1",
+    "express": "^4.15.2",
     "lightweight-bootstrap": "0.0.1"
   }
 }

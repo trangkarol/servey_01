@@ -71,4 +71,10 @@ return [
     'tail_mail' => 'Yêu cầu đối với loại email',
     'exportExecl' => 'Xuất ra Execl',
     'exportPDF' => 'Xuất ra PDF',
+    'thank_you' => 'Cảm ơn.',
+    'invite' => 'Mời tham gia.',
+    'notice' =>[
+        'answer' => 'Bạn đã trả lời survey này',
+        'number' => 'lần vào lúc',
+    ],
 ];

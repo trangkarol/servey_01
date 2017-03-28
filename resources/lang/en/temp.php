@@ -19,4 +19,11 @@ return [
     'time' => 'Time',
     'date' => 'Date',
     'date_month' => 'dd/mm/yy',
+    'participant' => 'You have been invited to participant this survey.',
+    'from' => 'From',
+    'title' => 'Title',
+    'title_web' => 'Fsurvey',
+    'description' => 'Description',
+    'info_survey' => 'Info survey',
+    'click_participant' => "Let's click link below to participant.",
 ];

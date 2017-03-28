@@ -19,4 +19,11 @@ return [
     'time' => 'Giờ',
     'date' => 'Ngày',
     'date_month' => 'dd/mm/yy',
+    'participant' => 'Bạn đã được mời tham gia trả lời survey này.',
+    'from' => 'Từ',
+    'title' => 'Tiêu đề',
+    'title_web' => 'Fsurvey',
+    'description' => 'Mô tả',
+    'info_survey' => 'Thông tin survey',
+    'click_participant' => 'Nhấn link sau để tham gia trả lời',
 ];

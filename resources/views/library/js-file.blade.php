@@ -1,11 +1,11 @@
 <!--[if lt IE 9]>
 <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
-{{ Html::script(elixir('/user/js/jquery.min.js')) }}
 {{ Html::script(elixir('/js/app.js')) }}
 {{ Html::script(elixir('/bower/highcharts/highcharts.js')) }}
 {{ Html::script(elixir('/bower/highcharts/highcharts-3d.js')) }}
 {{ Html::script(elixir('/bower/highcharts/js/modules/exporting.js')) }}
+{{ Html::script(elixir('/bower/jquery/dist/jquery.min.js')) }}
 {{ Html::script(elixir('/bower/angularjs/angular.min.js')) }}
 {{ Html::script(elixir('/bower/typeahead.js/dist/typeahead.bundle.min.js')) }}
 {{ Html::script(elixir('/bower/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js')) }}
@@ -26,3 +26,4 @@
 {{ Html::script(elixir('/bower/ms-Dropdown/js/msdropdown/jquery.dd.min.js')) }}
 {{ Html::script(elixir('/user/js/question.js')) }}
 {{ Html::script(elixir('/user/js/component.js')) }}
+{{ Html::script(elixir('/user/js/socket.js')) }}

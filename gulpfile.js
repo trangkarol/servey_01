@@ -22,6 +22,7 @@ elixir(mix => {
    .sass('admin-pages.scss', 'public/admin/css/admin-pages.css')
    .scripts('app.js')
    .scripts('chart.js', 'public/admin/js/chart.js')
+   .scripts('socket.js', 'public/user/js/socket.js')
    .scripts('question.js', 'public/user/js/question.js')
    .scripts('functions.js', 'public/user/js/functions.js')
    .scripts('jquery.bxslider.min.js', 'public/user/js/jquery.bxslider.min.js')
@@ -44,12 +45,6 @@ elixir(mix => {
             'public/bower/bootstrap/dist/js/bootstrap.js',
             'public/bower/jquery/dist/jquery.js'
          ], 'public/admin/js')
-   .copy([
-            'public/bower/jquery/dist/jquery.min.js',
-            'public/bower/skel/dist/skel.min.js',
-            'resources/assets/js/util.js',
-            'resources/assets/js/main.js'
-         ], 'public/user/js')
    .browserSync({
         proxy: 'http://localhost:8000/',
         proxy: 'http://survey.com/'

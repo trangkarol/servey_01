@@ -47,7 +47,7 @@ class Survey extends Model
     public function getDeadlineAttribute()
     {
         return (!empty($this->attributes['deadline']))
-            ? Carbon::parse($this->attributes['deadline'])->format('Y/m/d H:i')
+            ? Carbon::parse($this->attributes['deadline'])->format('Y-m-d H:i:s')
             : null;
     }
 
