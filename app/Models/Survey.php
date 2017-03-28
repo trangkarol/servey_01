@@ -16,6 +16,7 @@ class Survey extends Model
         'deadline',
         'description',
         'mail',
+        'user_name',
     ];
 
     public function invites()

@@ -123,6 +123,7 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
                         'image' => ($isHaveImage )
                             ? $this->answerRepository->uploadImage($image['answers'][$index][$key], config('settings.image_answer_path'))
                             : null,
+                        'update' => 0,
                     ];
                 }
             }
@@ -233,6 +234,10 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
         });
     }
 
+    /*
+    * This function modify question and answer of survey
+    * Return the emails of users answer the survey if survey have answer
+    */
     public function updateSurvey(array $inputs, $surveyId)
     {
         $ids = null;
