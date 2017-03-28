@@ -119,6 +119,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
             'status',
             'deadline',
             'description',
+            'user_name',
         ]);
 
         $surveyInputs['feature'] = ($inputs['feature'])

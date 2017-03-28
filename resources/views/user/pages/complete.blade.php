@@ -12,14 +12,14 @@
                     <div class="col-md-4 complete-info">
                         <h3>{{ trans('info.thank_you') }}, {{ $name }}</h3>
                         <h4>{{ trans('info.survey_created') }}</h4>
-                        <p>{{ trans('home.description_complete') }} {{ $email }}</p>
+                        <p>{{ trans('home.description_complete') }} {{ $mail }}</p>
                         <p>{{ trans('info.link_send') }}</p>
-                        <a href="{{ action(($feature)
+                        <a href="{{ action(($survey->feature)
                             ? 'AnswerController@answerPublic'
-                            : 'AnswerController@answerPrivate', $token) }}">
-                            {{ action(($feature)
+                            : 'AnswerController@answerPrivate', $survey->token) }}">
+                            {{ action(($survey->feature)
                             ? 'AnswerController@answerPublic'
-                            : 'AnswerController@answerPrivate', $token) }}
+                            : 'AnswerController@answerPrivate', $survey->token) }}
                         </a>
                     </div>
                     <div class="complete-image col-md-8 animated">
@@ -28,20 +28,19 @@
                 </div>
                 <div class="complete-link-admin">
                     <h4>{{ trans('home.description_link') }}</h4>
-                        <p>{{ trans('home.admin_link') }}</p>
-                        <a href="{{ action('AnswerController@show', [
-                            'token' => $tokenManage,
-                            'type' => $feature,
-                        ]) }}">
-                            {{ action('AnswerController@show', [
-                                'token' => $tokenManage,
-                                'type' => $feature,
-                            ]) }}
-                        </a>
+                    <p>{{ trans('home.admin_link') }}</p>
+                    <a href="{{ action('AnswerController@show', [
+                        'token' => $survey->token_manage,
+                        'type' => $survey->feature,
+                    ]) }}">
+                        {{ action('AnswerController@show', [
+                            'token' => $survey->token_manage,
+                            'type' => $survey->feature,
+                        ]) }}
+                    </a>
                 </div>
             </div>
         </div>
-        <div class="bot-wizard-complete">
-        </div>
+        <div class="bot-wizard-complete"></div>
     </div>
 @endsection

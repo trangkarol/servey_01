@@ -11,7 +11,10 @@
         @endif
         <ul class="data-list">
             @foreach($question->answers as $temp => $answer)
-                <?php $checked = ''; ?>
+                @php
+                    $checked = '';
+                    $maxUpdate = $question->answers->max('update');
+                @endphp
                 @if ($tempAnswers)
                     @foreach($tempAnswers as $tempAnswer)
                         <?php $checked = ($tempAnswer['answer_id'] == $answer->id) ? $tempAnswer['content'] : $checked; ?>
@@ -127,6 +130,11 @@
                         @breakswitch
                     @endswitch
                 </li>
+                @if ($maxUpdate && $answer->update == $maxUpdate)
+                    <div class="alert alert-warning">
+                        {{ trans('survey.is_update') }}
+                    </div>
+                @endif
             @endforeach
         </ul>
             @if ($errors->has('answer.' . $question->id))

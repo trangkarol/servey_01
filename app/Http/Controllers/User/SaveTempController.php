@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Repositories\Temp\TempInterface;
 use App\Repositories\Survey\SurveyInterface;
 use App\Repositories\Invite\InviteInterface;
-use Illuminate\Support\Facades\Redis;
+use LRedis;
 use Carbon\Carbon;
 use DB;
 
@@ -34,7 +34,7 @@ class SaveTempController extends Controller
 
     public function show(Request $request)
     {
-        $redis = Redis::connection();
+        $redis = LRedis::connection();
         $tempAnswers = json_decode(($redis->get(auth()->id() . '/' . $request->get('surveyId'))), true);
 
         if (!$tempAnswers || !$request->ajax()) {
@@ -130,7 +130,7 @@ class SaveTempController extends Controller
                 ]);
 
                 $value = json_encode($data);
-                $redis = Redis::connection();
+                $redis = LRedis::connection();
                 $redis->set($key, $value);
                 $isSuccess = true;
                 DB::commit();

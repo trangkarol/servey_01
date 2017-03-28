@@ -36,8 +36,11 @@
                                         {{ trans('home.survey_invited') }}
                                     </a>
                                 </li>
-                                <li><a href="#messages-v" data-toggle="tab">{{ trans('home.message') }}</a></li>
-                                <li><a href="#settings-v" data-toggle="tab">{{ trans('home.settings') }}</a></li>
+                                <li>
+                                    <a href="#messages-v" data-toggle="tab">
+                                        {{ trans('home.survey_closed') }}
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                         <div class="col-md-9">
@@ -56,67 +59,61 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($surveys as $key => $survey)
-                                                    <tr>
-                                                        <td>
-                                                            {{ ++$key }}.
-                                                            <a href="{{ action(($survey->feature)
-                                                                ? 'AnswerController@answerPublic'
-                                                                : 'AnswerController@answerPrivate', [
-                                                                    'token' => $survey->token,
-                                                            ]) }}">
-                                                            {{ $survey->title }}
-                                                            </a>
-                                                        </td>
-                                                        <td>
-                                                            {{ $survey->created_at->format('M d Y') }}
-                                                        </td>
-                                                        @if (($survey->status)
-                                                            && (Carbon\Carbon::parse($survey->deadline)->gt(Carbon\Carbon::now()) || empty($survey->deadline))
-                                                            && !in_array($survey->id, $settings))
+                                                @foreach ($surveys as $survey)
+                                                    @if ($survey->status && $survey->isOpen && !in_array($survey->id, $settings))
+                                                        <tr>
                                                             <td>
-                                                                <a class="tag-send-email"
-                                                                    data-url="{{ action('SurveyController@inviteUser', [
-                                                                        'id' => $survey->id,
-                                                                        'type' => config('settings.return.view'),
-                                                                    ]) }}">
-                                                                    <span class="glyphicon glyphicon-send"></span>
-                                                                    {{ trans('survey.send') }}
+                                                                {{ $loop->iteration }}.
+                                                                <a href="{{ action(($survey->feature)
+                                                                    ? 'AnswerController@answerPublic'
+                                                                    : 'AnswerController@answerPrivate', [
+                                                                        'token' => $survey->token,
+                                                                ]) }}">
+                                                                {{ $survey->title }}
                                                                 </a>
                                                             </td>
-                                                            @if ($survey->feature)
-                                                                <td>
-                                                                    <div class="fb-share-button"
-                                                                        data-href="{{
-                                                                    action('AnswerController@answerPublic', $survey->token)
-                                                                    }}"
-                                                                        data-layout="button_count"
-                                                                        data-size="small"
-                                                                        data-mobile-iframe="true">
-                                                                        <a class="fb-xfbml-parse-ignore"
-                                                                            target="_blank"
-                                                                            href="{{
-                                                                        action('AnswerController@answerPublic', $survey->token)
-                                                                        }}">
-                                                                            {{ trans('survey.share') }}
-                                                                        </a>
-                                                                    </div>
-                                                                </td>
-                                                            @else
-                                                                <td>{{ trans('survey.private') }}</td>
-                                                            @endif
-                                                        @else
-                                                            <td class="margin-center" colspan="2">
-                                                                {{ trans('survey.closed') }}
+                                                            <td>
+                                                                {{ $survey->created_at->format('M d Y') }}
                                                             </td>
-                                                        @endif
-                                                        <td class="margin-center">
-                                                            <a href="{{ action('AnswerController@show', [
-                                                                'token' => $survey->token_manage,
-                                                                'type' => $survey->feature,
-                                                            ]) }}" class="glyphicon glyphicon-cog"></a>
-                                                        </td>
-                                                    </tr>
+                                                                <td>
+                                                                    <a class="tag-send-email"
+                                                                        data-url="{{ action('SurveyController@inviteUser', [
+                                                                            'id' => $survey->id,
+                                                                            'type' => config('settings.return.view'),
+                                                                        ]) }}">
+                                                                        <span class="glyphicon glyphicon-send"></span>
+                                                                        {{ trans('survey.send') }}
+                                                                    </a>
+                                                                </td>
+                                                                @if ($survey->feature)
+                                                                    <td>
+                                                                        <div class="fb-share-button"
+                                                                            data-href="{{
+                                                                        action('AnswerController@answerPublic', $survey->token)
+                                                                        }}"
+                                                                            data-layout="button_count"
+                                                                            data-size="small"
+                                                                            data-mobile-iframe="true">
+                                                                            <a class="fb-xfbml-parse-ignore"
+                                                                                target="_blank"
+                                                                                href="{{
+                                                                            action('AnswerController@answerPublic', $survey->token)
+                                                                            }}">
+                                                                                {{ trans('survey.share') }}
+                                                                            </a>
+                                                                        </div>
+                                                                    </td>
+                                                                @else
+                                                                    <td>{{ trans('survey.private') }}</td>
+                                                                @endif
+                                                            <td class="margin-center">
+                                                                <a href="{{ action('AnswerController@show', [
+                                                                    'token' => $survey->token_manage,
+                                                                    'type' => $survey->feature,
+                                                                ]) }}" class="glyphicon glyphicon-cog"></a>
+                                                            </td>
+                                                        </tr>
+                                                    @endif
                                                 @endforeach
                                             </tbody>
                                         </table>
@@ -126,8 +123,51 @@
                                 <div class="tab-pane" id="profile-v">
                                     @include('user.pages.list-invited')
                                 </div>
-                                <div class="tab-pane" id="messages-v">{{ trans('home.message') }}</div>
-                                <div class="tab-pane" id="settings-v">{{ trans('home.settings') }}</div>
+                                <div class="tab-pane" id="messages-v">
+                                    <div >
+                                        <table class="table-list-survey table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>{{ trans('survey.name') }}</th>
+                                                    <th>{{ trans('survey.date_create') }}</th>
+                                                    <th>{{ trans('survey.status') }}</th>
+                                                    <th></th>
+                                                    <th>{{ trans('survey.setting') }}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($surveys as $survey)
+                                                    @if (!$survey->status || !$survey->is_open || in_array($survey->id, $settings))
+                                                        <tr>
+                                                            <td>
+                                                                {{ $loop->iteration }}.
+                                                                <a href="{{ action(($survey->feature)
+                                                                    ? 'AnswerController@answerPublic'
+                                                                    : 'AnswerController@answerPrivate', [
+                                                                        'token' => $survey->token,
+                                                                ]) }}">
+                                                                {{ $survey->title }}
+                                                                </a>
+                                                            </td>
+                                                            <td>
+                                                                {{ $survey->created_at->format('M d Y') }}
+                                                            </td>
+                                                            <td class="margin-center" colspan="2">
+                                                                {{ trans('survey.closed') }}
+                                                            </td>
+                                                            <td class="margin-center">
+                                                                <a href="{{ action('AnswerController@show', [
+                                                                    'token' => $survey->token_manage,
+                                                                    'type' => $survey->feature,
+                                                                ]) }}" class="glyphicon glyphicon-cog"></a>
+                                                            </td>
+                                                        </tr>
+                                                    @endif
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -137,4 +177,3 @@
         </div>
     </div>
 @endsection
-
