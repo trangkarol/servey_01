@@ -1,7 +1,5 @@
 const elixir = require('laravel-elixir');
 
-require('laravel-elixir-vue-2');
-
 /*
  |--------------------------------------------------------------------------
  | Elixir Asset Management
@@ -22,10 +20,10 @@ elixir(mix => {
    .sass('home.scss', 'public/user/css/home.css')
    .sass('admin-style-1.scss', 'public/admin/css/admin-style-1.css')
    .sass('admin-pages.scss', 'public/admin/css/admin-pages.css')
-   .webpack('app.js')
+   .scripts('app.js')
    .scripts('chart.js', 'public/admin/js/chart.js')
    .scripts('question.js', 'public/user/js/question.js')
-   .scripts('functions.js', 'public/user/js/function.js')
+   .scripts('functions.js', 'public/user/js/functions.js')
    .scripts('jquery.bxslider.min.js', 'public/user/js/jquery.bxslider.min.js')
    .scripts('check.min.js', 'public/user/js/check.min.js')
    .scripts('jquery.wizard.js', 'public/user/js/jquery.wizard.js')

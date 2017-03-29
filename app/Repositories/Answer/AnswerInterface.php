@@ -2,6 +2,8 @@
 
 namespace App\Repositories\Answer;
 
+use Illuminate\Support\Collection;
+
 interface AnswerInterface
 {
     public function deleteByQuestionId($questionIds);
