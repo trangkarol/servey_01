@@ -9,12 +9,29 @@
             </h4>
         </div>
         <div class="row">
+            @php
+                $maxUpdateQuestion = $survey->questions->max('update');
+            @endphp
             @foreach ($survey->questions as $key => $question)
                 <div>
                     <h4 class="tag-question">
                         {{ ($key + 1) . '. ' . $question->content }}
                         <span>{{ ($question->required) ? '(*)' : '' }}</span>
                     </h4>
+                    @if (in_array($question->update, [
+                        config('survey.update.change'),
+                        config('survey.update.delete'),
+                    ]))
+                        <div class="isUpdate">
+                            @if ($question->update == config('survey.update.delete'))
+                                <p class="glyphicon glyphicon-floppy-remove"></p>
+                            @else
+                                <p class="glyphicon glyphicon-pencil"></p>
+                            @endif
+                        </div>
+                    @elseif ($question->update && $question->update == $maxUpdateQuestion || $question->answers->max('update'))
+                        <div class="isUpdate"><p class="glyphicon glyphicon-pencil"></p></div>
+                    @endif
                     @if ($question->image)
                         {!! Html::image($question->image, '', [
                             'class' => 'show-img-answer',

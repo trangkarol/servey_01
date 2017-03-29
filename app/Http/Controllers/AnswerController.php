@@ -70,13 +70,22 @@ class AnswerController extends Controller
             ->where(($view == 'detail') ? 'token_manage' : 'token', $token)
             ->first();
 
-        if (!$survey || ($view == 'answer' && $survey->feature != $isPublic)) {
+        if (!$survey
+            || !in_array($view, ['detail', 'answer'])
+            || ($view == 'answer' && $survey->feature != $isPublic)
+            || ($view == 'detail' && $survey->user_id && auth()->check() && $survey->user_id != auth()->id())
+        ) {
             return view('errors.404');
+        }
+
+        if ($survey->user_id && !auth()->check()) {
+            return redirect()->action('Auth\LoginController@getLogin');
         }
 
         $access = $this->surveyRepository->getSettings($survey->id);
         $listUserAnswer = $this->showUserAnswer($token);
-        $history = ($view == 'answer') ? $this->surveyRepository->getHistory(auth()->id(), $survey->id, ['type' => 'history']) : null;
+        $history = ($view == 'detail')
+            ? null : $this->surveyRepository->getHistory(auth()->id(), $survey->id, ['type' => 'history']);
         $getCharts = $this->viewChart($survey->token);
         $status = $getCharts['status'];
         $charts = $getCharts['charts'];
@@ -91,11 +100,13 @@ class AnswerController extends Controller
 
         if ($survey) {
             if ($survey->user_id == auth()->id() || $check) {
-                $tempAnswers = null;
+                $results = $history['results'];
+                $history = $history['history'];
+                $tempAnswers = ($results && !$results->isEmpty()) ? $results : null;
 
-                return view(($view == 'answer')
-                    ? 'user.pages.answer'
-                    : 'user.pages.detail-survey', compact(
+                return view(($view == 'detail')
+                    ? 'user.pages.detail-survey'
+                    : 'user.pages.answer', compact(
                         'survey',
                         'status',
                         'charts',

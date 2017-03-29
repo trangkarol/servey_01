@@ -12,6 +12,7 @@ class Question extends Model
         'required',
         'survey_id',
         'sequence',
+        'update',
     ];
 
     public function survey()

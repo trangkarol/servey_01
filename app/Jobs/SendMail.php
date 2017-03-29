@@ -39,7 +39,7 @@ class SendMail implements ShouldQueue
         if ($this->type == 'mailManage') {
             $view = 'emails.email_manage';
             $data->put('linkManage', $this->inputs['linkManage']);
-        } elseif ($type == 'reSend') {
+        } elseif ($type == 'reAnswer') {
             $view = 'emails.email_resend_answer';
         } else {
             $view = 'emails.email_invite';

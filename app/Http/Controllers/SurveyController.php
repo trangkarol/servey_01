@@ -168,7 +168,7 @@ class SurveyController extends Controller
                 'name' => $survey->user_name,
                 'email' => $emails,
             ];
-            $job = (new SendMail(collect($mailInput), 'reSend'))
+            $job = (new SendMail(collect($mailInput), 'reAnswer'))
                 ->onConnection('database')
                 ->onQueue('emails');
             DB::commit();
