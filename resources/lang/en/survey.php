@@ -77,4 +77,5 @@ return [
         'answer' => 'You answered this survey',
         'number' => 'times at a time',
     ],
+    'update_question' => 'Update question',
 ];

@@ -761,7 +761,7 @@ $darkenColor: darken($activeColor, 20%);
         line-height:1.5em;
         min-width:55px;
         text-align:center;
-        color: #385c5b;
+        color: rgb(67, 93, 105);
         font-size:13px;
         font-weight:bold;
         text-transform:uppercase;
@@ -769,7 +769,6 @@ $darkenColor: darken($activeColor, 20%);
         cursor:pointer;
         text-shadow:1px 1px 1px rgba(255,255,255,0.3);
         background:-moz-linear-gradient(top, #5ba4a4 0%, #4e8c8a 100%);
-        border-radius:5px 5px 0 0;
         box-shadow:2px 0px 2px rgba(0,0,0,0.1),-2px 0 2px rgba(0,0,0,0.1)/*0.1*/
     }
     .tabs .label:hover{
@@ -811,6 +810,13 @@ $darkenColor: darken($activeColor, 20%);
     .tabs input.tab-selector-3:checked ~ .content .content-3,
     .tabs input.tab-selector-4:checked ~ .content .content-4 {
         z-index:100 !important;
+    }
+}
+
+.tab-detail-survey.tab-class {
+    >.tabs >.tab-choose:checked + label{
+        background: rgb(26, 185, 167);
+        color: white;
     }
 }
 
@@ -1466,4 +1472,9 @@ textarea.form-control {
     width: 5px;
     height: 5px;
     text-align: center;
+}
+
+.btn-save-setting {
+    box-shadow: 1px 2px 4px rgba(119, 132, 130, 0.56);
+    width: 25%;
 }

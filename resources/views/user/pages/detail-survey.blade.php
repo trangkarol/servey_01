@@ -20,7 +20,7 @@
                         {{ Session::get('message-fail') }}
                     </div>
                 @endif
-                <div class="tab-class">
+                <div class="tab-detail-survey tab-class">
                     <section class="tabs">
                         {{ Form::radio('radio-set', config('temp.radio.label_info'), '', [
                             'id' => 'tab-1',
@@ -48,7 +48,7 @@
                             'id' => 'tab-4',
                             'class' => 'tab-choose tab-selector-4',
                         ]) }}
-                        {{ Form::label('tab-4', trans('survey.specific_result'), [
+                        {{ Form::label('tab-4', trans('survey.update_question'), [
                             'class' => 'label tab-label-4',
                         ]) }}
                         <div class="clear-shadow"></div>

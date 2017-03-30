@@ -26,4 +26,10 @@ return [
     'description' => 'Mô tả',
     'info_survey' => 'Thông tin survey',
     'click_participant' => 'Nhấn link sau để tham gia trả lời',
+    'your_survey' => 'Thông tin survey của bạn',
+    'tag_send_user' => 'Gữi link này cho những người mà bạn muốn họ trả lời',
+    'thank_participation' => 'Cảm ơn sự tham gia của bạn',
+    'create_success' => 'Survey của bạn đã được tạo THÀNH CÔNG',
+    'below' => "Dưới đây là 2 link mà chúng tôi đã gữi đến mail của bạn",
+    'access_link' => 'Truy cập liên kết này giúp bạn có thể thay đổi, đóng hoặc xóa survey của bạn.',
 ];

@@ -75,8 +75,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
 
             foreach ($answers as $answer) {
                 $total = $datasInput['results']
-                    ->whereIn('answer_id', $answers->pluck('id')
-                        ->toArray())
+                    ->whereIn('answer_id', $answers->pluck('id')->toArray())
                     ->pluck('id')
                     ->toArray();
                 $answerResult = $datasInput['results']
@@ -237,7 +236,10 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
     public function getHistory($userId, $surveyId, array $options)
     {
         if (!$userId && $options['type'] == 'history' || !$surveyId) {
-            return [];
+            return [
+                'history' => [],
+                'results' => [],
+            ];
         }
 
         if ($options['type'] == 'history') {
@@ -316,5 +318,44 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
             : [];
 
         return array_merge($userLogin, $userNotLogin);
+    }
+
+    private function chart(array $inputs)
+    {
+        $results = [];
+
+        foreach ($inputs as $key => $value) {
+            $results[] = [
+                'answer' => $value['content'],
+                'percent' => $value['percent'],
+            ];
+        }
+
+        return $results;
+    }
+
+    public function viewChart($token)
+    {
+        $results = $this->getResutlSurvey($token);
+        $charts = [];
+
+        if (!$results) {
+            return [
+                'charts' => null,
+                'status' => false,
+            ];
+        }
+
+        foreach ($results as $key => $value) {
+            $charts[] = [
+                'question' => $value['question'],
+                'chart' => ($this->chart($value['answers'])) ?: null,
+            ];
+        }
+
+        return [
+            'charts' => $charts,
+            'status' => true,
+        ];
     }
 }

@@ -74,5 +74,5 @@ return [
         5,
     ],
     'email_unidentified' => 0,
-    'name_unidentified' => 1,
+    'name_unidentified' => 0,
 ];

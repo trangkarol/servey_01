@@ -18,6 +18,7 @@
 {{ Html::script(elixir('/user/js/jquery.bxslider.min.js')) }}
 {{ Html::script(elixir('/bower/owlcarousel/owl-carousel/owl.carousel.min.js')) }}
 {{ Html::script(elixir('/user/js/functions.js')) }}
+{{ Html::script(elixir('/bower/socket.io/index.js')) }}
 {{ Html::script(elixir('/bower/fancyBox/source/jquery.fancybox.pack.js')) }}
 {{ Html::script(elixir('/bower/fancyBox/source/helpers/jquery.fancybox-media.js')) }}
 {{ Html::script(elixir('/bower/moment/min/moment.min.js')) }}
