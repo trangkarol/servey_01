@@ -10,18 +10,9 @@ interface AnswerInterface
 
     public function delete($ids);
 
-    public function getAnswerIds($questionIds);
+    public function getAnswerIds($questionIds, $update = false);
 
-    public function getResultByAnswer($questionIds, $time = null);
+    public function getResultByAnswer($questionIds, $time = null, $isUpdate = false);
 
-    public function createOrUpdateAnswer(
-        $questionId,
-        collection $answersInQuestion,
-        collection $collectAnswer,
-        array $imagesAnswer,
-        array $answers,
-        array $removeAnswerIds,
-        $isDelete,
-        array $deleteImageIds
-    );
+    public function createOrUpdateAnswer(array $answers, array $data);
 }

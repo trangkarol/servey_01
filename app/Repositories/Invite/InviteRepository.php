@@ -73,9 +73,19 @@ class InviteRepository extends BaseRepository implements InviteInterface
     public function getResult($surveyId)
     {
         $charts = [];
-        $charts['questions'] = $questions = $this->questionRepository->where('survey_id', $surveyId)->get();
+        $charts['questions'] = $questions = $this->questionRepository
+            ->where('survey_id', $surveyId)
+            ->whereNotIn('update', [
+                config('survey.update.change'),
+                config('survey.update.delete'),
+            ])
+            ->get();
         $charts['answers'] = $answers = $this->answerRepository
             ->whereIn('question_id', $questions->pluck('id')->toArray())
+            ->whereNotIn('update', [
+                config('survey.update.change'),
+                config('survey.update.delete'),
+            ])
             ->get();
         $charts['results'] = $results = $this->resultRepository
             ->whereIn('answer_id',$answers->pluck('id')->toArray())

@@ -54,7 +54,11 @@ class AnswerRequest extends FormRequest
         return $this->questionRepository
             ->where('survey_id', $survey)
             ->where('required', config('settings.required.true'))
-            ->lists('id')
+            ->whereNotIn('update', [
+                config('survey.update.change'),
+                config('survey.update.delete'),
+            ])
+            ->pluck('id')
             ->toArray();
     }
 
@@ -73,7 +77,11 @@ class AnswerRequest extends FormRequest
                 config('survey.type_date'),
                 config('survey.type_text'),
             ])
-            ->lists('id', 'question_id')
+            ->whereNotIn('update', [
+                config('survey.update.change'),
+                config('survey.update.delete'),
+            ])
+            ->pluck('id', 'question_id')
             ->toArray();
     }
 

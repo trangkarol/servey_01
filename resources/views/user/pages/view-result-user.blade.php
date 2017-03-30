@@ -31,12 +31,29 @@
                     @foreach ($history as $time => $results)
                         <div id="{{ $loop->first ? 'home' : 'menu' . $loop->index }}"
                             class="{{ $loop->first ? 'tab-pane fade in active' : 'tab-pane fade in' }}">
+                            @php
+                                $maxUpdateQuestion = $survey->questions->max('update');
+                            @endphp
                             @foreach ($survey->questions as $question)
                                 <div>
                                     <h4 class="tag-question">
                                         {{ ++$loop->index . '. ' . $question->content }}
                                         <span>{{ ($question->required) ? '(*)' : '' }}</span>
                                     </h4>
+                                    @if (in_array($question->update, [
+                                        config('survey.update.change'),
+                                        config('survey.update.delete'),
+                                    ]))
+                                        <div class="isUpdate">
+                                            @if ($question->update == config('survey.update.delete'))
+                                                <p class="glyphicon glyphicon-floppy-remove"></p>
+                                            @else
+                                                <p class="glyphicon glyphicon-pencil"></p>
+                                            @endif
+                                        </div>
+                                    @elseif ($question->update && $question->update == $maxUpdateQuestion || $question->answers->max('update'))
+                                        <div class="isUpdate"><p class="glyphicon glyphicon-pencil"></p></div>
+                                    @endif
                                     @if ($question->image)
                                         {!! Html::image($question->image, '', [
                                             'class' => 'show-img-answer',

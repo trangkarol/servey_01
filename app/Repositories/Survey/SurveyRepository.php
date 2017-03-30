@@ -70,6 +70,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         }
 
         foreach ($questions as $key => $question) {
+            $sum = 0;
             $answers = $datasInput['answers']->where('question_id', $question->id);
 
             foreach ($answers as $answer) {
@@ -82,6 +83,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                     ->whereIn('answer_id', $answer->id)
                     ->pluck('id')
                     ->toArray();
+                $sum += (count($total) > 0) ? (double)(count($answerResult) * 100) / (count($total)) : 0;
                 $temp[] = [
                     'answerId' => $answer->id,
                     'content' => ($answer->type == config('survey.type_time')
@@ -89,14 +91,17 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                         || $answer->type == config('survey.type_date'))
                         ? $datasInput['results']->whereIn('answer_id', $answer->id)
                         : $answer->content,
-                    'percent' => (count($total) > 0) ? (double)(count($answerResult)*100)/(count($total)) : 0,
+                    'percent' => (count($total) > 0) ? (double)(count($answerResult) * 100) / (count($total)) : 0,
                 ];
             }
-            $results[] = [
-                'question' => $question,
-                'answers' => $temp,
-            ];
-            $temp = [];
+
+            if ($sum) {
+                $results[] = [
+                    'question' => $question,
+                    'answers' => $temp,
+                ];
+                $temp = [];
+            }
         }
 
         return $results;
@@ -268,7 +273,10 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
             }
         }
 
-        return $history;
+        return [
+            'history' => $history,
+            'results' => $results,
+        ];
     }
 
     public function getUserAnswer($token)

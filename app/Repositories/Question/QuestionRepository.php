@@ -80,6 +80,7 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
                     : null,
                 'required' => in_array($key, $required),
                 'sequence' => $sequence,
+                'update' => 0,
             ];
 
             $sequence++;
@@ -146,34 +147,32 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
         $questionIds = $this->getQuestionIds($surveyId);
 
         if (!$time) {
-            return $this->answerRepository->getResultByAnswer($questionIds);
+            return $this->answerRepository->getResultByAnswer($questionIds, null, true);
         }
 
         return $this->answerRepository->getResultByAnswer($questionIds, $time);
     }
 
-    private function createOrUpdateQuestion(
-        $surveyId,
-        collection $collectQuestion,
-        $questionId,
-        array $questions,
-        array $answers,
-        array $options,
-        array $deleteImageIds
-    ) {
-        $isDelete = $options['flag'];
-        $checkboxRequired = $options['checkboxRequired'];
-        $imagesQuestion = $options['imagesQuestion'];
-        $imagesAnswer = $options['imagesAnswer'];
+    private function createOrUpdateQuestion(array $data)
+    {
+        $checkboxRequired = $data['checkboxRequired'];
+        $imagesQuestion = $data['imagesQuestion'];
+        $imagesAnswer = $data['imagesAnswer'];
         $dataUpdate = [];
-        $dataUpdate['content'] = $options['questionConent'];
-        $dataUpdate['sequence'] = $options['indexQuestion'];
+        $dataUpdate['content'] = $data['questionContent'];
+        $dataUpdate['sequence'] = $data['indexQuestion'];
+        $collectQuestion = $data['collectQuestion'];
+        $maxUpdateQuestion = $data['maxUpdateQuestion'];
+        $deleteImageIds = $data['deleteImageIds'];
+        $surveyId = $data['surveyId'];
+        $questionId = $data['questionId'];
+        $answers = $data['answers'];
 
         if (in_array($questionId, $deleteImageIds)) {
             $dataUpdate['image'] = null;
         }
 
-        $dataUpdate['required'] = array_key_exists($questionId, $checkboxRequired);
+        $dataUpdate['required'] = array_key_exists($questionId, $checkboxRequired) ? 1 : 0;
 
         if ($imagesQuestion && array_key_exists($questionId, $imagesQuestion)) {
             $dataUpdate['image'] = $this->uploadImage($imagesQuestion[$questionId], config('settings.image_question_path'));
@@ -183,12 +182,85 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
 
         if ($modelQuestion) {
             $modelQuestion->fill($dataUpdate);
-
+            /*
+            * if update the old question
+            * create new question with the input content
+            * update old question field update = -1
+            * create new answers have same answers of old question with field update = 0
+            * update old answers of old question with field update = -1
+            */
             if ($field = $modelQuestion->getDirty()) {
-                $modelQuestion->save();
+                if (head(array_keys($field)) != 'sequence') {
+                    $newQuestion = $this->firstOrCreate([
+                        'sequence' => $dataUpdate['sequence'],
+                        'survey_id' => $surveyId,
+                        'content' => $modelQuestion->content,
+                        'image' => array_key_exists('image', $dataUpdate) ? $dataUpdate['image'] : null,
+                        'required' => $modelQuestion->required,
+                        'update' => $maxUpdateQuestion + 1,
+                    ]);
+                    $modelQuestion = $modelQuestion->fill($modelQuestion->getOriginal());
+                    $modelQuestion->update = config('survey.update.change');
+                    $modelQuestion->save();
+                    $this->answerRepository->newQuery(new Answer());
+                    $oldAnswers = $this->answerRepository
+                        ->where('question_id', $modelQuestion->id)
+                        ->where('update', '>=', 0)
+                        ->orderBy('type')
+                        ->get();
+                    $update = $oldAnswers->max('update') + 1;
+                    $dataInput = [];
+                    $loop = 0;
 
-                if (head(array_keys($field)) != config('survey.field.sequence')) {
-                    $isDelete = true;
+                    foreach ($oldAnswers->values() as $answer) {
+                        $answer->fill([
+                            'content' => $answers[$modelQuestion->id][$loop][$answer->type],
+                        ]);
+                        $answer->update = config('survey.update.change');
+                        $answer->save();
+                        $content = in_array($answer->type, [
+                            config('survey.type_other_radio'),
+                            config('survey.type_other_checkbox'),
+                        ]) ? trans('temp.other') : $answer->content;
+                        $dataInput[] = [
+                            'question_id' => $newQuestion->id,
+                            'content' => $answer->getDirty() ? $answer->content : $content,
+                            'type' => $answer->type,
+                            'image' => $answer->image,
+                            'update' => $update,
+                        ];
+                        $answers[$modelQuestion->id] = array_except($answers[$modelQuestion->id], $loop);
+                        $loop++;
+                    }
+
+                    if ($createAnswer = $answers[$modelQuestion->id]) {
+                        $checkImagesAnswerCreate = ($imagesAnswer && array_key_exists($modelQuestion->id, $imagesAnswer));
+
+                        foreach ($createAnswer as $key => $value) {
+                            $checkHaveImage = ($checkImagesAnswerCreate && array_key_exists($answerIndex, $imagesAnswer[$questionId]));
+                            $content = in_array(array_keys($value), [
+                                config('survey.type_other_radio'),
+                                config('survey.type_other_checkbox'),
+                            ]) ? trans('temp.other') : head($value);
+                            $dataInput[] = [
+                                'question_id' => $newQuestion->id,
+                                'content' => $content,
+                                'type' => head(array_keys($value)),
+                                'image' => $checkHaveImage
+                                    ? $this->answerRepository->uploadImage($imagesAnswer[$questionId][$answerIndex], config('settings.image_answer_path'))
+                                    : null,
+                                'update' => $update,
+                            ];
+                            $answers[$modelQuestion->id] = array_except($answers[$modelQuestion->id], $key);
+                        }
+                    }
+
+                    $this->answerRepository->multiCreate($dataInput);
+                    $this->answerRepository->multiUpdate('question_id', $modelQuestion->id, [
+                        'update' => config('survey.update.change'),
+                    ]);
+                } else {
+                    $modelQuestion->save();
                 }
             }
         } else {
@@ -199,7 +271,9 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
                 'content' => $dataUpdate['content'],
                 'image' => array_key_exists('image', $dataUpdate) ? $dataUpdate['image'] : null,
                 'required' => $dataUpdate['required'],
+                'update' => $maxUpdateQuestion + 1,
             ]);
+
             // insert answers after insert question
             $dataInput = [];
             $checkImagesAnswerCreate = ($imagesAnswer && array_key_exists($questionId, $imagesAnswer));
@@ -223,7 +297,6 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
 
         return [
             'success' => true,
-            'flag' => $isDelete,
             'answers' => $answers,
         ];
     }
@@ -249,95 +322,106 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
 
         if ($inputs['del-question']) {
             $ids = $this->sliptString($inputs['del-question']);
-            $this->delete($ids);
+
+            if ($ids) {
+                $this->multiUpdate('id', $ids, [
+                    'update' => config('survey.update.delete'),
+                ]);
+                $this->answerRepository->multiUpdate('question_id', $ids, [
+                    'update' => config('survey.update.delete'),
+                ]);
+            }
         }
 
         if ($inputs['del-answer']) {
             $ids = $this->sliptString($inputs['del-answer']);
-            $this->answerRepository->delete($ids);
+
+            if ($ids) {
+                $this->answerRepository->newQuery(new Answer());
+                $this->answerRepository->multiUpdate('id', $ids, [
+                    'update' => config('survey.update.delete'),
+                ]);
+            }
         }
 
-        $this->newQuery(new Question());
-        $collectQuestion = $questionIds = $this->where('survey_id', $surveyId)->whereNotIn('id', $ids);
-        $this->answerRepository->newQuery(new Answer());
-
+        $this->newQuery(new Question()); // new query after update question
+        $collectQuestion = $questionIds = $this->where('survey_id', $surveyId)
+            ->whereNotIn('id', $ids)
+            ->whereNotIn('update', [
+                config('survey.isDelete'),
+                config('survey.isUpdate'),
+            ]);
+        $this->newQuery(new Question()); // new query after select question
         $questions = $inputs['txt-question']['question']; // the questions get by request in controller
         $answers = $inputs['txt-question']['answers']; // the answers get by request in controller
-        $checkboxRequired = $inputs['checkboxRequired']['question'] ?: []; // ids question required get bay request in controller
+        $checkboxRequired = $inputs['checkboxRequired']['question'] ?: []; // ids question required get by request in controller
         $images = $inputs['image']; // image of answer and question get by requset in controller
         $imagesQuestion = ($images && array_key_exists('question', $images)) ? $images['question'] : [];
         $imagesAnswer = ($images && array_key_exists('answers', $images)) ? $images['answers'] : [];
-        $removeAnswerIds = []; // the ids result will be remove when update quesiton or answer
+        $collectQuestion = $questionIds = $this->where('survey_id', $surveyId)->whereNotIn('id', $ids);
         $collectAnswer = $this->answerRepository
             ->whereIn('question_id', $questionIds->pluck('id')->toArray())
             ->whereNotIn('id', $ids)
+            ->whereNotIn('update', [
+                config('survey.update.change'),
+                config('survey.update.delete'),
+            ])
             ->get()
             ->groupBy('question_id');
         $collectQuestion = $collectQuestion->get();
-
-        if ($collectQuestion->isEmpty()) {
-            $collectQuestion = collect([]);
-        }
-
-        $collectAnswer = !$collectAnswer->isEmpty() ? $collectAnswer : collect([]);
         $indexQuestion = 0;
+        $maxUpdateQuestion = $collectQuestion->max('update');
+        // check if remove all answer and question
+        $collectAnswer = $collectAnswer->isEmpty() ? collect([]) : $collectAnswer;
+        $collectQuestion = $collectAnswer->isEmpty() ? collect([]) : $collectQuestion;
 
-        foreach ($questions as $questionId => $questionConent) {
-            $options = [
-                'questionConent' => $questionConent,
+        foreach ($questions as $questionId => $questionContent) {
+            $deleteImageIds = !empty($inputs['del-answer-image']) ? $this->sliptString($inputs['del-question-image']) : [];
+            $data = [
+                'collectQuestion' => $collectQuestion,
                 'indexQuestion' => $indexQuestion,
                 'checkboxRequired' => $checkboxRequired,
-                'flag' => false,
-                'imagesAnswer' => $imagesAnswer,
                 'imagesQuestion' => $imagesQuestion,
+                'deleteImageIds' => $deleteImageIds,
+                'imagesAnswer' => $imagesAnswer,
+                'maxUpdateQuestion' => $maxUpdateQuestion,
+                'surveyId' => $surveyId,
+                'questionId' => $questionId,
+                'questionContent' => $questionContent,
+                'answers' => $answers,
             ];
 
             $deleteImageIds = !empty($inputs['del-answer-image']) ? $this->sliptString($inputs['del-question-image']) : [];
-            $questionsResult = $this->createOrUpdateQuestion(
-                $surveyId,
-                $collectQuestion,
-                $questionId,
-                $questions,
-                $answers,
-                $options,
-                $deleteImageIds
-            );
-
+            $questionsResult = $this->createOrUpdateQuestion($data);
             $indexQuestion++;
             // insert or update answer after create or update question
             $answersInQuestion = $collectAnswer->has($questionId)
                 ? $collectAnswer[$questionId]->whereIn('type', [config('survey.type_radio'), config('survey.type_checkbox')])
                 : collect([]);
-            $deleteImageIds = !empty($inputs['del-answer-image']) ? $this->sliptString($inputs['del-answer-image']) : [];
-            $answersResult = $this->answerRepository->createOrUpdateAnswer(
-                $questionId,
-                $answersInQuestion,
-                $collectAnswer,
-                $imagesAnswer,
-                $questionsResult['answers'],
-                $removeAnswerIds,
-                $questionsResult['flag'],
-                $deleteImageIds
-            );
 
-            $answers = $answersResult['answers'];
-            $removeAnswerIds = $answersResult['removeAnswerIds'];
-
-            // get id of last element in collection if it's the orther radio or orther checkbox if the question is update
-            if ($questionsResult['flag'] && $collectAnswer->has($questionId)) {
-                $answer = $collectAnswer[$questionId]->whereIn('type', [
-                    config('survey.type_other_radio'),
-                    config('survey.type_other_checkbox'),
-                ]);
-
-                if (!$answer->isEmpty()) {
-                    $removeAnswerIds[] = $answer->first()->id;
-                }
+            if ($answers[$questionId] && $answersInQuestion && !$answersInQuestion->isEmpty()) {
+                $deleteImageIds = !empty($inputs['del-answer-image']) ? $this->sliptString($inputs['del-answer-image']) : [];
+                $data = [
+                    'questionId' => $questionId,
+                    'answersInQuestion' => $answersInQuestion,
+                    'collectAnswer' => $collectAnswer,
+                    'imagesAnswer' => $imagesAnswer,
+                    'deleteImageIds' => $deleteImageIds,
+                ];
+                $answersResult = $this->answerRepository->createOrUpdateAnswer($questionsResult['answers'], $data);
+                $answers = $answersResult['answers'];
             }
         }
 
-        $this->answerRepository->deleteResultWhenUpdateAnswer($removeAnswerIds);
+        return $this->answerRepository->getResultByAnswer($questionIds->pluck('id')->toArray())
+            ->where('email', '<>', (string)config('settings.email_unidentified'))
+            ->get(['email'])
+            ->unique('email')
+            ->values()
+            ->reduce(function ($carry, $item) {
+                $carry[] = $item->email;
 
-        return $removeAnswerIds;
+                return $carry;
+            }, []);
     }
 }

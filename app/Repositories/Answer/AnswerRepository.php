@@ -48,18 +48,27 @@ class AnswerRepository extends BaseRepository implements AnswerInterface
         }
     }
 
-    public function getAnswerIds($questionIds)
+    public function getAnswerIds($questionIds, $update = false)
     {
+        if (!$update) {
+            return $this->whereIn('question_id', $questionIds)
+                ->whereNotIn('update', [
+                    config('survey.update.change'),
+                    config('survey.update.delete'),
+                ])
+                ->pluck('id')
+                ->toArray();
+        }
+
         return $this->whereIn('question_id', $questionIds)->lists('id')->toArray();
     }
 
-    public function getResultByAnswer($questionIds, $time = null)
+    public function getResultByAnswer($questionIds, $time = null, $isUpdate = false)
     {
-        $answerIds = $this->getAnswerIds($questionIds);
+        $answerIds = $this->getAnswerIds($questionIds, $isUpdate);
 
         if (!$time) {
-            return $this->resultRepository
-                ->whereIn('answer_id', $answerIds);
+            return $this->resultRepository->whereIn('answer_id', $answerIds);
         }
 
         $time = Carbon::parse($time)->format('Y-m-d');
@@ -85,17 +94,16 @@ class AnswerRepository extends BaseRepository implements AnswerInterface
         return $emails;
     }
 
-    public function createOrUpdateAnswer(
-        $questionId,
-        collection $answersInQuestion,
-        collection $collectAnswer,
-        array $imagesAnswer,
-        array $answers,
-        array $removeAnswerIds,
-        $isDelete,
-        array $deleteImageIds
-    ) {
-        if ($answersInQuestion && !$answersInQuestion->isEmpty()) {
+    public function createOrUpdateAnswer(array $answers, array $data)
+    {
+        $questionId = $data['questionId'];
+        $answersInQuestion = $data['answersInQuestion'];
+        $collectAnswer = $data['collectAnswer'];
+        $imagesAnswer = $data['imagesAnswer'];
+        $deleteImageIds = $data['deleteImageIds'];
+
+        if ($answers[$questionId] && $answersInQuestion && !$answersInQuestion->isEmpty()) {
+            $dataCreate = [];
             $index = 0;
             $maxUpdate = $answersInQuestion->max('update');
             $arrayInfoUpdate = $answers[$questionId];
@@ -103,7 +111,7 @@ class AnswerRepository extends BaseRepository implements AnswerInterface
             $checkImages = ($imagesAnswer && array_key_exists($questionId, $imagesAnswer));
             // remove if last index of answer[$question] is other radio or other checkbox in last list answer
 
-            if ($arrayInfoUpdate && in_array(head(array_keys(last($arrayInfoUpdate))), [
+            if (in_array(head(array_keys(last($arrayInfoUpdate))), [
                 config('survey.type_other_radio'),
                 config('survey.type_other_checkbox'),
             ])) {
@@ -112,7 +120,7 @@ class AnswerRepository extends BaseRepository implements AnswerInterface
                 $arrayInfoUpdate = array_except($arrayInfoUpdate, [$key]);
             }
 
-            foreach ($answersInQuestion as $indexAnswer => $answer) {
+            foreach ($answersInQuestion->values() as $indexAnswer => $answer) {
                 $updateAnswer = [];
                 $questionId = $answer->question_id;
                 $typeAnswer = $answer->type;
@@ -133,18 +141,18 @@ class AnswerRepository extends BaseRepository implements AnswerInterface
                 $modelAnswer = $answer->fill($updateAnswer);
 
                 if ($modelAnswer->getDirty()) {
-                    $modelAnswer->update = $maxUpdate + 1;
+                    $dataCreate[] = [
+                        'content' => $modelAnswer->content,
+                        'type' => $modelAnswer->type,
+                        'question_id' => $modelAnswer->question_id,
+                        'image' => $modelAnswer->image,
+                        'update' => $maxUpdate + 1,
+                        'created_at' => Carbon::now(),
+                        'updated_at' => Carbon::now(),
+                    ];
+                    $modelAnswer->fill($modelAnswer->getOriginal());
+                    $modelAnswer->update = config('survey.update.change');
                     $modelAnswer->save();
-
-                    if (!$isDelete) {
-                        $removeAnswerIds[] = $modelAnswer->id;
-                    }
-                }
-
-                if ($isDelete) {
-                    $modelAnswer->update = $maxUpdate + 1;
-                    $modelAnswer->save();
-                    $removeAnswerIds[] = $answer->id;
                 }
 
                 $answers[$questionId] = array_except($answers[$questionId], [$indexAnswer]);
@@ -163,33 +171,35 @@ class AnswerRepository extends BaseRepository implements AnswerInterface
             }
 
             if ($answersCreate = $answers[$questionId]) {
-                $dataInput = [];
-
                 foreach ($answersCreate as $indexAnswer => $answer) {
                     $checkHaveImage = ($checkImages && array_key_exists($indexAnswer, $imagesAnswer[$questionId]));
 
                     if ($answer) {
-                        $dataInput[] = [
-                            'content' => head($answer),
+                        $content = in_array(head(array_keys($answer)), [
+                            config('survey.type_other_checkbox'),
+                            config('survey.type_other_radio'),
+                        ]) ?  trans('temp.other') : head($answer);
+                        $dataCreate[] = [
+                            'content' => $content,
                             'question_id' => $questionId,
                             'type' => head(array_keys($answer)),
                             'image' => $checkHaveImage
                                 ? $this->uploadImage($imagesAnswer[$questionId][$indexAnswer], config('settings.image_answer_path'))
                                 : null,
-                            'update' => 0,
+                            'update' => $maxUpdate + 1,
+                            'created_at' => Carbon::now(),
+                            'updated_at' => Carbon::now(),
                         ];
                     }
                 }
-
-                $this->multiCreate($dataInput);
             }
+
+            $this->multiCreate($dataCreate);
         }
 
         return [
             'success' => true,
             'answers' => $answers,
-            'flag' => $isDelete,
-            'removeAnswerIds' => $removeAnswerIds,
         ];
     }
 }
