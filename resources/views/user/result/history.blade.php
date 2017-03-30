@@ -51,7 +51,7 @@
                                             (in_array($answer->id, array_keys($history))) ? $history[$answer->id] : null, [
                                                 'class' => 'form-control',
                                                 'id' => "answer[$question->id][$answer->id]",
-                                                (in_array($answer->id, array_keys($history))) ? ('disabled = true') : null,
+                                                (in_array($answer->id, array_keys($history))) ? 'disabled' : null,
                                         ]) !!}
                                         @breakswitch
                                     @case(config('survey.type_time'))
@@ -59,7 +59,7 @@
                                             (in_array($answer->id, array_keys($history))) ? $history[$answer->id] : null, [
                                                 'class' => 'frm-time form-control ',
                                                 'id' => "answer[$question->id]",
-                                                (in_array($answer->id, array_keys($history))) ? ('disabled = true') : null,
+                                                (in_array($answer->id, array_keys($history))) ? 'disabled' : null,
                                         ]) !!}
                                         @breakswitch
                                     @case(config('survey.type_date'))
@@ -67,7 +67,7 @@
                                             (in_array($answer->id, array_keys($history))) ? $history[$answer->id] : null, [
                                                 'class' => 'form-control frm-date-2',
                                                 'id' => "answer[$question->id]",
-                                                (in_array($answer->id, array_keys($history))) ? ('disabled = true') : null,
+                                                (in_array($answer->id, array_keys($history))) ? 'disabled' : null,
                                         ]) !!}
                                         @breakswitch
                                     @case(config('survey.type_other_radio'))

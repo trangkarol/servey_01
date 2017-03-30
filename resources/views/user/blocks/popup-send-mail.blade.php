@@ -10,7 +10,7 @@
                                 (Auth::guard()->check()) ? Auth::user()->email : '', [
                                 'placeholder' => trans('info.your_email'),
                                 'class' => 'input-email form-control',
-                                auth()->check() ? ('disabled = true') : '',
+                                auth()->check() ? 'disabled' : null,
                             ]) !!}
                         </div>
                     </div>
@@ -33,12 +33,12 @@
                     </div>
                     <div class="div-send row">
                         <div class="col-md-6">
-                            {!! Form::submit(trans('temp.send'),  [
+                            {!! Form::submit(trans('temp.send'), [
                                 'class' => 'btn-send-mail',
                             ]) !!}
                         </div>
                         <div class="col-md-6">
-                            {!! Form::button(trans('temp.cancel'),  [
+                            {!! Form::button(trans('temp.cancel'), [
                                 'class' => 'btn-close-popup',
                             ]) !!}
                         </div>

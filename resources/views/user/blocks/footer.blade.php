@@ -52,13 +52,15 @@
     </section>
     <section id="footer_2">
         <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <ul id="footer-nav">
-                    <li>{{ trans('view.footer.copyright') }}</li>
-                    <li>{{ trans('view.footer.reserved') }}</li>
-                </ul>
+            <div class="row">
+                <div class="col-md-6">
+                    <ul id="footer-nav">
+                        <li>{{ trans('view.footer.copyright') }}</li>
+                        <li>{{ trans('view.footer.reserved') }}</li>
+                    </ul>
+                </div>
             </div>
+        </div>
     </section>
 </footer>
 <div id="toTop">{{ trans('view.footer.back_to_top') }}</div>
