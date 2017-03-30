@@ -62,8 +62,8 @@
             {{ trans('temp.name') }}
         </div>
         <div class="body">
-            <p>{{ trans('temp.participant') }}</p>
-            <p>{{ trans('messages.email.from') . $email . '(' . $senderName . ')' }}</p>
+            <p>{{ trans('temp.reanswer') }}</p>
+            <p>{{ trans('messages.email.from') . $email . '(' . $senderName . ')' }} </p>
         <hr>
         </div>
         <div class="content-survey">

@@ -32,4 +32,8 @@ return [
     'field' => [
         'sequence' => 'sequence',
     ],
+    'update' => [
+        'change' => -1,
+        'delete' => -2,
+    ],
 ];
