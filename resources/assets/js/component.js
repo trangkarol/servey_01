@@ -213,6 +213,20 @@ $(document).ready(function() {
         }
     });
 
+    $('#wrapped-update').submit(function() {
+       var values = $(this).serializeArray();
+
+        if (values.length == 5) {
+           $('.create-question-validate').addClass('animated fadeInDown').css('display', 'block');
+
+           return false;
+        }
+
+        var _temp = $('.update-content-survey').find('input[type="text"]');
+
+        return (!_temp['length'] || _temp['valid']());
+    });
+
     $(document).on('change', '.option-choose-answer', function() {
         if ($(this).val() == 1 || $(this).val() == 3) {
             $('.div-option-require').slideDown();
@@ -306,4 +320,23 @@ $(document).ready(function() {
             }
         }
     }
+
+    (function() {
+        function elasticArea() {
+            $('.js-elasticArea').each(function(index, element) {
+                var elasticElement = element,
+                    $elasticElement = $(element),
+                    initialHeight = initialHeight || $elasticElement.height(),
+                    delta = parseInt($elasticElement.css('paddingBottom')) + parseInt($elasticElement.css('paddingTop')) || 0,
+                    resize = function() {
+                        $elasticElement.height(initialHeight);
+                        $elasticElement.height(elasticElement.scrollHeight - delta);
+                };
+                $elasticElement.on('input change keyup', resize);
+                resize();
+            });
+        };
+        //Init function in the view
+        elasticArea();
+    })();
 });

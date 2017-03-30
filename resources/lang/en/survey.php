@@ -71,4 +71,10 @@ return [
     'tail_mail' => 'Requirements tail email',
     'exportExecl' => 'Export to Execl',
     'exportPDF' => 'Export to PDF',
+    'thank_you' => 'Thank you for your time.',
+    'invite' => 'Invite to participate',
+    'notice' =>[
+        'answer' => 'You answered this survey',
+        'number' => 'times at a time',
+    ],
 ];
