@@ -1460,3 +1460,10 @@ $darkenColor: darken($activeColor, 20%);
 textarea.form-control {
     resize: vertical;
 }
+
+.isUpdate {
+    float:right; margin-top: -4%;
+    width: 5px;
+    height: 5px;
+    text-align: center;
+}

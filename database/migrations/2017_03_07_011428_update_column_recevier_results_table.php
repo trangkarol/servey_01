@@ -26,7 +26,7 @@ class UpdateColumnRecevierResultsTable extends Migration
     public function down()
     {
         Schema::table('results', function (Blueprint $table) {
-            $table->integer('recevier_id')->nullable(false)->change();
+            $table->integer('recevier_id')->change();
         });
     }
 }
