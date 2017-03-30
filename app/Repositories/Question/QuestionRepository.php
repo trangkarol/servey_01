@@ -213,6 +213,7 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
                     'image' => $checkHaveImage
                         ? $this->answerRepository->uploadImage($imagesAnswer[$questionId][$answerIndex], config('settings.image_answer_path'))
                         : null,
+                    'update' => 0,
                 ];
             }
 
@@ -240,7 +241,7 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
     */
     public function updateSurvey(array $inputs, $surveyId)
     {
-        $ids = null;
+        $ids = [];
 
         if (!$surveyId) {
             return false;
@@ -272,8 +273,13 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
             ->whereNotIn('id', $ids)
             ->get()
             ->groupBy('question_id');
-        $collectQuestion = $collectQuestion->get()->isEmpty() ? $collectQuestion->get() : collect([]);
-        $collectAnswer = $collectAnswer->isEmpty() ? $collectAnswer : collect([]);
+        $collectQuestion = $collectQuestion->get();
+
+        if ($collectQuestion->isEmpty()) {
+            $collectQuestion = collect([]);
+        }
+
+        $collectAnswer = !$collectAnswer->isEmpty() ? $collectAnswer : collect([]);
         $indexQuestion = 0;
 
         foreach ($questions as $questionId => $questionConent) {

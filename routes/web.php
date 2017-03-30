@@ -126,7 +126,7 @@ Route::post('/update-setting/{id}/{token}', 'SettingController@update');
 
 Route::post('/survey/result/{token}', 'ResultController@result');
 
-Route::get('/autocomplete', 'SurveyController@autocomplete');
+Route::get('/complete/{token}/{name}', 'SurveyController@complete');
 
 Route::post('/search', 'SurveyController@search');
 

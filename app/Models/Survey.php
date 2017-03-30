@@ -47,12 +47,17 @@ class Survey extends Model
     public function getDeadlineAttribute()
     {
         return (!empty($this->attributes['deadline']))
-            ? Carbon::parse($this->attributes['deadline'])->format('Y/m/d H:i')
+            ? Carbon::parse($this->attributes['deadline'])->format('Y-m-d H:i:s')
             : null;
     }
 
     public function temps()
     {
         return $this->hasMany(Temp::class);
+    }
+
+    public function getIsOpenAttribute()
+    {
+        return (empty($this->attributes['deadline']) || Carbon::parse($this->attributes['deadline'])->gt(Carbon::now()));
     }
 }

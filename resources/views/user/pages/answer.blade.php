@@ -3,7 +3,7 @@
     <div class="survey_container animated zoomIn wizard" novalidate="novalidate">
         <div id="top-wizard">
             <div class="container-menu-wizard row">
-                @if (!in_array(config('settings.key.hideResult'), array_keys($access)) || ($survey->user_id == auth()->id()))
+                @if (!$access[config('settings.key.hideResult')] || ($survey->user_id == auth()->id()))
                     <div class="menu-wizard col-md-5 active-answer active-menu">
                         {{ trans('result.answer') }}
                     </div>

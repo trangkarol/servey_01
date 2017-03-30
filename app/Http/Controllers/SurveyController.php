@@ -112,7 +112,7 @@ class SurveyController extends Controller
         ]);
 
         if ($request->get('deadline')) {
-            $data['deadline'] = Carbon::parse($request->get('deadline'));
+            $data['deadline'] = Carbon::parse($request->get('deadline'))->format('Y-m-d H:i');
         }
 
         if ($survey) {
@@ -135,7 +135,6 @@ class SurveyController extends Controller
                 ])
             );
     }
-
 
     public function updateSurveyContent(Request $request, $surveyId, $token)
     {
@@ -225,7 +224,6 @@ class SurveyController extends Controller
                 'description' => $value['description'],
                 'user_name' => $value['name'],
             ]);
-
             $survey = $this->surveyRepository->createSurvey(
                 $inputs,
                 ($value['setting']) ?: [],
@@ -274,14 +272,27 @@ class SurveyController extends Controller
             ]));
         }
 
-        return view('user.pages.complete', [
-            'name' => $value['name'],
-            'email' => $value['email'],
-            'token' => $token,
-            'name' => $value['name'],
-            'tokenManage' => $tokenManage,
-            'feature' => ($value['feature']) ? config('settings.feature') : config('settings.not_feature'),
+        return redirect()->action('SurveyController@complete', [
+            $tokenManage,
+            $value['name'],
         ]);
+    }
+
+    public function complete($token, $name)
+    {
+        if (!$token || !$name) {
+            return view('errors.404');
+        }
+
+        $survey = $this->surveyRepository->where('token_manage', $token)->first();
+
+        if (!$survey) {
+            return view('errors.404');
+        }
+
+        $mail = auth()->check() ? auth()->user()->email : $survey->mail;
+
+        return view('user.pages.complete', compact('survey', 'name', 'mail'));
     }
 
     public function inviteUser(Request $request, $surveyId, $type)

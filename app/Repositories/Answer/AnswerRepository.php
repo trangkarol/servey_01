@@ -176,6 +176,7 @@ class AnswerRepository extends BaseRepository implements AnswerInterface
                             'image' => $checkHaveImage
                                 ? $this->uploadImage($imagesAnswer[$questionId][$indexAnswer], config('settings.image_answer_path'))
                                 : null,
+                            'update' => 0,
                         ];
                     }
                 }
@@ -187,6 +188,7 @@ class AnswerRepository extends BaseRepository implements AnswerInterface
         return [
             'success' => true,
             'answers' => $answers,
+            'flag' => $isDelete,
             'removeAnswerIds' => $removeAnswerIds,
         ];
     }
