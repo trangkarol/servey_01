@@ -32,4 +32,6 @@ return [
     'create_success' => 'Survey của bạn đã được tạo THÀNH CÔNG',
     'below' => "Dưới đây là 2 link mà chúng tôi đã gữi đến mail của bạn",
     'access_link' => 'Truy cập liên kết này giúp bạn có thể thay đổi, đóng hoặc xóa survey của bạn.',
+    'dear' => 'Thân ái',
+    'reanswer' => 'Survey đã thay đổi, bạn vui lòng làm lại khảo sát này',
 ];

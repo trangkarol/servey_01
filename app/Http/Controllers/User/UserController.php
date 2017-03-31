@@ -46,16 +46,16 @@ class UserController extends Controller
         ) {
             $updateData = $request->except(['old-password']);
 
-            if (!empty($updateData['image'])) {
-                $updateData['image'] = $this->userRepository->uploadAvatar($updateData['image']);
-            } else {
-                $updateData = $request->except(['image']);
-            }
-
             if (empty($updateData['birthday'])) {
                 $updateData = $request->except(['birthday']);
             } else {
                 $updateData['birthday'] = Carbon::parse($updateData['birthday'])->format('Y/m/d');
+            }
+
+            if (!empty($updateData['image'])) {
+                $updateData['image'] = $this->userRepository->uploadAvatar($updateData['image']);
+            } else {
+                $updateData = $request->except(['image']);
             }
 
             if ($this->userRepository->update(auth()->id(), $updateData)) {
