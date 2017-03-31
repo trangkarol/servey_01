@@ -84,57 +84,8 @@
     <body>
         <div class="content-body">
             <div>
-                <table align="center" border="0" cellpadding="0" cellspacing="0" class="content">
-                    <tbody>
-                        <tr class="tr-1">
-                            <td>
-                                {{ Html::image(config('app.url') . config('settings.image_path_system') . 'thank.png', '', [
-                                    'class' => 'img-invite',
-                                ]) }}
-                                <br/>
-                                {{ trans('temp.title_web') }}
-                            </td>
-                        </tr>
-                        <tr class="tr-2">
-                            <td>
-                                <h4>{{ trans('temp.dear') . ',' . $name }}</h4>
-                                <b>{{ trans('temp.thank_participation') }}</b>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="tr-3">
-                                {{ Html::image(config('app.url') . config('settings.image_path_system') . 'sv.jpg', '', [
-                                    'class' => 'img-mail',
-                                ]) }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="tr-4">
-                                <p>{{ trans('temp.create_success') }}</p>
-                                <p>{{ trans('temp.below') }}</p>
-                                <p>{{ trans('temp.access_link') }}</p>
-                                <a href="{{ $linkManage }}">{{ $linkManage }}</a>
-                                <hr>
-                            </td>
-                        </tr>
-                        <tr class="tr-5">
-                            <td>
-                                <b>{{ trans('temp.your_survey') }}</b>
-                            </td>
-                        </tr>
-                        <tr class="tr-6">
-                            <td>
-                                <p>{{ trans('temp.title') . ':' . $title }}</p>
-                                <p>{{ trans('temp.description') . ':' . $description }}</p>
-                                <div class="hr-heading-body">
-                                    <p>{{ trans('temp.tag_send_user') }}</p>
-                                    <a href="{{ $link }}">{{ $link }}</a>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="tr-7"><td></td></tr>
-                    </tbody>
-                </table>
+                @each('emails.temp_email_manage', config('settings.locale'), 'lang')
+                    <hr/>
             </div>
         </div>
     </body>
