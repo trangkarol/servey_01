@@ -23,6 +23,8 @@
             'data-error' => trans('home.error'),
             'data-confirm' => trans('temp.confirm'),
             'data-email-invalid' => trans('temp.email_invalid'),
+            'data-host' => config('app.socket.socket_host'),
+            'data-port' => config('app.socket.socket_port'),
         ]) !!}
         <section id="top-area">
             @include('user.blocks.menu')
