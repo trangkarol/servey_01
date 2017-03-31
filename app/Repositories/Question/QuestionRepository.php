@@ -195,7 +195,7 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
                         'sequence' => $dataUpdate['sequence'],
                         'survey_id' => $surveyId,
                         'content' => $modelQuestion->content,
-                        'image' => array_key_exists('image', $dataUpdate) ? $dataUpdate['image'] : null,
+                        'image' => $modelQuestion->image_update,
                         'required' => $modelQuestion->required,
                         'update' => $maxUpdateQuestion + 1,
                     ]);
@@ -226,7 +226,7 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
                             'question_id' => $newQuestion->id,
                             'content' => $answer->getDirty() ? $answer->content : $content,
                             'type' => $answer->type,
-                            'image' => $answer->image,
+                            'image' => $answer->image_update,
                             'update' => $update,
                         ];
                         $answers[$modelQuestion->id] = array_except($answers[$modelQuestion->id], $loop);

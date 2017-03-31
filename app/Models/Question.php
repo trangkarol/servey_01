@@ -40,4 +40,9 @@ class Question extends Model
 
         return asset(config('settings.image_question_path') . $questionImgUrl);
     }
+
+    public function getImageUpdateAttribute()
+    {
+        return $this->attributes['image'];
+    }
 }

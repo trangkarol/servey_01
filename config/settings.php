@@ -2,12 +2,12 @@
 
 return [
     'image_system' => '/user/images/',
-    'image_user_default' => 'user/images/default_user.png',
+    'image_user_default' => '/user/images/default_user.png',
     'image_default' => 'questionDefault.png',
-    'image_path' => 'image/',
+    'image_path' => '/image/',
     'image_question_path' => '/user/uploads/question/',
     'image_answer_path' => '/user/uploads/answer/',
-    'image_path_system' => 'user/images/',
+    'image_path_system' => '/user/images/',
     'question' => [
         'not_required' => 0,
         'required' => 1,

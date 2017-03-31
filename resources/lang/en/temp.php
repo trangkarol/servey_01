@@ -32,4 +32,6 @@ return [
     'create_success' => 'Your survey created SUCCESS.',
     'below' => "Below, it's two link which they send your mail.",
     'access_link' => 'Access this link help you can change, close or delete your survey.',
+    'dear' => 'Dear',
+    'reanswer' => 'Survey has changed, please re-answer this survey',
 ];

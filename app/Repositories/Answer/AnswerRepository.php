@@ -145,7 +145,7 @@ class AnswerRepository extends BaseRepository implements AnswerInterface
                         'content' => $modelAnswer->content,
                         'type' => $modelAnswer->type,
                         'question_id' => $modelAnswer->question_id,
-                        'image' => $modelAnswer->image,
+                        'image' => $modelAnswer->image_update,
                         'update' => $maxUpdate + 1,
                         'created_at' => Carbon::now(),
                         'updated_at' => Carbon::now(),

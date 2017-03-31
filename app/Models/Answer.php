@@ -34,4 +34,9 @@ class Answer extends Model
 
         return asset(config('settings.image_answer_path') . $answerImgUrl);
     }
+
+    public function getImageUpdateAttribute()
+    {
+        return $this->attributes['image'];
+    }
 }
