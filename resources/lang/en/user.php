@@ -24,4 +24,5 @@ return [
     'date' => 'Date',
     'detail' => 'Detail',
     'go_home' => 'Go back the home',
+    'incognito' => 'Incognito',
 ];

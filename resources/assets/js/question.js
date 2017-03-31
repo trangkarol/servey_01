@@ -332,21 +332,4 @@ $(document).ready(function() {
         var temp_qs = $(this).attr('temp-qs');
         $('.input' + temp_qs).remove();
     });
-
-    $(document).on('click', '.show-multi-history', function() {
-
-        var url = $(this).attr('data-url');
-        $.get(
-            url,
-            function(response) {
-
-                if (response.success) {
-                    $('body').css('overflow', 'hidden');
-                    $('.popup-user-answer').css('display', 'block');
-                    $('.popup-content-history').append(response.data);
-                } else {
-                    alert(error);
-                }
-        });
-    });
 });

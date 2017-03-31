@@ -19,10 +19,10 @@
         @foreach ($listUserAnswer as $user)
             <tr>
                 <td>
-                    {{ $user[0]['name'] }}
+                    {{ $user[0]['name'] ?: trans('user.incognito') }}
                 </td>
                 <td>
-                    {{ $user[0]['email'] }}
+                    {{ $user[0]['email'] ?: '' }}
                 </td>
                 <td>
                     {{ Carbon\Carbon::parse($user[0]['created_at'])->format('Y-m-d') }}

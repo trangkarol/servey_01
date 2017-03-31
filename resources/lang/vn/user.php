@@ -23,5 +23,6 @@ return [
     'Email' =>'Email',
     'date' => 'Ngày trả lời',
     'detail' => 'Chi tiết',
-    'go_home' => 'Về trang chủ'
+    'go_home' => 'Về trang chủ',
+    'incognito' => 'Ẩn danh',
 ];
