@@ -84,52 +84,8 @@
 <body>
     <div class="content-body">
         <div>
-            <table align="center" border="0" cellpadding="0" cellspacing="0" class="content">
-                <tbody>
-                    <tr class="tr-1">
-                        <td>
-                            {{ Html::image(config('app.url') . config('settings.image_path_system') . 'newsletter.png', '', [
-                                'class' => 'img-invite',
-                            ]) }}
-                            <br/>
-                            {{ trans('temp.title_web') }}
-                        </td>
-                    </tr>
-                    <tr class="tr-2">
-                        <td>
-                            <b>{{ trans('temp.participant') }}</b>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="tr-3">
-                            {{ Html::image(config('app.url') . config('settings.image_path_system') . 'sv.jpg', '', [
-                                'class' => 'img-mail',
-                            ]) }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="tr-4">
-                            {{ trans('temp.from') . ':' . $emailSender . '(' . $name  . ')' }}
-                        </td>
-                    </tr>
-                    <tr class="tr-5">
-                        <td>
-                            <b>{{ trans('temp.info_survey') }}</b>
-                        </td>
-                    </tr>
-                    <tr class="tr-6">
-                        <td>
-                            <p>{{ trans('temp.title') . ':' . $title }}</p>
-                            <p>{{ trans('temp.description') . ':' . $description }}</p>
-                            <div class="hr-heading-body">
-                                <p>{{ trans('temp.click_participant') }}</p>
-                                <a href="{{ $link }}">{{ $link }}</a>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr class="tr-7"><td></td></tr>
-                </tbody>
-            </table>
+            @each('emails.temp_email_invite', config('settings.locale'), 'lang')
+                <hr/>
         </div>
     </div>
 </body>
