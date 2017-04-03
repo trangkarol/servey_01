@@ -15,10 +15,20 @@
                     </a>
                 </li>
                 @if ($listUserAnswer)
-                    <li><a data-toggle="tab" href="#menu3">{{ trans('result.users_answer') }}</a></li>
+                    <li>
+                        <a data-toggle="tab" href="#menu3">
+                            <span class="glyphicon glyphicon-list-alt"></span>
+                            {{ trans('result.users_answer') }}
+                        </a>
+                    </li>
                 @endif
                 @if ($history)
-                    <li><a data-toggle="tab" href="#menu2">{{ trans('result.history') }}</a></li>
+                    <li>
+                        <a data-toggle="tab" href="#menu2">
+                            <span class="glyphicon glyphicon-hourglass"></span>
+                            {{ trans('result.history') }}
+                        </a>
+                    </li>
                 @endif
             </ul>
             @include('user.component.tab-result')

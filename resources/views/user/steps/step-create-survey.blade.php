@@ -1,4 +1,4 @@
-<div class="step2 wizard-hidden step row wizard-step">
+<div class="step2 package-question wizard-hidden step row wizard-step">
     <div class="title-create row">
         <div class="col-md-9">
             <h3 class="wizard-header">

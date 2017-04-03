@@ -80,20 +80,23 @@
                                     @breakswitch
                                 @case(config('survey.type_text'))
                                     {!! Form::textarea("answer[$question->id][$answer->id]", $checked, [
-                                        'class' => 'form-control answer',
+                                        'class' => 'js-elasticArea form-control answer',
                                         'id' => "answer[$question->id][$answer->id]",
+                                        'placeholder' => trans('home.answer_here'),
                                     ]) !!}
                                     @breakswitch
                                 @case(config('survey.type_time'))
                                     {!! Form::text("answer[$question->id][$answer->id]", $checked, [
                                         'class' => 'frm-time form-control',
                                         'id' => "answer[$question->id]",
+                                        'placeholder' => trans('home.choose_time')
                                     ]) !!}
                                     @breakswitch
                                 @case(config('survey.type_date'))
                                     {!! Form::text("answer[$question->id][$answer->id]", $checked, [
                                         'class' => 'form-control frm-date-2',
                                         'id' => "answer[$question->id]",
+                                        'placeholder' => trans('home.choose_date'),
                                     ]) !!}
                                     @breakswitch
                                 @case(config('survey.type_other_radio'))
@@ -144,6 +147,7 @@
                                                 {!! Form::textarea("answer[$question->id][$answer->id]", $checked, [
                                                     'class' => 'animated zoomIn form-control input' . $question->id,
                                                     'required' => true,
+                                                    'placeholder' => trans('home.answer_here'),
                                                 ]) !!}
                                             @endif
                                         </div>

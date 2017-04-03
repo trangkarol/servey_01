@@ -10,7 +10,7 @@
         'enctype' => 'multipart/form-data',
     ]) !!}
         <div class="update-content-survey wizard-branch wizard-wrapper">
-            <div class="step row wizard-step">
+            <div class="package-question step row wizard-step">
                 <div class="title-create row">
                     <div class="col-md-9">
                         <h3 class="wizard-header">
@@ -224,7 +224,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="remove-answer col-md-1">
-                                                    <a class="glyphicon glyphicon-remove remove-other"
+                                                    <a class="glyphicon glyphicon-remove btn-remove-answer remove-other"
                                                         id-qs="{{ $number }}"
                                                         num="{{ $number }}"
                                                         data-answerId="{{ $answer->id }}">
@@ -244,7 +244,7 @@
                                                         ]) !!}
                                                     </div>
                                                 </div>
-                                                <div class="remove-answer col-md-1">
+                                                <div class="remove-answer btn-remove-answer col-md-1">
                                                     <a class="glyphicon glyphicon-remove remove-other"
                                                         id-qs="{{ $number }}"
                                                         num="{{ $number }}"

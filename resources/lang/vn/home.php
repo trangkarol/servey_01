@@ -54,4 +54,7 @@ return [
     'link' => 'Đường dẫn',
     'survey_closed' => 'Survey đã đóng',
     'edit_survey' => 'Số lần cập nhập survey còn lại :limit',
+    'answer_here' => 'Trả lời ở đây',
+    'choose_date' => 'Chọn ngày tại đây',
+    'choose_time' => 'Chọn thời gian tại đây',
 ];

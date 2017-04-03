@@ -17,7 +17,7 @@
                         <div class="content-chart">
                             @foreach ($chart['chart'][0]['answer'] as $collection)
                                 <div>
-                                    <h5> - {{ $collection->content }} </h5>
+                                    <h5>{{ !is_array($collection) ? ' -  ' . $collection->content : $collection['content'] }} </h5>
                                 </div>
                             @endforeach
                         </div>

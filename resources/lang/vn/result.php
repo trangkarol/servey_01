@@ -16,4 +16,9 @@ return [
     'detail' => 'Chi tiết',
     'back_home' => 'Quay về trang chủ',
     'sorry_user' => 'XIN LỖI, Survey đã bị hủy.',
+    'expired' => 'Survey đã hết hạn trả lời.',
+    'your_answer' => 'Câu trả lời của bạn là : ',
+    'not_answer' => 'Bạn chưa trả lời câu hỏi này.',
+    'other_opinion' => 'Ý kiến khác',
+    'answer_not_have' => 'Bạn chưa trả lời bất cứ câu hỏi nào.',
 ];

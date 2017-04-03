@@ -54,4 +54,7 @@ return [
     'link' => 'Link',
     'survey_closed' => 'Survey closed',
     'edit_survey' => 'The number of updates survey remaining :limit',
+    'answer_here' => 'Answer here',
+    'choose_date' => 'Choose date here',
+    'choose_time' => 'Choose time here',
 ];
