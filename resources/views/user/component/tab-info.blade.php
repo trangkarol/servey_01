@@ -1,5 +1,6 @@
 <div class="detail-survey">
     {!! Form::open([
+        'class' => 'tab-save-info',
         'action' => [
             'SurveyController@updateSurvey',
             $survey->id,
@@ -18,7 +19,7 @@
                             {!! Form::text('title', $survey->title, [
                                 'placeholder' => trans('info.title'),
                                 'id' => 'title',
-                                'class' => 'required form-control',
+                                'class' => 'frm-title required form-control',
                             ]) !!}
                         </div>
                     </li>
@@ -49,7 +50,7 @@
             <div class="frm-textarea container-infor">
                 {!! Html::image(config('settings.image_system') . 'description.png', '') !!}
                 {!! Form::textarea('description', $survey->description, [
-                    'class' => 'form-control',
+                    'class' => 'js-elasticArea form-control',
                     'placeholder' => trans('info.description'),
                 ]) !!}
             </div>

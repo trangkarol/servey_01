@@ -21,31 +21,49 @@
                 </div>
                 <div class="setting-requirement col-md-10 row div-hidden">
                     <div class="col-md-2">
-                        {{ Form::radio('setting[' . config('settings.key.requireAnswer') . ']', config('settings.require.email'), '', [
-                            'id' => 'require-email',
-                            'class' => 'option-choose-answer input-radio',
-                        ]) }}
-                        {{ Form::label('require-email', trans('survey.require.email'), [
-                            'class' => 'label-radio',
-                        ]) }}
+                        <div class="type-radio-answer row">
+                            <div class="box-radio col-md-1">
+                                {{ Form::radio('setting[' . config('settings.key.requireAnswer') . ']', config('settings.require.email'), '', [
+                                    'id' => 'require-email',
+                                    'class' => 'option-choose-answer input-radio',
+                                ]) }}
+                                {{ Form::label('require-email', ' ', [
+                                    'class' => 'label-radio',
+                                ]) }}
+                                <div class="check"><div class="inside"></div></div>
+                            </div>
+                            <div class="col-md-8">{{ trans('survey.require.email') }}</div>
+                        </div>
                     </div>
                     <div class="col-md-2">
-                        {{ Form::radio('setting[' . config('settings.key.requireAnswer') . ']', config('settings.require.name'), '', [
-                            'id' => 'require-name',
-                            'class' => 'option-choose-answer input-radio',
-                        ]) }}
-                        {{ Form::label('require-name', trans('survey.require.name'), [
-                            'class' => 'label-radio',
-                        ]) }}
+                        <div class="type-radio-answer row">
+                            <div class="box-radio col-md-1">
+                                {{ Form::radio('setting[' . config('settings.key.requireAnswer') . ']', config('settings.require.name'), '', [
+                                    'id' => 'require-name',
+                                    'class' => 'option-choose-answer input-radio',
+                                ]) }}
+                                {{ Form::label('require-name', ' ', [
+                                    'class' => 'label-radio',
+                                ]) }}
+                                <div class="check"><div class="inside"></div></div>
+                            </div>
+                            <div class="col-md-8">{{ trans('survey.require.name') }}</div>
+                        </div>
                     </div>
-                    <div class="col-md-6">
-                        {{ Form::radio('setting[' . config('settings.key.requireAnswer') . ']', config('settings.require.both'), '', [
-                            'id' => 'require-email-name',
-                            'class' => 'option-choose-answer input-radio',
-                        ]) }}
-                        {{ Form::label('require-email-name', trans('survey.require.email_and_name'), [
-                            'class' => 'label-radio',
-                        ]) }}
+                    <div class="col-md-2">
+                        <div class="type-radio-answer row">
+                            <div class="box-radio col-md-1">
+                                {{ Form::radio('setting[' . config('settings.key.requireAnswer') . ']', config('settings.require.both'), '', [
+                                    'id' => 'require-email-name',
+                                    'class' => 'option-choose-answer input-radio',
+                                ]) }}
+                                {{ Form::label('require-email-name', ' ', [
+                                    'class' => 'label-radio',
+                                ]) }}
+                                <div class="check"><div class="inside"></div></div>
+                            </div>
+                            <div class="col-md-8">{{ trans('survey.require.email_and_name') }}</div>
+                        </div>
                     </div>
                 </div>
             </div>

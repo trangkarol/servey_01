@@ -15,36 +15,19 @@ $(document).ready(function() {
         return text.test(email);
     }
 
-    function formatDate(date) {
-        var hours = date.getHours();
-        var minutes = date.getMinutes();
-        var ampm = hours >= 12 ? 'PM' : 'AM';
-        hours = hours % 12;
-        hours = hours ? hours : 12;
-        hours   = hours < 10 ? '0' + hours : hours ;
-        minutes = minutes < 10 ? '0' + minutes : minutes;
-        var strTime = hours + " : " + minutes + ' ' + ampm;
-
-        return date.getFullYear() + "/" + ((date.getMonth() + 1) < 10 ? "0" +
-            (date.getMonth() + 1) : (date.getMonth() + 1) ) + "/" +
-            (date.getDate() < 10 ? "0" + date.getDate() : date.getDate()) + " " + strTime;
-    }
-
     $("#survey_container").wizard({
         stepsWrapper: "#middle-wizard",
         beforeForward: function( event, state ) {
             if ( state.stepIndex === 1 ) {
                 var today = new Date();
-                var currentDateTime = formatDate(today);
-                var dealineTime = $('.frm-deadline').val();
-                var timeChoosed   = formatDate (new Date(Date.parse(dealineTime)));
+                var dealineTime = new Date(Date.parse($('.frm-deadline').val()));
+                var validateTime = dealineTime.getTime() - today.getTime();
 
-                if ( dealineTime.length != 0 && currentDateTime > timeChoosed){
+                if ( dealineTime.length != 0 && validateTime < 1800000) {
                     $('.validate-time').css('display', 'block');
 
                     return false;
                 }
-
             } else if ( state.stepIndex === 2 ) {
                 $('html, body').animate({scrollTop: 0}, 500);
 
@@ -223,5 +206,11 @@ $(document).ready(function() {
         if(!$('.quantity-limit').val().length) {
             $('.setting-limit').remove();
         }
+    });
+
+    $('#tab-save-info').on('click', '.btn-save-survey', function() {
+        var _tempTitle = $('.frm-title');
+
+        return (!_tempTitle['length'] || _tempTitle['valid']());
     });
 });

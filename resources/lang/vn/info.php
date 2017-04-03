@@ -24,7 +24,7 @@ return [
     'yes' => 'Có',
     'no' => 'Không',
     'fsurvey' => 'FSurvey',
-    'date_invalid' => 'Ngày đóng phải lớn hơn ngày hiện tại.',
+    'date_invalid' => 'Thời gian đóng phải lớn hơn thời gian hiện tại ít nhất 30 phút.',
     'create_invalid' => 'Survey phải có ít nhất 1 câu hỏi.',
     'your_email' => 'Nhập email tại đây...',
     'success' => 'Thành công',

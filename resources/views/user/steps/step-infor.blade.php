@@ -66,7 +66,7 @@
         <div class="frm-textarea container-infor">
             {!! Html::image(config('settings.image_path_system') . 'description.png', '') !!}
             {!! Form::textarea('description', '', [
-                'class' => 'form-control',
+                'class' => 'js-elasticArea form-control',
                 'placeholder' => trans('info.description'),
             ]) !!}
         </div>
