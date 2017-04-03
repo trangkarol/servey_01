@@ -10,7 +10,7 @@ $(document).ready(function() {
 
         if (charts) {
 
-            var obj = jQuery.parseJSON( charts );
+            var obj = jQuery.parseJSON(charts);
 
             for (i = 0; i < obj.length; i++) {
                 var dataInput = new Array();
@@ -77,13 +77,28 @@ $(document).ready(function() {
         var socketData = $.parseJSON(data);
 
         if (socketData.success) {
-            $('#home').html(socketData.viewChart);
-            $('#menu1').html(socketData.viewDetailResult);
-            $('#menu3').html(socketData.viewUserAnswer);
-            $('.tab-pane-chart').html(socketData.viewChart);
-            $('.tab-pane-detail-result').html(socketData.viewDetailResult);
-            $('.tab-pane-users-answer').html(socketData.viewUserAnswer);
+            $('.home' + socketData.surveyId).html(socketData.viewChart);
+            $('.menu1' + socketData.surveyId).html(socketData.viewDetailResult);
+            $('.menu3' + socketData.surveyId).html(socketData.viewUserAnswer);
+            $('.tab-chart' + socketData.surveyId).html(socketData.viewChart);
+            $('.tab-detail-result' + socketData.surveyId).html(socketData.viewDetailResult);
+            $('.tab-users-answer' + socketData.surveyId).html(socketData.viewUserAnswer);
             paintChart();
+        }
+    });
+
+    socket.on('delete', function (data) {
+        var socketData = $.parseJSON(data);
+
+        if (socketData.success) {
+            $('.top-wizard' + socketData.surveyId).css('padding', '25px');
+            $('.bot-wizard' + socketData.surveyId).css('padding', '15px');
+            $('.container-answer' + socketData.surveyId).remove();
+            $('.option-answer' + socketData.surveyId).remove();
+            $('.detail-survey' + socketData.surveyId).remove();
+            $('.menu-wizard' + socketData.surveyId).remove();
+            $('.del-survey' + socketData.surveyId).fadeIn();
+            $('.back-home' + socketData.surveyId).fadeIn();
         }
     });
 });

@@ -11,6 +11,7 @@ use App\Repositories\Setting\SettingInterface;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use App\Jobs\SendMail;
 use Carbon\Carbon;
+use LRedis;
 use Mail;
 use DB;
 
@@ -83,8 +84,13 @@ class SurveyController extends Controller
             ];
         }
 
-        $idSurvey = $request->get('idSurvey');
-        $this->surveyRepository->delete($idSurvey);
+        $surveyId = $request->get('idSurvey');
+        $this->surveyRepository->delete($surveyId);
+        $redis = LRedis::connection();
+        $redis->publish('delete', json_encode([
+            'success' => true,
+            'surveyId' => $surveyId,
+        ]));
 
         return [
             'success' => true,

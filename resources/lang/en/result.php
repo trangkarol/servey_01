@@ -14,4 +14,6 @@ return [
     'email' => 'Email',
     'time' => 'Time',
     'detail' => 'Detail',
+    'back_home' => 'Back to home page',
+    'sorry_user' => 'SORRY, This survey was deleted.',
 ];

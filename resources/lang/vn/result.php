@@ -14,4 +14,6 @@ return [
     'email' => 'Email',
     'time' => 'Thời gian',
     'detail' => 'Chi tiết',
+    'back_home' => 'Quay về trang chủ',
+    'sorry_user' => 'XIN LỖI, Survey đã bị hủy.',
 ];

@@ -1,15 +1,29 @@
 @extends('user.master')
 @section('content')
     <div id="survey_container" class="survey_container animated zoomIn wizard" novalidate="novalidate">
-        <div id="top-wizard">
+        <div id="top-wizard" class="top-wizard{{ $survey->id }}">
             <div class="container-menu-wizard row">
-                <div class="menu-wizard col-md-10 active-answer active-menu">
+                <div class="menu-wizard{{ $survey->id }} menu-wizard active-answer active-menu">
                     {{ trans('home.detail_survey') }}
                 </div>
             </div>
+            <div class="shadow"></div>
         </div>
         <div class="container-list-answer">
-            <div class="middel-content-detail wizard-branch wizard-wrapper">
+            <div class="del-survey{{ $survey->id }} del-survey animated zoomIn">
+                {!! Html::image(config('settings.image_system') . 'remove.png', '', [
+                    'class' => 'img-remove-survey',
+                ]) !!}
+                 <div class="row">
+                    <div class="col-md-6 col-md-offset-3">
+                        <div class="alert alert-danger warning-center">
+                            <span class="glyphicon glyphicon-alert"></span>
+                            {{ trans('result.sorry_user') }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="middel-content-detail detail-survey{{ $survey->id }} wizard-branch wizard-wrapper">
                 @if (Session::has('message'))
                     <div class="alert alert-info alert-message">
                         {{ Session::get('message') }}
@@ -93,13 +107,13 @@
                                             </div>
                                             <div class="col-md-9">
                                                 <div class="tab-content">
-                                                    <div class="tab-pane-chart tab-pane active" id="home-v">
+                                                    <div class="tab-chart{{ $survey->id }} tab-pane active" id="home-v">
                                                         @include('user.result.chart')
                                                     </div>
-                                                    <div class="tab-pane-detail-result tab-pane" id="profile-v">
+                                                    <div class="tab-detail-result{{ $survey->id }} tab-pane" id="profile-v">
                                                         @include('user.result.detail-result')
                                                     </div>
-                                                    <div class="tab-pane-users-answer tab-pane" id="messages-v">
+                                                    <div class="tab-users-answer{{ $survey->id }} tab-pane" id="messages-v">
                                                         @include('user.result.users-answer')
                                                     </div>
                                                     <div class="tab-pane" id="settings-v">
@@ -154,8 +168,9 @@
                     </section>
                 </div>
             </div>
-            <div id="bottom-wizard bottom-wizard-anwser"></div>
+            <div id="bottom-wizard bottom-wizard-anwser">
+                <div class="shadow-bottom"></div>
+            </div>
         </div>
     </div>
 @endsection
-
