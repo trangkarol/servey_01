@@ -24,7 +24,7 @@ return [
     'yes' => 'Yes',
     'no' => 'No',
     'fsurvey' => 'FSurvey',
-    'date_invalid' => 'Closing date must be greater than the current date.',
+    'date_invalid' => 'Closing time must be greater than the current time of at least 30 minutes.',
     'create_invalid' => 'The survey must have at least one question.',
     'your_email' => 'Enter your email here...',
     'success' => 'Success',

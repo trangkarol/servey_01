@@ -44,7 +44,7 @@
                             @breakswitch
                     @endswitch
                 </td>
-                <td>{{ $question->content }}</td>
+                <td><div>{{ $question->content }}</div></td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -61,7 +61,7 @@
                         <td></td>
                         <td></td>
                         <td>{{ ($key + 1) . '.' . $loop->iteration }}</td>
-                        <td>{{ $answer->content }}</td>
+                        <td><div>{{ $answer->content }}</div></td>
                         <td>{{ count($answer->results) }}</td>
                     </tr>
                 @elseif ($answer->type != config('survey.type_radio')

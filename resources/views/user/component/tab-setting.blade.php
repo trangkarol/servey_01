@@ -23,34 +23,52 @@
                     </div>
                     <div class="setting-requirement col-md-10 row {{ $access[config('settings.key.requireAnswer')] ? '' : 'div-hidden' }}">
                         <div class="col-md-2">
-                            {{ Form::radio('setting[' . config('settings.key.requireAnswer') . ']', config('settings.require.email'), '', [
-                                'id' => 'option-choose-email',
-                                'class' => 'option-choose-answer input-radio',
-                                ($access[config('settings.key.requireAnswer')] == config('settings.require.email')) ? ('checked=checked') : '',
-                            ]) }}
-                            {{ Form::label('option-choose-email', trans('survey.require.email'), [
-                                'class' => 'label-radio',
-                            ]) }}
+                            <div class="type-radio-answer row">
+                                <div class="box-radio col-md-1">
+                                    {{ Form::radio('setting[' . config('settings.key.requireAnswer') . ']', config('settings.require.email'), '', [
+                                        'id' => 'option-choose-email',
+                                        'class' => 'option-choose-answer input-radio',
+                                        ($access[config('settings.key.requireAnswer')] == config('settings.require.email')) ? ('checked=checked') : '',
+                                    ]) }}
+                                    {{ Form::label('option-choose-email', ' ', [
+                                        'class' => 'label-radio',
+                                    ]) }}
+                                    <div class="check"><div class="inside"></div></div>
+                                </div>
+                                <div class="col-md-8">{{ trans('survey.require.email') }}</div>
+                            </div>
                         </div>
                         <div class="col-md-2">
-                            {{ Form::radio('setting[' . config('settings.key.requireAnswer') . ']', config('settings.require.name'), '', [
-                                'id' => 'option-choose-name',
-                                'class' => 'option-choose-answer input-radio',
-                                ($access[config('settings.key.requireAnswer')] == config('settings.require.name')) ? ('checked=checked') : '',
-                            ]) }}
-                            {{ Form::label('option-choose-name', trans('survey.require.name'), [
-                                'class' => 'label-radio',
-                            ]) }}
+                            <div class="type-radio-answer row">
+                                <div class="box-radio col-md-1">
+                                    {{ Form::radio('setting[' . config('settings.key.requireAnswer') . ']', config('settings.require.name'), '', [
+                                        'id' => 'option-choose-name',
+                                        'class' => 'option-choose-answer input-radio',
+                                        ($access[config('settings.key.requireAnswer')] == config('settings.require.name')) ? ('checked=checked') : '',
+                                    ]) }}
+                                    {{ Form::label('option-choose-name', ' ', [
+                                        'class' => 'label-radio',
+                                    ]) }}
+                                    <div class="check"><div class="inside"></div></div>
+                                </div>
+                                <div class="col-md-8">{{ trans('survey.require.name') }}</div>
+                            </div>
                         </div>
-                        <div class="col-md-6">
-                            {{ Form::radio('setting[' . config('settings.key.requireAnswer') . ']', config('settings.require.both'), '', [
-                                'id' => 'option-choose-both',
-                                'class' => 'option-choose-answer input-radio',
-                                ($access[config('settings.key.requireAnswer')] == config('settings.require.both')) ? ('checked=checked') : '',
-                            ]) }}
-                            {{ Form::label('option-choose-both', trans('survey.require.email_and_name'), [
-                                'class' => 'label-radio',
-                            ]) }}
+                        <div class="col-md-2">
+                            <div class="type-radio-answer row">
+                                <div class="box-radio col-md-1">
+                                    {{ Form::radio('setting[' . config('settings.key.requireAnswer') . ']', config('settings.require.both'), '', [
+                                        'id' => 'option-choose-both',
+                                        'class' => 'option-choose-answer input-radio',
+                                        ($access[config('settings.key.requireAnswer')] == config('settings.require.both')) ? ('checked=checked') : '',
+                                    ]) }}
+                                    {{ Form::label('option-choose-both', ' ', [
+                                        'class' => 'label-radio',
+                                    ]) }}
+                                    <div class="check"><div class="inside"></div></div>
+                                </div>
+                                <div class="col-md-8">{{ trans('survey.require.email_and_name') }}</div>
+                            </div>
                         </div>
                     </div>
                     <div class="clear"></div>
@@ -62,10 +80,10 @@
                         </div>
                     </div>
                     <div class="div-option-require row
-                        {{ array_has([
+                        {{ in_array($access[config('settings.key.requireAnswer')], [
                             config('settings.require.email'),
                             config('settings.require.both'),
-                        ], $access[config('settings.key.requireAnswer')]) ? '' : 'div-hidden' }}">
+                        ]) ? '' : 'div-hidden' }}">
                         <div class="col-md-1"></div>
                         <div class="squaredThree col-md-1">
                             {{ Form::checkbox('setting[' . config('settings.key.requireOnce') . ']', config('settings.key.requireOnce'), '', [
@@ -77,10 +95,10 @@
                         <div class="tag-once col-md-5">{{ trans('survey.require_once') }}</div>
                     </div>
                     <div class="div-option-require row
-                        {{ array_has([
+                        {{ in_array($access[config('settings.key.requireAnswer')], [
                             config('settings.require.email'),
                             config('settings.require.both'),
-                        ], $access[config('settings.key.requireAnswer')]) ? '' : 'div-hidden' }}">
+                        ]) ? '' : 'div-hidden' }}">
                         <div class="col-md-1"></div>
                         <div class="squaredThree col-md-1">
                             {{ Form::checkbox('setting[' . config('settings.key.tailMail') . ']', '', '', [
