@@ -12,6 +12,7 @@ class Answer extends Model
         'question_id',
         'image',
         'update',
+        'clone_id',
     ];
 
     public function question()

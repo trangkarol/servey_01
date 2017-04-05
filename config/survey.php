@@ -36,4 +36,6 @@ return [
         'change' => -1,
         'delete' => -2,
     ],
+    'maxUpdate' => 1,
+    'maxEdit' => 3,
 ];

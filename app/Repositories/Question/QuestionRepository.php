@@ -80,7 +80,6 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
                     : null,
                 'required' => in_array($key, $required),
                 'sequence' => $sequence,
-                'update' => 0,
             ];
 
             $sequence++;
@@ -124,7 +123,6 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
                         'image' => ($isHaveImage )
                             ? $this->answerRepository->uploadImage($image['answers'][$index][$key], config('settings.image_answer_path'))
                             : null,
-                        'update' => 0,
                     ];
                 }
             }
@@ -167,6 +165,8 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
         $surveyId = $data['surveyId'];
         $questionId = $data['questionId'];
         $answers = $data['answers'];
+        $isEdit = $data['isEdit'];
+        $deleteImageIdsAnswer = $data['deleteImageIdsAnswer'];
 
         if (in_array($questionId, $deleteImageIds)) {
             $dataUpdate['image'] = null;
@@ -198,6 +198,7 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
                         'image' => $modelQuestion->image_update,
                         'required' => $modelQuestion->required,
                         'update' => $maxUpdateQuestion + 1,
+                        'clone_id' => ($modelQuestion->clone_id) ?: $modelQuestion->id,
                     ]);
                     $modelQuestion = $modelQuestion->fill($modelQuestion->getOriginal());
                     $modelQuestion->update = config('survey.update.change');
@@ -211,8 +212,15 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
                     $update = $oldAnswers->max('update') + 1;
                     $dataInput = [];
                     $loop = 0;
+                    $cloneAnswers = $oldAnswers->whereIn('type', [
+                        config('survey.type_radio'),
+                        config('survey.type_checkbox'),
+                        config('survey.type_text'),
+                        config('survey.type_time'),
+                        config('survey.type_date'),
+                    ]);
 
-                    foreach ($oldAnswers->values() as $answer) {
+                    foreach ($cloneAnswers->values() as $answer) {
                         $answer->fill([
                             'content' => $answers[$modelQuestion->id][$loop][$answer->type],
                         ]);
@@ -226,11 +234,32 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
                             'question_id' => $newQuestion->id,
                             'content' => $answer->getDirty() ? $answer->content : $content,
                             'type' => $answer->type,
-                            'image' => $answer->image_update,
+                            'image' => !in_array($answer->id, $deleteImageIdsAnswer) ? $answer->image_update : null,
                             'update' => $update,
+                            'clone_id' => $answer->clone_id ?: $answer->id,
                         ];
                         $answers[$modelQuestion->id] = array_except($answers[$modelQuestion->id], $loop);
                         $loop++;
+                    }
+
+                    $answer = $oldAnswers->whereIn('type', [
+                        config('survey.type_other_radio'),
+                        config('survey.type_other_checkbox'),
+                    ]);
+
+                    if (!$answer->isEmpty()) {
+                        $answer = $answer->first();
+                        $dataInput[] = [
+                            'question_id' => $newQuestion->id,
+                            'content' => trans('temp.other'),
+                            'type' => $answer->type,
+                            'image' => null,
+                            'update' => $update,
+                            'clone_id' => $answer->clone_id ?: $answer->id,
+                        ];
+                        $answers[$modelQuestion->id] = array_except($answers[$modelQuestion->id], last(array_keys($answers[$modelQuestion->id])));
+                        $answer->update = config('survey.update.change');
+                        $answer->save();
                     }
 
                     if ($createAnswer = $answers[$modelQuestion->id]) {
@@ -250,6 +279,7 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
                                     ? $this->answerRepository->uploadImage($imagesAnswer[$questionId][$answerIndex], config('settings.image_answer_path'))
                                     : null,
                                 'update' => $update,
+                                'clone_id' => 0, // dataInput must be same key
                             ];
                             $answers[$modelQuestion->id] = array_except($answers[$modelQuestion->id], $key);
                         }
@@ -262,6 +292,8 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
                 } else {
                     $modelQuestion->save();
                 }
+
+                $isEdit = true;
             }
         } else {
             // not found record in collection then insert question
@@ -287,17 +319,18 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
                     'image' => $checkHaveImage
                         ? $this->answerRepository->uploadImage($imagesAnswer[$questionId][$answerIndex], config('settings.image_answer_path'))
                         : null,
-                    'update' => 0,
                 ];
             }
 
             $this->answerRepository->multiCreate($dataInput);
             $answers = array_except($answers, [$questionId]);
+            $isEdit = true;
         }
 
         return [
             'success' => true,
             'answers' => $answers,
+            'isEdit' => $isEdit,
         ];
     }
 
@@ -314,42 +347,47 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
     */
     public function updateSurvey(array $inputs, $surveyId)
     {
-        $ids = [];
+        $idsDeletesQuestion = [];
+        $idsDeletesAnswer = [];
+        $isEdit = false;
 
         if (!$surveyId) {
             return false;
         }
 
         if ($inputs['del-question']) {
-            $ids = $this->sliptString($inputs['del-question']);
+            $idsDeletesQuestion = $this->sliptString($inputs['del-question']);
 
-            if ($ids) {
-                $this->multiUpdate('id', $ids, [
+            if ($idsDeletesQuestion) {
+                $this->multiUpdate('id', $idsDeletesQuestion, [
                     'update' => config('survey.update.delete'),
                 ]);
-                $this->answerRepository->multiUpdate('question_id', $ids, [
+                $this->answerRepository->multiUpdate('question_id', $idsDeletesQuestion, [
                     'update' => config('survey.update.delete'),
                 ]);
+                $isEdit = true;
             }
         }
 
         if ($inputs['del-answer']) {
-            $ids = $this->sliptString($inputs['del-answer']);
+            $idsDeletesAnswer = $this->sliptString($inputs['del-answer']);
 
-            if ($ids) {
+            if ($idsDeletesAnswer) {
                 $this->answerRepository->newQuery(new Answer());
-                $this->answerRepository->multiUpdate('id', $ids, [
+                $this->answerRepository->multiUpdate('id', $idsDeletesAnswer, [
                     'update' => config('survey.update.delete'),
                 ]);
+                $isEdit = true;
             }
         }
 
         $this->newQuery(new Question()); // new query after update question
+        $this->answerRepository->newQuery(new Answer());// new query after update answer
         $collectQuestion = $questionIds = $this->where('survey_id', $surveyId)
-            ->whereNotIn('id', $ids)
+            ->whereNotIn('id', $idsDeletesQuestion)
             ->whereNotIn('update', [
-                config('survey.isDelete'),
-                config('survey.isUpdate'),
+                config('survey.update.change'),
+                config('survey.update.delete'),
             ]);
         $this->newQuery(new Question()); // new query after select question
         $questions = $inputs['txt-question']['question']; // the questions get by request in controller
@@ -358,41 +396,45 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
         $images = $inputs['image']; // image of answer and question get by requset in controller
         $imagesQuestion = ($images && array_key_exists('question', $images)) ? $images['question'] : [];
         $imagesAnswer = ($images && array_key_exists('answers', $images)) ? $images['answers'] : [];
-        $collectQuestion = $questionIds = $this->where('survey_id', $surveyId)->whereNotIn('id', $ids);
         $collectAnswer = $this->answerRepository
             ->whereIn('question_id', $questionIds->pluck('id')->toArray())
-            ->whereNotIn('id', $ids)
+            ->whereNotIn('id', $idsDeletesAnswer)
             ->whereNotIn('update', [
                 config('survey.update.change'),
                 config('survey.update.delete'),
             ])
             ->get()
             ->groupBy('question_id');
+        $this->answerRepository->newQuery(new Answer()); // new query after select answer
         $collectQuestion = $collectQuestion->get();
         $indexQuestion = 0;
         $maxUpdateQuestion = $collectQuestion->max('update');
         // check if remove all answer and question
         $collectAnswer = $collectAnswer->isEmpty() ? collect([]) : $collectAnswer;
         $collectQuestion = $collectAnswer->isEmpty() ? collect([]) : $collectQuestion;
+        $deleteImageIdsQuestion = !empty($inputs['del-question-image']) ? $this->sliptString($inputs['del-question-image']) : [];
+        $deleteImageIdsAnswer = !empty($inputs['del-answer-image']) ? $this->sliptString($inputs['del-answer-image']) : [];
 
         foreach ($questions as $questionId => $questionContent) {
-            $deleteImageIds = !empty($inputs['del-answer-image']) ? $this->sliptString($inputs['del-question-image']) : [];
             $data = [
                 'collectQuestion' => $collectQuestion,
                 'indexQuestion' => $indexQuestion,
                 'checkboxRequired' => $checkboxRequired,
                 'imagesQuestion' => $imagesQuestion,
-                'deleteImageIds' => $deleteImageIds,
+                'deleteImageIds' => $deleteImageIdsQuestion,
                 'imagesAnswer' => $imagesAnswer,
                 'maxUpdateQuestion' => $maxUpdateQuestion,
                 'surveyId' => $surveyId,
                 'questionId' => $questionId,
                 'questionContent' => $questionContent,
                 'answers' => $answers,
+                'isEdit' => $isEdit,
+                'deleteImageIdsAnswer' => $deleteImageIdsAnswer,
             ];
 
-            $deleteImageIds = !empty($inputs['del-answer-image']) ? $this->sliptString($inputs['del-question-image']) : [];
+
             $questionsResult = $this->createOrUpdateQuestion($data);
+            $isEdit = $questionsResult['isEdit'];
             $indexQuestion++;
             // insert or update answer after create or update question
             $answersInQuestion = $collectAnswer->has($questionId)
@@ -400,20 +442,22 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
                 : collect([]);
 
             if ($answers[$questionId] && $answersInQuestion && !$answersInQuestion->isEmpty()) {
-                $deleteImageIds = !empty($inputs['del-answer-image']) ? $this->sliptString($inputs['del-answer-image']) : [];
                 $data = [
                     'questionId' => $questionId,
                     'answersInQuestion' => $answersInQuestion,
                     'collectAnswer' => $collectAnswer,
                     'imagesAnswer' => $imagesAnswer,
-                    'deleteImageIds' => $deleteImageIds,
+                    'deleteImageIds' => $deleteImageIdsAnswer,
+                    'isEdit' => $isEdit,
                 ];
                 $answersResult = $this->answerRepository->createOrUpdateAnswer($questionsResult['answers'], $data);
                 $answers = $answersResult['answers'];
+                $isEdit = $answersResult['isEdit'];
             }
         }
 
-        return $this->answerRepository->getResultByAnswer($questionIds->pluck('id')->toArray())
+        $success = [];
+        $success['emails'] = $this->answerRepository->getResultByAnswer($questionIds->pluck('id')->toArray())
             ->where('email', '<>', (string)config('settings.email_unidentified'))
             ->get(['email'])
             ->unique('email')
@@ -423,5 +467,8 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
 
                 return $carry;
             }, []);
+        $success['isEdit'] = $isEdit;
+
+        return $success;
     }
 }

@@ -101,6 +101,7 @@ class AnswerRepository extends BaseRepository implements AnswerInterface
         $collectAnswer = $data['collectAnswer'];
         $imagesAnswer = $data['imagesAnswer'];
         $deleteImageIds = $data['deleteImageIds'];
+        $isEdit = $data['isEdit'];
 
         if ($answers[$questionId] && $answersInQuestion && !$answersInQuestion->isEmpty()) {
             $dataCreate = [];
@@ -149,10 +150,12 @@ class AnswerRepository extends BaseRepository implements AnswerInterface
                         'update' => $maxUpdate + 1,
                         'created_at' => Carbon::now(),
                         'updated_at' => Carbon::now(),
+                        'clone_id' => $modelAnswer->clone_id ?: $modelAnswer->id,
                     ];
                     $modelAnswer->fill($modelAnswer->getOriginal());
                     $modelAnswer->update = config('survey.update.change');
                     $modelAnswer->save();
+                    $isEdit = true;
                 }
 
                 $answers[$questionId] = array_except($answers[$questionId], [$indexAnswer]);
@@ -189,9 +192,12 @@ class AnswerRepository extends BaseRepository implements AnswerInterface
                             'update' => $maxUpdate + 1,
                             'created_at' => Carbon::now(),
                             'updated_at' => Carbon::now(),
+                            'clone_id' => 0, // the dataCreate must be same key
                         ];
                     }
                 }
+
+                $isEdit = true;
             }
 
             $this->multiCreate($dataCreate);
@@ -200,6 +206,7 @@ class AnswerRepository extends BaseRepository implements AnswerInterface
         return [
             'success' => true,
             'answers' => $answers,
+            'isEdit' => $isEdit,
         ];
     }
 }

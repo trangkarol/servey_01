@@ -13,6 +13,7 @@ class Question extends Model
         'survey_id',
         'sequence',
         'update',
+        'clone_id',
     ];
 
     public function survey()

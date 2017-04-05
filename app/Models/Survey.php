@@ -17,6 +17,7 @@ class Survey extends Model
         'description',
         'mail',
         'user_name',
+        'update',
     ];
 
     public function invites()

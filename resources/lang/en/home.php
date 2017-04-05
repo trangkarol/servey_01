@@ -51,6 +51,7 @@ return [
     'description_complete' => 'Here are 2 links that have been submitted',
     'save' => 'Save',
     'load' => 'Reload',
-    'link' => 'link',
+    'link' => 'Link',
     'survey_closed' => 'Survey closed',
+    'edit_survey' => 'The number of updates survey remaining :limit',
 ];

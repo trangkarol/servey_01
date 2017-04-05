@@ -14,7 +14,13 @@
                 <div class="title-create row">
                     <div class="col-md-9">
                         <h3 class="wizard-header">
-                            {{ trans('home.choose_question') }}
+                            @if (!$survey->update)
+                                {{ trans('home.choose_question') }}
+                            @else
+                                {{ trans('home.edit_survey', [
+                                    'limit' => (config('survey.maxEdit') - $survey->update),
+                                ])}}
+                            @endif
                         </h3>
                     </div>
                     <div class="col-md-3">
@@ -378,9 +384,11 @@
                 </ul>
                 <div class="row">
                     <div class="col-md-2">
-                        {!! Form::submit('Update', [
-                            'class' => 'btn-change-survey btn btn-info submit-answer',
-                        ]) !!}
+                        @if ($survey->update < config('survey.maxEdit'))
+                            {!! Form::submit(trans('user.update'), [
+                                'class' => 'btn-change-survey btn btn-info submit-answer',
+                            ]) !!}
+                        @endif
                     </div>
                     <div class="row col-md-4 col-md-offset-6 parent-option">
                         <div class="col-md-2 col-md-offset-1 container-option-image">

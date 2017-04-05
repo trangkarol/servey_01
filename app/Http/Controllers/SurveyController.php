@@ -152,6 +152,13 @@ class SurveyController extends Controller
                 return view('errors.404');
             }
 
+            if ($survey->update == config('survey.maxEdit')) {
+                return redirect()->action('AnswerController@show', $token)
+                    ->with('message-fail', trans('messages.object_updated_unsuccessfully', [
+                        'object' => class_basename(Survey::class)
+                ]));
+            }
+
             $inputs = $request->only([
                 'txt-question',
                 'checkboxRequired',
@@ -162,7 +169,18 @@ class SurveyController extends Controller
                 'del-question-image',
                 'del-answer-image',
             ]);
-            $emails = $this->questionRepository->updateSurvey($inputs, $surveyId);
+            $results = $this->questionRepository->updateSurvey($inputs, $surveyId);
+
+            if (!$results['isEdit']) {
+                return redirect()->action('AnswerController@show', $token)
+                    ->with('message-fail', trans('messages.object_updated_unexicute', [
+                        'object' => class_basename(Survey::class)
+                ]));
+            }
+
+            $this->surveyRepository->update($survey->id, [
+                'update' => $survey->update + 1,
+            ]);
             $mailInput = [
                 'title' => $survey->title,
                 'description' => $survey->description,
@@ -172,7 +190,7 @@ class SurveyController extends Controller
                             'token' => $survey->token,
                     ]),
                 'name' => $survey->user_name,
-                'email' => $emails,
+                'email' => $results['emails'],
             ];
             $job = (new SendMail(collect($mailInput), 'reAnswer'))
                 ->onConnection('database')
