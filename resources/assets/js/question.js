@@ -131,41 +131,41 @@ $(document).ready(function() {
         }
     }
 
-    $(document).on('click', '.add-radio', function() {
+    $('.package-question').on('click', '.add-radio', function() {
         addAnwser($(this));
     });
 
-    $(document).on('click', '.add-checkbox', function() {
+    $('.package-question').on('click', '.add-checkbox', function() {
         addAnwser($(this));
     });
 
-    $(document).on('click', '.add-radio-other',  function() {
+    $('.package-question').on('click', '.add-radio-other',  function() {
         var class_temp = '.add-radio';
         addOtherButton($(this), class_temp);
     });
 
-    $(document).on('click', '.add-checkbox-other', function() {
+    $('.package-question').on('click', '.add-checkbox-other', function() {
         var class_temp = '.add-checkbox';
         addOtherButton($(this), class_temp);
     });
 
-    $(document).on('click', '#radio-button', function() {
+    $('.package-question').on('click', '#radio-button', function() {
         addQuestion($(this));
     });
 
-    $(document).on('click', '#checkbox-button', function() {
+    $('.package-question').on('click', '#checkbox-button', function() {
         addQuestion($(this));
     });
 
-    $(document).on('click', '#text-button', function() {
+    $('.package-question').on('click', '#text-button', function() {
         addQuestion($(this));
     });
 
-    $(document).on('click', '#time-button', function() {
+    $('.package-question').on('click', '#time-button', function() {
         addQuestion($(this));
     });
 
-    $(document).on('click', '#date-button', function() {
+    $('.package-question').on('click', '#date-button', function() {
         addQuestion($(this));
     });
 
@@ -176,7 +176,7 @@ $(document).ready(function() {
             .css('border-radius', '5px');
     });
 
-    $(document).on('click', '.glyphicon-picture', function() {
+    $('.package-question').on('click', '.glyphicon-picture', function() {
         var idQuestion = $(this).siblings('.glyphicon-trash').attr('id-question');
         $('.fileImg' + idQuestion).click();
         $(document).on('change', '.fileImg' + idQuestion, function () {
@@ -191,7 +191,7 @@ $(document).ready(function() {
         });
     });
 
-    $(document).on('click', '.remove-image-question', function() {
+    $('.package-question').on('click', '.remove-image-question', function() {
         var idQuestion = $(this).attr('id-question');
         var idImage = $(this).attr('data-id-image');
         arrayImageQuestion.push(idImage);
@@ -204,7 +204,7 @@ $(document).ready(function() {
         }, 1000);
     });
 
-    $(document).on('click', '.btn-change-survey', function() {
+    $('.package-question').on('click', '.btn-change-survey', function() {
         $('input[name=del-question]').val(arrayQuestion);
         $('input[name=del-answer]').val(arrayAnswer);
         $('input[name=del-question-image]').val(arrayImageQuestion);
@@ -232,7 +232,7 @@ $(document).ready(function() {
         $('.popup-content-history').empty();
     });
 
-    $(document).on('click', '.picture-answer', function() {
+    $('.package-question').on('click', '.picture-answer', function() {
         var idAnswer = $(this).siblings('.glyphicon-remove').attr('id-as');
         $('.fileImgAnswer' + idAnswer).click();
         $(document).on('change', '.fileImgAnswer' + idAnswer, function () {
@@ -247,7 +247,7 @@ $(document).ready(function() {
         });
     });
 
-    $(document).on('click', '.remove-image-answer', function() {
+    $('.package-question').on('click', '.remove-image-answer', function() {
         var idAnswer = $(this).attr('id-answer');
         var idImage =  $(this).attr('data-answerid');
         $('.content-image-answer' + idAnswer).fadeOut(500);
@@ -260,11 +260,11 @@ $(document).ready(function() {
         }, 1000);
     });
 
-    $(document).on('click', '.btn-require-answer', function() {
+    $('.package-question').on('click', '.btn-require-answer', function() {
         addQuestion($(this));
     });
 
-    $(document).on('click', '.glyphicon-trash', function() {
+    $('.package-question').on('click', '.glyphicon-trash', function() {
         var number_qs = parseInt($('.data').attr('data-question')) - 1;
         var idQuestion = $(this).attr('id-question');
         var sum = 0;
@@ -291,7 +291,7 @@ $(document).ready(function() {
         }, 1000);
     });
 
-    $(document).on('click', '.btn-remove-answer', function() {
+    $('.package-question').on('click', '.btn-remove-answer', function() {
         var number = parseInt($(this).attr('num'));
         var idAnswer = $(this).attr('id-as');
         var idDelete = $(this).attr('data-answerId');
@@ -307,7 +307,7 @@ $(document).ready(function() {
         }
     });
 
-    $(document).on('click', '.remove-other', function() {
+    $('.package-question').on('click', '.remove-other', function() {
         var idQuestion = $(this).attr('id-qs');
         var trash = parseInt($('.question' + idQuestion).attr('trash'));
 
@@ -324,7 +324,7 @@ $(document).ready(function() {
         window.location = url;
     });
 
-    $(document).on('click', '.option-add', function() {
+    $('.container-survey').on('click', '.option-add', function() {
         var url = $(this).attr('url');
         var temp_as = $(this).attr('temp-as');
         var temp_qs = $(this).attr('temp-qs');

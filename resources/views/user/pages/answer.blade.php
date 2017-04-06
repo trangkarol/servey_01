@@ -195,6 +195,11 @@
                             {!! Form::submit(trans('home.finish'), [
                                 'class' => 'submit-answer btn btn-info',
                             ]) !!}
+                        @else
+                            <div class="notice-expired">
+                                <span class="glyphicon glyphicon-alert"></span>
+                                {{ trans('result.expired') }}
+                            </div>
                         @endif
                     </div>
                     <a href="{{ action('SurveyController@index') }}" class="back-home{{ $survey->id }} back-home">

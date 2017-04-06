@@ -70,8 +70,9 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         }
 
         foreach ($questions as $key => $question) {
-            $sum = 0;
             $answers = $datasInput['answers']->where('question_id', $question->id);
+            $idTemp = null;
+            $total = 0;
 
             foreach ($answers as $answer) {
                 $total = $datasInput['results']
@@ -82,25 +83,37 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                     ->whereIn('answer_id', $answer->id)
                     ->pluck('id')
                     ->toArray();
-                $sum += (count($total) > 0) ? (double)(count($answerResult) * 100) / (count($total)) : 0;
+
+                if (count($total)) {
+                    $temp[] = [
+                        'answerId' => $answer->id,
+                        'content' => (in_array($answer->type, [
+                                config('survey.type_time'),
+                                config('survey.type_text'),
+                                config('survey.type_date'),
+                            ]))
+                            ? $datasInput['results']->whereIn('answer_id', $answer->id)
+                            : $answer->content,
+                        'percent' => (count($total)) ? (double)(count($answerResult) * 100) / (count($total)) : 0,
+                    ];
+                } else {
+                    $idTemp = $answer->id;
+                }
+            }
+
+            if (!$total) {
                 $temp[] = [
-                    'answerId' => $answer->id,
-                    'content' => ($answer->type == config('survey.type_time')
-                        || $answer->type == config('survey.type_text')
-                        || $answer->type == config('survey.type_date'))
-                        ? $datasInput['results']->whereIn('answer_id', $answer->id)
-                        : $answer->content,
-                    'percent' => (count($total) > 0) ? (double)(count($answerResult) * 100) / (count($total)) : 0,
+                    'answerId' => $idTemp,
+                    'content' => collect([0 => ['content' => trans('result.not_answer')]]),
+                    'percent' => 0,
                 ];
             }
 
-            if ($sum) {
-                $results[] = [
-                    'question' => $question,
-                    'answers' => $temp,
-                ];
-                $temp = [];
-            }
+            $results[] = [
+                'question' => $question,
+                'answers' => $temp,
+            ];
+            $temp = [];
         }
 
         return $results;

@@ -9,6 +9,7 @@
 .content-top {
     z-index: 2;
 }
+
 .option-top.container {
     width: 100%;
     height: 300px;
@@ -316,7 +317,6 @@
         margin-left: 2%;
         border: 0px;
         font-size: 20px;
-        resize: none;
         height: 10px;
         width: 106%;
         padding: 7px 12px;
@@ -853,64 +853,6 @@
     padding-top: 35px;
 }
 
-/* .checkbox*/
-    $activeColor: #27ae60; //green
-    $darkenColor: darken($activeColor, 20%);
-
-.squaredOne {
-    input[type="checkbox"] + label {
-        padding-left: 0;
-        position: absolute;
-    }
-
-    input[type="checkbox"] + label::before {
-        content: none;
-    }
-    margin-left:5px !important;
-    padding: 0px;
-    width: 28px;
-    height: 28px;
-    position: relative;
-    margin: 20px auto;
-    background: #fcfff4;
-    background: linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-    box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
-
-    label {
-        width: 20px;
-        height: 20px;
-        position: absolute;
-        top: 4px;
-        left: 4px;
-        cursor: pointer;
-        background: linear-gradient(top, #222 0%, #45484d 100%);
-        box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
-
-        &:after {
-            content: '';
-            width: 16px;
-            height: 16px;
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            background: $activeColor;
-            background: linear-gradient(top, $activeColor 0%, $darkenColor 100%);
-            box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
-            opacity: 0;
-        }
-        &:hover::after {
-            opacity: 0.3;
-        }
-    }
-
-    input[type="checkbox"] {
-        visibility: hidden;
-        &:checked + label:after {
-           opacity: 1;
-        }
-    }
-}
-
 #header .logo .symbol {
     margin-right: 0px;
 }
@@ -1027,12 +969,9 @@
     display: none;
 }
 
-
-
 input.form-control, textarea.form-control {
     border: 0px;
     border-bottom: 2px solid gray;
-    resize: none;
     &:focus {
         border-top: 0px;
         border-left: 0px;

@@ -1,5 +1,5 @@
 <div class="container-list-answer1">
-    <div class="div-show-result wizard-branch wizard-wrapper">
+    <div class="show-history-answer div-show-result wizard-branch wizard-wrapper">
         <div class="get-title-survey">
             {{ $survey->title }}
         </div>
@@ -42,84 +42,99 @@
                             <li class="{{ ($question->required) ?  'required' : '' }}">
                                 @switch($answer->type)
                                     @case(config('survey.type_radio'))
-                                        {{ Form::radio("answer[$question->id]", $answer->id, '', [
-                                            'id' => "$key$temp",
-                                            'class' => 'option-choose input-radio',
-                                            'temp-as' => $answer->id,
-                                            'temp-qs' => $question->id,
-                                            (in_array($answer->id, array_keys($history))) ? ('checked = checked') : null,
-                                        ]) }}
-                                        {{ Form::label($key.$temp, $answer->content, [
-                                            'class' => 'label-radio',
-                                        ]) }}
-                                        @breakswitch
+                                        <div class="type-radio-answer row">
+                                            <div class="box-radio col-md-1">
+                                                {{ Form::radio("answer[$question->id]", $answer->id, '', [
+                                                    'id' => "$key$temp",
+                                                    'class' => 'option-choose input-radio',
+                                                    'disabled',
+                                                    (in_array($answer->id, array_keys($history))) ? 'checked' : null,
+                                                ]) }}
+                                                {{ Form::label($key.$temp, ' ', [
+                                                    'class' => 'label-radio',
+                                                ]) }}
+                                                <div class="check"><div class="inside"></div></div>
+                                            </div>
+                                            <div class="col-md-11">{{ $answer->content }}</div>
+                                        </div>
+                                    @breakswitch
                                     @case(config('survey.type_checkbox'))
-                                        {{ Form::checkbox("answer[$question->id][$answer->id]", $answer->id, '', [
-                                            'id' => "$key$temp",
-                                            'class' => 'input-checkbox',
-                                            (in_array($answer->id, array_keys($history))) ? ('checked = checked') : null,
-                                        ]) }}
-                                        {{ Form::label($key.$temp, $answer->content, [
-                                            'class' => 'label-checkbox'
-                                        ]) }}
-                                        @breakswitch
+                                        <div class="type-checkbox-answer row">
+                                            <div class="checkbox-answer col-md-1">
+                                                {{ Form::checkbox("answer[$question->id][$answer->id]", $answer->id, '', [
+                                                    'id' => "$key$temp",
+                                                    'class' => 'input-checkbox',
+                                                    (in_array($answer->id, array_keys($history))) ? 'checked' : null,
+                                                    'disabled',
+                                                ]) }}
+                                                {{ Form::label($key.$temp, ' ', [
+                                                    'class' => 'label-checkbox'
+                                                ]) }}
+                                            </div>
+                                            <div class="col-md-11">{{ $answer->content }}</div>
+                                        </div>
+                                    @breakswitch
                                     @case(config('survey.type_text'))
-                                        {!! Form::textarea("answer[$question->id][$answer->id]",
-                                            (in_array($answer->id, array_keys($history))) ? $history[$answer->id] : null, [
-                                                'class' => 'form-control',
-                                                'id' => "answer[$question->id][$answer->id]",
-                                                (in_array($answer->id, array_keys($history))) ? 'disabled' : null,
-                                        ]) !!}
-                                        @breakswitch
+                                        <div class="show-user-answer">
+                                            {{ (in_array($answer->id, array_keys($history)) && $history[$answer->id])
+                                                ? trans('result.your_answer') . ' ' . $history[$answer->id]
+                                                : trans('result.not_answer')
+                                            }}
+                                        </div>
+                                    @breakswitch
                                     @case(config('survey.type_time'))
-                                        {!! Form::text("answer[$question->id][$answer->id]",
-                                            (in_array($answer->id, array_keys($history))) ? $history[$answer->id] : null, [
-                                                'class' => 'frm-time form-control ',
-                                                'id' => "answer[$question->id]",
-                                                (in_array($answer->id, array_keys($history))) ? 'disabled' : null,
-                                        ]) !!}
-                                        @breakswitch
+                                        <div class="show-user-answer">
+                                            {{ (in_array($answer->id, array_keys($history)) && $history[$answer->id])
+                                                ? trans('result.your_answer') . ' ' . $history[$answer->id]
+                                                : trans('result.not_answer')
+                                            }}
+                                        </div>
+                                    @breakswitch
                                     @case(config('survey.type_date'))
-                                        {!! Form::text("answer[$question->id][$answer->id]",
-                                            (in_array($answer->id, array_keys($history))) ? $history[$answer->id] : null, [
-                                                'class' => 'form-control frm-date-2',
-                                                'id' => "answer[$question->id]",
-                                                (in_array($answer->id, array_keys($history))) ? 'disabled' : null,
-                                        ]) !!}
-                                        @breakswitch
+                                        <div class="show-user-answer">
+                                            {{ (in_array($answer->id, array_keys($history)) && $history[$answer->id])
+                                                ? trans('result.your_answer') . ' ' . $history[$answer->id]
+                                                : trans('result.not_answer')
+                                            }}
+                                        </div>
+                                    @breakswitch
                                     @case(config('survey.type_other_radio'))
-                                        <div class="row">
-                                            <div class="col-md-10">
+                                        <div class="type-radio-answer row">
+                                            <div class="box-radio col-md-1">
                                                 {{ Form::radio("answer[$question->id]", $answer->id, '', [
                                                     'id' => "$key$temp",
                                                     'class' => 'input-radio option-add',
-                                                    'temp-as' => $answer->id,
-                                                    'temp-qs' => $question->id,
-                                                    (in_array($answer->id, array_keys($history))) ? ('checked = checked') : null,
+                                                    (in_array($answer->id, array_keys($history))) ? 'checked' : null,
                                                 ]) }}
-                                                {{ Form::label($key . $temp, (in_array($answer->id, array_keys($history)))
-                                                    ? ( trans('home.other') . $history[$answer->id] )
-                                                    : null, [
-                                                        'class' => 'label-radio',
+                                                {{ Form::label($key . $temp, ' ', [
+                                                    'class' => 'label-radio',
                                                 ]) }}
+                                                <div class="check"><div class="inside"></div></div>
+                                            </div>
+                                            <div class="col-md-11">
+                                                {{ (in_array($answer->id, array_keys($history)))
+                                                    ? ( trans('result.other_opinion') . ' : ' . $history[$answer->id] )
+                                                    : trans('result.other_opinion') }}
                                             </div>
                                         </div>
-                                        @breakswitch
+                                    @breakswitch
                                     @case(config('survey.type_other_checkbox'))
-                                        <div class="row">
-                                            <div class="col-md-10">
+                                        <div class="type-checkbox-answer row">
+                                            <div class="checkbox-answer col-md-1">
                                                 {{ Form::checkbox("answer[$question->id][$answer->id]", $answer->id, '', [
                                                     'id' => "$key$temp",
-                                                    'class' => 'input-checkbox option-add',
-                                                    'temp-as' => $answer->id,
-                                                    'temp-qs' => $question->id,
-                                                    (in_array($answer->id, array_keys($history))) ? ('checked = checked') : null,
+                                                    'class' => 'input-checkbox',
+                                                    (in_array($answer->id, array_keys($history))) ? 'checked' : null,
+                                                    'disabled',
                                                 ]) }}
-                                                {{ Form::label($key . $temp, (in_array($answer->id, array_keys($history)))
-                                                    ? ( trans('home.other') . $history[$answer->id] )
-                                                    : null, [
-                                                        'class' => 'label-checkbox',
+                                                {{ Form::label($key.$temp, ' ', [
+                                                    'class' => 'label-checkbox'
                                                 ]) }}
+                                            </div>
+                                            <div class="col-md-11">
+                                                {{ (in_array($answer->id, array_keys($history)))
+                                                    ? (trans('result.other_opinion') . ' : ' . $history[$answer->id])
+                                                    : trans('result.other_opinion') }}
                                             </div>
                                         </div>
                                     @breakswitch
@@ -138,6 +153,5 @@
             @endforeach
         </div>
     </div>
-    <div id="bottom-wizard">
-    </div>
 </div>
+

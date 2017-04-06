@@ -100,7 +100,7 @@ class ResultController extends Controller
             ) {
                 foreach ($answers as $answer) {
                     if (!is_array($answer)) {
-                        $answer = [$answer => null];
+                        $answer = [$answer => $answer];
                     }
 
                     foreach ($answer as $key => $value) {
@@ -117,20 +117,28 @@ class ResultController extends Controller
                             );
                         }
 
-                        $data[] = [
-                            'sender_id' => auth()->id(),
-                            'recevier_id' => $survey->user_id,
-                            'answer_id' => $key,
-                            'content' => $value,
-                            'name' => $setName,
-                            'email' => $setEmail,
-                            'created_at' => Carbon::now(),
-                            'updated_at' => Carbon::now(),
-                        ];
+                        if ($value = trim($value)) {
+                            $data[] = [
+                                'sender_id' => auth()->id(),
+                                'recevier_id' => $survey->user_id,
+                                'answer_id' => $key,
+                                'content' => $value,
+                                'name' => $setName,
+                                'email' => $setEmail,
+                                'created_at' => Carbon::now(),
+                                'updated_at' => Carbon::now(),
+                            ];
+                        }
                     }
                 }
 
                 $isSuccess = true;
+            }
+
+            if (!$data) {
+                return redirect()
+                    ->action(($survey->feature) ? 'AnswerController@answerPublic' : 'AnswerController@answerPrivate', $survey->token)
+                    ->with('message-fail', trans('result.answer_not_have'));
             }
 
             DB::beginTransaction();
