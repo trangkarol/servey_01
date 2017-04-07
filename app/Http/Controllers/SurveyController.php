@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use LRedis;
 use Mail;
 use DB;
+use Validator;
 
 class SurveyController extends Controller
 {
@@ -169,6 +170,19 @@ class SurveyController extends Controller
                 'del-question-image',
                 'del-answer-image',
             ]);
+            $validator = $this->makeValidator([
+                'txt-question' => $inputs['txt-question'],
+                'image' => $inputs['image'],
+            ]);
+            $validator = Validator::make($request->all(), $validator);
+
+            if ($validator->fails()) {
+                return redirect()->action('AnswerController@show', $token)
+                    ->with('message-fail', trans('messages.object_updated_unexicute', [
+                        'object' => class_basename(Survey::class)
+                ]));
+            }
+
             $results = $this->questionRepository->updateSurvey($inputs, $surveyId);
 
             if (!$results['isEdit']) {
@@ -211,6 +225,51 @@ class SurveyController extends Controller
         }
     }
 
+    private function makeValidator(array $inputs, $flage = false)
+    {
+        $images = $inputs['image'];
+        $validator = [];
+
+        foreach ($inputs['txt-question']['question'] as $questionIndex => $content) {
+            $validator['txt-question.question.' . $questionIndex] = 'required|max:255';
+
+            if ($images && array_key_exists('question', $images) && array_key_exists($questionIndex, $images['question'])) {
+                $validator['image.quesion.' . $questionIndex] = 'image|mimes:jpg,jpeg,png,gif,svg|max:1000';
+            }
+
+            foreach ($inputs['txt-question']['answers'][$questionIndex] as $answerIndex => $answer) {
+                $type = head(array_keys($answer));
+
+                if (in_array($type, [
+                    config('survey.type_radio'),
+                    config('survey.type_checkbox'),
+                ])) {
+                    $validator['txt-question.answers.' . $questionIndex . '.' . $answerIndex . '.' . $type] = 'required|max:255';
+                }
+
+                if ($images
+                    && array_key_exists('answers', $images)
+                    && array_key_exists($questionIndex, $images['answers'])
+                    && array_key_exists($answerIndex, $images['answers'][$questionIndex])
+                ) {
+                    $validator['image.answers.' . $questionIndex . '.' . $answerIndex] = 'image|mimes:jpg,jpeg,png,gif,svg|max:1000';
+                }
+            }
+        }
+
+        if ($flage) {
+            $validator['email'] = 'required|email|max:255';
+            $validator['name'] = 'required|max:255';
+            $validator['emails'] = 'max:255
+                |regex:/^([a-zA-Z0-9_.+-][a-z0-9_\.]{0,}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}[,]{0,1}[,]{0,1}[\s]*)+(?<!,)(?<!\s)$/';
+            $validator['title'] = 'required|max:255';
+            $realTime = Carbon::now()->addMinutes(30);
+            $validator['deadline'] = 'date|after:' . $realTime;
+        }
+
+        return $validator;
+    }
+
     public function create(Request $request)
     {
         $value = $request->only([
@@ -226,6 +285,19 @@ class SurveyController extends Controller
             'name',
             'image',
         ]);
+        $validator = $this->makeValidator([
+            'txt-question' => $value['txt-question'],
+            'image' => $value['image'],
+        ], true);
+        $validator = Validator::make($request->all(), $validator);
+
+        if ($validator->fails()) {
+            dd($validator, $value);
+            return redirect()->action('SurveyController@index')
+                ->with('message-fail', trans('messages.object_created_unsuccessfully', [
+                    'object' => class_basename(Survey::class),
+            ]));
+        }
 
         if (!strlen($value['title'])) {
             $value['title'] = config('survey.title_default');
