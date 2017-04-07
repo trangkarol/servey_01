@@ -195,6 +195,7 @@ class SurveyController extends Controller
             $job = (new SendMail(collect($mailInput), 'reAnswer'))
                 ->onConnection('database')
                 ->onQueue('emails');
+            $this->dispatch($job);
             DB::commit();
 
             return redirect()->action('AnswerController@show', $token)

@@ -84,8 +84,10 @@
 <body>
     <div class="content-body">
         <div>
-            @each('emails.temp_email_resend_answer', config('settings.locale'), 'lang')
+            @foreach (config('settings.locale') as $lang)
+                @include('emails.temp_email_resend_answer')
                 <hr/>
+            @endforeach
         </div>
     </div>
 </body>

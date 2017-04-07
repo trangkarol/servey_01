@@ -78,4 +78,5 @@ return [
         'number' => 'lần vào lúc',
     ],
     'update_question' => 'Cập nhật câu hỏi',
+    'resend' => 'Thông báo: Trả lời lại.',
 ];

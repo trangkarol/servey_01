@@ -78,4 +78,5 @@ return [
         'number' => 'times at a time',
     ],
     'update_question' => 'Update question',
+    'resend' => 'Notification: Re-answer.',
 ];
