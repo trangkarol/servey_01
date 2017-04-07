@@ -101,4 +101,14 @@ $(document).ready(function() {
             $('.back-home' + socketData.surveyId).fadeIn();
         }
     });
+
+    socket.on('update', function (data) {
+        var socketData = $.parseJSON(data);
+
+        if (socketData.success) {
+            $('.bot-wizard' + socketData.surveyId).css('padding', '15px');
+            $('.option-answer' + socketData.surveyId).remove();
+            $('.reload-page' + socketData.surveyId).fadeIn();
+        }
+    });
 });

@@ -24,16 +24,18 @@
                 </div>
             </div>
             <div class="middel-content-detail detail-survey{{ $survey->id }} wizard-branch wizard-wrapper">
-                @if (Session::has('message'))
-                    <div class="alert alert-info alert-message">
-                        {{ Session::get('message') }}
-                    </div>
-                @endif
-                @if (Session::has('message-fail'))
-                    <div class="alert alert-danger alert-message">
-                        {{ Session::get('message-fail') }}
-                    </div>
-                @endif
+                <div class="row show-message">
+                    @if (Session::has('message'))
+                        <div class="alert col-md-4 col-md-offset-4 animated fadeInDown alert-info alert-message">
+                            {{ Session::get('message') }}
+                        </div>
+                    @endif
+                    @if (Session::has('message-fail'))
+                        <div class="alert col-md-4 col-md-offset-4 animated fadeInDown alert-danger alert-message">
+                            {{ Session::get('message-fail') }}
+                        </div>
+                    @endif
+                </div>
                 <div class="tab-detail-survey tab-class">
                     <section class="tabs">
                         {{ Form::radio('radio-set', config('temp.radio.label_info'), '', [

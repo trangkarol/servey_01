@@ -75,25 +75,34 @@
                                             <li class="{{ ($question->required) ? 'required' : '' }}">
                                                 @switch($answer->type)
                                                     @case(config('survey.type_radio'))
-                                                        {{ Form::radio("$time", $answer->id, '', [
-                                                            'class' => 'option-choose input-radio',
-                                                            ($checked) ? 'checked = checked' : null,
-                                                        ]) }}
-                                                        {{ Form::label($loop->index, $answer->content, [
-                                                            'class' => 'label-radio',
-                                                        ]) }}
-                                                        @breakswitch
-                                                    @case(config('survey.type_checkbox'))
-                                                        <div>
-                                                            {{ Form::checkbox("answer[$question->id][$answer->id]", $answer->id, '', [
-                                                                'class' => 'input-checkbox',
-                                                                ($checked) ? 'checked = checked' : null,
-                                                            ]) }}
-                                                            {{ Form::label($loop->index, $answer->content, [
-                                                                'class' => 'label-checkbox'
-                                                            ]) }}
+                                                        <div class="type-radio-answer row">
+                                                            <div class="box-radio col-md-1">
+                                                                {{ Form::radio("$time", $answer->id, '', [
+                                                                    'class' => 'option-choose input-radio',
+                                                                    ($checked) ? 'checked = checked' : null,
+                                                                ]) }}
+                                                                {{ Form::label($loop->index, ' ', [
+                                                                    'class' => 'label-radio',
+                                                                ]) }}
+                                                                <div class="check"><div class="inside"></div></div>
+                                                            </div>
+                                                            <div class="col-md-11">{{ $answer->content }}</div>
                                                         </div>
-                                                        @breakswitch
+                                                    @breakswitch
+                                                    @case(config('survey.type_checkbox'))
+                                                        <div class="type-checkbox-answer row">
+                                                            <div class="checkbox-answer col-md-1">
+                                                                {{ Form::checkbox("answer[$question->id][$answer->id]", $answer->id, '', [
+                                                                    'class' => 'input-checkbox',
+                                                                    ($checked) ? 'checked = checked' : null,
+                                                                ]) }}
+                                                                {{ Form::label($loop->index, ' ', [
+                                                                    'class' => 'label-checkbox'
+                                                                ]) }}
+                                                            </div>
+                                                            <div class="col-md-11">{{ $answer->content }}</div>
+                                                        </div>
+                                                    @breakswitch
                                                     @case(config('survey.type_text'))
                                                         {!! Form::textarea("answer[$question->id][$answer->id]", $checked, [
                                                             'class' => 'form-control answer',
@@ -105,13 +114,13 @@
                                                             'class' => 'frm-time form-control',
                                                             'disabled' => 'true',
                                                         ]) !!}
-                                                        @breakswitch
+                                                    @breakswitch
                                                     @case(config('survey.type_date'))
                                                         {!! Form::text("answer[$question->id][$answer->id]", $checked, [
                                                             'class' => 'form-control frm-date-2',
                                                             'disabled' => 'true',
                                                         ]) !!}
-                                                        @breakswitch
+                                                    @breakswitch
                                                     @case(config('survey.type_other_radio'))
                                                         <div class="row">
                                                             <div class="col-md-2">
@@ -132,7 +141,7 @@
                                                                 @endif
                                                             </div>
                                                         </div>
-                                                        @breakswitch
+                                                    @breakswitch
                                                     @case(config('survey.type_other_checkbox'))
                                                         <div class="row">
                                                             <div class="col-md-2">

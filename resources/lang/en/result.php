@@ -21,4 +21,9 @@ return [
     'not_answer' => 'You have not answered this question yet.',
     'other_opinion' => 'Other opinion',
     'answer_not_have' => "You haven't answered any question yet",
+    'reload' => [
+        'first' => 'SORRY, This survey was updated. Please',
+        'second' => 'reload',
+        'last' => 'this page!',
+    ],
 ];

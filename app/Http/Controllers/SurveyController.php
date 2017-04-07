@@ -132,6 +132,12 @@ class SurveyController extends Controller
             }
         }
 
+        $redis = LRedis::connection();
+        $redis->publish('update', json_encode([
+            'success' => true,
+            'surveyId' => $id,
+        ]));
+
         return redirect()->action('AnswerController@show', $survey->token_manage)
             ->with(($isSuccess) ? 'message' : 'message-fail', ($isSuccess)
                 ? trans('messages.object_updated_successfully', [
@@ -211,6 +217,11 @@ class SurveyController extends Controller
                 ->onQueue('emails');
             $this->dispatch($job);
             DB::commit();
+            $redis = LRedis::connection();
+            $redis->publish('update', json_encode([
+                'success' => true,
+                'surveyId' => $surveyId,
+            ]));
 
             return redirect()->action('AnswerController@show', $token)
                 ->with('message', trans('messages.object_updated_successfully', [
