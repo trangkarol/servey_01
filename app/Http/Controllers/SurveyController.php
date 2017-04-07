@@ -284,10 +284,14 @@ class SurveyController extends Controller
 
     private function removeEmptyValue(array $array)
     {
-        $array['question'] = array_filter($array['question']);
+        if (array_key_exists('question', $array)) {
+            $array['question'] = array_filter($array['question']);
+        }
 
-        foreach (array_keys($array['answers']) as $key) {
-            $array['answers'][$key] = array_filter($array['answers'][$key]);
+        if (array_key_exists('answers', $array)) {
+            foreach (array_keys($array['answers']) as $key) {
+                $array['answers'][$key] = array_filter($array['answers'][$key]);
+            }
         }
 
         return $array;

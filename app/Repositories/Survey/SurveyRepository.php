@@ -159,10 +159,14 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         }
 
         //(1,5) That is the settings quantity for a survey
-        foreach (range(1, 5) as $key) {
-            if (!array_has($settings, $key) || !$settings[config('settings.key.tailMail')]) {
+        foreach (range(1, 4) as $key) {
+            if (!array_has($settings, $key)) {
                 $settings[$key] = null;
             }
+        }
+
+        if (!$settings[config('settings.key.tailMail')]) {
+            $settings[config('settings.key.tailMail')] = null;
         }
 
         $this->settingRepository->createMultiSetting($settings, $surveyId);

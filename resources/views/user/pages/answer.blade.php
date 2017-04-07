@@ -61,7 +61,7 @@
                     </div>
                     <div class="description-survey">
                         <h4>
-                            {{ $survey->description }}
+                            {!! cleanText($survey->description) !!}
                         </h4>
                     </div>
                     @if (Session::has('message'))
@@ -184,8 +184,9 @@
                     <div class="shadow-bottom"></div>
                     <div class="option-answer{{ $survey->id }}">
                         @php
-                            $inArray = in_array(config('settings.key.limitAnswer'), array_keys($access));
-                            $check = ($inArray && ($access[config('settings.key.limitAnswer')] || !$access[config('settings.key.limitAnswer')]));
+                            $check = ($access[config('settings.key.limitAnswer')]
+                                && ($access[config('settings.key.limitAnswer')]
+                                || !$access[config('settings.key.limitAnswer')]));
                         @endphp
                         @if ($survey->status
                             && (Carbon\Carbon::parse($survey->deadline)->gt(Carbon\Carbon::now()) || empty($survey->deadline))

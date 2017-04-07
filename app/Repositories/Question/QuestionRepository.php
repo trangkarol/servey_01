@@ -123,8 +123,8 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
                         'type' => $type,
                         'image' => ($isHaveImage )
                             ? $this->uploadImage($image['answers'][$index][$key], config('settings.image_answer_path'))
-                            : $this->uploadImageUrl(array_get($imageUrl['answers'], $index . '.' . $key), config('settings.image_answer_path')),
-                        'video' => array_get($videoUrl['answers'], $index . '.' . $key),
+                            : $this->uploadImageUrl(array_get($imageUrl, 'answers.' . $index . '.' . $key), config('settings.image_answer_path')),
+                        'video' => array_get($videoUrl, 'answers.' . $index . '.' . $key),
                     ];
                 }
             }
