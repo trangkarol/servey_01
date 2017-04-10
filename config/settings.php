@@ -75,4 +75,5 @@ return [
     ],
     'email_unidentified' => 0,
     'name_unidentified' => 0,
+    'content_length_default' => 50,
 ];

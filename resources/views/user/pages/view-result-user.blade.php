@@ -33,13 +33,17 @@
                             class="{{ $loop->first ? 'tab-pane fade in active' : 'tab-pane fade in' }}">
                             @php
                                 $maxUpdateQuestion = $survey->questions->max('update');
+                                $index = 1;
                             @endphp
                             @foreach ($survey->questions as $question)
                                 <div>
                                     <h4 class="tag-question">
-                                        {{ ++$loop->index . '. ' . $question->content }}
+                                        {{ ($question->clone_id ? ($index - 1) : ($index)) . '. ' . $question->content }}
                                         <span>{{ ($question->required) ? '(*)' : '' }}</span>
                                     </h4>
+                                    @if (!$question->clone_id)
+                                        @php $index++; @endphp
+                                    @endif
                                     @if (in_array($question->update, [
                                         config('survey.update.change'),
                                         config('survey.update.delete'),

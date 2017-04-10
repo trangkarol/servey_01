@@ -72,8 +72,9 @@
             @include('admin.blocks.footer')
         </div>
     </div>
-    {!! Html::script(elixir('/js/app.js')) !!}
+
     {!! Html::script(elixir('/admin/js/jquery.js')) !!}
+    {!! Html::script(elixir('/js/app.js')) !!}
     {!! Html::script(elixir('/admin/js/bootstrap.min.js')) !!}
     {!! Html::script(elixir('/admin/js/admin-script.js')) !!}}
     {!! Html::script(elixir('/admin/js/survey.js')) !!}

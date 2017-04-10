@@ -76,6 +76,16 @@ Route::group(['prefix' => '/admin', 'middleware' => 'admin'], function () {
     Route::resource('/request', 'Admin\RequestController', ['only' => 'store']);
 
     Route::post('/request/cancel', 'Admin\RequestController@cancel');
+
+    Route::resource('/feedback', 'FeedbackController', [
+        'only' => [
+            'index',
+            'show',
+            'destroy',
+        ],
+    ]);
+
+    Route::post('/post-update-feedback', 'FeedbackController@update');
 });
 
 Route::get('/', 'SurveyController@index');
@@ -139,3 +149,7 @@ Route::put('/update-survey/{id}', 'SurveyController@updateSurvey');
 Route::get('/show-user-answer-detail/{surveyId}/{userId?}/{email?}', 'AnswerController@showMultiHistory');
 
 Route::post('/update/{id}/{token}', 'SurveyController@updateSurveyContent');
+
+Route::get('/feedback', 'FeedbackController@getFeedback');
+
+Route::post('/post-feedback', 'FeedbackController@create');

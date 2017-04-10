@@ -11,13 +11,17 @@
         <div class="row">
             @php
                 $maxUpdateQuestion = $survey->questions->max('update');
+                $index = 1;
             @endphp
             @foreach ($survey->questions as $key => $question)
                 <div>
                     <h4 class="tag-question">
-                        {{ ($key + 1) . '. ' . $question->content }}
+                        {{ ($question->clone_id ? ($index - 1) : ($index)) . '. ' . $question->content }}
                         <span>{{ ($question->required) ? '(*)' : '' }}</span>
                     </h4>
+                    @if (!$question->clone_id)
+                        @php $index++; @endphp
+                    @endif
                     @if (in_array($question->update, [
                         config('survey.update.change'),
                         config('survey.update.delete'),
