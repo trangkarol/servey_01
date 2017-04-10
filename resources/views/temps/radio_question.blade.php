@@ -14,9 +14,7 @@
             <div class="col-md-2">
                 <div class="img-trash row">
                     <a class="glyphicon glyphicon-picture col-md-3"></a>
-                    {!! Form::file("image[question][$number]", [
-                        'class' => 'hidden-image fileImg' . $number,
-                    ]) !!}
+                    @include('temps.question_hidden_field')
                     <a class="glyphicon glyphicon-trash col-md-1" id-question="{{ $number }}"></a>
                     <a class="glyphicon glyphicon-sort col-md-3"></a>
                 </div>
@@ -45,9 +43,7 @@
                 {!! Html::image(config('settings.image_path_system') . 'img-answer.png', '', [
                     'class' => 'picture-answer',
                 ]) !!}
-                {!! Form::file("image[answers][$number][]", [
-                    'class' => 'hidden-image fileImgAnswer' . $number . '0',
-                ]) !!}
+                @include('temps.answer_hidden_field', ['num_as' => 0])
                 <a class="glyphicon glyphicon-remove btn-remove-answer" id-as="{{ $number }}0" num="{{ $number }}">
                 </a>
             </div>
@@ -75,9 +71,7 @@
                 {!! Html::image(config('settings.image_path_system') . 'img-answer.png', '', [
                     'class' => 'picture-answer',
                 ]) !!}
-                {!! Form::file("image[answers][$number][]", [
-                    'class' => 'hidden-image fileImgAnswer' . $number . '1',
-                ]) !!}
+                @include('temps.answer_hidden_field', ['num_as' => 1])
                 <a class="glyphicon glyphicon-remove btn-remove-answer" id-as="{{ $number }}1" num="{{ $number }}">
                 </a>
             </div>

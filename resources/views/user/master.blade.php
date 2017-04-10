@@ -42,5 +42,63 @@
             @yield('content-info-web')
         </section>
         @include('user.blocks.footer')
+        <div class="modal fade" id="modal-id" data-id="" data-id-answer="">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        {!! Form::button('&times;', ['class' => 'close', 'data-dismiss' => 'modal', 'aria-hidden' => 'true']) !!}
+                        <h4 class="modal-title">{{ trans('home.media_upload') }}</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="win-img">
+                            <div class="photo-tb">
+                                <div class="row">
+                                    <div class="col col-md-10 photo-tb-url">
+                                        <div class="add-link-image-group">
+                                            <input class="photo-tb-url-txt form-control" placeholder="{{ trans('home.url_hint') }}" name="urlImageTemp" type="text">
+                                            <span class="add-image-by-link label-info btn-green">
+                                                {{ trans('home.add') }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col col-md-2 photo-tb-ui">
+                                        <div class="photo-tb-btn photo-tb-upload">
+                                            <span class="fa fa-camera"></span>
+                                            <p>{{ trans('home.upload') }}</p>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="message">
+                                <p class="text-danger text-center modal-message"></p>
+                            </div>
+                            <div class="photo-preivew">
+                                <img src="" class="img-pre-option">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        {!! Form::button(trans('home.close'), ['class' => 'btn btn-danger btn-no', 'data-dismiss' => 'modal']) !!}
+                        {!! Form::button(trans('home.save'), ['class' => 'btn btn-info btn-green btn-yes']) !!}
+                    </div>
+                </div>
+            </div>
+        </div>
+        @section('js-var')
+            <script>
+                var data = {
+                    defaultImg: '{{ asset(config('temp.image_default')) }}',
+                    hint: '{{ trans('home.url_hint') }}',
+                    msg : {
+                        yt : '{{ trans('home.msg.yt') }}',
+                        vm : '{{ trans('home.msg.vm') }}',
+                        img : '{{ trans('home.msg.img') }}',
+                        false : '{{ trans('home.msg.false') }}',
+                        timeout : '{{ trans('home.msg.time_out') }}',
+                    },
+                }
+            </script>
+        @show
     </body>
 </html>

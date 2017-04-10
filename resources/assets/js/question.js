@@ -10,6 +10,30 @@ $(document).ready(function() {
     var getProperty = function (propertyName) {
         return obj[propertyName];
     };
+    var slts = { // selectors
+        msg: '.modal-message',
+        preview: '.img-pre-option',
+        url : '.photo-tb-url-txt',
+        upload: '.photo-tb-upload',
+        link: '.add-image-by-link',
+        modal: '#modal-id',
+        q: { // question
+            open: '.glyphicon-picture',
+            image: '.image-question',
+            file: '.fileImg',
+            video: '.question-video-url',
+            imgU: '.question-img-url',
+            imgDiv: '.content-image-question',
+        },
+        a: { // answer
+            open: '.picture-answer',
+            image: '.image-answer',
+            file: '.fileImgAnswer',
+            video: '.answer-video-url',
+            imgU: '.answer-img-url',
+            imgDiv: '.content-image-answer',
+        },
+    };
 
     function elasticArea() {
         $('.js-elasticArea').each(function(index, element) {
@@ -131,7 +155,119 @@ $(document).ready(function() {
         }
     }
 
-    $('.package-question').on('click', '.add-radio', function() {
+    function showMessage (message, type) {
+        var m = $(slts.msg)
+        m.text(message).show();
+
+        if (type == 'success') {
+            m.removeClass('text-danger').addClass('text-success');
+        } else {
+            m.removeClass('text-success').addClass('text-danger');
+        }
+    }
+
+    function removeMessage () {
+        $(slts.msg).text("").hide()
+    }
+
+    // validate image url
+    function checkTimeLoadImage (e, t, i) {
+        var o, i = i || 3e3,
+            n = !1,
+            r = new Image;
+        r.onerror = r.onabort = function() {
+            n || (clearTimeout(o), t("error"))
+        }, r.onload = function() {
+            n || (clearTimeout(o), t("success"))
+        }, r.src = e, o = setTimeout(function() {
+            n = !0, t("timeout")
+        }, i)
+    }
+
+    // set preview image src
+    function setPreviewImage(src) {
+        $(slts.preview).attr('src', src);
+    }
+
+    // validate video url, support youtube and vimeo
+    function validateVideoUrl(url) {
+        url.match(/(http:\/\/|https:\/\/|)(player.|www.)?(vimeo\.com|youtu(be\.com|\.be|be\.googleapis\.com))\/(video\/|embed\/|watch\?v=|v\/)?([A-Za-z0-9._%-]*)(\&\S+)?/);
+
+        if (RegExp.$3.indexOf('youtu') > -1) {
+            var type = 'youtube';
+        } else if (RegExp.$3.indexOf('vimeo') > -1) {
+            var type = 'vimeo';
+        } else {
+            return false;
+        }
+
+        return {
+            type: type,
+            id: RegExp.$6
+        };
+    }
+
+    // reset file field
+    function resetImageField (field) {
+        $(field).wrap('<form>').closest('form').get(0).reset();
+        $(field).unwrap();
+    }
+
+    function getVimeoThumb (id, callback) {
+        $.getJSON('http://www.vimeo.com/api/v2/video/' + id + '.json?callback=?', {format: "json"}, function(data) {
+            callback(data[0].thumbnail_large);
+        });
+    }
+
+    function addMediabyUrl (questionId) {
+        var url = $(slts.url).val().trim();
+        var returnData = { url: url };
+
+        if (url == '') {
+            returnData.type = 'error';
+            showMessage(data.hint);
+        } else {
+
+            result = validateVideoUrl(url);
+
+            if (result) { // is video url
+                var src;
+                returnData.type = 'video';
+
+                if (result.type == 'youtube') {
+                    src = 'https://img.youtube.com/vi/' + result.id + '/hqdefault.jpg'
+                    setPreviewImage(src);
+                    showMessage(data.msg.yt, 'success');
+                    returnData.image = src;
+
+                } else {
+                    getVimeoThumb(result.id, function (data) {
+                        setPreviewImage(data);
+                    });
+                    showMessage(data.msg.vm, 'success');
+                    returnData.id = result.id;
+                }
+            } else {
+                returnData.type = 'image';
+                checkTimeLoadImage(url, function(result) {
+                    if (result == 'success') { // is image url
+                        setPreviewImage(url);
+                        showMessage(data.msg.img, 'success');
+
+                    } else if (result == 'error') { // is not image url
+                        setPreviewImage('');
+                        showMessage(data.msg.false);
+                    } else { // timeout
+                        setPreviewImage('');
+                        showMessage(data.msg.timeout);
+                    }
+                });
+            }
+        }
+        return returnData;
+    }
+
+    $(document).on('click', '.add-radio', function() {
         addAnwser($(this));
     });
 
@@ -176,31 +312,96 @@ $(document).ready(function() {
             .css('border-radius', '5px');
     });
 
-    $('.package-question').on('click', '.glyphicon-picture', function() {
-        var idQuestion = $(this).siblings('.glyphicon-trash').attr('id-question');
-        $('.fileImg' + idQuestion).click();
-        $(document).on('change', '.fileImg' + idQuestion, function () {
-            var image = readURL(this, '.image-question' + idQuestion);
+    function clickYes (imageField, videoUrl, imgUrl, imgSrc, imgDiv, returnData, id) {
+        $(slts.modal).modal('hide');
 
-            if (image == false) {
-                $('.image-question' + idQuestion).attr('src', '/');
-                $('.content-image-question' + idQuestion).css('display', 'none');
-            } else {
-                $('.content-image-question' + idQuestion).css('display', 'block');
+        if (returnData != null && returnData.type != 'error') {
+            $(videoUrl + id, imgUrl + id).attr('value', '');
+
+
+            if (returnData.type == 'video') {
+                resetImageField(imageField + id);
+                $(imgDiv + id).css('display', 'block');
+                $(videoUrl + id).attr('value', returnData.url);
+                if (returnData.image) { // is youtube video
+                    $(imgSrc + id).attr('src', returnData.image);
+                    $(imgUrl + id).attr('value', returnData.image);
+                }
+                if (returnData.id) { // is vimeo video
+                    getVimeoThumb(returnData.id, function (data) {
+                        $(imgSrc + id).attr('src', data);
+                        $(imgUrl + id).attr('value', data);
+                    });
+                }
+            } else if (returnData.type == 'image') {
+                resetImageField(imageField + id);
+                var src = returnData.url;
+                checkTimeLoadImage(src, function(result) {
+                    if (result == 'success') { // is image url
+                        $(imgSrc + id).attr('src', src);
+                        $(imgUrl + id).attr('value', src);
+                        $(imgDiv + id).css('display', 'block');
+                    }
+                });
+            } else if (returnData.type == 'upload') {
+                $(imgSrc + id).attr('src', $(slts.preview).attr('src'));
+                $(imgDiv + id).css('display', 'block');
             }
+        }
+        returnData = null;
+    }
+
+    $(document).on('click', slts.q.open, function() {
+        idQuestion = $(this).siblings('.glyphicon-trash').attr('id-question');
+        var returnData = null;
+        var oldImage = $(slts.q.image + idQuestion).attr('src');
+        setPreviewImage(''), removeMessage();
+        $(slts.url).val(null);
+        $(slts.modal).modal().attr('data-id', idQuestion);
+
+        if (oldImage != data.defaultImg) {
+            setPreviewImage(oldImage);
+        }
+
+        $(slts.upload).unbind().on('click', function () {
+            removeMessage();
+            $(slts.q.file + idQuestion).click();
+        });
+
+        $(document).on('change', slts.q.file + idQuestion, function () {
+            readURL(this, slts.preview);
+            returnData = { type: 'upload' };
+        });
+
+        $(slts.link).unbind().on('click', function () {
+            removeMessage(), setPreviewImage('');
+            returnData = addMediabyUrl(idQuestion);
+        })
+
+        $('.btn-yes').unbind().on('click', function(e) {
+            clickYes(
+                slts.q.file,
+                slts.q.video,
+                slts.q.imgU,
+                slts.q.image,
+                slts.q.imgDiv,
+                returnData,
+                idQuestion,
+            );
         });
     });
 
-    $('.package-question').on('click', '.remove-image-question', function() {
+    $(document).on('click', '.remove-image-question', function() {
         var idQuestion = $(this).attr('id-question');
-        var idImage = $(this).attr('data-id-image');
-        arrayImageQuestion.push(idImage);
-        $('.content-image-question' + idQuestion).fadeOut(500);
+        $(slts.q.imgDiv + idQuestion).fadeOut(500);
+        resetImageField(slts.q.file + idQuestion);
+        $(slts.q.imgU + idQuestion + ', .question-video-url' + idQuestion).attr('value', '');
+
         setTimeout(function() {
-            sumImageSize -= getProperty('.image-question' + idQuestion);
-            obj['.image-question' + idQuestion] = 0;
-            $('.image-question' + idQuestion).attr('src', '/');
-            $('.content-image-question' + idQuestion).css('display', 'none');
+            sumImageSize -= getProperty(slts.q.image + idQuestion);
+            obj[slts.q.image + idQuestion] = 0;
+            $(slts.q.image + idQuestion).attr('src', data.defaultImg);
+            $(slts.q.imgDiv + idQuestion).css('display', 'none');
         }, 1000);
     });
 
@@ -232,31 +433,57 @@ $(document).ready(function() {
         $('.popup-content-history').empty();
     });
 
-    $('.package-question').on('click', '.picture-answer', function() {
+    $(document).on('click', slts.a.open, function() {
         var idAnswer = $(this).siblings('.glyphicon-remove').attr('id-as');
-        $('.fileImgAnswer' + idAnswer).click();
-        $(document).on('change', '.fileImgAnswer' + idAnswer, function () {
-            var image = readURL(this, '.image-answer' + idAnswer);
+        var returnData = null;
+        var oldImage = $(slts.a.image + idAnswer).attr('src');
+        setPreviewImage(''), removeMessage();
+        $(slts.url).val(null);
+        $(slts.modal).modal().attr('data-id', idAnswer);
 
-            if (image == false) {
-                $('.image-answer' + idAnswer).attr('src', '/');
-                $('.content-image-answer' + idAnswer).css('display', 'none');
-            } else {
-                $('.content-image-answer' + idAnswer).css('display', 'block');
-            }
+        if (oldImage != data.defaultImg) {
+            setPreviewImage(oldImage);
+        }
+
+        $(slts.upload).unbind().on('click', function () {
+            removeMessage();
+            $(slts.a.file + idAnswer).click();
+        });
+
+        $(document).on('change', slts.a.file + idAnswer, function () {
+            readURL(this, slts.preview);
+            returnData = { type: 'upload' };
+        });
+
+        $(slts.link).unbind().on('click', function () {
+            removeMessage(), setPreviewImage('');
+            returnData = addMediabyUrl(idAnswer);
+        })
+
+        $('.btn-yes').unbind().on('click', function(e) {
+            clickYes(
+                slts.a.file,
+                slts.a.video,
+                slts.a.imgU,
+                slts.a.image,
+                slts.a.imgDiv,
+                returnData,
+                idAnswer,
+            );
         });
     });
 
     $('.package-question').on('click', '.remove-image-answer', function() {
         var idAnswer = $(this).attr('id-answer');
-        var idImage =  $(this).attr('data-answerid');
-        $('.content-image-answer' + idAnswer).fadeOut(500);
-        arrayImageAnswer.push(idImage);
+        $(slts.a.imgDiv + idAnswer).fadeOut(500);
+        resetImageField(slts.a.file + idAnswer);
+        $(slts.a.imgU + idAnswer + ', .answer-video-url' + idAnswer).attr('value', '');
+
         setTimeout(function() {
-            sumImageSize -= getProperty('.image-answer' + idAnswer);
-            obj['.image-answer' + idAnswer] = 0;
-            $('.image-answer' + idAnswer).attr('src', '/');
-            $('.content-image-answer' + idAnswer).css('display', 'none');
+            sumImageSize -= getProperty(slts.a.image + idAnswer);
+            obj[slts.a.image + idAnswer] = 0;
+            $(slts.a.image + idAnswer).attr('src', data.defaultImg);
+            $(slts.a.imgDiv + idAnswer).css('display', 'none');
         }, 1000);
     });
 
@@ -275,14 +502,14 @@ $(document).ready(function() {
         }
 
         for (var i = 0; i < size; i++) {
-            if (getProperty('.image-answer' + idQuestion + i)) {
-                sum += getProperty('.image-answer' + idQuestion + i);
-                obj['.image-answer' + idQuestion + i] = 0;
+            if (getProperty(slts.a.image + idQuestion + i)) {
+                sum += getProperty(slts.a.image + idQuestion + i);
+                obj[slts.a.image + idQuestion + i] = 0;
             }
         }
 
-        sumImageSize = sumImageSize - (getProperty('.image-question' + idQuestion) + sum);
-        obj['.image-question' + idQuestion] = 0;
+        sumImageSize = sumImageSize - (getProperty(slts.q.image + idQuestion) + sum);
+        obj[slts.q.image + idQuestion] = 0;
         $('.data').attr('data-question', number_qs);
         $('.question' + idQuestion).removeClass('animate zoomIn');
         $('.question' + idQuestion).addClass('animate fadeOutDown');
@@ -299,8 +526,8 @@ $(document).ready(function() {
 
         if (trash > 2) {
             arrayAnswer.push(idDelete);
-            sumImageSize -= getProperty('.image-answer' + idAnswer);
-            obj['.image-answer' + idAnswer] = 0;
+            sumImageSize -= getProperty(slts.a.image + idAnswer);
+            obj[slts.a.image + idAnswer] = 0;
             $('.question' + number).attr('trash', trash - 1);
             $('.clear-as' + idAnswer).remove();
             $('.qs-as' + idAnswer).remove();

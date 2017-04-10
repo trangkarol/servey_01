@@ -1671,3 +1671,65 @@ input.frm-date-2,input.frm-time {
 .show-history-answer {
     padding: 20px 25px 40px;
 }
+
+.add-image-by-link {
+    position: absolute;
+    padding: 11px 15px;
+    font-size: 14px;
+    font-weight: 400;
+    cursor: pointer;
+    color: #fff;
+    text-align: center;
+    border: 1px solid #5bc0de;
+    top: 0;
+    right: 0;
+}
+
+.photo-tb-btn {
+    float: left;
+    font-size: 15px;
+    cursor: pointer;
+    text-align: center;
+    padding: 5px 10px;
+
+    span {
+        font-size: 22px;
+    }
+}
+
+.btn, .modal-content {
+    border-radius: 0;
+}
+
+.btn-green {
+    background: #1ab9a7;
+}
+
+.modal {
+    text-align: center;
+    padding: 0!important;
+}
+
+.modal:before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    margin-right: -4px;
+}
+
+.modal-dialog {
+    display: inline-block;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.add-link-image-group input.form-control {
+    border-bottom: 0;
+}
+
+.img-pre-option {
+    max-width: 100%;
+    display: block;
+    margin: 0 auto;
+}

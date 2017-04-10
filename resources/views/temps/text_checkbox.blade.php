@@ -14,9 +14,7 @@
             {!! Html::image(config('settings.image_path_system') . 'img-answer.png', '', [
                 'class' => 'picture-answer',
             ]) !!}
-            {!! Form::file("image[answers][$number][]", [
-                'class' => 'hidden-image fileImgAnswer' . $number . $num_as,
-            ]) !!}
+            @include('temps.answer_hidden_field')
             <a class="glyphicon glyphicon-remove btn-remove-answer" id-as="{{ $number . $num_as }}" num="{{ $number }}">
             </a>
         </div>
