@@ -15,7 +15,7 @@ return [
     'address' => 'Address',
     'male' => 'Male',
     'female' => 'Female',
-    'update' => 'Updates',
+    'update' => 'Update',
     'update_info' => 'Update information',
     'phone' => 'Telephone',
     'chooser_new_image' => 'Choose new image',

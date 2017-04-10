@@ -457,7 +457,10 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
         }
 
         $success = [];
-        $success['emails'] = $this->answerRepository->getResultByAnswer($questionIds->pluck('id')->toArray())
+        $this->answerRepository->newQuery(new Answer());
+        $this->newQuery(new Question());
+        $questionIds = $this->where('survey_id', $surveyId)->lists('id')->toArray();
+        $success['emails'] = $this->answerRepository->getResultByAnswer($questionIds, null, true)
             ->where('email', '<>', (string)config('settings.email_unidentified'))
             ->get(['email'])
             ->unique('email')

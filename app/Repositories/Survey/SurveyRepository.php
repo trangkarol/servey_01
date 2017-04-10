@@ -148,6 +148,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         $surveyInputs['deadline'] = ($inputs['deadline'])
             ? Carbon::parse($inputs['deadline'])->format('Y/m/d H:i')
             : null;
+        $surveyInputs['description'] = ($inputs['description']) ?: null;
         $surveyInputs['created_at'] = $surveyInputs['updated_at'] = Carbon::now();
         $surveyId = parent::create($surveyInputs->toArray());
 

@@ -16,18 +16,6 @@
                 </b>
             </td>
         </tr>
-        <tr>
-            <td class="tr-3">
-                {{ Html::image(config('app.url') . config('settings.image_path_system') . 'sv.jpg', '', [
-                    'class' => 'img-mail',
-                ]) }}
-            </td>
-        </tr>
-        <tr>
-            <td class="tr-4">
-                {{ trans('temp.from') . ':' . $emailSender . '(' . $name  . ')' }}
-            </td>
-        </tr>
         <tr class="tr-5">
             <td>
                 <b>
@@ -37,8 +25,9 @@
         </tr>
         <tr class="tr-6">
             <td>
-                <p>{{ trans('temp.title') . ':' . $title }}</p>
-                <p>{{ trans('temp.description') . ':' . $description }}</p>
+                <p>{{ Lang::choice('temp.title', 0, [], $lang) . ': ' . $title }}</p>
+                <p>{{ Lang::choice('temp.description', 0, [], $lang) . ': ' .
+                    ($description ?: Lang::choice('temp.no_description', 0, [], $lang)) }}</p>
                 <div class="hr-heading-body">
                     <p>
                         {{ Lang::choice('temp.click_participant', 0, [], $lang) }}
