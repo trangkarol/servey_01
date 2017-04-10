@@ -10,9 +10,7 @@
             <div class="col-md-2">
                 <div class="img-trash row">
                     <a class="glyphicon glyphicon-picture col-md-3"></a>
-                    {!! Form::file("image[question][$number]", [
-                        'class' => 'hidden-image fileImg' . $number,
-                    ]) !!}
+                    @include('temps.question_hidden_field')
                     <a class="glyphicon glyphicon-trash col-md-1" id-question="{{ $number }}"></a>
                     <a class="glyphicon glyphicon-sort col-md-3"></a>
                 </div>

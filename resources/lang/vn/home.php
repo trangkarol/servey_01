@@ -57,4 +57,16 @@ return [
     'answer_here' => 'Trả lời ở đây',
     'choose_date' => 'Chọn ngày tại đây',
     'choose_time' => 'Chọn thời gian tại đây',
+    'url_hint' => 'Nhập link hình ảnh hoặc video (youtube, vimeo)',
+    'media_upload' => 'Thêm ảnh hoặc video',
+    'add' => 'Thêm',
+    'upload' => 'Tải lên',
+    'close' => 'Hủy',
+    'msg' => [
+        'yt' => 'Youtube video',
+        'vm' => 'Vimeo video',
+        'img' => 'Hình ảnh',
+        'false' => 'Không phải là hình ảnh hoặc video',
+        'time_out' => 'Hết thời gian, vui lòng thử lại',
+    ],
 ];

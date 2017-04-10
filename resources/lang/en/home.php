@@ -57,4 +57,16 @@ return [
     'answer_here' => 'Answer here',
     'choose_date' => 'Choose date here',
     'choose_time' => 'Choose time here',
+    'url_hint' => 'Enter url of the image or video (youtube, vimeo)',
+    'media_upload' => 'Add image or video to survey',
+    'add' => 'Add',
+    'upload' => 'Upload',
+    'close' => 'Close',
+    'msg' => [
+        'yt' => 'An Youtube video',
+        'vm' => 'A Vimeo video',
+        'img' => 'An image',
+        'false' => 'Is not an image or video',
+        'time_out' => 'Time out, please try againt',
+    ],
 ];

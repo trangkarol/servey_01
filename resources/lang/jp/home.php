@@ -48,4 +48,16 @@ return [
     'send_email_for' => 'Who do you want to send this survey for?',
     'list_survey' => 'List survey',
     'detail_survey' => 'Detail survey',
+    'url_hint' => 'Enter url of the image or video (youtube, vimeo)',
+    'media_upload' => 'Add image or video to survey',
+    'add' => 'Add',
+    'upload' => 'Upload',
+    'close' => 'Close',
+    'msg' => [
+        'yt' => 'An Youtube video',
+        'vm' => 'A Vimeo video',
+        'img' => 'An image',
+        'false' => 'Is not an image or video',
+        'time_out' => 'Time out, please try againt',
+    ],
 ];
