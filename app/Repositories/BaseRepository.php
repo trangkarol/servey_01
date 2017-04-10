@@ -101,6 +101,25 @@ abstract class BaseRepository implements BaseInterface
         return $fileName;
     }
 
+    public function uploadImageUrl($url, $path)
+    {
+        if (!$url) {
+            return null;
+        }
+
+        $name = explode('.', basename($url));
+        $ext = end($name);
+        $ext = in_array($ext, ['jpg', 'png', 'gif']) ? $ext : 'gif';
+        $name = uniqid(rand()) . '.' . $ext;
+        $upload = file_put_contents(ltrim($path, '/') . $name, file_get_contents($url));
+
+        if (!$upload) {
+            return null;
+        }
+
+        return $name;
+    }
+
     public function multiUpdate($column, $value, $input)
     {
         $value = is_array($value) ? $value : [$value];

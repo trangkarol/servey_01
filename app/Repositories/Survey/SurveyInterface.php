@@ -13,7 +13,9 @@ interface SurveyInterface
         array $settings,
         array $arrayQuestionWithAnswer,
         array $questionsRequired,
-        array $images
+        array $images,
+        array $imageUrl,
+        array $videoUrl
     );
 
     public function checkCloseSurvey($inviteIds, $surveyIds);
