@@ -22,6 +22,8 @@ use App\Repositories\Temp\TempInterface;
 use App\Repositories\Temp\TempRepository;
 use App\Repositories\Setting\SettingInterface;
 use App\Repositories\Setting\SettingRepository;
+use App\Repositories\Feedback\FeedbackInterface;
+use App\Repositories\Feedback\FeedbackRepository;
 use Blade;
 
 class AppServiceProvider extends ServiceProvider
@@ -60,5 +62,6 @@ class AppServiceProvider extends ServiceProvider
         App::bind(LikeInterface::class, LikeRepository::class);
         App::bind(TempInterface::class, TempRepository::class);
         App::bind(SettingInterface::class, SettingRepository::class);
+        App::bind(FeedbackInterface::class, FeedbackRepository::class);
     }
 }

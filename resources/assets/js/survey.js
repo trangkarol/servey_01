@@ -26,6 +26,27 @@ $(document).ready(function() {
     });
 
     $('.alert-message').delay(3000).slideUp(300);
+
+    $('.btn-view-feedback').on('click', function () {
+        var url = $(this).attr('url');
+        var callback = $(this).attr('data-url');
+        var id = $(this).attr('data-id');
+        var status = $(this).attr('data-status');
+
+        $.post(
+            url,
+            {
+                'id': id,
+                'status': status,
+            },
+            function (response) {
+                if (response.success) {
+                    window.location = callback;
+                } else {
+                    alert(error);
+                }
+        });
+    });
 });
 
 

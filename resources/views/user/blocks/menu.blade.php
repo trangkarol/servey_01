@@ -13,6 +13,12 @@
                             {{ trans('home.home') }}
                         </a>
                     </li>
+                    <li>
+                        <a href="{{ action('FeedbackController@getFeedback') }}">
+                            <span class="glyphicon glyphicon-file"></span>
+                            {{ trans('home.feedback') }}
+                        </a>
+                    </li>
                     @if (!Auth::guard()->check())
                         <li>
                             <a href="{{ action('Auth\LoginController@getLogin') }}">
