@@ -61,21 +61,26 @@ $(document).ready(function() {
         var number = parseInt($($this).attr('id-as'));
         var trash = parseInt($('.question' + number).attr('trash'));
         var num_as = (parseInt($('.question' + number).attr('temp-qs')) + 1);
-        $.post(
-            url,
-            {
+
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: {
                 'number': number,
                 'num_as': num_as,
                 'type': type,
             },
-            function(response) {
-                if (response.success) {
+            dataType: 'json',
+            async: false,
+            success: function(response) {
+                 if (response.success) {
                     $('.temp-other' + number +':first').before(response.data);
                     $('.question' + number).attr('temp-qs', num_as);
                     $('.question' + number).attr('trash', trash + 1);
                 } else {
                     alert(error);
                 }
+            }
         });
     }
 
@@ -106,14 +111,18 @@ $(document).ready(function() {
         var number_qs = parseInt($('.data').attr('data-question')) + 1;
         var type = $this.attr('typeId');
         var url = $this.attr('url');
-        $.post(
-            url,
-            {
+
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: {
                 'number': number,
                 'type': type,
             },
-            function(response) {
-                if (response.success) {
+            dataType: 'json',
+            async: false,
+            success: function(response) {
+                 if (response.success) {
                     $('.hide').before(response.data);
                     $('.data').attr('data-number', number);
                     $('.data').attr('data-question', number_qs);
@@ -121,6 +130,7 @@ $(document).ready(function() {
                 } else {
                     alert(error);
                 }
+            }
         });
     }
 
@@ -167,7 +177,7 @@ $(document).ready(function() {
     }
 
     function removeMessage () {
-        $(slts.msg).text("").hide()
+        $(slts.msg).text('').hide()
     }
 
     // validate image url
@@ -176,11 +186,11 @@ $(document).ready(function() {
             n = !1,
             r = new Image;
         r.onerror = r.onabort = function() {
-            n || (clearTimeout(o), t("error"))
+            n || (clearTimeout(o), t('error'))
         }, r.onload = function() {
-            n || (clearTimeout(o), t("success"))
+            n || (clearTimeout(o), t('success'))
         }, r.src = e, o = setTimeout(function() {
-            n = !0, t("timeout")
+            n = !0, t('timeout')
         }, i)
     }
 
@@ -214,13 +224,13 @@ $(document).ready(function() {
     }
 
     function getVimeoThumb (id, callback) {
-        $.getJSON('http://www.vimeo.com/api/v2/video/' + id + '.json?callback=?', {format: "json"}, function(data) {
+        $.getJSON('http://www.vimeo.com/api/v2/video/' + id + '.json?callback=?', {format: 'json'}, function(data) {
             callback(data[0].thumbnail_large);
         });
     }
 
     function addMediabyUrl (questionId) {
-        var url = $(slts.url).val().trim();
+
         var returnData = { url: url };
 
         if (url == '') {
@@ -386,7 +396,7 @@ $(document).ready(function() {
                 slts.q.image,
                 slts.q.imgDiv,
                 returnData,
-                idQuestion,
+                idQuestion
             );
         });
     });
@@ -468,7 +478,7 @@ $(document).ready(function() {
                 slts.a.image,
                 slts.a.imgDiv,
                 returnData,
-                idAnswer,
+                idAnswer
             );
         });
     });

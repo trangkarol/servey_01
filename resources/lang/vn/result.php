@@ -21,4 +21,9 @@ return [
     'not_answer' => 'Bạn chưa trả lời câu hỏi này.',
     'other_opinion' => 'Ý kiến khác',
     'answer_not_have' => 'Bạn chưa trả lời bất cứ câu hỏi nào.',
+    'reload' => [
+        'first' => 'XIN LỖI, Survey đã được cập nhật. Vui lòng',
+        'second' => 'tải lại',
+        'last' => 'trang!',
+    ],
 ];

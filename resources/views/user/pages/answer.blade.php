@@ -1,6 +1,20 @@
 @extends('user.master')
 @section('content')
     <div class="survey_container animated zoomIn wizard" novalidate="novalidate">
+        <div class="reload-page{{ $survey->id }} reload-page row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="alert warning-center animated fadeInDown">
+                    <span class="glyphicon glyphicon-alert"></span>
+                    {{ trans('result.reload.first') }}
+                    <a href="{{ action(($survey->feature)
+                        ? 'AnswerController@answerPublic'
+                        : 'AnswerController@answerPrivate', $survey->token) }}">
+                        {{ trans('result.reload.second') }}
+                    </a>
+                    {{ trans('result.reload.last') }}
+                </div>
+            </div>
+        </div>
         <div id="top-wizard" class="top-wizard{{ $survey->id }}">
             <div class="menu-wizard{{ $survey->id }} container-menu-wizard row">
                 @if (!$access[config('settings.key.hideResult')] || ($survey->user_id == auth()->id()))
@@ -25,7 +39,7 @@
                 {!! Html::image(config('settings.image_system') . 'remove.png', '', [
                     'class' => 'img-remove-survey',
                 ]) !!}
-                 <div class="row">
+                <div class="row">
                     <div class="col-md-6 col-md-offset-3">
                         <div class="alert alert-danger warning-center">
                             <span class="glyphicon glyphicon-alert"></span>

@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Repositories\Survey\SurveyInterface;
 use App\Repositories\Setting\SettingInterface;
-use DB;
 use Exception;
+use LRedis;
+use DB;
 
 class SettingController extends Controller
 {
@@ -35,6 +36,11 @@ class SettingController extends Controller
                 'feature' => $value['feature'] ?: 0,
             ]);
             DB::commit();
+            $redis = LRedis::connection();
+            $redis->publish('update', json_encode([
+                'success' => true,
+                'surveyId' => $surveyId,
+            ]));
 
             return redirect()->action('AnswerController@show',$token)
                 ->with('message', trans('survey.update_success'));

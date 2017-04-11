@@ -10,6 +10,11 @@
         @include('library.js-file')
     </head>
     <body>
+        <div class="loader">
+            <div>
+                {!! Html::image(config('settings.image_path_system') . 'load.gif', '') !!}
+            </div>
+        </div>
         @include('user.blocks.popup-send-mail')
         <div class="append-multi-history">
             <div class="popup-user-answer">

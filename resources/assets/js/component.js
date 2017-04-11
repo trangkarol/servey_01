@@ -41,10 +41,10 @@ $(document).ready(function() {
             },
             function (response){
                 if (response.success) {
-                    $(".save-message-success").css("display", "block");
+                    $('.save-message-success').css('display', 'block');
                     $('.save-message-success').html(response.message);
                 } else {
-                    $(".save-message-fail").css("display", "block");
+                    $('.save-message-fail').css('display', 'block');
                     $('.save-message-fail').html(response.message);
                 }
         });
@@ -61,11 +61,11 @@ $(document).ready(function() {
             },
             function (response) {
                 if (response.success) {
-                    $(".save-message-success").css("display", "block");
+                    $('.save-message-success').css('display', 'block');
                     $('.save-message-success').html(response.message);
                     $('#container-survey').html(response.view);
                 } else {
-                    $(".save-message-fail").css("display", "block");
+                    $('.save-message-fail').css('display', 'block');
                     $('.save-message-fail').html(response.message);
                 }
         });
@@ -165,7 +165,7 @@ $(document).ready(function() {
         }
     );
 
-    $("#countries").msDropDown();
+    $('#countries').msDropDown();
 
     setTimeout(function() {
         $('.complete-image').addClass('jello');
@@ -248,6 +248,14 @@ $(document).ready(function() {
 
     $('.frm-time').datetimepicker({
         format: 'LT'
+    });
+
+    $(document).on('click', '.submit-survey.submit', function() {
+        $('.loader').show();
+    });
+
+    $(window).bind('load', function() {
+        $('.loader').fadeOut('slow');
     });
 
     $(document).on('click', '.view-result', function() {
