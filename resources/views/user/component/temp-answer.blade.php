@@ -13,9 +13,15 @@
                 <div class="isUpdate"><p class="glyphicon glyphicon-pencil"></p></div>
             @endif
             @if ($question->image)
+            <div class="image-frame">
                 {!! Html::image($question->image, '',[
-                    'class' => 'show-img-question',
+                    'class' => 'show-img-question images',
                 ]) !!}
+                <div class="middle">
+                    <div class="text" data-video="{{ $question->video ?: '' }}"><i class="fa {{ $question->video ? 'fa-play' : 'fa-eye' }}"></i></div>
+                </div>
+                <span class="cz-label fa {{ $question->video ? 'fa-video-camera' : 'fa-image'}}"></span>
+            </div>
             @endif
             <ul class="data-list">
                 @foreach($question->answers as $temp => $answer)
@@ -49,10 +55,14 @@
                                         <div class="col-md-11">{{ $answer->content }}</div>
                                     </div>
                                     @if ($answer->image)
-                                        <div>
+                                        <div class="image-frame">
                                             {!! Html::image($answer->image, '',[
-                                                'class' => 'show-img-answer',
+                                                'class' => 'show-img-answer images',
                                             ]) !!}
+                                            <div class="middle">
+                                                <div class="text" data-video="{{ $answer->video ?: '' }}"><i class="fa {{ $answer->video ? 'fa-play' : 'fa-eye' }}"></i></div>
+                                            </div>
+                                            <span class="cz-label fa {{ $answer->video ? 'fa-video-camera' : 'fa-image'}}"></span>
                                         </div>
                                     @endif
                                     @breakswitch
@@ -71,10 +81,14 @@
                                         <div class="col-md-11">{{ $answer->content }}</div>
                                     </div>
                                     @if ($answer->image)
-                                        <div>
+                                        <div class="image-frame">
                                             {!! Html::image($answer->image, '',[
-                                                'class' => 'show-img-answer',
+                                                'class' => 'show-img-answer images',
                                             ]) !!}
+                                            <div class="middle">
+                                                <div class="text" data-video="{{ $answer->video ?: '' }}"><i class="fa {{ $answer->video ? 'fa-play' : 'fa-eye' }}"></i></div>
+                                            </div>
+                                            <span class="cz-label fa {{ $answer->video ? 'fa-video-camera' : 'fa-image'}}"></span>
                                         </div>
                                     @endif
                                     @breakswitch

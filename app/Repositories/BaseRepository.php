@@ -107,17 +107,17 @@ abstract class BaseRepository implements BaseInterface
             return null;
         }
 
-        $name = explode('.', basename($url));
-        $ext = end($name);
-        $ext = in_array($ext, ['jpg', 'png', 'gif']) ? $ext : 'gif';
-        $name = uniqid(rand()) . '.' . $ext;
-        $upload = file_put_contents(ltrim($path, '/') . $name, file_get_contents($url));
+        try {
+            $name = explode('.', basename($url));
+            $ext = end($name);
+            $ext = in_array($ext, ['jpg', 'png', 'gif']) ? $ext : 'gif';
+            $name = uniqid(rand()) . '.' . $ext;
+            $upload = file_put_contents(ltrim($path, '/') . $name, file_get_contents($url));
 
-        if (!$upload) {
+            return $name;
+        } catch (\Exception $e) {
             return null;
         }
-
-        return $name;
     }
 
     public function multiUpdate($column, $value, $input)

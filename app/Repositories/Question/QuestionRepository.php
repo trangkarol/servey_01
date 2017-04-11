@@ -77,7 +77,7 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
                 'survey_id' => $survey,
                 'image' => array_get($image['question'], $key)
                     ? $this->uploadImage($image['question'][$key], config('settings.image_question_path'))
-                    : $this->uploadImageUrl(array_get($imageUrl['question'], $key), config('settings.image_question_path')),
+                    : $this->uploadImageUrl(array_get($imageUrl, 'question.' . $key), config('settings.image_question_path')),
                 'required' => in_array($key, $required),
                 'sequence' => $sequence,
                 'video' => array_get($videoUrl['question'], $key),
@@ -123,8 +123,8 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
                         'type' => $type,
                         'image' => ($isHaveImage )
                             ? $this->uploadImage($image['answers'][$index][$key], config('settings.image_answer_path'))
-                            : $this->uploadImageUrl(array_get($imageUrl['answers'], $index . '.' . $key), config('settings.image_answer_path')),
-                        'video' => array_get($videoUrl['answers'], $index . '.' . $key),
+                            : $this->uploadImageUrl(array_get($imageUrl, 'answers.' . $index . '.' . $key), config('settings.image_answer_path')),
+                        'video' => array_get($videoUrl, 'answers.' . $index . '.' . $key),
                     ];
                 }
             }
