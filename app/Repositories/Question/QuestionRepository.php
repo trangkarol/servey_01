@@ -47,7 +47,7 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
         }
     }
 
-    public function createMultiQuestion($survey, $questions, $answers, $image, $required = null)
+    public function createMultiQuestion($survey, $questions, $answers, $image, $imageUrl, $videoUrl, $required = null)
     {
         $questionsAdd = [];
         $answersAdd = [];
@@ -77,9 +77,10 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
                 'survey_id' => $survey,
                 'image' => array_get($image['question'], $key)
                     ? $this->uploadImage($image['question'][$key], config('settings.image_question_path'))
-                    : null,
+                    : $this->uploadImageUrl(array_get($imageUrl['question'], $key), config('settings.image_question_path')),
                 'required' => in_array($key, $required),
                 'sequence' => $sequence,
+                'video' => array_get($videoUrl['question'], $key),
             ];
 
             $sequence++;
@@ -121,8 +122,9 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
                         'question_id' => $questionIds[$number],
                         'type' => $type,
                         'image' => ($isHaveImage )
-                            ? $this->answerRepository->uploadImage($image['answers'][$index][$key], config('settings.image_answer_path'))
-                            : null,
+                            ? $this->uploadImage($image['answers'][$index][$key], config('settings.image_answer_path'))
+                            : $this->uploadImageUrl(array_get($imageUrl['answers'], $index . '.' . $key), config('settings.image_answer_path')),
+                        'video' => array_get($videoUrl['answers'], $index . '.' . $key),
                     ];
                 }
             }

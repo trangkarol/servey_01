@@ -282,6 +282,17 @@ class SurveyController extends Controller
         return $validator;
     }
 
+    private function removeEmptyValue(array $array)
+    {
+        $array['question'] = array_filter($array['question']);
+
+        foreach (array_keys($array['answers']) as $key) {
+            $array['answers'][$key] = array_filter($array['answers'][$key]);
+        }
+
+        return $array;
+    }
+
     public function create(Request $request)
     {
         $value = $request->only([
@@ -296,7 +307,10 @@ class SurveyController extends Controller
             'setting',
             'name',
             'image',
+            'image-url',
+            'video-url',
         ]);
+
         $validator = $this->makeValidator([
             'txt-question' => $value['txt-question'],
             'image' => $value['image'],
@@ -304,7 +318,6 @@ class SurveyController extends Controller
         $validator = Validator::make($request->all(), $validator);
 
         if ($validator->fails()) {
-            dd($validator, $value);
             return redirect()->action('SurveyController@index')
                 ->with('message-fail', trans('messages.object_created_unsuccessfully', [
                     'object' => class_basename(Survey::class),
@@ -337,7 +350,9 @@ class SurveyController extends Controller
                 ($value['setting']) ?: [],
                 $value['txt-question'],
                 ($value['checkboxRequired']['question']) ?: [],
-                ($value['image']) ?: []
+                ($value['image']) ?: [],
+                $this->removeEmptyValue($value['image-url']),
+                $this->removeEmptyValue($value['video-url'])
             );
 
             if ($survey) {
