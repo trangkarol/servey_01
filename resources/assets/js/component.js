@@ -41,12 +41,16 @@ $(document).ready(function() {
             },
             function (response){
                 if (response.success) {
+                    $('.save-message-fail').css('display', 'none');
                     $('.save-message-success').css('display', 'block');
                     $('.save-message-success').html(response.message);
                 } else {
+                    $('.save-message-success').css('display', 'none');
                     $('.save-message-fail').css('display', 'block');
                     $('.save-message-fail').html(response.message);
                 }
+
+                $('.alert-message').delay(5000).slideUp(500);
         });
     });
 
@@ -61,13 +65,17 @@ $(document).ready(function() {
             },
             function (response) {
                 if (response.success) {
+                    $('.save-message-fail').css('display', 'none');
                     $('.save-message-success').css('display', 'block');
                     $('.save-message-success').html(response.message);
                     $('#container-survey').html(response.view);
                 } else {
+                    $('.save-message-success').css('display', 'none');
                     $('.save-message-fail').css('display', 'block');
                     $('.save-message-fail').html(response.message);
                 }
+
+                $('.alert-message').delay(5000).slideUp(500);
         });
     });
 

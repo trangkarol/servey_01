@@ -60,4 +60,10 @@ return [
         'delete' => 'Xóa :object',
         'request' => 'Yêu cầu :object',
     ],
+    'feedback' => [
+        'seen' => 'Đã xem',
+        'not_seen' => 'Chưa xem',
+    ],
+    'show' => 'Xem chi tiết',
+    'content' => 'Nội dung phản hồi',
 ];

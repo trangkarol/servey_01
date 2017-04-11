@@ -142,4 +142,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Temp::class);
     }
+
+    public function scopeOfTemp($query, $id)
+    {
+       return $query
+        ->join('temps', 'users.id', 'temps.user_id')
+        ->where('temps.user_id', $this->id)
+        ->where('survey_id', $id);
+    }
 }

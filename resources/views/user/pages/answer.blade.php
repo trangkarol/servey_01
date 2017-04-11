@@ -29,8 +29,6 @@
                         {{ trans('result.answer') }}
                     </div>
                 @endif
-                <div class="alert alert-info save-message-success alert-message"></div>
-                <div class="alert alert-danger save-message-fail alert-message"></div>
             </div>
             <div class="shadow"></div>
         </div>
@@ -64,6 +62,9 @@
                             {{ $survey->description }}
                         </h4>
                     </div>
+                    <div class="row"></div>
+                    <div class="alert alert-info save-message-success alert-message"></div>
+                    <div class="alert alert-danger save-message-fail alert-message"></div>
                     @if (Session::has('message'))
                         <div class="alert alert-info alert-message">
                             {{ Session::get('message') }}
@@ -199,12 +200,14 @@
                                     'user-id' => $survey->user_id,
                                     'id' => 'btn-save',
                                 ]) !!}
-                                {!! Form::button(trans('home.load'), [
-                                    'class' => 'submit-answer btn btn-info show-survey',
-                                    'survey-id' => $survey->id,
-                                    'data-url' => action('User\SaveTempController@show'),
-                                    'id' => 'btn-load',
-                                ]) !!}
+                                @if (auth()->user()->ofTemp($survey->id)->exists())
+                                    {!! Form::button(trans('home.load'), [
+                                        'class' => 'submit-answer btn btn-info show-survey',
+                                        'survey-id' => $survey->id,
+                                        'data-url' => action('User\SaveTempController@show'),
+                                        'id' => 'btn-load',
+                                    ]) !!}
+                                @endif
                             @endif
                             {!! Form::submit(trans('home.finish'), [
                                 'class' => 'submit-answer btn btn-info',

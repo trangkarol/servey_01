@@ -5,7 +5,7 @@
     <div class="col-md-12">
         <div class="card">
             <div class="header">
-                <h4 class="title">{{ trans('generate.list') }} {{ trans('generate.feedback') }}</h4>
+                <h4 class="title">{{ trans('generate.list') }} {{ trans('home.feedback') }}</h4>
             </div>
             @include('admin.blocks.alert')
             <div class="content table-responsive table-full-width" id="table">
