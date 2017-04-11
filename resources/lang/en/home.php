@@ -69,4 +69,5 @@ return [
         'false' => 'Is not an image or video',
         'time_out' => 'Time out, please try againt',
     ],
+    'feedback' => 'Feedback',
 ];

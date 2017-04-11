@@ -86,29 +86,31 @@ class SaveTempController extends Controller
             || (!$request->get('feature') && auth()->check() && $invite)
             || auth()->id() == $request->get('userId')
         ) {
-            $answers = array_except($answers, '_token');
+            $answers = array_except($answers, ['name', 'value']);
 
-            foreach ($answers as $keyAnswer => $answer) {
-                if (!is_array($answer)) {
-                    $answer = [$answer => $keyAnswer];
-                }
+            if ($answers) {
+                foreach ($answers as $keyAnswer => $answer) {
+                    if (!is_array($answer)) {
+                        $answer = [$answer => $keyAnswer];
+                    }
 
-                if ($answer[key($answer)]) {
-                    foreach ($answer as $key => $value) {
-                        if (!auth()->check() && !$request->get('name-answer') && !$request->get('email-answer')) {
-                            $name = config('users.undentified_name');
-                            $email = config('users.undentified_email');
-                        } else {
-                            $name = $request->get('name-answer') ?: (auth()->check() ? auth()->user()->name : config('users.undentified_name'));
-                            $email = $request->get('email-answer') ?: (auth()->check() ? auth()->user()->email : config('users.undentified_email'));
+                    if ($answer[key($answer)]) {
+                        foreach ($answer as $key => $value) {
+                            if (!auth()->check() && !$request->get('name-answer') && !$request->get('email-answer')) {
+                                $name = config('users.undentified_name');
+                                $email = config('users.undentified_email');
+                            } else {
+                                $name = $request->get('name-answer') ?: (auth()->check() ? auth()->user()->name : config('users.undentified_name'));
+                                $email = $request->get('email-answer') ?: (auth()->check() ? auth()->user()->email : config('users.undentified_email'));
+                            }
+
+                            $data[] = [
+                                'answer_id' => $key,
+                                'content' => $value,
+                                'name' => $name,
+                                'email' => $email,
+                            ];
                         }
-
-                        $data[] = [
-                            'answer_id' => $key,
-                            'content' => $value,
-                            'name' => $name,
-                            'email' => $email,
-                        ];
                     }
                 }
             }

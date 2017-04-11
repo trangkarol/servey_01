@@ -69,4 +69,5 @@ return [
         'false' => 'Không phải là hình ảnh hoặc video',
         'time_out' => 'Hết thời gian, vui lòng thử lại',
     ],
+    'feedback' => 'Phản hồi',
 ];
