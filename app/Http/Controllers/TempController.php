@@ -20,7 +20,7 @@ class TempController extends Controller
 
         switch ($type) {
             case config('temp.radio_answer'):
-                $param = $request->only('number', 'num_as');
+                $param = $request->only('number', 'numberAnswer');
                 $data = view('temps.text_radio', $param)
                     ->render();
                 break;
@@ -29,7 +29,7 @@ class TempController extends Controller
                     ->render();
                 break;
             case config('temp.checkbox_answer'):
-                $param = $request->only('number', 'num_as', 'type');
+                $param = $request->only('number', 'numberAnswer', 'type');
                 $data = view('temps.text_checkbox', $param)
                     ->render();
                 break;

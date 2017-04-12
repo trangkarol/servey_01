@@ -102,6 +102,8 @@ class AnswerRepository extends BaseRepository implements AnswerInterface
         $imagesAnswer = $data['imagesAnswer'];
         $deleteImageIds = $data['deleteImageIds'];
         $isEdit = $data['isEdit'];
+        $imageUrlAnswer = $data['imageUrlAnswer'];
+        $videoUrlAnswer = $data['videoUrlAnswer'];
 
         if ($answers[$questionId] && $answersInQuestion && !$answersInQuestion->isEmpty()) {
             $dataCreate = [];
@@ -137,6 +139,14 @@ class AnswerRepository extends BaseRepository implements AnswerInterface
                 if ($checkHaveImage) {
                     $updateAnswer['image'] = $this
                         ->uploadImage($imagesAnswer[$questionId][$indexAnswer], config('settings.image_answer_path'));
+                }
+
+                if ($imageUrlAnswer) {
+                    $updateAnswer['image'] = $this->uploadImageUrl(array_get($imageUrlAnswer, $indexAnswer), config('settings.image_answer_path'));
+                }
+
+                if ($videoUrlAnswer) {
+                    $updateAnswer['video'] = $videoUrlAnswer;
                 }
 
                 $modelAnswer = $answer->fill($updateAnswer);
@@ -188,7 +198,8 @@ class AnswerRepository extends BaseRepository implements AnswerInterface
                             'type' => head(array_keys($answer)),
                             'image' => $checkHaveImage
                                 ? $this->uploadImage($imagesAnswer[$questionId][$indexAnswer], config('settings.image_answer_path'))
-                                : null,
+                                : $this->uploadImageUrl(array_get($imageUrlAnswer, $indexAnswer), config('settings.image_answer_path')),
+                            'video' => array_get($videoUrlAnswer, $indexAnswer),
                             'update' => $maxUpdate + 1,
                             'created_at' => Carbon::now(),
                             'updated_at' => Carbon::now(),

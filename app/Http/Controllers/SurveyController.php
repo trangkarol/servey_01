@@ -171,11 +171,15 @@ class SurveyController extends Controller
                 'checkboxRequired',
                 'required-question',
                 'image',
+                'image-url',
+                'video-url',
                 'del-question',
                 'del-answer',
                 'del-question-image',
                 'del-answer-image',
             ]);
+            $inputs['image-url'] = $this->removeEmptyValue($inputs['image-url']);
+            $inputs['video-url'] = $this->removeEmptyValue($inputs['video-url']);
             $validator = $this->makeValidator([
                 'txt-question' => $inputs['txt-question'],
                 'image' => $inputs['image'],
