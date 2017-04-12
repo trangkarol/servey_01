@@ -227,4 +227,11 @@
         </div>
         @include('user.pages.result')
     </div>
+    <div class="modal fade" id="view-media">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body"></div>
+            </div>
+        </div>
+    </div>
 @endsection

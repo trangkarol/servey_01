@@ -230,7 +230,7 @@ $(document).ready(function() {
     }
 
     function addMediabyUrl (questionId) {
-
+        var url = $(slts.url).val().trim();
         var returnData = { url: url };
 
         if (url == '') {
@@ -590,4 +590,34 @@ $(document).ready(function() {
         var temp_qs = $(this).attr('temp-qs');
         $('.input' + temp_qs).remove();
     });
+
+    $('.image-frame').on('mouseover', function() {
+        $(this).unbind().width($(this).find('.images').width() + 10);
+    });
+
+    // view image or video in survey
+    $('.text').unbind().on('click', function() {
+        var modal = $('#view-media');
+        var mBody = modal.find('.modal-body');
+        var vUrl = $(this).attr('data-video');
+        modal.modal();
+        if (vUrl) {
+            var vData = validateVideoUrl(vUrl);
+            var vSrc;
+            if (vData.type == 'youtube') {
+                vSrc = 'http://www.youtube.com/embed/' + vData.id;
+            } else {
+                vSrc = 'https://player.vimeo.com/video/' + vData.id;
+            }
+            mBody.html('<div class="videoWrapper"><iframe width="560" height="349" src="' + vSrc + '" frameborder="0" allowfullscreen></iframe>');
+            vUrl = null;
+        } else {
+            iSrc = $(this).parents('.image-frame').find('img').attr('src');
+            mBody.html('<img src="' + iSrc + '" class="img-pre-option">');
+        }
+        modal.on('hide.bs.modal', function(e) {
+            mBody.empty();
+        });
+    });
+
 });

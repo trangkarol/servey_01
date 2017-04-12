@@ -1734,6 +1734,79 @@ input.frm-date-2,input.frm-time {
     margin: 0 auto;
 }
 
+/* show media modal */
+.image-frame {
+    position: relative;
+    margin-left: 6%;
+    margin-right: 6%;
+    margin-bottom: 1%;
+}
+
+.cz-label {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    display: inline-block;
+    padding: .55em;
+    font-size: 14px;
+    color: #fff;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 11;
+}
+
+.images {
+    display: block;
+    margin: 0 !important;
+}
+
+.middle {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: .5s ease;
+    background: rgba(0,0,0,0.5);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%)
+}
+
+.image-frame:hover .middle {
+    opacity: 1;
+}
+
+.text {
+    color: white;
+    font-size: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    background-color: #0fa97c;
+    color: white;
+    font-size: 16px;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.videoWrapper {
+    position: relative;
+    padding-bottom: 56.25%;
+    padding-top: 25px;
+    height: 0;
+}
+
+.videoWrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+/* end show media modal */
 
 .loader {
     width:100%;
