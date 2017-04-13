@@ -146,7 +146,7 @@ class AnswerRepository extends BaseRepository implements AnswerInterface
                 }
 
                 if ($videoUrlAnswer) {
-                    $updateAnswer['video'] = $videoUrlAnswer;
+                    $updateAnswer['video'] = array_get($videoUrlAnswer, $indexAnswer);
                 }
 
                 $modelAnswer = $answer->fill($updateAnswer);
@@ -157,6 +157,7 @@ class AnswerRepository extends BaseRepository implements AnswerInterface
                         'type' => $modelAnswer->type,
                         'question_id' => $modelAnswer->question_id,
                         'image' => $modelAnswer->image_update,
+                        'video' => $modelAnswer->video,
                         'update' => $maxUpdate + 1,
                         'created_at' => Carbon::now(),
                         'updated_at' => Carbon::now(),

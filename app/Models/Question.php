@@ -14,6 +14,7 @@ class Question extends Model
         'sequence',
         'update',
         'clone_id',
+        'video',
     ];
 
     public function survey()

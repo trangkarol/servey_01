@@ -210,6 +210,7 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
                         'survey_id' => $surveyId,
                         'content' => $modelQuestion->content,
                         'image' => $modelQuestion->image_update,
+                        'video' => $modelQuestion->video,
                         'required' => $modelQuestion->required,
                         'update' => $maxUpdateQuestion + 1,
                         'clone_id' => ($modelQuestion->clone_id) ?: $modelQuestion->id,
