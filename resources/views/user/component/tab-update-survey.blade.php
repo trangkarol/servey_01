@@ -60,9 +60,7 @@
                                         <div class="col-md-2">
                                             <div class="img-trash row">
                                                 <a class="glyphicon glyphicon-picture col-md-3"></a>
-                                                {!! Form::file("image[question][$number]", [
-                                                    'class' => 'hidden-image fileImg' . $number,
-                                                ]) !!}
+                                                @include('temps.question_hidden_field')
                                                 <a class="glyphicon glyphicon-trash col-md-1" id-question="{{ $number }}"></a>
                                                 <a class="glyphicon glyphicon-sort col-md-3"></a>
                                             </div>
@@ -81,6 +79,9 @@
                                     </span>
                                 </div>
                                 @foreach ($question->answers as $answer)
+                                    @php
+                                        $numberAnswer = $loop->index;
+                                    @endphp
                                     @if ($answer->update >= 0)
                                         @switch($answer->type)
                                         @case(config('survey.type_radio'))
@@ -100,9 +101,7 @@
                                                         {!! Html::image(config('settings.image_path_system') . 'img-answer.png', '', [
                                                             'class' => 'picture-answer',
                                                         ]) !!}
-                                                        {!! Form::file("image[answers][$number][]", [
-                                                            'class' => 'hidden-image fileImgAnswer' . $number . $loop->index,
-                                                        ]) !!}
+                                                        @include('temps.answer_hidden_field')
                                                         <a class="glyphicon glyphicon-remove btn-remove-answer"
                                                             id-as="{{ $number . $loop->index }}"
                                                             num="{{ $number  }}"
@@ -113,7 +112,7 @@
                                                 <div class="content-image-answer{{ $number . $loop->index }}
                                                     {{ $answer->image ? 'show-image-answer' : 'div-image-answer' }}
                                                     show-update animated slideInDown">
-                                                    {!! Html::image($answer->image, '', [
+                                                    {!! Html::image($answer->image ?: config('temp.image_default'), '', [
                                                         'class' => 'set-image-answer image-answer' . $number . $loop->index,
                                                     ]) !!}
                                                     <span class="remove-image-answer glyphicon glyphicon-remove"
@@ -140,9 +139,7 @@
                                                         {!! Html::image(config('settings.image_path_system') . 'img-answer.png', '', [
                                                             'class' => 'picture-answer',
                                                         ]) !!}
-                                                        {!! Form::file("image[answers][$number][]", [
-                                                            'class' => 'hidden-image fileImgAnswer' . $number . $loop->index,
-                                                        ]) !!}
+                                                        @include('temps.answer_hidden_field')
                                                         <a class="glyphicon glyphicon-remove btn-remove-answer"
                                                             id-as="{{ $number . $loop->index}}"
                                                             num="{{ $number }}"
@@ -153,7 +150,7 @@
                                                 <div class="content-image-answer{{ $number . $loop->index }}
                                                     {{ $answer->image ? 'show-image-answer' : 'div-image-answer' }}
                                                     show-update animated slideInDown">
-                                                    {!! Html::image($answer->image, '', [
+                                                    {!! Html::image($answer->image ?: config('temp.image_default'), '', [
                                                         'class' => 'set-image-answer image-answer' . $number . $loop->index,
                                                     ]) !!}
                                                     <span class="remove-image-answer glyphicon glyphicon-remove"

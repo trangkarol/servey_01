@@ -43,7 +43,7 @@
                 {!! Html::image(config('settings.image_path_system') . 'img-answer.png', '', [
                     'class' => 'picture-answer',
                 ]) !!}
-                @include('temps.answer_hidden_field', ['num_as' => 0])
+                @include('temps.answer_hidden_field', ['numberAnswer' => 0])
                 <a class="glyphicon glyphicon-remove btn-remove-answer" id-as="{{ $number }}0" num="{{ $number }}">
                 </a>
             </div>
@@ -71,7 +71,7 @@
                 {!! Html::image(config('settings.image_path_system') . 'img-answer.png', '', [
                     'class' => 'picture-answer',
                 ]) !!}
-                @include('temps.answer_hidden_field', ['num_as' => 1])
+                @include('temps.answer_hidden_field', ['numberAnswer' => 1])
                 <a class="glyphicon glyphicon-remove btn-remove-answer" id-as="{{ $number }}1" num="{{ $number }}"></a>
             </div>
         </div>

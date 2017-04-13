@@ -169,6 +169,10 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
         $answers = $data['answers'];
         $isEdit = $data['isEdit'];
         $deleteImageIdsAnswer = $data['deleteImageIdsAnswer'];
+        $imageUrlQuestion = $data['imageUrlQuestion'];
+        $imageUrlAnswer = $data['imageUrlAnswer'];
+        $videoUrlQuestion = $data['videoUrlQuestion'];
+        $videoUrlAnswer = $data['videoUrlAnswer'];
 
         if (in_array($questionId, $deleteImageIds)) {
             $dataUpdate['image'] = null;
@@ -178,6 +182,14 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
 
         if ($imagesQuestion && array_key_exists($questionId, $imagesQuestion)) {
             $dataUpdate['image'] = $this->uploadImage($imagesQuestion[$questionId], config('settings.image_question_path'));
+        }
+
+        if ($imageUrlQuestion) {
+            $dataUpdate['image'] = $this->uploadImageUrl($imageUrlQuestion, config('settings.image_question_path'));
+        }
+
+        if ($videoUrlQuestion) {
+            $dataUpdate['video'] = $videoUrlQuestion;
         }
 
         $modelQuestion = $collectQuestion->where('id', $questionId)->first();
@@ -303,7 +315,8 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
                 'sequence' => $dataUpdate['sequence'],
                 'survey_id' => $surveyId,
                 'content' => $dataUpdate['content'],
-                'image' => array_key_exists('image', $dataUpdate) ? $dataUpdate['image'] : null,
+                'image' => array_get($dataUpdate, 'image'),
+                'video' => array_get($dataUpdate, 'video'),
                 'required' => $dataUpdate['required'],
                 'update' => $maxUpdateQuestion + 1,
             ]);
@@ -320,7 +333,8 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
                     'type' => head(array_keys($content)),
                     'image' => $checkHaveImage
                         ? $this->answerRepository->uploadImage($imagesAnswer[$questionId][$answerIndex], config('settings.image_answer_path'))
-                        : null,
+                        : $this->answerRepository->uploadImageUrl(array_get($imageUrlAnswer, $answerIndex), config('settings.image_answer_path')),
+                    'video' => array_get($videoUrlAnswer, $answerIndex),
                 ];
             }
 
@@ -398,6 +412,8 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
         $images = $inputs['image']; // image of answer and question get by requset in controller
         $imagesQuestion = ($images && array_key_exists('question', $images)) ? $images['question'] : [];
         $imagesAnswer = ($images && array_key_exists('answers', $images)) ? $images['answers'] : [];
+        // Note: sai logic, lay het file upload thay vi lay 1 file theo id trong loop
+
         $collectAnswer = $this->answerRepository
             ->whereIn('question_id', $questionIds->pluck('id')->toArray())
             ->whereNotIn('id', $idsDeletesAnswer)
@@ -432,8 +448,11 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
                 'answers' => $answers,
                 'isEdit' => $isEdit,
                 'deleteImageIdsAnswer' => $deleteImageIdsAnswer,
+                'imageUrlQuestion' => array_get($inputs, 'image-url.question.' . $questionId),
+                'imageUrlAnswer' => array_get($inputs, 'image-url.answers.' . $questionId),
+                'videoUrlQuestion' => array_get($inputs, 'video-url.question.' . $questionId),
+                'videoUrlAnswer' => array_get($inputs, 'video-url.answers.' . $questionId),
             ];
-
 
             $questionsResult = $this->createOrUpdateQuestion($data);
             $isEdit = $questionsResult['isEdit'];
@@ -451,6 +470,10 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
                     'imagesAnswer' => $imagesAnswer,
                     'deleteImageIds' => $deleteImageIdsAnswer,
                     'isEdit' => $isEdit,
+                    'imageUrlQuestion' => array_get($inputs, 'image-url.question.' . $questionId),
+                    'imageUrlAnswer' => array_get($inputs, 'image-url.answers.' . $questionId),
+                    'videoUrlQuestion' => array_get($inputs, 'video-url.question.' . $questionId),
+                    'videoUrlAnswer' => array_get($inputs, 'video-url.answers.' . $questionId),
                 ];
                 $answersResult = $this->answerRepository->createOrUpdateAnswer($questionsResult['answers'], $data);
                 $answers = $answersResult['answers'];

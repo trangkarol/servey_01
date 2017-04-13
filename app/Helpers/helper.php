@@ -2,7 +2,7 @@
     function cleanText($text, $html = true)
     {
         if (!$text) {
-            return flase;
+            return false;
         }
 
         $text = nl2br($text, false);
