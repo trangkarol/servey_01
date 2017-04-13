@@ -22,7 +22,7 @@ return [
     ],
     'body' => [
         'intro' => [
-            'slogan' => 'Cool forms and direct feedbacks are all for your effective campaigns.',
+            'slogan' => 'Effective survey creates the success for your goals.',
             'fully_responsive' => 'Fully responsive',
             'content_fully_responsive' => 'Our website offers a full range of questions which you can freely choose the types of questions such as: radio, checkbox, date, time or text style. Easier to help you in creating one survey',
             'userful_survey_data' => 'Userful survey data',
@@ -31,8 +31,8 @@ return [
             'content_receive_by_email' => 'By accepting incoming email. The user will be able to reply to your email. Encouraging more transparent relationships within your organization. When you leave the web, correspondence history remains intact in your email and you can access link to manage your survey.',
             'thank_your_time' => 'FEATURES',
             'content_thank_your_time' => 'Easy to use. Quickly to measure outcomes.',
-            'some_devices' => 'MATCHING DEVICES',
-            'content_some_devices' => 'You can absolutely work with FSurvey by a wide range of devices as follows',
+            'some_devices' => 'MULTIPLE DEVICES',
+            'content_some_devices' => 'You can make a survey with these devices',
         ],
     ],
     '404' => '404',

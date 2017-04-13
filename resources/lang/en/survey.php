@@ -20,7 +20,7 @@ return [
     'setting' => 'Setting',
     'result' => 'Result',
     'hide_result' => 'Hide answer result',
-    'replies_limits' => 'Replies limit',
+    'replies_limits' => 'Limit replies',
     'overview' => 'Overview',
     'see_detail' => 'See detail',
     'click_here' => 'Click here',

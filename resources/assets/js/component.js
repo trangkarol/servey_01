@@ -56,6 +56,18 @@ $(document).ready(function() {
         });
     });
 
+    function copyToClipboard(element) {
+        var $temp = $("<input>");
+        $("body").append($temp);
+        $temp.val($(element).text()).select();
+        document.execCommand("copy");
+        $temp.remove();
+    }
+
+    $(document).on('click', '.btn-copy-link', function() {
+        copyToClipboard('.link-share');
+    });
+
     $('.show-survey').on('click', function () {
         var url = $(this).attr('data-url');
         var surveyId = $(this).attr('survey-id');
@@ -187,8 +199,16 @@ $(document).ready(function() {
 
     $(document).on('click', '.tag-send-email', function() {
         var url = $(this).attr('data-url');
+        var link = $(this).attr('data-link');
+        var type = $(this).attr('data-type');
         $('.frm-submit-mail').attr('action', url);
+        $('.share-facebook').attr('data-href', link);
+        $('.link-share').html(link);
         $('.popupBackground').fadeIn();
+
+        if (type == 1) {
+            $('.share-link-public').fadeIn();
+        }
     });
 
     $('.detail-survey').on('click', '.btn-remove-survey', function() {

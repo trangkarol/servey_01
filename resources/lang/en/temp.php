@@ -42,4 +42,9 @@ return [
     ],
     'format_datetime' => 'MM-DD-YYYY hh:mm A',
     'format_with_trans' => 'm-d-Y h:i A',
+    'shareable_link' => 'Shareable link',
+    'use_link' => 'Use this link to share with people on the web',
+    'copy_link' => 'Copy link',
+    'send_mail' => 'Send mail',
+    'share' => 'Share',
 ];

@@ -696,14 +696,12 @@
     display: none;
     z-index: 500;
     .popupCenter {
-        left:34%;
+        left:30%;
         position: absolute;
         top: 14.5%;
 
         .popupInfo {
-            width: 475px;
-            padding: 30px 50px;
-            border-radius: 10px;
+            width: 550px;
             background: white;
             opacity: 1;
 
@@ -716,12 +714,26 @@
             }
         }
     }
+
+    .popup-top {
+        height: 50px;
+        width: 100%;
+        background: #ededed;
+        padding: 15px;
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    >input[type="email"] {
+        height: 42px;
+    }
+
     .bootstrap-tagsinput {
-        width: 400px;
+        width: 100%;
         line-height: 30px;
 
         >input[type="text"] {
-            height: 2em;
+            height: 1em;
         }
     }
 }
@@ -730,13 +742,14 @@
     font-size: 19px;
 }
 
-.btn-send-mail, .btn-close-popup , .btn-action{
-    padding: 8px 20px;
+.btn-send-mail, .btn-close-popup , .btn-action {
+    padding: 7px 20px;
+    font-weight: bold;
     width: 100%;
-    color: #4f584f;
-    background: #53dfcb;
+    color: #ffffff;
+    background: #d95347;
     border: 0px;
-    font-size: 17px;
+    font-size: 15px;
     border-radius: 3px;
     &:hover {
         background: #5ba4a4;
@@ -759,7 +772,14 @@
     .bootstrap-tagsinput {
         input[type="text"] {
             font-size: 16px;
+            width: 100%;
         }
+    }
+}
+
+.bootstrap-tagsinput {
+    input[type="text"] {
+        width: 100%;
     }
 }
 
@@ -771,6 +791,7 @@
     border: 1px solid #cccccc !important;
     background: white !important;
     border-radius: 5px !important;
+    height: 40px !important;
 }
 
 .art-container {

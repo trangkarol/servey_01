@@ -158,6 +158,8 @@ $(document).ready(function() {
 
     $(document).on('click', '.btn-close-popup', function() {
         $('.popupBackground').fadeOut(500);
+        $('.link-share').html('');
+        $('.share-facebook').attr('data-href', '');
         setTimeout(function() {
             $('.popupBackground').css('display', 'none');
         }, 500);
