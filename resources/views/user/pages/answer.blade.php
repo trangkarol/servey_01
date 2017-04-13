@@ -186,8 +186,8 @@
                     <div class="option-answer{{ $survey->id }}">
                         @php
                             $check = ($access[config('settings.key.limitAnswer')]
-                                && ($access[config('settings.key.limitAnswer')]
-                                || !$access[config('settings.key.limitAnswer')]));
+                                && ($access[config('settings.key.limitAnswer')])
+                                || !$access[config('settings.key.limitAnswer')]);
                         @endphp
                         @if ($survey->status
                             && (Carbon\Carbon::parse($survey->deadline)->gt(Carbon\Carbon::now()) || empty($survey->deadline))

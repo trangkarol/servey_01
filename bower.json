@@ -37,6 +37,6 @@
     "jquery-wizard ": "1.1.1",
     "jquery.tweet.js": "https://github.com/seaofclouds/tweet",
     "bxslider": "https://github.com/stevenwanderski/bxslider-4",
-    "socket.io": "https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js"
+    "socket.io-client": "^1.7.1"
   }
 }
