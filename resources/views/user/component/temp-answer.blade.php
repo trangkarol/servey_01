@@ -9,9 +9,6 @@
                 {{ ++$indexShow }} . {{ $question->content }}
                 <span>{{ ($question->required) ? '(*)' : '' }}</span>
             </h4>
-            @if ($question->update && $question->update == $maxUpdateQuestion || $question->answers->max('update'))
-                <div class="isUpdate"><p class="glyphicon glyphicon-pencil"></p></div>
-            @endif
             @if ($question->image)
             <div class="image-frame">
                 {!! Html::image($question->image, '',[
@@ -133,7 +130,8 @@
                                             <div class="append-input col-md-8 append-as{{ $question->id }}">
                                                 @if ($checked)
                                                     {!! Form::textarea("answer[$question->id][$answer->id]", $checked, [
-                                                        'class' => 'animated zoomIn form-control input' . $question->id,
+                                                        'class' => 'box-orther js-elasticArea animated zoomIn form-control input' . $question->id,
+                                                        'placeholder' => trans('home.answer_here'),
                                                         'required' => true,
                                                     ]) !!}
                                                 @endif
@@ -159,7 +157,7 @@
                                         <div class="col-md-8 append-input-checkbox append-as{{ $question->id }}">
                                             @if ($checked)
                                                 {!! Form::textarea("answer[$question->id][$answer->id]", $checked, [
-                                                    'class' => 'animated zoomIn form-control input' . $question->id,
+                                                    'class' => 'box-orther js-elasticArea animated zoomIn form-control input' . $question->id,
                                                     'required' => true,
                                                     'placeholder' => trans('home.answer_here'),
                                                 ]) !!}

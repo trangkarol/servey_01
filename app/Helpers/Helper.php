@@ -21,3 +21,7 @@
 
         return implode('\r\n', $arrText);
     }
+
+    function splitText($text) {
+        return str_limit($text, 75);
+    }

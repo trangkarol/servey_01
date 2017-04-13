@@ -1486,6 +1486,7 @@ textarea.form-control {
             left: 0;
             border-radius: 4px;
             border: 2px solid gray;
+            background: white;
 
             &:after {
                 content: '';
@@ -1493,7 +1494,7 @@ textarea.form-control {
                 height: 9px;
                 position: absolute;
                 top: 3.7px;
-                left: 3.5px;
+                left: 3px;
                 border: 3px solid #1ab9a7;
                 border-top: none;
                 border-right: none;
@@ -1627,7 +1628,7 @@ textarea.box-orther {
     background: white;
     overflow: hidden;
     height: 27px;
-    padding: 0px !important;
+    padding: 0px 5px !important;
 }
 
 input.frm-date-2,input.frm-time {
@@ -1892,4 +1893,73 @@ input.frm-date-2,input.frm-time {
     font-weight: bold;
     font-size: 17px;
     text-transform: uppercase;
+}
+
+.answer-updated,.question-updated {
+    margin-top: 20px;
+    display: none;
+    padding: 1px 25px 20px 25px;
+    background: rgba(255, 173, 173, 0.41);
+    .type-checkbox-answer {
+        .checkbox-answer {
+            label {
+                background: rgb(255, 221, 221);
+            }
+        }
+    }
+    .checkbox-answer input[type="checkbox"]:checked + label:after {
+        opacity: 1;
+        background: #ffdddd;
+    }
+}
+
+.answer-updated {
+    margin-top: 0px;
+    padding: 5px 0px 5px 8px;
+    margin-bottom: 1px;
+}
+
+.show-question-history,.hide-question-history {
+    cursor: pointer;
+    float: right;
+    font-weight: bold;
+    font-size: 11px;
+    span {
+        margin-right: 2px;
+    }
+}
+
+.temp-question-history {
+    width: 100%;
+    margin-top: 10px;
+    height: 20px;
+}
+
+.feedback {
+    .panel-body {
+        padding: 15px !important;
+    }
+
+    .panel-heading {
+        padding: 10px 15px !important;
+        border-bottom: 1px solid transparent !important;
+    }
+}
+
+.gender-option {
+    .type-radio-answer {
+        margin-bottom: 10px;
+        margin-top: 0px;
+    }
+}
+
+.show-old-answer {
+    margin-left: 1%;
+    font-size: 14px;
+}
+
+.tag-notice-edit {
+    margin-left: 5px;
+    font-weight: normal;
+    font-size: 14px;
 }

@@ -81,11 +81,11 @@
                                                     @case(config('survey.type_radio'))
                                                         <div class="type-radio-answer row">
                                                             <div class="box-radio col-md-1">
-                                                                {{ Form::radio("$time", $answer->id, '', [
+                                                                {{ Form::radio("$question->id . $time . $loop->index", $answer->id, '', [
                                                                     'class' => 'option-choose input-radio',
-                                                                    ($checked) ? 'checked = checked' : null,
+                                                                    ($checked) ? 'checked' : null,
                                                                 ]) }}
-                                                                {{ Form::label($loop->index, ' ', [
+                                                                {{ Form::label("$question->id . $time . $loop->index", ' ', [
                                                                     'class' => 'label-radio',
                                                                 ]) }}
                                                                 <div class="check"><div class="inside"></div></div>
@@ -98,7 +98,7 @@
                                                             <div class="checkbox-answer col-md-1">
                                                                 {{ Form::checkbox("answer[$question->id][$answer->id]", $answer->id, '', [
                                                                     'class' => 'input-checkbox',
-                                                                    ($checked) ? 'checked = checked' : null,
+                                                                    ($checked) ? 'checked' : null,
                                                                 ]) }}
                                                                 {{ Form::label($loop->index, ' ', [
                                                                     'class' => 'label-checkbox'
@@ -126,44 +126,35 @@
                                                         ]) !!}
                                                     @breakswitch
                                                     @case(config('survey.type_other_radio'))
-                                                        <div class="row">
-                                                            <div class="col-md-2">
-                                                                {{ Form::radio("$time", $answer->id, '', [
+                                                        <div class="type-radio-answer row">
+                                                            <div class="box-radio col-md-1">
+                                                                {{ Form::radio("$question->id . $time . $loop->index", $answer->id, '', [
                                                                     'class' => 'input-radio option-add',
-                                                                    ($checked) ? 'checked = checked' : null,
+                                                                    ($checked) ? 'checked' : null,
                                                                 ]) }}
-                                                                {{ Form::label($loop->index, trans('home.other'), [
+                                                                {{ Form::label("$question->id . $time . $loop->index", ' ', [
                                                                     'class' => 'label-radio',
                                                                 ]) }}
+                                                                <div class="check"><div class="inside"></div></div>
                                                             </div>
-                                                            <div class="append-input col-md-8 append-as{{ $question->id }}">
-                                                                @if ($checked)
-                                                                    {!! Form::textarea("answer[$question->id][$answer->id]", $checked, [
-                                                                        'class' => 'animated zoomIn form-control input' . $question->id,
-                                                                        'disabled' => 'true',
-                                                                    ]) !!}
-                                                                @endif
+                                                            <div class="col-md-11">
+                                                                {{ ($checked) ? (trans('result.other_opinion') . ' : ' . $checked) : trans('result.other_opinion') }}
                                                             </div>
                                                         </div>
                                                     @breakswitch
                                                     @case(config('survey.type_other_checkbox'))
-                                                        <div class="row">
-                                                            <div class="col-md-2">
+                                                        <div class="type-checkbox-answer row">
+                                                            <div class="checkbox-answer col-md-1">
                                                                 {{ Form::checkbox("answer[$question->id][$answer->id]", $answer->id, '', [
                                                                     'class' => 'input-checkbox option-add',
-                                                                    ($checked) ? ('checked = checked') : '',
+                                                                    ($checked) ? ('checked') : '',
                                                                 ]) }}
-                                                                {{ Form::label($loop->index, trans('home.other'), [
+                                                                {{ Form::label($loop->index, ' ', [
                                                                     'class' => 'label-checkbox',
                                                                 ]) }}
                                                             </div>
-                                                            <div class="col-md-8 append-input-checkbox append-as{{ $question->id }}">
-                                                                @if ($checked)
-                                                                    {!! Form::textarea("answer[$question->id][$answer->id]", $checked, [
-                                                                        'class' => 'animated zoomIn form-control input' . $question->id,
-                                                                        'disabled' => 'true',
-                                                                    ]) !!}
-                                                                @endif
+                                                            <div class="col-md-11">
+                                                                {{ ($checked) ? (trans('result.other_opinion') . ' : ' . $checked) : trans('result.other_opinion') }}
                                                             </div>
                                                         </div>
                                                     @breakswitch

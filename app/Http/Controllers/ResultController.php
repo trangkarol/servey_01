@@ -80,7 +80,13 @@ class ResultController extends Controller
             $flag = true;
         }
 
-        if ($isRunToBottom) {
+        if ($isRunToBottom) { 
+            if (!$answers) {
+                return redirect()
+                    ->action(($survey->feature) ? 'AnswerController@answerPublic' : 'AnswerController@answerPrivate', $survey->token)
+                    ->with('message-fail', trans('result.not_answer'));
+            }
+
             $invite = $this->inviteReposirory
                 ->where([
                     'recevier_id' => auth()->id(),

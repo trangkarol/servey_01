@@ -3,6 +3,8 @@ $(document).ready(function() {
     var notice = $('.data').attr('data-confirm');
     var link = $('.data').attr('data-link');
     var email_confirm = $('.data').attr('data-email-invalid');
+    var format_date = $('.data').attr('data-format-date');
+    var format_datetime = $('.data').attr('data-format-datetime');
 
     (function(d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
@@ -248,10 +250,16 @@ $(document).ready(function() {
         }
     });
 
-    $('.datetimepicker').datetimepicker();
+    $('.datetimepicker').datetimepicker({
+        format: format_datetime
+    });
 
     $('.frm-date-2').datetimepicker({
-        format: 'MM/DD/YYYY'
+        format: format_date
+    });
+
+    $('.frm-datepicker').datetimepicker({
+        format: format_date
     });
 
     $('.frm-time').datetimepicker({
@@ -281,5 +289,23 @@ $(document).ready(function() {
         var _tempTitle = $('.frm-title');
 
         return (!_tempTitle['length'] || _tempTitle['valid']());
+    });
+
+    $(document).on('click', '.show-question-history', function() {
+        $(this).addClass('hide-question-history');
+        $(this).removeClass('show-question-history');
+        $('.question-updated').slideToggle("slow");
+        $('.answer-updated').slideToggle("slow");
+        $(this).children().addClass('glyphicon-eye-close');
+        $(this).children().removeClass('glyphicon-eye-open');
+    });
+
+    $(document).on('click', '.hide-question-history', function() {
+        $(this).removeClass('hide-question-history');
+        $(this).addClass('show-question-history');
+        $('.question-updated').slideToggle("slow");
+        $('.answer-updated').slideToggle("slow");
+        $(this).children().removeClass('glyphicon-eye-close');
+        $(this).children().addClass('glyphicon-eye-open');
     });
 });

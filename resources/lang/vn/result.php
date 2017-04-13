@@ -26,4 +26,9 @@ return [
         'second' => 'tải lại',
         'last' => 'trang!',
     ],
+    'show_old' => 'Hiển thị lịch sử chỉnh sửa',
+    'answer_deleted' => 'Câu trả lời này đã bị xóa.',
+    'answer_changed' => 'Câu trả lời này đã thay đổi -> ',
+    'question_deleted' => 'câu hỏi này đã bị xóa.',
+    'question_changed' => 'Câu hỏi lời này đã thay đổi -> ',
 ];
