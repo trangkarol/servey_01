@@ -1,9 +1,9 @@
 <?php
 
 return [
-    'adminArea' => 'Admin Area',
-    'dashboard' => 'Dash Board',
-    'home' => 'Go to home pages',
+    'adminArea' => '管理ページ',
+    'dashboard' => '　掲載ボード',
+    'home' => 'ホームページへ進む',
     'top' => [
         'left' => 'Top Left',
         'right' => 'Top Right',
@@ -14,23 +14,23 @@ return [
         'right' => 'Bottom Right',
         'center' => 'Bottom Center',
     ],
-    'edit' => 'Edit',
-    'remove' => 'Remove',
-    'add' => 'Store',
+    'edit' => '編集',
+    'remove' => '削除',
+    'add' => '保管',
     'update' => [
-        'success' => 'Update Successfull',
-        'fail' => 'Fail To Update',
+        'success' => 'アップデート完成',
+        'fail' => 'アップデート失敗',
     ],
     'delete' => [
-        'success' => 'Delete Successfull',
-        'fail' => 'Fail To Delete',
+        'success' => '削除完成',
+        'fail' => '削除失敗',
     ],
     'create' => [
-        'success' => 'Create Successfull',
-        'fail' => 'Fail To Create',
+        'success' => 'クリエート完成',
+        'fail' => 'クリエート失敗',
     ],
-    'go_home' => 'View Home',
-    'active' => 'Active',
-    'change_feature' => 'Change feature',
-    'update_feature' => 'Update feature',
+    'go_home' => 'ホームページへ進む',
+    'active' => 'アクティブ',
+    'change_feature' => '機能チェンジ',
+    'update_feature' => '機能アップデート',
 ];
