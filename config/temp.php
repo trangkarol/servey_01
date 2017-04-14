@@ -28,5 +28,5 @@ return [
         'label_result' => 3,
         'label_detail_result' => 4,
     ],
-    'image_default' => 'library/images/image-default.jpg',
+    'image_default' => 'user/images/image-default.jpg',
 ];

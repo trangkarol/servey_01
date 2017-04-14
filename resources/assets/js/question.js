@@ -60,14 +60,14 @@ $(document).ready(function() {
         var type = $this.attr('typeId');
         var number = parseInt($($this).attr('id-as'));
         var trash = parseInt($('.question' + number).attr('trash'));
-        var num_as = (parseInt($('.question' + number).attr('temp-qs')) + 1);
+        var numberAnswer = (parseInt($('.question' + number).attr('temp-qs')) + 1);
 
         $.ajax({
             url: url,
             type: 'POST',
             data: {
                 'number': number,
-                'num_as': num_as,
+                'numberAnswer': numberAnswer,
                 'type': type,
             },
             dataType: 'json',
@@ -75,7 +75,7 @@ $(document).ready(function() {
             success: function(response) {
                  if (response.success) {
                     $('.temp-other' + number +':first').before(response.data);
-                    $('.question' + number).attr('temp-qs', num_as);
+                    $('.question' + number).attr('temp-qs', numberAnswer);
                     $('.question' + number).attr('trash', trash + 1);
                 } else {
                     alert(error);
@@ -403,6 +403,7 @@ $(document).ready(function() {
 
     $(document).on('click', '.remove-image-question', function() {
         var idQuestion = $(this).attr('id-question');
+        arrayImageQuestion.push(idQuestion);
         $(slts.q.imgDiv + idQuestion).fadeOut(500);
         resetImageField(slts.q.file + idQuestion);
         $(slts.q.imgU + idQuestion + ', .question-video-url' + idQuestion).attr('value', '');
@@ -485,6 +486,7 @@ $(document).ready(function() {
 
     $('.package-question').on('click', '.remove-image-answer', function() {
         var idAnswer = $(this).attr('id-answer');
+        arrayImageAnswer.push($(this).attr('data-answerid'));
         $(slts.a.imgDiv + idAnswer).fadeOut(500);
         resetImageField(slts.a.file + idAnswer);
         $(slts.a.imgU + idAnswer + ', .answer-video-url' + idAnswer).attr('value', '');
