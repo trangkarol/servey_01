@@ -141,12 +141,13 @@ class AnswerRepository extends BaseRepository implements AnswerInterface
                         ->uploadImage($imagesAnswer[$questionId][$indexAnswer], config('settings.image_answer_path'));
                 }
 
-                if ($imageUrlAnswer) {
-                    $updateAnswer['image'] = $this->uploadImageUrl(array_get($imageUrlAnswer, $indexAnswer), config('settings.image_answer_path'));
+                if (array_has($imageUrlAnswer, $indexAnswer)) {
+                    $updateAnswer['image'] = $this->uploadImageUrl($imageUrlAnswer[$indexAnswer], config('settings.image_answer_path'));
                 }
 
-                if ($videoUrlAnswer) {
-                    $updateAnswer['video'] = array_get($videoUrlAnswer, $indexAnswer);
+
+                if (array_has($videoUrlAnswer, $indexAnswer)) {
+                    $updateAnswer['video'] = $videoUrlAnswer[$indexAnswer];
                 }
 
                 $modelAnswer = $answer->fill($updateAnswer);
