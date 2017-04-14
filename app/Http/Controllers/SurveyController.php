@@ -430,7 +430,6 @@ class SurveyController extends Controller
     {
         // type nếu là bool thì hàm inviteUser sẽ trả về true hoặc flase, view thì hàm inviteUser sẽ trả về action('SurveyController@listSurveyUser')
         $isSuccess = false;
-        $data['name'] = $request->get('name') ?: auth()->user()->name;
         $data['email'] = $request->get(($type == config('settings.return.bool')) ? 'email' : 'emailUser') ?: auth()->user()->email;
         $data['emails'] = $request->get(($type == config('settings.return.bool')) ? 'emails' : 'emailsUser');
         $data['feature'] = $request->get('feature');
@@ -443,6 +442,7 @@ class SurveyController extends Controller
 
         if ($data['emails'] && $surveyId) {
             $survey = $this->surveyRepository->find($surveyId);
+            $data['name'] = $survey->user_name;
             $invite = $this->inviteRepository
                 ->invite(auth()->id(), $data['emails'], $surveyId);
             $data['feature'] = ($type == config('settings.return.bool')) ? $data['feature'] : $survey->feature;
@@ -466,6 +466,14 @@ class SurveyController extends Controller
                 $this->dispatch($job);
                 $isSuccess = true;
             }
+        }
+
+        if (!auth()->check() && $type == config('settings.return.view')) {
+            return $isSuccess 
+                ? redirect()->action('AnswerController@show', $survey->token_manage)
+                    ->with('message', trans('survey.invite_success'))
+                : redirect()->action('AnswerController@show', $survey->token_manage)
+                    ->with('message-fail', trans('survey.invite_fail'));
         }
 
         return ($type == config('setttings.return.bool')) ? $isSuccess : ($isSuccess)

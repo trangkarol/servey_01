@@ -142,8 +142,8 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         ]);
 
         $surveyInputs['feature'] = ($inputs['feature'])
-            ? config('settings.feature')
-            : config('settings.not_feature');
+            ? config('settings.not_feature')
+            : config('settings.feature');
         $surveyInputs['status'] = (Carbon::parse($inputs['deadline'])->gt(Carbon::now()) || (empty($inputs['deadline'])))
             ? config('survey.status.avaiable')
             : config('survey.status.block');

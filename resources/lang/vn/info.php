@@ -34,4 +34,5 @@ return [
     'link_send' => 'Gửi link này đến bất cứ người nào mà bạn muốn mời',
     'datetime_format' => 'd M Y',
     'feedback' => 'Nhập phản hồi của bạn tại đây.',
+    'private' => 'Hạn chế',
 ];
