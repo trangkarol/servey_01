@@ -13,7 +13,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        Commands\CloseSurveyCommand::class
+        Commands\CloseSurveyCommand::class,
+        Commands\BackupDatabaseCommand::class,
     ];
 
     /**
@@ -25,6 +26,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('command:auto-change-status')->daily();
+        $schedule->command('backup:database')->weekly();
     }
 
     /**

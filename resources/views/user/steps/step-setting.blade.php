@@ -164,13 +164,13 @@
         </div>
         <div>
             <div class="setting-label">
-                <a>{{ trans('info.public') }}</a>
+                <a>{{ trans('info.private') }}</a>
                 {{ trans('info.this_survey') }}?
             </div>
             <div class="setting-option row">
                 <div class="col-md-2">
                     <div class="slideThree">
-                        {{ Form::checkbox('feature', config('settings.feature'), '', [
+                        {{ Form::checkbox('feature', config('settings.not_feature'), '', [
                             'id' => 'feature',
                         ]) }}
                         {{ Form::label('feature', ' ') }}

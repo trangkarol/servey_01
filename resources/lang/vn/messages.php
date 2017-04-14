@@ -27,4 +27,8 @@ return [
     'load_fail' => 'Tải :object thất bại',
     'result_success' => ':object thành công',
     'result_fail' => ':object thât bại',
+    'backup_database' => [
+        'subject' => 'Sao lưu cơ sở dữ liệu',
+        'head' => 'Email này để gửi tệp sao lưu cơ sở dữ liệu',
+    ],
 ];

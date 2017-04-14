@@ -27,4 +27,8 @@ return [
     'load_success' => ' Load :object success',
     'load_fail' => 'Error load :object error',
     'permisstion' => 'You are not login or :object have permisstion to access this pages',
+    'backup_database' => [
+        'subject' => 'Backup database',
+        'head' => 'Hello Admin, This email to send backup database file',
+    ],
 ];
