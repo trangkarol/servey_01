@@ -7,6 +7,7 @@
                 {!! Form::text("txt-question[answers][$number][][". config('survey.type_checkbox')."]", '', [
                     'placeholder' => trans('home.enter_answer_here'),
                     'required' => true,
+                    'class' => 'validate',
                 ]) !!}
             </div>
         </div>

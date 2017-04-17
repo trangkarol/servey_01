@@ -5,6 +5,7 @@
                 {!! Form::text("txt-question[question][$number]", '', [
                     'placeholder' => trans('home.enter_question_here'),
                     'required' => true,
+                    'class' => 'validate',
                 ]) !!}
             </div>
             <div class="col-md-2">
