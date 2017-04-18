@@ -469,7 +469,7 @@ class SurveyController extends Controller
         }
 
         if (!auth()->check() && $type == config('settings.return.view')) {
-            return $isSuccess 
+            return $isSuccess
                 ? redirect()->action('AnswerController@show', $survey->token_manage)
                     ->with('message', trans('survey.invite_success'))
                 : redirect()->action('AnswerController@show', $survey->token_manage)

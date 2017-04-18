@@ -25,6 +25,7 @@ use App\Repositories\Setting\SettingRepository;
 use App\Repositories\Feedback\FeedbackInterface;
 use App\Repositories\Feedback\FeedbackRepository;
 use Blade;
+use Session;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -35,6 +36,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Session::put('locale', 'vn');
         Blade::extend(function($value, $compiler){
             $value = preg_replace('/(\s*)@switch\((.*)\)(?=\s)/', '$1<?php switch($2):', $value);
             $value = preg_replace('/(\s*)@endswitch(?=\s)/', '$1endswitch; ?>', $value);

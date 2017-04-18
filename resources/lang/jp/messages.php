@@ -21,4 +21,17 @@ return [
     'max' => 'This: object must be no more than 255 characters',
     'result_success' => ':object successfully',
     'result_fail' => ':object failed',
+    '404_message' => 'The page you are looking for does not exists',
+    'save_success' => 'Save :object success',
+    'save_fail' => 'Error save :object ',
+    'load_success' => ' Load :object success',
+    'load_fail' => 'Error load :object error',
+    'permisstion' => 'You are not login or :object have permisstion to access this pages',
+    'backup_database' => [
+        'subject' => 'Backup database',
+        'head' => 'Hello Admin, This email to send backup database file',
+    ],
+    'block' => 'This account is not available',
+    'login_social_error' => 'Error with login :object, please try again',
+    'not_have_results' => 'This page is empty',
 ];

@@ -14,6 +14,11 @@
             </div>
             <div class="shadow"></div>
         </div>
+        @if (Session::has('message-fail'))
+            <div class="alert alert-danger alert-message">
+                {{ Session::get('message-fail') }}
+            </div>
+        @endif
         {!! Form::open([
             'id' => 'wrapped',
             'class' => 'wizard-form',

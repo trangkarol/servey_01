@@ -24,7 +24,7 @@ class SetLanguage
             $locale = substr($request->server('HTTP_ACCEPT_LANGUAGE'), 0, 2);
 
             if (!in_array($locale, config('settings.locale'))) {
-                $locale = 'en';
+                $locale = config('settings.locale.vn');
             }
         }
 
