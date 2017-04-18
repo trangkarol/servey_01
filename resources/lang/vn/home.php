@@ -68,6 +68,9 @@ return [
         'img' => 'Hình ảnh',
         'false' => 'Không phải là hình ảnh hoặc video',
         'time_out' => 'Hết thời gian, vui lòng thử lại',
+        'large' => 'File quá lớn (tối đa: 2MB)',
+        'not_img' => 'File không đúng định dạng (hổ trợ: jpeg, jpg, png, gif, bmp)',
+        'total_err' => 'Tổng dung lượng file quá lớn (tối đa: 8MB)',
     ],
     'feedback' => 'Phản hồi',
 ];
