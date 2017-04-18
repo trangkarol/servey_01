@@ -106,13 +106,13 @@ Route::group(['prefix' => '/home'], function () {
 
         Route::get('/list-invited', 'SurveyController@getInviteSurvey');
 
-        Route::get('/survey-individual', 'SurveyController@listSurveyUser');
+        Route::get('/individual', 'SurveyController@listSurveyUser');
 
         Route::get('/user/detail', 'User\UserController@show');
 
         Route::put('/user/update', 'User\UserController@update');
 
-        Route::get('/survey-private/{token}', 'AnswerController@answerPrivate');
+        Route::get('/private/{token}', 'AnswerController@answerPrivate');
 
         Route::resource('/save', 'User\SaveTempController', [
             'only' => ['store', 'index'],
@@ -140,7 +140,7 @@ Route::get('/complete/{token}/{name}', 'SurveyController@complete');
 
 Route::post('/search', 'SurveyController@search');
 
-Route::get('/survey-public/{token}', 'AnswerController@answerPublic');
+Route::get('/public/{token}', 'AnswerController@answerPublic');
 
 Route::get('/show/{token}', 'SurveyController@showDetail');
 

@@ -530,6 +530,10 @@ $(document).ready(function() {
         }, 1000);
     });
 
+    $(document).on('change', '.button-file-hidden', function() {
+         readURL(this, '.img-avatar');
+    });
+
     $('.package-question').on('click', '.btn-remove-answer', function() {
         var number = parseInt($(this).attr('num'));
         var idAnswer = $(this).attr('id-as');

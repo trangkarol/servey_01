@@ -30,6 +30,9 @@
             'data-email-invalid' => trans('temp.email_invalid'),
             'data-host' => config('app.socket.socket_host'),
             'data-port' => config('app.socket.socket_port'),
+            'data-confirm' => trans('temp.confirm'),
+            'data-format-date' => trans('temp.format_date'),
+            'data-format-datetime' => trans('temp.format_datetime'),
         ]) !!}
         <section id="top-area">
             @include('user.blocks.menu')

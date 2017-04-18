@@ -47,4 +47,17 @@ class Question extends Model
     {
         return $this->attributes['image'];
     }
+
+    public function scopeOfClone($query, $surveyId)
+    {
+        if (!$this->clone_id) {
+            return $query->where('survey_id', $surveyId)->where('clone_id', $this->id);
+        }
+
+        return $query
+            ->newQuery($this)
+            ->where('survey_id', $surveyId)
+            ->where('clone_id', $this->clone_id)
+            ->where('id', '>', $this->id);
+    }
 }

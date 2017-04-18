@@ -83,22 +83,34 @@
                             </ul>
                             <ul class="gender-option data-list floated clearfix">
                                 <li>
-                                    {{ Form::radio(trans('user.gender'), config('users.gender.male'), '', [
-                                        'id' => 'gender-male',
-                                        'class' => 'input-radio',
-                                    ]) }}
-                                    {{ Form::label('gender-male', trans('info.male'), [
-                                        'class' => 'label-radio',
-                                    ]) }}
+                                    <div class="type-radio-answer row">
+                                        <div class="box-radio col-md-1">
+                                            {{ Form::radio(trans('user.gender'), config('users.gender.male'), '', [
+                                                'id' => 'gender-male',
+                                                'class' => 'input-radio',
+                                            ]) }}
+                                            {{ Form::label('gender-male', ' ', [
+                                                'class' => 'label-radio',
+                                            ]) }}
+                                            <div class="check"><div class="inside"></div></div>
+                                        </div>
+                                        <div class="col-md-8">{{ trans('info.male') }}</div>
+                                    </div>
                                 </li>
                                 <li>
-                                    {{ Form::radio(trans('user.gender'), config('users.gender.female'), '', [
-                                        'id' => 'gender-female',
-                                        'class' => 'input-radio',
-                                    ]) }}
-                                    {{ Form::label('gender-female', trans('info.female'), [
-                                        'class' => 'label-radio',
-                                    ]) }}
+                                    <div class="type-radio-answer row">
+                                        <div class="box-radio col-md-1">
+                                            {{ Form::radio(trans('user.gender'), config('users.gender.female'), '', [
+                                                'id' => 'gender-female',
+                                                'class' => 'input-radio',
+                                            ]) }}
+                                            {{ Form::label('gender-female', ' ', [
+                                                'class' => 'label-radio',
+                                            ]) }}
+                                            <div class="check"><div class="inside"></div></div>
+                                        </div>
+                                        <div class="col-md-8">{{ trans('info.female') }}</div>
+                                    </div>
                                 </li>
                             </ul>
                         </div>

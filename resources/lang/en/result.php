@@ -26,4 +26,9 @@ return [
         'second' => 'reload',
         'last' => 'this page!',
     ],
+    'show_old' => 'Show edit history',
+    'answer_deleted' => 'This answer has been deleted.',
+    'answer_changed' => 'This answer has changed -> ',
+    'question_deleted' => 'This question has been deleted.',
+    'question_changed' => 'This question answer has changed -> ',
 ];
