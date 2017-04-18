@@ -104,6 +104,9 @@
                         img : '{{ trans('home.msg.img') }}',
                         false : '{{ trans('home.msg.false') }}',
                         timeout : '{{ trans('home.msg.time_out') }}',
+                        large: '{{ trans('home.msg.large') }}',
+                        notImg: '{{ trans('home.msg.not_img') }}',
+                        totalSize: '{{ trans('home.msg.total_err') }}',
                     },
                 }
             </script>

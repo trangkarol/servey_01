@@ -1963,3 +1963,11 @@ input.frm-date-2,input.frm-time {
     font-weight: normal;
     font-size: 14px;
 }
+
+.container-add-question .glyphicon, .picture-answer, .image-type-option{
+    cursor: pointer;
+}
+
+.add-link-image-group .form-control, .photo-tb-upload p, .message .modal-message, #modal-id .modal-footer{
+    margin: 0;
+}

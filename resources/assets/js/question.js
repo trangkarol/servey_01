@@ -1,15 +1,13 @@
 $(document).ready(function() {
     var error = $('.data').attr('data-error');
     var sumImageSize = 0;
-    var obj = [];
+    var obj = {};
     var arrayQuestion = [];
     var arrayAnswer = [];
     var arrayImageAnswer = [];
     var arrayImageQuestion = [];
-    var size = 0;
-    var getProperty = function (propertyName) {
-        return obj[propertyName];
-    };
+    var maxFileSize = 2048;
+    var maxTotalSize = 8192;
     var slts = { // selectors
         msg: '.modal-message',
         preview: '.img-pre-option',
@@ -147,21 +145,27 @@ $(document).ready(function() {
         return true;
     }
 
-    function readURL(input, $class) {
-        var key = $class;
+    function readURL(input) {
 
-        if (input.files && input.files[0] && checkTypeImage(input.files[0])) {
-            obj[key] = input.files[0].size;
-            size++;
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                $($class).attr('src', e.target.result);
+        if (input.files && input.files[0]) {
+            setPreviewImage('');
+            var fileSize = input.files[0].size/1024;
+
+            if (!checkTypeImage(input.files[0])) {
+                showMessage(data.msg.notImg);
+            } else if (fileSize > maxFileSize) {
+                showMessage(data.msg.large);
+            } else if (sumImageSize + fileSize > maxTotalSize) {
+                showMessage(data.msg.totalSize);
+            } else {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    setPreviewImage(e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+
+                return fileSize;
             }
-            reader.readAsDataURL(input.files[0]);
-        } else {
-            obj[key] = 0;
-
-            return false;
         }
     }
 
@@ -356,6 +360,11 @@ $(document).ready(function() {
             } else if (returnData.type == 'upload') {
                 $(imgSrc + id).attr('src', $(slts.preview).attr('src'));
                 $(imgDiv + id).css('display', 'block');
+                obj[id] = returnData.size;
+                sumImageSize = 0;
+                $.each(obj,function() {
+                    sumImageSize += this;
+                });
             }
         }
         returnData = null;
@@ -379,8 +388,11 @@ $(document).ready(function() {
         });
 
         $(document).on('change', slts.q.file + idQuestion, function () {
-            readURL(this, slts.preview);
-            returnData = { type: 'upload' };
+            var check = readURL(this);
+
+            if (check) {
+                returnData = { type: 'upload', size: check };
+            }
         });
 
         $(slts.link).unbind().on('click', function () {
@@ -407,10 +419,8 @@ $(document).ready(function() {
         $(slts.q.imgDiv + idQuestion).fadeOut(500);
         resetImageField(slts.q.file + idQuestion);
         $(slts.q.imgU + idQuestion + ', .question-video-url' + idQuestion).attr('value', '');
-
+        delete obj[idQuestion];
         setTimeout(function() {
-            sumImageSize -= getProperty(slts.q.image + idQuestion);
-            obj[slts.q.image + idQuestion] = 0;
             $(slts.q.image + idQuestion).attr('src', data.defaultImg);
             $(slts.q.imgDiv + idQuestion).css('display', 'none');
         }, 1000);
@@ -462,8 +472,11 @@ $(document).ready(function() {
         });
 
         $(document).on('change', slts.a.file + idAnswer, function () {
-            readURL(this, slts.preview);
-            returnData = { type: 'upload' };
+            var check = readURL(this);
+
+            if (check) {
+                returnData = { type: 'upload', size: check };
+            }
         });
 
         $(slts.link).unbind().on('click', function () {
@@ -490,10 +503,9 @@ $(document).ready(function() {
         $(slts.a.imgDiv + idAnswer).fadeOut(500);
         resetImageField(slts.a.file + idAnswer);
         $(slts.a.imgU + idAnswer + ', .answer-video-url' + idAnswer).attr('value', '');
+        delete obj[idAnswer];
 
         setTimeout(function() {
-            sumImageSize -= getProperty(slts.a.image + idAnswer);
-            obj[slts.a.image + idAnswer] = 0;
             $(slts.a.image + idAnswer).attr('src', data.defaultImg);
             $(slts.a.imgDiv + idAnswer).css('display', 'none');
         }, 1000);
@@ -513,15 +525,15 @@ $(document).ready(function() {
             $('.div-finish').css('display', 'none');
         }
 
-        for (var i = 0; i < size; i++) {
-            if (getProperty(slts.a.image + idQuestion + i)) {
-                sum += getProperty(slts.a.image + idQuestion + i);
-                obj[slts.a.image + idQuestion + i] = 0;
+        delete obj[idQuestion];
+        var objSize = Object.keys(obj).length;
+
+        for (var i = 0; i < objSize; i++) {
+            if (obj[idQuestion + i]) {
+                delete obj[idQuestion + i];
             }
         }
 
-        sumImageSize = sumImageSize - (getProperty(slts.q.image + idQuestion) + sum);
-        obj[slts.q.image + idQuestion] = 0;
         $('.data').attr('data-question', number_qs);
         $('.question' + idQuestion).removeClass('animate zoomIn');
         $('.question' + idQuestion).addClass('animate fadeOutDown');
@@ -542,8 +554,7 @@ $(document).ready(function() {
 
         if (trash > 2) {
             arrayAnswer.push(idDelete);
-            sumImageSize -= getProperty(slts.a.image + idAnswer);
-            obj[slts.a.image + idAnswer] = 0;
+            delete obj[idAnswer];
             $('.question' + number).attr('trash', trash - 1);
             $('.clear-as' + idAnswer).remove();
             $('.qs-as' + idAnswer).remove();
