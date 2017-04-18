@@ -31,7 +31,7 @@ class SocialAccountRepository extends BaseRepository
                 'name' => $providerUser->getName(),
                 'image' => $providerUser->getAvatar(),
             ];
-            
+
             if ($providerUser->getEmail()) {
                 $this->userRepository->newQuery(new User());
                 $data = $this->userRepository
@@ -47,7 +47,7 @@ class SocialAccountRepository extends BaseRepository
             }
 
             return $user;
-        } 
+        }
 
         if ($providerUser->getEmail()) {
             $user = $this->userRepository->where('email', $providerUser->getEmail())->first();

@@ -35,7 +35,7 @@ return [
     'wellcome' => 'welcome',
     'finish' => 'Done',
     'invited' => 'Invited',
-    'progress' => 'process',
+    'progress' => 'progress',
     'back' => 'Back',
     'next' => 'Next',
     'submit_survey' => 'Submit Survey',

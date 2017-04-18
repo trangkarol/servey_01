@@ -31,4 +31,7 @@ return [
         'subject' => 'Sao lưu cơ sở dữ liệu',
         'head' => 'Email này để gửi tệp sao lưu cơ sở dữ liệu',
     ],
+    'block' => 'Tài khoản này đã bị khóa',
+    'login_social_error' => 'Lỗi khi đăng nhập với facebook, vui lòng thử lại',
+    'not_have_results' => 'Không có dữ liệu',
 ];

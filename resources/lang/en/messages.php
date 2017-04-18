@@ -31,4 +31,7 @@ return [
         'subject' => 'Backup database',
         'head' => 'Hello Admin, This email to send backup database file',
     ],
+    'block' => 'This account is not available',
+    'login_social_error' => 'Error with login :object, please try again',
+    'not_have_results' => 'This page is empty',
 ];
