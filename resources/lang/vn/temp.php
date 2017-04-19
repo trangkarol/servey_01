@@ -9,6 +9,7 @@ return [
     'send_mail' => 'Gửi đến các mail',
     'email_name' => 'Nhập email tại đây. . .',
     'send' => 'Gửi',
+    'cancel' => 'Thoát',
     'view_result' => 'Xem kết quả',
     'dont_have_result' => 'Không có một kết quả nào',
     'email_invalid' => 'Email không hợp lệ, vui lòng kiểm tra lại.',
@@ -37,4 +38,7 @@ return [
     'no_description' => 'Không có mô tả.',
     'format_date' => 'DD/MM/YYYY',
     'format_datetime' => 'DD/MM/YYYY hh:mm A',
+    'format' => [
+        'date' => 'd/m/Y',
+    ],
 ];

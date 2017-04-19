@@ -2,6 +2,7 @@
 
 return [
     'time_text' => 'h : mm',
+    'time' => 'Time',
     'other' => 'Other',
     'confirm' => 'Are you sure to delete this survey?',
     'send_to' => 'Send to:',
@@ -36,5 +37,8 @@ return [
     'reanswer' => 'Survey has changed, please re-answer this survey.',
     'no_description' => 'No description.',
     'format_date' => 'MM/DD/YYYY',
-    'format_datetime' => 'MM/DD/YYYY hh:mm A'
+    'format_datetime' => 'MM/DD/YYYY hh:mm A',
+    'format' => [
+        'date' => 'm/d/Y',
+    ],
 ];

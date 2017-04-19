@@ -19,7 +19,7 @@ return [
     'your_email' => 'Email của bạn',
     'your_name' => 'Tên của bạn',
     'avatar' => 'Ảnh đại diện',
-    'enter_email_password' => 'Nhập email và passowrd của bạn',
+    'enter_email_password' => 'Nhập email và mật khẩu của bạn',
     'login' => 'Đăng nhập',
     'logout' => ' Thoát ',
 ];
