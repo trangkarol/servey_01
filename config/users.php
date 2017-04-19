@@ -17,7 +17,7 @@ return [
         'male' => 0,
         'female' => 1,
     ],
-    'name_length_default' => 11,
+    'name_length_default' => 9,
     'undentified_name' => 'Undentified name',
     'undentified_email' => 'Undentified email',
 ];

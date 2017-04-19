@@ -20,7 +20,7 @@ return [
     'phone' => 'Số điện thoại',
     'chooser_new_image' => 'Chọn hình ảnh mới',
     'name' => 'Tên',
-    'Email' =>'Email',
+    'email' =>'Email',
     'date' => 'Ngày trả lời',
     'detail' => 'Chi tiết',
     'go_home' => 'Về trang chủ',

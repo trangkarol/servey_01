@@ -9,7 +9,7 @@ return [
     'checkboxes' => 'Hộp kiểm',
     'choices' => 'Chọn',
     'enter_answer_here' => 'Điền câu trả lời tại đây',
-    'other' => 'Khác:',
+    'other' => 'Ý kiến khác',
     'home' => 'Trang chủ',
     'notices' => 'Thông báo',
     'search_survey' => 'Tìm kiếm survey. . .',

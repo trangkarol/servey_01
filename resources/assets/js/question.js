@@ -564,8 +564,10 @@ $(document).ready(function() {
     $('.package-question').on('click', '.remove-other', function() {
         var idQuestion = $(this).attr('id-qs');
         var trash = parseInt($('.question' + idQuestion).attr('trash'));
+        var idDelete = $(this).attr('data-answerId');
 
         if (trash > 2) {
+            arrayAnswer.push(idDelete);
             $('.question' + idQuestion).attr('trash', trash - 1);
             $('.temp-other' + idQuestion + ':last').remove();
             $('.answer-other' + idQuestion).remove();

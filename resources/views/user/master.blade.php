@@ -5,6 +5,7 @@
         <title>{{ trans('info.fsurvey') }}</title>
         <meta name="description" content="">
         <meta name="csrf-token" content="{{ csrf_token() }}">
+        <link rel="shortcut icon" href="{{ config('settings.image_path_system') . 'favicon.ico' }}" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         @include('library.css-file')
         @include('library.js-file')
