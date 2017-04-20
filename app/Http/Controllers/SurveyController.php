@@ -15,6 +15,7 @@ use LRedis;
 use Mail;
 use DB;
 use Validator;
+use Exception;
 
 class SurveyController extends Controller
 {
@@ -59,7 +60,7 @@ class SurveyController extends Controller
             ->toArray();
     }
 
-    public function listSurveyUser()
+    public function listSurveyUser(Request $request)
     {
         $invites = $inviteIds = $this->inviteRepository
             ->where('recevier_id', auth()->id())
@@ -73,6 +74,36 @@ class SurveyController extends Controller
         $surveys = $surveys
             ->orderBy('id', 'desc')
             ->paginate(config('settings.paginate'));
+
+        if ($request->ajax()) {
+            try {
+                $viewId = $request->get('viewId');
+                $view = null;
+
+                if ($viewId == 'profile-v') {
+                    $view = view('user.pages.list-invited', compact('invites', 'settings'))->render();
+                } elseif ($viewId == 'home-v') {
+                    $view = view('user.pages.your_survey', compact('surveys', 'settings'))->render();
+                }
+
+                if (!$view) {
+                    return response()->json([
+                        'success' => false,
+                        'messageFail' => trans('messages.paginate_fail'),
+                    ]);
+                }
+
+                return response()->json([
+                    'success' => true,
+                    'view' => $view,
+                ]);
+            } catch (Exception $e) {
+                return response()->json([
+                    'success' => false,
+                    'messageFail' => trans('messages.paginate_fail'),
+                ]);
+            }
+        }
 
         return view('user.pages.list-survey', compact('surveys', 'invites', 'settings'));
     }
