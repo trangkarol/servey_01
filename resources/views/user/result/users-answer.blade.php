@@ -31,7 +31,7 @@
                     {{ $info['email'] ?: trans('user.incognito') }}
                 </td>
                 <td>
-                    {{ Carbon\Carbon::parse($info['created_at'])->format(trans('temp.format_with_trans')) }}
+                    {{ Carbon\Carbon::parse($info['created_at'])->format(trans('temp.format.date')) }}
                 </td>
                 <td>
                     <a class="show-multi-history" data-url="{{ action('AnswerController@showMultiHistory', [

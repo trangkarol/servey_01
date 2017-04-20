@@ -7,7 +7,8 @@
             <li>
                 {!! Form::text('emails', '', [
                     'class' => 'form-emails',
-                    'data-role' => 'tagsinput'
+                    'data-role' => 'tagsinput',
+                    'placeholder' => trans('info.sender_email'),
                 ]) !!}
             </li>
         </ul>

@@ -69,9 +69,11 @@
                 ]) }}
             </a>
             (<a class="tag-send-email" data-url="{{ action('SurveyController@inviteUser', [
-                'id' => $survey->id,
-                'type' => config('settings.return.view'),
-            ]) }}">
+                    'id' => $survey->id,
+                    'type' => config('settings.return.view'),
+                ]) }}"
+                data-type="{{ $survey->feature }}"
+                data-link="{{ action('AnswerController@answerPublic', $survey->token) }}">
                 <span class="glyphicon glyphicon-send"></span>
                 {{ trans('survey.send') }}
             </a>)

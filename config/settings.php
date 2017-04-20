@@ -47,7 +47,7 @@ return [
     'language' => [
         'en' => 'English',
         'vn' => 'Việt Nam',
-        'jp' => 'Japanese',
+        'jp' => '日本語',
     ],
     'options' => [
         1,

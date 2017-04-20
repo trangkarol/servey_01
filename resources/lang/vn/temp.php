@@ -42,4 +42,9 @@ return [
     ],
     'format_datetime' => 'DD-MM-YYYY hh:mm A',
     'format_with_trans' => 'd-m-Y h:i A',
+    'shareable_link' => 'Link có thể chia sẻ',
+    'use_link' => 'Sử dụng link này để chia sẻ với mọi người trên web,',
+    'copy_link' => 'Sao chép link',
+    'send_mail' => 'Gữi mail',
+    'share' => 'Chia sẽ',
 ];

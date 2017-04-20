@@ -140,7 +140,7 @@
                                     <div class="col-md-5 col-md-offset-1">
                                         <div class="container-infor">
                                             {!! Html::image(config('settings.image_system') . 'email1.png', '') !!}
-                                            {!! Form::email('email-answer', '', [
+                                            {!! Form::email('email-answer', auth()->check() ? auth()->user()->email : old('email-answer'), [
                                                 'id' => 'email',
                                                 'class' => 'frm-require-answer form-control',
                                                 'placeholder' => trans('login.your_email'),
@@ -155,7 +155,7 @@
                                     <div class="col-md-5 ">
                                         <div class="container-infor">
                                             {!! Html::image(config('settings.image_system') . 'name.png', '') !!}
-                                            {!! Form::text('name-answer', '', [
+                                            {!! Form::text('name-answer', old('name-answer'), [
                                                 'placeholder' => trans('login.your_name'),
                                                 'id' => 'name',
                                                 'class' => 'frm-require-answer form-control',

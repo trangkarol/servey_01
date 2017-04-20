@@ -1,4 +1,4 @@
-<div >
+<div>
     <table class="table-invited table table-hover">
         @forelse ($invites as $key => $invite)
             @if ($loop->first)
@@ -25,7 +25,7 @@
                     </a>
                 </td>
                 <td>
-                    {{ $invite->created_at->format('M d Y') }}
+                    {{ Carbon\Carbon::parse($invite->created_at)->format(trans('temp.format.date')) }}
                 </td>
                 <td>
                     @if ($invite->sender_id)
@@ -68,5 +68,5 @@
             </div>
         @endforelse
     </table>
-        {{ $invites->render() }}
+    {{ $invites->render() }}
 </div>
