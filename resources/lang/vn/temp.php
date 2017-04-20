@@ -36,9 +36,10 @@ return [
     'dear' => 'Thân ái',
     'reanswer' => 'Survey đã thay đổi, bạn vui lòng làm lại khảo sát này.',
     'no_description' => 'Không có mô tả.',
-    'format_date' => 'DD/MM/YYYY',
-    'format_datetime' => 'DD/MM/YYYY hh:mm A',
+    'format_date' => 'DD-MM-YYYY',
     'format' => [
         'date' => 'd/m/Y',
     ],
+    'format_datetime' => 'DD-MM-YYYY hh:mm A',
+    'format_with_trans' => 'd-m-Y h:i A',
 ];

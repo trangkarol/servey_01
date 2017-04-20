@@ -126,7 +126,7 @@
                                                 ]) }}
                                                 <div class="check"><div class="inside"></div></div>
                                             </div>
-                                            <div class="col-md-1 label-other">{{ trans('home.other') }}</div>
+                                            <div class="col-md-2 label-other">{{ trans('home.other') }}</div>
                                             <div class="append-input col-md-8 append-as{{ $question->id }}">
                                                 @if ($checked)
                                                     {!! Form::textarea("answer[$question->id][$answer->id]", $checked, [
@@ -153,7 +153,7 @@
                                                 'class' => 'label-checkbox',
                                             ]) }}
                                         </div>
-                                        <div class="col-md-1 label-other">{{ trans('home.other') }}</div>
+                                        <div class="col-md-2 label-other">{{ trans('home.other') }}</div>
                                         <div class="col-md-8 append-input-checkbox append-as{{ $question->id }}">
                                             @if ($checked)
                                                 {!! Form::textarea("answer[$question->id][$answer->id]", $checked, [

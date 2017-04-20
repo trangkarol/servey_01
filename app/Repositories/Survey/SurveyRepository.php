@@ -312,7 +312,8 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         }
 
         $results = $this->questionRepository
-            ->getResultByQuestionIds($survey->id);
+            ->getResultByQuestionIds($survey->id)
+            ->with('sender');
         $results = $results->distinct('created_at')->get([
             'created_at',
             'name',

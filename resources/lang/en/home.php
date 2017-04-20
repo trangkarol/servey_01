@@ -9,7 +9,7 @@ return [
     'checkboxes' => 'checkbox',
     'choices' => 'Select',
     'enter_answer_here' => 'Enter answer here',
-    'other' => 'Other:',
+    'other' => 'Other opinion',
     'home' => 'Home',
     'notices' => 'Messages',
     'search_survey' => 'Search survey. . ',

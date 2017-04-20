@@ -32,7 +32,7 @@ return [
     'link' => 'Link',
     'index' => 'Index',
     'answerIndex' => 'No.',
-    'quantity' => 'quantity',
+    'quantity' => 'Quantity',
     'answer' => 'Answer',
     'question' => 'Question',
     'history' => 'History',

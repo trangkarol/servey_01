@@ -221,7 +221,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="remove-answer col-md-1">
-                                                    <a class="glyphicon glyphicon-remove btn-remove-answer remove-other"
+                                                    <a class="glyphicon glyphicon-remove remove-other"
                                                         id-qs="{{ $number }}"
                                                         num="{{ $number }}"
                                                         data-answerId="{{ $answer->id }}">
