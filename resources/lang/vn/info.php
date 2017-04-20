@@ -13,7 +13,7 @@ return [
     'datetime' => 'dd/mm/yyyy',
     'new_password' => 'Mật khẩu mới',
     'old_password' => 'Mật khẩu cũ',
-    'duration' => 'Thời gian của cuộc khảo sát này',
+    'duration' => 'Thời gian kết thúc cuộc khảo sát',
     'title' => 'Tiêu đề',
     'email' => 'Email',
     'do_you_want' => 'Bạn có muốn',

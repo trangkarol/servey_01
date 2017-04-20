@@ -2,6 +2,7 @@ $(document).ready(function() {
     var error = $('.data').attr('data-error');
     var notice = $('.data').attr('data-confirm');
     var email_confirm = $('.data').attr('data-email-invalid');
+    var formatDate = $('.data').attr('data-format-datetime');
 
     function validateEmail(email) {
         var re = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
@@ -20,7 +21,13 @@ $(document).ready(function() {
         beforeForward: function( event, state ) {
             if ( state.stepIndex === 1 ) {
                 var today = new Date();
-                var dealineTime = new Date(Date.parse($('.frm-deadline').val()));
+                var dateChoose = $('.frm-deadline').val();
+
+                if (formatDate == 'DD-MM-YYYY hh:mm A') {
+                    dateChoose = dateChoose.split('-')[1] + '-' + dateChoose.split('-')[0] + dateChoose.substring(5);
+                }
+
+                var dealineTime = new Date(Date.parse(dateChoose));
                 var validateTime = dealineTime.getTime() - today.getTime();
 
                 if ( dealineTime.length != 0 && validateTime < 1800000) {
