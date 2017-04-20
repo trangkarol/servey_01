@@ -35,7 +35,7 @@ return [
     'wellcome' => 'Chào mừng',
     'finish' => 'Hoàn thành',
     'invited' => 'Đã mời',
-    'progress' => 'Quy trình',
+    'progress' => 'Tiến trình',
     'back' => 'Trở lại',
     'next' => 'Đi tới',
     'submit_survey' => 'Gửi Survey',

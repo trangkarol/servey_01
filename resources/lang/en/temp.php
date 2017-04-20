@@ -36,7 +36,7 @@ return [
     'dear' => 'Dear',
     'reanswer' => 'Survey has changed, please re-answer this survey.',
     'no_description' => 'No description.',
-    'format_date' => 'MM/DD/YYYY',
+    'format_date' => 'MM-DD-YYYY',
     'format' => [
         'date' => 'm/d/Y',
     ],

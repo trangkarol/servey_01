@@ -14,7 +14,7 @@ return [
             'phone' => '84-4-3795-5417',
             'telephone' => 'Telephone',
             'more_info' => 'More information',
-            'intro' => 'Fsurvey - a simple, convenient and powerful survey system.',
+            'intro' => 'Fsurvey - A simple, fast and convenient survey system.',
         ],
         'back_to_top' => 'Back to top',
         'copyright' => 'Copyright 2016 Framgia, Inc.',
@@ -28,7 +28,7 @@ return [
             'userful_survey_data' => 'Userful survey data',
             'content_userful_survey_data' => 'Online surveys can be tailored to the situation. The entire data collection period is significantly shortened. You can be sent to multiple people at one time. Data collection with an overview via display detailed results and charts.',
             'receive_by_email' =>'Receive by email',
-            'content_receive_by_email' => 'By accepting incoming email. The user will be able to reply to your email. Encouraging more transparent relationships within your organization. When you leave web, correspondence history remains in tact in your email and you can access link to manage your survey.',
+            'content_receive_by_email' => 'By accepting incoming email. The user will be able to reply to your email. Encouraging more transparent relationships within your organization. When you leave the web, correspondence history remains intact in your email and you can access link to manage your survey.',
             'thank_your_time' => 'FEATURES',
             'content_thank_your_time' => 'Easy to use. Quickly to measure outcomes.',
             'some_devices' => 'MATCHING DEVICES',
@@ -38,4 +38,5 @@ return [
     '404' => '404',
     'error' => 'Error',
     'title_web' => 'Let’s get started!',
+    'more_tool' => 'More tools...',
 ];

@@ -47,6 +47,12 @@
                     </div>
                     <div class="clear"></div>
                 </div>
+                <div>
+                    <a href="http://education.framgia.vn/tools" target="_blank">
+                        <i class="fa fa-gears"></i>
+                        {{ trans('view.more_tool') }}
+                    </a>
+                </div>
             </div>
         </div>
     </section>

@@ -14,7 +14,7 @@ return [
             'phone' => '84-4-3795-5417',
             'telephone' => 'Điện thoại',
             'more_info' => 'Thông tin thêm',
-            'intro' => 'Fsurvey - Một hệ thống điều tra đơn giản, tiện lợi và mạnh mẽ.',
+            'intro' => 'Fsurvey - Một hệ thống khảo sát nhanh, đơn giản và tiện lợi',
         ],
         'back_to_top' => 'Về đầu trang',
         'copyright' => 'Bản quyền tập đoàn Framgia 2016.',
@@ -24,11 +24,11 @@ return [
         'intro' => [
             'slogan' => 'Khảo sát một cách hiệu quả, tạo nên sự thành công cho mục tiêu của bạn.',
             'fully_responsive' => 'Đáp ứng đầy đủ',
-            'content_fully_responsive' => 'Trang web của chúng tôi cung cấp một loạt đầy đủ các câu hỏi mà bạn có thể tự do lựa chọn các loại câu hỏi như: một hoặc nhiều lựa chọn, ngày, giờ hoặc kiểu văn bản. Dễ dàng hơn để giúp bạn trong việc tạo ra một cuộc khảo sát.',
+            'content_fully_responsive' => 'FSurvey cung cấp một loạt các dạng câu hỏi mà bạn có thể tự do lựa chọn như: trắc nghiệm, ngày & giờ, kiểu văn bản,… Điều này sẽ giúp bạn dễ dàng hơn trong việc tạo ra một cuộc khảo sát hiệu quả.',
             'userful_survey_data' => 'Số liệu điều tra hữu dụng',
             'content_userful_survey_data' => 'Khảo sát trực tuyến có thể được thay đổi được tình hình. Toàn bộ thời gian thu thập dữ liệu được rút ngắn đáng kể. Bạn có thể gửi đến nhiều người cùng một lúc. Thu thập dữ liệu với một cái nhìn tổng quan thông qua màn hình hiển thị chi tiết kết quả và bảng xếp hạng.',
             'receive_by_email' =>'Nhận survey qua email',
-            'content_receive_by_email' => 'Bằng việc chấp nhận các email gửi đến. Người dùng sẽ có thể trả lời email của bạn. Khuyến khích các mối quan hệ minh bạch hơn trong tổ chức của bạn. Khi bạn rời khỏi web, lịch sử thư vẫn còn nguyên vẹn trong email của bạn và bạn có thể truy cập vào liên kết để quản lý khảo sát của bạn.',
+            'content_receive_by_email' => 'Bằng việc chấp nhận các email gửi đến. Người dùng sẽ có thể trả lời email của bạn. Khuyến khích các mối quan hệ minh bạch hơn trong tổ chức. Khi bạn rời khỏi web, lịch sử thư vẫn còn nguyên vẹn trong email của bạn và bạn có thể truy cập vào liên kết để quản lý cuộc khảo sát.',
             'thank_your_time' => 'CÁC TÍNH NĂNG',
             'content_thank_your_time' => 'Dễ dàng sử dụng và đo lường kết quả nhanh chóng',
             'some_devices' => 'CÁC THIẾT BỊ PHÙ HỢP',
@@ -38,4 +38,5 @@ return [
     '404' => '404',
     'error' => 'Lỗi',
     'title_web' => 'Hãy bắt đầu cùng FSurvey!',
+    'more_tool' => 'Các công cụ khác...',
 ];
