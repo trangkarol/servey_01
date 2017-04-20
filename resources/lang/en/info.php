@@ -13,7 +13,7 @@ return [
     'datetime' => 'dd/mm/yyyy',
     'new_password' => 'New password',
     'old_password' => 'Old password',
-    'duration' => 'The duration of this survey',
+    'duration' => 'Finishing time of the survey',
     'title' => 'Title',
     'email' => 'Email',
     'do_you_want' => 'Do you want',

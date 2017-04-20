@@ -35,7 +35,7 @@
                                         {!! Form::email('email', $user->email, [
                                             'placeholder' => trans('user.your_email'),
                                             'id' => 'email',
-                                            'class' => 'required form-control',
+                                            'class' => 'form-control',
                                         ]) !!}
                                     </div>
                                 </li>

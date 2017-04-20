@@ -24,7 +24,7 @@ class EditUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|unique:users,email,' . auth()->id(),
+            'email' => 'unique:users,email,' . auth()->id(),
             'password' => 'min:6|confirmed',
             'name' => 'required|max:255',
             'image' => 'image|mimes:jpg,jpeg,png,gif,svg|max:1000',
