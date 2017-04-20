@@ -10,7 +10,7 @@
                         {!! Html::image(config('settings.image_path_system') . 'email1.png', '') !!}
                         {!! Form::email('email', (Auth::user() ? Auth::user()->email : ''), [
                             'id' => 'email',
-                            'class' => 'required form-control',
+                            'class' => 'required form-control validate',
                             'placeholder' => trans('info.email'),
                             (auth()->check() && auth()->user()->email) ? 'readonly' : null,
                         ]) !!}
@@ -22,7 +22,7 @@
                         {!! Form::text('title', '', [
                             'placeholder' => trans('info.title'),
                             'id' => 'title',
-                            'class' => 'required form-control',
+                            'class' => 'required form-control validate',
                         ]) !!}
                     </div>
                 </li>

@@ -639,4 +639,13 @@ $(document).ready(function() {
         });
     });
 
+    $(document).on('change', function() {
+        $('#wrapped').validate();
+        $('input.validate').each(function(){
+            $(this).rules('add', {
+               required: true,
+               maxlength: 255
+            });
+        });
+    });
 });

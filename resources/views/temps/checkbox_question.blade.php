@@ -9,6 +9,7 @@
                 {!! Form::text("txt-question[question][$number]", '', [
                     'placeholder' => trans('home.enter_question_here'),
                     'required' => true,
+                    'class' => 'validate',
                 ]) !!}
             </div>
             <div class="col-md-2">
@@ -36,6 +37,7 @@
                     {!! Form::text("txt-question[answers][$number][][" . config('survey.type_checkbox') . "]", '', [
                         'placeholder' => trans('home.enter_answer_here'),
                         'required' => true,
+                        'class' => 'validate',
                     ]) !!}
                 </div>
             </div>
@@ -64,6 +66,7 @@
                     {!! Form::text("txt-question[answers][$number][][" . config('survey.type_checkbox') . "]", '', [
                         'placeholder' => trans('home.enter_answer_here'),
                         'required' => true,
+                        'class' => 'validate',
                     ]) !!}
                 </div>
             </div>

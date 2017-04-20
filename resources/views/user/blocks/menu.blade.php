@@ -4,6 +4,14 @@
             <div class="col-md-4 col-xs-3" id="logo">
                 <a href="{{ action('SurveyController@index') }}"></a>
             </div>
+            <div class="btn-responsive-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
             <nav class="col-md-8 col-xs-9" id="top-nav">
                 <ul>
                     <li>

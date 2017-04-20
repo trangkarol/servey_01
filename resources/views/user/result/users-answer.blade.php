@@ -17,22 +17,28 @@
     </thead>
     <tbody>
         @foreach ($listUserAnswer as $user)
+            @php $info = head($user) @endphp
             <tr>
                 <td>
-                    {{ $user[0]['name'] ?: trans('user.incognito') }}
+                    {!! Html::image((!empty($info['sender_id']) && isset($info['sender']['image']))
+                        ? $info['sender']['image']
+                        : config('settings.image_user_default'), '', [
+                            'class' => 'image-avatar',
+                    ]) !!}
+                    {{ $info['name'] ?: trans('user.incognito') }}
                 </td>
                 <td>
-                    {{ $user[0]['email'] ?: '' }}
+                    {{ $info['email'] ?: trans('user.incognito') }}
                 </td>
                 <td>
-                    {{ Carbon\Carbon::parse($user[0]['created_at'])->format('Y-m-d') }}
+                    {{ Carbon\Carbon::parse($info['created_at'])->format(trans('temp.format_with_trans')) }}
                 </td>
                 <td>
                     <a class="show-multi-history" data-url="{{ action('AnswerController@showMultiHistory', [
                         'surveyId' => $survey->id,
-                        'createdAt' => $user[0]['created_at'],
-                        'userId' => $user[0]['sender_id'],
-                        'email' => $user[0]['email'],
+                        'createdAt' => $info['created_at'],
+                        'userId' => $info['sender_id'],
+                        'email' => $info['email'],
                     ]) }}">{{ trans('survey.link') }}</a>
                 </td>
             </tr>
