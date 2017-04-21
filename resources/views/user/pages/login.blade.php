@@ -1,7 +1,7 @@
 @extends('user.master')
 @section('content')
     <div class="survey_container animated zoomIn wizard" novalidate="novalidate" >
-        <div id="top-wizard">
+        <div class="top-wizard-register">
             <strong class="tag-wizard-top">
                 {{ trans('login.login') }}
             </strong>
@@ -70,7 +70,7 @@
                     </div>
                 </div>
             </div>
-            <div id="bottom-wizard">
+            <div id="bottom-wizard" class="bottom-wizard-register">
                 {!! Form::submit(trans('login.login'), [
                     'class' => 'bt-login forward',
                 ]) !!}

@@ -117,5 +117,23 @@ return [
     'attributes' => [
         //
     ],
+    'msg' => [
+        'required' => 'Thông tin bắt buộc',
+        'remote' => 'Hãy sửa trừờng này.',
+        'email' => 'Email không hợp lệ.',
+        'url' => 'Url không hợp lệ.',
+        'date' => 'Ngày không hợp lệ.',
+        'dateISO' => 'Vui lòng nhập ngày hợp lệ (ISO).',
+        'number' => 'Số không hợp lệ.',
+        'digits' => 'Xin vui lòng chỉ nhập các chữ số.',
+        'creditcard' => 'Số thẻ tín dụng không hợp lệ.',
+        'equalTo' => 'Vui lòng nhập giá trị tương tự một lần nữa.',
+        'maxlength' => 'Hãy nhập không lớn hơn {0} ký tự.',
+        'minlength' => 'Hãy nhập ít nhất {0} ký tự.',
+        'rangelength' => 'Hãy nhập một giá trị giữa {0} và {1} ký tự.',
+        'range' => 'Hãy nhập một giá trị giữa {0} và {1}.',
+        'max' => 'Giá trị phải nhỏ hơn hoặc bằng {0}.',
+        'min' => 'Giá trị phải hơn hoặc bằng {0}.',
+    ],
 
 ];

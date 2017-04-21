@@ -39,7 +39,7 @@ return [
     'private' => 'Private',
     'validate' => [
         'choose_option' => 'Please select a requirement',
-        'validate_number' => 'Please type in the box a figure and it must be greater than one',
+        'validate_number' => 'Please type in the box a figure and it must be greater than zero',
         'tailmail' => 'Please enter the tails mail',
         'run_out' => 'You have run out of replies.',
         'invalid_mail' => 'Tail mail invalid',
