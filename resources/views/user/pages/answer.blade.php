@@ -81,8 +81,8 @@
                        </div>
                     </div>
                 </div>
-                <div class="required-user">
-                    <div class="row" >
+                <div class="required-user" data-require="{{ $access[config('settings.key.tailMail')] }}">
+                    <div class="row">
                         @if (in_array(config('settings.key.requireAnswer'), array_keys($access))
                             && $access[config('settings.key.requireAnswer')]
                         )
@@ -101,6 +101,12 @@
                                                 'id' => 'email',
                                                 'class' => 'frm-require-answer form-control',
                                                 'placeholder' => trans('login.your_email'),
+                                            ]) !!}
+                                            {!! Form::label('email', trans('validation.msg.required'), [
+                                                'class' => 'require-email wizard-hidden error',
+                                            ]) !!}
+                                            {!! Form::label('email', trans('validation.msg.email'), [
+                                                'class' => 'validate-email wizard-hidden error',
                                             ]) !!}
                                         </div>
                                         @if ($errors->has('email-answer'))
@@ -121,6 +127,9 @@
                                                 'placeholder' => trans('login.your_name'),
                                                 'id' => 'name',
                                                 'class' => 'frm-require-answer form-control',
+                                            ]) !!}
+                                            {!! Form::label('name', trans('validation.msg.required'), [
+                                                'class' => 'require-name wizard-hidden error',
                                             ]) !!}
                                         </div>
                                         @if ($errors->has('name-answer'))
@@ -145,6 +154,12 @@
                                                 'class' => 'frm-require-answer form-control',
                                                 'placeholder' => trans('login.your_email'),
                                             ]) !!}
+                                            {!! Form::label('email', trans('validation.msg.required'), [
+                                                'class' => 'require-email wizard-hidden error',
+                                            ]) !!}
+                                            {!! Form::label('email', trans('validation.msg.email'), [
+                                                'class' => 'validate-email wizard-hidden error',
+                                            ]) !!}
                                         </div>
                                         @if ($errors->has('email-answer'))
                                             <div class="alert alert-danger alert-message">
@@ -159,6 +174,9 @@
                                                 'placeholder' => trans('login.your_name'),
                                                 'id' => 'name',
                                                 'class' => 'frm-require-answer form-control',
+                                            ]) !!}
+                                            {!! Form::label('name', trans('validation.msg.required'), [
+                                                'class' => 'require-name wizard-hidden error',
                                             ]) !!}
                                         </div>
                                         @if ($errors->has('name-answer'))

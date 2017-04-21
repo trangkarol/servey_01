@@ -80,7 +80,7 @@ class ResultController extends Controller
             $flag = true;
         }
 
-        if ($isRunToBottom) { 
+        if ($isRunToBottom) {
             if (!$answers) {
                 return redirect()
                     ->action(($survey->feature) ? 'AnswerController@answerPublic' : 'AnswerController@answerPrivate', $survey->token)
@@ -196,7 +196,7 @@ class ResultController extends Controller
         return redirect()
             ->action(($survey->feature) ? 'AnswerController@answerPublic' : 'AnswerController@answerPrivate', $survey->token)
             ->with(($isSuccess) ? 'message' : 'message-fail', ($isSuccess)
-                ? trans('messages.object_created_successfully', 3)
-                : trans('generate.permisstion', 2));
+                ? trans_choice('messages.object_created_successfully', 3)
+                : trans_choice('generate.permisstion', 2));
     }
 }

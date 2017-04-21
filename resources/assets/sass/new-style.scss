@@ -2080,7 +2080,13 @@ input.frm-date-2,input.frm-time {
 }
 
 .animated {
-    /*animation-duration: 0.5s;*/
+    animation-duration: 0.8s;
+}
+
+.package-question {
+    .animated {
+        animation-duration: 0.5s;
+    }
 }
 
 .top-wizard-register {
@@ -2102,4 +2108,14 @@ input.frm-date-2,input.frm-time {
 
 .tag-wizard-top {
     text-transform: uppercase;
+}
+
+.tab-content {
+    .fb_iframe_widget {
+        line-height: 20px !important;
+    }
+}
+
+#main {
+    min-height: 594px;
 }
