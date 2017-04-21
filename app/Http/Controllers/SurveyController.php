@@ -348,6 +348,7 @@ class SurveyController extends Controller
             'image',
             'image-url',
             'video-url',
+            'question-desc',
         ]);
 
         $validator = $this->makeValidator([
@@ -391,7 +392,8 @@ class SurveyController extends Controller
                 ($value['checkboxRequired']['question']) ?: [],
                 ($value['image']) ?: [],
                 $this->removeEmptyValue($value['image-url']),
-                $this->removeEmptyValue($value['video-url'])
+                $this->removeEmptyValue($value['video-url']),
+                array_filter($value['question-desc'])
             );
 
             if ($survey) {

@@ -126,7 +126,8 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         array $questionsRequired,
         array $images,
         array $imageUrl,
-        array $videoUrl
+        array $videoUrl,
+        array $questionDescription
     ) {
         $surveyInputs = $inputs->only([
             'user_id',
@@ -181,6 +182,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                 $images,
                 $imageUrl,
                 $videoUrl,
+                $questionDescription,
                 $questionsRequired
             );
 

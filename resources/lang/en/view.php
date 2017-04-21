@@ -4,7 +4,7 @@ return [
     'footer' => [
         'about' => [
             'title' => 'About us',
-            'content' => 'Vietnam is Framgia Japanese IT company specializing in the design, application development, Games run on smartphones, social networking platforms, production and application development website.,',
+            'content' => 'Framgia Vietnam is Japanese IT company specializing in the design, application development, Games run on smartphones, social networking platforms, production and application development website.',
         ],
         'contact' => [
             'title' => 'Contact info',
@@ -14,7 +14,7 @@ return [
             'phone' => '84-4-3795-5417',
             'telephone' => 'Telephone',
             'more_info' => 'More information',
-            'intro' => 'Fsurvey - A simple, fast and convenient survey system.',
+            'intro' => 'FSurvey - A simple, fast and convenient survey system.',
         ],
         'back_to_top' => 'Back to top',
         'copyright' => 'Copyright 2016 Framgia, Inc.',

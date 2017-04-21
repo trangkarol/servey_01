@@ -47,8 +47,16 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
         }
     }
 
-    public function createMultiQuestion($survey, $questions, $answers, $image, $imageUrl, $videoUrl, $required = null)
-    {
+    public function createMultiQuestion(
+        $survey,
+        $questions,
+        $answers,
+        $image,
+        $imageUrl,
+        $videoUrl,
+        $description,
+        $required = null
+    ) {
         $questionsAdd = [];
         $answersAdd = [];
         $image = [
@@ -81,6 +89,7 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
                 'required' => in_array($key, $required),
                 'sequence' => $sequence,
                 'video' => array_get($videoUrl['question'], $key),
+                'description' => array_get($description, $key),
             ];
 
             $sequence++;
