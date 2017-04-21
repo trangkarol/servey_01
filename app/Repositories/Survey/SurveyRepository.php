@@ -127,7 +127,6 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         array $images,
         array $imageUrl,
         array $videoUrl,
-        array $questionDescription,
         $locale
     ) {
         $surveyInputs = $inputs->only([
@@ -143,10 +142,10 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
             'user_name',
         ]);
 
-        // if the lang is english will be format from M-D-Y to M/D/Y 
+        // if the lang is english will be format from M-D-Y to M/D/Y
         if (isset($inputs['deadline'])) {
             $surveyInputs['deadline'] = Carbon::parse(in_array($locale, config('settings.sameFormatDateTime'))
-                ? str_replace('-', '/', $surveyInputs['deadline']) 
+                ? str_replace('-', '/', $surveyInputs['deadline'])
                 : $surveyInputs['deadline'])
                 ->toDateTimeString();
         }
@@ -189,7 +188,6 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                 $images,
                 $imageUrl,
                 $videoUrl,
-                $questionDescription,
                 $questionsRequired
             );
 

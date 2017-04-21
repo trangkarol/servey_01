@@ -54,7 +54,6 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
         $image,
         $imageUrl,
         $videoUrl,
-        $description,
         $required = null
     ) {
         $questionsAdd = [];
@@ -89,7 +88,6 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
                 'required' => in_array($key, $required),
                 'sequence' => $sequence,
                 'video' => array_get($videoUrl['question'], $key),
-                'description' => array_get($description, $key),
             ];
 
             $sequence++;

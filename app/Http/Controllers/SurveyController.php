@@ -151,8 +151,8 @@ class SurveyController extends Controller
         ]);
 
         if ($request->get('deadline')) {
-            $data['deadline'] = Carbon::parse(in_array(Session::get('locale'), config('settings.sameFormatDateTime')) 
-                ? str_replace('-', '/', $data['deadline']) 
+            $data['deadline'] = Carbon::parse(in_array(Session::get('locale'), config('settings.sameFormatDateTime'))
+                ? str_replace('-', '/', $data['deadline'])
                 : $data['deadline'])
                 ->toDateTimeString();
         }
@@ -352,7 +352,6 @@ class SurveyController extends Controller
             'image',
             'image-url',
             'video-url',
-            'question-desc',
         ]);
 
         $validator = $this->makeValidator([
@@ -397,7 +396,6 @@ class SurveyController extends Controller
                 ($value['image']) ?: [],
                 $this->removeEmptyValue($value['image-url']),
                 $this->removeEmptyValue($value['video-url']),
-                array_filter($value['question-desc']),
                 Session::get('locale')
             );
 
@@ -423,7 +421,7 @@ class SurveyController extends Controller
 
                 if (!$isSuccess) {
                     DB::rollback();
-                    
+
                     return redirect()->action('SurveyController@index')
                         ->with('message-fail', trans('messages.object_created_unsuccessfully', [
                             'object' => class_basename(Survey::class),

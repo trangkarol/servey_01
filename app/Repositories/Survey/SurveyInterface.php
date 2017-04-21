@@ -16,7 +16,6 @@ interface SurveyInterface
         array $images,
         array $imageUrl,
         array $videoUrl,
-        array $questionDescription,
         $locale
     );
 
