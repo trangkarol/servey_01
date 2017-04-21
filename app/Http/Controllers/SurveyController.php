@@ -16,6 +16,7 @@ use Mail;
 use DB;
 use Validator;
 use Exception;
+use Session;
 
 class SurveyController extends Controller
 {
@@ -150,7 +151,10 @@ class SurveyController extends Controller
         ]);
 
         if ($request->get('deadline')) {
-            $data['deadline'] = Carbon::parse($request->get('deadline'))->format('Y-m-d H:i');
+            $data['deadline'] = Carbon::parse(in_array(Session::get('locale'), config('settings.sameFormatDateTime')) 
+                ? str_replace('-', '/', $data['deadline']) 
+                : $data['deadline'])
+                ->toDateTimeString();
         }
 
         if ($survey) {
@@ -393,7 +397,8 @@ class SurveyController extends Controller
                 ($value['image']) ?: [],
                 $this->removeEmptyValue($value['image-url']),
                 $this->removeEmptyValue($value['video-url']),
-                array_filter($value['question-desc'])
+                array_filter($value['question-desc']),
+                Session::get('locale')
             );
 
             if ($survey) {
@@ -418,7 +423,7 @@ class SurveyController extends Controller
 
                 if (!$isSuccess) {
                     DB::rollback();
-
+                    
                     return redirect()->action('SurveyController@index')
                         ->with('message-fail', trans('messages.object_created_unsuccessfully', [
                             'object' => class_basename(Survey::class),

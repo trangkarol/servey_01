@@ -8,9 +8,6 @@
                 <span class="bar"></span>
                 <span class="bar"></span>
                 <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
             </div>
             <nav class="col-md-8 col-xs-9" id="top-nav">
                 <ul>
@@ -22,7 +19,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ action('FeedbackController@getFeedback') }}">
+                        <a href="https://docs.google.com/spreadsheets/d/14gI5YaJ7f8K8yAqIRDND2UHhnZ4dy1WvWw8RUwan9ME/edit#gid=0" target="_blank">
                             <span class="glyphicon glyphicon-file"></span>
                             {{ trans('home.feedback') }}
                         </a>

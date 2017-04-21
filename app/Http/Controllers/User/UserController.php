@@ -9,6 +9,7 @@ use App\Http\Requests\EditUserRequest;
 use Illuminate\Support\Facades\Hash;
 use Auth;
 use Carbon\Carbon;
+use Session;
 
 class UserController extends Controller
 {
@@ -49,7 +50,10 @@ class UserController extends Controller
             if (empty($updateData['birthday'])) {
                 $updateData = array_except($updateData, ['birthday']);
             } else {
-                $updateData['birthday'] = Carbon::parse($updateData['birthday'])->format('Y-m-d');
+                $updateData['birthday'] = Carbon::parse(in_array(Session::get('locale'), config('settings.sameFormatDateTime'))
+                    ? str_replace('-', '/', $updateData['birthday']) 
+                    : $updateData['birthday'])
+                    ->toDateTimeString();
             }
 
             if (!empty($updateData['image'])) {
