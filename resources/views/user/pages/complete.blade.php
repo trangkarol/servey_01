@@ -14,31 +14,43 @@
                         <h4>{{ trans('info.survey_created') }}</h4>
                         <p>{{ trans('home.description_complete') }} {{ $mail }}</p>
                         <p>{{ trans('info.link_send') }}</p>
-                        <a href="{{ action(($survey->feature)
+                        <a class="tag-link-answer" href="{{ action(($survey->feature)
                             ? 'AnswerController@answerPublic'
                             : 'AnswerController@answerPrivate', $survey->token) }}">
                             {{ action(($survey->feature)
                             ? 'AnswerController@answerPublic'
                             : 'AnswerController@answerPrivate', $survey->token) }}
                         </a>
+                        <div class="copy-share-fb">
+                            @if ($survey->feature)
+                                {!! Form::button('<i class="fa fa-copy"></i> ' . trans('temp.copy_link'), [
+                                    'class' => 'btn-copy-link-complete',
+                                ]) !!}
+                                <div class="fb-share-button" data-href="{{ action( 'AnswerController@answerPublic', $survey->token) }}"
+                                    data-layout="button_count" data-size="small" data-mobile-iframe="true">
+                                    <a class="fb-xfbml-parse-ignore" target="_blank" href="link">
+                                        {{ trans('survey.share') }}
+                                    </a>
+                                </div>
+                            @endif
+                        </div>
+                        <hr>
+                        <h4>{{ trans('home.description_link') }}</h4>
+                        <p>{{ trans('home.admin_link') }}</p>
                     </div>
                     <div class="complete-image col-md-8 animated">
                         {!! Html::image(config('settings.image_system') . 'congra.png', '') !!}
                     </div>
                 </div>
-                <div class="complete-link-admin">
-                    <h4>{{ trans('home.description_link') }}</h4>
-                    <p>{{ trans('home.admin_link') }}</p>
-                    <a href="{{ action('AnswerController@show', [
+                <a href="{{ action('AnswerController@show', [
+                    'token' => $survey->token_manage,
+                    'type' => $survey->feature,
+                ]) }}" class="tag-link-manage">
+                    {{ action('AnswerController@show', [
                         'token' => $survey->token_manage,
                         'type' => $survey->feature,
-                    ]) }}">
-                        {{ action('AnswerController@show', [
-                            'token' => $survey->token_manage,
-                            'type' => $survey->feature,
-                        ]) }}
-                    </a>
-                </div>
+                    ]) }}
+                </a>
             </div>
         </div>
         <div class="bot-wizard-complete"></div>

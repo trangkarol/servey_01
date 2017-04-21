@@ -74,7 +74,7 @@ return [
     'thank_you' => 'Cảm ơn.',
     'invite' => 'Mời tham gia.',
     'notice' =>[
-        'answer' => 'Bạn đã trả lời survey này',
+        'answer' => 'đã trả lời survey này',
         'number' => 'lần vào lúc',
     ],
     'update_question' => 'Cập nhật câu hỏi',

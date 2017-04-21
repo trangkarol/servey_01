@@ -74,7 +74,6 @@
                                         <div class="photo-tb-btn photo-tb-upload">
                                             <span class="fa fa-camera"></span>
                                             <p>{{ trans('home.upload') }}</p>
-
                                         </div>
                                     </div>
                                 </div>
@@ -94,23 +93,5 @@
                 </div>
             </div>
         </div>
-        @section('js-var')
-            <script>
-                var data = {
-                    defaultImg: '{{ asset(config('temp.image_default')) }}',
-                    hint: '{{ trans('home.url_hint') }}',
-                    msg : {
-                        yt : '{{ trans('home.msg.yt') }}',
-                        vm : '{{ trans('home.msg.vm') }}',
-                        img : '{{ trans('home.msg.img') }}',
-                        false : '{{ trans('home.msg.false') }}',
-                        timeout : '{{ trans('home.msg.time_out') }}',
-                        large: '{{ trans('home.msg.large') }}',
-                        notImg: '{{ trans('home.msg.not_img') }}',
-                        totalSize: '{{ trans('home.msg.total_err') }}',
-                    },
-                }
-            </script>
-        @show
     </body>
 </html>
