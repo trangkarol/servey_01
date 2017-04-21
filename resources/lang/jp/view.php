@@ -4,7 +4,7 @@ return [
     'footer' => [
         'about' => [
             'title' => 'About us',
-            'content' => 'Vietnam is Framgia Japanese IT company specializing in the design, application development, Games run on smartphones, social networking platforms, production and application development website.,',
+            'content' => 'Framgia Vietnam is Japanese IT company specializing in the design, application development, Games run on smartphones, social networking platforms, production and application development website.',
         ],
         'contact' => [
             'title' => 'Contact info',

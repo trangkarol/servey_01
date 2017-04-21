@@ -62,7 +62,7 @@ return [
         'require_tailmail' => 'with tail email:',
     ],
     'question_type' => 'Question type',
-    'title_web' => 'Fsurvey',
+    'title_web' => 'FSurvey',
     'export' => 'Export',
     'users_anwser' => 'Users Anwser',
     'update_success' => 'Update successful',

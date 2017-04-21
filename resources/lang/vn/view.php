@@ -4,7 +4,7 @@ return [
     'footer' => [
         'about' => [
             'title' => 'Giới thiệu về chúng tôi',
-            'content' => 'Fram gia việt Nam là công ty Nhật Bản về lĩnh vực công nghệ thông tin chuyên thiết kế, phát triển ứng dụng, trò chơi chạy trên điện thoại thông minh, nền tảng mạng xã hội, sản xuất và ứng dụng trang web phát triển.,',
+            'content' => 'Framgia việt Nam là công ty Nhật Bản về lĩnh vực công nghệ thông tin chuyên thiết kế, phát triển ứng dụng, trò chơi chạy trên điện thoại thông minh, nền tảng mạng xã hội, sản xuất và ứng dụng trang web phát triển.',
         ],
         'contact' => [
             'title' => 'Thông tin liên lạc',
@@ -14,7 +14,7 @@ return [
             'phone' => '84-4-3795-5417',
             'telephone' => 'Điện thoại',
             'more_info' => 'Thông tin thêm',
-            'intro' => 'Fsurvey - Một hệ thống khảo sát nhanh, đơn giản và tiện lợi',
+            'intro' => 'FSurvey - Một hệ thống khảo sát nhanh, đơn giản và tiện lợi',
         ],
         'back_to_top' => 'Về đầu trang',
         'copyright' => 'Bản quyền tập đoàn Framgia 2016.',
