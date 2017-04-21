@@ -79,7 +79,7 @@
                                                             </a>
                                                         </td>
                                                         <td>
-                                                            {{ Carbon\Carbon::parse($survey->created_at)->format('temp.format.date') }}
+                                                            {{ Carbon\Carbon::parse($survey->created_at)->format(trans('temp.format.date')) }}
                                                         </td>
                                                         <td class="margin-center" colspan="2">
                                                             {{ trans('survey.closed') }}

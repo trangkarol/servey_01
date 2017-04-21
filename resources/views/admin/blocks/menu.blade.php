@@ -25,7 +25,6 @@
                     {!! Form::close() !!}
                 </li>
             </ul>
-
             <ul class="nav navbar-nav navbar-right">
                 <li>
                    <a href="{{ action('Admin\UserController@show', [Auth::user()->id]) }}">

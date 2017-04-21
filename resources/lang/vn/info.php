@@ -7,6 +7,7 @@ return [
     'address' => 'Địa chỉ',
     'male' => 'Nam',
     'female' => 'Nữ',
+    'other_gender' => 'Khác',
     'image' => 'Hình ảnh',
     'gender' => 'Giới tính',
     'birthday' => 'Sinh nhật',
@@ -16,7 +17,6 @@ return [
     'duration' => 'Thời gian kết thúc cuộc khảo sát',
     'title' => 'Tiêu đề',
     'email' => 'Email',
-    'do_you_want' => 'Bạn có muốn',
     'public' => 'Công khai',
     'this_survey' => 'cuộc khảo sát này',
     'description' => 'Nhập mô tả cho cuộc khảo sát này',
@@ -34,5 +34,5 @@ return [
     'link_send' => 'Gửi link này đến bất cứ người nào mà bạn muốn mời',
     'datetime_format' => 'd M Y',
     'feedback' => 'Nhập phản hồi của bạn tại đây.',
-    'private' => 'Hạn chế',
+    'private' => 'Baỏ mật',
 ];

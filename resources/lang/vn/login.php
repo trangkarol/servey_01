@@ -18,7 +18,7 @@ return [
     'enter_info' => 'Nhập thông tin cá nhân của bạn',
     'your_email' => 'Email của bạn',
     'your_name' => 'Tên của bạn',
-    'avatar' => 'Ảnh đại diện',
+    'avatar' => 'Ảnh',
     'enter_email_password' => 'Nhập email và mật khẩu của bạn',
     'login' => 'Đăng nhập',
     'logout' => ' Thoát ',

@@ -4,7 +4,7 @@ return [
     'footer' => [
         'about' => [
             'title' => 'Giới thiệu về chúng tôi',
-            'content' => 'Framgia việt Nam là công ty Nhật Bản về lĩnh vực công nghệ thông tin chuyên thiết kế, phát triển ứng dụng, trò chơi chạy trên điện thoại thông minh, nền tảng mạng xã hội, sản xuất và ứng dụng trang web phát triển.',
+            'content' => 'Framgia Việt Nam là công ty Nhật Bản về lĩnh vực công nghệ thông tin chuyên thiết kế, phát triển ứng dụng, trò chơi chạy trên điện thoại thông minh, nền tảng mạng xã hội, sản xuất và phát triển ứng dụng website.',
         ],
         'contact' => [
             'title' => 'Thông tin liên lạc',

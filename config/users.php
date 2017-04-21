@@ -14,8 +14,9 @@ return [
         'active' => 1,
     ],
     'gender' => [
-        'male' => 0,
-        'female' => 1,
+        'male' => 1,
+        'female' => 2,
+        'other_gender' => 3,
     ],
     'name_length_default' => 9,
     'undentified_name' => 'Undentified name',

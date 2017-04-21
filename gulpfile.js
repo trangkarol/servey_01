@@ -28,6 +28,7 @@ elixir(function(mix) {
    .scripts('functions.js', 'public/user/js/functions.js')
    .scripts('jquery.bxslider.min.js', 'public/user/js/jquery.bxslider.min.js')
    .scripts('check.min.js', 'public/user/js/check.min.js')
+   .scripts('validate.js', 'public/user/js/validate.js')
    .scripts('jquery.wizard.js', 'public/user/js/jquery.wizard.js')
    .scripts('component.js', 'public/user/js/component.js')
    .scripts('step-wizard.js', 'public/user/js/step-wizard.js')
@@ -48,6 +49,5 @@ elixir(function(mix) {
          ], 'public/admin/js')
    .browserSync({
         proxy: 'http://localhost:8000/',
-        proxy: 'http://survey.com/'
     });
 });
