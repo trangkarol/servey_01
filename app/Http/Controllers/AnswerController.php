@@ -80,9 +80,7 @@ class AnswerController extends Controller
         }
 
         return redirect()->action('SurveyController@index')
-            ->with('message-fail', trans('messages.permisstion',[
-                'object' => class_basename(Invite::class),
-            ]));
+            ->with('message-fail', trans_choice('messages.permisstion', ($view == 'detail') ? 0 : 1));
     }
 
     public function answerPublic($token)
@@ -112,9 +110,7 @@ class AnswerController extends Controller
 
         if (!$survey) {
             return action('SurveyController@index')
-                ->with('message-fail', trans('messages.load_fail', [
-                    'object' => class_basename(Result::class),
-            ]));
+                ->with('message-fail', trans_choice('messages.load_fail', 1));
         }
 
         $options = [

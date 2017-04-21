@@ -144,7 +144,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
 
         // if the lang is english will be format from M-D-Y to M/D/Y
         if (isset($inputs['deadline'])) {
-            $surveyInputs['deadline'] = Carbon::parse(in_array($locale, config('settings.sameFormatDateTime'))
+            $inputs['deadline'] = $surveyInputs['deadline'] = Carbon::parse(in_array($locale, config('settings.sameFormatDateTime'))
                 ? str_replace('-', '/', $surveyInputs['deadline'])
                 : $surveyInputs['deadline'])
                 ->toDateTimeString();

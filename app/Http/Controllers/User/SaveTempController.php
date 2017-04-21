@@ -40,7 +40,7 @@ class SaveTempController extends Controller
         if (!$tempAnswers || !$request->ajax()) {
             return [
                 'success' => false,
-                'message' => trans('messages.load_fail', ['object' => class_basename(Answer::class)]),
+                'message' => trans_choice('messages.load_fail', 0),
             ];
         }
 
@@ -51,7 +51,7 @@ class SaveTempController extends Controller
         return [
             'success' => true,
             'view' => $view,
-            'message' => trans('messages.load_success', ['object' => class_basename(Answer::class)]),
+            'message' => trans_choice('messages.load_success', 0),
         ];
     }
 
@@ -62,7 +62,7 @@ class SaveTempController extends Controller
         if (!$request->ajax() || !$request->get('answer')) {
             return response()->json([
                 'success' => $isSuccess,
-                'message' => trans('messages.save_fail', ['object' => class_basename(Answer::class)]),
+                'message' => trans('messages.save_fail'),
             ]);
         }
 
@@ -118,7 +118,7 @@ class SaveTempController extends Controller
             if (empty($data)) {
                 return response()->json([
                     'success' => $isSuccess,
-                    'message' => trans('messages.save_fail', ['object' => class_basename(Answer::class)]),
+                    'message' => trans('messages.save_fail'),
                 ]);
             }
 
@@ -145,9 +145,7 @@ class SaveTempController extends Controller
             'success' => $isSuccess,
             'message' => trans(($isSuccess)
                 ? 'messages.save_success'
-                : 'messages.save_fail', [
-                    'object' => class_basename(Answer::class)
-            ]),
+                : 'messages.save_fail'),
         ]);
     }
 }

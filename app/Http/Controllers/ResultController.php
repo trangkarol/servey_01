@@ -196,11 +196,7 @@ class ResultController extends Controller
         return redirect()
             ->action(($survey->feature) ? 'AnswerController@answerPublic' : 'AnswerController@answerPrivate', $survey->token)
             ->with(($isSuccess) ? 'message' : 'message-fail', ($isSuccess)
-                ? trans('messages.object_created_successfully', [
-                    'object' => class_basename(Answer::class),
-                ])
-                : trans('generate.permisstion', [
-                    'object' => class_basename(Answer::class),
-                ]));
+                ? trans('messages.object_created_successfully', 3)
+                : trans('generate.permisstion', 2));
     }
 }
