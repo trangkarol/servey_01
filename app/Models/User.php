@@ -150,4 +150,9 @@ class User extends Authenticatable
         ->where('temps.user_id', $this->id)
         ->where('survey_id', $id);
     }
+
+    public function currenSocial()
+    {
+        return $this->hasOne(CurrentSocial::class);
+    }
 }

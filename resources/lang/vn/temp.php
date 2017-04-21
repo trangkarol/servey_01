@@ -45,6 +45,7 @@ return [
     'shareable_link' => 'Link có thể chia sẻ',
     'use_link' => 'Sử dụng link này để chia sẻ với mọi người trên web,',
     'copy_link' => 'Sao chép link',
-    'send_mail' => 'Gửi mail',
-    'share' => 'Chia sẻ',
+    'send_mail' => 'Gữi mail',
+    'share' => 'Chia sẽ',
+    'format_birthday_with_trans' => 'd-m-Y',
 ];

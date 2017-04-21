@@ -127,7 +127,8 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         array $images,
         array $imageUrl,
         array $videoUrl,
-        array $questionDescription
+        array $questionDescription,
+        $locale
     ) {
         $surveyInputs = $inputs->only([
             'user_id',
@@ -142,15 +143,21 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
             'user_name',
         ]);
 
+        // if the lang is english will be format from M-D-Y to M/D/Y 
+        if (isset($inputs['deadline'])) {
+            $surveyInputs['deadline'] = Carbon::parse(in_array($locale, config('settings.sameFormatDateTime'))
+                ? str_replace('-', '/', $surveyInputs['deadline']) 
+                : $surveyInputs['deadline'])
+                ->toDateTimeString();
+        }
+
         $surveyInputs['feature'] = ($inputs['feature'])
             ? config('settings.not_feature')
             : config('settings.feature');
         $surveyInputs['status'] = (Carbon::parse($inputs['deadline'])->gt(Carbon::now()) || (empty($inputs['deadline'])))
             ? config('survey.status.avaiable')
             : config('survey.status.block');
-        $surveyInputs['deadline'] = ($inputs['deadline'])
-            ? Carbon::parse($inputs['deadline'])->format('Y/m/d H:i')
-            : null;
+        $surveyInputs['deadline'] = ($inputs['deadline']) ?: null;
         $surveyInputs['description'] = ($inputs['description']) ?: null;
         $surveyInputs['created_at'] = $surveyInputs['updated_at'] = Carbon::now();
         $surveyId = parent::create($surveyInputs->toArray());

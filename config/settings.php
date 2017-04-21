@@ -77,4 +77,8 @@ return [
     'name_unidentified' => 0,
     'content_length_default' => 50,
     'name_length_default' => 10,
+    'sameFormatDateTime' => [
+        'en',
+        'jp',
+    ],
 ];

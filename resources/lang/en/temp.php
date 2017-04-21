@@ -47,4 +47,5 @@ return [
     'copy_link' => 'Copy link',
     'send_mail' => 'Send mail',
     'share' => 'Share',
+    'format_birthday_with_trans' => 'm-d-Y',
 ];
