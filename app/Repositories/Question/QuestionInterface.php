@@ -15,7 +15,6 @@ interface QuestionInterface
         $image,
         $imageUrl,
         $videoUrl,
-        $description,
         $required = null
     );
 

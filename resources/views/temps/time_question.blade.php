@@ -16,7 +16,6 @@
                     <a class="glyphicon glyphicon-sort col-md-3"></a>
                 </div>
             </div>
-            @include('temps.question_description')
         </div>
     </div>
     <div class="content-image-question{{ $number }} div-image-question animated slideInDown">
