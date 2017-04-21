@@ -8,7 +8,7 @@ return [
     'your_email' => 'Email của bạn',
     'your_name' => 'Tên của bạn',
     'avatar' => 'Ảnh',
-    'old_password' => 'Mật khẩu củ',
+    'old_password' => 'Mật khẩu cũ',
     'new_password' => 'Mật khẩu mới',
     'retype_new_password' => 'Nhập lại mật khẩu mới',
     'birthday' => 'Ngày sinh',

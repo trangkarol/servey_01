@@ -696,10 +696,11 @@
     display: none;
     z-index: 500;
     .popupCenter {
+        display: block;
         left:30%;
         position: absolute;
         top: 14.5%;
-
+        z-index: 500;
         .popupInfo {
             width: 550px;
             background: white;
@@ -747,12 +748,12 @@
     font-weight: bold;
     width: 100%;
     color: #ffffff;
-    background: #d95347;
+    background: #5ba4a4;
     border: 0px;
     font-size: 15px;
     border-radius: 3px;
     &:hover {
-        background: #5ba4a4;
+        background: #d95347;;
         color: white;
     }
 }

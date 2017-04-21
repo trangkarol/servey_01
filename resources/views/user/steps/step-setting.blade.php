@@ -105,8 +105,7 @@
         </div>
         <div class="validate-tailmail div-hidden row">
             <div class="col-md-6">
-                <div class="alert alert-warning warning-center">
-                    {{ trans('survey.validate.tailmail') }}
+                <div class="alert alert-warning warning-center content-validate-tailmail">
                 </div>
             </div>
         </div>
