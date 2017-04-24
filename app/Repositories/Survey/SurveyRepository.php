@@ -143,7 +143,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         ]);
 
         // if the lang is english will be format from M-D-Y to M/D/Y
-        if (isset($inputs['deadline'])) {
+        if ($inputs['deadline']) {
             $inputs['deadline'] = $surveyInputs['deadline'] = Carbon::parse(in_array($locale, config('settings.sameFormatDateTime'))
                 ? str_replace('-', '/', $surveyInputs['deadline'])
                 : $surveyInputs['deadline'])
@@ -153,9 +153,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         $surveyInputs['feature'] = ($inputs['feature'])
             ? config('settings.not_feature')
             : config('settings.feature');
-        $surveyInputs['status'] = (Carbon::parse($inputs['deadline'])->gt(Carbon::now()) || (empty($inputs['deadline'])))
-            ? config('survey.status.avaiable')
-            : config('survey.status.block');
+        $surveyInputs['status'] = config('survey.status.avaiable');
         $surveyInputs['deadline'] = ($inputs['deadline']) ?: null;
         $surveyInputs['description'] = ($inputs['description']) ?: null;
         $surveyInputs['created_at'] = $surveyInputs['updated_at'] = Carbon::now();

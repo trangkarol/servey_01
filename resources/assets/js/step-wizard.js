@@ -53,7 +53,7 @@ $(document).ready(function() {
                     var c2 = $('.option-choose-answer').is(':checked');
                     var c3 = $('#limit-answer').is(':checked');
                     var c4 = $('.quantity-limit').val();
-                    var c5 = c4 % 1;
+                    var c5 = isNaN(c4);
                     var c6 = $('#require-tail-email').is(':checked');
                     var c7 = $('.frm-tailmail').val();
                     var tailMails = $('.frm-tailmail').tagsinput('items');
@@ -83,12 +83,23 @@ $(document).ready(function() {
                         flag = false;
                     }
 
-                    if ((c6 && !c7.length) || (c6 && c7.length && !temp)) {
+                    if (c6 && !c7.length) {
                         $('.validate-tailmail')
                             .css('display', 'block')
                             .addClass('animated fadeInDown')
                             .delay(3000)
                             .slideUp(1000);
+                        $('.content-validate-tailmail').html(data.validate.tailmail);
+                        flag = false;
+                    }
+
+                    if (c6 && c7.length && !temp) {
+                        $('.validate-tailmail')
+                            .css('display', 'block')
+                            .addClass('animated fadeInDown')
+                            .delay(3000)
+                            .slideUp(1000);
+                        $('.content-validate-tailmail').html(data.validate.invalid_mail);
                         flag = false;
                     }
 
@@ -121,7 +132,7 @@ $(document).ready(function() {
         var c2 = $('.option-choose-answer').is(':checked');
         var c3 = $('#limit-answer').is(':checked');
         var c4 = $('.quantity-limit').val();
-        var c5 = c4 % 1;
+        var c5 = isNaN(c4);
         var c6 = $('#require-tail-email').is(':checked');
         var c7 = $('.frm-tailmail').val();
         var tailMails = $('.frm-tailmail').tagsinput('items');
@@ -151,12 +162,23 @@ $(document).ready(function() {
             flag = false;
         }
 
-        if ((c6 && !c7.length) || (c6 && c7.length && !temp)) {
+        if (c6 && !c7.length) {
             $('.validate-tailmail')
                 .css('display', 'block')
                 .addClass('animated fadeInDown')
                 .delay(3000)
                 .slideUp(1000);
+            $('.content-validate-tailmail').html(data.validate.tailmail);
+            flag = false;
+        }
+
+        if (c6 && c7.length && !temp) {
+            $('.validate-tailmail')
+                .css('display', 'block')
+                .addClass('animated fadeInDown')
+                .delay(3000)
+                .slideUp(1000);
+            $('.content-validate-tailmail').html(data.validate.invalid_mail);
             flag = false;
         }
 
