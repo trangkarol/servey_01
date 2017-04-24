@@ -39,7 +39,7 @@
                         'createdAt' => $info['created_at'],
                         'userId' => $info['sender_id'],
                         'email' => $info['email'],
-                    ]) }}">{{ trans('survey.link') }}</a>
+                    ]) }}" data-username="{{ $info['name'] ?: trans('user.incognito') }}">{{ trans('survey.link') }}</a>
                 </td>
             </tr>
         @endforeach

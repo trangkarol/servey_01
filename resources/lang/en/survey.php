@@ -74,7 +74,7 @@ return [
     'thank_you' => 'Thank you for your time.',
     'invite' => 'Invite to participate',
     'notice' =>[
-        'answer' => 'You answered this survey',
+        'answer' => 'answered this survey',
         'number' => 'times at a time',
     ],
     'update_question' => 'Update question',

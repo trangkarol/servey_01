@@ -5,6 +5,7 @@ $(document).ready(function() {
     var email_confirm = $('.data').attr('data-email-invalid');
     var format_date = $('.data').attr('data-format-date');
     var format_datetime = $('.data').attr('data-format-datetime');
+    var deadline = $('.frm-deadline').val();
 
     (function(d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
@@ -66,6 +67,10 @@ $(document).ready(function() {
 
     $(document).on('click', '.btn-copy-link', function() {
         copyToClipboard('.link-share');
+    });
+
+    $(document).on('click', '.btn-copy-link-complete', function() {
+        copyToClipboard('.tag-link-answer');
     });
 
     $('.show-survey').on('click', function () {
@@ -198,13 +203,13 @@ $(document).ready(function() {
     });
 
     $(document).on('click', '.tag-send-email', function() {
+        $('.popupBackground').css('display', 'block');
         var url = $(this).attr('data-url');
         var link = $(this).attr('data-link');
         var type = $(this).attr('data-type');
         $('.frm-submit-mail').attr('action', url);
         $('.share-facebook').attr('data-href', link);
         $('.link-share').html(link);
-        $('.popupBackground').fadeIn();
 
         if (type == 1) {
             $('.share-link-public').fadeIn();
@@ -272,6 +277,11 @@ $(document).ready(function() {
 
     $('.datetimepicker').datetimepicker({
         format: format_datetime
+    });
+
+    $('.frm-deadline').datetimepicker({
+        format: format_datetime,
+        defaultDate: deadline,
     });
 
     $('.frm-date-2').datetimepicker({
