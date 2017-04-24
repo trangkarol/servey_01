@@ -111,4 +111,14 @@ $(document).ready(function() {
             $('.reload-page' + socketData.surveyId).fadeIn();
         }
     });
+
+    socket.on('invite', function (data) {
+        var socketData = $.parseJSON(data);
+
+        if (socketData.success) {
+            socketData.emails.each(function (value) {
+                $('.' + value + ' tr:first').after(socketData.viewInvite);
+            });
+        }
+    });
 });

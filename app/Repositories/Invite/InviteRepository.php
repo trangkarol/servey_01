@@ -109,6 +109,7 @@ class InviteRepository extends BaseRepository implements InviteInterface
                     'status' => config('survey.invite.new'),
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
+                    'mail' => $email,
                 ];
             }
 

@@ -36,11 +36,11 @@ class FeedbackController extends Controller
             DB::rollback();
 
             return redirect()->action('SurveyController@index')
-                ->with('message', trans('messages.object_created_unsuccessfully', 4));
+                ->with('message', trans_choice('messages.object_created_unsuccessfully', 4));
         }
 
         return redirect()->action('SurveyController@index')
-            ->with('message', trans('messages.object_created_successfully', 4));
+            ->with('message', trans_choice('messages.object_created_successfully', 4));
     }
 
     public function update(Request $request)

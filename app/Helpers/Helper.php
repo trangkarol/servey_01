@@ -25,3 +25,16 @@
     function splitText($text) {
         return str_limit($text, 75);
     }
+
+    function replaceEmail($email, $search = ['.', '@'], $replace = '-')
+    {
+        if (is_array($email)) {
+            foreach ($email as &$mail) {
+                $mail = replaceEmail($mail, $search, $replace);
+            }
+
+            return $email;
+        }
+
+        return str_replace($search, $replace, $email);
+    }

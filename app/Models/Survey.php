@@ -61,4 +61,9 @@ class Survey extends Model
     {
         return (empty($this->attributes['deadline']) || Carbon::parse($this->attributes['deadline'])->gt(Carbon::now()));
     }
+
+    public function getSubTitleAttribute()
+    {
+        return str_limit($this->attributes['title'], config('settings.title_length_default'));
+    }
 }

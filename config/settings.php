@@ -81,4 +81,5 @@ return [
         'en',
         'jp',
     ],
+    'title_length_default' => 20,
 ];
