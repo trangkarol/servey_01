@@ -39,7 +39,7 @@ return [
     'private' => 'Chỉ mình tôi',
     'validate' => [
         'choose_option' => 'Vui lòng chọn một yêu cầu',
-        'validate_number' => 'Vui lòng nhập vào ô một con số lớn hơn một',
+        'validate_number' => 'Vui lòng nhập vào ô một con số lớn hơn 0',
         'tailmail' => 'Vui lòng nhập loại email',
         'run_out' => 'Bạn đã hết lượt trả lời.',
         'invalid_mail' => 'Đuôi mail không hợp lệ.',
@@ -66,7 +66,7 @@ return [
     'export' => 'Xuất file',
     'users_anwser' => 'Người trả lời',
     'update_success' => 'Cập nhật thành công',
-    'update_fail' => 'Update failed',
+    'update_fail' => 'Cập nhật không thành công',
     'require_once' => 'Yêu cầu mỗi người chỉ trả lời một lân',
     'tail_mail' => 'Yêu cầu đối với loại email',
     'exportExecl' => 'Xuất ra Execl',

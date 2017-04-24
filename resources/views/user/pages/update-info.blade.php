@@ -1,7 +1,7 @@
 @extends('user.master')
 @section('content')
-    <div id="" class="survey_container animated zoomIn wizard" novalidate="novalidate">
-        <div id="top-wizard">
+    <div class="survey_container animated zoomIn wizard" novalidate="novalidate">
+        <div class="top-wizard-register">
             <strong class="tag-wizard-top">
                 {{ trans('user.update_info') }}
             </strong>
@@ -96,7 +96,7 @@
                                         {!! Form::password('password', [
                                             'id' => 'password',
                                             'class' => 'required form-control',
-                                            'placeholder' => trans('user.retype_new_password'),
+                                            'placeholder' => trans('user.new_password'),
                                         ]) !!}
                                     </div>
                                 </li>
@@ -135,9 +135,10 @@
                                 <li>
                                     <div class="type-radio-answer row">
                                         <div class="box-radio col-md-1">
-                                            {{ Form::radio(trans('user.gender'), config('users.gender.male'), '', [
+                                            {{ Form::radio('gender', config('users.gender.male'), '', [
                                                 'id' => 'gender-male',
                                                 'class' => 'input-radio',
+                                                ($user->gender == config('users.gender.male')) ? 'checked' : null,
                                             ]) }}
                                             {{ Form::label('gender-male', ' ', [
                                                 'class' => 'label-radio',
@@ -150,9 +151,10 @@
                                 <li>
                                     <div class="type-radio-answer row">
                                         <div class="box-radio col-md-1">
-                                            {{ Form::radio(trans('user.gender'), config('users.gender.female'), '', [
+                                            {{ Form::radio('gender', config('users.gender.female'), '', [
                                                 'id' => 'gender-female',
                                                 'class' => 'input-radio',
+                                                ($user->gender == config('users.gender.female')) ? 'checked' : null,
                                             ]) }}
                                             {{ Form::label('gender-female', ' ', [
                                                 'class' => 'label-radio',
@@ -160,6 +162,22 @@
                                             <div class="check"><div class="inside"></div></div>
                                         </div>
                                         <div class="col-md-8">{{ trans('info.female') }}</div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="type-radio-answer row">
+                                        <div class="box-radio col-md-1">
+                                            {{ Form::radio('gender', config('users.gender.other_gender'), '', [
+                                                'id' => 'gender-other',
+                                                'class' => 'input-radio',
+                                                ($user->gender == config('users.gender.other_gender')) ? 'checked' : null,
+                                            ]) }}
+                                            {{ Form::label('gender-other', ' ', [
+                                                'class' => 'label-radio',
+                                            ]) }}
+                                            <div class="check"><div class="inside"></div></div>
+                                        </div>
+                                        <div class="col-md-8">{{ trans('info.other_gender') }}</div>
                                     </div>
                                 </li>
                             </ul>
@@ -172,7 +190,7 @@
                     </div>
                 </div>
             </div>
-            <div id="bottom-wizard">
+            <div id="bottom-wizard" class="bottom-wizard-register">
                 {!! Form::submit(trans('user.update'), [
                     'class' => 'bt-register forward',
                 ]) !!}

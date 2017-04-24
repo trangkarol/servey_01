@@ -1,7 +1,7 @@
 @extends('user.master')
 @section('content')
     <div class="survey_container animated zoomIn wizard" novalidate="novalidate">
-        <div id="top-wizard">
+        <div class="top-wizard-register">
             <strong class="tag-wizard-top">
                 {{ trans('login.register') }}
             </strong>
@@ -112,6 +112,21 @@
                                         <div class="col-md-8">{{ trans('info.female') }}</div>
                                     </div>
                                 </li>
+                                <li>
+                                    <div class="type-radio-answer row">
+                                        <div class="box-radio col-md-1">
+                                            {{ Form::radio('gender', config('users.gender.other_gender'), '', [
+                                                'id' => 'gender-other',
+                                                'class' => 'input-radio',
+                                            ]) }}
+                                            {{ Form::label('gender-other', ' ', [
+                                                'class' => 'label-radio',
+                                            ]) }}
+                                            <div class="check"><div class="inside"></div></div>
+                                        </div>
+                                        <div class="col-md-8">{{ trans('info.other_gender') }}</div>
+                                    </div>
+                                </li>
                             </ul>
                         </div>
                          <div class="row">
@@ -122,7 +137,7 @@
                     </div>
                 </div>
             </div>
-            <div id="bottom-wizard">
+            <div id="bottom-wizard" class="bottom-wizard-register">
                 {!! Form::submit(trans('login.register'), [
                     'class' => 'bt-register forward',
                 ]) !!}

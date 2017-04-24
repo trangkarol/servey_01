@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Carbon\Carbon;
 
 class User extends Authenticatable
 {
@@ -154,5 +155,11 @@ class User extends Authenticatable
     public function currenSocial()
     {
         return $this->hasOne(CurrentSocial::class);
+    }
+
+    public function getBirthdayAttribute()
+    {
+        return $this->attributes['birthday']
+            ? Carbon::parse($this->attributes['birthday'])->format(trans('temp.format_birthday_with_trans')) : null;
     }
 }
