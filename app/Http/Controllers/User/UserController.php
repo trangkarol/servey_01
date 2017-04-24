@@ -69,7 +69,7 @@ class UserController extends Controller
 
     return redirect()->action('User\UserController@show')
         ->with('message', ($isSuccess)
-            ? trans('messages.object_updated_successfully', ['object' => class_basename(User::class)])
-            : trans('messages.object_updated_unsuccessfully', ['object' => class_basename(User::class)]));
+            ? trans_choice('messages.object_updated_successfully', 0)
+            : trans_choice('messages.object_updated_unsuccessfully', 0));
     }
 }

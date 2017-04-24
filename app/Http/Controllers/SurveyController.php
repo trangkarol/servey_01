@@ -175,12 +175,8 @@ class SurveyController extends Controller
 
         return redirect()->action('AnswerController@show', $survey->token_manage)
             ->with(($isSuccess) ? 'message' : 'message-fail', ($isSuccess)
-                ? trans('messages.object_updated_successfully', [
-                    'object' => class_basename(Survey::class),
-                ])
-                : trans('messages.object_updated_unsuccessfully', [
-                    'object' => class_basename(Survey::class)
-                ])
+                ? trans_choice('messages.object_updated_successfully', 1)
+                : trans_choice('messages.object_updated_unsuccessfully', 1)
             );
     }
 
@@ -196,9 +192,7 @@ class SurveyController extends Controller
 
             if ($survey->update == config('survey.maxEdit')) {
                 return redirect()->action('AnswerController@show', $token)
-                    ->with('message-fail', trans('messages.object_updated_unsuccessfully', [
-                        'object' => class_basename(Survey::class)
-                ]));
+                    ->with('message-fail', trans_choice('messages.object_updated_unsuccessfully', 1));
             }
 
             $inputs = $request->only([
@@ -223,18 +217,14 @@ class SurveyController extends Controller
 
             if ($validator->fails()) {
                 return redirect()->action('AnswerController@show', $token)
-                    ->with('message-fail', trans('messages.object_updated_unexicute', [
-                        'object' => class_basename(Survey::class)
-                ]));
+                    ->with('message-fail', trans_choice('messages.object_updated_unexicute', 1));
             }
 
             $results = $this->questionRepository->updateSurvey($inputs, $surveyId);
 
             if (!$results['isEdit']) {
                 return redirect()->action('AnswerController@show', $token)
-                    ->with('message-fail', trans('messages.object_updated_unexicute', [
-                        'object' => class_basename(Survey::class)
-                ]));
+                    ->with('message-fail', trans_choice('messages.object_updated_unexicute', 1));
             }
 
             $this->surveyRepository->update($survey->id, [
@@ -263,16 +253,12 @@ class SurveyController extends Controller
             ]));
 
             return redirect()->action('AnswerController@show', $token)
-                ->with('message', trans('messages.object_updated_successfully', [
-                    'object' => class_basename(Survey::class)
-            ]));
+                ->with('message', trans_choice('messages.object_updated_successfully', 1));
         } catch (Exception $e) {
             DB::rollback();
 
             return redirect()->action('AnswerController@show', $token)
-                ->with('message-fail', trans('messages.object_updated_unsuccessfully', [
-                    'object' => class_basename(Survey::class)
-            ]));
+                ->with('message-fail', trans_choice('messages.object_updated_unsuccessfully', 1));
         }
     }
 
@@ -362,9 +348,7 @@ class SurveyController extends Controller
 
         if ($validator->fails()) {
             return redirect()->action('SurveyController@index')
-                ->with('message-fail', trans('messages.object_created_unsuccessfully', [
-                    'object' => class_basename(Survey::class),
-            ]));
+                ->with('message-fail', trans_choice('messages.object_created_unsuccessfully', 1));
         }
 
         if (!strlen($value['title'])) {
@@ -423,9 +407,7 @@ class SurveyController extends Controller
                     DB::rollback();
 
                     return redirect()->action('SurveyController@index')
-                        ->with('message-fail', trans('messages.object_created_unsuccessfully', [
-                            'object' => class_basename(Survey::class),
-                    ]));
+                        ->with('message-fail', trans_choice('messages.object_created_unsuccessfully', 1));
                 }
             }
 
@@ -434,9 +416,7 @@ class SurveyController extends Controller
             DB::rollback();
 
             return redirect()->action('SurveyController@index')
-                ->with('message-fail', trans('messages.object_created_unsuccessfully', [
-                    'object' => class_basename(Survey::class),
-            ]));
+                ->with('message-fail', trans_choice('messages.object_created_unsuccessfully', 1));
         }
 
         return redirect()->action('SurveyController@complete', [

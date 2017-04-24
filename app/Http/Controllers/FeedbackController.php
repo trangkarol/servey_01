@@ -36,15 +36,11 @@ class FeedbackController extends Controller
             DB::rollback();
 
             return redirect()->action('SurveyController@index')
-                ->with('message', trans('messages.object_created_unsuccessfully', [
-                    'object' => class_basename(Feedback::class)
-            ]));
+                ->with('message', trans('messages.object_created_unsuccessfully', 4));
         }
 
         return redirect()->action('SurveyController@index')
-            ->with('message', trans('messages.object_created_successfully', [
-                'object' => class_basename(Feedback::class)
-        ]));
+            ->with('message', trans('messages.object_created_successfully', 4));
     }
 
     public function update(Request $request)
@@ -84,9 +80,7 @@ class FeedbackController extends Controller
 
         if (!$feedback) {
             return redirect()->action('ReviewController@index')
-                ->with('message', trans('messages.object_not_found', [
-                    'object' => class_basename(Feedback::class)
-            ]));
+                ->with('message', trans('messages.object_not_found', 4));
         }
 
         return view('admin.pages.feedbacks.detail', compact('feedback'));
@@ -102,15 +96,11 @@ class FeedbackController extends Controller
             DB::rollback();
 
             return redirect()->action('ReviewController@index')
-                ->with('message', trans('messages.object_deleted_unsuccessfully', [
-                    'object' => class_basename(Feedback::class)
-            ]));
+                ->with('message', trans('messages.object_deleted_unsuccessfully', 4));
         }
 
         return redirect()->action('ReviewController@index')
-            ->with('message', trans('messages.object_deleted_successfully', [
-                'object' => class_basename(Feedback::class)
-        ]));
+            ->with('message', trans('messages.object_deleted_successfully', 4));
     }
 
     public function getFeedback()
