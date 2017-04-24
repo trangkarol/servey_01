@@ -11,7 +11,7 @@
         </tr>
         <tr class="tr-2">
             <td>
-                <h4>{{ trans('temp.dear') . ',' . $name }}</h4>
+                <h4>{{ Lang::choice('temp.dear', 0, [], $lang) . ', ' . $name . '.' }}</h4>
                 <b>
                     {{ Lang::choice('temp.thank_participation', 0, [], $lang) }}
                 </b>

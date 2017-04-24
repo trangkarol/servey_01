@@ -5,6 +5,7 @@
             <strong class="tag-wizard-top">
                 {{ trans('login.register') }}
             </strong>
+            <div class="shadow"></div>
         </div>
         {!! Form::open([
             'action' => 'Auth\RegisterController@register',
@@ -138,6 +139,7 @@
                 </div>
             </div>
             <div id="bottom-wizard" class="bottom-wizard-register">
+                <div class="shadow-bottom"></div>
                 {!! Form::submit(trans('login.register'), [
                     'class' => 'bt-register forward',
                 ]) !!}

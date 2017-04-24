@@ -117,12 +117,12 @@ class AnswerController extends Controller
             'type' => 'result',
             'email' => $email,
         ];
-
+        $username = $request->get('username');
         $history  = $this->surveyRepository->getHistory($userId, $surveyId, $options);
 
         return [
             'success' => true,
-            'data' => view('user.pages.view-result-user', compact('history', 'survey'))->render(),
+            'data' => view('user.pages.view-result-user', compact('history', 'survey', 'username'))->render(),
         ];
     }
 }

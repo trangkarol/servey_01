@@ -2,7 +2,7 @@
     <div class="container-list-result result-by-time">
     <div class="tag-notice-answer row">
         <div class="col-md-10">
-            {{ trans('survey.notice.answer') }} {{ count($history) }} {{ trans('survey.notice.number') }}
+            {{  $username . ' ' . trans('survey.notice.answer') . ' ' . count($history) . ' ' . trans('survey.notice.number') }}
         </div>
         <div class="col-md-1"><span class="hidden-result glyphicon glyphicon-remove"></span></div>
     </div>
