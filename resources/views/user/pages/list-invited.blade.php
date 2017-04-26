@@ -1,5 +1,5 @@
 <div>
-    <table class="table-invited table table-hover">
+    <table class="table-invited table table-hover {{ replaceEmail(auth()->user()->email) }}">
         @forelse ($invites as $key => $invite)
             @if ($loop->first)
                 <thead>
@@ -21,7 +21,7 @@
                         : 'AnswerController@answerPrivate', [
                             'token' => $invite->survey->token,
                     ]) }}">
-                        {{ $invite->survey->title }}
+                        {{ $invite->survey->sub_title }}
                     </a>
                 </td>
                 <td>

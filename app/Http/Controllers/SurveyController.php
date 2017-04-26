@@ -17,6 +17,7 @@ use DB;
 use Validator;
 use Exception;
 use Session;
+use App\Models\Survey;
 
 class SurveyController extends Controller
 {
@@ -73,6 +74,21 @@ class SurveyController extends Controller
             ->orderBy('id', 'desc')
             ->paginate(config('settings.paginate'));
         $surveys = $surveys
+            ->where('status', config('survey.status.avaiable'))
+            ->whereNotIn('id', $settings)
+            ->where(function ($query) {
+                return $query->where('deadline', '>', Carbon::now()->toDateTimeString())->orWhereNull('deadline');
+            })
+            ->orderBy('id', 'desc')
+            ->paginate(config('settings.paginate'));
+        $this->surveyRepository->newQuery(new Survey());
+        $surveyCloses = $this->surveyRepository
+            ->where('user_id', auth()->id())
+            ->where(function ($query) use ($settings) {
+                $query->where('status', config('survey.status.block'))
+                    ->orWhere('deadline', '<', Carbon::now()->toDateTimeString())
+                    ->orWhereIn('id', $settings);
+            })
             ->orderBy('id', 'desc')
             ->paginate(config('settings.paginate'));
 
@@ -85,6 +101,8 @@ class SurveyController extends Controller
                     $view = view('user.pages.list-invited', compact('invites', 'settings'))->render();
                 } elseif ($viewId == 'home-v') {
                     $view = view('user.pages.your_survey', compact('surveys', 'settings'))->render();
+                } else {
+                    $view = view('user.pages.list_survey_close', compact('surveyCloses', 'settings'))->render();
                 }
 
                 if (!$view) {
@@ -106,7 +124,7 @@ class SurveyController extends Controller
             }
         }
 
-        return view('user.pages.list-survey', compact('surveys', 'invites', 'settings'));
+        return view('user.pages.list-survey', compact('surveys', 'invites', 'settings', 'surveyCloses'));
     }
 
     public function delete(Request $request)
@@ -481,6 +499,12 @@ class SurveyController extends Controller
                     ->onQueue('emails');
                 $this->dispatch($job);
                 $isSuccess = true;
+                $redis = LRedis::connection();
+                $redis->publish('invite', json_encode([
+                    'success' => $isSuccess,
+                    'emails' => replaceEmail($data['emails']),
+                    'viewInvite' => view('user.component.invited-user', compact('survey'))->render(),
+                ]));
             }
         }
 

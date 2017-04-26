@@ -54,47 +54,7 @@
                                     @include('user.pages.list-invited')
                                 </div>
                                 <div class="tab-pane" id="messages-v">
-                                    <table class="table-list-survey table table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>{{ trans('survey.name') }}</th>
-                                                <th>{{ trans('survey.date_create') }}</th>
-                                                <th>{{ trans('survey.status') }}</th>
-                                                <th></th>
-                                                <th>{{ trans('survey.setting') }}</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($surveys as $survey)
-                                                @if (!$survey->status || !$survey->is_open || in_array($survey->id, $settings))
-                                                    <tr>
-                                                        <td>
-                                                            {{ $loop->iteration }}.
-                                                            <a href="{{ action(($survey->feature)
-                                                                ? 'AnswerController@answerPublic'
-                                                                : 'AnswerController@answerPrivate', [
-                                                                    'token' => $survey->token,
-                                                            ]) }}">
-                                                            {{ $survey->title }}
-                                                            </a>
-                                                        </td>
-                                                        <td>
-                                                            {{ Carbon\Carbon::parse($survey->created_at)->format(trans('temp.format.date')) }}
-                                                        </td>
-                                                        <td class="margin-center" colspan="2">
-                                                            {{ trans('survey.closed') }}
-                                                        </td>
-                                                        <td class="margin-center">
-                                                            <a href="{{ action('AnswerController@show', [
-                                                                'token' => $survey->token_manage,
-                                                                'type' => $survey->feature,
-                                                            ]) }}" class="glyphicon glyphicon-cog"></a>
-                                                        </td>
-                                                    </tr>
-                                                @endif
-                                            @endforeach
-                                        </tbody>
-                                    </table>
+                                    @include('user.pages.list_survey_close')
                                 </div>
                             </div>
                         </div>
