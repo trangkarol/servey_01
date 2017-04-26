@@ -172,6 +172,55 @@ $(document).ready(function() {
 
     $('.submit-answer').prop('disabled', false);
 
+    $(document).on('click', '.submit-answer', function() {
+        var flag = true;
+
+        if ($('input[name=name-answer]').length) {
+            var username  = $('input[name=name-answer]').val();
+
+            if (!username) {
+                $('.require-name').fadeIn();
+
+                setTimeout(function() {
+                    $('.require-name').fadeOut();
+                }, 4000);
+
+                flag = false;
+            }
+        }
+
+        if ($('input[name=email-answer]').length) {
+            var mailUser  = $('input[name=email-answer]').val();
+
+            if (mailUser) {
+                var tailMail = $('.required-user').attr('data-require').split(',');
+                var mailUser = '@' + mailUser.split('@')[1];
+
+                if (jQuery.inArray(mailUser, tailMail) != -1) {
+                    return flag;
+                }
+
+                $('.validate-email').fadeIn();
+
+                setTimeout(function() {
+                    $('.validate-email').fadeOut();
+                }, 4000);
+
+                flag = false;
+            } else {
+                $('.require-email').fadeIn();
+
+                setTimeout(function() {
+                    $('.require-email').fadeOut();
+                }, 4000);
+
+                flag = false;
+            }
+        }
+
+        return flag;
+    });
+
     $('input[type=submit]').prop('disabled', false);
 
     $(document).on('click', '.active-answer', function() {

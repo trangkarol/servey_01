@@ -280,7 +280,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                 ->getResultByQuestionIds($surveyId)
                 ->where(function($query) use ($userId, $email) {
                     $query->where('sender_id', $userId)
-                        ->orWhere('email', $email ?: config('settings.email_unidentified'));
+                        ->orWhere('email', $email);
                 })
                 ->get()
                 ->toArray();

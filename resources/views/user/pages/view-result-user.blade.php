@@ -110,22 +110,19 @@
                                                                 </div>
                                                             @breakswitch
                                                             @case(config('survey.type_text'))
-                                                                {!! Form::textarea("answer[$question->id][$answer->id]", $checked, [
-                                                                    'class' => 'form-control answer',
-                                                                    'disabled' => 'true',
-                                                                ]) !!}
+                                                                <div class="show-user-answer">
+                                                                    - {{ $checked }}
+                                                                </div>
                                                                 @breakswitch
                                                             @case(config('survey.type_time'))
-                                                                {!! Form::text("answer[$question->id][$answer->id]", $checked, [
-                                                                    'class' => 'frm-time form-control',
-                                                                    'disabled' => 'true',
-                                                                ]) !!}
+                                                                <div class="show-user-answer">
+                                                                    - {{ $checked }}
+                                                                </div>
                                                             @breakswitch
                                                             @case(config('survey.type_date'))
-                                                                {!! Form::text("answer[$question->id][$answer->id]", $checked, [
-                                                                    'class' => 'form-control frm-date-2',
-                                                                    'disabled' => 'true',
-                                                                ]) !!}
+                                                                <div class="show-user-answer">
+                                                                    - {{ $checked }}
+                                                                </div>
                                                             @breakswitch
                                                             @case(config('survey.type_other_radio'))
                                                                 <div class="type-radio-answer row">

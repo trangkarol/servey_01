@@ -435,9 +435,16 @@ $(document).ready(function() {
 
     $(document).on('click', '.show-multi-history', function() {
         var url = $(this).attr('data-url');
-        $.get(
-            url,
-            function(response) {
+        var username = $(this).attr('data-username');
+
+        $.ajax({
+            url: url,
+            type: 'GET',
+            data: {
+                'username': username,
+            },
+            async: false,
+            success: function(response) {
                 if (response.success) {
                     $('body').css('overflow', 'hidden');
                     $('.popup-user-answer').css('display', 'block');
@@ -445,6 +452,7 @@ $(document).ready(function() {
                 } else {
                     alert(error);
                 }
+            }
         });
     });
 
