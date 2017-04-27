@@ -152,19 +152,11 @@ class AnswerRequest extends FormRequest
 
         foreach ($this->questionsId as $question) {
             if (in_array($question, array_keys($answers))) {
-                $messages['answer.' . $question . '.' . $answers[$question] . '.required'] = trans('messages.required', [
-                    'object' => class_basename(Answer::class),
-                ]);
-                $messages['answer.' . $question . '.' . $answers[$question] . '.max'] = trans('messages.max', [
-                    'object' => class_basename(Answer::class),
-                ]);
+                $messages['answer.' . $question . '.' . $answers[$question] . '.required'] = trans('messages.required');
+                $messages['answer.' . $question . '.' . $answers[$question] . '.max'] = trans('messages.max');
             } else {
-                $messages['answer.' . $question . '.required'] = trans('messages.required', [
-                    'object' => class_basename(Answer::class),
-                ]);
-                $messages['answer.' . $question . '.max'] = trans('messages.max', [
-                    'object' => class_basename(Answer::class),
-                ]);
+                $messages['answer.' . $question . '.required'] = trans('messages.required');
+                $messages['answer.' . $question . '.max'] = trans('messages.max');
             }
         }
 

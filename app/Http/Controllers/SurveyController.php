@@ -18,6 +18,7 @@ use Validator;
 use Exception;
 use Session;
 use App\Models\Survey;
+use App\Http\Requests\UpdateSurveyRequest;
 
 class SurveyController extends Controller
 {
@@ -159,19 +160,20 @@ class SurveyController extends Controller
         return view('user.pages.answer', compact('surveys'));
     }
 
-    public function updateSurvey(Request $request, $id)
+    public function updateSurvey(UpdateSurveyRequest $request, $id)
     {
         $survey = $this->surveyRepository->find($id);
         $isSuccess = false;
         $data = $request->only([
             'title',
             'description',
+            'deadline',
         ]);
 
         if ($request->get('deadline')) {
             $data['deadline'] = Carbon::parse(in_array(Session::get('locale'), config('settings.sameFormatDateTime'))
-                ? str_replace('-', '/', $data['deadline'])
-                : $data['deadline'])
+                ? str_replace('-', '/', $request->get('deadline'))
+                : $request->get('deadline'))
                 ->toDateTimeString();
         }
 
@@ -202,7 +204,11 @@ class SurveyController extends Controller
     {
         DB::beginTransaction();
         try {
-            $survey = $this->surveyRepository->find($surveyId);
+            $survey = null;
+
+            if ($token) {
+                $survey = $this->surveyRepository->where('token_manage', $token)->first();
+            }
 
             if (!$survey) {
                 return view('errors.404');
