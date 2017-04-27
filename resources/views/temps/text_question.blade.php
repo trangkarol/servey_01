@@ -25,11 +25,9 @@
         <span class="remove-image-question glyphicon glyphicon-remove" id-question="{{ $number }}"></span>
     </div>
     <div class="clear"></div>
-    <div class="div-content-answer">
-        <div class="col-md-1 text-icon">
-            <span class="glyphicon glyphicon-pencil"></span>
-        </div>
-        <div class="col-md-8">
+    <div class="div-content-answer container-text">
+        <div class="div-clock col-md-1 col-xs-1"><i class="fa fa-file-text-o"></i></div>
+        <div class="col-md-7 col-xs-10">
             <div class="text-empty">
                 {!! Form::text("txt-question[answers][$number][][" . config('survey.type_text') . "]", '', [
                     'placeholder' => trans('temp.text'),
@@ -37,27 +35,20 @@
                 ]) !!}
             </div>
         </div>
-    </div>
-    <div class="choose-action row">
-        <div class="offset-label col-md-6"></div>
-        <div class="col-md-3" class="div-require">
-            <ul class="data-require data-list">
-                <li>
-                <div class="row">
-                    <div class="col-md-6 time-text label-require">
-                        <strong><a>{{ trans('temp.require') }}?</a></strong>
-                    </div>
-                    <div class="col-md-5 button-require">
-                        <div class="slideThree">
-                            {{ Form::checkbox("checkboxRequired[question][$number]", $number, '', [
-                                'id' => 'text' . $number,
-                            ]) }}
-                            {{ Form::label('text' . $number, ' ') }}
-                        </div>
+        <div class="col-md-4 col-xs-12 div-required">
+            <div class="row">
+                <div class="col-md-4 col-xs-4 time-text">
+                    <strong>{{ trans('temp.require') }}?</strong>
+                </div>
+                <div class="col-md-5 col-xs-5">
+                    <div class="checkbox">
+                        {{ Form::checkbox("checkboxRequired[question][$number]", $number, '', [
+                            'id' => 'text' . $number,
+                        ]) }}
+                        {{ Form::label('text' . $number, ' ') }}
                     </div>
                 </div>
-                </li>
-            </ul>
+            </div>
         </div>
     </div>
 </li>
