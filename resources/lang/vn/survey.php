@@ -79,4 +79,6 @@ return [
     ],
     'update_question' => 'Cập nhật câu hỏi',
     'resend' => 'Thông báo: Trả lời lại.',
+    'title' => 'tiêu đề',
+    'deadline' => 'hạn chót',
 ];

@@ -79,4 +79,6 @@ return [
     ],
     'update_question' => 'Update question',
     'resend' => 'Notification: Re-answer.',
+    'title' => 'title',
+    'deadline' => 'deadline',
 ];
