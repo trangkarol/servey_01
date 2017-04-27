@@ -116,7 +116,7 @@ $(document).ready(function() {
         var socketData = $.parseJSON(data);
 
         if (socketData.success) {
-            socketData.emails.each(function (value) {
+            $.each(socketData.emails, function (index, value) {
                 $('.' + value + ' tr:first').after(socketData.viewInvite);
             });
         }

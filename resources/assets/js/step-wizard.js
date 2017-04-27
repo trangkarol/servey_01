@@ -57,7 +57,7 @@ $(document).ready(function() {
                     var c6 = $('#require-tail-email').is(':checked');
                     var c7 = $('.frm-tailmail').val();
                     var tailMails = $('.frm-tailmail').tagsinput('items');
-
+                    var maxLimit = $('.data').attr('data-max-limit');
                     tailMails.forEach(function (tailemail) {
 
                         if (!validateTailmail(tailemail)) {
@@ -74,7 +74,7 @@ $(document).ready(function() {
                         flag = false;
                     }
 
-                    if ((c3 && !c4.length) || (c3 && c4.length && (c5 || parseInt(c4) < 1))) {
+                    if ((c3 && !c4.length) || (c3 && c4.length && (c5 || (parseInt(c4) < 1 || parseInt(c4) > maxLimit)))) {
                         $('.validate-limit-answer')
                             .css('display', 'block')
                             .addClass('animated fadeInDown')
@@ -136,7 +136,7 @@ $(document).ready(function() {
         var c6 = $('#require-tail-email').is(':checked');
         var c7 = $('.frm-tailmail').val();
         var tailMails = $('.frm-tailmail').tagsinput('items');
-
+        var maxLimit = $('.data').attr('data-max-limit');
         tailMails.forEach(function (tailemail) {
 
             if (!validateTailmail(tailemail)) {
@@ -153,7 +153,7 @@ $(document).ready(function() {
             flag = false;
         }
 
-        if ((c3 && !c4.length) || (c3 && c4.length && (c5 || parseInt(c4) < 1))) {
+        if ((c3 && !c4.length) || (c3 && c4.length && (c5 || (parseInt(c4) < 1) || parseInt(c4) > maxLimit))) {
             $('.validate-limit-answer')
                 .css('display', 'block')
                 .addClass('animated fadeInDown')

@@ -17,7 +17,6 @@ return [
     'not_yet' => 'Not yet',
     'required_answer' => 'Required to answer',
     'setting_survey' => 'Set option this survey',
-    'setting' => 'Setting',
     'result' => 'Result',
     'hide_result' => 'Hide answer result',
     'replies_limits' => 'Limit replies',
@@ -39,7 +38,7 @@ return [
     'private' => 'Private',
     'validate' => [
         'choose_option' => 'Please select a requirement',
-        'validate_number' => 'Please type in the box a figure and it must be greater than zero',
+        'validate_number' => 'Please type in the box a figure and it must be greater than 1 or lesser ' . config('settings.max_limit'),
         'tailmail' => 'Please enter the tails mail',
         'run_out' => 'You have run out of replies.',
         'invalid_mail' => 'Tail mail invalid',
@@ -81,4 +80,8 @@ return [
     'resend' => 'Notification: Re-answer.',
     'title' => 'title',
     'deadline' => 'deadline',
+    'setting_request' => [
+        'limitAnswer' => 'field limit answer',
+        'tailMail' => 'field tail email',
+    ],
 ];

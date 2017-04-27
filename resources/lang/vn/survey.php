@@ -17,7 +17,6 @@ return [
     'not_yet' => 'Chưa trả lời',
     'required_answer' => 'Yêu cầu để trả lời',
     'setting_survey' => 'Cài đặt các tùy chọn cho survey',
-    'setting' => 'Cài đặt',
     'result' => 'Kết quả',
     'hide_result' => 'Ẩn kết quả trả lời',
     'replies_limits' => 'Giới hạn số lần trả lời',
@@ -39,7 +38,7 @@ return [
     'private' => 'Chỉ mình tôi',
     'validate' => [
         'choose_option' => 'Vui lòng chọn một yêu cầu',
-        'validate_number' => 'Vui lòng nhập vào ô một con số lớn hơn 0',
+        'validate_number' => 'Vui lòng nhập vào ô một con số lớn hơn 1 hoặc nhỏ hơn ' . config('settings.max_limit'),
         'tailmail' => 'Vui lòng nhập loại email',
         'run_out' => 'Bạn đã hết lượt trả lời.',
         'invalid_mail' => 'Đuôi mail không hợp lệ.',
@@ -81,4 +80,8 @@ return [
     'resend' => 'Thông báo: Trả lời lại.',
     'title' => 'tiêu đề',
     'deadline' => 'hạn chót',
+    'setting_request' => [
+        'limitAnswer' => 'giới hạn trả lời',
+        'tailMail' => 'đuôi email',
+    ],
 ];

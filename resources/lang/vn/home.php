@@ -73,4 +73,5 @@ return [
         'total_err' => 'Tổng dung lượng file quá lớn (tối đa: 8MB)',
     ],
     'feedback' => 'Phản hồi',
+    'new' => 'Mới',
 ];
