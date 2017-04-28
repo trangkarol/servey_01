@@ -50,7 +50,7 @@
                             @breakswitch
                     @endswitch
                     </td>
-                    <td>{{ $value->content }}</td>
+                    <td>{{ cleanTextForExport($value->content) }}</td>
                     <td>{{ '' }}</td>
                     <td>{{ '' }}</td>
                     <td>{{ '' }}</td>
@@ -68,7 +68,7 @@
                             <td>{{ '' }}</td>
                             <td>{{ '' }}</td>
                             <td>{{ $key . '.' . ++$keyAnswer }}</td>
-                            <td>{{ $answer->content }}</td>
+                            <td>{{ cleanTextForExport($answer->content) }}</td>
                             <td>{{ count($answer->results) }}</td>
                         </tr>
                     @elseif ($answer->type != config('survey.type_radio')
@@ -79,7 +79,7 @@
                                 <td>{{ '' }}</td>
                                 <td>{{ '' }}</td>
                                 <td> - </td>
-                                <td>{{ $result->content }}</td>
+                                <td>{{ cleanTextForExport($result->content) }}</td>
                                 <td>{{ '' }}</td>
                             </tr>
                         @endforeach

@@ -24,6 +24,7 @@ return [
     'save_success' => 'Lưu dữ liệu thành công',
     'save_fail' => 'Lỗi lưu dữ liệu',
     'load_success' => '{0}Tải dữ liệu thành công.|{1}Khám phá thành công dữ liệu',
+    'load_fail' => '{0} Lỗi tải dữ liệu|{1} Lỗi tải trang này|{2} Lỗi khi xuất file với định dạng :format.',
     'result_success' => 'Bạn đã trả lời thành công',
     'result_fail' => 'Xin lỗi, câu trả lời của bạn lưu không thành công, hãy thử lại',
     'backup_database' => [
