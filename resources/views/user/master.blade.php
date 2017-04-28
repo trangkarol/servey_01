@@ -34,6 +34,7 @@
             'data-confirm' => trans('temp.confirm'),
             'data-format-date' => trans('temp.format_date'),
             'data-format-datetime' => trans('temp.format_datetime'),
+            'data-max-limit' => config('settings.max_limit'),
         ]) !!}
         <section id="top-area">
             @include('user.blocks.menu')

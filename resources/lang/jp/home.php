@@ -73,4 +73,5 @@ return [
         'total_err' => 'Total file size is too large (max: 8MB)',
     ],
     'feedback' => 'Feedback',
+    'new' => 'New',
 ];

@@ -8,6 +8,7 @@ use App\Repositories\Setting\SettingInterface;
 use Exception;
 use LRedis;
 use DB;
+use App\Http\Requests\SettingRequest;
 
 class SettingController extends Controller
 {
@@ -22,7 +23,7 @@ class SettingController extends Controller
         $this->settingRepository = $settingRepository;
     }
 
-    public function update(Request $request, $surveyId, $token)
+    public function update(SettingRequest $request, $surveyId, $token)
     {
         $value = $request->only([
             'setting',
