@@ -38,15 +38,15 @@
         ]) !!}
         <section id="top-area">
             @include('user.blocks.menu')
+        </section>
             <div class="container animated slideInDown">
-                 <div class="row">
-                     <div class="col-md-12 main-title">
+                <div class="row">
+                    <div class="col-md-12 main-title">
                         <h1>{{ trans('view.title_web') }}</h1>
                         <p>{{ trans('view.body.intro.slogan') }}</p>
                     </div>
                 </div>
             </div>
-        </section>
         <section class="container" id="main">
             @yield('content')
             @yield('content-info-web')

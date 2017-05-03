@@ -5,7 +5,7 @@ return [
     'login' => 'Đăng nhập',
     'logout' => 'Đăng xuất',
     'add_option' => 'Thêm câu trả lời',
-    'add_other' => 'Câu trả lời khác',
+    'add_other' => 'thêm khác',
     'checkboxes' => 'Hộp kiểm',
     'choices' => 'Chọn',
     'enter_answer_here' => 'Điền câu trả lời tại đây',
@@ -74,4 +74,5 @@ return [
     ],
     'feedback' => 'Phản hồi',
     'new' => 'Mới',
+    'or' => 'hoặc',
 ];

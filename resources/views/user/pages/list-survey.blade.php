@@ -44,7 +44,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="col-md-9">
+                        <div class="col-md-9 tab-list">
                           <!-- Tab panes -->
                             <div class="tab-content">
                                 <div class="tab-pane active" id="home-v">

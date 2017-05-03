@@ -48,11 +48,14 @@
                             </a>
                         </li>
                         <li>
-                        <span>
+                            <span class="span-responsive-img">
+                                {!! Html::image(Auth::user()->image, '', [
+                                    'class' => 'image-avatar',
+                                ]) !!}
+                            </span>
                             {!! Html::image(Auth::user()->image, '', [
-                                'class' => 'image-avatar',
+                                'class' => 'image-avatar-response image-avatar',
                             ]) !!}
-                         </span>
                             <a href="{{ action('User\UserController@show') }}">
                                 {{ Auth::user()->part_name }}
                             </a>
@@ -87,5 +90,5 @@
                 </ul>
             </nav>
         </div>
-     </div>
+    </div>
 </header>

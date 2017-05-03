@@ -86,7 +86,7 @@
                                 <li>
                                     <div class="type-radio-answer row">
                                         <div class="box-radio col-md-1">
-                                            {{ Form::radio(trans('user.gender'), config('users.gender.male'), '', [
+                                            {{ Form::radio('gender', config('users.gender.male'), '', [
                                                 'id' => 'gender-male',
                                                 'class' => 'input-radio',
                                             ]) }}
@@ -101,7 +101,7 @@
                                 <li>
                                     <div class="type-radio-answer row">
                                         <div class="box-radio col-md-1">
-                                            {{ Form::radio(trans('user.gender'), config('users.gender.female'), '', [
+                                            {{ Form::radio('gender', config('users.gender.female'), '', [
                                                 'id' => 'gender-female',
                                                 'class' => 'input-radio',
                                             ]) }}
