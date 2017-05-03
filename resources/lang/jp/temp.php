@@ -5,6 +5,8 @@ return [
     'time' => 'Time',
     'other' => 'Other',
     'confirm' => 'Are you sure to delete this survey?',
+    'close-confirm' => 'Are you sure to close this survey?',
+    'closed' => 'This survey was closed!',
     'send_to' => 'Send to:',
     'send_mail' => 'Send mails',
     'email_name' => "Input email's name here . . .",

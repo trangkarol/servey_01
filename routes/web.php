@@ -15,7 +15,6 @@ Route::get('/languages', 'LanguageController@index');
 Auth::routes();
 
 Route::group(['prefix' => '/', 'middleware' => 'guest'], function () {
-
     Route::get('/', 'Auth\LoginController@getLogin');
 
     Route::get('/register', 'Auth\RegisterController@getRegister');
@@ -43,7 +42,6 @@ Route::get('/logout', 'Auth\LoginController@logout');
 
 
 Route::group(['prefix' => '/supper-admin', 'middleware' => 'supperadmin'], function () {
-
     Route::resource('/request', 'Admin\RequestController', [
         'only' => ['index'],
     ]);
@@ -54,7 +52,6 @@ Route::group(['prefix' => '/supper-admin', 'middleware' => 'supperadmin'], funct
 });
 
 Route::group(['prefix' => '/admin', 'middleware' => 'admin'], function () {
-
     Route::resource('/dashboard', 'Admin\DashboardController', [
         'only' => ['index'],
     ]);
@@ -94,14 +91,14 @@ Route::post('/invite/send/{id}/{type}', 'SurveyController@inviteUser');
 
 Route::post('/delete-survey', 'SurveyController@delete');
 
+Route::post('/close-survey/{id}', 'SurveyController@close');
+
 Route::get('/export/{id}/{type}', 'User\ExportController@export');
 
 Route::group(['prefix' => '/home'], function () {
-
     Route::get('/', 'SurveyController@index');
 
     Route::group(['prefix' => '/', 'middleware' => 'auth'], function () {
-
         Route::post('/mark-survey', 'User\LikeController@markLike');
 
         Route::get('/list-invited', 'SurveyController@getInviteSurvey');
@@ -122,7 +119,7 @@ Route::group(['prefix' => '/home'], function () {
     });
 });
 
-Route::get('/survey/detail/{token}', 'AnswerController@show');
+Route::get('/detail/{token}', 'AnswerController@show');
 
 Route::post('/add-temp/{type}', 'TempController@addTemp');
 
@@ -135,7 +132,7 @@ Route::post('/update-setting/{id}/{token}', 'SettingController@update');
 
 Route::post('/survey/result/{token}', 'ResultController@result');
 
-Route::get('/complete/{token}/{name}', 'SurveyController@complete');
+Route::get('/complete/{token}', 'SurveyController@complete');
 
 Route::post('/search', 'SurveyController@search');
 

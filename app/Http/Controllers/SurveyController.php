@@ -149,6 +149,21 @@ class SurveyController extends Controller
         ];
     }
 
+    public function close($id, Request $request)
+    {
+        if ($request->ajax()) {
+            try {
+                $this->surveyRepository->update($id, ['status' => config('survey.status.block')]);
+                $redis = LRedis::connection();
+                $redis->publish('close', $id);
+
+                return response()->json(trans('temp.closed'));
+            } catch (\Exception $e) {
+                return response()->json(trans('home.error'), 400);
+            }
+        }
+    }
+
     public function show($token)
     {
         $surveys = $this->surveyRepository->where('token', $token)->first();
@@ -196,8 +211,7 @@ class SurveyController extends Controller
         return redirect()->action('AnswerController@show', $survey->token_manage)
             ->with(($isSuccess) ? 'message' : 'message-fail', ($isSuccess)
                 ? trans_choice('messages.object_updated_successfully', 1)
-                : trans_choice('messages.object_updated_unsuccessfully', 1)
-            );
+                : trans_choice('messages.object_updated_unsuccessfully', 1));
     }
 
     public function updateSurveyContent(Request $request, $surveyId, $token)
@@ -261,7 +275,7 @@ class SurveyController extends Controller
                         ? 'AnswerController@answerPublic'
                         : 'AnswerController@answerPrivate', [
                             'token' => $survey->token,
-                    ]),
+                        ]),
                 'name' => $survey->user_name,
                 'email' => $results['emails'],
             ];
@@ -422,9 +436,9 @@ class SurveyController extends Controller
                     ? 'AnswerController@answerPublic'
                     : 'AnswerController@answerPrivate', [
                         'token' => $token,
-                ]);
+                    ]);
                 $inputInfo['linkManage'] = action('AnswerController@show', [
-                    'tokenManage' =>  $tokenManage,
+                    'tokenManage' => $tokenManage,
                 ]);
                 $job = (new SendMail(collect($inputInfo), 'mailManage'))
                     ->onConnection('database')
@@ -447,15 +461,12 @@ class SurveyController extends Controller
                 ->with('message-fail', trans_choice('messages.object_created_unsuccessfully', 1));
         }
 
-        return redirect()->action('SurveyController@complete', [
-            $tokenManage,
-            $value['name'],
-        ]);
+        return redirect()->action('SurveyController@complete', $tokenManage);
     }
 
-    public function complete($token, $name)
+    public function complete($token)
     {
-        if (!$token || !$name) {
+        if (!$token) {
             return view('errors.404');
         }
 
@@ -467,7 +478,7 @@ class SurveyController extends Controller
 
         $mail = auth()->check() ? auth()->user()->email : $survey->mail;
 
-        return view('user.pages.complete', compact('survey', 'name', 'mail'));
+        return view('user.pages.complete', compact('survey', 'mail'));
     }
 
     public function inviteUser(Request $request, $surveyId, $type)
@@ -501,7 +512,7 @@ class SurveyController extends Controller
                         ? 'AnswerController@answerPublic'
                         : 'AnswerController@answerPrivate', [
                             'token' => $survey->token,
-                    ]),
+                        ]),
                     'emailSender' => $data['email'],
                 ];
                 $job = (new SendMail(collect($inputInfo), 'mailInvite'))

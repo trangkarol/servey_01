@@ -58,10 +58,10 @@ $(document).ready(function() {
     });
 
     function copyToClipboard(element) {
-        var $temp = $("<input>");
-        $("body").append($temp);
-        $temp.val($(element).text()).select();
-        document.execCommand("copy");
+        var $temp = $('<input>');
+        $('body').append($temp);
+        $temp.val($.trim($(element).text())).select();
+        document.execCommand('copy');
         $temp.remove();
     }
 
@@ -262,6 +262,23 @@ $(document).ready(function() {
 
         if (type == 1) {
             $('.share-link-public').fadeIn();
+        }
+    });
+
+    $('.detail-survey').on('click', '.btn-close-survey', function() {
+        var _this = $(this);
+        var result = confirm($('.data').attr('data-close-confirm'));
+
+        if (result) {
+            var closeUrl = $(this).attr('data-url');
+            $.post(closeUrl)
+                .done(function(data) {
+                    _this.attr('disabled', true);
+                    alert(data);
+                })
+                .fail(function(data) {
+                    alert(data);
+                })
         }
     });
 

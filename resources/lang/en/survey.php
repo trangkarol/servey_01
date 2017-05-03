@@ -24,6 +24,7 @@ return [
     'see_detail' => 'See detail',
     'click_here' => 'Click here',
     'delete' => 'Delete',
+    'close' => 'Close',
     'save' => 'Save',
     'sender' => 'Sender',
     'information' => 'Information',
@@ -72,7 +73,7 @@ return [
     'exportPDF' => 'Export to PDF',
     'thank_you' => 'Thank you for your time.',
     'invite' => 'Invite to participate',
-    'notice' =>[
+    'notice' => [
         'answer' => 'answered this survey',
         'number' => 'times at a time',
     ],

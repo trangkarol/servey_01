@@ -24,6 +24,7 @@ return [
     'see_detail' => 'Xem chi tiết',
     'click_here' => 'Nhấp chuột ở đây',
     'delete' => 'Xóa',
+    'close' => 'Đóng',
     'save' => 'Lưu',
     'sender' => 'Người gửi',
     'information' => 'Thông tin',
@@ -72,7 +73,7 @@ return [
     'exportPDF' => 'Xuất ra PDF',
     'thank_you' => 'Cảm ơn.',
     'invite' => 'Mời tham gia.',
-    'notice' =>[
+    'notice' => [
         'answer' => 'đã trả lời survey này',
         'number' => 'lần vào lúc',
     ],
