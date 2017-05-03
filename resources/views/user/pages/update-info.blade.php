@@ -35,7 +35,7 @@
                                 <li>
                                     <div class="container-infor">
                                         {!! Html::image(config('settings.image_system') . 'email.png', '') !!}
-                                        {!! Form::text('email', cleanText($user->email), [
+                                        {!! Form::email('email', cleanText($user->email), [
                                             'placeholder' => trans('user.your_email'),
                                             'id' => 'email',
                                             'class' => 'form-control',

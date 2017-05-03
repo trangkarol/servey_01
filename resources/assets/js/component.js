@@ -457,4 +457,48 @@ $(document).ready(function() {
             }
         });
     });
+
+    $('#registerUser').on('change', function() {
+        $.validator.addMethod('regex', function(value, element, regexpr) {
+            return regexpr.test(value);
+        }, $('#registerUser').attr('transEmailError'));
+
+        $.validator.addMethod('filesize', function(value, element, param) {
+            /**
+            * param = size (en bytes)
+            * element = element to validate (<input>)
+            * value = value of the element (file name)
+            */
+            return this.optional(element) || (element.files[0].size / 1024 <= param)
+        });
+
+        $('#registerUser').validate({
+            rules: {
+                email: {
+                    required: true,
+                    regex: /^[a-zA-Z][a-zA-Z0-9_\.]{2,255}@[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,4}){1,2}$/,
+                    maxlength: 255
+                },
+                name: {
+                    maxlength: 255,
+                    required: true
+                },
+                password: {
+                    required: true,
+                    minlength: 6
+                },
+                password_confirmation: {
+                    required: true,
+                    minlength: 6,
+                    equalTo : "#password"
+                },
+                image: {
+                    filesize: 2048,
+                    extension: 'bmp',
+                    type: 'image/jpeg,image/png,image/gif,image/x-ms-bmp',
+                    message: $('#registerUser').attr('transFileError')
+                }
+            }
+        });
+    });
 });
