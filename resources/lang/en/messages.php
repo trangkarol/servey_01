@@ -26,7 +26,7 @@ return [
     'save_success' => 'Save data success',
     'save_fail' => 'Error save data ',
     'load_success' => '{0}Load the data success.| {1} Explore data success',
-    'load_fail' => '{0}Error load the data.|{1} Error load this page',
+    'load_fail' => '{0}Error load the data.|{1} Error load this page|{2} Error to export survey with format :format.',
     'backup_database' => [
         'subject' => 'Backup database',
         'head' => 'Hello Admin, This email to send backup database file',

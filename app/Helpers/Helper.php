@@ -38,3 +38,18 @@
 
         return str_replace($search, $replace, $email);
     }
+
+    function cleanTextForExport($text)
+    {
+        if (!$text) {
+            return '';
+        }
+
+        $check = substr($text, 0, 1);
+
+        if ($check == '=') {
+            $text = "'=" . substr($text, 1);
+        }
+
+        return cleanText($text);
+    }
