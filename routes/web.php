@@ -152,3 +152,5 @@ Route::post('/update/{id}/{token}', 'SurveyController@updateSurveyContent');
 Route::get('/feedback', 'FeedbackController@getFeedback');
 
 Route::post('/post-feedback', 'FeedbackController@create');
+
+Route::get('/answer/completed/{name?}/{survey}', 'ResultController@show');

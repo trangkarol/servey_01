@@ -10,6 +10,9 @@
             'action' => 'User\UserController@update',
             'method' => 'PUT',
             'enctype' => 'multipart/form-data',
+            'id' => 'updateInfo',
+            'transEmailError' => trans('validation.msg.email'),
+            'transFileError' => trans('validation.msg.file'),
         ]) !!}
             <div id="middle-wizard" class="wizard-register wizard-branch wizard-wrapper">
                 <div class="step wizard-step current">
@@ -32,7 +35,7 @@
                                 <li>
                                     <div class="container-infor">
                                         {!! Html::image(config('settings.image_system') . 'email.png', '') !!}
-                                        {!! Form::email('email', $user->email, [
+                                        {!! Form::text('email', cleanText($user->email), [
                                             'placeholder' => trans('user.your_email'),
                                             'id' => 'email',
                                             'class' => 'form-control',
@@ -42,7 +45,7 @@
                                 <li>
                                     <div class="container-infor">
                                         {!! Html::image(config('settings.image_system') . 'name.png', '') !!}
-                                        {!! Form::text('name', $user->name, [
+                                        {!! Form::text('name', cleanText($user->name), [
                                             'placeholder' => trans('user.your_name'),
                                             'id' => 'name',
                                             'class' => 'required form-control',
@@ -52,27 +55,27 @@
                                 <li>
                                     <div class="container-infor">
                                         {!! Html::image(config('settings.image_system') . 'birthday3.png', '') !!}
-                                        {!! Form::text('birthday', $user->birthday, [
+                                        {!! Form::text('birthday', cleanText($user->birthday), [
                                             'placeholder' => trans('user.birthday'),
-                                            'class' => 'frm-datepicker required form-control',
+                                            'class' => 'frm-datepicker form-control',
                                         ]) !!}
                                     </div>
                                 </li>
                                 <li>
                                     <div class="container-infor">
                                         {!! Html::image(config('settings.image_system') . 'phone.png', '') !!}
-                                        {!! Form::text('phone', $user->phone, [
+                                        {!! Form::text('phone', cleanText($user->phone), [
                                             'placeholder' => trans('user.phone'),
-                                            'class' => 'required form-control',
+                                            'class' => 'form-control',
                                         ]) !!}
                                     </div>
                                 </li>
                                 <li>
                                     <div class="container-infor">
                                         {!! Html::image(config('settings.image_system') . 'address.png', '') !!}
-                                        {!! Form::text('address', $user->address, [
+                                        {!! Form::text('address', cleanText($user->address), [
                                             'placeholder' => trans('user.address'),
-                                            'class' => 'required form-control',
+                                            'class' => 'form-control',
                                         ]) !!}
                                     </div>
                                 </li>
@@ -83,9 +86,9 @@
                                 <li>
                                     <div class="container-infor">
                                         {!! Html::image(config('settings.image_system') . 'lock3.png', '') !!}
-                                        {!! Form::password('password', [
-                                            'id' => 'password',
-                                            'class' => 'required form-control',
+                                        {!! Form::password('old-password', [
+                                            'id' => 'old-password',
+                                            'class' => 'form-control',
                                             'placeholder' => trans('user.old_password'),
                                         ]) !!}
                                     </div>
@@ -95,7 +98,7 @@
                                         {!! Html::image(config('settings.image_system') . 'lock2.png', '') !!}
                                         {!! Form::password('password', [
                                             'id' => 'password',
-                                            'class' => 'required form-control',
+                                            'class' => 'form-control',
                                             'placeholder' => trans('user.new_password'),
                                         ]) !!}
                                     </div>
@@ -104,7 +107,7 @@
                                     {!! Html::image(config('settings.image_system') . 'lock3.png', '') !!}
                                     {!! Form::password('password_confirmation', [
                                         'id' => 'password-confirm',
-                                        'class' => 'required form-control',
+                                        'class' => 'form-control',
                                         'placeholder' => trans('user.retype_new_password'),
                                     ]) !!}
                                 </div>
@@ -123,9 +126,9 @@
                                                 'id' => 'image',
                                                 'class' => 'choose-image',
                                             ]) !!}
-                                            {!! Form::file('image', [
-                                                'id' => 'image',
-                                                'class' => 'button-file-hidden',
+                                            {!! Form::file('imageUser', [
+                                                'id' => 'imageUser',
+                                                'class' => 'form-control button-file-hidden',
                                             ]) !!}
                                         </div>
                                     </div>

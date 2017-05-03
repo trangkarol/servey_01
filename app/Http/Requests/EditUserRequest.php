@@ -27,7 +27,7 @@ class EditUserRequest extends FormRequest
             'email' => 'unique:users,email,' . auth()->id(),
             'password' => 'min:6|confirmed',
             'name' => 'required|max:255',
-            'image' => 'image|mimes:jpg,jpeg,png,gif,svg|max:1000',
+            'imageUser' => 'image|mimes:jpg,jpeg,png,gif,svg|max:2048',
             'birthday' => 'date_format:' . trans('temp.format_birthday_with_trans'),
             'phone' => 'numeric|digits_between:10,11',
             'address' => 'max:255',

@@ -130,5 +130,7 @@ return [
         'range' => 'Please enter a value between {0} and {1}.',
         'max' => 'Please enter a value less than or equal to {0}.',
         'min' => 'Please enter a value greater than or equal to {0}.',
+        'invalid_mail' => 'Please enter vali tail email.',
+        'file' => 'The file upload must be type in jpeg|jpg|png||gif|bmp and at least 2MB',
     ],
 ];

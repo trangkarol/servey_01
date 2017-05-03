@@ -5,13 +5,13 @@ $(document).ready(function() {
     var formatDate = $('.data').attr('data-format-datetime');
 
     function validateEmail(email) {
-        var re = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+        var re = /^[a-zA-Z][a-zA-Z0-9_\.]{2,255}@[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,4}){1,2}$/;
 
         return re.test(email);
     }
 
     function validateTailmail(email) {
-        var text = /^@[A-Z0-9-]+(\.+([A-Z]+)){1,4}$/i;
+        var text = /^@[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,4}){1,2}$/i;
 
         return text.test(email);
     }
@@ -20,6 +20,12 @@ $(document).ready(function() {
         stepsWrapper: "#middle-wizard",
         beforeForward: function( event, state ) {
             if ( state.stepIndex === 1 ) {
+                if (!validateEmail($('#email').val())) {
+                    $('#emailError').css('display', 'block');
+
+                    return false;
+                }
+
                 var today = new Date();
                 var dateChoose = $('.frm-deadline').val();
 

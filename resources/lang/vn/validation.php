@@ -16,13 +16,11 @@ return [
     'accepted'             => 'Trường :attribute phải được chấp nhận.',
     'active_url'           => 'Trường :attribute không phải là một URL hợp lệ.',
     'after'                => 'Trường :attribute phải là một ngày sau ngày :date.',
-    'after_or_equal'       => 'The :attribute must be a date after or equal to :date.',
     'alpha'                => 'Trường :attribute chỉ có thể chứa các chữ cái.',
     'alpha_dash'           => 'Trường :attribute chỉ có thể chứa chữ cái, số và dấu gạch ngang.',
     'alpha_num'            => 'Trường :attribute chỉ có thể chứa chữ cái và số.',
     'array'                => 'Kiểu dữ liệu của trường :attribute phải là dạng mảng.',
     'before'               => 'Trường :attribute phải là một ngày trước ngày :date.',
-    'before_or_equal'      => 'The :attribute must be a date before or equal to :date.',
     'between'              => [
         'numeric' => 'Trường :attribute phải nằm trong khoảng :min - :max.',
         'file'    => 'Dung lượng tập tin trong trường :attribute phải từ :min - :max kB.',
@@ -114,9 +112,7 @@ return [
     |
     */
 
-    'attributes' => [
-        //
-    ],
+    'attributes' => [],
     'msg' => [
         'required' => 'Thông tin bắt buộc',
         'remote' => 'Hãy sửa trừờng này.',
@@ -134,6 +130,7 @@ return [
         'range' => 'Hãy nhập một giá trị giữa {0} và {1}.',
         'max' => 'Giá trị phải nhỏ hơn hoặc bằng {0}.',
         'min' => 'Giá trị phải hơn hoặc bằng {0}.',
+        'invalid_mail' => 'Vui lòng nhập đúng định dạng đuôi email.',
+        'file' => 'Tập tin phải có định dạng jpeg|jpg|png||gif|bmp và kích thước nhỏ hơn 2MB',
     ],
-
 ];

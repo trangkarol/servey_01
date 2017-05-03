@@ -8,11 +8,15 @@
                 <li>
                     <div class="container-infor">
                         {!! Html::image(config('settings.image_path_system') . 'email1.png', '') !!}
-                        {!! Form::email('email', (Auth::user() ? Auth::user()->email : ''), [
+                        {!! Form::text('email', (Auth::user() ? Auth::user()->email : ''), [
                             'id' => 'email',
                             'class' => 'required form-control validate',
                             'placeholder' => trans('info.email'),
                             (auth()->check() && auth()->user()->email) ? 'readonly' : null,
+                        ]) !!}
+                        {!! Form::label('email', trans('validation.msg.email'), [
+                            'class' => 'wizard-hidden validate-time error',
+                            'id' => 'emailError',
                         ]) !!}
                     </div>
                 </li>
