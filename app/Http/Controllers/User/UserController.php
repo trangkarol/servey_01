@@ -34,7 +34,7 @@ class UserController extends Controller
             'email',
             'password',
             'name',
-            'image',
+            'imageUser',
             'phone',
             'gender',
             'birthday',
@@ -51,15 +51,17 @@ class UserController extends Controller
                 $updateData = array_except($updateData, ['birthday']);
             } else {
                 $updateData['birthday'] = Carbon::parse(in_array(Session::get('locale'), config('settings.sameFormatDateTime'))
-                    ? str_replace('-', '/', $updateData['birthday']) 
+                    ? str_replace('-', '/', $updateData['birthday'])
                     : $updateData['birthday'])
                     ->toDateTimeString();
             }
 
-            if (!empty($updateData['image'])) {
-                $updateData['image'] = $this->userRepository->uploadAvatar($updateData['image']);
+            if (!empty($updateData['imageUser'])) {
+
+                $updateData['image'] = $this->userRepository->uploadAvatar($updateData['imageUser']);
+                $updateData = array_except($updateData , ['imageUser']);
             } else {
-                $updateData = array_except($updateData ,['image']);
+                $updateData = array_except($updateData , ['imageUser']);
             }
 
             if ($this->userRepository->update(auth()->id(), $updateData)) {

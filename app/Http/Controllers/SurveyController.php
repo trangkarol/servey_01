@@ -322,14 +322,14 @@ class SurveyController extends Controller
             $validator['email'] = 'required|email|max:255';
             $validator['name'] = 'required|max:255';
             $validator['emails'] = 'max:255
-                |regex:/^([a-zA-Z0-9_.+-][a-z0-9_\.]{0,}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}[,]{0,1}[,]{0,1}[\s]*)+(?<!,)(?<!\s)$/';
+                |regex:/^([a-zA-Z][a-zA-Z0-9_\.]{2,255}@[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,4}){1,2}[,]{0,1}[,]{0,1}[\s]*)+(?<!,)(?<!\s)$/';
             $validator['title'] = 'required|max:255';
             $realTime = Carbon::now()->addMinutes(30)->format(trans('temp.format_with_trans'));
             $validator['deadline'] = 'date_format:' . trans('temp.format_with_trans') . '|after:' . $realTime;
             $validator['setting.' . config('settings.key.limitAnswer')] = 'numeric
                 |digits_between:1,' . config('settings.max_limit');
             $validator['setting.' . config('settings.key.tailMail')] = 'max:255
-                |regex:/^(@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}[,]{0,1}[,]{0,1}[\s]*)+(?<!,)(?<!\s)$/';
+                |regex:/^(@[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,4}){1,2}[,]{0,1}[,]{0,1}[\s]*)+(?<!,)(?<!\s)$/';
         }
 
         return $validator;

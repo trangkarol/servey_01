@@ -271,7 +271,8 @@
                                             ]) !!}
                                         </div>
                                         <div class="col-md-3">
-                                            @if ($question->answers->last()->type == config('survey.type_other_radio'))
+                                            @if (($question->answers->last()->type == config('survey.type_other_radio')) &&  $question->answers->last()->update >= 0
+                                            )
                                                 {!! Form::button(trans('home.add_other'), [
                                                     'class' => 'add-radio-other other' . $number . ' div-hidden',
                                                     'typeId' => config('survey.type_other_radio'),

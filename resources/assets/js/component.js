@@ -412,4 +412,49 @@ $(document).ready(function() {
                 }
         });
     }
+
+    $('#updateInfo').on('change', function() {
+        $.validator.addMethod('regex', function(value, element, regexpr) {
+            return regexpr.test(value);
+        }, $('#updateInfo').attr('transEmailError'));
+
+        $.validator.addMethod('filesize', function(value, element, param) {
+            // param = size (en bytes)
+            // element = element to validate (<input>)
+            // value = value of the element (file name)
+            return this.optional(element) || (element.files[0].size / 1024 <= param)
+        });
+
+        $('#updateInfo').validate({
+            rules: {
+                email: {
+                    regex: /^[a-zA-Z][a-zA-Z0-9_\.]{2,255}@[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,4}){1,2}$/,
+                    maxlength: 255
+                },
+                name: {
+                    maxlength: 255,
+                    required: true
+                },
+                password: {
+                    minlength: 6
+                },
+                password_confirmation: {
+                    minlength: 6,
+                    equalTo : "#password"
+                },
+                imageUser: {
+                    filesize: 2048,
+                    extension: 'bmp',
+                    type: 'image/jpeg,image/png,image/gif,image/x-ms-bmp',
+                    message: $('#updateInfo').attr('transFileError')
+                },
+                address: {
+                    maxlength: 255
+                },
+                phone: {
+                    number: true
+                }
+            }
+        });
+    });
 });

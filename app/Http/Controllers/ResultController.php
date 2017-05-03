@@ -180,6 +180,14 @@ class ResultController extends Controller
                 ->with(!$flag ? 'message-validate-tailmail' : 'message-fail', $message);
         }
 
+        if (!$isSuccess) {
+            return redirect()
+                ->action($survey->feature
+                    ? 'AnswerController@answerPublic'
+                    : 'AnswerController@answerPrivate', $survey->token)
+                ->with('message-fail', trans_choice('messages.object_created_unsuccessfully', 3));
+        }
+
         $getCharts = $this->surveyRepository->viewChart($survey->token);
         $listUserAnswer = $this->surveyRepository->getUserAnswer($token);
         $status = $getCharts['status'];
@@ -193,10 +201,14 @@ class ResultController extends Controller
             'viewUserAnswer' => view('user.result.users-answer', compact('listUserAnswer', 'survey'))->render(),
         ]));
 
-        return redirect()
-            ->action(($survey->feature) ? 'AnswerController@answerPublic' : 'AnswerController@answerPrivate', $survey->token)
-            ->with(($isSuccess) ? 'message' : 'message-fail', ($isSuccess)
-                ? trans_choice('messages.object_created_successfully', 3)
-                : trans_choice('generate.permisstion', 2));
+        return redirect()->action('ResultController@show', [
+            'name' => auth()->check() ? auth()->user()->name : null,
+            'survey' => $survey->title,
+        ]);
+    }
+
+    public function show($name, $survey)
+    {
+        return view('user.pages.answer_complete', compact('name', 'survey'));
     }
 }

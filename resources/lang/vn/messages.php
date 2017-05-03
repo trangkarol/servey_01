@@ -36,5 +36,7 @@ return [
     'not_have_results' => 'Không có dữ liệu',
     'paginate_fail' => 'Lỗi khi tải trang này.',
     'object_not_found' => '{0}Không có câu trả lời cho câu hỏi này.|{2}Câu hỏi này chưa tồn tại.|{3}Câu trả lời này không tồn tại.|{4}Thông tin phản hồi này không tồn tại',
-    'object_updated_unexicute' => '{0}Quá trình cập nhật thông tin người dùng không thực hiện.|{1}Nội dung khảo sát cập nhật quá trình không thực hiện.'
+    'object_updated_unexicute' => '{0}Quá trình cập nhật thông tin người dùng không thực hiện.|{1}Nội dung khảo sát cập nhật quá trình không thực hiện.',
+    'answer_complete' => 'Bạn đã hoàn thành khảo sát',
+    'answer_is_complete' => 'Cảm ơn :name vì đã dành thời gian của bạn, câu trả lời của bạn cho :survey đã được gửi cho chúng tôi.',
 ];
