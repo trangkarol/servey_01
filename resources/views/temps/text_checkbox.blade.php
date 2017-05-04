@@ -1,8 +1,8 @@
 <div class="clear clear-as{{ $number . $numberAnswer }}"></div>
 <div class="div-content-answer qs-as{{ $number . $numberAnswer }}" >
     <div class="row">
-        <div class="col-md-1 div-square"></div>
-        <div class="col-md-9">
+        <div class="col-md-1 col-xs-1"><i class="fa fa-square-o"></i></div>
+        <div class="col-md-9 col-xs-7">
             <div class="div-text-answer">
                 {!! Form::text("txt-question[answers][$number][][". config('survey.type_checkbox')."]", '', [
                     'placeholder' => trans('home.enter_answer_here'),
@@ -11,7 +11,7 @@
                 ]) !!}
             </div>
         </div>
-        <div class="remove-answer col-md-2">
+        <div class="remove-answer col-md-2 col-xs-4">
             {!! Html::image(config('settings.image_path_system') . 'img-answer.png', '', [
                 'class' => 'picture-answer',
             ]) !!}

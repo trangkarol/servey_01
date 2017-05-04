@@ -86,10 +86,10 @@
                                         @switch($answer->type)
                                         @case(config('survey.type_radio'))
                                             <div class="clear clear-as{{ $number . $loop->index }}"></div>
-                                            <div class="div-content-answer qs-as{{ $number . $loop->index }} row">
+                                            <div class="div-content-answer qs-as{{ $number . $loop->index }}">
                                                 <div class="row">
-                                                    <div class="col-md-1 div-radius"></div>
-                                                    <div class="col-md-9">
+                                                    <div class="col-md-1 col-xs-1"><i class="fa fa-circle-o"></i></div>
+                                                    <div class="col-md-9 col-xs-7">
                                                         <div class="div-text-answer">
                                                             {!! Form::text("txt-question[answers][$number][][" . config('survey.type_radio') . "]", $answer->content, [
                                                                 'placeholder' => trans('home.enter_answer_here'),
@@ -97,7 +97,7 @@
                                                             ]) !!}
                                                         </div>
                                                     </div>
-                                                    <div class="remove-answer col-md-2">
+                                                    <div class="remove-answer col-md-2 col-xs-4">
                                                         {!! Html::image(config('settings.image_path_system') . 'img-answer.png', '', [
                                                             'class' => 'picture-answer',
                                                         ]) !!}
@@ -121,13 +121,13 @@
                                                     </span>
                                                 </div>
                                             </div>
-                                            @breakswitch
+                                        @breakswitch
                                         @case(config('survey.type_checkbox'))
                                             <div class="clear clear-as{{ $number }}"></div>
-                                            <div class="div-content-answer qs-as{{ $number . $loop->index}} row">
+                                            <div class="div-content-answer qs-as{{ $number . $loop->index}}">
                                                 <div class="row">
-                                                    <div class="col-md-1 div-square"></div>
-                                                    <div class="col-md-9">
+                                                    <div class="col-md-1 col-xs-1"><i class="fa fa-square-o"></i></div>
+                                                    <div class="col-md-9 col-xs-7">
                                                         <div class="div-text-answer">
                                                             {!! Form::text("txt-question[answers][$number][][" . config('survey.type_checkbox') . "]", $answer->content, [
                                                                 'placeholder' => trans('home.enter_answer_here'),
@@ -135,7 +135,7 @@
                                                             ]) !!}
                                                         </div>
                                                     </div>
-                                                    <div class="remove-answer col-md-2">
+                                                    <div class="remove-answer col-md-2 col-xs-4">
                                                         {!! Html::image(config('settings.image_path_system') . 'img-answer.png', '', [
                                                             'class' => 'picture-answer',
                                                         ]) !!}
@@ -159,14 +159,12 @@
                                                     </span>
                                                 </div>
                                             </div>
-                                            @breakswitch
+                                        @breakswitch
                                         @case(config('survey.type_text'))
                                             <div class="clear"></div>
-                                            <div class="div-content-answer">
-                                                <div class="col-md-1 text-icon">
-                                                    <span class="glyphicon glyphicon-pencil"></span>
-                                                </div>
-                                                <div class="col-md-8">
+                                            <div class="div-content-answer container-text">
+                                                <div class="div-clock col-md-1 col-xs-1"><i class="fa fa-file-text-o"></i></div>
+                                                <div class="col-md-7 col-xs-10">
                                                     <div class="text-empty">
                                                         {!! Form::text("txt-question[answers][$number][][" . config('survey.type_text') . "]", '', [
                                                             'placeholder' => trans('temp.text'),
@@ -174,15 +172,29 @@
                                                         ]) !!}
                                                     </div>
                                                 </div>
+                                                <div class="col-md-4 col-xs-12 div-required">
+                                                    <div class="row">
+                                                        <div class="col-md-4 col-xs-4 time-text">
+                                                            <strong>{{ trans('temp.require') }}?</strong>
+                                                        </div>
+                                                        <div class="col-md-5 col-xs-5">
+                                                            <div class="checkbox">
+                                                                {{ Form::checkbox("checkboxRequired[question][$number]", $number, '', [
+                                                                    'id' => 'text' . $number,
+                                                                    $question->required ? ('checked = checked') : '',
+                                                                ]) }}
+                                                                {{ Form::label('text' . $number, ' ') }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            @breakswitch
+                                        @breakswitch
                                         @case(config('survey.type_time'))
                                             <div class="clear"></div>
-                                            <div class="div-content-answer">
-                                                <div class="col-md-1 text-icon" >
-                                                    <span class="glyphicon glyphicon-time"></span>
-                                                </div>
-                                                <div class="col-md-8">
+                                            <div class="div-content-answer container-text">
+                                                <div class="div-clock col-md-1 col-xs-1"><i class="fa fa-clock-o"></i></div>
+                                                <div class="col-md-7 col-xs-10">
                                                     <div class="text-empty">
                                                         {!! Form::text("txt-question[answers][$number][][" . config('survey.type_time') . "]", '', [
                                                             'placeholder' => trans('temp.time_text'),
@@ -190,15 +202,29 @@
                                                         ]) !!}
                                                     </div>
                                                 </div>
+                                                <div class="col-md-4 col-xs-12 div-required">
+                                                    <div class="row">
+                                                        <div class="col-md-4 col-xs-4 time-text">
+                                                            <strong>{{ trans('temp.require') }}?</strong>
+                                                        </div>
+                                                        <div class="col-md-5 col-xs-5">
+                                                            <div class="checkbox">
+                                                               {{ Form::checkbox("checkboxRequired[question][$number]", $number, '', [
+                                                                    'id' => 'time' . $number,
+                                                                    $question->required ? ('checked = checked') : '',
+                                                                ]) }}
+                                                                {{ Form::label('time' . $number, ' ') }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            @breakswitch
+                                        @breakswitch
                                         @case(config('survey.type_date'))
                                             <div class="clear"></div>
-                                            <div class="div-content-answer">
-                                                <div class="col-md-1 text-icon" >
-                                                    <span class="glyphicon glyphicon-calendar"></span>
-                                                </div>
-                                                <div class="col-md-8">
+                                            <div class="div-content-answer container-text">
+                                                <div class="div-clock col-md-1 col-xs-1"><i class="fa fa-calendar-o"></i></div>
+                                                <div class="col-md-7 col-xs-10">
                                                     <div class="text-empty">
                                                         {!! Form::text("txt-question[answers][$number][][" . config('survey.type_date') . "]", '', [
                                                             'placeholder' => trans('temp.date_month'),
@@ -206,47 +232,67 @@
                                                         ]) !!}
                                                     </div>
                                                 </div>
+                                                <div class="col-md-4 col-xs-12 div-required">
+                                                    <div class="row">
+                                                        <div class="col-md-4 col-xs-4 time-text">
+                                                            <strong>{{ trans('temp.require') }}?</strong>
+                                                        </div>
+                                                        <div class="col-md-5 col-xs-5">
+                                                            <div class="checkbox">
+                                                               {{ Form::checkbox("checkboxRequired[question][$number]", $number, '', [
+                                                                    'id' => 'date' . $number,
+                                                                    $question->required ? ('checked = checked') : '',
+                                                                ]) }}
+                                                                {{ Form::label('date' . $number, ' ') }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            @breakswitch
+                                        @breakswitch
                                         @case(config('survey.type_other_radio'))
                                             <div class="clear temp-other{{ $number }}"></div>
-                                            <div class="temp div-content-answer answer-other{{ $number }} row">
-                                                <div class="col-md-1 div-radius"></div>
-                                                <div class="col-md-10">
-                                                    <div class="container-text-other div-text-answer">
-                                                        {!! Form::text("txt-question[answers][$number][][" . config('survey.type_other_radio') . "]", '', [
-                                                            'readonly' => 'true',
-                                                            'placeholder' => trans('home.other'),
-                                                        ]) !!}
+                                            <div class="temp div-content-answer answer-other{{ $number }}">
+                                                <div class="row">
+                                                    <div class="col-md-1 col-xs-1"><i class="fa fa-circle-o"></i></div>
+                                                    <div class="col-md-9 col-xs-7">
+                                                        <div class="container-text-other div-text-answer">
+                                                            {!! Form::text("txt-question[answers][$number][][" . config('survey.type_other_radio') . "]", '', [
+                                                                'readonly' => 'true',
+                                                                'placeholder' => trans('home.other'),
+                                                            ]) !!}
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="remove-answer col-md-1">
-                                                    <a class="glyphicon glyphicon-remove remove-other"
-                                                        id-qs="{{ $number }}"
-                                                        num="{{ $number }}"
-                                                        data-answerId="{{ $answer->id }}">
-                                                    </a>
+                                                    <div class="remove-answer col-md-2 col-xs-2">
+                                                        <a class="glyphicon glyphicon-remove remove-other"
+                                                            id-qs="{{ $number }}"
+                                                            num="{{ $number }}"
+                                                            data-answerId="{{ $answer->id }}">
+                                                        </a>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            @breakswitch
+                                        @breakswitch
                                         @case(config('survey.type_other_checkbox'))
                                             <div class="clear temp-other{{ $number }}"></div>
-                                            <div class="temp div-content-answer answer-other{{ $number }} row">
-                                                <div class="col-md-1 div-square"></div>
-                                                <div class="col-md-10">
-                                                    <div class="container-text-other div-text-answer">
-                                                        {!! Form::text("txt-question[answers][$number][][" . config('survey.type_other_checkbox') . "]", '', [
-                                                            'readonly' => 'true',
-                                                            'placeholder' => trans('home.other'),
-                                                        ]) !!}
+                                            <div class="temp div-content-answer answer-other{{ $number }}">
+                                                <div class="row">
+                                                    <div class="col-md-1 col-xs-1"><i class="fa fa-square-o"></i></div>
+                                                    <div class="col-md-9 col-xs-7">
+                                                        <div class="container-text-other div-text-answer">
+                                                            {!! Form::text("txt-question[answers][$number][][" . config('survey.type_other_checkbox') . "]", '', [
+                                                                'readonly' => 'true',
+                                                                'placeholder' => trans('home.other'),
+                                                            ]) !!}
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="remove-answer btn-remove-answer col-md-1">
-                                                    <a class="glyphicon glyphicon-remove remove-other"
-                                                        id-qs="{{ $number }}"
-                                                        num="{{ $number }}"
-                                                        data-answerId="{{ $answer->id }}">
-                                                    </a>
+                                                    <div class="remove-answer btn-remove-answer col-md-2 col-xs-2">
+                                                        <a class="glyphicon glyphicon-remove remove-other"
+                                                            id-qs="{{ $number }}"
+                                                            num="{{ $number }}"
+                                                            data-answerId="{{ $answer->id }}">
+                                                        </a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         @breakswitch
@@ -258,123 +304,61 @@
                                         config('survey.type_checkbox'),
                                     ]))
                                     <div class="clear temp-other{{ $number }}"></div>
+                                    <div class="choose-action row">
+                                        <div class="col-md-1"></div>
+                                        <div class="col-md-6">
+                                            @if ($question->answers->first()->type == config('survey.type_radio'))
+                                                <span class="add-radio" id-as="{{ $number }}"
+                                                    typeId="{{ config('survey.type_radio') }}"
+                                                    url="{{ action('TempController@addTemp', config('temp.radio_answer')) }}">
+                                                    {{ trans('home.add_option') }}
+                                                </span>
+                                                <span class="add-radio-other other{{ $number }} 
+                                                    {{ ($question->answers->last()->type == config('survey.type_other_radio') 
+                                                        && $question->answers->last()->update >=0) ? 'div-hidden' : '' }}"
+                                                    typeId="{{ config('survey.type_other_radio') }}"
+                                                    url="{{ action('TempController@addTemp', config('temp.other_radio')) }}">
+                                                    <span class="span-other">{{ trans('home.or') }}</span>
+                                                    {{ trans('home.add_other') }} 
+                                                </span>
+                                            @else
+                                                <span class="add-checkbox" id-as="{{ $number }}"
+                                                    typeId="{{ config('survey.type_checkbox') }}"
+                                                    url="{{ action('TempController@addTemp', config('temp.checkbox_answer')) }}">
+                                                    {{ trans('home.add_option') }}
+                                                </span>
+                                                <span class="add-checkbox-other other{{ $number }} 
+                                                    {{ ($question->answers->last()->type == config('survey.type_other_checkbox') 
+                                                    && $question->answers->last()->update >=0) ? 'div-hidden' : '' }}"
+                                                    typeId="{{ config('survey.type_other_checbox') }}"
+                                                    url="{{ action('TempController@addTemp', config('temp.other_checkbox')) }}">
+                                                    <span class="span-other">{{ trans('home.or') }}</span>
+                                                    {{ trans('home.add_other') }}
+                                                </span>
+                                            @endif
+                                        </div>
+                                        <div class="col-md-3" class="div-require">
+                                            <ul class="data-list">
+                                                <li>
+                                                    <div class="row">
+                                                        <div class="col-md-7 col-xs-4 time-text">
+                                                            <strong>{{ trans('temp.require') }}?</strong>
+                                                        </div>
+                                                        <div class="col-md-5 col-xs-4">
+                                                            <div class="checkbox">
+                                                                {{ Form::checkbox("checkboxRequired[question][$number]", $number, '', [
+                                                                    'id' => 'radio' . $number,
+                                                                    $question->required ? ('checked = checked') : '',
+                                                                ]) }}
+                                                                {{ Form::label('radio' . $number, ' ') }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 @endif
-                                <div class="choose-action row">
-                                    @if ($question->answers->first()->type == config('survey.type_radio'))
-                                        <div class="col-md-1"></div>
-                                        <div class="col-md-3">
-                                            {!! Form::button(trans('home.add_option'), [
-                                                'class' => 'add-radio',
-                                                'id-as' => $number,
-                                                'typeId' => config('survey.type_radio'),
-                                                'url' => action('TempController@addTemp', config('temp.radio_answer')),
-                                            ]) !!}
-                                        </div>
-                                        <div class="col-md-3">
-                                            @if (($question->answers->last()->type == config('survey.type_other_radio')) &&  $question->answers->last()->update >= 0
-                                            )
-                                                {!! Form::button(trans('home.add_other'), [
-                                                    'class' => 'add-radio-other other' . $number . ' div-hidden',
-                                                    'typeId' => config('survey.type_other_radio'),
-                                                    'url' => action('TempController@addTemp', config('temp.other_radio')),
-                                                ]) !!}
-                                            @else
-                                                {!! Form::button(trans('home.add_other'), [
-                                                    'class' => 'add-radio-other other' . $number,
-                                                    'typeId' => config('survey.type_other_radio'),
-                                                    'url' => action('TempController@addTemp', config('temp.other_radio')),
-                                                ]) !!}
-                                            @endif
-                                        </div>
-                                        <div class="col-md-3" class="div-require">
-                                            <ul class="data-list">
-                                                <li>
-                                                <div class="row">
-                                                    <div class="col-md-6 label-require">
-                                                        <strong><a>{{ trans('temp.require') }}?</a></strong>
-                                                    </div>
-                                                    <div class="col-md-5 button-require">
-                                                        <div class="class-option-require slideThree">
-                                                            {{ Form::checkbox("checkboxRequired[question][$number]", $number, '', [
-                                                                'id' => 'radio' . $number,
-                                                                $question->required ? ('checked = checked') : '',
-                                                            ]) }}
-                                                            {{ Form::label('radio' . $number, ' ') }}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    @elseif ($question->answers->first()->type == config('survey.type_checkbox'))
-                                        <div class="col-md-1"></div>
-                                        <div class="col-md-3">
-                                            {!! Form::button(trans('home.add_option'), [
-                                                'class' => 'add-checkbox',
-                                                'id-as' => $number,
-                                                'typeId' => config('survey.type_checkbox'),
-                                                'url' => action('TempController@addTemp', config('temp.checkbox_answer')),
-                                            ]) !!}
-                                        </div>
-                                        <div class="col-md-3">
-                                            @if ($question->answers->last()->type == config('survey.type_other_checkbox'))
-                                                {!! Form::button(trans('home.add_other'), [
-                                                    'class' => 'add-checkbox-other other' . $number . ' div-hidden',
-                                                    'typeId' => config('survey.type_other_checbox'),
-                                                    'url' => action('TempController@addTemp', config('temp.other_checkbox')),
-                                                ]) !!}
-                                            @else
-                                                {!! Form::button(trans('home.add_other'), [
-                                                    'class' => 'add-checkbox-other other' . $number,
-                                                    'typeId' => config('survey.type_other_checbox'),
-                                                    'url' => action('TempController@addTemp', config('temp.other_checkbox')),
-                                                ]) !!}
-                                            @endif
-                                        </div>
-                                        <div class="col-md-3" class="div-require">
-                                            <ul class="data-list">
-                                                <li>
-                                                <div class="row">
-                                                    <div class="col-md-6 label-require">
-                                                        <strong><a>{{ trans('temp.require') }}?</a></strong>
-                                                    </div>
-                                                    <div class="col-md-5 button-require">
-                                                        <div class="class-option-require slideThree">
-                                                            {{ Form::checkbox("checkboxRequired[question][$number]", $number, '', [
-                                                                'id' => 'radio' . $number,
-                                                                $question->required ? ('checked = checked') : '',
-                                                            ]) }}
-                                                            {{ Form::label('radio' . $number, ' ') }}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    @else
-                                        <div class="offset-label col-md-6"></div>
-                                            <div class="col-md-3" class="div-require">
-                                                <ul class="data-require data-list">
-                                                    <li>
-                                                        <div class="row">
-                                                            <div class="col-md-6 time-text label-require">
-                                                                <strong><a>{{ trans('temp.require') }}?</a></strong>
-                                                            </div>
-                                                            <div class="col-md-5 button-require">
-                                                               <div class="slideThree">
-                                                                    {{ Form::checkbox("checkboxRequired[question][$number]", $number, '', [
-                                                                        'id' => 'date' . $number,
-                                                                        $question->required ? ('checked = checked') : '',
-                                                                    ]) }}
-                                                                    {{ Form::label('date' . $number, ' ') }}
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                    @endif
-                                </div>
                             </li>
                         @endif
                     @endforeach
@@ -389,7 +373,7 @@
                         @endif
                     </div>
                     <div class="row col-md-4 col-md-offset-6 parent-option">
-                        <div class="col-md-2 col-md-offset-1 container-option-image">
+                        <div class="col-md-2 col-xs-2 col-md-offset-1 container-option-image">
                             <span class="span-option-1">
                                 {{ trans('temp.one_choose') }}
                             </span>
@@ -400,50 +384,7 @@
                                 'typeId' => config('survey.type_radio'),
                             ]) }}
                         </div>
-                        <div class="col-md-2 container-option-image">
-                            <span class="span-option-2">
-                                {{ trans('temp.multi_choose') }}
-                            </span>
-                            {{ Html::image(config('settings.image_path_system') . 'checkbox.png', '', [
-                                'class' => 'image-type-option',
-                                'url' => action('TempController@addTemp', config('temp.checkbox_question')),
-                                'id' => 'checkbox-button',
-                                'typeId' => config('survey.type_checkbox'),
-                            ]) }}
-                        </div>
-                        <div class="col-md-2 container-option-image">
-                            <span class="span-option-3">
-                                {{ trans('temp.text') }}
-                            </span>
-                            {{ Html::image(config('settings.image_path_system') . 'text.png', '', [
-                                'class' => 'image-type-option',
-                                'url' => action('TempController@addTemp', config('temp.text_question')),
-                                'id' => 'text-button',
-                                'typeId' => config('survey.type_text'),
-                            ]) }}
-                        </div>
-                        <div class="col-md-2 container-option-image">
-                            <span class="span-option-4">
-                                {{ trans('temp.time') }}
-                            </span>
-                            {{ Html::image(config('settings.image_path_system') . 'time.png', '', [
-                                'class' => 'image-type-option',
-                                'url' => action('TempController@addTemp', config('temp.time_question')),
-                                'id' => 'time-button',
-                                'typeId' => config('survey.type_time'),
-                            ]) }}
-                        </div>
-                        <div class="col-md-2 container-option-image">
-                            <span class="span-option-5">
-                                {{ trans('temp.date') }}
-                            </span>
-                            {{ Html::image(config('settings.image_path_system') . 'type-date.png', '', [
-                                'class' => 'image-type-option',
-                                'url' => action('TempController@addTemp', config('temp.date_question')),
-                                'id' => 'date-button',
-                                'typeId' => config('survey.type_date'),
-                            ]) }}
-                        </div>
+                        @include('user.blocks.list-button')
                     </div>
                     {!! Form::hidden('del-question', '') !!}
                     {!! Form::hidden('del-answer', '') !!}
@@ -452,6 +393,5 @@
                 </div>
             </div>
         </div>
-        {!! Form::close() !!}
-    </div>
+    {!! Form::close() !!}
 </div>

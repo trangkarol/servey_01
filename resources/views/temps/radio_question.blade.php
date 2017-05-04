@@ -29,10 +29,10 @@
         <span class="remove-image-question glyphicon glyphicon-remove" id-question="{{ $number }}"></span>
     </div>
     <div class="clear clear-as{{ $number }}0"></div>
-    <div class="div-content-answer qs-as{{ $number }}0 row">
+    <div class="div-content-answer qs-as{{ $number }}0">
         <div class="row">
-            <div class="col-md-1 div-radius"></div>
-            <div class="col-md-9">
+            <div class="col-md-1 col-xs-1"><i class="fa fa-circle-o"></i></div>
+            <div class="col-md-9 col-xs-7">
                 <div class="div-text-answer">
                     {!! Form::text("txt-question[answers][$number][][" . config('survey.type_radio') . "]", '', [
                         'placeholder' => trans('home.enter_answer_here'),
@@ -41,7 +41,7 @@
                     ]) !!}
                 </div>
             </div>
-            <div class="remove-answer col-md-2">
+            <div class="remove-answer col-md-2 col-xs-4">
                 {!! Html::image(config('settings.image_path_system') . 'img-answer.png', '', [
                     'class' => 'picture-answer',
                 ]) !!}
@@ -58,10 +58,10 @@
         </div>
     </div>
     <div class="clear clear-as{{ $number }}1"></div>
-    <div class="div-content-answer qs-as{{ $number }}1 row">
+    <div class="div-content-answer qs-as{{ $number }}1">
         <div class="row">
-            <div class="col-md-1 div-radius"></div>
-            <div class="col-md-9">
+            <div class="col-md-1 col-xs-1"><i class="fa fa-circle-o"></i></div>
+            <div class="col-md-9 col-xs-7">
                 <div class="div-text-answer">
                     {!! Form::text("txt-question[answers][$number][][" . config('survey.type_radio') . "]", '', [
                         'placeholder' => trans('home.enter_answer_here'),
@@ -70,13 +70,12 @@
                     ]) !!}
                 </div>
             </div>
-            <div class="remove-answer col-md-2">
+            <div class="remove-answer col-md-2 col-xs-4">
                 {!! Html::image(config('settings.image_path_system') . 'img-answer.png', '', [
                     'class' => 'picture-answer',
                 ]) !!}
                 @include('temps.answer_hidden_field', ['numberAnswer' => 1])
-                <a class="glyphicon glyphicon-remove btn-remove-answer" id-as="{{ $number }}1" num="{{ $number }}">
-                </a>
+                <a class="glyphicon glyphicon-remove btn-remove-answer" id-as="{{ $number }}1" num="{{ $number }}"></a>
             </div>
         </div>
         <div class="content-image-answer{{ $number }}1 div-image-answer animated slideInDown">
@@ -89,37 +88,35 @@
     <div class="clear temp-other{{ $number }}"></div>
     <div class="choose-action row">
         <div class="col-md-1"></div>
-        <div class="col-md-3">
-            {!! Form::button(trans('home.add_option'), [
-                'class' => 'add-radio',
-                'id-as' => $number,
-                'typeId' => config('survey.type_radio'),
-                'url' => action('TempController@addTemp', config('temp.radio_answer')),
-            ]) !!}
-        </div>
-        <div class="col-md-3">
-            {!! Form::button(trans('home.add_other'), [
-                'class' => 'add-radio-other other' . $number,
-                'typeId' => config('survey.type_other_radio'),
-                'url' => action('TempController@addTemp', config('temp.other_radio')),
-            ]) !!}
+        <div class="col-md-6">
+            <span class="add-radio" id-as="{{ $number }}"
+                typeId="{{ config('survey.type_radio') }}"
+                url="{{ action('TempController@addTemp', config('temp.radio_answer')) }}">
+                {{ trans('home.add_option') }}
+            </span>
+            <span class="add-radio-other other{{ $number }}"
+                typeId="{{ config('survey.type_other_radio') }}"
+                url="{{ action('TempController@addTemp', config('temp.other_radio')) }}">
+                <span class="span-other">{{ trans('home.or') }}</span>
+                {{ trans('home.add_other') }} 
+            </span>
         </div>
         <div class="col-md-3" class="div-require">
             <ul class="data-list">
                 <li>
-                <div class="row">
-                    <div class="col-md-6 label-require">
-                        <strong><a>{{ trans('temp.require') }}?</a></strong>
-                    </div>
-                    <div class="col-md-5 button-require">
-                        <div class="class-option-require slideThree">
-                            {{ Form::checkbox("checkboxRequired[question][$number]", $number, '', [
-                                'id' => 'radio' . $number,
-                            ]) }}
-                            {{ Form::label('radio' . $number, ' ') }}
+                    <div class="row">
+                        <div class="col-md-7 col-xs-4 time-text">
+                            <strong>{{ trans('temp.require') }}?</strong>
+                        </div>
+                        <div class="col-md-5 col-xs-4">
+                            <div class="checkbox">
+                                {{ Form::checkbox("checkboxRequired[question][$number]", $number, '', [
+                                    'id' => 'radio' . $number,
+                                ]) }}
+                                {{ Form::label('radio' . $number, ' ') }}
+                            </div>
                         </div>
                     </div>
-                </div>
                 </li>
             </ul>
         </div>
