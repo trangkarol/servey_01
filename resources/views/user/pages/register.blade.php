@@ -11,6 +11,9 @@
             'action' => 'Auth\RegisterController@register',
             'method' => 'POST',
             'enctype' => 'multipart/form-data',
+            'id' => 'registerUser',
+            'transEmailError' => trans('validation.msg.email'),
+            'transFileError' => trans('validation.msg.file'),
         ]) !!}
             <div id="middle-wizard" class="wizard-register wizard-branch wizard-wrapper">
                 <div class="step wizard-step current">
