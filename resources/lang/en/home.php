@@ -74,4 +74,5 @@ return [
     ],
     'feedback' => 'Feedback',
     'new' => 'New',
+    'or' => 'or',
 ];

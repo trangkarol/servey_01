@@ -15,7 +15,7 @@
                             (auth()->check() && auth()->user()->email) ? 'readonly' : null,
                         ]) !!}
                         {!! Form::label('email', trans('validation.msg.email'), [
-                            'class' => 'wizard-hidden validate-time error',
+                            'class' => 'wizard-hidden error',
                             'id' => 'emailError',
                         ]) !!}
                     </div>
