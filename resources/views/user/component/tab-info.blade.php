@@ -84,17 +84,26 @@
         </div>
         @include('user.blocks.validate')
         <div class="container-btn-detail row">
-            <div class="col-md-3 col-md-offset-3">
+            <div class="col-md-4">
                 {!! Form::submit(trans('survey.save'),  [
                     'class' => 'btn-save-survey btn-action',
                 ]) !!}
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                {!! Form::button(trans('survey.delete'),  [
                     'data-url' => action('SurveyController@delete'),
                     'id-survey' => $survey->id,
                     'redirect' => action('SurveyController@listSurveyUser'),
                     'class' => 'btn-remove-survey btn-action',
+                ]) !!}
+            </div>
+            <div class="col-md-4">
+               {!! Form::button(trans('survey.close'),  [
+                    'data-url' => action('SurveyController@close', $survey->id),
+                    'class' => 'btn-close-survey btn-action',
+                    ($survey->status == config('survey.status.avaiable')
+                        || $survey->deadline > \Carbon\Carbon::now()->toDateTimeString())
+                        ? null : 'disabled',
                 ]) !!}
             </div>
         </div>

@@ -10,7 +10,7 @@
             <div class="step row wizard-step">
                 <div class="row">
                     <div class="col-md-4 complete-info">
-                        <h3>{{ trans('info.thank_you') }}, {{ $name }}</h3>
+                        <h3>{{ trans('info.thank_you') }}, {{ $survey->user_name }}</h3>
                         <h4>{{ trans('info.survey_created') }}</h4>
                         <p>{{ trans('home.description_complete') }} {{ $mail }}</p>
                         <p>{{ trans('info.link_send') }}</p>
@@ -44,11 +44,9 @@
                 </div>
                 <a href="{{ action('AnswerController@show', [
                     'token' => $survey->token_manage,
-                    'type' => $survey->feature,
                 ]) }}" class="tag-link-manage">
                     {{ action('AnswerController@show', [
                         'token' => $survey->token_manage,
-                        'type' => $survey->feature,
                     ]) }}
                 </a>
             </div>

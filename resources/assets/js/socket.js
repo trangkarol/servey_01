@@ -121,4 +121,8 @@ $(document).ready(function() {
             });
         }
     });
+
+    socket.on('close', function (data) {
+        $('.reload-page' + data).fadeIn();
+    })
 });
