@@ -207,7 +207,7 @@ class ResultController extends Controller
         ]);
     }
 
-    public function show($name, $survey)
+    public function show($survey, $name = null)
     {
         return view('user.pages.answer_complete', compact('name', 'survey'));
     }
