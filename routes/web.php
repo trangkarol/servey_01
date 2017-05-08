@@ -150,4 +150,4 @@ Route::get('/feedback', 'FeedbackController@getFeedback');
 
 Route::post('/post-feedback', 'FeedbackController@create');
 
-Route::get('/answer/completed/{name?}/{survey}', 'ResultController@show');
+Route::get('/answer/completed/{survey}/{name?}', 'ResultController@show');
