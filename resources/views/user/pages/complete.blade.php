@@ -5,6 +5,7 @@
             <strong class="tag-complete tag-wizard-top">
                 {{ trans('info.success') }}
             </strong>
+            <div class="shadow"></div>
         </div>
         <div id="middle-wizard" class="wizard-branch wizard-wrapper">
             <div class="step row wizard-step">
@@ -51,6 +52,8 @@
                 </a>
             </div>
         </div>
-        <div class="bot-wizard-complete"></div>
+        <div class="bot-wizard-complete">
+            <div class="shadow-bottom"></div>
+        </div>
     </div>
 @endsection

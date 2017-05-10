@@ -44,7 +44,7 @@
                 <p>{{ Lang::choice('temp.description', 0, [], $lang) . ': ' .
                     ($description ?: Lang::choice('temp.no_description', 0, [], $lang)) }}</p>
                 <div class="hr-heading-body">
-                    <p>{{ trans('temp.tag_send_user') }}</p>
+                    <p>{{ Lang::choice('temp.tag_send_user', 0, [], $lang) }}</p>
                     <a href="{{ $link }}">{{ $link }}</a>
                 </div>
             </td>

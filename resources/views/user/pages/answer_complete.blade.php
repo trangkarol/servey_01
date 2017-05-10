@@ -15,7 +15,10 @@
                             'name' => $name ?: '',
                         ]) }}
                     </h3>
-                    <div class="complete-image col-md-8 animated">
+                    <div class="div-thank">
+                        {!! Html::image(config('settings.image_path_system') . 'thank-you.jpg', '',[
+                            'class' => 'img-thank',
+                        ]) !!}
                     </div>
                 </div>
             </div>
