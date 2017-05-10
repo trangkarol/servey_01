@@ -33,10 +33,12 @@
                     <li>
                         <div class="container-infor">
                             {!! Html::image(config('settings.image_system') . 'date.png', '') !!}
-                            {!! Form::text('deadline', Carbon\Carbon::parse($survey->deadline)->format(trans('temp.format_with_trans')), [
-                                'placeholder' => trans('info.duration'),
-                                'id' => 'deadline',
-                                'class' => 'frm-deadline datetimepicker form-control',
+                            {!! Form::text('deadline', $survey->deadline
+                                ? Carbon\Carbon::parse($survey->deadline)->format(trans('temp.format_with_trans'))
+                                : '', [
+                                    'placeholder' => trans('info.duration'),
+                                    'id' => 'deadline',
+                                    'class' => 'frm-deadline datetimepicker form-control',
                             ]) !!}
                             {!! Form::label('deadline', trans('info.date_invalid'), [
                                 'class' => 'wizard-hidden validate-time error',

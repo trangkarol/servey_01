@@ -40,7 +40,7 @@ return [
     'next' => 'Đi tới',
     'submit_survey' => 'Gửi Survey',
     'survey_complete' => 'Hoàn thành survey',
-    'choose_question' => 'Tạo những câu hỏi của bạn tại đây',
+    'choose_question' => 'Tạo câu hỏi của bạn tại đây',
     'send_email_for' => 'Bạn muốn gửi survey này cho ai',
     'list_survey' => 'Danh sách survey',
     'detail_survey' => 'Chi tiết survey',

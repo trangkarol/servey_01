@@ -4,25 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Repositories\Invite\InviteInterface;
 use App\Repositories\Survey\SurveyInterface;
-use App\Repositories\Setting\SettingInterface;
 use Carbon\Carbon;
 
 class AnswerController extends Controller
 {
     protected $surveyRepository;
-    protected $inviteRepository;
-    protected $settingRepository;
 
-    public function __construct(
-        SurveyInterface $surveyRepository,
-        InviteInterface $inviteRepository,
-        SettingInterface $settingRepository
-    ) {
+    public function __construct(SurveyInterface $surveyRepository)
+    {
         $this->surveyRepository = $surveyRepository;
-        $this->inviteRepository = $inviteRepository;
-        $this->settingRepository = $settingRepository;
     }
 
     public function answer($token, $view = 'detail', $isPublic = true)
@@ -41,6 +32,11 @@ class AnswerController extends Controller
 
         if (!$isPublic && $survey->user_id && !auth()->check()) {
             return redirect()->action('Auth\LoginController@getLogin');
+        }
+
+        if ($view == 'detail' && $survey->user_id && $survey->user_id != auth()->id()) {
+            return redirect()->action('SurveyController@index')
+                ->with('message-fail', trans_choice('messages.permisstion', 0));
         }
 
         $access = $this->surveyRepository->getSettings($survey->id);
