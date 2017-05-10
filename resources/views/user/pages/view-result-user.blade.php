@@ -39,12 +39,9 @@
                                 @if ($question->update >= 0)
                                     <div>
                                         <h4 class="tag-question">
-                                            {{ ($question->clone_id ? ($index - 1) : ($index)) . '. ' . $question->content }}
+                                            {{ $index . '. ' . $question->content }}
                                             <span>{{ ($question->required) ? '(*)' : '' }}</span>
                                         </h4>
-                                        @if (!$question->clone_id)
-                                            @php $index++; @endphp
-                                        @endif
                                         @if (in_array($question->update, [
                                             config('survey.update.change'),
                                             config('survey.update.delete'),
@@ -111,17 +108,17 @@
                                                             @breakswitch
                                                             @case(config('survey.type_text'))
                                                                 <div class="show-user-answer">
-                                                                    - {{ $checked }}
+                                                                    {{ ($checked) ? '- ' . $checked  : trans('result.not_answer') }}
                                                                 </div>
                                                                 @breakswitch
                                                             @case(config('survey.type_time'))
                                                                 <div class="show-user-answer">
-                                                                    - {{ $checked }}
+                                                                    {{ ($checked) ? '- ' . $checked  : trans('result.not_answer') }}
                                                                 </div>
                                                             @breakswitch
                                                             @case(config('survey.type_date'))
                                                                 <div class="show-user-answer">
-                                                                    - {{ $checked }}
+                                                                    {{ ($checked) ? '- ' . $checked  : trans('result.not_answer') }}
                                                                 </div>
                                                             @breakswitch
                                                             @case(config('survey.type_other_radio'))
@@ -179,6 +176,7 @@
                                             @endforeach
                                         </ul>
                                     </div>
+                                    @php $index++; @endphp
                                 @endif
                             @endforeach
                         </div>

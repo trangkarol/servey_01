@@ -88,7 +88,7 @@
     <div class="clear temp-other{{ $number }}"></div>
     <div class="choose-action row">
         <div class="col-md-1"></div>
-        <div class="col-md-6">
+        <div class="col-md-7">
             <span class="add-checkbox" id-as="{{ $number }}"
                 typeId="{{ config('survey.type_checkbox') }}"
                 url="{{ action('TempController@addTemp', config('temp.checkbox_answer')) }}">
@@ -105,7 +105,7 @@
             <ul class="data-list">
                 <li>
                     <div class="row">
-                        <div class="col-md-7 col-xs-4 time-text">
+                        <div class="col-md-6 col-xs-4 time-text">
                             <strong>{{ trans('temp.require') }}?</strong>
                         </div>
                         <div class="col-md-5 col-xs-4">

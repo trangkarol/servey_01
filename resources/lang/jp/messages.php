@@ -38,5 +38,5 @@ return [
     'object_not_found' => '{0}This user or email is not exists.|{1}This survey is not exists.|{2}This question is not exists.|{3}This answer is not exists.|{4}This feedback is not exists',
     'object_updated_unexicute' => '{0}The process update user information is not exicute.|{1} The process update survey content is not exicute.',
     'answer_complete' => 'You are finish survey',
-    'answer_is_complete' => 'Thank :name for your time, your answer of :survey is send to us.',
+    'answer_is_complete' => 'Thank :name, your answer about ":survey" is send to us.',
 ];

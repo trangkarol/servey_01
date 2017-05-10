@@ -37,7 +37,7 @@
         </div>
         <div class="col-md-4 col-xs-12 div-required">
             <div class="row">
-                <div class="col-md-4 col-xs-4 time-text">
+                <div class="col-md-5 col-xs-4 time-text">
                     <strong>{{ trans('temp.require') }}?</strong>
                 </div>
                 <div class="col-md-5 col-xs-5">

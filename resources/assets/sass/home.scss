@@ -801,10 +801,9 @@
 .btn-save-survey, .btn-remove-survey, .btn-close-survey {
     color: #fdfdfd;
     font-size: 17px;
-    border-radius: 0px;
-    box-shadow: 1px 2px 4px rgba(119, 132, 130, 0.56);
-    background: #516b77;
-    border-radius: 30px;
+    box-shadow: 1px 2px 3px rgba(119, 132, 130, 0.56);
+    background: #666e96;
+    border-radius: 3px;
     margin-bottom: 10px;
 }
 
@@ -1016,7 +1015,9 @@
 }
 
 .tag-wizard-top {
-    font-size: 25px;
+    font-size: 22px;
+    color: #5f6564;
+    text-transform: uppercase;
 }
 
 .wizard-register {
@@ -1067,11 +1068,11 @@ input[type="text"] {
 }
 
 .submit-answer {
-    border-radius: 30px;
+    border-radius: 3px;
     font-size: 16px;
     padding: 5px 35px;
     font-weight: bold;
-    background: #516b77;;
+    background: #666e96;
     border: 0px;
     &:hover {
         background: #1992ce;
@@ -1242,7 +1243,7 @@ input[type="text"] {
 }
 
 .choose-action {
-    >.col-md-6 {
+    >.col-md-6, >.col-md-7 {
         >span {
             cursor: pointer;
             font-weight: bold;
@@ -1261,4 +1262,13 @@ input[type="text"] {
     .detail-survey{
         padding: 20px 20px;
     }
+}
+
+.img-thank {
+    width: initial !important;
+    max-width: 100%;
+}
+
+.div-thank {
+    text-align: center;
 }
