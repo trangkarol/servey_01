@@ -469,7 +469,7 @@ $darkenColor: darken($activeColor, 20%);
 }
 
 .survey_container {
-    box-shadow: 0 0 15px #212121;
+    box-shadow: 0 0 15px #596361;
 }
 
 .tag-detail-survey {
@@ -2026,23 +2026,6 @@ input.frm-date-2,input.frm-time {
     font-size: 38px;
     line-height: 35px;
     font-family: 'time new roman';
-    color: white;
-}
-
-.main-title p {
-   color: white;
-}
-
-.add_bottom_30 {
-    h3,p {
-        color: white;
-    }
-}
-
-.fancybox {
-    img {
-        border: 3px solid #e2e2e2;
-    }
 }
 
 .list-more-info {
@@ -2166,14 +2149,4 @@ input.frm-date-2,input.frm-time {
 
 #top-area {
    box-shadow: 2px 2px 20px #131514;
-}
-
-body {
-    background: #5f6564;
-}
-
-.middle-first, .middle-last {
-    h2, h3, span {
-        color: white;
-    }
 }

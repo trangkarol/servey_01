@@ -47,7 +47,6 @@
                 </div>
             </div>
             {!! Form::open([
-                'id' => 'wrapped',
                 'class' => 'wizard-form',
                 'novalidate' => 'novalidate',
                 'action' => ['ResultController@result', $survey->token],

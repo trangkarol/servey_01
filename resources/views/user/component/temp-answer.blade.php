@@ -143,7 +143,7 @@
                                         <div class="checkbox-answer col-md-1">
                                             {{ Form::checkbox("answer[$question->id][$answer->id]", $answer->id, '', [
                                                 'id' => "$key$temp",
-                                                'class' => 'input-checkbox option-add',
+                                                'class' => 'input-checkbox option-add-checkbox',
                                                 'temp-as' => $answer->id,
                                                 'temp-qs' => $question->id,
                                                 'url' => action('TempController@addTemp', config('temp.text_other')),
