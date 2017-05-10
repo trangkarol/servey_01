@@ -182,8 +182,9 @@ class SurveyController extends Controller
         $data = $request->only([
             'title',
             'description',
-            'deadline',
         ]);
+
+        $data['deadline'] = null;
 
         if ($request->get('deadline')) {
             $data['deadline'] = Carbon::parse(in_array(Session::get('locale'), config('settings.sameFormatDateTime'))
@@ -406,7 +407,7 @@ class SurveyController extends Controller
                 'user_id' => (auth()->id()) ? auth()->id() : null,
                 'mail' => (!auth()->id()) ? $value['email'] : null,
                 'title' => $value['title'],
-                'feature' => $value['feature'],
+                'feature' => $value['feature'] ?: config('settings.feature'),
                 'token' => $token,
                 'token_manage' => $tokenManage,
                 'status' => $value['deadline'],
