@@ -94,7 +94,7 @@ class AnswerController extends Controller
         return $this->answer($token, 'detail');
     }
 
-    public function showMultiHistory(Request $request, $surveyId, $userId = null, $email = null)
+    public function showMultiHistory(Request $request, $surveyId, $userId = null, $email = null, $name = null)
     {
         if (!$request->ajax()) {
             return [
@@ -112,6 +112,7 @@ class AnswerController extends Controller
         $options = [
             'type' => 'result',
             'email' => $email,
+            'name' => $name,
         ];
         $username = $request->get('username');
         $history  = $this->surveyRepository->getHistory($userId, $surveyId, $options);

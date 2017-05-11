@@ -400,14 +400,13 @@ class SurveyController extends Controller
 
         $token = md5(uniqid(rand(), true));
         $tokenManage = md5(uniqid(rand(), true));
-
         DB::beginTransaction();
         try {
             $inputs = collect([
                 'user_id' => (auth()->id()) ? auth()->id() : null,
                 'mail' => (!auth()->id()) ? $value['email'] : null,
                 'title' => $value['title'],
-                'feature' => $value['feature'] ?: config('settings.feature'),
+                'feature' => empty($value['feature']) ? config('settings.feature') : config('settings.not_feature'),
                 'token' => $token,
                 'token_manage' => $tokenManage,
                 'status' => $value['deadline'],

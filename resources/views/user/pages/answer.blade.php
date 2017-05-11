@@ -96,10 +96,12 @@
                                     <div class="col-md-5 col-md-offset-1">
                                         <div class="container-infor">
                                             {!! Html::image(config('settings.image_system') . 'email1.png', '') !!}
-                                            {!! Form::email('email-answer', '', [
-                                                'id' => 'email',
-                                                'class' => 'frm-require-answer form-control',
-                                                'placeholder' => trans('login.your_email'),
+                                            {!! Form::email('email-answer', auth()->check()
+                                                ? auth()->user()->email
+                                                : old('email-answer'), [
+                                                    'id' => 'email',
+                                                    'class' => 'frm-require-answer form-control',
+                                                    'placeholder' => trans('login.your_email'),
                                             ]) !!}
                                             {!! Form::label('email', trans('validation.msg.required'), [
                                                 'class' => 'require-email wizard-hidden error',
@@ -122,10 +124,13 @@
                                     <div class="col-md-5 col-md-offset-1">
                                         <div class="container-infor">
                                             {!! Html::image(config('settings.image_system') . 'name.png', '') !!}
-                                            {!! Form::text('name-answer', '', [
-                                                'placeholder' => trans('login.your_name'),
-                                                'id' => 'name',
-                                                'class' => 'frm-require-answer form-control',
+                                            {!! Form::text('name-answer', auth()->check()
+                                                ? auth()->user()->name
+                                                : old('name-answer'), [
+                                                    'placeholder' => trans('login.your_name'),
+                                                    'id' => 'name',
+                                                    'class' => 'frm-require-answer form-control',
+                                                    auth()->check() ? 'disabled' : null,
                                             ]) !!}
                                             {!! Form::label('name', trans('validation.msg.required'), [
                                                 'class' => 'require-name wizard-hidden error',
@@ -148,10 +153,12 @@
                                     <div class="col-md-5 col-md-offset-1">
                                         <div class="container-infor">
                                             {!! Html::image(config('settings.image_system') . 'email1.png', '') !!}
-                                            {!! Form::email('email-answer', auth()->check() ? auth()->user()->email : old('email-answer'), [
-                                                'id' => 'email',
-                                                'class' => 'frm-require-answer form-control',
-                                                'placeholder' => trans('login.your_email'),
+                                            {!! Form::email('email-answer', auth()->check()
+                                                ? auth()->user()->email
+                                                : old('email-answer'), [
+                                                    'id' => 'email',
+                                                    'class' => 'frm-require-answer form-control',
+                                                    'placeholder' => trans('login.your_email'),
                                             ]) !!}
                                             {!! Form::label('email', trans('validation.msg.required'), [
                                                 'class' => 'require-email wizard-hidden error',
@@ -169,10 +176,13 @@
                                     <div class="col-md-5 ">
                                         <div class="container-infor">
                                             {!! Html::image(config('settings.image_system') . 'name.png', '') !!}
-                                            {!! Form::text('name-answer', old('name-answer'), [
-                                                'placeholder' => trans('login.your_name'),
-                                                'id' => 'name',
-                                                'class' => 'frm-require-answer form-control',
+                                            {!! Form::text('name-answer', auth()->check()
+                                                ? auth()->user()->name
+                                                : old('name-answer'), [
+                                                    'placeholder' => trans('login.your_name'),
+                                                    'id' => 'name',
+                                                    'class' => 'frm-require-answer form-control',
+                                                    auth()->check() ? 'disabled' : null,
                                             ]) !!}
                                             {!! Form::label('name', trans('validation.msg.required'), [
                                                 'class' => 'require-name wizard-hidden error',

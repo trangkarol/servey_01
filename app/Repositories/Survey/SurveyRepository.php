@@ -150,9 +150,6 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                 ->toDateTimeString();
         }
 
-        $surveyInputs['feature'] = ($inputs['feature'])
-            ? config('settings.not_feature')
-            : config('settings.feature');
         $surveyInputs['status'] = config('survey.status.avaiable');
         $surveyInputs['deadline'] = ($inputs['deadline']) ?: null;
         $surveyInputs['description'] = ($inputs['description']) ?: null;
@@ -276,6 +273,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                 ->get();
         } else {
             $email = $options['email'];
+            $name = $options['name'];
             $results = $this->questionRepository
                 ->getResultByQuestionIds($surveyId)
                 ->where(function($query) use ($userId, $email) {
@@ -284,6 +282,18 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                 })
                 ->get()
                 ->toArray();
+
+            if (empty($email) && $name) {
+                $results = $this->questionRepository
+                    ->getResultByQuestionIds($surveyId)
+                    ->where(function($query) use ($userId, $name) {
+                        $query->where('sender_id', $userId)
+                            ->orWhere('name', $name);
+                    })
+                    ->get()
+                    ->toArray();
+            }
+
             $collection = collect($results);
 
             return $collection->groupBy('created_at')->toArray();
@@ -341,9 +351,18 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
             Get users not login when answer survey and group by email.
             Email can be set default because user don't need enter email.
         */
-        $userNotLogin = in_array('', array_keys($collection))
-            ? collect($collection[''])->groupBy('email')->toArray()
-            : [];
+        $settings = $this->getSettings($survey->id);
+
+        if ($settings[config('settings.key.requireAnswer')] == config('settings.require.name')) {
+            $userNotLogin = in_array('', array_keys($collection))
+                ? collect($collection[''])->groupBy('name')->toArray()
+                : [];
+        } else {
+            $userNotLogin = in_array('', array_keys($collection))
+                ? collect($collection[''])->groupBy('email')->toArray()
+                : [];
+        }
+
 
         return array_merge($userLogin, $userNotLogin);
     }
