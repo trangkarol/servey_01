@@ -170,10 +170,19 @@ $(document).ready(function() {
         });
     });
 
-    $('.submit-answer').prop('disabled', false);
-
     $(document).on('click', '.submit-answer', function() {
         var flag = true;
+
+        $('.box-orther').each(function () {
+            if(!$(this).val()) {
+                flag = false;
+                $(this).siblings('.error').fadeIn();
+            }
+
+            setTimeout(function() {
+                $('.error').fadeOut();
+            }, 4000);
+        })
 
         if ($('input[name=name-answer]').length) {
             var username  = $('input[name=name-answer]').val();

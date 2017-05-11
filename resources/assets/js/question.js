@@ -613,32 +613,6 @@ $(document).ready(function() {
         }
     });
 
-    $('.container-survey').on('click', '.option-add-checkbox', function() {
-        var url = $(this).attr('url');
-        var temp_as = $(this).attr('temp-as');
-        var temp_qs = $(this).attr('temp-qs');
-
-        if ($(this).prop('checked')) {
-            $.post(
-                url,
-                {
-                    'idQuestion': temp_qs,
-                    'idAnswer': temp_as,
-                },
-                function(response) {
-                    if (response.success) {
-                        $('.append-as' + temp_qs).html(response.data);
-                        elasticArea();
-                    } else {
-                        alert(error);
-                    }
-            });
-        } else {
-            $('.input' + temp_qs).remove();
-        }
-    });
-
-
     $(document).on('click', '.option-choose', function() {
         var temp_qs = $(this).attr('temp-qs');
         $('.input' + temp_qs).remove();
