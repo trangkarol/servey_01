@@ -130,7 +130,7 @@
                                                     'placeholder' => trans('login.your_name'),
                                                     'id' => 'name',
                                                     'class' => 'frm-require-answer form-control',
-                                                    auth()->check() ? 'disabled' : null,
+                                                    auth()->check() ? 'readonly' : null,
                                             ]) !!}
                                             {!! Form::label('name', trans('validation.msg.required'), [
                                                 'class' => 'require-name wizard-hidden error',
@@ -182,7 +182,7 @@
                                                     'placeholder' => trans('login.your_name'),
                                                     'id' => 'name',
                                                     'class' => 'frm-require-answer form-control',
-                                                    auth()->check() ? 'disabled' : null,
+                                                    auth()->check() ? 'readonly' : null,
                                             ]) !!}
                                             {!! Form::label('name', trans('validation.msg.required'), [
                                                 'class' => 'require-name wizard-hidden error',
