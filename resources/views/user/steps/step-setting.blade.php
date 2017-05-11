@@ -169,7 +169,7 @@
             <div class="setting-option row">
                 <div class="col-md-2">
                     <div class="slideThree">
-                        {{ Form::checkbox('feature', config('settings.not_feature'), '', [
+                        {{ Form::checkbox('feature', config('settings.isPrivate'), '', [
                             'id' => 'feature',
                         ]) }}
                         {{ Form::label('feature', ' ') }}
