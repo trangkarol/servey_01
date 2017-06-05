@@ -2,14 +2,14 @@
 
 return [
     'email' => [
-        'fail' => 'Fail to invite your survey, please try again',
-        'success' => 'Invite your survey success',
-        'invite' => 'FSurvey invite you to survey,',
-        'from' => 'From : ',
+        'fail' => '招待することができません。もう一度操作してください。',
+        'success' => '招待完成',
+        'invite' => 'FSurveyに招待されている',
+        'from' => 'から: ',
     ],
-    'success' => 'Action successful',
-    'fail' => 'Action fail, please try again',
-    'do_not_permission' => 'You dont have permission to access this pages',
+    'success' => '完成',
+    'fail' => '失敗しました。もう一度操作してください。',
+    'do_not_permission' => 'アクセル許可がありません',
     'object_created_successfully' => '{0}Created user success.|{1}Created survey success.|{2}Created question success.|{3}Created your answer is success.|{4}Created Thank for your feedback.',
     'object_updated_successfully' => '{0}Updated user success.|{1}Updated survey success.| {2}Updated question success.|{3}Updated answer success.',
     'object_deleted_successfully' => '{0}Deleted user success.|{1}Deleted survey success.|{2}Deleted question success.|{3}Deleted answer success',
@@ -38,5 +38,5 @@ return [
     'object_not_found' => '{0}This user or email is not exists.|{1}This survey is not exists.|{2}This question is not exists.|{3}This answer is not exists.|{4}This feedback is not exists',
     'object_updated_unexicute' => '{0}The process update user information is not exicute.|{1} The process update survey content is not exicute.',
     'answer_complete' => 'You are finish survey',
-    'answer_is_complete' => 'Thank :name, your answer about ":survey" is send to us.',
+    'answer_is_complete' => 'Thank :name, your answer about ":survey" is sended to us.',
 ];
