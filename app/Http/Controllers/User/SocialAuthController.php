@@ -7,24 +7,27 @@ use App\Http\Controllers\Controller;
 use App\Repositories\Socialite\SocialAccountRepository;
 use Socialite;
 use Auth;
+use FAuth;
 use Exception;
 
 class SocialAuthController extends Controller
 {
     public function redirect($provider)
     {
-        return Socialite::driver($provider)->redirect();
+        return $provider == config('settings.framgia') ? FAuth::redirect() : Socialite::driver($provider)->redirect();
     }
 
     public function callback(SocialAccountRepository $service, $provider)
     {
+        $driver = $provider == config('settings.framgia') ? FAuth::driver($provider) : Socialite::driver($provider);
+
         try {
-            $user = $service->createOrGetUser(Socialite::driver($provider)->user(), $provider);
+            $user = $service->createOrGetUser($driver->user(), $provider);
 
             if ($user->isActive()) {
                 auth()->login($user);
 
-                return  redirect()->intended(action('SurveyController@index'));
+                return redirect()->intended(action('SurveyController@index'));
             }
         } catch (Exception $e) {
             return redirect()->action('SurveyController@index')

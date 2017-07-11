@@ -12,7 +12,7 @@ return [
         'not_required' => 0,
         'required' => 1,
     ],
-    'paginate'=> 9,
+    'paginate' => 9,
     'type_answer' => [
         'radiobutton' => '1',
         'checkbox' => '2',
@@ -30,6 +30,7 @@ return [
     'google' => 'google',
     'facebook' => 'facebook',
     'twitter' => 'twitter',
+    'framgia' => 'framgia',
     'replace' => 'survey/result/',
     'required' => [
         'true' => 1,

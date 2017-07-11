@@ -17,7 +17,8 @@
         "maatwebsite/excel": "2.1.17",
         "predis/predis": "1.1.1",
         "barryvdh/laravel-dompdf": "0.8.0",
-        "torann/database-backup": "0.1.0"
+        "torann/database-backup": "0.1.0",
+        "framgia-education/laravel-omniauth-hrsystem": "~0.1"
     },
     "require-dev": {
         "fzaninotto/faker": "1.6.0",
