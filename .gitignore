@@ -20,4 +20,5 @@ bootstrap/cache/
 /public/js
 /public/user
 /public/build
+/public/rev-manifest.json
 storage/
