@@ -152,9 +152,9 @@ class User extends Authenticatable
         ->where('survey_id', $id);
     }
 
-    public function currenSocial()
+    public function socialAccounts()
     {
-        return $this->hasOne(CurrentSocial::class);
+        return $this->hasMany(SocialAccount::class);
     }
 
     public function getBirthdayAttribute()

@@ -187,6 +187,7 @@ return [
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
         Torann\DatabaseBackup\DatabaseBackupServiceProvider::class,
+        Framgia\Education\Auth\FramgiaAuthServiceProvider::class,
     ],
 
     /*
@@ -239,5 +240,6 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
+        'FAuth' => Framgia\Education\Auth\Facades\FramgiaAuth::class,
     ],
 ];

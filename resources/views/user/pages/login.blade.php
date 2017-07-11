@@ -54,6 +54,10 @@
                                                 <a href="{{ action('User\SocialAuthController@redirect', [config('settings.twitter')]) }}">
                                                 </a>
                                             </li>
+                                            <li class="framgia">
+                                                <a href="{{ action('User\SocialAuthController@redirect', config('settings.framgia')) }}">
+                                                </a>
+                                            </li>
                                         </ul>
                                     </div>
                                 </li>

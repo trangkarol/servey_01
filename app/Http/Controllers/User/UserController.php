@@ -23,8 +23,9 @@ class UserController extends Controller
     public function show()
     {
         $user = $this->userRepository->find(auth()->id());
+        $hasFramgiaAccount = $user->socialAccounts()->where('provider', config('settings.framgia'))->exists() ?: null;
 
-        return view('user.pages.update-info', compact('user'));
+        return view('user.pages.update-info', compact('user', 'hasFramgiaAccount'));
     }
 
     public function update(EditUserRequest $request)

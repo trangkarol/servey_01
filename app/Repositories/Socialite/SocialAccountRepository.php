@@ -21,9 +21,11 @@ class SocialAccountRepository extends BaseRepository
         $this->userRepository = $userRepository;
     }
 
-    public function createOrGetUser(ProviderUser $providerUser, $provider)
+    public function createOrGetUser($providerUser, $provider)
     {
-        $account = $this->where('provider', $provider)->where('provider_user_id', $providerUser->getId())->first();
+        $account = $provider == config('settings.framgia')
+            ? $this->where('provider', $provider)->where('email', $providerUser->getEmail())->first()
+            : $this->where('provider', $provider)->where('provider_user_id', $providerUser->getId())->first();
         $user = null;
 
         if ($account) {

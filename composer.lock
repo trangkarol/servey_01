@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "3ced35d4d20fa40d0083ccd2736af181",
-    "content-hash": "83311a249aee22ce251ccba90b2f5092",
+    "hash": "feaa61aa29afd7dbb04ebf741b4aaeab",
+    "content-hash": "7961b3c1abac3d6dbc904c04c51111c0",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -711,6 +711,60 @@
             "description": "DOMPDF is a CSS 2.1 compliant HTML to PDF converter",
             "homepage": "https://github.com/dompdf/dompdf",
             "time": "2017-02-16 02:40:40"
+        },
+        {
+            "name": "framgia-education/laravel-omniauth-hrsystem",
+            "version": "v0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/framgia-education/laravel-omniauth-hrsystem.git",
+                "reference": "4b78ce4e8786d078b9892f045a22d57c17336097"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/framgia-education/laravel-omniauth-hrsystem/zipball/4b78ce4e8786d078b9892f045a22d57c17336097",
+                "reference": "4b78ce4e8786d078b9892f045a22d57c17336097",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "~5.0|~6.0",
+                "illuminate/contracts": "~5.0",
+                "illuminate/http": "~5.0",
+                "illuminate/support": "~5.0",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9",
+                "phpunit/phpunit": "~4.0|~5.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Framgia\\Education\\Auth\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Framgia Vietnam",
+                    "email": "info@framgia.vn"
+                }
+            ],
+            "description": "Framgia Education Laravel wrapper around OAuth 2 libraries.",
+            "keywords": [
+                "Framgia",
+                "laravel",
+                "oauth"
+            ],
+            "time": "2017-07-10 04:39:19"
         },
         {
             "name": "fzaninotto/faker",
