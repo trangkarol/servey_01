@@ -14,8 +14,7 @@ var Promise = require('es6-promise').Promise;
 
 elixir(function(mix) {
 
-    mix.sass('app.scss')
-   .sass('new-style.scss', 'public/user/css/new-style.css')
+   mix.sass('new-style.scss', 'public/user/css/new-style.css')
    .sass('style.scss', 'public/user/css/style.css')
    .sass('socialize-bookmarks.scss', 'public/user/css/socialize-bookmarks.css')
    .sass('home.scss', 'public/user/css/home.css')
@@ -39,15 +38,13 @@ elixir(function(mix) {
    .copy('resources/assets/css/404.css', 'public/user/errors/404.css')
    .copy('resources/assets/images', 'public/user/images')
    .copy([
-            'public/bower/bootstrap/dist/css/bootstrap.css',
-            'public/bower/bootstrap/dist/css/bootstrap.min.css'
-         ], 'public/admin/css')
+      'public/bower/bootstrap/dist/css/bootstrap.css',
+      'public/bower/bootstrap/dist/css/bootstrap.min.css'
+   ], 'public/admin/css')
    .copy([
-            'public/bower/bootstrap/dist/js/bootstrap.min.js',
-            'public/bower/bootstrap/dist/js/bootstrap.js',
-            'public/bower/jquery/dist/jquery.js'
-         ], 'public/admin/js')
-   .browserSync({
-        proxy: 'http://localhost:8000/',
-    });
+      'public/bower/bootstrap/dist/js/bootstrap.min.js',
+      'public/bower/bootstrap/dist/js/bootstrap.js',
+      'public/bower/jquery/dist/jquery.js'
+   ], 'public/admin/js')
+   .version(['public/user/css/*.css', 'public/user/js/*.js', 'public/js/app.js']);
 });
