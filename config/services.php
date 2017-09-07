@@ -60,8 +60,8 @@ return [
     ],
 
     'framgia' => [
-        'client_id' => env('FRAMGIA_ID'),
-        'client_secret' => env('FRAMGIA_SECRET'),
-        'redirect' => env('FRAMGIA_URL'),
+        'client_id' => env('WSM_ID'),
+        'client_secret' => env('WSM_SECRET'),
+        'redirect' => env('WSM_URL'),
     ],
 ];

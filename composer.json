@@ -4,6 +4,12 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "type": "project",
+    "repositories": [
+        {
+            "url": "https://github.com/framgia-education/laravel-omniauth-hrsystem",
+            "type": "git"
+        }
+    ],
     "require": {
         "php": ">=5.6.4",
         "laravel/framework": "5.3.31",
@@ -18,7 +24,7 @@
         "predis/predis": "1.1.1",
         "barryvdh/laravel-dompdf": "0.8.0",
         "torann/database-backup": "0.1.0",
-        "framgia-education/laravel-omniauth-hrsystem": "~0.1"
+        "framgia-education/laravel-omniauth-hrsystem": "dev-framgia"
     },
     "require-dev": {
         "fzaninotto/faker": "1.6.0",

@@ -45,6 +45,7 @@
 	width: 40px;
 	height: 40px;
 	text-indent: -9999px;
+	background-position: 0 -40px !important;
 }
 .social-bookmarks li.aim a {
 	background: url(../../../user/images/socialize-icons/aim.png) no-repeat 0 0;
@@ -120,12 +121,16 @@
 }
 .social-bookmarks li.facebook a {
 	background: url(../../../user/images/socialize-icons/facebook.png) no-repeat 0 0;
+	background-color: #3b5998;
 }
 .social-bookmarks li.facebook a:hover {
 	background-color: #3b5998;
 }
 .social-bookmarks li.framgia a {
-	background: url(../../../user/images/socialize-icons/framgia.png) no-repeat 0 0;
+	background: url(http://poll.framgia.vn/uploads/images/wsm.ico) no-repeat 0 0;
+	background-position: center !important;
+	background-size: 32px;
+	background-color: #fff;
 }
 .social-bookmarks li.framgia a:hover {
 	background-color: #fff;
@@ -156,6 +161,7 @@
 }
 .social-bookmarks li.googleplus a {
 	background: url(../../../user/images/socialize-icons/googleplus.png) no-repeat 0 0;
+	background-color: #d94a39;
 }
 .social-bookmarks li.googleplus a:hover {
 	background-color: #d94a39;
@@ -300,6 +306,7 @@
 }
 .social-bookmarks li.twitter a {
 	background: url(../../../user/images/socialize-icons/twitter.png) no-repeat 0 0;
+	background-color: #48c4d2;
 }
 .social-bookmarks li.twitter a:hover {
 	background-color: #48c4d2;
