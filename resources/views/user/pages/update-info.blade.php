@@ -39,7 +39,6 @@
                                             'placeholder' => trans('user.your_email'),
                                             'id' => 'email',
                                             'class' => 'form-control',
-                                            'disabled' => $hasFramgiaAccount,
                                         ]) !!}
                                     </div>
                                 </li>
@@ -50,7 +49,6 @@
                                             'placeholder' => trans('user.your_name'),
                                             'id' => 'name',
                                             'class' => 'required form-control',
-                                            'disabled' => $hasFramgiaAccount,
                                         ]) !!}
                                     </div>
                                 </li>
@@ -59,7 +57,6 @@
                                         {!! Html::image(config('settings.image_system') . 'birthday3.png', '') !!}
                                         {!! Form::text('birthday', cleanText($user->birthday), [
                                             'placeholder' => trans('user.birthday'),
-                                            'disabled' => $hasFramgiaAccount,
                                             'class' => 'frm-datepicker form-control',
                                         ]) !!}
                                     </div>
@@ -69,7 +66,6 @@
                                         {!! Html::image(config('settings.image_system') . 'phone.png', '') !!}
                                         {!! Form::text('phone', cleanText($user->phone), [
                                             'placeholder' => trans('user.phone'),
-                                            'disabled' => $hasFramgiaAccount,
                                             'class' => 'form-control',
                                         ]) !!}
                                     </div>
@@ -78,7 +74,6 @@
                                     <div class="container-infor">
                                         {!! Html::image(config('settings.image_system') . 'address.png', '') !!}
                                         {!! Form::text('address', cleanText($user->address), [
-                                            'disabled' => $hasFramgiaAccount,
                                             'placeholder' => trans('user.address'),
                                             'class' => 'form-control',
                                         ]) !!}
@@ -94,7 +89,6 @@
                                         {!! Form::password('old-password', [
                                             'id' => 'old-password',
                                             'class' => 'form-control',
-                                            'disabled' => $hasFramgiaAccount,
                                             'placeholder' => trans('user.old_password'),
                                         ]) !!}
                                     </div>
@@ -105,7 +99,6 @@
                                         {!! Form::password('password', [
                                             'id' => 'password',
                                             'class' => 'form-control',
-                                            'disabled' => $hasFramgiaAccount,
                                             'placeholder' => trans('user.new_password'),
                                         ]) !!}
                                     </div>
@@ -115,7 +108,6 @@
                                     {!! Form::password('password_confirmation', [
                                         'id' => 'password-confirm',
                                         'class' => 'form-control',
-                                        'disabled' => $hasFramgiaAccount,
                                         'placeholder' => trans('user.retype_new_password'),
                                     ]) !!}
                                 </div>
@@ -129,18 +121,16 @@
                                                 'class' => 'img-avatar',
                                            ]) !!}
                                         </div>
-                                        @unless ($hasFramgiaAccount)
-                                            <div class="col-md-7">
-                                                {!! Form::button('<span class="glyphicon glyphicon-picture span-menu"></span>' . trans('user.chooser_new_image'), [
-                                                    'id' => 'image',
-                                                    'class' => 'choose-image',
-                                                ]) !!}
-                                                {!! Form::file('imageUser', [
-                                                    'id' => 'imageUser',
-                                                    'class' => 'form-control button-file-hidden',
-                                                ]) !!}
-                                            </div>
-                                        @endunless
+                                        <div class="col-md-7">
+                                            {!! Form::button('<span class="glyphicon glyphicon-picture span-menu"></span>' . trans('user.chooser_new_image'), [
+                                                'id' => 'image',
+                                                'class' => 'choose-image',
+                                            ]) !!}
+                                            {!! Form::file('imageUser', [
+                                                'id' => 'imageUser',
+                                                'class' => 'form-control button-file-hidden',
+                                            ]) !!}
+                                        </div>
                                     </div>
                                 </li>
                             </ul>
@@ -152,7 +142,6 @@
                                                 'id' => 'gender-male',
                                                 'class' => 'input-radio',
                                                 ($user->gender == config('users.gender.male')) ? 'checked' : null,
-                                                'disabled' => $hasFramgiaAccount,
                                             ]) }}
                                             {{ Form::label('gender-male', ' ', [
                                                 'class' => 'label-radio',
@@ -169,7 +158,6 @@
                                                 'id' => 'gender-female',
                                                 'class' => 'input-radio',
                                                 ($user->gender == config('users.gender.female')) ? 'checked' : null,
-                                                'disabled' => $hasFramgiaAccount,
                                             ]) }}
                                             {{ Form::label('gender-female', ' ', [
                                                 'class' => 'label-radio',
@@ -185,7 +173,6 @@
                                             {{ Form::radio('gender', config('users.gender.other_gender'), '', [
                                                 'id' => 'gender-other',
                                                 'class' => 'input-radio',
-                                                'disabled' => $hasFramgiaAccount,
                                                 ($user->gender == config('users.gender.other_gender')) ? 'checked' : null,
                                             ]) }}
                                             {{ Form::label('gender-other', ' ', [
@@ -206,13 +193,11 @@
                     </div>
                 </div>
             </div>
-            @unless ($hasFramgiaAccount)
-                <div id="bottom-wizard" class="bottom-wizard-register">
-                    {!! Form::submit(trans('user.update'), [
-                        'class' => 'bt-register forward',
-                    ]) !!}
-                </div>
-            @endunless
+            <div id="bottom-wizard" class="bottom-wizard-register">
+                {!! Form::submit(trans('user.update'), [
+                    'class' => 'bt-register forward',
+                ]) !!}
+            </div>
         {!! Form::close() !!}
     </div>
 @endsection
