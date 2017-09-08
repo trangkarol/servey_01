@@ -25,7 +25,7 @@ class EditUserRequest extends FormRequest
     {
         return [
             'email' => 'unique:users,email,' . auth()->id(),
-            'password' => 'min:6|confirmed|required',
+            'password' => 'min:6|confirmed|required_with:old-password',
             'name' => 'required|max:255',
             'imageUser' => 'image|mimes:jpg,jpeg,png,gif,svg|max:2048',
             'birthday' => 'date_format:' . trans('temp.format_birthday_with_trans'),
