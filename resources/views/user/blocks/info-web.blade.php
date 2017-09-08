@@ -3,7 +3,6 @@
     <div class="col-md-12 middle-first">
         <h2>{{ trans('view.body.intro.thank_your_time') }}
             <span>{{ trans('view.body.intro.content_thank_your_time') }}</span>
-            <span>{{ trans('view.body.intro.content_thank_your_time2') }}</span>
         </h2>
     </div>
 </div>

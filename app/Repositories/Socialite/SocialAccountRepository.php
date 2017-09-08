@@ -77,7 +77,7 @@ class SocialAccountRepository extends BaseRepository
             $newUser = [
                 'email' => $providerUser->getEmail(),
                 'name' => $providerUser->getName(),
-                'password' => config('users.password_default'),
+                'password' => '',
                 'image' => $providerUser->getAvatar(),
                 'level' => config('users.level.user'),
                 'status' => config('users.status.active'),
