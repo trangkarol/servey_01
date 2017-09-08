@@ -36,6 +36,19 @@ class SocialAccountRepository extends BaseRepository
                 'image' => $providerUser->getAvatar(),
             ];
 
+            if ($provider == config('settings.framgia')) {
+                $data['birthday'] = $providerUser->getBirthday();
+                $data['phone'] = $providerUser->getPhoneNumber();
+
+                if ($providerUser->getGender() == 'male') {
+                    $data['gender'] = config('users.gender.male');
+                } elseif ($providerUser->getGender() == 'female') {
+                    $data['gender'] = config('users.gender.female');
+                } else {
+                    $data['gender'] = config('users.gender.other_gender');
+                }
+            }
+
             if ($providerUser->getEmail()) {
                 $this->userRepository->newQuery(new User());
                 $check = $this->userRepository
@@ -61,14 +74,29 @@ class SocialAccountRepository extends BaseRepository
         }
 
         if (!$user) {
-            $user = $this->userRepository->firstOrCreate([
+            $newUser = [
                 'email' => $providerUser->getEmail(),
                 'name' => $providerUser->getName(),
                 'password' => config('users.password_default'),
                 'image' => $providerUser->getAvatar(),
                 'level' => config('users.level.user'),
                 'status' => config('users.status.active'),
-            ]);
+            ];
+
+            if ($provider == config('settings.framgia')) {
+                $newUser['birthday'] = \Carbon\Carbon::parse($providerUser->getBirthday())->toDateString();
+                $newUser['phone'] = $providerUser->getPhoneNumber();
+
+                if ($providerUser->getGender() == 'male') {
+                    $newUser['gender'] = config('users.gender.male');
+                } elseif ($providerUser->getGender() == 'female') {
+                    $newUser['gender'] = config('users.gender.female');
+                } else {
+                    $newUser['gender'] = config('users.gender.other_gender');
+                }
+            }
+
+            $user = $this->userRepository->firstOrCreate($newUser);
         }
 
         $account = $this->create([

@@ -23,9 +23,8 @@ class UserController extends Controller
     public function show()
     {
         $user = $this->userRepository->find(auth()->id());
-        $hasFramgiaAccount = $user->socialAccounts()->where('provider', config('settings.framgia'))->exists() ?: null;
 
-        return view('user.pages.update-info', compact('user', 'hasFramgiaAccount'));
+        return view('user.pages.update-info', compact('user'));
     }
 
     public function update(EditUserRequest $request)
@@ -58,11 +57,10 @@ class UserController extends Controller
             }
 
             if (!empty($updateData['imageUser'])) {
-
                 $updateData['image'] = $this->userRepository->uploadAvatar($updateData['imageUser']);
-                $updateData = array_except($updateData , ['imageUser']);
+                $updateData = array_except($updateData, ['imageUser']);
             } else {
-                $updateData = array_except($updateData , ['imageUser']);
+                $updateData = array_except($updateData, ['imageUser']);
             }
 
             if ($this->userRepository->update(auth()->id(), $updateData)) {
@@ -70,9 +68,9 @@ class UserController extends Controller
             }
         }
 
-    return redirect()->action('User\UserController@show')
-        ->with('message', ($isSuccess)
-            ? trans_choice('messages.object_updated_successfully', 0)
-            : trans_choice('messages.object_updated_unsuccessfully', 0));
+        return redirect()->action('User\UserController@show')
+            ->with('message', ($isSuccess)
+                ? trans_choice('messages.object_updated_successfully', 0)
+                : trans_choice('messages.object_updated_unsuccessfully', 0));
     }
 }
