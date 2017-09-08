@@ -25,14 +25,14 @@ class EditUserRequest extends FormRequest
     {
         return [
             'email' => 'unique:users,email,' . auth()->id(),
-            'password' => 'min:6|confirmed',
+            'password' => 'min:6|confirmed|required',
             'name' => 'required|max:255',
             'imageUser' => 'image|mimes:jpg,jpeg,png,gif,svg|max:2048',
             'birthday' => 'date_format:' . trans('temp.format_birthday_with_trans'),
             'phone' => 'numeric|digits_between:10,11',
             'address' => 'max:255',
             'gender' => 'numeric|digits_between:0,1',
-            'old-password' => 'required_with:password|min:6',
+            'old-password' => 'nullable|min:6',
         ];
     }
 }
