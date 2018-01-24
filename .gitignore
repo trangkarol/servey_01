@@ -1,12 +1,6 @@
 vendor/
 node_modules/
 
-# Laravel 4 specific
-bootstrap/compiled.php
-app/storage/
-
-# Laravel 5 & Lumen specific
-bootstrap/cache/
 .env.*.php
 .env.php
 .env
@@ -21,4 +15,5 @@ bootstrap/cache/
 /public/user
 /public/build
 /public/rev-manifest.json
-storage/
+/storage
+package-lock.json

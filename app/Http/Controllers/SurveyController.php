@@ -177,42 +177,45 @@ class SurveyController extends Controller
 
     public function updateSurvey(UpdateSurveyRequest $request, $id)
     {
-        $survey = $this->surveyRepository->find($id);
-        $isSuccess = false;
-        $data = $request->only([
-            'title',
-            'description',
-        ]);
+        try {
+            $survey = $this->surveyRepository->find($id);
+            $isSuccess = false;
+            $data = $request->only([
+                'title',
+                'description',
+            ]);
 
-        $data['deadline'] = null;
+            $data['deadline'] = null;
 
-        if ($request->get('deadline')) {
-            $data['deadline'] = Carbon::parse(in_array(Session::get('locale'), config('settings.sameFormatDateTime'))
-                ? str_replace('-', '/', $request->get('deadline'))
-                : $request->get('deadline'))
-                ->toDateTimeString();
-        }
-
-        if ($survey) {
-            DB::beginTransaction();
-            try {
-                $isSuccess = $this->surveyRepository->update($id, $data);
-                DB::commit();
-            } catch (Exception $e) {
-                DB::rollback();
+            if ($request->get('deadline')) {
+                $data['deadline'] = Carbon::parse(in_array(Session::get('locale'), config('settings.sameFormatDateTime'))
+                    ? str_replace('-', '/', $request->get('deadline'))
+                    : $request->get('deadline'))
+                    ->toDateTimeString();
             }
+
+            DB::beginTransaction();
+            if ($survey && !$this->surveyRepository->update($id, $data)) {
+                throw new Exception("Error Processing Request", 1);
+            }
+
+            DB::commit();
+
+            $redis = LRedis::connection();
+            $redis->publish('update', json_encode([
+                'success' => true,
+                'surveyId' => $id,
+            ]));
+
+            return redirect()->action('AnswerController@show', $survey->token_manage)
+                ->with('message', trans_choice('messages.object_updated_successfully', 1));
+        } catch (Exception $e) {
+            DB::rollback();
+
+            return redirect()->action('AnswerController@show', $survey->token_manage)
+                ->with('message-fail', trans_choice('messages.object_updated_successfully', 1));
         }
 
-        $redis = LRedis::connection();
-        $redis->publish('update', json_encode([
-            'success' => true,
-            'surveyId' => $id,
-        ]));
-
-        return redirect()->action('AnswerController@show', $survey->token_manage)
-            ->with(($isSuccess) ? 'message' : 'message-fail', ($isSuccess)
-                ? trans_choice('messages.object_updated_successfully', 1)
-                : trans_choice('messages.object_updated_unsuccessfully', 1));
     }
 
     public function updateSurveyContent(Request $request, $surveyId, $token)
@@ -284,7 +287,9 @@ class SurveyController extends Controller
                 ->onConnection('database')
                 ->onQueue('emails');
             $this->dispatch($job);
+
             DB::commit();
+
             $redis = LRedis::connection();
             $redis->publish('update', json_encode([
                 'success' => true,
@@ -315,12 +320,12 @@ class SurveyController extends Controller
 
             foreach ($inputs['txt-question']['answers'][$questionIndex] as $answerIndex => $answer) {
                 $type = head(array_keys($answer));
-
                 if (in_array($type, [
                     config('survey.type_radio'),
                     config('survey.type_checkbox'),
                 ])) {
-                    $validator['txt-question.answers.' . $questionIndex . '.' . $answerIndex . '.' . $type] = 'required|max:255';
+                    $validator['txt-question.answers.' . $questionIndex] = 'array';
+                    $validator['txt-question.answers.' . $questionIndex . '.*.' . $type] = 'required|max:255|distinct';
                 }
 
                 if ($images
@@ -390,7 +395,7 @@ class SurveyController extends Controller
         $validator = Validator::make($request->all(), $validator);
 
         if ($validator->fails()) {
-            return redirect()->action('SurveyController@index')
+            return redirect()->back()
                 ->with('message-fail', trans_choice('messages.object_created_unsuccessfully', 1));
         }
 
@@ -403,7 +408,7 @@ class SurveyController extends Controller
         DB::beginTransaction();
         try {
             $inputs = collect([
-                'user_id' => (auth()->id()) ? auth()->id() : null,
+                'user_id' => (auth()->id()) ?: null,
                 'mail' => (!auth()->id()) ? $value['email'] : null,
                 'title' => $value['title'],
                 'feature' => empty($value['feature']) ? config('settings.feature') : config('settings.not_feature'),
@@ -446,14 +451,13 @@ class SurveyController extends Controller
                 $isSuccess = ($this->dispatch($job) && $this->inviteUser($request, $survey, config('settings.return.bool')));
 
                 if (!$isSuccess) {
-                    DB::rollback();
-
-                    return redirect()->action('SurveyController@index')
-                        ->with('message-fail', trans_choice('messages.object_created_unsuccessfully', 1));
+                    throw new Exception('Create Survey is Fail.');
                 }
             }
 
             DB::commit();
+
+            return redirect()->action('SurveyController@complete', $tokenManage);
         } catch (Exception $e) {
             DB::rollback();
 
@@ -461,7 +465,6 @@ class SurveyController extends Controller
                 ->with('message-fail', trans_choice('messages.object_created_unsuccessfully', 1));
         }
 
-        return redirect()->action('SurveyController@complete', $tokenManage);
     }
 
     public function complete($token)

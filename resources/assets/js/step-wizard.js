@@ -19,40 +19,49 @@ $(document).ready(function() {
     $("#survey_container").wizard({
         stepsWrapper: "#middle-wizard",
         beforeForward: function( event, state ) {
-            if ( state.stepIndex === 1 ) {
-                if (!validateEmail($('#email').val())) {
-                    $('#emailError').css('display', 'block');
+            switch (state.stepIndex) {
+                case 1: {
+                    if (!validateEmail($('#email').val())) {
+                        $('#emailError').css('display', 'block');
 
-                    return false;
+                        return false;
+                    }
+
+                    var today = new Date();
+                    var dateChoose = $('.frm-deadline').val();
+
+                    if (formatDate == 'DD-MM-YYYY hh:mm A') {
+                        dateChoose = dateChoose.split('-')[1] + '-' + dateChoose.split('-')[0] + dateChoose.substring(5);
+                    }
+
+                    var dealineTime = new Date(Date.parse(dateChoose));
+                    var validateTime = dealineTime.getTime() - today.getTime();
+
+                    if ( dealineTime.length != 0 && validateTime < 1800000) {
+                        $('.validate-time').css('display', 'block');
+
+                        return false;
+                    }
+
+                    break;
                 }
 
-                var today = new Date();
-                var dateChoose = $('.frm-deadline').val();
+                case 2: {
+                    $('html, body').animate({scrollTop: 0}, 500);
 
-                if (formatDate == 'DD-MM-YYYY hh:mm A') {
-                    dateChoose = dateChoose.split('-')[1] + '-' + dateChoose.split('-')[0] + dateChoose.substring(5);
+                    if($('.data').attr('data-question') == 0) {
+                        $('.create-question-validate')
+                            .css('display', 'block')
+                            .removeClass('fadeOutUp')
+                            .addClass('animated fadeInDown');
+
+                        return false;
+                    }
+
+                    break;
                 }
 
-                var dealineTime = new Date(Date.parse(dateChoose));
-                var validateTime = dealineTime.getTime() - today.getTime();
-
-                if ( dealineTime.length != 0 && validateTime < 1800000) {
-                    $('.validate-time').css('display', 'block');
-
-                    return false;
-                }
-            } else if ( state.stepIndex === 2 ) {
-                $('html, body').animate({scrollTop: 0}, 500);
-
-                if($('.data').attr('data-question') == 0) {
-                    $('.create-question-validate')
-                        .css('display', 'block')
-                        .removeClass('fadeOutUp')
-                        .addClass('animated fadeInDown');
-
-                    return false;
-                }
-            } else if ( state.stepIndex === 3 ) {
+                case 3: {
                     $('html, body').animate({scrollTop: 0}, 1000);
                     var flag = temp = true;
                     var c1 = $('#requirement-answer').is(':checked');
@@ -110,8 +119,9 @@ $(document).ready(function() {
                     }
 
                     return flag;
+                }
 
-                } else if ( state.stepIndex === 4 ) {
+                case 4: {
                     var emails = $('input:text[name=emails]').tagsinput('items');
                     var flag = true;
                     emails.forEach(function (email) {
@@ -128,6 +138,13 @@ $(document).ready(function() {
                     }
 
                     $('.validate-email').css('display', 'none');
+
+                    break;
+                }
+
+                default: {
+                    break;
+                }
             }
         }
     });

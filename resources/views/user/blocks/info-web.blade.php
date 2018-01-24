@@ -35,7 +35,7 @@
 </div>
 <div class="row">
     <div class="col-md-10 col-md-offset-1">
-        <div id="owl-demo">
+        <div id="owl-demo" class="owl-carousel">
             <div class="item">
                 <a href="" class="fancybox">
                     <p>{!! Html::image(config('settings.image_path_system') . '1.jpg', '') !!}</p>
