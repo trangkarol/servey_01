@@ -8,7 +8,7 @@
                 <li>
                     <div class="container-infor">
                         {!! Html::image(config('settings.image_path_system') . 'email1.png', '') !!}
-                        {!! Form::text('email', (Auth::user() ? Auth::user()->email : ''), [
+                        {!! Form::text('email', (Auth::user() ? Auth::user()->email : old('email')), [
                             'id' => 'email',
                             'class' => 'required form-control validate',
                             'placeholder' => trans('info.email'),
@@ -23,14 +23,15 @@
                 <li>
                     <div class="container-infor">
                         {!! Html::image(config('settings.image_path_system') . 'title1.png', '') !!}
-                        {!! Form::text('title', '', [
+                        {!! Form::text('title', old('title'), [
                             'placeholder' => trans('info.title'),
                             'id' => 'title',
                             'class' => 'required form-control validate',
+                            'min' => '5',
                         ]) !!}
                     </div>
                 </li>
-                {!! Form::text('website', '', [
+                {!! Form::text('website', old('website'), [
                     'id' => 'website',
                 ]) !!}
             </ul>
@@ -53,7 +54,7 @@
                 <li>
                     <div class="container-infor">
                         {!! Html::image(config('settings.image_path_system') . 'date.png', '') !!}
-                        {!! Form::text('deadline', '', [
+                        {!! Form::text('deadline', old('deadline'), [
                             'placeholder' =>  trans('info.duration'),
                             'id' => 'deadline',
                             'class' => 'frm-deadline datetimepicker form-control',
@@ -69,7 +70,7 @@
     <div class="row">
         <div class="frm-textarea container-infor">
             {!! Html::image(config('settings.image_path_system') . 'description.png', '') !!}
-            {!! Form::textarea('description', '', [
+            {!! Form::textarea('description', old('description'), [
                 'class' => 'js-elasticArea form-control',
                 'placeholder' => trans('info.description'),
             ]) !!}

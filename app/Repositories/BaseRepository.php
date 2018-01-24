@@ -5,6 +5,7 @@ namespace App\Repositories;
 use Illuminate\Database\Eloquent\Model;
 use DB;
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 abstract class BaseRepository implements BaseInterface
 {
@@ -40,7 +41,12 @@ abstract class BaseRepository implements BaseInterface
 
     public function find($id, $columns = ['*'])
     {
-        return $this->model->findOrFail($id, $columns);
+        try {
+            return $this->model->findOrFail($id, $columns);
+        } catch (ModelNotFoundException $e) {
+            throw new ModelNotFoundException("Model Not Found", 1);
+        }
+
     }
 
     public function whereIn($column, $values)
