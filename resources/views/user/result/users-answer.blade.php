@@ -1,4 +1,4 @@
-<table class="table table">
+<table class="table-result-user table table-bordered">
     <thead class="thead-default">
         <tr>
             <th>

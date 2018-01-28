@@ -766,6 +766,7 @@ $darkenColor: darken($activeColor, 20%);
     >.tabs >.tab-choose:checked + label{
         background: #516b77;
         color: white;
+        z-index: 5;
     }
 }
 
@@ -851,6 +852,7 @@ $darkenColor: darken($activeColor, 20%);
 }
 
 .table-result {
+    margin-top: 1%;
     .glyphicon-remove-sign,.glyphicon-ok-sign {
         margin-right: 3px;
     }
@@ -859,9 +861,13 @@ $darkenColor: darken($activeColor, 20%);
         color: #4fb1a6;
     }
 
+    a:hover {
+        color: blue;
+    }
+
     >tbody>tr{
         >td:nth-child(1) {
-            width: 3%;
+            width: 5%;
             color: #386f69;
             text-align: center;
             >a {
@@ -869,7 +875,7 @@ $darkenColor: darken($activeColor, 20%);
             }
         }
         >td:nth-child(2) {
-            width: 15%;
+            width: 20%;
         }
         >td:nth-child(3) {
             width: 26%;
@@ -879,9 +885,8 @@ $darkenColor: darken($activeColor, 20%);
             }
         }
         >td:nth-child(4) {
-            width: 3%;
+            width: 30%;
             color: #5ca29b;
-            text-align: center;
         }
         >td:nth-child(5) {
             width: 25%;
@@ -2121,6 +2126,8 @@ input.frm-date-2,input.frm-time {
 
 .survey_container {
     margin-top: 0px;
+    width: 100% !important;
+    margin-left: 0% !important;
 }
 
 #top-nav ul {
@@ -2145,4 +2152,46 @@ input.frm-date-2,input.frm-time {
 
 #top-area {
    box-shadow: 2px 2px 20px #131514;
+}
+
+.detail-answer {
+    thead {
+        th {
+            color: #333;
+        }
+    }
+
+    tbody {
+        tr {
+            td:nth-child(2) {
+                width: 72%;
+                div {
+                    word-break: break-word;
+                    text-align: justify;
+                }
+            }
+            td {
+                color: #333;
+            }
+        }
+    }
+
+}
+
+.header-answer {
+    word-break: break-word;
+    width: 94%;
+    margin: 1%;
+    text-align: justify;
+    color: #333;
+}
+
+.table-result-user {
+    margin-top: 1%;
+}
+
+thead {
+    tr {
+        background: #f8f8f8;
+    }
 }

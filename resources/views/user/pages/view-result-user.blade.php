@@ -10,21 +10,12 @@
             <div class="tab-bootstrap">
                 <ul class="nav nav-tabs">
                     @foreach ($history as $key => $result)
-                        @if ($loop->first)
-                            <li class="active">
-                                <a data-toggle="tab" href="#home">
-                                    <span class="glyphicon glyphicon-calendar"></span>
-                                    {{ Carbon\Carbon::parse($key)->format('Y-m-d H:i') }}
-                                </a>
-                            </li>
-                        @else
-                            <li>
-                                <a data-toggle="tab" href="#menu{{ $loop->index }}">
-                                    <span class="glyphicon glyphicon-calendar"></span>
-                                    {{ Carbon\Carbon::parse($key)->format('Y-m-d H:i') }}
-                                </a>
-                            </li>
-                        @endif
+                        <li class="{{ $loop->first ? 'active' : ''}}">
+                            <a data-toggle="tab" href="{{ $loop->first ? '#home' : '#menu'. $loop->index }}">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                                {{ Carbon\Carbon::parse($key)->format('Y-m-d H:i') }}
+                            </a>
+                        </li>
                     @endforeach
                 </ul>
                 <div class="tab-content">

@@ -1,6 +1,6 @@
-<table class="table-result table">
+<table class="table-result table table-bordered">
     <thead class="thead-default">
-        <tr>
+        <tr class="result-header">
             <th>
                 {{ trans('survey.index') }}
             </th>
@@ -11,76 +11,22 @@
                 {{ trans('survey.question') }}
             </th>
             <th>
-                {{ trans('survey.answerIndex') }}
-            </th>
-            <th>
                 {{ trans('survey.answer') }}
-            </th>
-            <th>
-                {{ trans('survey.quantity') }}
             </th>
         </tr>
     </thead>
     <tbody>
-        @php $key = 0; @endphp
         @foreach ($survey->questions as $question)
             @if ($question->update >= 0)
                 <tr>
-                    <td>{{ $key + 1 }}</td>
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $question->answers->first()->name_type }}</td>
+                    <td><div>{!! $question->content !!}</div></td>
                     <td>
-                        @switch($question->answers[0]->type)
-                            @case(config('survey.type_radio'))
-                                {{ trans('temp.one_choose') }}
-                                @breakswitch
-                            @case(config('survey.type_checkbox'))
-                                {{ trans('temp.multi_choose') }}
-                                @breakswitch
-                            @case(config('survey.type_text'))
-                                {{ trans('temp.text') }}
-                                @breakswitch
-                            @case(config('survey.type_date'))
-                                {{ trans('temp.date') }}
-                                @breakswitch
-                            @case(config('survey.type_time'))
-                                {{ trans('temp.time') }}
-                                @breakswitch
-                        @endswitch
+                        <a href="javascript:void(0)" class="show-answer" data-toggle="modal" data-target="#question-{{ $question->id }}">{{ trans('survey.show_answer') }}</a>
+                        @include('user.result.detail_answer', ['question' => $question])
                     </td>
-                    <td><div>{{ $question->content }}</div></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
                 </tr>
-                @foreach ($question->answers as $answer)
-                    @if ($answer->update >= 0 && in_array($answer->type, [
-                        config('survey.type_radio'),
-                        config('survey.type_checkbox'),
-                        config('survey.type_other_radio'),
-                        config('survey.type_other_checkbox'),
-                    ]))
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>{{ ($key + 1) . '.' . $loop->iteration }}</td>
-                            <td><div>{{ $answer->content }}</div></td>
-                            <td>{{ count($answer->results) }}</td>
-                        </tr>
-                    @elseif ($answer->type != config('survey.type_radio')
-                        && $answer->type != config('survey.type_checkbox'))
-                        @foreach ($answer->results as $result)
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td> - </td>
-                                <td>{{ $result->content }}</td>
-                                <td></td>
-                            </tr>
-                        @endforeach
-                    @endif
-                @endforeach
-                @php $key++; @endphp
             @endif
         @endforeach
     </tbody>

@@ -85,4 +85,6 @@ return [
         'limitAnswer' => 'field limit answer',
         'tailMail' => 'field tail email',
     ],
+    'show_answer' => 'Show answer',
+    'close' => 'Close',
 ];

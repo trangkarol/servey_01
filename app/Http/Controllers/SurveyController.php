@@ -213,7 +213,7 @@ class SurveyController extends Controller
             DB::rollback();
 
             return redirect()->action('AnswerController@show', $survey->token_manage)
-                ->with('message-fail', trans_choice('messages.object_updated_successfully', 1));
+                ->with('message-fail', trans_choice('messages.object_updated_unsuccessfully', 1));
         }
 
     }
