@@ -11,41 +11,30 @@
             <p class="tag-detail-survey">
                 {{ $survey->title }}
             </p>
-            <div class="col-md-6">
-                <ul class="data-list">
-                    <li>
-                        <div class="container-infor">
-                            {!! Html::image(config('settings.image_system') . 'title1.png', '') !!}
-                            {!! Form::text('title', $survey->title, [
-                                'placeholder' => trans('info.title'),
-                                'id' => 'title',
-                                'class' => 'frm-title required form-control',
-                            ]) !!}
-                        </div>
-                    </li>
-                    {!! Form::text('website', '', [
-                        'id' => 'website',
-                    ]) !!}
-                </ul>
+        </div>
+        <div class="row">
+            <div class="frm-textarea container-infor">
+                {!! Html::image(config('settings.image_system') . 'title1.png', '') !!}
+                {!! Form::textarea('title', $survey->title, [
+                    'class' => 'js-elasticArea form-control',
+                    'id' => 'title',
+                    'placeholder' => trans('info.title'),
+                ]) !!}
             </div>
-            <div class="col-md-6">
-                <ul class="data-list">
-                    <li>
-                        <div class="container-infor">
-                            {!! Html::image(config('settings.image_system') . 'date.png', '') !!}
-                            {!! Form::text('deadline', $survey->deadline
-                                ? Carbon\Carbon::parse($survey->deadline)->format(trans('temp.format_with_trans'))
-                                : '', [
-                                    'placeholder' => trans('info.duration'),
-                                    'id' => 'deadline',
-                                    'class' => 'frm-deadline datetimepicker form-control',
-                            ]) !!}
-                            {!! Form::label('deadline', trans('info.date_invalid'), [
-                                'class' => 'wizard-hidden validate-time error',
-                            ]) !!}
-                        </div>
-                    </li>
-                </ul>
+        </div>
+        <div class="row">
+            <div class="frm-textarea container-infor dealine-infor">
+                {!! Html::image(config('settings.image_system') . 'date.png', '') !!}
+                    {!! Form::text('deadline', $survey->deadline
+                        ? Carbon\Carbon::parse($survey->deadline)->format(trans('temp.format_with_trans'))
+                        : '', [
+                            'placeholder' => trans('info.duration'),
+                            'id' => 'deadline',
+                            'class' => 'frm-deadline datetimepicker form-control',
+                    ]) !!}
+                    {!! Form::label('deadline', trans('info.date_invalid'), [
+                        'class' => 'wizard-hidden validate-time error',
+                    ]) !!}
             </div>
         </div>
         <div class="row">

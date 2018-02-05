@@ -2,10 +2,10 @@
     <div>
         <div class="row">
             <div class="text-question col-md-10">
-                {!! Form::text("txt-question[question][$number]", '', [
+                {!! Form::textarea("txt-question[question][$number]", '', [
+                    'class' => 'form-control textarea-question validate',
                     'placeholder' => trans('home.enter_question_here'),
                     'required' => true,
-                    'class' => 'validate',
                 ]) !!}
             </div>
             <div class="col-md-2">
@@ -29,7 +29,8 @@
         <div class="div-clock col-md-1 col-xs-1"><i class="fa fa-file-text-o"></i></div>
         <div class="col-md-7 col-xs-10">
             <div class="text-empty">
-                {!! Form::text("txt-question[answers][$number][][" . config('survey.type_text') . "]", '', [
+                {!! Form::textarea("txt-question[answers][$number][][" . config('survey.type_text') . "]", '', [
+                    'class' => 'form-control textarea-question',
                     'placeholder' => trans('temp.text'),
                     'readonly' => true,
                 ]) !!}

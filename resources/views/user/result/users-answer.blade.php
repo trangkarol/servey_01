@@ -16,7 +16,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach ($listUserAnswer as $user)
+        @forelse ($listUserAnswer as $user)
             @php $info = head($user) @endphp
             <tr>
                 <td>
@@ -43,7 +43,13 @@
                     ]) }}" data-username="{{ $info['name'] ?: trans('user.incognito') }}">{{ trans('survey.link') }}</a>
                 </td>
             </tr>
-        @endforeach
+        @empty
+            <tr>
+                <td colspan="4">
+                    <p class="alert alert-info">{{ trans('temp.dont_have_result') }}</p>
+                </td>
+            </tr>
+        @endforelse
     </tbody>
 </table>
 
