@@ -475,6 +475,8 @@ $darkenColor: darken($activeColor, 20%);
     font-weight: bold;
     margin: 30px auto 40px;
     color: #656d95;
+    word-break: break-word;
+    width: 95%;
 }
 
 .div-complete {
@@ -863,6 +865,10 @@ $darkenColor: darken($activeColor, 20%);
 
     a:hover {
         color: blue;
+    }
+
+    >thead>tr {
+        background: #f8f8f8;
     }
 
     >tbody>tr{

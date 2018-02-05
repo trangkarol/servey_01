@@ -17,6 +17,10 @@ class Question extends Model
         'video',
     ];
 
+    protected $appends = [
+        'trim_content',
+    ];
+
     public function survey()
     {
         return $this->belongsTo(Survey::class);
@@ -59,5 +63,10 @@ class Question extends Model
             ->where('survey_id', $surveyId)
             ->where('clone_id', $this->clone_id)
             ->where('id', '>', $this->id);
+    }
+
+    public function getTrimContentAttribute($value='')
+    {
+        return (strlen($this->attributes['content']) > 50) ? substr($this->attributes['content'], 0, 50). '...' : $this->attributes['content'];
     }
 }

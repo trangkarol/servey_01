@@ -8,12 +8,11 @@
             data-number="{{ count($charts) }}"
             data-content="{{ json_encode($charts) }}">
             @foreach ($charts as $chart)
-                <div id="container{{ $loop->index }}" class="container-chart"></div>
-                @if (!is_string($chart['chart'][0]['answer']))
-                    <div class="container-text-question">
-                        <div class="question-chart">
-                            <h4>{{ $loop->iteration }}. {{ $chart['question']->content }}</h4>
-                        </div>
+                <div class="container-text-question">
+                    <h4>{{ $loop->iteration }} {{ '. ' }} {{ $chart['question']->content }}</h4>
+                    <div class="container-chart" id="container{{ $loop->index }}">
+                    </div>
+                    @if (!is_string($chart['chart'][0]['answer']))
                         <div class="content-chart">
                             @foreach ($chart['chart'][0]['answer'] as $collection)
                                 <div>
@@ -21,8 +20,8 @@
                                 </div>
                             @endforeach
                         </div>
-                    </div>
-                @endif
+                    @endif
+                </div>
             @endforeach
         </div>
     @endif

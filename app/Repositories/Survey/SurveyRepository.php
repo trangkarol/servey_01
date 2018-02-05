@@ -93,7 +93,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                                 config('survey.type_date'),
                             ]))
                             ? $datasInput['results']->whereIn('answer_id', $answer->id)
-                            : $answer->content,
+                            : $answer->trim_content,
                         'percent' => (count($total)) ? (double)(count($answerResult) * 100) / (count($total)) : 0,
                     ];
                 } else {
