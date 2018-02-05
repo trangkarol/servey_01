@@ -34,15 +34,12 @@ $(document).ready(function() {
                                 fontFamily: 'Arial'
                             },
                             spacingBottom: 15,
-                            spacingTop: 70,
+                            spacingTop: 0,
                             spacingLeft: 70,
                             spacingRight: 70,
                         },
                         title: {
-                            text: count + '.' + obj[i]['question']['content'],
-                            floating: true,
-                            align: 'left',
-
+                            text: ''
                         },
                         tooltip: {
                             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -54,8 +51,15 @@ $(document).ready(function() {
                                 depth: 35,
                                 dataLabels: {
                                     enabled: true,
-                                    format: '{point.name}'
-                                }
+                                    format: '{point.percentage:.1f} %',
+                                    distance: -50,
+                                    filter: {
+                                        property: 'percentage',
+                                        operator: '>',
+                                        value: 4
+                                    }
+                                },
+                                showInLegend: true
                             }
                         },
                         series: [{
