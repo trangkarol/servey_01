@@ -42,6 +42,24 @@ class Answer extends Model
         return $this->attributes['image'];
     }
 
+    public function getNameTypeAttribute()
+    {
+        switch ($this->attributes['type']) {
+            case config('survey.type_radio'):
+                return trans('temp.one_choose');
+            case config('survey.type_checkbox'):
+                return trans('temp.multi_choose');
+            case config('survey.type_text'):
+                return trans('temp.text');
+            case config('survey.type_date'):
+                return trans('temp.date');
+            case config('survey.type_time'):
+                return trans('temp.time');
+            default:
+                break;
+        }
+    }
+
     public function scopeOfClone($query, $questionId)
     {
         if (!$this->clone_id) {

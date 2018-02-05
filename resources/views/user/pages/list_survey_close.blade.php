@@ -1,4 +1,4 @@
-<table class="table-list-survey table table-hover">
+<table class="table-list-survey table table-hover table-result-user table-bordered">
         @forelse ($surveyCloses as $survey)
             @if ($loop->first)
                 <thead>

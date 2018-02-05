@@ -85,4 +85,6 @@ return [
         'limitAnswer' => 'giới hạn trả lời',
         'tailMail' => 'đuôi email',
     ],
+    'show_answer' => 'Hiển thị kết quả',
+    'close' => 'Đóng',
 ];

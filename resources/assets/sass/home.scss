@@ -202,7 +202,7 @@
     .fa-circle-o {
         color: rgba(35, 34, 34, 0.19);
         font-size: 22px;
-        margin-top: 7%; 
+        margin-top: 7%;
     }
 
     .fa-square-o {
@@ -221,12 +221,12 @@
         .fa-calendar-o {
             color: rgba(51, 66, 64, 0.33);
             font-size: 28px;
-            margin-top: 1%; 
+            margin-top: 1%;
         }
         .fa-file-text-o {
             color: rgba(51, 66, 64, 0.33);
             font-size: 28px;
-            margin-top: 1%; 
+            margin-top: 1%;
         }
     }
 }
@@ -943,6 +943,7 @@
         margin-bottom: 0px;
         font-weight: normal;
         font-size: 18px;
+        word-break: break-word;
     }
 }
 
@@ -1094,7 +1095,7 @@ input[type="text"] {
 @media (max-width: 330px) {
     .div-content-answer {
         .fa-circle-o {
-            margin-top: 10px; 
+            margin-top: 10px;
         }
 
         .fa-square-o {
@@ -1163,7 +1164,7 @@ input[type="text"] {
 
     .div-content-answer {
         .fa-circle-o {
-            margin-top: 6px; 
+            margin-top: 6px;
         }
 
         .fa-square-o {
@@ -1271,4 +1272,8 @@ input[type="text"] {
 
 .div-thank {
     text-align: center;
+}
+
+.modal-backdrop {
+    z-index: 7;
 }

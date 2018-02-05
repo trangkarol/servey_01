@@ -27,7 +27,6 @@
                             'placeholder' => trans('info.title'),
                             'id' => 'title',
                             'class' => 'required form-control validate',
-                            'min' => '5',
                         ]) !!}
                     </div>
                 </li>

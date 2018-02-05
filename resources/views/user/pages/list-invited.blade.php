@@ -1,5 +1,5 @@
 <div>
-    <table class="table-invited table table-hover {{ replaceEmail(auth()->user()->email) }}">
+    <table class="table-invited table table-hover {{ replaceEmail(auth()->user()->email) }} table-result-user table-bordered">
         @forelse ($invites as $key => $invite)
             @if ($loop->first)
                 <thead>

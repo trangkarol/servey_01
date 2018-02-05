@@ -1,19 +1,19 @@
 $(document).ready(function() {
     var url = $('.url-token').data('route');
 
-    $(document).on("click", ".remove-sva", function() {
-        var idSurvey = $(this).attr("id-survey");
+    $(document).on('click', '.remove-sva', function() {
+        var idSurvey = $(this).attr('id-survey');
         $.post(
             url + '/admin/destroy-survey',
             {
                 'idSurvey': idSurvey,
             },
             function(response) {
-                $(".sva" + idSurvey).remove();
+                $('.sva' + idSurvey).remove();
         });
     });
 
-    $(document).on("click", ".remove-svb", function() {
+    $(document).on('click', '.remove-svb', function() {
         var idSurvey = $(this).attr("id-survey");
         $.post(
             url + '/admin/destroy-survey',

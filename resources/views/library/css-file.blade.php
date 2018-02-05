@@ -1,6 +1,6 @@
 {{ Html::style(asset('/bower/bootstrap-tagsinput/dist/bootstrap-tagsinput.css')) }}
 {{ Html::style(asset('/bower/animate.css/animate.css')) }}
-{{ Html::style(asset('/bower/bootstrap/dist/css/bootstrap.css')) }}
+{{ Html::style(asset('/bower/bootstrap/dist/css/bootstrap.min.css')) }}
 {{ Html::style(asset('/bower/font-awesome/css/font-awesome.css')) }}
 {{ Html::style(asset('/bower/font-awesome/css/font-awesome.min.css')) }}
 {{ Html::style(asset('/user/css/style.css')) }}
