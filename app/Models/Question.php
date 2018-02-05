@@ -65,8 +65,8 @@ class Question extends Model
             ->where('id', '>', $this->id);
     }
 
-    public function getTrimContentAttribute($value='')
+    public function getTrimContentAttribute()
     {
-        return (strlen($this->attributes['content']) > 50) ? substr($this->attributes['content'], 0, 50). '...' : $this->attributes['content'];
+        return (mb_strlen($this->attributes['content']) > 50) ? mb_substr($this->attributes['content'], 0, 50) . '...' : $this->attributes['content'];
     }
 }

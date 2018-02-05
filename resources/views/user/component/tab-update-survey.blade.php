@@ -52,7 +52,8 @@
                                 <div>
                                     <div class="row">
                                         <div class="text-question col-md-10">
-                                            {!! Form::text("txt-question[question][$number]", $question->content, [
+                                           {!! Form::textarea("txt-question[question][$number]", $question->content, [
+                                                'class' => 'form-control textarea-question',
                                                 'placeholder' => trans('home.enter_question_here'),
                                                 'required' => true,
                                             ]) !!}
@@ -91,7 +92,8 @@
                                                     <div class="col-md-1 col-xs-1"><i class="fa fa-circle-o"></i></div>
                                                     <div class="col-md-9 col-xs-7">
                                                         <div class="div-text-answer">
-                                                            {!! Form::text("txt-question[answers][$number][][" . config('survey.type_radio') . "]", $answer->content, [
+                                                            {!! Form::textarea("txt-question[answers][$number][][" . config('survey.type_radio') . "]", $answer->content, [
+                                                                'class' => 'form-control textarea-question',
                                                                 'placeholder' => trans('home.enter_answer_here'),
                                                                 'required' => true,
                                                             ]) !!}
@@ -129,7 +131,8 @@
                                                     <div class="col-md-1 col-xs-1"><i class="fa fa-square-o"></i></div>
                                                     <div class="col-md-9 col-xs-7">
                                                         <div class="div-text-answer">
-                                                            {!! Form::text("txt-question[answers][$number][][" . config('survey.type_checkbox') . "]", $answer->content, [
+                                                            {!! Form::textarea("txt-question[answers][$number][][" . config('survey.type_checkbox') . "]", $answer->content, [
+                                                                'class' => 'form-control textarea-question',
                                                                 'placeholder' => trans('home.enter_answer_here'),
                                                                 'required' => true,
                                                             ]) !!}
@@ -166,7 +169,8 @@
                                                 <div class="div-clock col-md-1 col-xs-1"><i class="fa fa-file-text-o"></i></div>
                                                 <div class="col-md-7 col-xs-10">
                                                     <div class="text-empty">
-                                                        {!! Form::text("txt-question[answers][$number][][" . config('survey.type_text') . "]", '', [
+                                                        {!! Form::textarea("txt-question[answers][$number][][" . config('survey.type_text') . "]", '', [
+                                                            'class' => 'form-control textarea-question',
                                                             'placeholder' => trans('temp.text'),
                                                             'readonly' => true,
                                                         ]) !!}
@@ -313,13 +317,13 @@
                                                     url="{{ action('TempController@addTemp', config('temp.radio_answer')) }}">
                                                     {{ trans('home.add_option') }}
                                                 </span>
-                                                <span class="add-radio-other other{{ $number }} 
-                                                    {{ ($question->answers->last()->type == config('survey.type_other_radio') 
+                                                <span class="add-radio-other other{{ $number }}
+                                                    {{ ($question->answers->last()->type == config('survey.type_other_radio')
                                                         && $question->answers->last()->update >=0) ? 'div-hidden' : '' }}"
                                                     typeId="{{ config('survey.type_other_radio') }}"
                                                     url="{{ action('TempController@addTemp', config('temp.other_radio')) }}">
                                                     <span class="span-other">{{ trans('home.or') }}</span>
-                                                    {{ trans('home.add_other') }} 
+                                                    {{ trans('home.add_other') }}
                                                 </span>
                                             @else
                                                 <span class="add-checkbox" id-as="{{ $number }}"
@@ -327,8 +331,8 @@
                                                     url="{{ action('TempController@addTemp', config('temp.checkbox_answer')) }}">
                                                     {{ trans('home.add_option') }}
                                                 </span>
-                                                <span class="add-checkbox-other other{{ $number }} 
-                                                    {{ ($question->answers->last()->type == config('survey.type_other_checkbox') 
+                                                <span class="add-checkbox-other other{{ $number }}
+                                                    {{ ($question->answers->last()->type == config('survey.type_other_checkbox')
                                                     && $question->answers->last()->update >=0) ? 'div-hidden' : '' }}"
                                                     typeId="{{ config('survey.type_other_checbox') }}"
                                                     url="{{ action('TempController@addTemp', config('temp.other_checkbox')) }}">

@@ -384,6 +384,7 @@ $darkenColor: darken($activeColor, 20%);
     font-weight: bold;
     margin-bottom: 25px;
     text-transform: uppercase;
+    line-height: 1.25;
 }
 
 .description-survey {
@@ -470,13 +471,14 @@ $darkenColor: darken($activeColor, 20%);
 }
 
 .tag-detail-survey {
-    text-align: center;
     font-size: 23px;
     font-weight: bold;
     margin: 30px auto 40px;
     color: #656d95;
     word-break: break-word;
     width: 95%;
+    line-height: 1.25;
+    text-align: center;
 }
 
 .div-complete {
@@ -884,10 +886,9 @@ $darkenColor: darken($activeColor, 20%);
             width: 20%;
         }
         >td:nth-child(3) {
-            width: 26%;
+            width: 28%;
             div {
                 word-wrap: break-word;
-                max-width: 260px;
             }
         }
         >td:nth-child(4) {
@@ -2200,4 +2201,15 @@ thead {
     tr {
         background: #f8f8f8;
     }
+}
+
+.dealine-infor {
+    margin-top: 2%;
+}
+
+.textarea-question {
+    min-height: 55px !important;
+    background: #fff !important;
+    border-bottom: 1px solid #bbb !important;
+    padding-top: 0.5% !important;
 }

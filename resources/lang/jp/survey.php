@@ -85,5 +85,5 @@ return [
         'limitAnswer' => 'field limit answer',
         'tailMail' => 'field tail email',
     ],
-    'show_answer' => '回答を見る'
+    'show_answer' => '回答を見る',
 ];

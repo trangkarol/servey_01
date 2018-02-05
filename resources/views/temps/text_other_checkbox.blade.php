@@ -4,9 +4,10 @@
         <div class="col-md-1 col-xs-1"><i class="fa fa-square-o"></i></div>
         <div class="col-md-9 col-xs-7">
             <div class="container-text-other div-text-answer">
-                {!! Form::text("txt-question[answers][$number][][" . config('survey.type_other_checkbox') . "]", '', [
-                    'readonly' => 'true',
+                {!! Form::textarea("txt-question[answers][$number][][" . config('survey.type_other_checkbox') . "]", '', [
+                    'class' => 'form-control textarea-question validate',
                     'placeholder' => trans('home.other'),
+                    'readonly' => 'true',
                 ]) !!}
             </div>
         </div>

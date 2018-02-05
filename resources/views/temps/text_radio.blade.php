@@ -4,16 +4,16 @@
         <div class="col-md-1 col-xs-1"><i class="fa fa-circle-o"></i></div>
         <div class="col-md-9 col-xs-7">
             <div class="div-text-answer">
-                {!! Form::text("txt-question[answers][$number][][" . config('survey.type_radio') . "]", '', [
+                {!! Form::textarea("txt-question[answers][$number][][" . config('survey.type_radio') . "]", isset($answer->content) ? $answer->content : '', [
+                    'class' => 'form-control textarea-question',
                     'placeholder' => trans('home.enter_answer_here'),
                     'required' => true,
-                    'class' => 'validate',
                 ]) !!}
             </div>
         </div>
         <div class="remove-answer col-md-2 col-xs-4">
             {!! Html::image(config('settings.image_system') . 'img-answer.png', '', [
-                'class' => 'picture-answer'
+                'class' => 'picture-answer',
             ]) !!}
             @include('temps.answer_hidden_field')
             <a class="glyphicon glyphicon-remove btn-remove-answer" id-as="{{ $number . $numberAnswer }}" num="{{ $number }}">

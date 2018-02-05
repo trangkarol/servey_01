@@ -20,16 +20,6 @@
                         ]) !!}
                     </div>
                 </li>
-                <li>
-                    <div class="container-infor">
-                        {!! Html::image(config('settings.image_path_system') . 'title1.png', '') !!}
-                        {!! Form::text('title', old('title'), [
-                            'placeholder' => trans('info.title'),
-                            'id' => 'title',
-                            'class' => 'required form-control validate',
-                        ]) !!}
-                    </div>
-                </li>
                 {!! Form::text('website', old('website'), [
                     'id' => 'website',
                 ]) !!}
@@ -49,23 +39,33 @@
                     </div>
                 </li>
             </ul>
-            <ul class="data-list">
-                <li>
-                    <div class="container-infor">
-                        {!! Html::image(config('settings.image_path_system') . 'date.png', '') !!}
-                        {!! Form::text('deadline', old('deadline'), [
-                            'placeholder' =>  trans('info.duration'),
-                            'id' => 'deadline',
-                            'class' => 'frm-deadline datetimepicker form-control',
-                        ]) !!}
-                        {!! Form::label('deadline', trans('info.date_invalid'), [
-                            'class' => 'wizard-hidden validate-time error',
-                        ]) !!}
-                    </div>
-                </li>
-            </ul>
         </div>
     </div>
+
+    <div class="row">
+        <div class="frm-textarea container-infor">
+            {!! Html::image(config('settings.image_path_system') . 'title1.png', '') !!}
+            {!! Form::textarea('title', old('title'), [
+                'class' => 'js-elasticArea form-control',
+                'placeholder' => trans('info.title'),
+            ]) !!}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="frm-textarea container-infor dealine-infor">
+            {!! Html::image(config('settings.image_path_system') . 'date.png', '') !!}
+            {!! Form::text('deadline', old('deadline'), [
+                'placeholder' =>  trans('info.duration'),
+                'id' => 'deadline',
+                'class' => 'frm-deadline datetimepicker form-control',
+            ]) !!}
+            {!! Form::label('deadline', trans('info.date_invalid'), [
+                'class' => 'wizard-hidden validate-time error',
+            ]) !!}
+        </div>
+    </div>
+
     <div class="row">
         <div class="frm-textarea container-infor">
             {!! Html::image(config('settings.image_path_system') . 'description.png', '') !!}

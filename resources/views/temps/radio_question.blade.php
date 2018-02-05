@@ -6,10 +6,10 @@
     <div>
         <div class="row">
             <div class="text-question col-md-10">
-                {!! Form::text("txt-question[question][$number]", '', [
+                {!! Form::textarea("txt-question[question][$number]", '', [
+                    'class' => 'form-control textarea-question validate',
                     'placeholder' => trans('home.enter_question_here'),
                     'required' => true,
-                    'class' => 'validate',
                 ]) !!}
             </div>
             <div class="col-md-2">
@@ -34,10 +34,10 @@
             <div class="col-md-1 col-xs-1"><i class="fa fa-circle-o"></i></div>
             <div class="col-md-9 col-xs-7">
                 <div class="div-text-answer">
-                    {!! Form::text("txt-question[answers][$number][][" . config('survey.type_radio') . "]", '', [
+                    {!! Form::textarea("txt-question[answers][$number][][" . config('survey.type_radio') . "]", isset($answer->content) ? $answer->content : '', [
+                        'class' => 'form-control textarea-question validate',
                         'placeholder' => trans('home.enter_answer_here'),
                         'required' => true,
-                        'class' => 'validate',
                     ]) !!}
                 </div>
             </div>
@@ -63,10 +63,10 @@
             <div class="col-md-1 col-xs-1"><i class="fa fa-circle-o"></i></div>
             <div class="col-md-9 col-xs-7">
                 <div class="div-text-answer">
-                    {!! Form::text("txt-question[answers][$number][][" . config('survey.type_radio') . "]", '', [
+                    {!! Form::textarea("txt-question[answers][$number][][" . config('survey.type_radio') . "]", '', [
+                        'class' => 'form-control textarea-question validate',
                         'placeholder' => trans('home.enter_answer_here'),
                         'required' => true,
-                        'class' => 'validate',
                     ]) !!}
                 </div>
             </div>
@@ -98,7 +98,7 @@
                 typeId="{{ config('survey.type_other_radio') }}"
                 url="{{ action('TempController@addTemp', config('temp.other_radio')) }}">
                 <span class="span-other">{{ trans('home.or') }}</span>
-                {{ trans('home.add_other') }} 
+                {{ trans('home.add_other') }}
             </span>
         </div>
         <div class="col-md-3" class="div-require">
