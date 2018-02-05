@@ -23,4 +23,10 @@ class Request extends Model
     {
         return $this->belongsTo(User::class, 'member_id');
     }
+
+    public function answer()
+    {
+        return $this->belongsTo(Answer::class);
+    }
+
 }

@@ -26,6 +26,11 @@ class Question extends Model
         return $this->belongsTo(Survey::class);
     }
 
+    public function results()
+    {
+        return $this->hasManyThrough(Result::class, Answer::class);
+    }
+
     public function answers()
     {
         /*

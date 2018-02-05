@@ -22,15 +22,17 @@ class ExportController extends Controller
     {
         try {
             $survey = $this->surveyRepository->find($id);
+            $data = $this->surveyRepository->exportExcel($id);
+            $title = mb_substr($survey->title, 0, 31);
 
             if(!$survey || !$type) {
-                return false;
+                throw new Exception("Error Processing Request", 1);
             }
 
-            if ($survey && $type == 'excel') {
-                return Excel::create($survey->title, function($excel) use ($survey) {
-                    $excel->sheet($survey->title, function($sheet) use ($survey) {
-                        $sheet->loadView('explore.excel', compact('survey'));
+            if ($type == 'excel') {
+                return Excel::create($title, function($excel) use ($title, $data) {
+                    $excel->sheet($title, function($sheet) use ($data) {
+                        $sheet->loadView('explore.excel', compact('data'));
                         $sheet->setOrientation('landscape');
                     });
                 })->export('xls');

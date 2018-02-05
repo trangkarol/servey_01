@@ -28,4 +28,6 @@ interface SurveyInterface
     public function getHistory($userId, $surveyId, array $options);
 
     public function getUserAnswer($token);
+
+    public function exportExcel($id);
 }
