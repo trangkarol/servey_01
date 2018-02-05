@@ -405,4 +405,30 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
             'status' => true,
         ];
     }
+
+    public function exportExcel($id)
+    {
+        $survey = $this->model->find($id);
+
+        $results = [];
+        $questions = $survey->questions()->with('results.answer')->get()->all();
+        $numberResults = count($survey->questions->first()->results()->get()->all());
+        $numberQuestion = count($questions);
+
+        for ($i = 0; $i < $numberResults; $i ++) {
+            $question = [];
+            for ($j = 0; $j < $numberQuestion; $j ++) {
+                if (isset ($questions[$j]['results'][$i])) {
+                    $question[] = $questions[$j]['results'][$i];
+                }
+            }
+
+            $results[] = $question;
+        }
+
+        return [
+            'questions' => $questions,
+            'results' => $results,
+        ];
+    }
 }

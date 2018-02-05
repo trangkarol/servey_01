@@ -24,13 +24,12 @@
                             class="{{ $loop->first ? 'tab-pane fade in active' : 'tab-pane fade in' }}">
                             @php
                                 $maxUpdateQuestion = $survey->questions->max('update');
-                                $index = 1;
                             @endphp
                             @foreach ($survey->questions as $question)
                                 @if ($question->update >= 0)
                                     <div>
                                         <h4 class="tag-question">
-                                            {{ $index . '. ' . $question->content }}
+                                            {{ $loop->parent->iteration . '. ' . $question->content }}
                                             <span>{{ ($question->required) ? '(*)' : '' }}</span>
                                         </h4>
                                         @if (in_array($question->update, [
@@ -167,7 +166,6 @@
                                             @endforeach
                                         </ul>
                                     </div>
-                                    @php $index++; @endphp
                                 @endif
                             @endforeach
                         </div>
