@@ -24,19 +24,18 @@ class AnswerController extends Controller
             ->first();
         $settings = $survey->settings->pluck('value', 'key')->all();
 
-        if ($settings[config('settings.key.requireAnswer')] == config('settings.require.loginWsm')
-            && !auth()->user()->checkLoginWsm()) {
-            Session::put('nextUrl', $_SERVER['REQUEST_URI']);
-
-            return view('user.pages.login_wsm');
-        }
-
         if (!$survey
             || !in_array($view, ['detail', 'answer'])
             || ($view == 'answer' && $survey->feature != $isPublic)
             || ($view == 'detail' && $survey->user_id && auth()->check() && $survey->user_id != auth()->id())
         ) {
             return view('errors.404');
+        }
+
+        if ($settings[config('settings.key.requireAnswer')] == config('settings.require.loginWsm') && (!auth()->user() || !auth()->user()->checkLoginWsm())) {
+            Session::put('nextUrl', $_SERVER['REQUEST_URI']);
+
+            return view('user.pages.login_wsm');
         }
 
         if (!$isPublic && $survey->user_id && !auth()->check()) {
