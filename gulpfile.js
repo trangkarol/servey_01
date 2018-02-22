@@ -21,7 +21,6 @@ elixir(function(mix) {
    .sass('admin-style-1.scss', 'public/admin/css/admin-style-1.css')
    .sass('admin-pages.scss', 'public/admin/css/admin-pages.css')
    .scripts('app.js')
-   .scripts('chart.js', 'public/admin/js/chart.js')
    .scripts('socket.js', 'public/user/js/socket.js')
    .scripts('question.js', 'public/user/js/question.js')
    .scripts('functions.js', 'public/user/js/functions.js')

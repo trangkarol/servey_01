@@ -35,4 +35,5 @@ return [
     'datetime_format' => 'd M Y',
     'feedback' => 'Nhập phản hồi của bạn tại đây.',
     'private' => 'Bảo mật',
+    'setting_survey' => 'Cài đặt',
 ];

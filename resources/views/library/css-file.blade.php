@@ -8,7 +8,7 @@
 {{ Html::style(asset('/user/css/new-style.css')) }}
 {{ Html::style(asset('/user/css/home.css')) }}
 {{ Html::style(asset('/bower/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css')) }}
-{{ Html::style(asset('/bower/owlcarousel/dist/assets/owl.carousel.css')) }}
+{{ Html::style(asset('/bower/owl.carousel/dist/assets/owl.carousel.css')) }}
 {{ Html::style(asset('/bower/ms-Dropdown/css/msdropdown/dd.css')) }}
 {{ Html::style(asset('/bower/ms-Dropdown/css/msdropdown/flags.css')) }}
 {{ Html::style(asset('/bower/ms-Dropdown/css/msdropdown/skin2.css')) }}

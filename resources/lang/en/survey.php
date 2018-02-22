@@ -46,10 +46,11 @@ return [
     ],
     'specific_result' => 'Specific results',
     'require' => [
-        'name' => 'Name',
-        'email' => 'Email',
-        'email_and_name' => 'Both',
+        'name' => 'Enter name.',
+        'email' => 'Enter email.',
+        'email_and_name' => 'Enter email and name.',
         'none' => 'None',
+        'login_wsm' => 'Login by WSM.',
     ],
     'placeholder' => [
         'example' => 'Example: @gmail.com,....',

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repositories\Survey\SurveyInterface;
 use Carbon\Carbon;
+use Session;
 
 class AnswerController extends Controller
 {
@@ -18,9 +19,17 @@ class AnswerController extends Controller
 
     public function answer($token, $view = 'detail', $isPublic = true)
     {
-        $survey = $this->surveyRepository
+        $survey = $this->surveyRepository->with('settings')
             ->where(($view == 'detail') ? 'token_manage' : 'token', $token)
             ->first();
+        $settings = $survey->settings->pluck('value', 'key')->all();
+
+        if ($settings[config('settings.key.requireAnswer')] == config('settings.require.loginWsm')
+            && !auth()->user()->checkLoginWsm()) {
+            Session::put('nextUrl', $_SERVER['REQUEST_URI']);
+
+            return view('user.pages.login_wsm');
+        }
 
         if (!$survey
             || !in_array($view, ['detail', 'answer'])
