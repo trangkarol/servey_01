@@ -46,10 +46,11 @@ return [
     ],
     'specific_result' => 'Kết quả cụ thể',
     'require' => [
-        'name' => 'Tên',
-        'email' => 'Email',
-        'email_and_name' => 'Cả hai',
+        'name' => 'Nhập tên.',
+        'email' => 'Nhập email.',
+        'email_and_name' => 'Nhập email và tên.',
         'none' => '',
+        'login_wsm' => 'Yêu cầu phải đăng nhập tài khoản WSM.',
     ],
     'placeholder' => [
         'example' => 'Ví dụ: @gmail.com,....',

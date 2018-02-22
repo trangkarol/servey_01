@@ -46,10 +46,11 @@ return [
     ],
     'specific_result' => '特定リザルト',
     'require' => [
-        'name' => '名前',
-        'email' => 'メール',
-        'email_and_name' => 'どちらも',
+        'name' => '名前入力',
+        'email' => 'メール入力',
+        'email_and_name' => '名前とメールは入力必須',
         'none' => '無し',
+        'login_wsm' => 'WSMでログインする',
     ],
     'placeholder' => [
         'example' => '例: @gmail.com,....',

@@ -35,4 +35,5 @@ return [
     'datetime_format' => 'M d Y',
     'feedback' => 'ここにあなたのフィードバックを入力してください',
     'private' => 'プライベート',
+    'setting_survey' => '設定',
 ];

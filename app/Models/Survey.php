@@ -57,6 +57,11 @@ class Survey extends Model
         return $this->hasMany(Temp::class);
     }
 
+    public function settings()
+    {
+        return $this->hasMany(Setting::class);
+    }
+
     public function getIsOpenAttribute()
     {
         return (empty($this->attributes['deadline']) || Carbon::parse($this->attributes['deadline'])->gt(Carbon::now()));

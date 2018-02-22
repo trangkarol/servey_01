@@ -54,7 +54,7 @@
 {{ Html::script(asset('/user/js/validate.js')) }}
 {{ Html::script(asset('/bower/jquery.placeholder/jquery.placeholder.js')) }}
 {{ Html::script(asset('/user/js/jquery.bxslider.min.js')) }}
-{{ Html::script(asset('/bower/owlcarousel/dist/owl.carousel.min.js')) }}
+{{ Html::script(asset('/bower/owl.carousel/dist/owl.carousel.min.js')) }}
 {{ Html::script(asset('/user/js/functions.js')) }}
 {{ Html::script(asset('/bower/socket.io-client/dist/socket.io.js')) }}
 {{ Html::script(asset('/bower/fancyBox/source/jquery.fancybox.pack.js')) }}

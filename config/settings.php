@@ -66,6 +66,7 @@ return [
         'email' => 1,
         'name' => 2,
         'both' => 3,
+        'loginWsm' => 4,
     ],
     'listKey' => [
         1,

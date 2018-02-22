@@ -19,8 +19,27 @@
                         {{ Form::label('requirement-answer', ' ') }}
                     </div>
                 </div>
-                <div class="setting-requirement col-md-10 row div-hidden">
-                    <div class="col-md-2">
+            </div>
+            <div class="setting-option row">
+                <div class="setting-requirement div-hidden">
+                    {{-- require wsm --}}
+                    <div class="col-md-12">
+                        <div class="type-radio-answer row">
+                            <div class="box-radio col-md-1">
+                                {{ Form::radio('setting[' . config('settings.key.requireAnswer') . ']', config('settings.require.loginWsm'), '', [
+                                    'id' => 'require-wsm',
+                                    'class' => 'option-choose-answer input-radio',
+                                ]) }}
+                                {{ Form::label('require-wsm', ' ', [
+                                    'class' => 'label-radio',
+                                ]) }}
+                                <div class="check"><div class="inside"></div></div>
+                            </div>
+                            <div class="col-md-8">{{ trans('survey.require.login_wsm') }}</div>
+                        </div>
+                    </div>
+                    {{-- email --}}
+                    <div class="col-md-12">
                         <div class="type-radio-answer row">
                             <div class="box-radio col-md-1">
                                 {{ Form::radio('setting[' . config('settings.key.requireAnswer') . ']', config('settings.require.email'), '', [
@@ -35,7 +54,8 @@
                             <div class="col-md-8">{{ trans('survey.require.email') }}</div>
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    {{-- name --}}
+                    <div class="col-md-12">
                         <div class="type-radio-answer row">
                             <div class="box-radio col-md-1">
                                 {{ Form::radio('setting[' . config('settings.key.requireAnswer') . ']', config('settings.require.name'), '', [
@@ -50,7 +70,8 @@
                             <div class="col-md-8">{{ trans('survey.require.name') }}</div>
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    {{-- name and email --}}
+                    <div class="col-md-12">
                         <div class="type-radio-answer row">
                             <div class="box-radio col-md-1">
                                 {{ Form::radio('setting[' . config('settings.key.requireAnswer') . ']', config('settings.require.both'), '', [
