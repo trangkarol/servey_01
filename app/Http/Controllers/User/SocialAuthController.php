@@ -30,7 +30,7 @@ class SocialAuthController extends Controller
 
                 if (Session::has('nextUrl')) {
                     $url = Session::get('nextUrl');
-                    Session::destroy('nextUrl');
+                    Session::forget('nextUrl');
 
                     return redirect()->intended($url);
                 }

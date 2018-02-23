@@ -80,7 +80,7 @@
                        </div>
                     </div>
                 </div>
-                <div class="required-user" data-require="{{ $access[config('settings.key.tailMail')] }}">
+                <div class="required-user" data-require="{{ $access[config('settings.key.tailMail')] }}" data-option-setting="{{ $access[config('settings.key.requireAnswer')] }}">
                     <div class="row">
                         @if (in_array(config('settings.key.requireAnswer'), array_keys($access))
                             && $access[config('settings.key.requireAnswer')]
@@ -117,6 +117,7 @@
                                         @endif
                                     </div>
                                     @breakswitch
+                                {{-- require name --}}
                                 @case(config('settings.require.name'))
                                     <div class="div-require-info">
                                         {{ trans('survey.label.require_name') }}
@@ -143,6 +144,50 @@
                                         @endif
                                     </div>
                                     @breakswitch
+                                {{-- require login WSM --}}
+                                @case(config('settings.require.loginWsm'))
+                                    <div class="div-require-info">
+                                        {{ trans('survey.label.require_wsm') }}
+                                    </div>
+                                    <div class="col-md-5 col-md-offset-1">
+                                        <div class="container-infor">
+                                            {!! Html::image(config('settings.image_system') . 'email1.png', '') !!}
+                                            {!! Form::email('email-answer', auth()->check()
+                                                ? auth()->user()->email
+                                                : old('email-answer'), [
+                                                    'id' => 'email',
+                                                    'class' => 'frm-require-answer form-control',
+                                                    auth()->check() ? 'readonly' : null,
+                                            ]) !!}
+                                        </div>
+                                        @if ($errors->has('email-answer'))
+                                            <div class="alert alert-danger alert-message">
+                                                {{ $errors->first('email-answer') }}
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <div class="col-md-5 ">
+                                        <div class="container-infor">
+                                            {!! Html::image(config('settings.image_system') . 'name.png', '') !!}
+                                            {!! Form::text('name-answer', auth()->check()
+                                                ? auth()->user()->name
+                                                : old('name-answer'), [
+                                                    'id' => 'name',
+                                                    'class' => 'frm-require-answer form-control',
+                                                    auth()->check() ? 'readonly' : null,
+                                            ]) !!}
+                                            {!! Form::label('name', trans('validation.msg.required'), [
+                                                'class' => 'require-name wizard-hidden error',
+                                            ]) !!}
+                                        </div>
+                                        @if ($errors->has('name-answer'))
+                                            <div class="alert alert-danger alert-message">
+                                                {{ $errors->first('name-answer') }}
+                                            </div>
+                                        @endif
+                                    </div>
+                                    @breakswitch
+                                {{-- require name and email --}}
                                 @default
                                     <div class="div-require-info">
                                         {{ trans('survey.label.require_both') }}

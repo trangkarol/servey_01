@@ -61,6 +61,7 @@ return [
         'require_name' => '*Yêu cầu nhập tên',
         'require_both' => '*Yêu cầu nhập tên và email',
         'require_tailmail' => 'với đuôi mail:',
+        'require_wsm' => '*Yêu cầu phải đăng nhập tài khoản WSM.',
     ],
     'question_type' => 'Loại câu hỏi',
     'title_web' => 'FSurvey',

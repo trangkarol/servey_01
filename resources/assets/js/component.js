@@ -198,7 +198,9 @@ $(document).ready(function() {
             }
         }
 
-        if ($('input[name=email-answer]').length) {
+        var optionSetting = $('.required-user').attr('data-option-setting').val();
+
+        if ($('input[name=email-answer]').length && optionSetting != 4) {
             var mailUser  = $('input[name=email-answer]').val();
 
             if (mailUser) {

@@ -61,6 +61,7 @@ return [
         'require_name' => '*名前が必要です',
         'require_both' => '*名前とメールが必要です',
         'require_tailmail' => 'テールメールで:',
+        'require_wsm' => '*WSMでログインする',
     ],
     'question_type' => '問題タイプ',
     'title_web' => 'FSurvey',
