@@ -41,6 +41,7 @@
 @show
 {{ Html::script(asset('/bower/jquery/dist/jquery.min.js')) }}
 {{ Html::script(elixir('/js/app.js')) }}
+{{ Html::script(elixir('/js/messages.js')) }}
 {{ Html::script(asset('/bower/highcharts/highcharts.js')) }}
 {{ Html::script(asset('/bower/highcharts/highcharts-3d.js')) }}
 {{ Html::script(asset('/bower/highcharts/js/modules/exporting.js')) }}
