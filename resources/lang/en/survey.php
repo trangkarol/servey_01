@@ -61,6 +61,7 @@ return [
         'require_name' => '*Name is required',
         'require_both' => '*Name and email are required',
         'require_tailmail' => 'with tail email:',
+        'require_wsm' => '*Login by WSM.',
     ],
     'question_type' => 'Question type',
     'title_web' => 'FSurvey',
