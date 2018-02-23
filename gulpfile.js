@@ -1,5 +1,6 @@
 const elixir = require('laravel-elixir');
 var Promise = require('es6-promise').Promise;
+var shell = require('gulp-shell');
 
 /*
  |--------------------------------------------------------------------------
@@ -12,8 +13,10 @@ var Promise = require('es6-promise').Promise;
  |
  */
 
-elixir(function(mix) {
+gulp.task('langjs', shell.task('php artisan lang:js -c public/js/messages.js'));
 
+elixir(function(mix) {
+   mix.task('langjs');
    mix.sass('new-style.scss', 'public/user/css/new-style.css')
    .sass('style.scss', 'public/user/css/style.css')
    .sass('socialize-bookmarks.scss', 'public/user/css/socialize-bookmarks.css')

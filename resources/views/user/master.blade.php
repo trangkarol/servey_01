@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class=" js no-touch csstransforms csstransitions">
+<html lang="{{ app()->getLocale() }}" class=" js no-touch csstransforms csstransitions">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>{{ trans('info.fsurvey') }}</title>

@@ -40,12 +40,12 @@ $(document).ready(function() {
         var dealineTime = new Date(Date.parse(dateChoose));
         var validateTime = dealineTime.getTime() - today.getTime();
 
-        if (dealineTime.length && validateTime < 1800000) {
+        if (!dealineTime.length && validateTime < 1800000) {
             return false;
         }
 
         return true;
-    }, 'Thời gian đóng phải lớn hơn thời gian hiện tại ít nhất 30 phút.');
+    }, Lang.get('js.survey.more_than_30_minutes'));
 
     $.validator.addMethod('questionunique', function (value, element) {
         var parentForm = $(element).closest('form');
@@ -60,7 +60,7 @@ $(document).ready(function() {
 
         return timeRepeated === 1 || timeRepeated === 0;
 
-    }, "Câu hỏi bị trùng.");
+    }, Lang.get('js.survey.duplicate_question'));
 
     $.validator.addMethod('answersunique', function (value, element) {
         var parentForm = $(element).closest('li');
@@ -75,7 +75,7 @@ $(document).ready(function() {
 
         return timeRepeated === 1 || timeRepeated === 0;
 
-    }, "Câu trả lời bị trùng.");
+    }, Lang.get('js.survey.duplicate_answer'));
 
     var form = $('#survey_container #wrapped');
     form.validate({
