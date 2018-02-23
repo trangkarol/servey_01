@@ -10,13 +10,9 @@
                         {!! Html::image(config('settings.image_path_system') . 'email1.png', '') !!}
                         {!! Form::text('email', (Auth::user() ? Auth::user()->email : old('email')), [
                             'id' => 'email',
-                            'class' => 'required form-control validate',
+                            'class' => 'form-control',
                             'placeholder' => trans('info.email'),
                             (auth()->check() && auth()->user()->email) ? 'readonly' : null,
-                        ]) !!}
-                        {!! Form::label('email', trans('validation.msg.email'), [
-                            'class' => 'wizard-hidden error',
-                            'id' => 'emailError',
                         ]) !!}
                     </div>
                 </li>
@@ -33,7 +29,7 @@
                         {!! Form::text('name', ((Auth::user()) ? Auth::user()->name : ''), [
                             'placeholder' => trans('info.name'),
                             'id' => 'name',
-                            'class' => 'required form-control',
+                            'class' => 'form-control',
                             (auth()->check() && auth()->user()->name) ? 'readonly' : null,
                         ]) !!}
                     </div>
@@ -59,9 +55,6 @@
                 'placeholder' =>  trans('info.duration'),
                 'id' => 'deadline',
                 'class' => 'frm-deadline datetimepicker form-control',
-            ]) !!}
-            {!! Form::label('deadline', trans('info.date_invalid'), [
-                'class' => 'wizard-hidden validate-time error',
             ]) !!}
         </div>
     </div>

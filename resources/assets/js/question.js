@@ -59,14 +59,13 @@ $(document).ready(function() {
         var number = parseInt($($this).attr('id-as'));
         var trash = parseInt($('.question' + number).attr('trash'));
         var numberAnswer = (parseInt($('.question' + number).attr('temp-qs')) + 1);
-
+        var otherQuestionTypeId = $this.parent('div').find('span:regex(class, (other))').attr('typeid');
         $.ajax({
             url: url,
             type: 'POST',
             data: {
                 'number': number,
                 'numberAnswer': numberAnswer,
-                'type': type,
             },
             dataType: 'json',
             async: false,
@@ -75,6 +74,9 @@ $(document).ready(function() {
                     $('.temp-other' + number +':first').before(response.data);
                     $('.question' + number).attr('temp-qs', numberAnswer);
                     $('.question' + number).attr('trash', trash + 1);
+                    $('.question' + number)
+                        .find('textarea:regex(name, ^txt-question\\[answers\\]\\[.*\\]\\[.*\\]\\[' + otherQuestionTypeId + '\\])')
+                        .attr('name', 'txt-question[answers][' + number + '][' + (numberAnswer + 1) + '][' + otherQuestionTypeId + '])');
                 } else {
                     alert(error);
                 }
@@ -90,13 +92,15 @@ $(document).ready(function() {
             url,
             {
                 'number': number,
-                'type': type,
             },
             function(response) {
                 if (response.success) {
                     var trash = parseInt($('.question' + number).attr('trash'));
                     $('.question' + number).attr('trash', trash + 1);
                     $('.temp-other' + number + ':first').before(response.data);
+                    $('.question' + number)
+                        .find('textarea:regex(name, ^txt-question\\[answers\\]\\[.*\\]\\[.*\\]\\[' + type + '\\])')
+                        .attr('name', 'txt-question[answers][' + number + '][' + trash + '][' + type + '])');
                 } else {
                     alert(error);
                 }

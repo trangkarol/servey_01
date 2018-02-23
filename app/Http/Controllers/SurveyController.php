@@ -325,7 +325,7 @@ class SurveyController extends Controller
                     config('survey.type_checkbox'),
                 ])) {
                     $validator['txt-question.answers.' . $questionIndex] = 'array';
-                    $validator['txt-question.answers.' . $questionIndex . '.*.' . $type] = 'required|max:255|distinct';
+                    $validator['txt-question.answers.' . $questionIndex . '.' . $answerIndex . '.' . $type] = 'required|max:255|distinct';
                 }
 
                 if ($images
@@ -396,6 +396,7 @@ class SurveyController extends Controller
 
         if ($validator->fails()) {
             return redirect()->back()
+                ->withInput()
                 ->with('message-fail', trans_choice('messages.object_created_unsuccessfully', 1));
         }
 
@@ -462,9 +463,9 @@ class SurveyController extends Controller
             DB::rollback();
 
             return redirect()->action('SurveyController@index')
+                ->withInput()
                 ->with('message-fail', trans_choice('messages.object_created_unsuccessfully', 1));
         }
-
     }
 
     public function complete($token)

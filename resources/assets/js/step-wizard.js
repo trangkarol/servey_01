@@ -1,3 +1,16 @@
+jQuery.expr[':'].regex = function (elem, index, match) {
+    var matchParams = match[3].split(','),
+        validLabels = /^(data|css):/,
+        attr = {
+            method: matchParams[0].match(validLabels) ?
+                matchParams[0].split(':')[0] : 'attr',
+            property: matchParams.shift().replace(validLabels, '')
+        },
+        regexFlags = 'ig',
+        regex = new RegExp(matchParams.join('').replace(/^\s+|\s+$/g, ''), regexFlags);
+    return regex.test(jQuery(elem)[attr.method](attr.property));
+}
+
 $(document).ready(function() {
     var error = $('.data').attr('data-error');
     var notice = $('.data').attr('data-confirm');
@@ -16,36 +29,78 @@ $(document).ready(function() {
         return text.test(email);
     }
 
-    $("#survey_container").wizard({
+    jQuery.validator.addMethod('moreThan30Minutes', function (value, element) {
+        var today = new Date();
+        var dateChoose = value;
+
+        if (formatDate == 'DD-MM-YYYY hh:mm A') {
+            dateChoose = dateChoose.split('-')[1] + '-' + dateChoose.split('-')[0] + dateChoose.substring(5);
+        }
+
+        var dealineTime = new Date(Date.parse(dateChoose));
+        var validateTime = dealineTime.getTime() - today.getTime();
+
+        if (dealineTime.length && validateTime < 1800000) {
+            return false;
+        }
+
+        return true;
+    }, 'Thời gian đóng phải lớn hơn thời gian hiện tại ít nhất 30 phút.');
+
+    $.validator.addMethod('questionunique', function (value, element) {
+        var parentForm = $(element).closest('form');
+        var timeRepeated = 0;
+        if (value.trim()) {
+            $(parentForm.find('textarea:regex(name, ^txt-question\\[question\\]\\[.*\\])')).each(function () {
+                if ($(this).val() === value) {
+                    timeRepeated++;
+                }
+            });
+        }
+
+        return timeRepeated === 1 || timeRepeated === 0;
+
+    }, "Câu hỏi bị trùng.");
+
+    $.validator.addMethod('answersunique', function (value, element) {
+        var parentForm = $(element).closest('li');
+        var timeRepeated = 0;
+        if (value.trim()) {
+            $(parentForm.find('textarea:regex(name, ^txt-question\\[answers\\]\\[.*\\]\\[.*\\]\\[(1|2)\\])')).each(function () {
+                if ($(this).val() === value) {
+                    timeRepeated++;
+                }
+            });
+        }
+
+        return timeRepeated === 1 || timeRepeated === 0;
+
+    }, "Câu trả lời bị trùng.");
+
+    var form = $('#survey_container #wrapped');
+    form.validate({
+        rules: {
+            email: {
+                required: true,
+                email: true,
+            },
+            name: {
+                required: true,
+            },
+            title: {
+                required: true,
+            },
+            deadline: {
+                required: true,
+                moreThan30Minutes: true,
+            },
+        },
+    });
+
+    $('#survey_container').wizard({
         stepsWrapper: "#middle-wizard",
         beforeForward: function( event, state ) {
             switch (state.stepIndex) {
-                case 1: {
-                    if (!validateEmail($('#email').val())) {
-                        $('#emailError').css('display', 'block');
-
-                        return false;
-                    }
-
-                    var today = new Date();
-                    var dateChoose = $('.frm-deadline').val();
-
-                    if (formatDate == 'DD-MM-YYYY hh:mm A') {
-                        dateChoose = dateChoose.split('-')[1] + '-' + dateChoose.split('-')[0] + dateChoose.substring(5);
-                    }
-
-                    var dealineTime = new Date(Date.parse(dateChoose));
-                    var validateTime = dealineTime.getTime() - today.getTime();
-
-                    if ( dealineTime.length != 0 && validateTime < 1800000) {
-                        $('.validate-time').css('display', 'block');
-
-                        return false;
-                    }
-
-                    break;
-                }
-
                 case 2: {
                     $('html, body').animate({scrollTop: 0}, 500);
 
@@ -57,6 +112,20 @@ $(document).ready(function() {
 
                         return false;
                     }
+
+                    $('textarea:regex(name, ^txt-question\\[question\\]\\[.*\\])').each(function () {
+                        $(this).rules('add', {
+                            required: true,
+                            questionunique: true,
+                        });
+                    });
+
+                    $('textarea:regex(name, ^txt-question\\[answers\\]\\[.*\\]\\[.*\\]\\[(1|2)\\])').each(function () {
+                        $(this).rules('add', {
+                            required: true,
+                            answersunique: true,
+                        });
+                    });
 
                     break;
                 }
@@ -145,6 +214,10 @@ $(document).ready(function() {
                 default: {
                     break;
                 }
+            }
+
+            if (!form.valid()) {
+                return false;
             }
         }
     });

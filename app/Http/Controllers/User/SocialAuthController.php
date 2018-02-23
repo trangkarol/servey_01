@@ -32,7 +32,7 @@ class SocialAuthController extends Controller
                     $url = Session::get('nextUrl');
                     Session::destroy('nextUrl');
 
-                    return redirect($url);
+                    return redirect()->intended($url);
                 }
 
                 return redirect()->intended(action('SurveyController@index'));
