@@ -315,7 +315,7 @@ class SurveyController extends Controller
             $validator['txt-question.question.' . $questionIndex] = 'required|max:255';
 
             if ($images && array_key_exists('question', $images) && array_key_exists($questionIndex, $images['question'])) {
-                $validator['image.quesion.' . $questionIndex] = 'image|mimes:jpg,jpeg,png,gif,svg|max:1000';
+                $validator['image.quesion.' . $questionIndex] = 'image|mimes:jpg,jpeg,png,gif,bmp,svg|max:1000';
             }
 
             foreach ($inputs['txt-question']['answers'][$questionIndex] as $answerIndex => $answer) {
@@ -333,7 +333,7 @@ class SurveyController extends Controller
                     && array_key_exists($questionIndex, $images['answers'])
                     && array_key_exists($answerIndex, $images['answers'][$questionIndex])
                 ) {
-                    $validator['image.answers.' . $questionIndex . '.' . $answerIndex] = 'image|mimes:jpg,jpeg,png,gif,svg|max:1000';
+                    $validator['image.answers.' . $questionIndex . '.' . $answerIndex] = 'image|mimes:jpg,jpeg,png,gif,bmp,svg|max:1000';
                 }
             }
         }

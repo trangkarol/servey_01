@@ -6,8 +6,8 @@ $(document).ready(function() {
     var arrayAnswer = [];
     var arrayImageAnswer = [];
     var arrayImageQuestion = [];
-    var maxFileSize = 2048;
-    var maxTotalSize = 8192;
+    var maxFileSize = 1000;
+    var maxTotalSize = 8000;
     var slts = { // selectors
         msg: '.modal-message',
         preview: '.img-pre-option',
@@ -137,7 +137,7 @@ $(document).ready(function() {
     }
 
     function checkTypeImage(input) {
-        var fileExtension = ['jpeg', 'jpg', 'png', 'gif', 'bmp'];
+        var fileExtension = ['jpeg', 'jpg', 'png', 'gif', 'bmp', 'svg'];
         var fileName = input.name;
         var fileNameExt = fileName.substr(fileName.lastIndexOf('.') + 1);
 
