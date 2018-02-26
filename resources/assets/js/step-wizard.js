@@ -83,12 +83,15 @@ $(document).ready(function() {
             email: {
                 required: true,
                 email: true,
+                maxlength: 255,
             },
             name: {
                 required: true,
+                maxlength: 255,
             },
             title: {
                 required: true,
+                maxlength: 255,
             },
             deadline: {
                 required: true,
@@ -116,6 +119,7 @@ $(document).ready(function() {
                     $('textarea:regex(name, ^txt-question\\[question\\]\\[.*\\])').each(function () {
                         $(this).rules('add', {
                             required: true,
+                            maxlength: 255,
                             questionunique: true,
                         });
                     });
@@ -123,6 +127,7 @@ $(document).ready(function() {
                     $('textarea:regex(name, ^txt-question\\[answers\\]\\[.*\\]\\[.*\\]\\[(1|2)\\])').each(function () {
                         $(this).rules('add', {
                             required: true,
+                            maxlength: 255,
                             answersunique: true,
                         });
                     });
