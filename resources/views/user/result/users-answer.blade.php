@@ -1,4 +1,4 @@
-@if (!$listUserAnswer->isEmpty())
+@if ($listUserAnswer)
     <table class="table-result-user table table-bordered">
         <thead class="thead-default">
             <tr>
@@ -44,13 +44,7 @@
                         ]) }}" data-username="{{ $info['name'] ?: trans('user.incognito') }}">{{ trans('survey.link') }}</a>
                     </td>
                 </tr>
-            @empty
-                <tr>
-                    <td colspan="4">
-                        <p class="alert alert-info">{{ trans('temp.dont_have_result') }}</p>
-                    </td>
-                </tr>
-            @endforelse
+            @endforeach
         </tbody>
     </table>
 @else
@@ -58,4 +52,3 @@
         {{ trans('messages.not_have_results') }}
     </div>
 @endif
-
