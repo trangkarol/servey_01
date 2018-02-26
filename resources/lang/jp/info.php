@@ -20,7 +20,7 @@ return [
     'public' => '公共',
     'this_survey' => 'この調査',
     'description' => 'アンケートの説明をご入力ください',
-    'enter_info' => 'Enter your info',
+    'enter_info' => '情報を入力する。',
     'yes' => 'はい',
     'no' => 'いいえ',
     'fsurvey' => 'FSurvey',

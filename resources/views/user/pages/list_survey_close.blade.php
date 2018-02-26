@@ -6,7 +6,6 @@
                         <th>{{ trans('survey.name') }}</th>
                         <th>{{ trans('survey.date_create') }}</th>
                         <th>{{ trans('survey.status') }}</th>
-                        <th></th>
                         <th>{{ trans('survey.setting') }}</th>
                     </tr>
                 </thead>
@@ -26,7 +25,7 @@
                 <td>
                     {{ Carbon\Carbon::parse($survey->created_at)->format(trans('temp.format.date')) }}
                 </td>
-                <td class="margin-center" colspan="2">
+                <td class="td-servey-closed">
                     {{ trans('survey.closed') }}
                 </td>
                 <td class="margin-center">

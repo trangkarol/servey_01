@@ -1,5 +1,5 @@
 <div>
-    @if ($surveys)
+    @if (!$surveys->isEmpty())
         <table class="table-list-survey table table-hover table-result-user table-bordered">
             <thead>
                 <tr>
