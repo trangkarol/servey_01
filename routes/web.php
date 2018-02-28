@@ -142,7 +142,7 @@ Route::get('/show/{token}', 'SurveyController@showDetail');
 
 Route::put('/update-survey/{id}', 'SurveyController@updateSurvey');
 
-Route::get('/show-user-answer-detail/{surveyId}/{userId?}/{email?}/{name?}', 'AnswerController@showMultiHistory');
+Route::get('/show-user-answer-detail/{surveyId}/{userId?}/{email?}/{name?}/{clientIp?}', 'AnswerController@showMultiHistory');
 
 Route::post('/update/{id}/{token}', 'SurveyController@updateSurveyContent');
 
