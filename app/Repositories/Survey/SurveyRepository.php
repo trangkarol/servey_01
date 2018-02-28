@@ -14,23 +14,9 @@ use App\Models\Survey;
 
 class SurveyRepository extends BaseRepository implements SurveyInterface
 {
-    protected $likeRepository;
-    protected $questionRepository;
-    protected $inviteRepository;
-    protected $settingRepository;
-
-    public function __construct(
-        Survey $survey,
-        QuestionInterface $question,
-        LikeInterface $like,
-        InviteInterface $invite,
-        SettingInterface $setting
-    ) {
+    public function __construct(Survey $survey) 
+    {
         parent::__construct($survey);
-        $this->likeRepository = $like;
-        $this->inviteRepository = $invite;
-        $this->questionRepository = $question;
-        $this->settingRepository = $setting;
     }
 
     public function delete($ids)
@@ -38,9 +24,9 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         DB::beginTransaction();
         try {
             $ids = is_array($ids) ? $ids : [$ids];
-            $this->inviteRepository->deleteBySurveyId($ids);
-            $this->likeRepository->deleteBySurveyId($ids);
-            $this->questionRepository->deleteBySurveyId($ids);
+            app(InviteInterface::class)->deleteBySurveyId($ids);
+            app(LikeInterface::class)->deleteBySurveyId($ids);
+            app(QuestionInterface::class)->deleteBySurveyId($ids);
             parent::delete($ids);
             DB::commit();
 
@@ -60,7 +46,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
             return view('errors.503');
         }
 
-        $datasInput = $this->inviteRepository->getResult($survey->id);
+        $datasInput = app(InviteInterface::class)->getResult($survey->id);
         $questions = $datasInput['questions'];
         $temp = [];
         $results = [];
@@ -171,11 +157,11 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
             $settings[config('settings.key.tailMail')] = null;
         }
 
-        $this->settingRepository->createMultiSetting($settings, $surveyId);
+        app(SettingInterface::class)->createMultiSetting($settings, $surveyId);
         $txtQuestion = $arrayQuestionWithAnswer;
         $questions = $txtQuestion['question'];
         $answers = $txtQuestion['answers'];
-        $this->questionRepository
+        app(QuestionInterface::class)
             ->createMultiQuestion(
                 $surveyId,
                 $questions,
@@ -196,7 +182,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
             $surveyIds->lists('id')->toArray()
         );
 
-        return $this->settingRepository
+        return app(SettingInterface::class)
             ->whereIn('survey_id', $ids)
             ->where([
                 'key' => config('settings.key.limitAnswer'),
@@ -208,7 +194,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
 
     public function listsSurvey($userId, $email = null)
     {
-        $invites = $inviteIds = $this->inviteRepository
+        $invites = $inviteIds = app(InviteInterface::class)
             ->where('recevier_id', $userId)
             ->orWhere('mail', $email);
         $surveys = $surveyIds = $this->where('user_id', $userId)->orWhere('mail', $email);
@@ -233,7 +219,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         if (!$date || !$inputs['status']) {
             return false;
         } elseif (!$inputs['type']) {
-            $invite = $this->inviteRepository
+            $invite = app(InviteInterface::class)
                 ->where('recevier_id', $inputs['userId'])
                 ->where('survey_id', $inputs['surveyId'])
                 ->orWhere(function ($query) use ($email, $surveyId) {
@@ -251,7 +237,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
             return [];
         }
 
-        return $this->settingRepository
+        return app(SettingInterface::class)
             ->where('survey_id', $surveyId)
             ->lists('value', 'key')
             ->toArray();
@@ -266,9 +252,25 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
             ];
         }
 
-        if ($userId) {
-            if ($options['type'] == 'history') {
-                $results = $this->questionRepository
+        if ($options['type'] == 'history') {
+            $results = app(QuestionInterface::class)
+                ->getResultByQuestionIds($surveyId)
+                ->where('sender_id', $userId)
+                ->get();
+        } else {
+            $email = $options['email'];
+            $name = $options['name'];
+            $results = app(QuestionInterface::class)
+                ->getResultByQuestionIds($surveyId)
+                ->where(function($query) use ($userId, $email) {
+                    $query->where('sender_id', $userId)
+                        ->orWhere('email', $email);
+                })
+                ->get()
+                ->toArray();
+
+            if (empty($email) && $name) {
+                $results = app(QuestionInterface::class)
                     ->getResultByQuestionIds($surveyId)
                     ->where('sender_id', $userId)
                     ->get();
@@ -350,7 +352,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
             return false;
         }
 
-        $results = $this->questionRepository
+        $results = app(QuestionInterface::class)
             ->getResultByQuestionIds($survey->id)
             ->with('sender');
         $results = $results->distinct('created_at')->get([
