@@ -177,7 +177,7 @@ class AnswerController extends Controller
                     $now = date('Y-m-d H:i:s');
                     $timeCountDown = strtotime($survey->deadline) - strtotime($now);
 
-                    if ($timeCountDown) {
+                    if ($timeCountDown > 0) {
                         return response()->json($timeCountDown);
                     }
                 }

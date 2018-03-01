@@ -127,12 +127,6 @@
                                                                 </span>
                                                             </div>
                                                             <div class="col-md-1"></div>
-                                                            <div class="export-PDF col-md-4">
-                                                                {!! Html::image(config('settings.image_path_system') . 'pdf.png', '') !!}
-                                                                <span>
-                                                                    {{ trans('survey.exportPDF') }}
-                                                                </span>
-                                                            </div>
                                                         </div>
                                                         {!! Form::open(['action' => [
                                                                 'User\ExportController@export',

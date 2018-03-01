@@ -107,4 +107,5 @@ return [
     'token_is_already_used' => 'Token đã được sử dụng bởi một survey khác',
     'edit_instruction_messages' => 'Bạn phải đóng survey trước khi chỉnh sửa chúng !',
     'cancel' => 'Hủy',
+    'timestamps' => 'Timestamps',
 ];

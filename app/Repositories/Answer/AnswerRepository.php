@@ -192,7 +192,7 @@ class AnswerRepository extends BaseRepository implements AnswerInterface
                         $content = in_array(head(array_keys($answer)), [
                             config('survey.type_other_checkbox'),
                             config('survey.type_other_radio'),
-                        ]) ?  trans('temp.other') : head($answer);
+                        ]) ? trans('temp.other') : head($answer);
                         $dataCreate[] = [
                             'content' => $content,
                             'question_id' => $questionId,
