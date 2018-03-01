@@ -252,24 +252,9 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
             ];
         }
 
-        if ($options['type'] == 'history') {
-            $results = app(QuestionInterface::class)
-                ->getResultByQuestionIds($surveyId)
-                ->where('sender_id', $userId)
-                ->get();
-        } else {
-            $email = $options['email'];
-            $name = $options['name'];
-            $results = app(QuestionInterface::class)
-                ->getResultByQuestionIds($surveyId)
-                ->where(function($query) use ($userId, $email) {
-                    $query->where('sender_id', $userId)
-                        ->orWhere('email', $email);
-                })
-                ->get()
-                ->toArray();
 
-            if (empty($email) && $name) {
+        if ($userId) {
+            if ($options['type'] == 'history') {
                 $results = app(QuestionInterface::class)
                     ->getResultByQuestionIds($surveyId)
                     ->where('sender_id', $userId)
@@ -317,7 +302,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
             }
         } else {
             if ($options['type'] == 'history') {
-                $results = $this->questionRepository
+                $results = app(QuestionInterface::class)
                     ->getResultByQuestionIds($surveyId)
                     ->where('sender_id', null)
                     ->where('client_ip', $clientIp)
