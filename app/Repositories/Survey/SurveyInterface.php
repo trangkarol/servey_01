@@ -25,7 +25,7 @@ interface SurveyInterface
 
     public function getSettings($surveyId);
 
-    public function getHistory($userId, $surveyId, array $options);
+    public function getHistory($userId, $clientIp, $surveyId, array $options);
 
     public function getUserAnswer($token);
 

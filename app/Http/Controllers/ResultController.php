@@ -10,13 +10,17 @@ use App\Repositories\Invite\InviteInterface;
 use App\Repositories\Setting\SettingInterface;
 use App\Repositories\Question\QuestionInterface;
 use App\Http\Requests\AnswerRequest;
+use App\Traits\ClientInformation;
 use Carbon\Carbon;
 use Exception;
 use LRedis;
 use DB;
+use Cookie;
 
 class ResultController extends Controller
 {
+    use ClientInformation;
+
     protected $resultRepository;
     protected $surveyRepository;
     protected $inviteReposirory;
@@ -39,6 +43,12 @@ class ResultController extends Controller
 
     public function result($token, AnswerRequest $request)
     {
+        if (Cookie::get('client_ip') === null) {
+            Cookie::queue('client_ip', $this->getClientIp(), config('settings.cookie.timeout.one_day'));
+
+            return redirect(url()->current());
+        }
+
         $isSuccess = false;
         $isRunToBottom = true;
         $answers = $request->get('answer');
@@ -47,6 +57,16 @@ class ResultController extends Controller
         $message = '';
         $flag = false;
         $survey = $this->surveyRepository->where('token', $token)->first();
+
+        // check limit the number of answers when submit answers for survey
+        $settings = $survey->settings->pluck('value', 'key')->all();
+        $history = $this->surveyRepository->getHistory(auth()->id(), Cookie::get('client_ip'), $survey->id, ['type' => 'history']);
+        $canAnswer = count($history['results']) < $settings[config('settings.key.limitAnswer')];
+
+        if (!$canAnswer) {
+            return back();
+        }
+
         $emailResults = $this->questionRepository
             ->getResultByQuestionIds($survey->id)
             ->lists('email')
@@ -131,6 +151,7 @@ class ResultController extends Controller
                                 'content' => $value,
                                 'name' => $setName,
                                 'email' => $setEmail,
+                                'client_ip' => Cookie::get('client_ip'),
                                 'created_at' => Carbon::now(),
                                 'updated_at' => Carbon::now(),
                             ];
@@ -152,15 +173,6 @@ class ResultController extends Controller
                 if (!empty($data)
                     && $this->resultRepository->multiCreate($data)
                 ) {
-
-                    $decreaseNumber = $settings
-                        ->where('key', config('settings.key.limitAnswer'))
-                        ->first();
-
-                    if ($decreaseNumber && $decreaseNumber->value) {
-                        $decreaseNumber->update(['value' => --$decreaseNumber->value]);
-                    }
-
                     if ($invite && $invite->status) {
                         $isSuccess = $invite->update(['status' => config('survey.invite.old')]);
                     }

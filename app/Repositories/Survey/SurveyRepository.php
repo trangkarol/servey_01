@@ -257,46 +257,70 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
             ->toArray();
     }
 
-    public function getHistory($userId, $surveyId, array $options)
+    public function getHistory($userId, $clientIp, $surveyId, array $options)
     {
-        if (!$userId && $options['type'] == 'history' || !$surveyId) {
+        if (!$surveyId) {
             return [
                 'history' => [],
                 'results' => [],
             ];
         }
 
-        if ($options['type'] == 'history') {
-            $results = $this->questionRepository
-                ->getResultByQuestionIds($surveyId)
-                ->where('sender_id', $userId)
-                ->get();
-        } else {
-            $email = $options['email'];
-            $name = $options['name'];
-            $results = $this->questionRepository
-                ->getResultByQuestionIds($surveyId)
-                ->where(function($query) use ($userId, $email) {
-                    $query->where('sender_id', $userId)
-                        ->orWhere('email', $email);
-                })
-                ->get()
-                ->toArray();
-
-            if (empty($email) && $name) {
+        if ($userId) {
+            if ($options['type'] == 'history') {
                 $results = $this->questionRepository
                     ->getResultByQuestionIds($surveyId)
-                    ->where(function($query) use ($userId, $name) {
-                        $query->where('sender_id', $userId)
-                            ->orWhere('name', $name);
-                    })
+                    ->where('sender_id', $userId)
+                    ->get();
+            } else {
+                $email = $options['email'];
+                $name = $options['name'];
+                $results = $this->questionRepository
+                    ->getResultByQuestionIds($surveyId)
+                    ->where(
+                        function ($query) use ($userId, $clientIp, $email) {
+                            $query->where('sender_id', $userId)
+                                ->orWhere(
+                                    function ($query) use ($clientIp, $email) {
+                                        $query->where('email', $email)
+                                            ->where('client_ip', $clientIp);
+                                    }
+                                );
+                        }
+                    )
                     ->get()
                     ->toArray();
+
+                if (empty($email) && $name) {
+                    $results = $this->questionRepository
+                        ->getResultByQuestionIds($surveyId)
+                        ->where(
+                            function ($query) use ($userId, $clientIp, $name) {
+                                $query->where('sender_id', $userId)
+                                    ->orWhere(
+                                        function ($query) use ($clientIp, $name) {
+                                            $query->where('name', $name)
+                                                ->where('client_ip', $clientIp);
+                                        }
+                                    );
+                            }
+                        )
+                        ->get()
+                        ->toArray();
+                }
+
+                $collection = collect($results);
+
+                return $collection->groupBy('created_at')->toArray();
             }
-
-            $collection = collect($results);
-
-            return $collection->groupBy('created_at')->toArray();
+        } else {
+            if ($options['type'] == 'history') {
+                $results = $this->questionRepository
+                    ->getResultByQuestionIds($surveyId)
+                    ->where('sender_id', null)
+                    ->where('client_ip', $clientIp)
+                    ->get();
+            }
         }
 
         if (!$results) {
@@ -334,6 +358,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
             'name',
             'email',
             'sender_id',
+            'client_ip',
         ])
         ->toArray();
 
@@ -353,16 +378,9 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         */
         $settings = $this->getSettings($survey->id);
 
-        if ($settings[config('settings.key.requireAnswer')] == config('settings.require.name')) {
-            $userNotLogin = in_array('', array_keys($collection))
-                ? collect($collection[''])->groupBy('name')->toArray()
+        $userNotLogin = in_array('', array_keys($collection))
+                ? collect(collect($collection['']))->groupBy('client_ip')->toArray()
                 : [];
-        } else {
-            $userNotLogin = in_array('', array_keys($collection))
-                ? collect($collection[''])->groupBy('email')->toArray()
-                : [];
-        }
-
 
         return array_merge($userLogin, $userNotLogin);
     }

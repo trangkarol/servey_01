@@ -5,11 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repositories\Survey\SurveyInterface;
+use App\Traits\ClientInformation;
 use Carbon\Carbon;
 use Session;
+use Cookie;
 
 class AnswerController extends Controller
 {
+    use ClientInformation;
+
     protected $surveyRepository;
 
     public function __construct(SurveyInterface $surveyRepository)
@@ -19,10 +23,15 @@ class AnswerController extends Controller
 
     public function answer($token, $view = 'detail', $isPublic = true)
     {
+        if (Cookie::get('client_ip') === null) {
+            Cookie::queue('client_ip', $this->getClientIp(), config('settings.cookie.timeout.one_day'));
+
+            return redirect(url()->current());
+        }
+
         $survey = $this->surveyRepository->with('settings')
             ->where(($view == 'detail') ? 'token_manage' : 'token', $token)
             ->first();
-        $settings = $survey->settings->pluck('value', 'key')->all();
 
         if (!$survey
             || !in_array($view, ['detail', 'answer'])
@@ -32,6 +41,7 @@ class AnswerController extends Controller
             return view('errors.404');
         }
 
+        $settings = $survey->settings->pluck('value', 'key')->all();
         if ($settings[config('settings.key.requireAnswer')] == config('settings.require.loginWsm') && (!auth()->user() || !auth()->user()->checkLoginWsm())) {
             Session::put('nextUrl', $_SERVER['REQUEST_URI']);
 
@@ -49,7 +59,8 @@ class AnswerController extends Controller
 
         $access = $this->surveyRepository->getSettings($survey->id);
         $listUserAnswer = $this->surveyRepository->getUserAnswer($token);
-        $history = ($view == 'answer') ? $this->surveyRepository->getHistory(auth()->id(), $survey->id, ['type' => 'history']) : null;
+        $history = ($view == 'answer') ? $this->surveyRepository->getHistory(auth()->id(), Cookie::get('client_ip'), $survey->id, ['type' => 'history']) : null;
+        $canAnswer = count($history['results']) < $settings[config('settings.key.limitAnswer')];
         $getCharts = $this->surveyRepository->viewChart($survey->token);
         $status = $getCharts['status'];
         $charts = $getCharts['charts'];
@@ -77,7 +88,8 @@ class AnswerController extends Controller
                         'access',
                         'history',
                         'listUserAnswer',
-                        'tempAnswers'
+                        'tempAnswers',
+                        'canAnswer'
                     )
                 );
             }
@@ -102,7 +114,7 @@ class AnswerController extends Controller
         return $this->answer($token, 'detail');
     }
 
-    public function showMultiHistory(Request $request, $surveyId, $userId = null, $email = null, $name = null)
+    public function showMultiHistory(Request $request, $surveyId, $userId = null, $email = null, $name = null, $clientIp = null)
     {
         if (!$request->ajax()) {
             return [
@@ -123,7 +135,7 @@ class AnswerController extends Controller
             'name' => $name,
         ];
         $username = $request->get('username');
-        $history  = $this->surveyRepository->getHistory($userId, $surveyId, $options);
+        $history  = $this->surveyRepository->getHistory($userId, $clientIp, $surveyId, $options);
 
         return [
             'success' => true,
