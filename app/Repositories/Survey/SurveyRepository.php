@@ -14,7 +14,7 @@ use App\Models\Survey;
 
 class SurveyRepository extends BaseRepository implements SurveyInterface
 {
-    public function __construct(Survey $survey) 
+    public function __construct(Survey $survey)
     {
         parent::__construct($survey);
     }
@@ -27,6 +27,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
             app(InviteInterface::class)->deleteBySurveyId($ids);
             app(LikeInterface::class)->deleteBySurveyId($ids);
             app(QuestionInterface::class)->deleteBySurveyId($ids);
+            app(SettingInterface::class)->deleteBySurveyId($ids);
             parent::delete($ids);
             DB::commit();
 
@@ -136,7 +137,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                 ->toDateTimeString();
         }
 
-        $surveyInputs['status'] = config('survey.status.avaiable');
+        $surveyInputs['status'] = config('survey.status.available');
         $surveyInputs['deadline'] = ($inputs['deadline']) ?: null;
         $surveyInputs['description'] = ($inputs['description']) ?: null;
         $surveyInputs['created_at'] = $surveyInputs['updated_at'] = Carbon::now();
@@ -262,7 +263,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
             } else {
                 $email = $options['email'];
                 $name = $options['name'];
-                $results = $this->questionRepository
+                $results = app(QuestionInterface::class)
                     ->getResultByQuestionIds($surveyId)
                     ->where(
                         function ($query) use ($userId, $clientIp, $email) {
@@ -279,7 +280,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                     ->toArray();
 
                 if (empty($email) && $name) {
-                    $results = $this->questionRepository
+                    $results = app(QuestionInterface::class)
                         ->getResultByQuestionIds($surveyId)
                         ->where(
                             function ($query) use ($userId, $clientIp, $name) {

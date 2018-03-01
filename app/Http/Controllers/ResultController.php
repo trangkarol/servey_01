@@ -13,6 +13,7 @@ use App\Http\Requests\AnswerRequest;
 use App\Traits\ClientInformation;
 use Carbon\Carbon;
 use Exception;
+use Predis\Connection\ConnectionException;
 use LRedis;
 use DB;
 use Cookie;
@@ -61,7 +62,7 @@ class ResultController extends Controller
         // check limit the number of answers when submit answers for survey
         $settings = $survey->settings->pluck('value', 'key')->all();
         $history = $this->surveyRepository->getHistory(auth()->id(), Cookie::get('client_ip'), $survey->id, ['type' => 'history']);
-        $canAnswer = count($history['results']) < $settings[config('settings.key.limitAnswer')];
+        $canAnswer = count($history['results']) < $settings[config('settings.key.limitAnswer')] || !$settings[config('settings.key.limitAnswer')];
 
         if (!$canAnswer) {
             return back();
@@ -204,14 +205,18 @@ class ResultController extends Controller
         $listUserAnswer = $this->surveyRepository->getUserAnswer($token);
         $status = $getCharts['status'];
         $charts = $getCharts['charts'];
-        $redis = LRedis::connection();
-        $redis->publish('answer', json_encode([
-            'success' => true,
-            'surveyId' => $survey->id,
-            'viewChart' => view('user.result.chart', compact('status', 'charts'))->render(),
-            'viewDetailResult' => view('user.result.detail-result', compact('survey'))->render(),
-            'viewUserAnswer' => view('user.result.users-answer', compact('listUserAnswer', 'survey'))->render(),
-        ]));
+
+        try {
+            $redis = LRedis::connection();
+            $redis->publish('answer', json_encode([
+                'success' => true,
+                'surveyId' => $survey->id,
+                'viewChart' => view('user.result.chart', compact('status', 'charts'))->render(),
+                'viewDetailResult' => view('user.result.detail-result', compact('survey'))->render(),
+                'viewUserAnswer' => view('user.result.users-answer', compact('listUserAnswer', 'survey'))->render(),
+            ]));
+        } catch (ConnectionException $e) {
+        }
 
         return redirect()->action('ResultController@show', [
             'name' => auth()->check() ? auth()->user()->name : null,

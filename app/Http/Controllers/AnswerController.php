@@ -60,7 +60,7 @@ class AnswerController extends Controller
         $access = $this->surveyRepository->getSettings($survey->id);
         $listUserAnswer = $this->surveyRepository->getUserAnswer($token);
         $history = ($view == 'answer') ? $this->surveyRepository->getHistory(auth()->id(), Cookie::get('client_ip'), $survey->id, ['type' => 'history']) : null;
-        $canAnswer = count($history['results']) < $settings[config('settings.key.limitAnswer')];
+        $canAnswer = count($history['results']) < $settings[config('settings.key.limitAnswer')] || !$settings[config('settings.key.limitAnswer')];
         $getCharts = $this->surveyRepository->viewChart($survey->token);
         $status = $getCharts['status'];
         $charts = $getCharts['charts'];
