@@ -57,7 +57,7 @@
                                 @else
                                     <td>{{ trans('survey.private') }}</td>
                                 @endif
-                            <td class="margin-center">
+                            <td class="text-center">
                                 <a href="{{ action('AnswerController@show', [
                                     'token' => $survey->token_manage,
                                     'type' => $survey->feature,
