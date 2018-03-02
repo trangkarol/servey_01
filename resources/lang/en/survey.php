@@ -15,7 +15,7 @@ return [
     'status' => 'Status',
     'answered' => 'Answered',
     'not_yet' => 'Not yet',
-    'required_answer' => 'Required to answer',
+    'required_answer' => 'Required infomation',
     'setting_survey' => 'Set option this survey',
     'result' => 'Result',
     'hide_result' => 'Hide answer result',
