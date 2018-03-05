@@ -68,7 +68,7 @@
                 @endforeach
             </tbody>
         </table>
-        {{ $surveys->links() }}
+        {{ $surveys->links('pagination.default') }}
     @else
         <div class="alert alert-warning">
             {{ trans('messages.not_have_results') }}

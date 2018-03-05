@@ -44,4 +44,4 @@
         @endif
     </tbody>
 </table>
-{!! $surveyCloses->links() !!}
+{{ $surveyCloses->links('pagination.default') }}

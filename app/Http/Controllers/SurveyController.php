@@ -161,7 +161,7 @@ class SurveyController extends Controller
                 $survey = $this->surveyRepository->find($id);
                 $changeDeadline = $request->get('change_deadline') === 'true' ? true: false;
 
-                if ($changeDeadline) {
+                if ($changeDeadline && !empty($request->get('deadline'))) {
                     $deadline = Carbon::parse(in_array(Session::get('locale'), config('settings.sameFormatDateTime'))
                         ? str_replace('-', '/', $request->get('deadline'))
                         : $request->get('deadline'))

@@ -94,7 +94,6 @@ $(document).ready(function() {
                 maxlength: 255,
             },
             deadline: {
-                required: true,
                 moreThan30Minutes: true,
             },
         },
