@@ -7,6 +7,7 @@ return [
     'confirm' => 'Are you sure to delete this survey?',
     'close-confirm' => 'Are you sure to close this survey?',
     'open-confirm' => 'Are you sure to open this survey again?',
+    'duplicate-confirm' => 'Are you sure to duplicate this survey?',
     'closed' => 'This survey was closed!',
     'opened' => 'Survey has been reopened!',
     'send_to' => 'Send to:',

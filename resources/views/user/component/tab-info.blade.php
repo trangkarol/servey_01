@@ -83,7 +83,11 @@
         @if (!$survey->is_expired)
             @if ($survey->status == config('survey.status.available'))
                 <div class="col-md-4">
-                    {!! Form::button(trans('survey.duplicate'), ['class' => 'btn-duplicate-survey btn-action']) !!}
+                    {!! Form::button(trans('survey.duplicate'), [
+                        'data-url' => action('SurveyController@duplicate', $survey->id),
+                        'data-message-confirm' => trans('temp.duplicate-confirm'),
+                        'class' => 'btn-duplicate-survey btn-action',
+                    ]) !!}
                 </div>
                 <div class="col-md-4">
                     {!! Form::button(trans('survey.close'), [
@@ -107,7 +111,11 @@
                     ]) !!}
                 </div>
                 <div class="col-md-3">
-                    {!! Form::button(trans('survey.duplicate'), ['class' => 'btn-duplicate-survey btn-action']) !!}
+                    {!! Form::button(trans('survey.duplicate'), [
+                        'data-url' => action('SurveyController@duplicate', $survey->id),
+                        'data-message-confirm' => trans('temp.duplicate-confirm'),
+                        'class' => 'btn-duplicate-survey btn-action',
+                    ]) !!}
                 </div>
                 <div class="col-md-3">
                     {!! Form::button(trans('survey.open'), [
@@ -132,7 +140,11 @@
                 ]) !!}
             </div>
             <div class="col-md-3">
-                {!! Form::button(trans('survey.duplicate'), ['class' => 'btn-duplicate-survey btn-action']) !!}
+                {!! Form::button(trans('survey.duplicate'), [
+                    'data-url' => action('SurveyController@duplicate', $survey->id),
+                    'data-message-confirm' => trans('temp.duplicate-confirm'),
+                    'class' => 'btn-duplicate-survey btn-action',
+                ]) !!}
             </div>
             <div class="col-md-3">
                 {!! Form::button(trans('survey.open'), [

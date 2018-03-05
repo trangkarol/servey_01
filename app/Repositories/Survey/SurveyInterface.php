@@ -30,4 +30,6 @@ interface SurveyInterface
     public function getUserAnswer($token);
 
     public function exportExcel($id);
+
+    public function duplicateSurvey($survey);
 }
