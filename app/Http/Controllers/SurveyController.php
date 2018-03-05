@@ -19,6 +19,7 @@ use Exception;
 use Session;
 use App\Models\Survey;
 use App\Http\Requests\UpdateSurveyRequest;
+use Predis\Connection\ConnectionException;
 
 class SurveyController extends Controller
 {
@@ -75,7 +76,7 @@ class SurveyController extends Controller
             ->orderBy('id', 'desc')
             ->paginate(config('settings.paginate'));
         $surveys = $surveys
-            ->where('status', config('survey.status.avaiable'))
+            ->where('status', config('survey.status.available'))
             ->whereNotIn('id', $settings)
             ->where(function ($query) {
                 return $query->where('deadline', '>', Carbon::now()->toDateTimeString())->orWhereNull('deadline');
@@ -138,29 +139,78 @@ class SurveyController extends Controller
 
         $surveyId = $request->get('idSurvey');
         $this->surveyRepository->delete($surveyId);
-        $redis = LRedis::connection();
-        $redis->publish('delete', json_encode([
-            'success' => true,
-            'surveyId' => $surveyId,
-        ]));
+
+        try {
+            $redis = LRedis::connection();
+            $redis->publish('delete', json_encode([
+                'success' => true,
+                'surveyId' => $surveyId,
+            ]));
+        } catch (ConnectionException $e) {
+        }
 
         return [
             'success' => true,
         ];
     }
 
+    public function open($id, Request $request)
+    {
+        if ($request->ajax()) {
+            try {
+                $survey = $this->surveyRepository->find($id);
+                $changeDeadline = $request->get('change_deadline') === 'true' ? true: false;
+
+                if ($changeDeadline) {
+                    $deadline = Carbon::parse(in_array(Session::get('locale'), config('settings.sameFormatDateTime'))
+                        ? str_replace('-', '/', $request->get('deadline'))
+                        : $request->get('deadline'))
+                        ->toDateTimeString();
+                    $this->surveyRepository->update($id, ['status' => config('survey.status.available'), 'deadline' => $deadline]);
+                } else {
+                    $this->surveyRepository->update($id, ['status' => config('survey.status.available')]);
+                }
+
+                $redis = LRedis::connection();
+                $redis->publish('open', $id);
+            } catch (ConnectionException $e) {
+            } catch (Exception $e) {
+                return [
+                    'success' => false,
+                    'message' => trans('home.error'),
+                ];
+            }
+
+            return [
+                'success' => true,
+            ];
+        }
+    }
+
     public function close($id, Request $request)
     {
         if ($request->ajax()) {
             try {
+                $survey = $this->surveyRepository->find($id);
+
+                if ($survey->is_expired) {
+                    throw new Exception();
+                }
+
                 $this->surveyRepository->update($id, ['status' => config('survey.status.block')]);
                 $redis = LRedis::connection();
                 $redis->publish('close', $id);
-
-                return response()->json(trans('temp.closed'));
-            } catch (\Exception $e) {
-                return response()->json(trans('home.error'), 400);
+            } catch (ConnectionException $e) {
+            } catch (Exception $e) {
+                return [
+                    'success' => false,
+                    'message' => trans('home.error'),
+                ];
             }
+
+            return [
+                'success' => true,
+            ];
         }
     }
 
@@ -179,6 +229,11 @@ class SurveyController extends Controller
     {
         try {
             $survey = $this->surveyRepository->find($id);
+
+            if ($survey->status == config('survey.status.available')) {
+                throw new Exception('Can not update the survey information when status is available');
+            }
+
             $isSuccess = false;
             $data = $request->only([
                 'title',
@@ -206,16 +261,15 @@ class SurveyController extends Controller
                 'success' => true,
                 'surveyId' => $id,
             ]));
-
-            return redirect()->action('AnswerController@show', $survey->token_manage)
-                ->with('message', trans_choice('messages.object_updated_successfully', 1));
+        } catch (ConnectionException $e) {
         } catch (Exception $e) {
             DB::rollback();
-
             return redirect()->action('AnswerController@show', $survey->token_manage)
                 ->with('message-fail', trans_choice('messages.object_updated_unsuccessfully', 1));
         }
 
+        return redirect()->action('AnswerController@show', $survey->token_manage)
+                ->with('message', trans_choice('messages.object_updated_successfully', 1));
     }
 
     public function updateSurveyContent(Request $request, $surveyId, $token)

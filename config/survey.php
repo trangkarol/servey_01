@@ -14,7 +14,7 @@ return [
     'type_other_checkbox' => 6,
     'type_date' => 7,
     'status' => [
-        'avaiable' => 1,
+        'available' => 1,
         'block' => 0,
     ],
     'invite' => [

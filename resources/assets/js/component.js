@@ -277,19 +277,76 @@ $(document).ready(function() {
     });
 
     $('.detail-survey').on('click', '.btn-close-survey', function() {
-        var _this = $(this);
-        var result = confirm($('.data').attr('data-close-confirm'));
+        var result = confirm($(this).data('message-confirm'));
 
         if (result) {
-            var closeUrl = $(this).attr('data-url');
-            $.post(closeUrl)
-                .done(function(data) {
-                    _this.attr('disabled', true);
-                    alert(data);
-                })
-                .fail(function(data) {
-                    alert(data);
-                })
+            var url = $(this).attr('data-url');
+            $.ajax({
+                url: url,
+                type: 'POST',
+                async: false,
+                success: function (response) {
+                    if (response.success) {
+                        location.reload();
+                    } else {
+                        $('.show-message').html(`<div class="alert col-md-4 col-md-offset-4
+                            animated fadeInDown alert-danger alert-message">${response.message}</div >`);
+                    }
+                }
+            });
+        }
+    });
+
+    function validateTimeDeadline(value) {
+        var today = new Date();
+        var dateChoose = value;
+        var formatDate = $('.data').attr('data-format-datetime');
+
+        if (formatDate == 'DD-MM-YYYY hh:mm A') {
+            dateChoose = dateChoose.split('-')[1] + '-' + dateChoose.split('-')[0] + dateChoose.substring(5);
+        }
+
+        var dealineTime = new Date(Date.parse(dateChoose));
+        var validateTime = dealineTime.getTime() - today.getTime();
+
+        if (!dealineTime.length && validateTime < 1800000) {
+            return false;
+        }
+
+        return true;
+    }
+
+    $('.detail-survey').on('click', '.btn-open-survey', function () {
+        var deadlineDisabled = $('#deadline').is(':disabled');
+
+        if (!deadlineDisabled && !validateTimeDeadline($('#deadline').val())) {
+            $('.show-message').html(`<div class="alert col-md-4 col-md-offset-4
+            animated fadeInDown alert-danger alert-message">${Lang.get('js.survey.save_deadline_fail')}</div >`);
+            $('#deadline').focus();
+            return;
+        }
+
+        var result = confirm($(this).data('message-confirm'));
+
+        if (result) {
+            var url = $(this).attr('data-url');
+            $.ajax({
+                url: url,
+                data: {
+                    deadline: $('#deadline').val(),
+                    change_deadline: !deadlineDisabled,
+                },
+                type: 'POST',
+                async: false,
+                success: function (response) {
+                    if (response.success) {
+                        location.reload();
+                    } else {
+                        $('.show-message').html(`<div class="alert col-md-4 col-md-offset-4
+                            animated fadeInDown alert-danger alert-message">${response.message}</div >`);
+                    }
+                }
+            });
         }
     });
 
@@ -310,9 +367,11 @@ $(document).ready(function() {
                     if (response.success) {
                         window.location.href = redirect;
                     } else {
-                        alert(error);
+                        $('.show-message').html(`<div class="alert col-md-4 col-md-offset-4
+                            animated fadeInDown alert-danger alert-message">${response.error}</div >`);
+                    }
                 }
-            });
+            );
         }
     });
 

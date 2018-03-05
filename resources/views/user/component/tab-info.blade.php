@@ -1,12 +1,14 @@
 <div class="detail-survey">
-    {!! Form::open([
-        'class' => 'tab-save-info',
-        'action' => [
-            'SurveyController@updateSurvey',
-            $survey->id,
-        ],
-        'method' => 'PUT',
-    ]) !!}
+    @if ($survey->status == config('survey.status.block'))
+        {!! Form::open([
+            'class' => 'tab-save-info',
+            'action' => [
+                'SurveyController@updateSurvey',
+                $survey->id,
+            ],
+            'method' => 'PUT',
+        ]) !!}
+    @endif
         <div class="row">
             <p class="tag-detail-survey">
                 {{ $survey->title }}
@@ -19,6 +21,7 @@
                     'class' => 'js-elasticArea form-control',
                     'id' => 'title',
                     'placeholder' => trans('info.title'),
+                    $survey->status == config('survey.status.available') ? 'disabled' : null,
                 ]) !!}
             </div>
         </div>
@@ -31,6 +34,7 @@
                             'placeholder' => trans('info.duration'),
                             'id' => 'deadline',
                             'class' => 'frm-deadline datetimepicker form-control',
+                            $survey->status == config('survey.status.available') ? 'disabled' : null,
                     ]) !!}
                     {!! Form::label('deadline', trans('info.date_invalid'), [
                         'class' => 'wizard-hidden validate-time error',
@@ -43,6 +47,7 @@
                 {!! Form::textarea('description', $survey->description, [
                     'class' => 'js-elasticArea form-control',
                     'placeholder' => trans('info.description'),
+                    $survey->status == config('survey.status.available') ? 'disabled' : null,
                 ]) !!}
             </div>
         </div>
@@ -75,28 +80,78 @@
         </div>
         @include('user.blocks.validate')
         <div class="container-btn-detail row">
-            <div class="col-md-4">
+        @if (!$survey->is_expired)
+            @if ($survey->status == config('survey.status.available'))
+                <div class="col-md-4">
+                    {!! Form::button(trans('survey.duplicate'), ['class' => 'btn-duplicate-survey btn-action']) !!}
+                </div>
+                <div class="col-md-4">
+                    {!! Form::button(trans('survey.close'), [
+                        'data-url' => action('SurveyController@close', $survey->id),
+                        'data-message-confirm' => trans('temp.close-confirm'),
+                        'class' => 'btn-close-survey btn-action',
+                    ]) !!}
+                </div>
+                <div class="col-md-4">
+                    {!! Form::button(trans('survey.delete'),  [
+                        'data-url' => action('SurveyController@delete'),
+                        'id-survey' => $survey->id,
+                        'redirect' => action('SurveyController@listSurveyUser'),
+                        'class' => 'btn-remove-survey btn-action',
+                    ]) !!}
+                </div>
+            @else
+                <div class="col-md-3">
+                    {!! Form::submit(trans('survey.save'),  [
+                        'class' => 'btn-save-survey btn-action',
+                    ]) !!}
+                </div>
+                <div class="col-md-3">
+                    {!! Form::button(trans('survey.duplicate'), ['class' => 'btn-duplicate-survey btn-action']) !!}
+                </div>
+                <div class="col-md-3">
+                    {!! Form::button(trans('survey.open'), [
+                        'data-url' => action('SurveyController@open', $survey->id),
+                        'data-message-confirm' => trans('temp.open-confirm'),
+                        'class' => 'btn-open-survey btn-action',
+                    ]) !!}
+                </div>
+                <div class="col-md-3">
+                    {!! Form::button(trans('survey.delete'),  [
+                        'data-url' => action('SurveyController@delete'),
+                        'id-survey' => $survey->id,
+                        'redirect' => action('SurveyController@listSurveyUser'),
+                        'class' => 'btn-remove-survey btn-action',
+                    ]) !!}
+                </div>
+            @endif
+        @else
+            <div class="col-md-3">
                 {!! Form::submit(trans('survey.save'),  [
                     'class' => 'btn-save-survey btn-action',
                 ]) !!}
             </div>
-            <div class="col-md-4">
-               {!! Form::button(trans('survey.delete'),  [
+            <div class="col-md-3">
+                {!! Form::button(trans('survey.duplicate'), ['class' => 'btn-duplicate-survey btn-action']) !!}
+            </div>
+            <div class="col-md-3">
+                {!! Form::button(trans('survey.open'), [
+                    'data-url' => action('SurveyController@open', $survey->id),
+                    'data-message-confirm' => trans('temp.open-confirm'),
+                    'class' => 'btn-open-survey btn-action',
+                ]) !!}
+            </div>
+            <div class="col-md-3">
+                {!! Form::button(trans('survey.delete'),  [
                     'data-url' => action('SurveyController@delete'),
                     'id-survey' => $survey->id,
                     'redirect' => action('SurveyController@listSurveyUser'),
                     'class' => 'btn-remove-survey btn-action',
                 ]) !!}
             </div>
-            <div class="col-md-4">
-               {!! Form::button(trans('survey.close'),  [
-                    'data-url' => action('SurveyController@close', $survey->id),
-                    'class' => 'btn-close-survey btn-action',
-                    ($survey->status == config('survey.status.avaiable')
-                        || $survey->deadline > \Carbon\Carbon::now()->toDateTimeString())
-                        ? null : 'disabled',
-                ]) !!}
-            </div>
+        @endif
         </div>
-    {!! Form::close() !!}
+    @if ($survey->status == config('survey.status.block'))
+        {!! Form::close() !!}
+    @endif
 </div>
