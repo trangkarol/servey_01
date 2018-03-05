@@ -9,6 +9,7 @@ use App\Repositories\Like\LikeInterface;
 use App\Repositories\Invite\InviteInterface;
 use App\Repositories\Setting\SettingInterface;
 use App\Repositories\BaseRepository;
+use App\Models\Question;
 use Carbon\Carbon;
 use App\Models\Survey;
 
@@ -436,5 +437,34 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
             'questions' => $questions,
             'results' => $results,
         ];
+    }
+
+    public function duplicateSurvey($survey)
+    {
+        $survey->load('questions', 'settings');
+        $newSurvey = $survey->replicate();
+
+        $token = md5(uniqid(rand(), true));
+        $tokenManage = md5(uniqid(rand(), true));
+
+        $newSurvey->token = $token;
+        $newSurvey->token_manage = $tokenManage;
+
+        $newSurvey->deadline = null;
+        $newSurvey->status = config('survey.status.block');
+
+        $newSurvey->push();
+
+        foreach ($survey->getRelations() as $relation => $items) {
+            foreach ($items as $item) {
+                $newItemRelation = $newSurvey->{$relation}()->create($item->toArray());
+
+                if ($newItemRelation instanceof Question) {
+                    $item->duplicate($newItemRelation);
+                }
+            }
+        }
+
+        return $newSurvey;
     }
 }

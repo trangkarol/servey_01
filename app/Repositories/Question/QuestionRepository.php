@@ -14,7 +14,7 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
 {
     protected $answerRepository;
 
-    public function __construct(Question $question) 
+    public function __construct(Question $question)
     {
         parent::__construct($question);
     }

@@ -214,6 +214,35 @@ class SurveyController extends Controller
         }
     }
 
+    public function duplicate($id, Request $request)
+    {
+        if ($request->ajax()) {
+            DB::beginTransaction();
+
+            try {
+                $survey = $this->surveyRepository->find($id);
+                $newSurvey = $this->surveyRepository->duplicateSurvey($survey);
+                DB::commit();
+
+                $redis = LRedis::connection();
+                $redis->publish('duplicate', $id);
+            } catch (ConnectionException $e) {
+            } catch (Exception $e) {
+                DB::rollback();
+
+                return [
+                    'success' => false,
+                    'message' => trans('home.error'),
+                ];
+            }
+
+            return [
+                'success' => true,
+                'url' => action('AnswerController@show', ['token' => $newSurvey->token_manage]),
+            ];
+        }
+    }
+
     public function show($token)
     {
         $surveys = $this->surveyRepository->where('token', $token)->first();

@@ -95,6 +95,8 @@ Route::post('/close-survey/{id}', 'SurveyController@close');
 
 Route::post('/open-survey/{id}', 'SurveyController@open');
 
+Route::post('/duplicate-survey/{id}', 'SurveyController@duplicate');
+
 Route::get('/export/{id}/{type}', 'User\ExportController@export');
 
 Route::group(['prefix' => '/home'], function () {

@@ -375,6 +375,27 @@ $(document).ready(function() {
         }
     });
 
+    $('.detail-survey').on('click', '.btn-duplicate-survey', function () {
+        var result = confirm($(this).data('message-confirm'));
+
+        if (result) {
+            var url = $(this).attr('data-url');
+            $.ajax({
+                url: url,
+                type: 'POST',
+                async: false,
+                success: function (response) {
+                    if (response.success) {
+                        window.open(response.url, '_blank');
+                    } else {
+                        $('.show-message').html(`<div class="alert col-md-4 col-md-offset-4
+                            animated fadeInDown alert-danger alert-message">${response.message}</div >`);
+                    }
+                }
+            });
+        }
+    });
+
     $('.container-setting').on('click', '#require-tail-email', function() {
         if ($(this).prop('checked')) {
             $('.tail-email').slideDown();
