@@ -14,6 +14,7 @@ return [
     'datetime' => 'dd/mm/yyyy',
     'new_password' => 'Mật khẩu mới',
     'old_password' => 'Mật khẩu cũ',
+    'starttime' => 'Thời gian bắt đầu khảo sát',
     'duration' => 'Thời gian kết thúc cuộc khảo sát',
     'title' => 'Tiêu đề',
     'email' => 'Email',

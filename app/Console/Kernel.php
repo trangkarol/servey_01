@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\CloseSurveyCommand::class,
+        Commands\OpenSurveyCommand::class,
         Commands\BackupDatabaseCommand::class,
     ];
 
@@ -26,6 +27,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('command:auto-change-status')->daily();
+        $schedule->command('command:open-survey')->everyMinute();
         $schedule->command('backup:database')->weekly();
     }
 

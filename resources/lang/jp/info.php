@@ -13,6 +13,7 @@ return [
     'datetime' => 'dd/mm/yyyy',
     'new_password' => '新しいパスワード',
     'old_password' => '現在のパスワード',
+    'starttime' => 'Time to start survey',
     'duration' => 'アンケートの期間',
     'title' => 'タイトル',
     'email' => 'メールアドレス',

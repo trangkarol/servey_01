@@ -7,7 +7,7 @@
         <div class="row">
             <div class="text-question col-md-10">
                 {!! Form::textarea("txt-question[question][$number]", '', [
-                    'class' => 'form-control textarea-question validate',
+                    'class' => 'js-elasticArea form-control textarea-question validate',
                     'placeholder' => trans('home.enter_question_here'),
                 ]) !!}
             </div>
@@ -34,7 +34,7 @@
             <div class="col-md-9 col-xs-7">
                 <div class="div-text-answer">
                     {!! Form::textarea("txt-question[answers][$number][0][" . config('survey.type_checkbox') . "]", '', [
-                        'class' => 'form-control textarea-question validate',
+                        'class' => 'js-elasticArea form-control textarea-question validate',
                         'placeholder' => trans('home.enter_answer_here'),
                     ]) !!}
                 </div>
@@ -62,7 +62,7 @@
             <div class="col-md-9 col-xs-7">
                 <div class="div-text-answer">
                     {!! Form::textarea("txt-question[answers][$number][1][" . config('survey.type_checkbox') . "]", '', [
-                        'class' => 'form-control textarea-question validate',
+                        'class' => 'js-elasticArea form-control textarea-question validate',
                         'placeholder' => trans('home.enter_answer_here'),
                     ]) !!}
                 </div>

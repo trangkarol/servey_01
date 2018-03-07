@@ -2203,8 +2203,13 @@ thead {
     }
 }
 
-.dealine-infor {
+.dealine-infor,
+.starttime-infor {
     margin-top: 2%;
+}
+
+input.frm-starttime {
+    margin-bottom: 0;
 }
 
 .textarea-question {
