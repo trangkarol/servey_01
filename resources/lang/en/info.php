@@ -14,6 +14,7 @@ return [
     'datetime' => 'dd/mm/yyyy',
     'new_password' => 'New password',
     'old_password' => 'Old password',
+    'starttime' => 'Time to start survey',
     'duration' => 'Finishing time of the survey',
     'title' => 'Title',
     'email' => 'Email',

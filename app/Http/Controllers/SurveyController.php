@@ -269,7 +269,15 @@ class SurveyController extends Controller
                 'description',
             ]);
 
+            $data['start_time'] = null;
             $data['deadline'] = null;
+
+            if ($request->get('start_time')) {
+                $data['start_time'] = Carbon::parse(in_array(Session::get('locale'), config('settings.sameFormatDateTime'))
+                    ? str_replace('-', '/', $request->get('start_time'))
+                    : $request->get('start_time'))
+                    ->toDateTimeString();
+            }
 
             if ($request->get('deadline')) {
                 $data['deadline'] = Carbon::parse(in_array(Session::get('locale'), config('settings.sameFormatDateTime'))
@@ -428,7 +436,8 @@ class SurveyController extends Controller
                 |regex:/^([a-zA-Z][a-zA-Z0-9_\.]{2,255}@[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,4}){1,2}[,]{0,1}[,]{0,1}[\s]*)+(?<!,)(?<!\s)$/';
             $validator['title'] = 'required|max:255';
             $realTime = Carbon::now()->addMinutes(30)->format(trans('temp.format_with_trans'));
-            $validator['deadline'] = 'date_format:' . trans('temp.format_with_trans') . '|after:' . $realTime;
+            $validator['start_time'] = 'date_format:' . trans('temp.format_with_trans');
+            $validator['deadline'] = 'date_format:' . trans('temp.format_with_trans') . '|after:start_time|after:' . $realTime;
             $validator['setting.' . config('settings.key.limitAnswer')] = 'numeric
                 |digits_between:1,' . config('settings.max_limit');
             $validator['setting.' . config('settings.key.tailMail')] = 'max:255
@@ -458,6 +467,7 @@ class SurveyController extends Controller
         $value = $request->only([
             'title',
             'feature',
+            'start_time',
             'deadline',
             'description',
             'txt-question',
@@ -499,6 +509,7 @@ class SurveyController extends Controller
                 'token' => $token,
                 'token_manage' => $tokenManage,
                 'status' => $value['deadline'],
+                'start_time' => $value['start_time'],
                 'deadline' => $value['deadline'],
                 'description' => $value['description'],
                 'user_name' => $value['name'],

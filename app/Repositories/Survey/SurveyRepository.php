@@ -125,12 +125,20 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
             'token',
             'token_manage',
             'status',
+            'start_time',
             'deadline',
             'description',
             'user_name',
         ]);
 
         // if the lang is english will be format from M-D-Y to M/D/Y
+        if ($inputs['start_time']) {
+            $inputs['start_time'] = $surveyInputs['start_time'] = Carbon::parse(in_array($locale, config('settings.sameFormatDateTime'))
+                ? str_replace('-', '/', $surveyInputs['start_time'])
+                : $surveyInputs['start_time'])
+                ->toDateTimeString();
+        }
+
         if ($inputs['deadline']) {
             $inputs['deadline'] = $surveyInputs['deadline'] = Carbon::parse(in_array($locale, config('settings.sameFormatDateTime'))
                 ? str_replace('-', '/', $surveyInputs['deadline'])
@@ -139,8 +147,9 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         }
 
         $surveyInputs['status'] = config('survey.status.available');
-        $surveyInputs['deadline'] = ($inputs['deadline']) ?: null;
-        $surveyInputs['description'] = ($inputs['description']) ?: null;
+        $surveyInputs['start_time'] = $inputs['start_time'] ?: null;
+        $surveyInputs['deadline'] = $inputs['deadline'] ?: null;
+        $surveyInputs['description'] = $inputs['description'] ?: null;
         $surveyInputs['created_at'] = $surveyInputs['updated_at'] = Carbon::now();
         $surveyId = parent::create($surveyInputs->toArray());
 

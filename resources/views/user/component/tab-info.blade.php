@@ -26,19 +26,35 @@
             </div>
         </div>
         <div class="row">
+            <div class="frm-textarea container-infor starttime-infor">
+                {!! Html::image(config('settings.image_system') . 'date.png', '') !!}
+                {!! Form::text('start_time', $survey->start_time
+                    ? Carbon\Carbon::parse($survey->start_time)->format(trans('temp.format_with_trans'))
+                    : '', [
+                        'placeholder' => trans('info.starttime'),
+                        'id' => 'starttime',
+                        'class' => 'frm-starttime datetimepicker form-control',
+                        $survey->status == config('survey.status.available') ? 'disabled' : null,
+                ]) !!}
+                {!! Form::label('deadline', trans('info.date_invalid'), [
+                    'class' => 'wizard-hidden validate-time error',
+                ]) !!}
+            </div>
+        </div>
+        <div class="row">
             <div class="frm-textarea container-infor dealine-infor">
                 {!! Html::image(config('settings.image_system') . 'date.png', '') !!}
-                    {!! Form::text('deadline', $survey->deadline
-                        ? Carbon\Carbon::parse($survey->deadline)->format(trans('temp.format_with_trans'))
-                        : '', [
-                            'placeholder' => trans('info.duration'),
-                            'id' => 'deadline',
-                            'class' => 'frm-deadline datetimepicker form-control',
-                            $survey->status == config('survey.status.available') ? 'disabled' : null,
-                    ]) !!}
-                    {!! Form::label('deadline', trans('info.date_invalid'), [
-                        'class' => 'wizard-hidden validate-time error',
-                    ]) !!}
+                {!! Form::text('deadline', $survey->deadline
+                    ? Carbon\Carbon::parse($survey->deadline)->format(trans('temp.format_with_trans'))
+                    : '', [
+                    'placeholder' => trans('info.duration'),
+                    'id' => 'deadline',
+                    'class' => 'frm-deadline datetimepicker form-control',
+                    $survey->status == config('survey.status.available') ? 'disabled' : null,
+                ]) !!}
+                {!! Form::label('deadline', trans('info.date_invalid'), [
+                    'class' => 'wizard-hidden validate-time error',
+                ]) !!}
             </div>
         </div>
         <div class="row">

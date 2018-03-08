@@ -13,6 +13,7 @@ class Survey extends Model
         'feature',
         'token',
         'status',
+        'start_time',
         'deadline',
         'description',
         'mail',

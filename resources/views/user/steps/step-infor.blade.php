@@ -49,6 +49,17 @@
     </div>
 
     <div class="row">
+        <div class="frm-textarea container-infor starttime-infor">
+            {!! Html::image(config('settings.image_path_system') . 'date.png', '') !!}
+            {!! Form::text('start_time', old('start_time'), [
+                'placeholder' =>  trans('info.starttime'),
+                'id' => 'starttime',
+                'class' => 'frm-starttime datetimepicker form-control',
+            ]) !!}
+        </div>
+    </div>
+
+    <div class="row">
         <div class="frm-textarea container-infor dealine-infor">
             {!! Html::image(config('settings.image_path_system') . 'date.png', '') !!}
             {!! Form::text('deadline', old('deadline'), [

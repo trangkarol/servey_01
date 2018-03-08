@@ -84,6 +84,7 @@ return [
     'update_question' => 'Update question',
     'resend' => 'Notification: Re-answer.',
     'title' => 'title',
+    'starttime' => 'start time',
     'deadline' => 'deadline',
     'setting_request' => [
         'limitAnswer' => 'field limit answer',

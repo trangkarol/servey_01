@@ -84,6 +84,7 @@ return [
     'update_question' => 'Cập nhật câu hỏi',
     'resend' => 'Thông báo: Trả lời lại.',
     'title' => 'tiêu đề',
+    'starttime' => 'thời gian bắt đầu',
     'deadline' => 'hạn chót',
     'setting_request' => [
         'limitAnswer' => 'giới hạn trả lời',

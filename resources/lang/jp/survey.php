@@ -84,6 +84,7 @@ return [
     'update_question' => '質問を更新する',
     'resend' => 'Notification: Re-answer.',
     'title' => 'タイトル',
+    'starttime' => 'start time',
     'deadline' => 'デッドライン',
     'setting_request' => [
         'limitAnswer' => 'field limit answer',

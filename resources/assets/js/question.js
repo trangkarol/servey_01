@@ -51,6 +51,20 @@ $(document).ready(function() {
 
     (function() {
         elasticArea();
+
+        $('.container-add-question').off('focus').on('focus', '.js-elasticArea', function () {
+            var elasticElement = $(this).get(0),
+                $elasticElement = $(this),
+                initialHeight = 0,
+                delta = parseInt($elasticElement.css('paddingBottom')) + parseInt($elasticElement.css('paddingTop')) || 0,
+                resize = function () {
+                    $elasticElement.height(initialHeight);
+                    $elasticElement.height(elasticElement.scrollHeight - delta);
+                };
+
+            $elasticElement.on('input change keyup', resize);
+            resize();
+        });
     })();
 
     function addAnwser($this) {

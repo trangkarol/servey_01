@@ -47,6 +47,31 @@ $(document).ready(function() {
         return true;
     }, Lang.get('js.survey.more_than_30_minutes'));
 
+    jQuery.validator.addMethod('afterStartTime', function (value, element) {
+        var startTime = $('#starttime').val();
+
+        if (!startTime.length) {
+            return true;
+        }
+
+        var dateChoose = value;
+
+        if (formatDate == 'DD-MM-YYYY hh:mm A') {
+            startTime = startTime.split('-')[1] + '-' + startTime.split('-')[0] + startTime.substring(5);
+            dateChoose = dateChoose.split('-')[1] + '-' + dateChoose.split('-')[0] + dateChoose.substring(5);
+        }
+
+        startTime = new Date(Date.parse(startTime));
+        var dealineTime = new Date(Date.parse(dateChoose));
+        var validateTime = dealineTime.getTime() - startTime.getTime();
+
+        if (!dealineTime.length && validateTime <= 0) {
+            return false;
+        }
+
+        return true;
+    }, Lang.get('js.survey.after_start_time'));
+
     $.validator.addMethod('questionunique', function (value, element) {
         var parentForm = $(element).closest('form');
         var timeRepeated = 0;
@@ -95,6 +120,7 @@ $(document).ready(function() {
             },
             deadline: {
                 moreThan30Minutes: true,
+                afterStartTime: true,
             },
         },
     });
