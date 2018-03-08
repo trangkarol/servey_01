@@ -15,6 +15,7 @@ class Survey extends Model
         'status',
         'start_time',
         'deadline',
+        'next_reminder_time',
         'description',
         'mail',
         'user_name',

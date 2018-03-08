@@ -15,6 +15,8 @@ return [
     'status' => 'ステータス',
     'answered' => '答え',
     'not_yet' => 'まだ',
+    'reminder_periodically' => 'Send a reminder email periodically',
+    'next_time_reminder' => 'The next reminder time',
     'required_answer' => '答えが必要',
     'setting_survey' => 'このオプションを設定する',
     'result' => '結果',
@@ -45,6 +47,8 @@ return [
         'tailmail' => 'テイルのメールを入力してください',
         'run_out' => 'あなたは返事を使い果たしました',
         'invalid_mail' => 'テイルのメールが無効です',
+        'choose_reminder' => 'Please select the valid time',
+        'next_time_reminder' => 'The next reminder time is required',
     ],
     'specific_result' => '特定リザルト',
     'require' => [
@@ -53,6 +57,11 @@ return [
         'email_and_name' => '名前とメールは入力必須',
         'none' => '無し',
         'login_wsm' => 'WSMでログインする',
+    ],
+    'reminder' => [
+        'week' => 'By week',
+        'month' => 'By month',
+        'quarter' => 'By quarter',
     ],
     'placeholder' => [
         'example' => '例: @gmail.com,....',

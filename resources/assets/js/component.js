@@ -126,9 +126,16 @@ $(document).ready(function() {
         }
     });
 
+    $('.container-setting').on('click', '#reminder-periodically', function () {
+        $('.setting-reminder').toggle(1200);
+        $('.option-choose-reminder.input-radio').prop('checked', false);
+        $('.tail-reminder').slideUp();
+        $('.frm-tailreminder').val('');
+    });
+
     $('.container-setting').on('click', '#requirement-answer', function() {
         $('.setting-requirement').toggle(1200);
-        $('.input-radio').prop('checked', false);
+        $('.option-choose-answer.input-radio').prop('checked', false);
         $('#require-tail-email').prop('checked', false);
         $('#require-oneTime').prop('checked', false);
         $('.div-option-require').slideUp();
@@ -404,6 +411,50 @@ $(document).ready(function() {
             $('.frm-tailmail').tagsinput('removeAll');
         }
     });
+
+    $('.container-setting').on('click', '.option-choose-reminder', function () {
+        $('.tail-reminder').slideDown();
+    });
+
+    $('.container-setting').on('click', '#reminder-by-week', function () {
+        $('.frm-tailreminder').val(nextTime('week'));
+    });
+
+    $('.container-setting').on('click', '#reminder-by-month', function () {
+        $('.frm-tailreminder').val(nextTime('month'));
+    });
+
+    $('.container-setting').on('click', '#reminder-by-quarter', function () {
+        $('.frm-tailreminder').val(nextTime('quarter'));
+    });
+
+    function nextTime($type) {
+        var startTime = $('#starttime').val();
+        var nextTime = new Date();
+
+        if (startTime.length) {
+            startTime = startTime.split('-')[1] + '-' + startTime.split('-')[0] + startTime.substring(5);
+            nextTime = new Date(Date.parse(startTime));
+        }
+
+        switch ($type) {
+            case 'week':
+                nextTime.setDate(nextTime.getDate() + 7);
+                break;
+            case 'month':
+                nextTime.setMonth(nextTime.getMonth() + 1);
+                break;
+            case 'quarter':
+                nextTime.setMonth(nextTime.getMonth() + 3);
+                break;
+            default:
+                break;
+        }
+
+        nextTime = moment(nextTime).format('DD-MM-YYYY hh:mm A');
+
+        return nextTime;
+    }
 
     $('#wrapped-update').submit(function() {
        var values = $(this).serializeArray();

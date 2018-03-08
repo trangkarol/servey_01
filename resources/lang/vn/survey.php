@@ -15,6 +15,8 @@ return [
     'status' => 'Trạng thái',
     'answered' => 'Đã trả lời',
     'not_yet' => 'Chưa trả lời',
+    'reminder_periodically' => 'Gửi email nhắc nhở định kỳ',
+    'next_time_reminder' => 'Thời gian nhắc nhở kế tiếp',
     'required_answer' => 'Yêu cầu để trả lời',
     'setting_survey' => 'Cài đặt các tùy chọn cho survey',
     'result' => 'Kết quả',
@@ -45,6 +47,8 @@ return [
         'tailmail' => 'Vui lòng nhập loại email',
         'run_out' => 'Bạn đã hết lượt trả lời.',
         'invalid_mail' => 'Đuôi mail không hợp lệ.',
+        'choose_reminder' => 'Vui lòng chọn thời gian hợp lệ',
+        'next_time_reminder' => 'Thời gian nhắc nhở kế tiếp không được bỏ trống',
     ],
     'specific_result' => 'Kết quả cụ thể',
     'require' => [
@@ -53,6 +57,11 @@ return [
         'email_and_name' => 'Nhập email và tên.',
         'none' => '',
         'login_wsm' => 'Yêu cầu phải đăng nhập tài khoản WSM.',
+    ],
+    'reminder' => [
+        'week' => 'Theo tuần',
+        'month' => 'Theo tháng',
+        'quarter' => 'Theo quý',
     ],
     'placeholder' => [
         'example' => 'Ví dụ: @gmail.com,....',

@@ -170,6 +170,9 @@ $(document).ready(function() {
                     var c5 = isNaN(c4);
                     var c6 = $('#require-tail-email').is(':checked');
                     var c7 = $('.frm-tailmail').val();
+                    var c8 = $('#reminder-periodically').is(':checked');
+                    var c9 = $('.option-choose-reminder').is(':checked');
+                    var c10 = $('.frm-tailreminder').val();
                     var tailMails = $('.frm-tailmail').tagsinput('items');
                     var maxLimit = $('.data').attr('data-max-limit');
                     tailMails.forEach(function (tailemail) {
@@ -217,12 +220,31 @@ $(document).ready(function() {
                         flag = false;
                     }
 
+                    if (c8 && !c9) {
+                        $('.validate-reminder-periodically')
+                            .css('display', 'block')
+                            .addClass('animated fadeInDown')
+                            .delay(3000)
+                            .slideUp(1000);
+                        flag = false;
+                    }
+
+                    if (c9 && !c10.length) {
+                        $('.validate-reminder-periodically-time')
+                            .css('display', 'block')
+                            .addClass('animated fadeInDown')
+                            .delay(3000)
+                            .slideUp(1000);
+                        flag = false;
+                    }
+
                     return flag;
                 }
 
                 case 4: {
                     var emails = $('input:text[name=emails]').tagsinput('items');
                     var flag = true;
+
                     emails.forEach(function (email) {
 
                         if (!validateEmail(email)) {
@@ -238,7 +260,7 @@ $(document).ready(function() {
 
                     $('.validate-email').css('display', 'none');
 
-                    break;
+                    return flag;
                 }
 
                 default: {
@@ -261,6 +283,9 @@ $(document).ready(function() {
         var c5 = isNaN(c4);
         var c6 = $('#require-tail-email').is(':checked');
         var c7 = $('.frm-tailmail').val();
+        var c8 = $('#reminder-periodically').is(':checked');
+        var c9 = $('.option-choose-reminder').is(':checked');
+        var c10 = $('.frm-tailreminder').val();
         var tailMails = $('.frm-tailmail').tagsinput('items');
         var maxLimit = $('.data').attr('data-max-limit');
         tailMails.forEach(function (tailemail) {
@@ -305,6 +330,24 @@ $(document).ready(function() {
                 .delay(3000)
                 .slideUp(1000);
             $('.content-validate-tailmail').html(data.validate.invalid_mail);
+            flag = false;
+        }
+
+        if (c8 && !c9) {
+            $('.validate-reminder-periodically')
+                .css('display', 'block')
+                .addClass('animated fadeInDown')
+                .delay(3000)
+                .slideUp(1000);
+            flag = false;
+        }
+
+        if (c9 && !c10.length) {
+            $('.validate-reminder-periodically-time')
+                .css('display', 'block')
+                .addClass('animated fadeInDown')
+                .delay(3000)
+                .slideUp(1000);
             flag = false;
         }
 

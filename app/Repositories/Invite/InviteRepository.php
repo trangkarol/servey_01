@@ -14,7 +14,7 @@ use Carbon\Carbon;
 
 class InviteRepository extends BaseRepository implements InviteInterface
 {
-    public function __construct(Invite $invite) 
+    public function __construct(Invite $invite)
     {
         parent::__construct($invite);
     }
@@ -74,7 +74,7 @@ class InviteRepository extends BaseRepository implements InviteInterface
             ])
             ->get();
         $charts['results'] = $results = app(ResultInterface::class)
-            ->whereIn('answer_id',$answers->pluck('id')->toArray())
+            ->whereIn('answer_id', $answers->pluck('id')->toArray())
             ->get();
 
         return $charts;

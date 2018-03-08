@@ -126,6 +126,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
             'token_manage',
             'status',
             'start_time',
+            'next_reminder_time',
             'deadline',
             'description',
             'user_name',
@@ -146,9 +147,17 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                 ->toDateTimeString();
         }
 
+        if ($inputs['next_reminder_time']) {
+            $inputs['next_reminder_time'] = $surveyInputs['next_reminder_time'] = Carbon::parse(in_array($locale, config('settings.sameFormatDateTime'))
+                ? str_replace('-', '/', $surveyInputs['next_reminder_time'])
+                : $surveyInputs['next_reminder_time'])
+                ->toDateTimeString();
+        }
+
         $surveyInputs['status'] = config('survey.status.available');
         $surveyInputs['start_time'] = $inputs['start_time'] ?: null;
         $surveyInputs['deadline'] = $inputs['deadline'] ?: null;
+        $surveyInputs['next_reminder_time'] = $inputs['next_reminder_time'] ?: null;
         $surveyInputs['description'] = $inputs['description'] ?: null;
         $surveyInputs['created_at'] = $surveyInputs['updated_at'] = Carbon::now();
         $surveyId = parent::create($surveyInputs->toArray());
@@ -157,8 +166,8 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
             return false;
         }
 
-        //(1,5) That is the settings quantity for a survey
-        foreach (range(1, 4) as $key) {
+        // (1,6) That is the settings quantity for a survey
+        foreach (range(1, 6) as $key) {
             if (!array_has($settings, $key)) {
                 $settings[$key] = null;
             }
@@ -434,7 +443,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         for ($i = 0; $i < $numberResults; $i ++) {
             $question = [];
             for ($j = 0; $j < $numberQuestion; $j ++) {
-                if (isset ($questions[$j]['results'][$i])) {
+                if (isset($questions[$j]['results'][$i])) {
                     $question[] = $questions[$j]['results'][$i];
                 }
             }
