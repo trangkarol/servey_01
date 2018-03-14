@@ -46,7 +46,7 @@ class SettingController extends Controller
         try {
             $this->settingRepository->update($surveyId, $value);
             $this->surveyRepository->update($surveyId, [
-                'feature' => $value['feature'] ?: 0,
+                'feature' => empty($value['feature']) ? config('settings.feature') : config('settings.not_feature'),
                 'next_reminder_time' => $value['next_reminder_time'],
             ]);
             DB::commit();

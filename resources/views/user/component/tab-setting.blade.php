@@ -16,7 +16,7 @@
                         <div class="slideThree">
                             {{ Form::checkbox('setting[' . config('settings.key.requireAnswer') . ']', '', '', [
                                 'id' => 'requirement-answer',
-                                ($access[config('settings.key.requireAnswer')]) ? ('checked=checked') : '',
+                                ($access[config('settings.key.requireAnswer')]) ? 'checked' : '',
                             ]) }}
                             {{ Form::label('requirement-answer', ' ') }}
                         </div>
@@ -31,7 +31,7 @@
                                     {{ Form::radio('setting[' . config('settings.key.requireAnswer') . ']', config('settings.require.loginWsm'), '', [
                                         'id' => 'require-wsm',
                                         'class' => 'option-choose-answer input-radio',
-                                        ($access[config('settings.key.requireAnswer')] == config('settings.require.loginWsm')) ? ('checked=checked') : '',
+                                        ($access[config('settings.key.requireAnswer')] == config('settings.require.loginWsm')) ? 'checked' : '',
                                     ]) }}
                                     {{ Form::label('require-wsm', ' ', [
                                         'class' => 'label-radio',
@@ -48,7 +48,7 @@
                                     {{ Form::radio('setting[' . config('settings.key.requireAnswer') . ']', config('settings.require.email'), '', [
                                         'id' => 'option-choose-email',
                                         'class' => 'option-choose-answer input-radio',
-                                        ($access[config('settings.key.requireAnswer')] == config('settings.require.email')) ? ('checked=checked') : '',
+                                        ($access[config('settings.key.requireAnswer')] == config('settings.require.email')) ? 'checked' : '',
                                     ]) }}
                                     {{ Form::label('option-choose-email', ' ', [
                                         'class' => 'label-radio',
@@ -65,7 +65,7 @@
                                     {{ Form::radio('setting[' . config('settings.key.requireAnswer') . ']', config('settings.require.name'), '', [
                                         'id' => 'option-choose-name',
                                         'class' => 'option-choose-answer input-radio',
-                                        ($access[config('settings.key.requireAnswer')] == config('settings.require.name')) ? ('checked=checked') : '',
+                                        ($access[config('settings.key.requireAnswer')] == config('settings.require.name')) ? 'checked' : '',
                                     ]) }}
                                     {{ Form::label('option-choose-name', ' ', [
                                         'class' => 'label-radio',
@@ -82,7 +82,7 @@
                                     {{ Form::radio('setting[' . config('settings.key.requireAnswer') . ']', config('settings.require.both'), '', [
                                         'id' => 'option-choose-both',
                                         'class' => 'option-choose-answer input-radio',
-                                        ($access[config('settings.key.requireAnswer')] == config('settings.require.email_and_name')) ? ('checked=checked') : '',
+                                        ($access[config('settings.key.requireAnswer')] == config('settings.require.both')) ? 'checked' : '',
                                     ]) }}
                                     {{ Form::label('option-choose-both', ' ', [
                                         'class' => 'label-radio',
@@ -110,7 +110,7 @@
                         <div class="squaredThree col-md-1">
                             {{ Form::checkbox('setting[' . config('settings.key.requireOnce') . ']', config('settings.key.requireOnce'), '', [
                                 'id' => 'require-oneTime',
-                                ($access[config('settings.key.requireOnce')] == config('settings.key.requireOnce')) ? ('checked=checked') : '',
+                                ($access[config('settings.key.requireOnce')] == config('settings.key.requireOnce')) ? 'checked' : '',
                             ]) }}
                             {{ Form::label('require-oneTime', ' ') }}
                         </div>
@@ -125,7 +125,7 @@
                         <div class="squaredThree col-md-1">
                             {{ Form::checkbox('setting[' . config('settings.key.tailMail') . ']', '', '', [
                                 'id' => 'require-tail-email',
-                                ($access[config('settings.key.tailMail')]) ? ('checked=checked') : '',
+                                ($access[config('settings.key.tailMail')]) ? 'checked' : '',
                             ]) }}
                             {{ Form::label('require-tail-email', ' ') }}
                         </div>
@@ -162,7 +162,7 @@
                         <div class="slideThree">
                             {{ Form::checkbox('setting[' . config('settings.key.limitAnswer') . ']', '', '', [
                                 'id' => 'limit-answer',
-                                ($access[config('settings.key.limitAnswer')]) ? ('checked=checked') : '',
+                                ($access[config('settings.key.limitAnswer')]) ? 'checked' : '',
                             ]) }}
                             {{ Form::label('limit-answer', ' ') }}
                         </div>
@@ -198,7 +198,7 @@
                         <div class="slideThree">
                             {{ Form::checkbox('setting[' . config('settings.key.hideResult') . ']',  config('settings.key.hideResult'), '', [
                                 'id' => 'hidden-answer',
-                                ($access[config('settings.key.hideResult')]) ? ('checked=checked') : '',
+                                ($access[config('settings.key.hideResult')]) ? 'checked' : '',
                             ]) }}
                             {{ Form::label('hidden-answer', ' ') }}
                         </div>
@@ -214,7 +214,7 @@
                         <div class="slideThree">
                             {{ Form::checkbox('setting[' . config('settings.key.reminder') . ']', '', '', [
                                 'id' =>'reminder-periodically',
-                                ($access[config('settings.key.reminder')]) ? ('checked=checked') : '',
+                                ($access[config('settings.key.reminder')]) ? 'checked' : '',
                             ]) }}
                             {{ Form::label('reminder-periodically', ' ') }}
                         </div>
@@ -230,7 +230,7 @@
                                         config('settings.reminder.week'), '', [
                                         'id' => 'reminder-by-week',
                                         'class' => 'option-choose-reminder input-radio',
-                                        ($access[config('settings.key.reminder')] == config('settings.reminder.week')) ? ('checked=checked') : '',
+                                        ($access[config('settings.key.reminder')] == config('settings.reminder.week')) ? 'checked' : '',
                                     ]) }}
                                     {{ Form::label('reminder-by-week',' ', ['class' => 'label-radio']) }}
                                     <div class="check">
@@ -248,7 +248,7 @@
                                         config('settings.reminder.month'), '', [
                                         'id' => 'reminder-by-month',
                                         'class' => 'option-choose-reminder input-radio',
-                                        ($access[config('settings.key.reminder')] == config('settings.reminder.month')) ? ('checked=checked') : '',
+                                        ($access[config('settings.key.reminder')] == config('settings.reminder.month')) ? 'checked' : '',
                                     ]) }}
                                     {{ Form::label('reminder-by-month', ' ', ['class' => 'label-radio']) }}
                                     <div class="check">
@@ -266,7 +266,7 @@
                                         config('settings.reminder.quarter'), '', [
                                         'id' => 'reminder-by-quarter',
                                         'class' => 'option-choose-reminder input-radio',
-                                        ($access[config('settings.key.reminder')] == config('settings.reminder.quarter')) ? ('checked=checked') : '',
+                                        ($access[config('settings.key.reminder')] == config('settings.reminder.quarter')) ? 'checked' : '',
                                     ]) }}
                                     {{ Form::label('reminder-by-quarter', ' ', ['class' => 'label-radio']) }}
                                     <div class="check">
@@ -312,9 +312,9 @@
                 <div class="setting-option row">
                     <div class="col-md-2">
                         <div class="slideThree">
-                            {{ Form::checkbox('feature', config('settings.feature'), '', [
+                            {{ Form::checkbox('feature', $survey->feature, '', [
                                 'id' => 'feature',
-                                ($survey->feature) ? '' : ('checked=checked'),
+                                ($survey->feature) ? '' : 'checked',
                             ]) }}
                             {{ Form::label('feature', ' ') }}
                         </div>

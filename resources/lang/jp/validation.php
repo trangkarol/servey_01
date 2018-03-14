@@ -132,5 +132,6 @@ return [
         'min' => 'Please enter a value greater than or equal to {0}.',
         'invalid_mail' => 'Please enter vali tail email.',
         'file' => 'The file upload must be type in jpeg|jpg|png||gif|bmp and at least 2MB',
+        'tailmail' => 'You must enter at least one type of email',
     ],
 ];
