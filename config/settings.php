@@ -92,7 +92,6 @@ return [
     ],
     'title_length_default' => 20,
     'max_limit' => 10,
-    'isPrivate' => 1,
     'cookie' => [
         'timeout' => [
             'one_day' => 1440,

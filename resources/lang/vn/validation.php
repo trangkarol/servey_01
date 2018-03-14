@@ -132,5 +132,6 @@ return [
         'min' => 'Giá trị phải hơn hoặc bằng {0}.',
         'invalid_mail' => 'Vui lòng nhập đúng định dạng đuôi email.',
         'file' => 'Tập tin phải có định dạng jpeg|jpg|png||gif|bmp và kích thước nhỏ hơn 2MB',
+        'tailmail' => 'Bạn phải nhập tối thiểu một loại email',
     ],
 ];
