@@ -171,6 +171,8 @@ a {
 }
 
 .validate-requirement-answer,
+.validate-reminder-periodically,
+.validate-reminder-periodically-time,
 .validate-limit-answer,
 .wizard-hidden {
     display: none;
@@ -666,6 +668,11 @@ $darkenColor: darken($activeColor, 20%);
         right: 6%;
         width: 33%;
     }
+}
+
+.next-time-reminder-label {
+    font-size: 15px;
+    margin-bottom: 5px;
 }
 
 .setting-label {
@@ -1203,6 +1210,21 @@ $darkenColor: darken($activeColor, 20%);
             border-radius: 4px;
             box-shadow: initial;
         }
+    }
+}
+
+.tail-reminder {
+    width: 62%;
+    padding: 0 9%;
+    padding-top: 1.5%;
+    margin-bottom: 3%;
+    input[type="text"] {
+        height: 32px;
+        border: 2px solid #98adaa;
+        border-radius: 4px;
+        box-shadow: initial;
+        padding: 0 6px;
+        font-size: 15px;
     }
 }
 
@@ -2219,7 +2241,8 @@ input.frm-starttime {
     padding-top: 0.5% !important;
 }
 
-.setting-requirement {
+.setting-requirement,
+.setting-reminder {
     padding-left: 6%;
 }
 

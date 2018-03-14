@@ -15,6 +15,8 @@ return [
     'status' => 'Status',
     'answered' => 'Answered',
     'not_yet' => 'Not yet',
+    'reminder_periodically' => 'Send a reminder email periodically',
+    'next_time_reminder' => 'The next reminder time',
     'required_answer' => 'Required infomation',
     'setting_survey' => 'Set option this survey',
     'result' => 'Result',
@@ -45,6 +47,8 @@ return [
         'tailmail' => 'Please enter the tails mail',
         'run_out' => 'You have run out of replies.',
         'invalid_mail' => 'Tail mail invalid',
+        'choose_reminder' => 'Please select the valid time',
+        'next_time_reminder' => 'The next reminder time is required',
     ],
     'specific_result' => 'Specific results',
     'require' => [
@@ -53,6 +57,11 @@ return [
         'email_and_name' => 'Enter email and name.',
         'none' => 'None',
         'login_wsm' => 'Login by WSM.',
+    ],
+    'reminder' => [
+        'week' => 'By week',
+        'month' => 'By month',
+        'quarter' => 'By quarter',
     ],
     'placeholder' => [
         'example' => 'Example: @gmail.com,....',

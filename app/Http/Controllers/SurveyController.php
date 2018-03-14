@@ -468,6 +468,7 @@ class SurveyController extends Controller
             'title',
             'feature',
             'start_time',
+            'next_reminder_time',
             'deadline',
             'description',
             'txt-question',
@@ -510,6 +511,7 @@ class SurveyController extends Controller
                 'token_manage' => $tokenManage,
                 'status' => $value['deadline'],
                 'start_time' => $value['start_time'],
+                'next_reminder_time' => $value['next_reminder_time'],
                 'deadline' => $value['deadline'],
                 'description' => $value['description'],
                 'user_name' => $value['name'],
@@ -596,8 +598,7 @@ class SurveyController extends Controller
         if ($data['emails'] && $surveyId) {
             $survey = $this->surveyRepository->find($surveyId);
             $data['name'] = $survey->user_name;
-            $invite = $this->inviteRepository
-                ->invite(auth()->id(), $data['emails'], $surveyId);
+            $invite = $this->inviteRepository->invite(auth()->id(), $data['emails'], $surveyId);
             $data['feature'] = ($type == config('settings.return.bool')) ? $data['feature'] : $survey->feature;
 
             if ($invite) {
@@ -618,12 +619,15 @@ class SurveyController extends Controller
                     ->onQueue('emails');
                 $this->dispatch($job);
                 $isSuccess = true;
-                $redis = LRedis::connection();
-                $redis->publish('invite', json_encode([
-                    'success' => $isSuccess,
-                    'emails' => replaceEmail($data['emails']),
-                    'viewInvite' => view('user.component.invited-user', compact('survey'))->render(),
-                ]));
+                try {
+                    $redis = LRedis::connection();
+                    $redis->publish('invite', json_encode([
+                        'success' => $isSuccess,
+                        'emails' => replaceEmail($data['emails']),
+                        'viewInvite' => view('user.component.invited-user', compact('survey'))->render(),
+                    ]));
+                } catch (ConnectionException $e) {
+                }
             }
         }
 

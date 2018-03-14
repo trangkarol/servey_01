@@ -90,8 +90,7 @@ class AnswerController extends Controller
                         'listUserAnswer',
                         'tempAnswers',
                         'canAnswer'
-                    )
-                );
+                    ));
             }
         }
 
