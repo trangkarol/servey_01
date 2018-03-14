@@ -9,6 +9,8 @@ use App\Traits\ClientInformation;
 use Carbon\Carbon;
 use Session;
 use Cookie;
+use Response;
+use App\Http\Requests\UpdateLinkSurveyRequest;
 
 class AnswerController extends Controller
 {
@@ -140,5 +142,26 @@ class AnswerController extends Controller
             'success' => true,
             'data' => view('user.pages.view-result-user', compact('history', 'survey', 'username'))->render(),
         ];
+    }
+
+    public function updateLinkSurvey(UpdateLinkSurveyRequest $request)
+    {
+        if ($request->ajax()) {
+            $array['token'] = $request->input('token');
+            $surveyId = $request->input('survey_id');
+            $survey = $this->surveyRepository->update($surveyId, $array);
+            $publicLink = action('AnswerController@answerPublic', ['token' => $survey->token]);
+
+            return response()->json($publicLink);
+        }
+    }
+
+    public function verifyLinkSurvey(Request $request)
+    {
+        if ($request->ajax()) {
+            $isExisted = $this->surveyRepository->checkExist($request->input('token'));
+
+            return response()->json($isExisted);
+        }
     }
 }

@@ -22,6 +22,7 @@
                     'id' => 'title',
                     'placeholder' => trans('info.title'),
                     $survey->status == config('survey.status.available') ? 'disabled' : null,
+                    'title' => trans('survey.edit_instruction_messages'),
                 ]) !!}
             </div>
         </div>
@@ -68,28 +69,99 @@
             </div>
         </div>
         <div class="note-detail-survey">
-            {{ trans('survey.link') }}:
-            <a href="{{ action(($survey->feature)
-                ? 'AnswerController@answerPublic'
-                : 'AnswerController@answerPrivate', [
-                    'token' => $survey->token,
-            ]) }}">
-                {{ action(($survey->feature)
-                    ? 'AnswerController@answerPublic'
-                    : 'AnswerController@answerPrivate', [
-                        'token' => $survey->token,
-                ]) }}
-            </a>
-            (<a class="tag-send-email" data-url="{{ action('SurveyController@inviteUser', [
-                    'id' => $survey->id,
-                    'type' => config('settings.return.view'),
-                ]) }}"
-                data-type="{{ $survey->feature }}"
-                data-link="{{ action('AnswerController@answerPublic', $survey->token) }}">
-                <span class="glyphicon glyphicon-send"></span>
-                {{ trans('survey.send') }}
-            </a>)
+            <div class="form-inline">
+                <div class="form-group show-public-link">
+                    <label class="label-for-public-link" for="">{{ trans('survey.link') }}:</label>
+                </div>
+                <div class="form-group show-public-link link-public">
+                       <div class="row">
+                        <a class="public-link-survey" href="{{ action(($survey->feature)
+                            ? 'AnswerController@answerPublic'
+                            : 'AnswerController@answerPrivate', [
+                                'token' => $survey->token,
+                        ]) }}">
+                            {{ action(($survey->feature)
+                                ? 'AnswerController@answerPublic'
+                                : 'AnswerController@answerPrivate', [
+                                    'token' => $survey->token,
+                            ]) }}
+                        </a>
+                        @if (!$survey->status)
+                            (
+                            <a class="tag-edit-link-survey">
+                                <i class="glyphicon glyphicon-pencil"></i>
+                                &nbsp;@lang('survey.edit')
+                            </a>
+                            )
+                        @endif
+                        (<a class="tag-send-email" data-url="{{ action('SurveyController@inviteUser', [
+                                'id' => $survey->id,
+                                'type' => config('settings.return.view'),
+                            ]) }}"
+                            data-type="{{ $survey->feature }}"
+                            data-link="{{ action('AnswerController@answerPublic', $survey->token) }}">
+                            <span class="glyphicon glyphicon-send"></span>
+                            {{ trans('survey.send') }}
+                        </a>)
+                       </div>
+                </div>
+            </div>
+
+            <div class="row form-edit-link-survey hidden">
+                <div class="col-md-3">
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <label class="label-for-form-editable">{{ trans('survey.link') }}:</label>
+                        </div>
+                        <div class="form-group common-link">
+                            <a>{{ action('AnswerController@answerPublic', ['token' => '']) }}/</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row col-md-5">
+                    {!! Form::text('public-link-survey', $survey->token, [
+                        'class' => 'js-elasticArea form-control',
+                        'autofocus',
+                        'id' => 'public-link-survey',
+                        'verify-url' => action('AnswerController@verifyLinkSurvey'),
+                        'pre-token' => $survey->token,
+                    ]) !!}
+                    <label id="token-link-messages" for="title" class="error hidden"></label>
+                </div>
+                <div class="row col-md-1 verify-token-link">
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <a id="correct-link" class="fa fa-check hidden"></a>
+                        </div>
+                        <div class="form-group">
+                            <a id="error-link" class="fa fa-times hidden"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row col-md-4 form-button-update">
+                    <div class="col-md-1">
+                        <a id="set-link-by-slug" title="@lang('survey.create_by_title')" class="fa fa-random"></a>
+                    </div>
+                    <div class="col-md-3">
+                        {!! Form::button(trans('survey.update_link'), [
+                            'class' => 'btn btn-info btn-sm',
+                            'id' => 'bt-update-link-survey',
+                            'id-survey' => $survey->id,
+                            'data-url' => action('AnswerController@updateLinkSurvey'),
+                        ]) !!}
+                    </div>
+                    <div class="col-md-3">
+                        {!! Form::button(trans('survey.cancel'), [
+                            'class' => 'btn btn-danger btn-sm',
+                            'id' => 'bt-cancel-edit-link',
+                            'id-survey' => $survey->id,
+                            'data-url' => action('AnswerController@updateLinkSurvey'),
+                        ]) !!}
+                    </div>
+                </div>
+            </div>
         </div>
+
         <div class="note-detail-survey">
             {{ trans('survey.date_create') }}:
             {{ $survey->created_at->format(trans('info.datetime_format')) }}

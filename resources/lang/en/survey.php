@@ -101,4 +101,10 @@ return [
     ],
     'show_answer' => 'Show answer',
     'close' => 'Close',
+    'edit' => 'Edit',
+    'create_by_title' => 'Create link by title survey',
+    'update_link' => 'Update link',
+    'token_is_already_used' => 'Token is already used by another survey',
+    'edit_instruction_messages' => 'Please, Close the survey before you edit it !',
+    'cancel' => 'Cancel',
 ];

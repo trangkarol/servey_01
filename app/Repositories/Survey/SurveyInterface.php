@@ -32,4 +32,6 @@ interface SurveyInterface
     public function exportExcel($id);
 
     public function duplicateSurvey($survey);
+
+    public function checkExist($token);
 }

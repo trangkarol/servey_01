@@ -155,3 +155,7 @@ Route::get('/feedback', 'FeedbackController@getFeedback');
 Route::post('/post-feedback', 'FeedbackController@create');
 
 Route::get('/answer/completed/{survey}/{name?}', 'ResultController@show');
+
+Route::post('update-link-survey', 'AnswerController@updateLinkSurvey');
+
+Route::post('verify-link-survey', 'AnswerController@verifyLinkSurvey');

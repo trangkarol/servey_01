@@ -18,6 +18,7 @@ node_modules/
 /storage
 /log
 package-lock.json
+public/storage
 
 # IDE hidden folder
 .vscode
