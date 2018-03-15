@@ -7,6 +7,7 @@
 {{ Html::style(elixir('/user/css/socialize-bookmarks.css')) }}
 {{ Html::style(elixir('/user/css/new-style.css')) }}
 {{ Html::style(elixir('/user/css/home.css')) }}
+{{ Html::style(asset('/bower/bootstrap-sweetalert/dist/sweetalert.css')) }}
 {{ Html::style(asset('/bower/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css')) }}
 {{ Html::style(asset('/bower/owl.carousel/dist/assets/owl.carousel.css')) }}
 {{ Html::style(asset('/bower/ms-Dropdown/css/msdropdown/dd.css')) }}

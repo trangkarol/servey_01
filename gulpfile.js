@@ -32,6 +32,7 @@ elixir(function(mix) {
    .scripts('validate.js', 'public/user/js/validate.js')
    .scripts('jquery.wizard.js', 'public/user/js/jquery.wizard.js')
    .scripts('component.js', 'public/user/js/component.js')
+   .scripts('alert.js', 'public/user/js/alert.js')
    .scripts('step-wizard.js', 'public/user/js/step-wizard.js')
    .scripts('survey.js', 'public/admin/js/survey.js')
    .scripts('form-request.js', 'public/admin/js/form-request.js')

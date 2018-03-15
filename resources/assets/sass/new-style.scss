@@ -2248,3 +2248,16 @@ input.frm-starttime {
 .td-servey-closed {
     width: 20%;
 }
+
+/* SweetAlert for Bootstrap CSS */
+
+.sweet-alert {
+    h2 {
+        line-height: 0;
+        margin-bottom: 0;
+    }
+
+    .sa-button-container {
+        margin-top: 50px;
+    }
+}

@@ -8,7 +8,6 @@
         <link rel="shortcut icon" href="{{ config('settings.image_path_system') . 'favicon.ico' }}" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         @include('library.css-file')
-        @include('library.js-file')
     </head>
     <body>
         <div class="loader">
@@ -94,5 +93,6 @@
                 </div>
             </div>
         </div>
+        @include('library.js-file')
     </body>
 </html>

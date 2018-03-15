@@ -7,4 +7,9 @@ return [
         'duplicate_question' => 'There is a question that coincides with this question',
         'duplicate_answer' => 'There was an answer that matched this answer',
     ],
+    'button' => [
+        'cancel' => 'Cancel',
+        'yes' => 'Yes',
+        'ok' => 'OK',
+    ],
 ];

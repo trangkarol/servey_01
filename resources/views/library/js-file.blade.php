@@ -64,6 +64,8 @@
 {{ Html::script(asset('/bower/bootstrap/dist/js/bootstrap.min.js')) }}
 {{ Html::script(asset('/bower/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js')) }}
 {{ Html::script(asset('/bower/ms-Dropdown/js/msdropdown/jquery.dd.min.js')) }}
+{{ Html::script(asset('/bower/bootstrap-sweetalert/dist/sweetalert.min.js')) }}
+{{ Html::script(elixir('/user/js/alert.js')) }}
 {{ Html::script(elixir('/user/js/question.js')) }}
 {{ Html::script(elixir('/user/js/component.js')) }}
 {{ Html::script(elixir('/user/js/socket.js')) }}

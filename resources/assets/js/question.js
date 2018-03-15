@@ -92,7 +92,11 @@ $(document).ready(function() {
                         .find('textarea:regex(name, ^txt-question\\[answers\\]\\[.*\\]\\[.*\\]\\[' + otherQuestionTypeId + '\\])')
                         .attr('name', 'txt-question[answers][' + number + '][' + (numberAnswer + 1) + '][' + otherQuestionTypeId + '])');
                 } else {
-                    alert(error);
+                    var data = {
+                        message: error,
+                        buttonText: Lang.get('js.button.ok'),
+                    };
+                    alertDanger(data);
                 }
             }
         });
@@ -116,7 +120,11 @@ $(document).ready(function() {
                         .find('textarea:regex(name, ^txt-question\\[answers\\]\\[.*\\]\\[.*\\]\\[' + type + '\\])')
                         .attr('name', 'txt-question[answers][' + number + '][' + trash + '][' + type + '])');
                 } else {
-                    alert(error);
+                    var data = {
+                        message: error,
+                        buttonText: Lang.get('js.button.ok'),
+                    };
+                    alertDanger(data);
                 }
         });
         $this.hide();
@@ -144,7 +152,11 @@ $(document).ready(function() {
                     $('.data').attr('data-question', number_qs);
                     $('.div-finish').css('display', 'block');
                 } else {
-                    alert(error);
+                     var data = {
+                         message: error,
+                         buttonText: Lang.get('js.button.ok'),
+                     };
+                     alertDanger(data);
                 }
             }
         });
@@ -468,7 +480,11 @@ $(document).ready(function() {
                     $('.popup-user-answer').css('display', 'block');
                     $('.popup-content-history').append(response.data);
                 } else {
-                    alert(error);
+                    var data = {
+                        message: error,
+                        buttonText: Lang.get('js.button.ok'),
+                    };
+                    alertDanger(data);
                 }
             }
         });
@@ -623,7 +639,11 @@ $(document).ready(function() {
                         $('.append-as' + temp_qs).html(response.data);
                         elasticArea();
                     } else {
-                        alert(error);
+                        var data = {
+                            message: error,
+                            buttonText: Lang.get('js.button.ok'),
+                        };
+                        alertDanger(data);
                     }
             });
         } else {
