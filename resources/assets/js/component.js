@@ -172,7 +172,11 @@ $(document).ready(function() {
                 if (response.success) {
                     window.location.href = response.urlBack;
                 } else {
-                    alert(error);
+                    var data = {
+                        message: error,
+                        buttonText: Lang.get('js.button.ok'),
+                    };
+                    alertDanger(data);
                 }
         });
     });
@@ -283,10 +287,15 @@ $(document).ready(function() {
         }
     });
 
-    $('.detail-survey').on('click', '.btn-close-survey', function() {
-        var result = confirm($(this).data('message-confirm'));
-
-        if (result) {
+    $('.detail-survey').on('click', '.btn-close-survey', function(event, object) {
+        if (!object) {
+            var data = {
+                message: $(this).data('message-confirm'),
+                cancelText: Lang.get('js.button.cancel'),
+                confirmText: Lang.get('js.button.yes')
+            };
+            confirmWarning(event, '.detail-survey .btn-close-survey', data);
+        } else {
             var url = $(this).attr('data-url');
             $.ajax({
                 url: url,
@@ -323,7 +332,7 @@ $(document).ready(function() {
         return true;
     }
 
-    $('.detail-survey').on('click', '.btn-open-survey', function () {
+    $('.detail-survey').on('click', '.btn-open-survey', function (event, object) {
         var deadlineDisabled = $('#deadline').is(':disabled');
 
         if (!deadlineDisabled && !validateTimeDeadline($('#deadline').val())) {
@@ -333,9 +342,14 @@ $(document).ready(function() {
             return;
         }
 
-        var result = confirm($(this).data('message-confirm'));
-
-        if (result) {
+        if (!object) {
+            var data = {
+                message: $(this).data('message-confirm'),
+                cancelText: Lang.get('js.button.cancel'),
+                confirmText: Lang.get('js.button.yes')
+            };
+            confirmWarning(event, '.detail-survey .btn-open-survey', data);
+        } else {
             var url = $(this).attr('data-url');
             $.ajax({
                 url: url,
@@ -357,10 +371,15 @@ $(document).ready(function() {
         }
     });
 
-    $('.detail-survey').on('click', '.btn-remove-survey', function() {
-        var result = confirm(notice);
-
-        if (result) {
+    $('.detail-survey').on('click', '.btn-remove-survey', function(event, object) {
+        if (!object) {
+            var data = {
+                message: notice,
+                cancelText: Lang.get('js.button.cancel'),
+                confirmText: Lang.get('js.button.yes')
+            };
+            confirmDanger(event, '.detail-survey .btn-remove-survey', data);
+        } else {
             var url = $(this).attr('data-url');
             var idSurvey = $(this).attr('id-survey');
             var redirect = $(this).attr('redirect');
@@ -382,10 +401,15 @@ $(document).ready(function() {
         }
     });
 
-    $('.detail-survey').on('click', '.btn-duplicate-survey', function () {
-        var result = confirm($(this).data('message-confirm'));
-
-        if (result) {
+    $('.detail-survey').on('click', '.btn-duplicate-survey', function (event, object) {
+        if (!object) {
+            var data = {
+                message: $(this).data('message-confirm'),
+                cancelText: Lang.get('js.button.cancel'),
+                confirmText: Lang.get('js.button.yes')
+            };
+            confirmInfo(event, '.detail-survey .btn-duplicate-survey', data);
+        } else {
             var url = $(this).attr('data-url');
             $.ajax({
                 url: url,
@@ -567,7 +591,11 @@ $(document).ready(function() {
                     location.hash = page;
                 } else {
                     location.href = url.split('?page=')[0];
-                    alert(response.messageFail);
+                    var data = {
+                        message: response.messageFail,
+                        buttonText: Lang.get('js.button.ok'),
+                    };
+                    alertDanger(data);
                 }
         });
     }

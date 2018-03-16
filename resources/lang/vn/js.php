@@ -8,4 +8,9 @@ return [
         'duplicate_answer' => 'Đã có một câu trả lời trùng với câu trả lời này',
         'save_deadline_fail' => 'Vui lòng cập nhật lại thời gian kết thúc khảo sát.<br>Thời gian kết thúc khảo sát phải sau thời gian hiện tại ít nhất 30 phút.',
     ],
+    'button' => [
+        'cancel' => 'Hủy bỏ',
+        'yes' => 'Có',
+        'ok' => 'Vâng',
+    ],
 ];

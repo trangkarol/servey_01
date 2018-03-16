@@ -7,4 +7,9 @@ return [
         'duplicate_question' => '重複の質問がございます。',
         'duplicate_answer' => '重複の回答がございます。',
     ],
+    'button' => [
+        'cancel' => 'Cancel',
+        'yes' => 'Yes',
+        'ok' => 'OK',
+    ],
 ];
