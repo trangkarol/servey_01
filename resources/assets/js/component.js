@@ -688,4 +688,109 @@ $(document).ready(function() {
             }
         });
     });
+
+    $('.tag-edit-link-survey').on('click', function () {
+        $('.show-public-link').addClass('hidden');
+        $('.form-edit-link-survey').removeClass('hidden');
+        $('#public-link-survey').focus().val($('#public-link-survey').val());
+    });
+
+    $('#bt-cancel-edit-link').on('click', function () {
+        $('.form-edit-link-survey').addClass('hidden');
+        $('.show-public-link').removeClass('hidden');
+    });
+
+    $('#set-link-by-slug').on('click', function () {
+        var title = $('#title').val();
+        $('#public-link-survey').val(toSlug(title));
+    })
+
+    function toSlug(str)
+    {
+        str = str.toLowerCase();
+        str = str.replace(/(à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ)/g, 'a');
+        str = str.replace(/(è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ)/g, 'e');
+        str = str.replace(/(ì|í|ị|ỉ|ĩ)/g, 'i');
+        str = str.replace(/(ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ)/g, 'o');
+        str = str.replace(/(ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ)/g, 'u');
+        str = str.replace(/(ỳ|ý|ỵ|ỷ|ỹ)/g, 'y');
+        str = str.replace(/(đ)/g, 'd');
+        str = str.replace(/([^0-9a-z-\s])/g, '');
+        str = str.replace(/(\s+)/g, '-');
+        str = str.replace(/^-+/g, '');
+        str = str.replace(/-+$/g, '');
+
+        return str;
+    }
+
+    $('#public-link-survey').keyup(function () {
+        var token = toSlug($(this).val());
+        var url = $(this).attr('verify-url');
+        var pre_token = $('#public-link-survey').attr('pre-token');
+
+        if (token == pre_token) {
+            $('#error-link').addClass('hidden');
+            $('#correct-link').removeClass('hidden');
+        } else {
+            $.ajax({
+                type: 'POST',
+                url: url,
+                dataType: 'json',
+                data: {
+                    token: token,
+                },
+                success: function (data) {
+                    if (!data) {
+                        $('#error-link').addClass('hidden');
+                        $('#correct-link').removeClass('hidden');
+                    } else {
+                        $('#correct-link').addClass('hidden');
+                        $('#error-link').removeClass('hidden');
+                    }
+                }
+            });
+        }
+    });
+
+    $('#bt-update-link-survey').on('click', function (event, object) {
+        if (!object) {
+            var data = {
+                message: Lang.get('js.survey.update_survey_link'),
+                cancelText: Lang.get('js.button.cancel'),
+                confirmText: Lang.get('js.button.yes')
+            };
+            confirmWarning(event, '#bt-update-link-survey', data);
+        } else {
+            var token = toSlug($('#public-link-survey').val());
+            var pre_token = $('#public-link-survey').attr('pre-token');
+
+            if (token == pre_token) {
+                $('.form-edit-link-survey').addClass('hidden');
+                $('.show-public-link').removeClass('hidden');
+            } else {
+                var survey_id = $(this).attr('id-survey');
+                var url = $(this).attr('data-url');
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    dataType: 'json',
+                    data: {
+                        survey_id: survey_id,
+                        token: token,
+                    },
+                    success: function (data) {
+                        $('.form-edit-link-survey').addClass('hidden');
+                        $('.public-link-survey').text(data);
+                        $('.public-link-survey').attr('href', data);
+                        $('#public-link-survey').attr('pre-token', token);
+                        $('.show-public-link').removeClass('hidden');
+                    },
+                    error: function (data) {
+                        $('#token-link-messages').removeClass('hidden');
+                        $('#token-link-messages').text(data.responseJSON['token'][0]);
+                    }
+                });
+            }
+        }
+    });
 });

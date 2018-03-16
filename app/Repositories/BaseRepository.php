@@ -148,4 +148,5 @@ abstract class BaseRepository implements BaseInterface
     {
         return call_user_func_array([$this->model, $method], $args);
     }
+    
 }

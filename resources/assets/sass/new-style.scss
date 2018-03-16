@@ -562,6 +562,9 @@ $darkenColor: darken($activeColor, 20%);
     >.tag-send-email {
         color: #ff6b6b;
     }
+    >.tag-edit-link-survey {
+        color: #1280b5;
+    }
 }
 
 .container-btn-detail {
@@ -2260,4 +2263,91 @@ input.frm-starttime {
     .sa-button-container {
         margin-top: 50px;
     }
+}
+// Config public url survey
+.tag-edit-link-survey {
+    cursor: pointer;
+}
+
+.frm-textarea.container-infor.form-edit-link-survey {
+    .js-elasticArea.form-control {
+        height: 40px !important;
+    }
+}
+
+#delete-form-edit-link {
+    font-size: 20px;
+    color: gray;
+}
+
+.btn-update-link-survey {
+    color: #fdfdfd;
+    font-size: 17px;
+    box-shadow: 1px 2px 3px rgba(119, 132, 130, 0.56);
+    background: #666e96 !important;
+    border-radius: 3px;
+    margin-bottom: 10px;
+}
+
+.btn-update-link-survey:hover {
+    background: #dd4b39 !important;
+}
+
+.bt-cancel-edit-link {
+    color: #fdfdfd;
+    font-size: 17px;
+    box-shadow: 1px 2px 3px rgba(119, 132, 130, 0.56);
+    background: #666e96 !important;
+    border-radius: 3px;
+    margin-bottom: 10px;
+}
+
+.bt-cancel-edit-link:hover {
+    background: #dd4b39 !important;
+}
+
+#correct-link {
+    font-size: 16px;
+    color: #27ae60;
+    margin-bottom: 30px;
+}
+
+#error-link {
+    font-size: 16px;
+    color: #e21313;
+    margin-bottom: 30px;
+}
+
+#public-link-survey {
+    height: 25px !important;
+    padding-left: 2px;
+    margin-left: -35px;
+}
+
+.tag-send-email {
+    color: #94034c;
+}
+
+.label-for-form-editable {
+    margin-bottom: 0px;
+}
+
+.common-link {
+    margin-left: -10px;
+}
+
+.link-public {
+    margin-left: 5px;
+}
+
+.label-for-public-link {
+    margin-bottom: 0px;
+}
+
+.verify-token-link {
+    margin-left: -30px;
+}
+
+.form-button-update {
+    margin-left: -55px;
 }

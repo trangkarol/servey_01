@@ -485,4 +485,9 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
 
         return $newSurvey;
     }
+
+    public function checkExist($token)
+    {
+        return $this->model->where('token', $token)->exists();
+    }
 }

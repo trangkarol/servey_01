@@ -42,11 +42,6 @@ class Survey extends Model
         return $this->hasMany(Like::class);
     }
 
-    public function setTokenAttribute($value)
-    {
-        return $this->attributes['token'] = (strlen($value) >= 32) ? $value : md5(uniqid(rand(), true));
-    }
-
     public function getDeadlineAttribute()
     {
         return (!empty($this->attributes['deadline']))

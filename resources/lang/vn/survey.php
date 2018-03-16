@@ -101,4 +101,10 @@ return [
     ],
     'show_answer' => 'Hiển thị kết quả',
     'close' => 'Đóng',
+    'edit' => 'Chỉnh sửa',
+    'create_by_title' => 'Tạo dường dẫn từ tiêu đề của survey',
+    'update_link' => 'Cập nhật',
+    'token_is_already_used' => 'Token đã được sử dụng bởi một survey khác',
+    'edit_instruction_messages' => 'Bạn phải đóng survey trước khi chỉnh sửa chúng !',
+    'cancel' => 'Hủy',
 ];
