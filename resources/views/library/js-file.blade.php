@@ -69,3 +69,4 @@
 {{ Html::script(elixir('/user/js/question.js')) }}
 {{ Html::script(elixir('/user/js/component.js')) }}
 {{ Html::script(elixir('/user/js/socket.js')) }}
+{{ Html::script(elixir('/user/js/flipclock.min.js')) }}

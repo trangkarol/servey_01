@@ -159,3 +159,5 @@ Route::get('/answer/completed/{survey}/{name?}', 'ResultController@show');
 Route::post('update-link-survey', 'AnswerController@updateLinkSurvey');
 
 Route::post('verify-link-survey', 'AnswerController@verifyLinkSurvey');
+
+Route::post('survey/get-deadline', 'AnswerController@getDeadline');

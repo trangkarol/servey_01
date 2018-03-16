@@ -40,4 +40,5 @@ return [
     'answer_complete' => 'Bạn đã hoàn thành khảo sát',
     'answer_is_complete' => 'Cảm ơn :name, câu trả lời của bạn cho ":survey" đã được gửi cho chúng tôi.',
     'survey_answered' => 'Bạn đã trả lời đủ số lần quy định tối đa cho khảo sát này.',
+    'duplicate_successfully' => 'Khảo sát đã được nhân bản thành công!<br>Bây giờ bạn có thể  bắt đầu khảo sát này!',
 ];

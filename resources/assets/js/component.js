@@ -793,4 +793,26 @@ $(document).ready(function() {
             }
         }
     });
+
+    var surveyId = $('.deadline-survey').attr('data-survey');
+    var url = $('.deadline-survey').attr('data-url');
+
+    $.ajax({
+        type: 'POST',
+        url: url,
+        dataType: 'json',
+        data: {
+            survey_id: surveyId,
+        },
+        success: function (data) {
+            if (data) {
+                var clock = $('.countdown-deadline-survey').FlipClock(data, {
+                    clockFace: 'DailyCounter',
+                    countdown: true,
+                });
+            } else {
+                $('.deadline-survey').addClass('hidden');
+            }
+        }
+    });
 });

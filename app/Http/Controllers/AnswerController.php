@@ -44,7 +44,8 @@ class AnswerController extends Controller
         }
 
         $settings = $survey->settings->pluck('value', 'key')->all();
-        if ($settings[config('settings.key.requireAnswer')] == config('settings.require.loginWsm') && (!auth()->user() || !auth()->user()->checkLoginWsm())) {
+        if ($settings[config('settings.key.requireAnswer')] == config('settings.require.loginWsm') &&
+            (!auth()->user() || !auth()->user()->checkLoginWsm())) {
             Session::put('nextUrl', $_SERVER['REQUEST_URI']);
 
             return view('user.pages.login_wsm');
@@ -162,6 +163,29 @@ class AnswerController extends Controller
             $isExisted = $this->surveyRepository->checkExist($request->input('token'));
 
             return response()->json($isExisted);
+        }
+    }
+
+    public function getDeadline(Request $request)
+    {
+        try {
+            if ($request->ajax()) {
+                $surveyId = $request->input('survey_id');
+                $survey = $this->surveyRepository->findOrFail($surveyId);
+
+                if ($survey->status) {
+                    $now = date('Y-m-d H:i:s');
+                    $timeCountDown = strtotime($survey->deadline) - strtotime($now);
+
+                    if ($timeCountDown) {
+                        return response()->json($timeCountDown);
+                    }
+                }
+
+                return response()->json(config('survey.time_to_countdown_default'));
+            }
+        } catch (Exception $e) {
+            return response()->json(config('survey.time_to_countdown_default'));
         }
     }
 }

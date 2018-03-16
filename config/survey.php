@@ -38,4 +38,5 @@ return [
     ],
     'maxUpdate' => 1,
     'maxEdit' => 3,
+    'time_to_countdown_default' => 0,
 ];

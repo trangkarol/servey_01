@@ -57,6 +57,7 @@
                         <div class="get-title-survey">
                             {{ $survey->title }}
                         </div>
+
                         <div class="description-survey">
                             <h4>
                                 {!! cleanText($survey->description) !!}
@@ -76,12 +77,25 @@
                             </div>
                         @endif
                         <div class="container-all-question step row wizard-step">
-                            <div class="container-survey" id="container-survey">
-                                @include('user.component.temp-answer')
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="row">
+                                        <div class="container-survey" id="container-survey">
+                                            @include('user.component.temp-answer')
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="deadline-survey" data-survey="{{ $survey->id }}"
+                                        data-url="{{ action('AnswerController@getDeadline') }}">
+                                        <div class="countdown-deadline-survey" ></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="required-user" data-require="{{ $access[config('settings.key.tailMail')] }}" data-option-setting="{{ $access[config('settings.key.requireAnswer')] }}">
+                    <div class="required-user" data-require="{{ $access[config('settings.key.tailMail')] }}"
+                        data-option-setting="{{ $access[config('settings.key.requireAnswer')] }}">
                         <div class="row">
                             @if (in_array(config('settings.key.requireAnswer'), array_keys($access))
                                 && $access[config('settings.key.requireAnswer')]
