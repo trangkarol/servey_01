@@ -17,6 +17,7 @@ class Kernel extends ConsoleKernel
         Commands\OpenSurveyCommand::class,
         Commands\ResendReminderEmailCommand::class,
         Commands\BackupDatabaseCommand::class,
+        Commands\ResendEmailRemindTimeRemaining::class,
     ];
 
     /**
@@ -31,6 +32,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('command:resend-reminder-email')->everyMinute();
         $schedule->command('command:open-survey')->everyMinute();
         $schedule->command('backup:database')->weekly();
+        $schedule->command('command:resend-email-remind-time-remaining')->everyMinute();
     }
 
     /**
