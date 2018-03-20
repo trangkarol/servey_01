@@ -9,7 +9,11 @@
                     'class' => 'form-emails',
                     'data-role' => 'tagsinput',
                     'placeholder' => trans('info.sender_email'),
+                    'id' => 'invitation-email',
+                    'data-url' => action('SurveyController@getMailSuggestion'),
                 ]) !!}
+                <ul class="box-suggestion-email">
+                </ul>
             </li>
         </ul>
     </div>

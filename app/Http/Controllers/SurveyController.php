@@ -8,6 +8,7 @@ use App\Repositories\Survey\SurveyInterface;
 use App\Repositories\Question\QuestionInterface;
 use App\Repositories\Invite\InviteInterface;
 use App\Repositories\Setting\SettingInterface;
+use App\Repositories\User\UserInterface;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use App\Jobs\SendMail;
 use Carbon\Carbon;
@@ -29,17 +30,20 @@ class SurveyController extends Controller
     protected $questionRepository;
     protected $inviteRepository;
     protected $settingRepository;
+    protected $userRepository;
 
     public function __construct(
         SurveyInterface $surveyRepository,
         QuestionInterface $questionRepository,
         InviteInterface $inviteRepository,
-        SettingInterface $settingRepository
+        SettingInterface $settingRepository,
+        UserInterface $userRepository
     ) {
         $this->surveyRepository = $surveyRepository;
         $this->questionRepository = $questionRepository;
         $this->inviteRepository = $inviteRepository;
         $this->settingRepository = $settingRepository;
+        $this->userRepository = $userRepository;
     }
 
     public function index()
@@ -645,5 +649,17 @@ class SurveyController extends Controller
                 ->with('message', trans('survey.invite_success'))
             : redirect()->action('SurveyController@listSurveyUser')
                 ->with('message-fail', trans('survey.invite_fail'));
+    }
+
+    public function getMailSuggestion(Request $request)
+    {
+        if ($request->ajax()) {
+            $keyword = $request->input('keyword');
+            $emails = $this->userRepository->findEmail($keyword);
+
+            if (count($emails)) {
+                return response()->json($emails);
+            }
+        }
     }
 }
