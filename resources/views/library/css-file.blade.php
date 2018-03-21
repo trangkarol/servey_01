@@ -13,3 +13,4 @@
 {{ Html::style(asset('/bower/ms-Dropdown/css/msdropdown/dd.css')) }}
 {{ Html::style(asset('/bower/ms-Dropdown/css/msdropdown/flags.css')) }}
 {{ Html::style(asset('/bower/ms-Dropdown/css/msdropdown/skin2.css')) }}
+{{ Html::style(elixir('/user/css/flipclock.css')) }}

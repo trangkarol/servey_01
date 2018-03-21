@@ -236,6 +236,7 @@ class SurveyController extends Controller
                 ];
             }
 
+            Session::flash('message', trans('messages.duplicate_successfully'));
             return [
                 'success' => true,
                 'url' => action('AnswerController@show', ['token' => $newSurvey->token_manage]),

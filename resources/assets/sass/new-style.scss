@@ -2351,3 +2351,19 @@ input.frm-starttime {
 .form-button-update {
     margin-left: -55px;
 }
+
+// Clock countdown for deadline
+
+.countdown-deadline-survey {
+    zoom: 0.4;
+    -moz-transform: scale(0.4);
+}
+
+.deadline-survey {
+    vertical-align: middle;
+    margin-top: 22px;
+}
+
+.flip-clock-label {
+    font-size: 26px;
+}

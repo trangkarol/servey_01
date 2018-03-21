@@ -49,5 +49,7 @@ elixir(function(mix) {
       'public/bower/bootstrap/dist/js/bootstrap.js',
       'public/bower/jquery/dist/jquery.js'
    ], 'public/admin/js')
+   .copy('node_modules/flipclock/compiled/flipclock.css', 'public/user/css')
+   .copy('node_modules/flipclock/compiled/flipclock.min.js', 'public/user/js')
    .version(['public/user/css/*.css', 'public/user/js/*.js', 'public/js/app.js']);
 });
