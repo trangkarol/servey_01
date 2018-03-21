@@ -815,4 +815,40 @@ $(document).ready(function() {
             }
         }
     });
+
+    $('.bootstrap-tagsinput').tagsinput({
+        addOnBlur: false,
+    });
+
+    $('.bootstrap-tagsinput input[type=text]').keyup(function (e) {
+        var url = $('#invitation-email').data('url');
+        var keyword = $(this).val();
+
+        $.ajax({
+            type:'POST',
+            url: url,
+            dataType: 'json',
+            data: {
+                keyword: keyword,
+            },
+            success: function (data) {
+                $('.box-suggestion-email').removeClass('hidden');
+                $('.box-suggestion-email').empty();
+
+                data.forEach(email => {
+                    $('.box-suggestion-email').append(`
+                        <li class="email-suggest-item"><i class="fa fa-envelope"></i> ${email}</li>
+                    `)
+                });
+
+                $('.email-suggest-item').on('click', function () {
+                    $('.bootstrap-tagsinput input[type=text]').focus().val($(this).text());
+                });
+
+                $(document).click(function () {
+                    $('.box-suggestion-email').addClass('hidden');
+                });
+            }
+        })
+    });
 });

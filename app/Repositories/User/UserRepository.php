@@ -43,4 +43,13 @@ class UserRepository extends BaseRepository implements UserInterface
 
         return $fileName;
     }
+
+    public function findEmail($keyword)
+    {
+        return $this->model
+            ->where('email', 'like', "%$keyword%")
+            ->take(config('survey.get_top_mail_suggestion'))
+            ->get()
+            ->pluck('email');
+    }
 }
