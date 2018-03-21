@@ -72,22 +72,8 @@ class ResultController extends Controller
             ->getResultByQuestionIds($survey->id)
             ->lists('email')
             ->toArray();
-        $settings = $this->settingReposirory
-            ->where('survey_id', $survey->id)
-            ->whereIn('key', array_only(config('settings.key'), [
-                'limitAnswer',
-                'tailMail',
-                'requireOnce',
-            ]))
-            ->get();
-        $requireOnce = $settings
-            ->where('key', config('settings.key.requireOnce'))
-            ->first()
-            ->value;
-        $listTailMail = $settings
-            ->where('key', config('settings.key.tailMail'))
-            ->first()
-            ->value;
+        $requireOnce = $settings[config('settings.key.requireOnce')];
+        $listTailMail = $settings[config('settings.key.tailMail')];
         $tailMailUser = substr($emailUser, strpos($emailUser, '@'));
 
         if ($listTailMail && !in_array($tailMailUser, explode(',', $listTailMail))) {
@@ -132,10 +118,10 @@ class ResultController extends Controller
 
                     foreach ($answer as $key => $value) {
                         //  Set default email and name if user not login or don't have setting require email, name or both.
-                        if (!auth()->check() && !$request->get('name-answer') && !$emailUser) {
-                            $setName = config('settings.name_unidentified');
-                            $setEmail = config('settings.email_unidentified');
-                        } else {
+                        $setName = config('settings.name_unidentified');
+                        $setEmail = config('settings.email_unidentified');
+                        
+                        if ($settings[config('settings.key.requireAnswer')]) {
                             $setName = $request->get('name-answer') ?: (
                                 auth()->check() ? auth()->user()->name : config('settings.name_unidentified')
                             );

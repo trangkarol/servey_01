@@ -435,6 +435,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
     {
         $survey = $this->model->find($id);
 
+        $checkRequireAnswer = $survey->settings()->where('key', config('settings.key.requireAnswer'))->pluck('value', 'key')->all();
         $results = [];
         $questions = $survey->questions()->with('results.answer')->get()->all();
         $numberResults = count($survey->questions->first()->results()->get()->all());
@@ -444,7 +445,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
             $question = [];
             for ($j = 0; $j < $numberQuestion; $j ++) {
                 if (isset($questions[$j]['results'][$i])) {
-                    $question[] = $questions[$j]['results'][$i];
+                    $question = $questions[$j]['results'][$i];
                 }
             }
 
@@ -454,6 +455,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         return [
             'questions' => $questions,
             'results' => $results,
+            'checkRequireAnswer' => $checkRequireAnswer,
         ];
     }
 

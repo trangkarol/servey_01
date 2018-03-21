@@ -107,4 +107,5 @@ return [
     'token_is_already_used' => 'Token is already used by another survey',
     'edit_instruction_messages' => 'Please, Close the survey before you edit it !',
     'cancel' => 'Cancel',
+    'timestamps' => 'Timestamps',
 ];
