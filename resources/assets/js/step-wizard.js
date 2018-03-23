@@ -246,7 +246,6 @@ $(document).ready(function() {
                     var flag = true;
 
                     emails.forEach(function (email) {
-
                         if (!validateEmail(email)) {
                             flag = false;
                         }

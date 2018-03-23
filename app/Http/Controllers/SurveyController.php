@@ -652,14 +652,12 @@ class SurveyController extends Controller
     }
 
     public function getMailSuggestion(Request $request)
-    {
+    {  
         if ($request->ajax()) {
-            $keyword = $request->input('keyword');
-            $emails = $this->userRepository->findEmail($keyword);
-
-            if (count($emails)) {
-                return response()->json($emails);
-            }
-        }
+                $data = $request->only('keyword', 'emails');
+                $users = $this->userRepository->findEmail($data, Auth()->user()->id);
+     
+                return response()->json($users);
+        } 
     }
 }
