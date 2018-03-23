@@ -10,156 +10,157 @@
 | to using a Closure or controller method. Build something great!
 |
 */
-Route::get('/languages', 'LanguageController@index');
 
-Auth::routes();
+// Route::get('/languages', 'LanguageController@index');
 
-Route::group(['prefix' => '/', 'middleware' => 'guest'], function () {
-    Route::get('/', 'Auth\LoginController@getLogin');
+// Auth::routes();
 
-    Route::get('/register', 'Auth\RegisterController@getRegister');
+// Route::group(['prefix' => '/', 'middleware' => 'guest'], function () {
+//     Route::get('/', 'Auth\LoginController@getLogin');
 
-    Route::post('/register', [
-        'as' => 'register-user',
-        'uses' => 'Auth\RegisterController@register',
-    ]);
+//     Route::get('/register', 'Auth\RegisterController@getRegister');
 
-    Route::get('/login', 'Auth\LoginController@getLogin');
+//     Route::post('/register', [
+//         'as' => 'register-user',
+//         'uses' => 'Auth\RegisterController@register',
+//     ]);
 
-    Route::post('/login', [
-        'as' => 'login-user',
-        'uses' => 'Auth\LoginController@login',
-    ]);
+//     Route::get('/login', 'Auth\LoginController@getLogin');
 
-    Route::get('/redirect/{provider}', 'User\SocialAuthController@redirect');
+//     Route::post('/login', [
+//         'as' => 'login-user',
+//         'uses' => 'Auth\LoginController@login',
+//     ]);
 
-    Route::get('/callback/{provider}', 'User\SocialAuthController@callback');
-});
+//     Route::get('/redirect/{provider}', 'User\SocialAuthController@redirect');
 
-Route::get('/', 'SurveyController@index');
+//     Route::get('/callback/{provider}', 'User\SocialAuthController@callback');
+// });
 
-Route::get('/logout', 'Auth\LoginController@logout');
+// Route::get('/', 'SurveyController@index');
+
+// Route::get('/logout', 'Auth\LoginController@logout');
 
 
-Route::group(['prefix' => '/supper-admin', 'middleware' => 'supperadmin'], function () {
-    Route::resource('/request', 'Admin\RequestController', [
-        'only' => ['index'],
-    ]);
+// Route::group(['prefix' => '/supper-admin', 'middleware' => 'supperadmin'], function () {
+//     Route::resource('/request', 'Admin\RequestController', [
+//         'only' => ['index'],
+//     ]);
 
-    Route::post('/request/update/{id}', 'Admin\RequestController@update');
+//     Route::post('/request/update/{id}', 'Admin\RequestController@update');
 
-    Route::post('/request/delete', 'Admin\RequestController@destroy');
-});
+//     Route::post('/request/delete', 'Admin\RequestController@destroy');
+// });
 
-Route::group(['prefix' => '/admin', 'middleware' => 'admin'], function () {
-    Route::resource('/dashboard', 'Admin\DashboardController', [
-        'only' => ['index'],
-    ]);
+// Route::group(['prefix' => '/admin', 'middleware' => 'admin'], function () {
+//     Route::resource('/dashboard', 'Admin\DashboardController', [
+//         'only' => ['index'],
+//     ]);
 
-    Route::resource('/survey', 'Admin\SurveyController', [
-        'only' => ['index', 'update'],
-    ]);
+//     Route::resource('/survey', 'Admin\SurveyController', [
+//         'only' => ['index', 'update'],
+//     ]);
 
-    Route::post('/destroy-survey', 'Admin\SurveyController@destroySurvey');
+//     Route::post('/destroy-survey', 'Admin\SurveyController@destroySurvey');
 
-    Route::resource('/user', 'Admin\UserController', [
-        'only' => ['index', 'update', 'show'],
-    ]);
+//     Route::resource('/user', 'Admin\UserController', [
+//         'only' => ['index', 'update', 'show'],
+//     ]);
 
-    Route::post('/change-status-user/{status}', 'Admin\UserController@changeStatus');
+//     Route::post('/change-status-user/{status}', 'Admin\UserController@changeStatus');
 
-    Route::get('/search', 'Admin\UserController@search');
+//     Route::get('/search', 'Admin\UserController@search');
 
-    Route::resource('/request', 'Admin\RequestController', ['only' => 'store']);
+//     Route::resource('/request', 'Admin\RequestController', ['only' => 'store']);
 
-    Route::post('/request/cancel', 'Admin\RequestController@cancel');
+//     Route::post('/request/cancel', 'Admin\RequestController@cancel');
 
-    Route::resource('/feedback', 'FeedbackController', [
-        'only' => [
-            'index',
-            'show',
-            'destroy',
-        ],
-    ]);
+//     Route::resource('/feedback', 'FeedbackController', [
+//         'only' => [
+//             'index',
+//             'show',
+//             'destroy',
+//         ],
+//     ]);
 
-    Route::post('/post-update-feedback', 'FeedbackController@update');
-});
+//     Route::post('/post-update-feedback', 'FeedbackController@update');
+// });
 
-Route::get('/', 'SurveyController@index');
+// Route::get('/', 'SurveyController@index');
 
-Route::post('/invite/send/{id}/{type}', 'SurveyController@inviteUser');
+// Route::post('/invite/send/{id}/{type}', 'SurveyController@inviteUser');
 
-Route::post('/delete-survey', 'SurveyController@delete');
+// Route::post('/delete-survey', 'SurveyController@delete');
 
-Route::post('/close-survey/{id}', 'SurveyController@close');
+// Route::post('/close-survey/{id}', 'SurveyController@close');
 
-Route::post('/open-survey/{id}', 'SurveyController@open');
+// Route::post('/open-survey/{id}', 'SurveyController@open');
 
-Route::post('/duplicate-survey/{id}', 'SurveyController@duplicate');
+// Route::post('/duplicate-survey/{id}', 'SurveyController@duplicate');
 
-Route::get('/export/{id}/{type}', 'User\ExportController@export');
+// Route::get('/export/{id}/{type}', 'User\ExportController@export');
 
-Route::group(['prefix' => '/home'], function () {
-    Route::get('/', 'SurveyController@index');
+// Route::group(['prefix' => '/home'], function () {
+//     Route::get('/', 'SurveyController@index');
 
-    Route::group(['prefix' => '/', 'middleware' => 'auth'], function () {
-        Route::post('/mark-survey', 'User\LikeController@markLike');
+//     Route::group(['prefix' => '/', 'middleware' => 'auth'], function () {
+//         Route::post('/mark-survey', 'User\LikeController@markLike');
 
-        Route::get('/list-invited', 'SurveyController@getInviteSurvey');
+//         Route::get('/list-invited', 'SurveyController@getInviteSurvey');
 
-        Route::get('/individual', 'SurveyController@listSurveyUser');
+//         Route::get('/individual', 'SurveyController@listSurveyUser');
 
-        Route::get('/user/detail', 'User\UserController@show');
+//         Route::get('/user/detail', 'User\UserController@show');
 
-        Route::put('/user/update', 'User\UserController@update');
+//         Route::put('/user/update', 'User\UserController@update');
 
-        Route::get('/private/{token}', 'AnswerController@answerPrivate');
+//         Route::get('/private/{token}', 'AnswerController@answerPrivate');
 
-        Route::resource('/save', 'User\SaveTempController', [
-            'only' => ['store', 'index'],
-        ]);
+//         Route::resource('/save', 'User\SaveTempController', [
+//             'only' => ['store', 'index'],
+//         ]);
 
-        Route::get('/show-temp', 'User\SaveTempController@show');
-    });
-});
+//         Route::get('/show-temp', 'User\SaveTempController@show');
+//     });
+// });
 
-Route::get('/detail/{token}', 'AnswerController@show');
+// Route::get('/detail/{token}', 'AnswerController@show');
 
-Route::post('/add-temp/{type}', 'TempController@addTemp');
+// Route::post('/add-temp/{type}', 'TempController@addTemp');
 
-Route::post('/create', [
-    'as' => 'create',
-    'uses' => 'SurveyController@create',
-]);
+// Route::post('/create', [
+//     'as' => 'create',
+//     'uses' => 'SurveyController@create',
+// ]);
 
-Route::post('/update-setting/{id}/{token}', 'SettingController@update');
+// Route::post('/update-setting/{id}/{token}', 'SettingController@update');
 
-Route::post('/survey/result/{token}', 'ResultController@result');
+// Route::post('/survey/result/{token}', 'ResultController@result');
 
-Route::get('/complete/{token}', 'SurveyController@complete');
+// Route::get('/complete/{token}', 'SurveyController@complete');
 
-Route::post('/search', 'SurveyController@search');
+// Route::post('/search', 'SurveyController@search');
 
-Route::get('/public/{token}', 'AnswerController@answerPublic');
+// Route::get('/public/{token}', 'AnswerController@answerPublic');
 
-Route::get('/show/{token}', 'SurveyController@showDetail');
+// Route::get('/show/{token}', 'SurveyController@showDetail');
 
-Route::put('/update-survey/{id}', 'SurveyController@updateSurvey');
+// Route::put('/update-survey/{id}', 'SurveyController@updateSurvey');
 
-Route::get('/show-user-answer-detail/{surveyId}/{userId?}/{email?}/{name?}/{clientIp?}', 'AnswerController@showMultiHistory');
+// Route::get('/show-user-answer-detail/{surveyId}/{userId?}/{email?}/{name?}/{clientIp?}', 'AnswerController@showMultiHistory');
 
-Route::post('/update/{id}/{token}', 'SurveyController@updateSurveyContent');
+// Route::post('/update/{id}/{token}', 'SurveyController@updateSurveyContent');
 
-Route::get('/feedback', 'FeedbackController@getFeedback');
+// Route::get('/feedback', 'FeedbackController@getFeedback');
 
-Route::post('/post-feedback', 'FeedbackController@create');
+// Route::post('/post-feedback', 'FeedbackController@create');
 
-Route::get('/answer/completed/{survey}/{name?}', 'ResultController@show');
+// Route::get('/answer/completed/{survey}/{name?}', 'ResultController@show');
 
-Route::post('update-link-survey', 'AnswerController@updateLinkSurvey');
+// Route::post('update-link-survey', 'AnswerController@updateLinkSurvey');
 
-Route::post('verify-link-survey', 'AnswerController@verifyLinkSurvey');
+// Route::post('verify-link-survey', 'AnswerController@verifyLinkSurvey');
 
-Route::post('survey/get-deadline', 'AnswerController@getDeadline');
+// Route::post('survey/get-deadline', 'AnswerController@getDeadline');
 
-Route::post('ajax/get-mail-suggestion', 'SurveyController@getMailSuggestion');
+// Route::post('ajax/get-mail-suggestion', 'SurveyController@getMailSuggestion');

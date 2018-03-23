@@ -97,4 +97,13 @@ return [
             'one_day' => 1440,
         ],
     ],
+    'company' => [
+        'fb_company' => 'https://www.facebook.com/FramgiaVietnam/?fref=ts',
+        'github_company' => 'https://github.com/framgia',
+        'linkedin_company' => 'https://www.linkedin.com/company/framgia-vietnam',
+        'tools_company' => 'http://wsm.framgia.vn/all-tools',
+        'hr_email_company' => 'hr_team@framgia.com', 
+    ],
+    'public_template' => '/templates/survey/',
+    'logo_content' => '<span class="highlight">F</span>Survey',
 ];
