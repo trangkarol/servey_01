@@ -8,5 +8,5 @@ interface UserInterface
 
     public function uploadAvatar($file);
 
-    public function findEmail($keyword);
+    public function findEmail($data, $userId);
 }

@@ -816,11 +816,7 @@ $(document).ready(function() {
         }
     });
 
-    $('.bootstrap-tagsinput').tagsinput({
-        addOnBlur: false,
-    });
-
-    $('.bootstrap-tagsinput input[type=text]').keyup(function (e) {
+    $('.bootstrap-tagsinput input[type=text]').bind('click keyup', function(e) {
         var url = $('#invitation-email').data('url');
         var keyword = $(this).val();
 
@@ -830,19 +826,24 @@ $(document).ready(function() {
             dataType: 'json',
             data: {
                 keyword: keyword,
+                emails: emails,
             },
-            success: function (data) {
+            success: function (users) {
                 $('.box-suggestion-email').removeClass('hidden');
                 $('.box-suggestion-email').empty();
 
-                data.forEach(email => {
+                users.data.forEach(user => {
                     $('.box-suggestion-email').append(`
-                        <li class="email-suggest-item"><i class="fa fa-envelope"></i> ${email}</li>
+                        <li class="email-suggest-item"><i class="fa fa-envelope"></i> ${user.email}</li>
                     `)
                 });
 
-                $('.email-suggest-item').on('click', function () {
-                    $('.bootstrap-tagsinput input[type=text]').focus().val($(this).text());
+                $('.email-suggest-item').on('mouseover', function () {
+                    $('.bootstrap-tagsinput input[type=text]').focus().val($(this).text().trim());
+                });
+
+                $('.email-suggest-item').on('mouseout', function () {
+                    $('.bootstrap-tagsinput input[type=text]').val('').focus();
                 });
 
                 $(document).click(function () {
