@@ -819,6 +819,7 @@ $(document).ready(function() {
     $('.bootstrap-tagsinput input[type=text]').bind('click keyup', function(e) {
         var url = $('#invitation-email').data('url');
         var keyword = $(this).val();
+        var emails = $('input:text[name=emails]').tagsinput('items');
 
         $.ajax({
             type:'POST',
