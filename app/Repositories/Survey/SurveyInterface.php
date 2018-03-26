@@ -34,4 +34,6 @@ interface SurveyInterface
     public function duplicateSurvey($survey);
 
     public function checkExist($token);
+
+    public function getSurveysByStatus($status);
 }

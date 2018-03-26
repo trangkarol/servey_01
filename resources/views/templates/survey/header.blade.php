@@ -14,15 +14,20 @@
         {!! Html::style(elixir(config('settings.public_template') . 'css/modal-auth.min.css')) !!}
         {!! Html::style(elixir(config('settings.public_template') . 'js/datepicker/bootstrap-datepicker.min.css')) !!}
         {!! Html::style(elixir(config('settings.public_template') . 'css/style.css')) !!}
-        @yield('css')
+        @stack ('styles')
     </head>
     <body class="home-page">
+        <div class="site">
+            <div class="site-loader">
+              <div class="site-loader-spinner"></div>
+            </div> <!-- .site-loader -->
+        </div>     
         <div class="header-wrapper header-wrapper-home">
-            <!-- ******HEADER****** -->
-            <header id="header" class="header fixed-top">
+            <!-- ******HEADER****** --> 
+            <header id="header" class="header fixed-top mobile-header @yield('header-change')">  
                 <div class="container">
                     <h1 class="logo">
-                        <a href="#">{!! config('settings.logo_content') !!}</a>
+                        <a href="{{ route('home') }}">{!! config('settings.logo_content') !!}</a>
                     </h1>
                     <nav class="main-nav navbar navbar-expand-md navbar-dark" role="navigation">
                         {{ Form::button('<span class="navbar-toggler-icon"></span>', ['class' => 'navbar-toggler',
@@ -31,7 +36,7 @@
                         <div id="navbar-collapse" class="navbar-collapse collapse justify-content-end">
                             <ul class="nav navbar-nav">
                                 <li class="active nav-item">
-                                    {{ Html::link('#', trans('lang.home'), ['class' => 'nav-link']) }}
+                                    {{ Html::link(route('home'), trans('lang.home'), ['class' => 'nav-link']) }}
                                 </li>
                                 <li class="nav-item">
                                     {{ Html::link('#', trans('lang.feedback'), ['class' => 'nav-link']) }}
@@ -52,7 +57,7 @@
                                         ]) }}
                                     </li>
                                 @else
-                                    <li class="nav-item dropdown notifications">
+                                    <li class="nav-item notifications">
                                         <a class="nav-link dropdown-toggle" href="#" id="navNotifications"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <span class="notify fa fa-bell-o"></span>
@@ -85,17 +90,17 @@
                                             <li class="notify-footer"></li>
                                         </ul>
                                     </li>
-                                    <li class="nav-item dropdown user-dropdown last">
+                                    <li class="nav-item user-dropdown last">
                                         <a class="nav-link dropdown-toggle user-nav-show" href="#" id="navbarDropdownProfile"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <span class="user-profile">
-                                                {{ Html::image('', '', ['class' => 'user-images']) }}
-                                                <span class="user-name d-none-992"></span> <!--username here-->
+                                                {{ Html::image(Auth::user()->image, '', ['class' => 'user-images']) }}
+                                                <span class="user-name d-none-992"></span> {{ Auth::user()->name }} 
                                             </span>
                                         </a>
                                         <ul class="dropdown-menu dropdown-menu-right header-menu" aria-labelledby="navbarDropdownProfile">
                                             <li class="notify-header">
-                                                @lang('lang.hello') <!--username here-->
+                                                @lang('lang.hello') {{ Auth::user()->name }}
                                             </li>
                                             <li>
                                                 {{ Html::link('#', trans('lang.my_surveys'), ['class' => 'dropdown-item']) }}

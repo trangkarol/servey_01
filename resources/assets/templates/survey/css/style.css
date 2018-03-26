@@ -3433,49 +3433,7 @@ Dashboard
     .navbar-nav li.active a {
         color: #1875f0;
     }
-    /*offcanvas menu*/
-    .navbar-nav .dropdown-menu {
-        position: absolute !important;
-        left: 0% !important;
-        width: 100%;
-        -webkit-box-shadow: none;
-        box-shadow: none;
-    }
-    .dropdown-menu a {
-        font-size: 13px;
-        padding: 4px;
-        padding-left: 40px;
-        border-bottom: 1px solid transparent;
-    }
-    .nav-navigation .dropdown-menu a {
-        font-size: 14px;
-    }
-    .offcanvas-nav {
-        margin-top: 42px;
-    }
-    .navbar-nav .notifications .dropdown-menu,
-    .user-dropdown .dropdown-menu {
-        max-width: 250px;
-        min-width: 250px;
-        left: inherit !important;
-        right: -38% !important;
-    }
-    .navbar-nav .notifications .dropdown-menu {
-        left: inherit !important;
-        right: -172% !important;
-    }
-    .notifications .dropdown-menu a,
-    .user-dropdown .dropdown-menu a {
-        padding-left: 0;
-        padding: 3px 10px;
-    }
-    .dropdown-item:focus,
-    .dropdown-item:hover {
-        background: transparent;
-    }
-    .nav-navigation .dropdown-item span {
-        font-size: 12px;
-    }
+    
     /*user profile*/
     .user-name,
     .user-profile::before,

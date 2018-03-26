@@ -25,4 +25,21 @@
     }
 
     $('.alert-message').delay(3000).slideUp(300);
+    $('.counter').each(function() {
+        var $this = $(this);
+        var countTo = $this.attr('data-count');
+
+        $({countNum: $this.text()}).animate({
+            countNum: countTo
+        }, {
+            duration: 8000,
+            easing:'linear',
+            step: function() {
+                $this.text(Math.floor(this.countNum));
+            },
+            complete: function() {
+                $this.text(this.countNum);
+            }
+        });  
+    });
 });
