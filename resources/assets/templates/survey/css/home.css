@@ -217,7 +217,7 @@ body.no-header-wrapper {
     padding-top: 80px;
 }
 .header-wrapper-home {
-    min-height: 650px;
+    min-height: 0px;
 }
 .header-wrapper-work {
     background: #65758e url('../images/background/heading-background-1.jpg') no-repeat 50% top;
@@ -2281,7 +2281,7 @@ body.no-header-wrapper {
         padding-top: 50px;
     }
     .header-wrapper-home {
-        min-height: 560px;
+        min-height: 0px;
     }
     .header .main-nav .nav .nav-item {
         margin-right: 0;
@@ -2321,7 +2321,7 @@ body.no-header-wrapper {
         padding-top: 100px;
     }
     .header-wrapper-home {
-        min-height: 460px;
+        min-height: 0px;
     }
     .promo .title .middle {
         font-size: 38px;
@@ -2433,7 +2433,7 @@ body.no-header-wrapper {
         display: block;
     }
     .header-wrapper-home {
-        height: 650px;
+        height: 0px;
     }
     .main-nav {
         float: right !important;
