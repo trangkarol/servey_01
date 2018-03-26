@@ -6,7 +6,7 @@ interface UserInterface
 {
     public function changeStatus($input, $status);
 
-    public function uploadAvatar($file);
+    public function uploadAvatar($request, $name, $oldImageName);
 
     public function findEmail($keyword);
 }

@@ -600,8 +600,8 @@ p {
 }
 
 .btn-secondary {
-    background-color: #1875f0;
-    border-color: #1875f0;
+    background-color: #70c4e0;
+    border-color: #70c4e0;
 }
 
 .btn-success {
@@ -1757,7 +1757,7 @@ option {
 }
 
 .installation-steps .installation-link.active {
-    background-color: #1875f0;
+    background-color: #70c4e0;
     color: #fff;
 }
 
@@ -1927,7 +1927,7 @@ option {
     color: #fff;
     font-size: 1.125rem;
     font-weight: 400;
-    background: #1875f0;
+    background: #70c4e0;
     padding: 11px 30px;
     font-size: 22px;
     font-weight: 700;
@@ -2010,6 +2010,7 @@ option {
     width: 91px;
     height: 91px;
     border-radius: 50%;
+    border: 2px solid #70c4e0;
 }
 
 .edit-image {
@@ -2017,7 +2018,7 @@ option {
 }
 
 .edit-image a {
-    color: #1875f0;
+    color: #70c4e0;
     font-size: 15px;
     font-weight: 700;
 }
@@ -4172,4 +4173,47 @@ Dashboard
 .contact-info li a:hover, .more-tool a:hover {
     color: #71c4e0 !important;
     text-decoration: none;
+}
+
+#upload-avatar {
+    display: none;
+}
+
+.wrapper-profile {
+    padding: 20px 0;
+}
+
+.layout-wrapper-profile {
+    font-family: 'Oxygen', sans-serif;
+    padding-top: 70px;
+}
+
+.title-profile-survey {
+    background-color: #ffffff87 !important;
+}
+
+.content-update-profile {
+    background-color: #ffffffcf !important;
+}
+
+.list-manage-profile {
+    background-color: #ffffffcf !important;
+}
+
+.background-user-profile {
+    position: fixed; z-index: -100;
+    opacity: 0.2;
+    background-size: 100%;
+    height: 100%;
+    width: 100%;
+    background-repeat: repeat-y;
+    background-image: url('../images/background_profile.jpg');
+}
+
+.alert-error-profile {
+    color: #ff6473;
+}
+
+.card-body-profile {
+    padding-top: 0px !important;
 }
