@@ -24,5 +24,7 @@ elixir(function(mix) {
         .copy('node_modules/font-awesome/css/font-awesome.min.css', 'public/plugins/font-awesome/css')
         .copy('resources/assets/templates/survey/css', 'public/templates/survey/css')
         .copy('resources/assets/templates/survey/js', 'public/templates/survey/js')
-        .copy('resources/assets/templates/survey/images', 'public/templates/survey/images');
+        .copy('resources/assets/templates/survey/images', 'public/templates/survey/images')
+        .copy('resources/assets/templates/survey/js', 'public/templates/survey/js');
+
 });
