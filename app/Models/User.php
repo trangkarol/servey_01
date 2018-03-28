@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Carbon\Carbon;
+use File;
 
 class User extends Authenticatable
 {
@@ -58,13 +59,13 @@ class User extends Authenticatable
 
     public function getImageAttribute()
     {
-        if (empty($this->attributes['image'])) {
-            $this->attributes['image'] = config('settings.image_default');
+        $pathFile = config('settings.path_upload') . $this->attributes['image'];
+
+        if (!File::exists(public_path($pathFile)) || empty($this->attributes['image'])) {
+            return config('settings.image_user_default');
         }
 
-        return preg_match('#^(http)|(https).*$#', $this->attributes['image'])
-            ? $this->attributes['image']
-            : asset('/' . config('users.avatar_path') . '/' . $this->attributes['image']);
+        return $pathFile;
     }
 
     public function setPasswordAttribute($value)
@@ -158,7 +159,7 @@ class User extends Authenticatable
     public function getBirthdayAttribute()
     {
         return $this->attributes['birthday']
-            ? Carbon::parse($this->attributes['birthday'])->format(trans('temp.format_birthday_with_trans')) : null;
+            ? Carbon::parse($this->attributes['birthday'])->format(trans('lang.date_format')) : null;
     }
 
     public function checkLoginWsm()

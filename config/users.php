@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'avatar_default' => 'default.png',
+    'avatar_default' => 'default_user.png',
     'avatar_path' => 'public/uploads/images',
     'password_default' => '123123',
     'level' => [

@@ -119,6 +119,9 @@
 //         Route::resource('/save', 'User\SaveTempController', [
 //             'only' => ['store', 'index'],
 //         ]);
+//         Route::get('/show-temp', 'User\SaveTempController@show');
+//     });
+// });
 
 //         Route::get('/show-temp', 'User\SaveTempController@show');
 //     });
@@ -162,3 +165,20 @@
 // Route::post('verify-link-survey', 'AnswerController@verifyLinkSurvey');
 
 // Route::post('survey/get-deadline', 'AnswerController@getDeadline');
+
+// Route::post('ajax/get-mail-suggestion', 'SurveyController@getMailSuggestion');
+
+
+Route::group(['namespace' => 'Survey'], function () {
+    Route::resource('profile', 'ProfileController', [
+        'as' => 'survey',
+    ]);
+    Route::get('change-password', [
+        'uses' => 'ProfileController@showChangePassword',
+        'as' => 'survey.profile.changepassword',
+    ]);
+    Route::post('change-password', [
+        'uses' => 'ProfileController@changePassword',
+        'as' => 'survey.profile.changepassword',
+    ]);
+});

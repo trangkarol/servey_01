@@ -7,6 +7,7 @@ use Storage;
 use Exception;
 use App\Repositories\BaseRepository;
 use App\Models\User;
+use File;
 
 class UserRepository extends BaseRepository implements UserInterface
 {
@@ -31,17 +32,21 @@ class UserRepository extends BaseRepository implements UserInterface
         }
     }
 
-    public function uploadAvatar($file)
+    public function uploadAvatar($request, $name, $oldImageName)
     {
-        if (!$file) {
-            return config('users.avatar_default');
+        if ($request->hasFile($name)) {
+            $pathFile = $oldImageName;
+
+            if (File::exists(public_path($pathFile)) && $pathFile != config('settings.image_user_default')) {
+                File::delete(public_path($pathFile));
+            }
+
+            $file = $request->file($name);
+            $newFileName = time() . '.'. $file->getClientOriginalExtension();
+            $file->move(config('settings.path_upload'), $newFileName);
+            
+            return $newFileName;
         }
-
-        $filePath = $file->store(config('users.avatar_path'));
-        $result = explode('/', $filePath);
-        $fileName = end($result);
-
-        return $fileName;
     }
 
     public function findEmail($keyword)
