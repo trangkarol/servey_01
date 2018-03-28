@@ -32,7 +32,7 @@
                                 </li>
                                 <li>
                                     <a href="{{ route('survey.profile.changepassword') }}" class="installation-link active">
-                                        <span class="fa fa-cog"></span>@lang('lang.changePassword')
+                                        <span class="fa fa-cog"></span>@lang('lang.change_password')
                                     </a>
                                 </li>
                             </ul>
@@ -42,7 +42,7 @@
                                 <div class="card-header">
                                     <div class="row">
                                         <div class="col-lg-5">
-                                            <h5>@lang('lang.changePassword')</h5>
+                                            <h5>@lang('lang.change_password')</h5>
                                         </div>
                                     </div>
                                 </div>
@@ -52,19 +52,19 @@
                                     
                                     {!! Form::open(['class' => 'install-form']) !!}
                                         <div class="form-group row">
-                                            {!! Form::label('oldpassword', trans('lang.oldPassword'), ['class' => 'col-sm-3 col-form-label']) !!}
+                                            {!! Form::label('oldpassword', trans('lang.old_password'), ['class' => 'col-sm-3 col-form-label']) !!}
                                             <div class="col-sm-7">
                                                 {!! Form::password('oldpassword', ['class' => 'form-control', 'required']) !!}
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            {!! Form::label('newpassword', trans('lang.newPassword'), ['class' => 'col-sm-3 col-form-label']) !!}
+                                            {!! Form::label('newpassword', trans('lang.new_password'), ['class' => 'col-sm-3 col-form-label']) !!}
                                             <div class="col-sm-7">
                                                 {!! Form::password('newpassword', ['class' => 'form-control', 'required']) !!}
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            {!! Form::label('retypepassword', trans('lang.reTypePassword'), ['class' => 'col-sm-3 col-form-label']) !!}
+                                            {!! Form::label('retypepassword', trans('lang.re_type_password'), ['class' => 'col-sm-3 col-form-label']) !!}
                                             <div class="col-sm-7">
                                                 {!! Form::password('retypepassword', ['class' => 'form-control', 'required']) !!}
                                             </div>

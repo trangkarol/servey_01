@@ -11,8 +11,9 @@
         {!! Html::style(asset('plugins/font-awesome/css/font-awesome.min.css')) !!}
         <!-- Theme CSS -->
         {!! Html::style(elixir(config('settings.public_template') . 'css/home.css')) !!}
-        {!! Html::style(elixir(config('settings.public_template') . 'css/style.css')) !!}
         {!! Html::style(elixir(config('settings.public_template') . 'css/modal-auth.min.css')) !!}
+        {!! Html::style(elixir(config('settings.public_template') . 'js/datepicker/bootstrap-datepicker.min.css')) !!}
+        {!! Html::style(elixir(config('settings.public_template') . 'css/style.css')) !!}
         @yield('css')
     </head>
     <body class="home-page">

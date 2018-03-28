@@ -83,9 +83,9 @@
         <!-- Main Javascript -->
         {!! Html::script(asset('js/jquery.min.js')) !!}
         {!! Html::script(asset('js/bootstrap.min.js')) !!}
-        {!! Html::script(elixir(config('settings.public_template') . 'js/jquery.matchHeight-min.js')) !!}
         {!! Html::script(elixir(config('settings.public_template') . 'js/main.js')) !!}
         {!! Html::script(elixir(config('settings.public_template') . 'js/modal-auth.min.js')) !!}
+        {!! Html::script(elixir(config('settings.public_template') . 'js/datepicker/bootstrap-datepicker.min.js')) !!}
         @yield('js')
     </body>
 </html>
