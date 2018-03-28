@@ -29,7 +29,7 @@ return [
     'open' => 'Mở lại',
     'close' => 'Đóng',
     'save' => 'Lưu',
-    'duplicate' => 'Nhân bản',
+    'duplicate' => 'Tạo bản sao',
     'sender' => 'Người gửi',
     'information' => 'Thông tin',
     'closed' => 'Survey này đã đóng',

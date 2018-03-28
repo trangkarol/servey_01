@@ -278,6 +278,7 @@
                             @endphp
                             @if ($survey->status
                                 && (Carbon\Carbon::parse($survey->deadline)->gt(Carbon\Carbon::now()) || empty($survey->deadline))
+                                && (!Carbon\Carbon::parse($survey->start_time)->gt(Carbon\Carbon::now()) || empty($survey->start_time))
                                 && $check)
                                 @if (auth()->check())
                                     {!! Form::button(trans('home.save'), [
@@ -300,6 +301,11 @@
                                 {!! Form::submit(trans('home.finish'), [
                                     'class' => 'submit-answer btn btn-info',
                                 ]) !!}
+                            @elseif (Carbon\Carbon::parse($survey->start_time)->gt(Carbon\Carbon::now()))
+                                <div class="notice-expired">
+                                    <span class="glyphicon glyphicon-alert"></span>
+                                    {{ trans('result.not_open') }}
+                                </div>
                             @else
                                 <div class="notice-expired">
                                     <span class="glyphicon glyphicon-alert"></span>
