@@ -31,7 +31,7 @@
                                 </li>
                                 <li>
                                     <a href="{{ route('survey.profile.changepassword') }}" class="installation-link">
-                                        <span class="fa fa-cog"></span>@lang('lang.changePassword')
+                                        <span class="fa fa-cog"></span>@lang('lang.change_password')
                                     </a>
                                 </li>
                             </ul>
@@ -49,7 +49,7 @@
 
                                     @include('survey.profile.notice')
                                     
-                                    <h3 class="form-header">&#9758; @lang('lang.importantSettings')</h3>
+                                    <h3 class="form-header">&#9758; @lang('lang.important_settings')</h3>
                                     {!! Form::open(['route' => ['survey.profile.update', $user->id],
                                         'class' => 'install-form', 'files' => true,
                                         'method' => 'put', 'id' => 'form-update-profile']) !!}
@@ -60,13 +60,13 @@
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            {!! Form::label('email', trans('lang.email'), ['class' => 'col-sm-3 col-form-label']) !!}
+                                            {!! Form::label('email', trans('lang.email'), ['class' => 'col-sm-3 col-form-label', 'required']) !!}
                                             <div class="col-sm-7">
                                                 {!! Form::email('email', $user->email, ['class' => 'form-control', 'disabled']) !!}
                                             </div>
                                         </div>
                                         <hr>
-                                        <h3 class="form-header">&#9758; @lang('lang.generalSettings')</h3>
+                                        <h3 class="form-header">&#9758; @lang('lang.general_settings')</h3>
                                         <div class="form-group row">
                                             {!! Form::label('image', trans('lang.avatar'), ['class' => 'col-sm-3 col-form-label']) !!}
                                             <div class="col-sm-7">
@@ -80,15 +80,24 @@
                                         <div class="form-group row">
                                             {!! Form::label('gender', trans('lang.gender'), ['class' => 'col-sm-3 col-form-label']) !!}
                                             <div class="col-sm-7">
-                                                {{ Form::radio('gender', config('users.gender.male'), '',
-                                                    ['class' => 'form-group checkbox-gender', ($user->gender == config('users.gender.male')) ? 'checked' : null]) }} 
+                                                <label class="container-radio">
+                                                    {{ Form::radio('gender', config('users.gender.male'), '',
+                                                        [($user->gender == config('users.gender.male')) ? 'checked' : null]) }}
                                                     @lang('lang.male')
-                                                {{ Form::radio('gender', config('users.gender.female'), '',
-                                                    ['class' => 'form-group checkbox-gender', ($user->gender == config('users.gender.female')) ? 'checked' : null]) }} 
-                                                        @lang('lang.female')
-                                                {{ Form::radio('gender', config('users.gender.other_gender'), '',
-                                                    ['class' => 'form-group checkbox-gender', ($user->gender == config('users.gender.other_gender')) ? 'checked' : null]) }} 
+                                                    <span class="radiobtn"></span>
+                                                </label>
+                                                <label class="container-radio">
+                                                    {{ Form::radio('gender', config('users.gender.female'), '',
+                                                        ['class' => 'form-group checkbox-gender', ($user->gender == config('users.gender.female')) ? 'checked' : null]) }} 
+                                                    @lang('lang.female')
+                                                    <span class="radiobtn"></span>
+                                                </label>
+                                                <label class="container-radio">
+                                                    {{ Form::radio('gender', config('users.gender.other_gender'), '',
+                                                        ['class' => 'form-group checkbox-gender', ($user->gender == config('users.gender.other_gender')) ? 'checked' : null]) }} 
                                                     @lang('lang.other')
+                                                    <span class="radiobtn"></span>
+                                                </label>
                                             </div>
                                         </div>
                                         <div class="form-group row">
