@@ -8,6 +8,8 @@ return [
      */
     'messages' => [
         'js',
+        'auth',
+        'lang',
     ],
 
     /*

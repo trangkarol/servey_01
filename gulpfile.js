@@ -12,7 +12,6 @@ var shell = require('gulp-shell');
  | file for our application, as well as publishing vendor resources.
  |
  */
-
 gulp.task('langjs', shell.task('php artisan lang:js -c public/js/messages.js'));
 
 elixir(function(mix) {

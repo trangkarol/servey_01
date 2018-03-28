@@ -48,7 +48,7 @@ class SurveyController extends Controller
 
     public function index()
     {
-        return view('user.pages.home');
+        return view('templates.survey.master');
     }
 
     public function checkCloseSurvey($inviteIds, $surveyIds)

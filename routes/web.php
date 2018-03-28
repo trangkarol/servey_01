@@ -182,3 +182,13 @@ Route::group(['namespace' => 'Survey'], function () {
         'as' => 'survey.profile.changepassword',
     ]);
 });
+
+Route::group(['namespace' => 'Auth'], function () {
+    Route::post('login', 'LoginController@login')->name('login');
+
+    Route::post('register', 'RegisterController@register')->name('register');
+
+    Route::get('logout', 'LoginController@logout')->name('logout');
+});
+
+Route::get('/', 'SurveyController@index');
