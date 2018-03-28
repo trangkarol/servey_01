@@ -2376,17 +2376,6 @@ form .text-center .btn {
   Modal popup
 -------------------------------*/
 
-.modal-dialog {
-    background-color: #ffffff;
-    -webkit-box-shadow: 0px 10px 25px 0px rgba(0, 0, 0, 0.07);
-    box-shadow: 0px 10px 25px 0px rgba(0, 0, 0, 0.07);
-    border-radius: 5px;
-}
-
-.modal-open .modal {
-    background-color: rgba(245, 245, 245, 0.9);
-}
-
 .modal-body {
     padding: 0;
 }
@@ -2455,39 +2444,6 @@ form .text-center .btn {
     font-size: 13px;
     font-weight: 700;
     margin: 0;
-}
-
-.modal button.close {
-    padding: 0;
-    color: #1875f0;
-    border: 0;
-    -webkit-appearance: none;
-    position: absolute;
-    right: -23px;
-    top: -12px;
-    cursor: pointer;
-    border-radius: 50%;
-    opacity: 1;
-    -webkit-box-shadow: 0px 10px 25px 0px rgba(0, 0, 0, 0.07);
-    box-shadow: 0px 10px 25px 0px rgba(0, 0, 0, 0.07);
-}
-
-.modal button.close span {
-    padding: 5px 11px;
-    background: #fff;
-    border: 0;
-    -webkit-appearance: none;
-    border-radius: 50%;
-    font-weight: 900;
-}
-
-.modal button.close:focus,
-.modal button.close span:focus {
-    outline: none;
-}
-
-.modal button.close:hover {
-    opacity: 0.85;
 }
 
 .modal .dataTables_length,
@@ -3545,22 +3501,12 @@ Dashboard
     .card .header-title {
         text-align: center;
     }
-    /*modal*/
+    /* modal*/
     .modal-enter-name label {
         text-align: center;
         margin-top: 0;
     }
-    .modal {
-        padding-right: 0 !important;
-    }
-    .fm-form-type .btn {
-        padding: 10px 15px;
-        font-size: 13px;
-    }
-    .modal button.close {
-        right: 0;
-        top: 0;
-    }
+
     .create-form .fm-form-type,
     .modal-enter-name {
         padding: 15px;

@@ -1,4 +1,4 @@
-        <!-- ******FOOTER****** --> 
+        <!-- ******FOOTER****** -->
         <footer class="footer">
             <div class="footer-content">
                 <div class="container">
@@ -31,7 +31,7 @@
                                     </li>
                                 </ul>
                             </div>
-                        </div><!--//foooter-col--> 
+                        </div><!--//foooter-col-->
                         <div class="footer-col col-lg-4 col-12 contact-col">
                             <div class="footer-col-inner">
                                 <h3 class="sub-title">@lang('lang.more_info')</h3>
@@ -44,17 +44,17 @@
                                         @lang('lang.more_tools')
                                     </a>
                                 </div>
-                            </div>           
-                        </div>   
-                    </div>   
-                </div>        
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="bottom-bar">
-                <div class="container center">                                   
+                <div class="container center">
                     <ul class="social-icons list-inline">
                         <li class="list-inline-item">
                             <a href="#"><i class="fa fa-twitter"></i></a>
-                        </li>                        
+                        </li>
                         <li class="list-inline-item">
                             <a href="{{ config('settings.company.fb_company') }}">
                                 <i class="fa fa-facebook"></i>
@@ -74,9 +74,9 @@
                             <a href="#">
                                 <i class="fa fa-google-plus"></i>
                             </a>
-                        </li>                     
-                    </ul> 
-                    <small class="copyright text-center">@lang('lang.copyright')</small>   
+                        </li>
+                    </ul>
+                    <small class="copyright text-center">@lang('lang.copyright')</small>
                 </div>
             </div>
         </footer>
@@ -85,7 +85,7 @@
         {!! Html::script(asset('js/bootstrap.min.js')) !!}
         {!! Html::script(elixir(config('settings.public_template') . 'js/jquery.matchHeight-min.js')) !!}
         {!! Html::script(elixir(config('settings.public_template') . 'js/main.js')) !!}
-        {!! Html::script(elixir(config('settings.public_template') . 'js/datepicker/bootstrap-datepicker.min.js')) !!}
+        {!! Html::script(elixir(config('settings.public_template') . 'js/modal-auth.min.js')) !!}
         @yield('js')
     </body>
 </html>

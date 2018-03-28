@@ -31,6 +31,7 @@
     "flipclock": "^0.7.8",
     "font-awesome": "^4.7.0",
     "lightweight-bootstrap": "0.0.1",
+    "popper.js": "^1.14.1",
     "redis": "^2.7.1",
     "socket.io": "^1.7.3",
     "validator": "^9.4.1"
