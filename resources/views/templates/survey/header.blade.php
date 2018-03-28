@@ -36,77 +36,80 @@
                                 <li class="nav-item">
                                     {{ Html::link('#', trans('lang.feedback'), ['class' => 'nav-link']) }}
                                 </li>
-                                <li class="nav-item">
-                                    {{ Html::link('#', trans('lang.login'), [
-                                        'class' => 'nav-link',
-                                        'data-toggle' => 'modal',
-                                        'data-target' => '#modalLogin',
-                                    ]) }}
-                                </li>
-                                <li class="nav-item">
-                                    {{ Html::link('#', trans('lang.register'), [
-                                        'class' => 'nav-link',
-                                        'data-toggle' => 'modal',
-                                        'data-target' => '#modalRegister'
-                                    ]) }}
-                                </li>
-                                <li class="nav-item dropdown notifications">
-                                    <a class="nav-link dropdown-toggle" href="#" id="navNotifications"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <span class="notify fa fa-bell-o"></span>
-                                        <span class="round fa fa-cirlce"></span>
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-menu-right header-menu" aria-labelledby="navNotifications">
-                                        <li class="notify-header">
-                                            @lang('lang.notifications')
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="#">
-                                                <span class="text-success">@lang('lang.congrats') </span> <!-- notification message here-->
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="#">
-                                                <span class="text-danger">@lang('lang.failure')</span> <!-- notification message here-->
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="#">
-                                                <span class="text-warning">@lang('lang.notifications')</span> <!-- notification message here-->
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="#">
-                                                <span class="text-danger">@lang('lang.warning')</span> <!-- notification message here-->
-                                            </a>
-                                        </li>
-                                        <li class="notify-footer"></li>
-                                    </ul>
-                                </li>
-                                <li class="nav-item dropdown user-dropdown last">
-                                    <a class="nav-link dropdown-toggle user-nav-show" href="#" id="navbarDropdownProfile"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <span class="user-profile">
-                                            {{ Html::image('', '', ['class' => 'user-images']) }}
-                                            <span class="user-name d-none-992"></span> <!--username here-->
-                                        </span>
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-menu-right header-menu" aria-labelledby="navbarDropdownProfile">
-                                        <li class="notify-header">
-                                            @lang('lang.hello') <!--username here-->
-                                        </li>
-                                        <li>
-                                            {{ Html::link('#', trans('lang.my_surveys'), ['class' => 'dropdown-item']) }}
-                                        </li>
-                                        <li>
-                                            {{ Html::link('#', trans('lang.settings'), ['class' => 'dropdown-item']) }}
-                                        </li>
-                                        <li>
-                                            {{ Html::link('#', trans('lang.logout'), ['class' => 'dropdown-item']) }}
-                                        </li>
-                                        <li class="notify-footer"></li>
-                                    </ul>
-                                </li>
+                                @if (!Auth::guard()->check())
+                                    <li class="nav-item">
+                                        {{ Html::link('#', trans('lang.login'), [
+                                            'class' => 'nav-link',
+                                            'data-toggle' => 'modal',
+                                            'data-target' => '#modalLogin',
+                                        ]) }}
+                                    </li>
+                                    <li class="nav-item">
+                                        {{ Html::link('#', trans('lang.register'), [
+                                            'class' => 'nav-link',
+                                            'data-toggle' => 'modal',
+                                            'data-target' => '#modalRegister'
+                                        ]) }}
+                                    </li>
+                                @else
+                                    <li class="nav-item dropdown notifications">
+                                        <a class="nav-link dropdown-toggle" href="#" id="navNotifications"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <span class="notify fa fa-bell-o"></span>
+                                            <span class="round fa fa-cirlce"></span>
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-right header-menu" aria-labelledby="navNotifications">
+                                            <li class="notify-header">
+                                                @lang('lang.notifications')
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="#">
+                                                    <span class="text-success">@lang('lang.congrats') </span> <!-- notification message here-->
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="#">
+                                                    <span class="text-danger">@lang('lang.failure')</span> <!-- notification message here-->
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="#">
+                                                    <span class="text-warning">@lang('lang.notifications')</span> <!-- notification message here-->
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="#">
+                                                    <span class="text-danger">@lang('lang.warning')</span> <!-- notification message here-->
+                                                </a>
+                                            </li>
+                                            <li class="notify-footer"></li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item dropdown user-dropdown last">
+                                        <a class="nav-link dropdown-toggle user-nav-show" href="#" id="navbarDropdownProfile"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <span class="user-profile">
+                                                {{ Html::image('', '', ['class' => 'user-images']) }}
+                                                <span class="user-name d-none-992"></span> <!--username here-->
+                                            </span>
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-right header-menu" aria-labelledby="navbarDropdownProfile">
+                                            <li class="notify-header">
+                                                @lang('lang.hello') <!--username here-->
+                                            </li>
+                                            <li>
+                                                {{ Html::link('#', trans('lang.my_surveys'), ['class' => 'dropdown-item']) }}
+                                            </li>
+                                            <li>
+                                                {{ Html::link('#', trans('lang.settings'), ['class' => 'dropdown-item']) }}
+                                            </li>
+                                            <li>
+                                                {{ Html::link(route('logout'), trans('lang.logout'), ['class' => 'dropdown-item']) }}
+                                            </li>
+                                            <li class="notify-footer"></li>
+                                        </ul>
+                                    </li>
+                                @endif
                             </ul>
                         </div>
                     </nav>

@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'failed' => 'Những thông tin không phù hợp với bản ghi của chúng tôi.',
+    'failed' => 'Email hoặc mật khẩu không đúng.',
     'throttle' => 'Lần đăng nhập quá nhiều. Vui lòng thử lại :seconds Giây.',
 
 ];

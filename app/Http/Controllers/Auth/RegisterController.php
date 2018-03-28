@@ -22,23 +22,12 @@ class RegisterController extends Controller
         $this->userRepository = $userRepository;
     }
 
-    public function getRegister()
-    {
-        if (Auth::guard()->check()) {
-            return view('user.pages.home');
-        }
-
-        return view('user.pages.register');
-    }
-
     public function register(RegisterRequest $request)
     {
         $data = $request->only([
             'name',
             'email',
             'password',
-            'gender',
-            'image',
         ]);
 
         $input = [
@@ -47,19 +36,17 @@ class RegisterController extends Controller
             'password' => $data['password'],
             'level' => config('users.level.user'),
             'status' => config('users.status.active'),
-            'image' => $this->userRepository->uploadAvatar($data['image']),
-            'gender' => $data['gender'],
+            'image' => config('setting.image_user_default'),
+            'gender' => config('users.gender.male'),
         ];
         $user = $this->userRepository->firstOrCreate($input);
 
         if ($user) {
             Auth::login($user);
 
-            return redirect()->action('SurveyController@index');
+            return response()->json(config('users.register_success'));
         }
 
-        return redirect()
-            ->action('Auth\LoginController@getRegister')
-            ->with('message', trans('message.register_fail'));
+        return response()->json(config('users.register_fail'));
     }
 }

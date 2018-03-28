@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Auth;
 use Illuminate\Http\Request;
+use Response;
 
 class LoginController extends Controller
 {
@@ -39,15 +40,6 @@ class LoginController extends Controller
         $this->middleware('guest', ['except' => 'logout']);
     }
 
-    public function getLogin()
-    {
-        if (Auth::guard()->check()) {
-            return redirect()->action('SurveyController@index');
-        }
-
-        return view('user.pages.login');
-    }
-
     public function login(Request $request)
     {
         $this->validateLogin($request);
@@ -56,21 +48,19 @@ class LoginController extends Controller
             'password',
         ]);
 
-        if (Auth::attempt([
+        $authenticated = Auth::attempt([
             'email' => $data['email'],
             'password' => $data['password'],
             'status' => config('users.status.active'),
-        ])) {
+        ]);
+
+        if ($authenticated) {
             if (Auth::user()->level == config('users.level.admin')) {
                 return redirect()->action('Admin\DashboardController@index');
             }
-
-            return redirect()->intended(action('SurveyController@index'));
         }
 
-        return redirect()
-            ->action('Auth\LoginController@getLogin')
-            ->with('message', trans('auth.failed'));
+        return response()->json($authenticated);
     }
 
     public function logout(Request $request)

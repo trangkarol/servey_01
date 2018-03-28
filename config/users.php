@@ -21,4 +21,6 @@ return [
     'name_length_default' => 9,
     'undentified_name' => 'Undentified name',
     'undentified_email' => 'Undentified email',
+    'register_success' => true,
+    'register_fail' => false,
 ];

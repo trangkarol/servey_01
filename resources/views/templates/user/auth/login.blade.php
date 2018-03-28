@@ -10,28 +10,31 @@
                 </button>
             </div>
             <div class="modal-body mx-4">
-                <div class="md-form mb-5">
-                    {{ Form::email('email', old('email'), [
-                        'class' => 'form-control validate',
-                        'placeholder' => trans('lang.email_placeholder'),
-                    ]) }}
-                    {{ Form::label('email', trans('lang.email'), ['data-error' => ' ', 'data-success' => ' ', ]) }}
-                </div>
-                <div class="md-form pb-3">
-                    {{ Form::password('password', [
-                        'class' => 'form-control validate',
-                        'placeholder' => trans('lang.password_placeholder'),
-                    ]) }}
-                    {{ Form::label('password', trans('lang.password'), ['data-error' => ' ', 'data-success' => ' ', ]) }}
-                    <p class="font-small blue-text d-flex justify-content-end">@lang('lang.forgot')
-                        <a data-toggle="modal" data-dismiss="modal" data-target="#modalForgotPassword" href="#" class="blue-text ml-1">
-                            @lang('lang.password')&#63;
-                        </a>
-                    </p>
-                </div>
-                <div class="text-center mb-3">
-                    {{ Form::button(trans('lang.sign_in'), ['class' => 'btn blue-gradient btn-block btn-rounded z-depth-1a', ]) }}
-                </div>
+                {{ Form::open(['route' => 'login', 'id' => 'formLogin', 'method' => 'POST']) }}
+                    <div class="md-form mb-5">
+                        {{ Form::email('email', old('email'), [
+                            'class' => 'form-control validate',
+                            'placeholder' => trans('lang.email_placeholder'),
+                        ]) }}
+                        {{ Form::label('email', trans('lang.email'), ['data-error' => ' ', 'data-success' => ' ', ]) }}
+                        <span class="help-block login-messages"></span>
+                    </div>
+                    <div class="md-form pb-3">
+                        {{ Form::password('password', [
+                            'class' => 'form-control validate',
+                            'placeholder' => trans('lang.password_placeholder'),
+                        ]) }}
+                        {{ Form::label('password', trans('lang.password'), ['data-error' => ' ', 'data-success' => ' ', ]) }}
+                        <p class="font-small blue-text d-flex justify-content-end">@lang('lang.forgot')
+                            <a data-toggle="modal" data-dismiss="modal" data-target="#modalForgotPassword" href="#" class="blue-text ml-1">
+                                @lang('lang.password')&#63;
+                            </a>
+                        </p>
+                    </div>
+                    <div class="text-center mb-3">
+                        {{ Form::button(trans('lang.sign_in'), ['type' => 'submit', 'class' => 'btn blue-gradient btn-block btn-rounded z-depth-1a', 'id' => 'btn-signin']) }}
+                    </div>
+                {{ Form::close() }}
                 <p class="font-small dark-grey-text text-right d-flex justify-content-center mb-3 pt-2">
                     @lang('lang.or_sign_in_with')
                 </p>
