@@ -1,13 +1,13 @@
-@extends ('templates.survey.master')
+@extends('templates.survey.master')
 
-@push ('styles')
+@push('styles')
     {!! Html::style(asset(config('settings.public_template') . 'css/vendor.css')) !!}
     {!! Html::style(asset(config('settings.public_template') . 'css/home-effect.css')) !!}
 @endpush
 
-@section ('header-change', 'header-change')
+@section('header-change', 'header-change')
 
-@section ('content')
+@section('content')
     <main class="site-main">
         <div id="home" class="section block-primary align-c">
             <div id="siteBg" class="site-bg">
@@ -145,7 +145,7 @@
         </div>
     </main>
 @endsection
-@push ('scripts')
+@push('scripts')
     {!! Html::script(elixir(config('settings.public_template') . 'js/plugin.js')) !!}
     {!! Html::script(elixir(config('settings.public_template') . 'js/home-effect.js')) !!}
 @endpush

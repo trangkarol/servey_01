@@ -7,14 +7,14 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Plugins CSS -->
-        {!! Html::style(asset('css/bootstrap.min.css')) !!}
-        {!! Html::style(asset('plugins/font-awesome/css/font-awesome.min.css')) !!}
+        {!! Html::style(asset(config('settings.plugins') . 'bootstrap/bootstrap.min.css')) !!}
+        {!! Html::style(asset(config('settings.plugins') . 'font-awesome/css/font-awesome.min.css')) !!}
         <!-- Theme CSS -->
         {!! Html::style(elixir(config('settings.public_template') . 'css/home.css')) !!}
         {!! Html::style(elixir(config('settings.public_template') . 'css/modal-auth.min.css')) !!}
         {!! Html::style(elixir(config('settings.public_template') . 'js/datepicker/bootstrap-datepicker.min.css')) !!}
         {!! Html::style(elixir(config('settings.public_template') . 'css/style.css')) !!}
-        @stack ('styles')
+        @stack('styles')
     </head>
     <body class="home-page">
         <div class="site">
