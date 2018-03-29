@@ -18,6 +18,7 @@ return [
     'view_result' => '結果を表示',
     'dont_have_result' => '結果がない',
     'email_invalid' => 'メールが無効です。再度確認してください。',
+    'exists_reminder_email' => 'You are choosing the option to send a recurring email reminder. Please enter email list.',
     'text' => 'テキスト',
     'require' => '必要',
     'one_choose' => '1つの選択',

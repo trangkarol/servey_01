@@ -242,6 +242,7 @@ $(document).ready(function() {
                 }
 
                 case 4: {
+                    var c8 = $('#reminder-periodically').is(':checked');
                     var emails = $('input:text[name=emails]').tagsinput('items');
                     var flag = true;
 
@@ -253,6 +254,16 @@ $(document).ready(function() {
 
                     if (emails.length != 0 && !flag) {
                         $('.validate-email').css('display', 'block')
+
+                        return false;
+                    }
+
+                    if (c8 && !emails.length) {
+                        $('.validate-exists-reminder-email')
+                            .css('display', 'block')
+                            .addClass('animated fadeInDown')
+                            .delay(3000)
+                            .slideUp(1000);
 
                         return false;
                     }

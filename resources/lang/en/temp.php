@@ -18,6 +18,7 @@ return [
     'view_result' => 'View result',
     'dont_have_result' => "Don't have any result",
     'email_invalid' => 'Email invalid, check again please',
+    'exists_reminder_email' => 'You are choosing the option to send a recurring email reminder. Please enter email list.',
     'text' => 'Text',
     'require' => 'Require',
     'one_choose' => 'One choose',
