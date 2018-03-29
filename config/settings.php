@@ -107,6 +107,7 @@ return [
         'hr_email_company' => 'hr_team@framgia.com', 
     ],
     'public_template' => '/templates/survey/',
+    'plugins' => '/plugins/',
     'logo_content' => '<span class="highlight">F</span>Survey',
     'counter_default_value' => 0,
     'feature_icon' => [
