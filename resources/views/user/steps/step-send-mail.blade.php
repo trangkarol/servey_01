@@ -24,4 +24,11 @@
             </div>
         </div>
     </div>
+    <div class="wizard-hidden validate-exists-reminder-email row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="alert alert-warning warning-login-register">
+                {{ trans('temp.exists_reminder_email') }}
+            </div>
+        </div>
+    </div>
 </div>

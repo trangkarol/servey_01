@@ -18,6 +18,7 @@ return [
     'view_result' => 'Xem kết quả',
     'dont_have_result' => 'Không có một kết quả nào',
     'email_invalid' => 'Email không hợp lệ, vui lòng kiểm tra lại.',
+    'exists_reminder_email' => 'Bạn đang tùy chọn gửi email nhắc nhở định kỳ. Vui lòng nhập danh sách email.',
     'text' => 'Văn bản',
     'require' => 'Yêu cầu',
     'one_choose' => 'Một lựa chọn',
