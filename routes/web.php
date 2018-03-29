@@ -168,6 +168,7 @@
 
 // Route::post('ajax/get-mail-suggestion', 'SurveyController@getMailSuggestion');
 
+Route::get('/', 'SurveyController@index')->name('home');
 
 Route::group(['namespace' => 'Survey'], function () {
     Route::resource('profile', 'ProfileController', [
@@ -190,8 +191,6 @@ Route::group(['namespace' => 'Auth'], function () {
 
     Route::get('logout', 'LoginController@logout')->name('logout');
 });
-
-Route::get('/', 'SurveyController@index');
 
 Route::get('/redirect/{provider}', 'User\SocialAuthController@redirect')->name('socialRedirect');
 

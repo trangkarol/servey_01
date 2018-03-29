@@ -108,4 +108,10 @@ return [
     ],
     'public_template' => '/templates/survey/',
     'logo_content' => '<span class="highlight">F</span>Survey',
+    'counter_default_value' => 0,
+    'feature_icon' => [
+        'icon_1' => '/templates/survey/images/icon/about1.png',
+        'icon_2' => '/templates/survey/images/icon/about2.png',
+        'icon_3' => '/templates/survey/images/icon/about3.jpg',
+    ],
 ];

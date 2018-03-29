@@ -9,6 +9,7 @@ use App\Repositories\Question\QuestionInterface;
 use App\Repositories\Invite\InviteInterface;
 use App\Repositories\Setting\SettingInterface;
 use App\Repositories\User\UserInterface;
+use App\Repositories\Feedback\FeedbackInterface;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use App\Jobs\SendMail;
 use Carbon\Carbon;
@@ -31,24 +32,32 @@ class SurveyController extends Controller
     protected $inviteRepository;
     protected $settingRepository;
     protected $userRepository;
+    protected $feedbackRepository;
 
     public function __construct(
         SurveyInterface $surveyRepository,
         QuestionInterface $questionRepository,
         InviteInterface $inviteRepository,
         SettingInterface $settingRepository,
-        UserInterface $userRepository
+        UserInterface $userRepository,
+        FeedbackInterface $feedbackRepository
     ) {
         $this->surveyRepository = $surveyRepository;
         $this->questionRepository = $questionRepository;
         $this->inviteRepository = $inviteRepository;
         $this->settingRepository = $settingRepository;
         $this->userRepository = $userRepository;
+        $this->feedbackRepository = $feedbackRepository;
     }
 
     public function index()
     {
-        return view('templates.survey.master');
+        $data['users'] = count($this->userRepository->lists('id'));
+        $data['surveys'] = count($this->surveyRepository->lists('id'));
+        $data['surveys_open'] = count($this->surveyRepository->getSurveysByStatus(config('survey.status.available'))->get());
+        $data['feedbacks'] = count($this->feedbackRepository->lists('id'));
+
+        return view('survey.home.home', compact('data'));
     }
 
     public function checkCloseSurvey($inviteIds, $surveyIds)

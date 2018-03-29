@@ -3,17 +3,17 @@
             <div class="footer-content">
                 <div class="container">
                     <div class="row">
-                        <div class="footer-col col-lg-4 col-md-4 col-12 links-col">
+                        <div class="footer-col col-lg-4 col-md-6 col-12 links-col">
                             <div class="footer-col-inner">
-                                <h3 class="sub-title">@lang('lang.about_us')</h3>
+                                <h3 class="sub-title about-us-title">@lang('lang.about_us')</h3>
                                 <div class="list-unstyled">
                                     @lang('lang.about_us_content')
                                 </div>
                             </div>
                         </div>
-                        <div class="footer-col col-lg-4 col-md-8 col-12 blog-col">
+                        <div class="footer-col col-lg-4 col-md-6 col-12 blog-col">
                             <div class="footer-col-inner">
-                                <h3 class="sub-title">@lang('lang.contact_info')</h3>
+                                <h3 class="sub-title contact-info-title">@lang('lang.contact_info')</h3>
                                 <ul class="contact-info">
                                     <li>@lang('lang.contact_us')</li>
                                     <li>
@@ -32,7 +32,7 @@
                                 </ul>
                             </div>
                         </div><!--//foooter-col-->
-                        <div class="footer-col col-lg-4 col-12 contact-col">
+                        <div class="footer-col col-lg-4 col-md-12 contact-col">
                             <div class="footer-col-inner">
                                 <h3 class="sub-title">@lang('lang.more_info')</h3>
                                 <div class="list-unstyled">
@@ -88,6 +88,6 @@
         {!! Html::script(elixir(config('settings.public_template') . 'js/modal-auth.min.js')) !!}
         {!! Html::script(elixir(config('settings.public_template') . 'js/datepicker/bootstrap-datepicker.min.js')) !!}
         {!! Html::script(elixir(config('settings.public_template') . 'js/auth.js')) !!}
-        @yield('js')
+        @stack ('scripts')
     </body>
 </html>
