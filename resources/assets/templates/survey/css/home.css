@@ -2399,8 +2399,8 @@ body.no-header-wrapper {
     background: url(../../../user/images/socialize-icons/wsm.png) no-repeat 0 0;
     background-size: 20px 20px;
     background-position: center;
-    padding-left: 2.1rem;
-    padding-right: 2.1rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
 }
 
 .hidden {

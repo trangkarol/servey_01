@@ -7,7 +7,6 @@ return [
      * Otherwise all the files will be included.
      */
     'messages' => [
-        'js',
         'auth',
         'lang',
     ],

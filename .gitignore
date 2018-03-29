@@ -21,6 +21,7 @@ package-lock.json
 public/storage
 public/templates
 public/plugins
+public/messages.js
 
 # IDE hidden folder
 .vscode

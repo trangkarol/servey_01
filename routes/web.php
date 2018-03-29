@@ -192,3 +192,7 @@ Route::group(['namespace' => 'Auth'], function () {
 });
 
 Route::get('/', 'SurveyController@index');
+
+Route::get('/redirect/{provider}', 'User\SocialAuthController@redirect')->name('socialRedirect');
+
+Route::get('/callback/{provider}', 'User\SocialAuthController@callback')->name('socialCallback');
