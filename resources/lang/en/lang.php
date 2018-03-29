@@ -98,4 +98,25 @@ return [
     'end_time__placeholder' => 'Time to finish the survey',
     'description' => 'Description',
     'description_placeholder' => 'Description for this survey',
+
+    /*
+    | Profile Create Page
+    */
+
+    'information' => 'Information',
+    'list_survey' => 'List of survey',
+    'update_profile_photo' => 'Update profile photo',
+    'account_settings' => 'Account settings',
+    'personal_info' => 'Personal information',
+    'create_survey' => 'Create survey',
+    'upload_photo' => 'Upload photo',
+    'browse_your_computer' => 'Browse your computer.',
+    'change_info' => 'Change infomation',
+    'delete_avatar' => 'Delete avatar',
+    '404' => '404',
+    'error' => 'Error',
+    '404_message' => 'The page you are looking for does not exists.',
+    'go_home' => 'Gome home',
+    'use_the_default_avatar' => 'Use the default avatar',
+    'are_you_sure_want_to_delete' => 'Are you sure want to delete?',
 ];

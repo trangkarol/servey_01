@@ -10,6 +10,7 @@ return [
     'image_answer_path' => '/user/uploads/answer/',
     'image_path_system' => '/user/images/',
     'path_upload' => 'uploads/profiles/',
+    'top-background-profile' => 'templates/survey/images/top-background-profile.jpg',
     'question' => [
         'not_required' => 0,
         'required' => 1,
@@ -116,4 +117,9 @@ return [
         'icon_3' => '/templates/survey/images/icon/about3.jpg',
     ],
     'blank_icon' => '/templates/survey/images/icon/blank.gif',
+    'page_profile_active' => [
+        'information' => '1',
+        'list_survey' => '2',
+    ],
+    'vn' => 'vn',
 ];
