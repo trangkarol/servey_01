@@ -84,6 +84,7 @@
         {!! Html::script(asset(config('settings.plugins') . 'jquery/jquery.min.js')) !!}
         {!! Html::script(asset(config('settings.plugins') . 'bootstrap/bootstrap.min.js')) !!}
         {!! Html::script(asset(config('settings.plugins') . 'languages/messages.js')) !!}
+        {!! Html::script(asset(config('settings.plugins') . 'pace-progress/pace.min.js')) !!}
         {!! Html::script(elixir(config('settings.public_template') . 'js/main.js')) !!}
         {!! Html::script(elixir(config('settings.public_template') . 'js/modal-auth.min.js')) !!}
         {!! Html::script(elixir(config('settings.public_template') . 'js/datepicker/bootstrap-datepicker.min.js')) !!}

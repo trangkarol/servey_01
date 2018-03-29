@@ -9,6 +9,7 @@
         <!-- Plugins CSS -->
         {!! Html::style(asset(config('settings.plugins') . 'bootstrap/bootstrap.min.css')) !!}
         {!! Html::style(asset(config('settings.plugins') . 'font-awesome/css/font-awesome.min.css')) !!}
+        {!! Html::style(asset(config('settings.plugins') . 'ionicons/css/ionicons.min.css')) !!}
         <!-- Theme CSS -->
         {!! Html::style(elixir(config('settings.public_template') . 'css/home.css')) !!}
         {!! Html::style(elixir(config('settings.public_template') . 'css/modal-auth.min.css')) !!}
@@ -21,10 +22,10 @@
             <div class="site-loader">
               <div class="site-loader-spinner"></div>
             </div> <!-- .site-loader -->
-        </div>     
+        </div>
         <div class="header-wrapper header-wrapper-home">
-            <!-- ******HEADER****** --> 
-            <header id="header" class="header fixed-top mobile-header @yield('header-change')">  
+            <!-- ******HEADER****** -->
+            <header id="header" class="header fixed-top mobile-header @yield('header-change')">
                 <div class="container">
                     <h1 class="logo">
                         <a href="{{ route('home') }}">{!! config('settings.logo_content') !!}</a>
@@ -95,7 +96,7 @@
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <span class="user-profile">
                                                 {{ Html::image(Auth::user()->image, '', ['class' => 'user-images']) }}
-                                                <span class="user-name d-none-992"></span> {{ Auth::user()->name }} 
+                                                <span class="user-name d-none-992"></span> {{ Auth::user()->name }}
                                             </span>
                                         </a>
                                         <ul class="dropdown-menu dropdown-menu-right header-menu" aria-labelledby="navbarDropdownProfile">
