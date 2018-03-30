@@ -115,4 +115,5 @@ return [
         'icon_2' => '/templates/survey/images/icon/about2.png',
         'icon_3' => '/templates/survey/images/icon/about3.jpg',
     ],
+    'blank_icon' => '/templates/survey/images/icon/blank.gif',
 ];

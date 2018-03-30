@@ -19,8 +19,8 @@
     </head>
     <body class="home-page">
         <div class="site">
-            <div class="site-loader">
-              <div class="site-loader-spinner"></div>
+            <div class="loader" id="loader">
+              <div class="loader-spinner"></div>
             </div> <!-- .site-loader -->
         </div>
         <div class="header-wrapper header-wrapper-home">
@@ -42,6 +42,29 @@
                                 <li class="nav-item">
                                     {{ Html::link('#', trans('lang.feedback'), ['class' => 'nav-link']) }}
                                 </li>
+                                <li class="nav-item">
+                                    <div class=" select">
+                                        <input type="hidden" name="language" value="vn" id="language">
+                                        <div class="select-styled">
+                                            {{ Html::image(config('settings.blank_icon'), '', ['class' => 'flag vn fnone']) }}
+                                            <span>@lang('lang.vietnamese')</span>
+                                        </div>
+                                        <ul class="select-options">
+                                            <li rel="vn">
+                                                {{ Html::image(config('settings.blank_icon'), '', ['class' => 'flag vn fnone']) }}
+                                                <span>@lang('lang.vietnamese')</span>
+                                            </li>
+                                            <li rel="en">
+                                                {{ Html::image(config('settings.blank_icon'), '', ['class' => 'flag en fnone']) }}
+                                                <span>@lang('lang.english')</span>
+                                            </li>
+                                            <li rel="jp">
+                                                {{ Html::image(config('settings.blank_icon'), '', ['class' => 'flag jp fnone']) }}
+                                                <span>@lang('lang.japanese')</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
                                 @if (!Auth::guard()->check())
                                     <li class="nav-item">
                                         {{ Html::link('#', trans('lang.login'), [
@@ -58,7 +81,7 @@
                                         ]) }}
                                     </li>
                                 @else
-                                    <li class="nav-item notifications">
+                                    <li class="nav-item notifications" style="display: none;">
                                         <a class="nav-link dropdown-toggle" href="#" id="navNotifications"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <span class="notify fa fa-bell-o"></span>
@@ -96,7 +119,9 @@
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <span class="user-profile">
                                                 {{ Html::image(Auth::user()->image, '', ['class' => 'user-images']) }}
-                                                <span class="user-name d-none-992"></span> {{ Auth::user()->name }}
+                                                <span class="user-name d-none-992">
+                                                    {{ Auth::user()->name }}
+                                                </span>
                                             </span>
                                         </a>
                                         <ul class="dropdown-menu dropdown-menu-right header-menu" aria-labelledby="navbarDropdownProfile">

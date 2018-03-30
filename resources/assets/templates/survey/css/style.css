@@ -1278,7 +1278,7 @@ option {
 }
 
 .navbar-nav a {
-    line-height: 40px;
+    line-height: 37px;
     position: relative;
 }
 
@@ -3374,12 +3374,16 @@ Dashboard
     }
 }
 
+@media(min-width:991px) and (max-width:1023px) {
+    /*.user-name {
+        display: none;
+    }*/
+    
+}
+
 @media(min-width:991px) and (max-width:1200px) {
     .nav-navigation li {
         padding: 3px;
-    }
-    .user-name {
-        display: none;
     }
     .navbar-nav a {
         font-size: 14px;

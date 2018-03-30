@@ -82,4 +82,7 @@ return [
     'feature_3' => 'Feature #3',
     'feature_3_title' => 'Receive by email',
     'feature_3_content' => 'By accepting incoming email. The user will be able to reply to your email. Encouraging more transparent relationships within your organization. When you leave the web, correspondence history remains intact in your email and you can access link to manage your survey.',
+    'vietnamese' => 'Vietnamese',
+    'english' => 'English',
+    'japanese' => 'Japanese',
 ];
