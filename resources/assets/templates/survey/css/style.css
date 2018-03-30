@@ -890,7 +890,7 @@ textarea.form-control {
 
 label {
     color: #999999;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 700;
 }
 
@@ -3378,7 +3378,7 @@ Dashboard
     /*.user-name {
         display: none;
     }*/
-    
+
 }
 
 @media(min-width:991px) and (max-width:1200px) {
@@ -3437,7 +3437,7 @@ Dashboard
     .navbar-nav li.active a {
         color: #1875f0;
     }
-    
+
     /*user profile*/
     .user-name,
     .user-profile::before,
@@ -4192,4 +4192,9 @@ Dashboard
     color: #666666;
     font-size: 16px;
     font-weight: 700;
+}
+
+.auto-resize {
+    box-sizing: border-box;
+    resize: none;
 }
