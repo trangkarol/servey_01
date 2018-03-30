@@ -81,5 +81,8 @@ return [
     'feature_2_content' => 'Khảo sát trực tuyến có thể được thay đổi được tình hình. Toàn bộ thời gian thu thập dữ liệu được rút ngắn đáng kể. Bạn có thể gửi đến nhiều người cùng một lúc. Thu thập dữ liệu với một cái nhìn tổng quan thông qua màn hình hiển thị chi tiết kết quả và bảng xếp hạng.',
     'feature_3' => 'Tính năng #3',
     'feature_3_title' => 'Nhận survey qua email',
-    'feature_3_content' => 'Bằng việc chấp nhận các email gửi đến. Người dùng sẽ có thể trả lời email của bạn. Khuyến khích các mối quan hệ minh bạch hơn trong tổ chức. Khi bạn rời khỏi web, lịch sử thư vẫn còn nguyên vẹn trong email của bạn và bạn có thể truy cập vào liên kết để quản lý cuộc khảo sát.'
+    'feature_3_content' => 'Bằng việc chấp nhận các email gửi đến. Người dùng sẽ có thể trả lời email của bạn. Khuyến khích các mối quan hệ minh bạch hơn trong tổ chức. Khi bạn rời khỏi web, lịch sử thư vẫn còn nguyên vẹn trong email của bạn và bạn có thể truy cập vào liên kết để quản lý cuộc khảo sát.',
+    'vietnamese' => 'Tiếng Việt',
+    'english' => 'Tiếng Anh',
+    'japanese' => 'Tiếng Nhật',
 ];

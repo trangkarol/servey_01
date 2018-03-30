@@ -617,74 +617,6 @@ i {
 }
 
 /**
- * site loader
- * --------------------------------------------------
- */
-.site-loader {
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    position: fixed;
-    z-index: 900;
-    -webkit-box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.35);
-    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.35);
-    background-color: #1080f2;
-}
-
-.site-loader-spinner {
-    -webkit-animation: spinner 0.75s infinite linear;
-    -o-animation: spinner 0.75s infinite linear;
-    animation: spinner 0.75s infinite linear;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 80px;
-    height: 80px;
-    margin-top: -40px;
-    margin-left: -40px;
-    border: 20px solid #fff;
-    border-right-color: transparent;
-    -webkit-border-radius: 50%;
-    border-radius: 50%;
-}
-
-@-webkit-keyframes spinner {
-    0% {
-        -webkit-transform: rotate(0deg);
-        transform: rotate(0deg);
-    }
-    100% {
-        -webkit-transform: rotate(360deg);
-        transform: rotate(360deg);
-    }
-}
-
-@-o-keyframes spinner {
-    0% {
-        -o-transform: rotate(0deg);
-        transform: rotate(0deg);
-    }
-    100% {
-        -o-transform: rotate(360deg);
-        transform: rotate(360deg);
-    }
-}
-
-@keyframes spinner {
-    0% {
-        -webkit-transform: rotate(0deg);
-        -o-transform: rotate(0deg);
-        transform: rotate(0deg);
-    }
-    100% {
-        -webkit-transform: rotate(360deg);
-        -o-transform: rotate(360deg);
-        transform: rotate(360deg);
-    }
-}
-
-/**
  * site background and effect
  * --------------------------------------------------
  */
@@ -931,12 +863,18 @@ i {
 }
 
 #home {
-    padding: 150px 0;
+    padding: 207px 0 117px 0;
+}
+
+@media (min-width: 768px) {
+    #home {
+        padding: 230px 0 120px;
+    }
 }
 
 @media (min-width: 992px) {
     #home {
-        padding: 210px 0;
+        padding: 200px 0 110px 0;
     }
     #home .section-heading {
         max-width: 800px;
@@ -948,6 +886,18 @@ i {
     }
     #home .section-heading p {
         font-size: 18px;
+    }
+}
+
+@media (min-width: 1366px) {
+    #home {
+        padding: 240px 0 170px;
+    }
+}
+
+@media (min-width: 1600px) {
+    #home {
+        padding: 300px 0 250px;
     }
 }
 
@@ -1013,13 +963,6 @@ i {
 .dash_title {
     margin-left: 9px;
 }
-.dropdown-menu li:hover .sub-menu {
-    visibility: visible;
-}
-
-.notifications, .user-dropdown {
-    position: relative;
-}   
 
 .survey-description-slider {
     color: #fff;
@@ -1267,4 +1210,39 @@ i {
 .feature-title-home {
     text-transform: none !important;
     font-family: Arial;
+}
+
+@media (max-width: 768px) {
+    .select-styled {
+        top: 3% !important; 
+    }
+
+    .select-options {
+        top: 135% !important;
+    }
+
+    .user-dropdown {
+        padding-top: 10px !important;
+    }
+
+    .user-dropdown .dropdown-menu {
+        right: 13px !important;
+        top: 75px !important;
+    }
+
+    .navbar-nav a {
+        line-height: 50px !important;
+    }
+
+    .logo {
+        margin-top: 17px !important;
+    }
+
+    .header-wrapper-home .container {
+        max-width: 700px;
+    }
+
+    .header .main-nav .nav .nav-item {
+        margin-right: -8px !important;
+    }
 }
