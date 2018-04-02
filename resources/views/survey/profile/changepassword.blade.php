@@ -1,90 +1,59 @@
-@extends('templates.survey.master')
+@extends('survey.profile.layout')
 
-@section('content')
-    <div class="background-user-profile"></div>
-    <div class="layout-wrapper layout-wrapper-profile">
-        <!--page title-->
-        <section class="fm-page-title title-profile-survey">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h2>
-                            <a href=""><span class="breadcrumb-arrow fa fa-angle-left"></span></a>
-                            @lang('lang.profile')
-                        </h2> 
+@section('content-profile')
+    <div class="container padding-profile">
+        <div class="row">
+            <div class="left-profile col-xl-3 pull-xl-3 col-lg-3 pull-lg-3 col-md-12 col-sm-12 col-xs-12">
+                <div class="ui-block">
+                    <div class="ui-block-title">
+                        <a href="{{ route('survey.profile.show', $user->id) }}"><h6 class="title title-profile">@lang('lang.personal_info')</h6></a>
                     </div>
+                    @if (Auth::user() == $user)
+                        <div class="ui-block-title">
+                            <a href="{{ route('survey.profile.edit', $user->id) }}"><h6 class="title title-profile">@lang('lang.change_info')</h6></a>
+                        </div>
+                        <div class="ui-block-title">
+                            <a href="{{ route('survey.profile.changepassword') }}"><h6 class="title title-profile active">@lang('lang.change_password')</h6></a>
+                        </div>
+                    @endif
                 </div>
             </div>
-        </section>
-        <!--/page title-->
-        <div class="container">
-            <div class="content-wrapper">
-                <!--introduction video-->
-                <div class="form-settings wrapper-profile">
-                    <div class="row no-gutters mt-3">
-                        <div class="col-lg-3">
-                            <!--settings list-->
-                            <ul class="installation-steps list-manage-profile">
-                                <li>
-                                    <a href="{{ route('survey.profile.index') }}" class="installation-link">
-                                        <span class="fa fa-user"></span>@lang('lang.profile')
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('survey.profile.changepassword') }}" class="installation-link active">
-                                        <span class="fa fa-cog"></span>@lang('lang.change_password')
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="col-lg-9">
-                            <div class="card content-card content-update-profile">
-                                <div class="card-header">
-                                    <div class="row">
-                                        <div class="col-lg-5">
-                                            <h5>@lang('lang.change_password')</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-body mt-3 mb-3">
-
-                                    @include('survey.profile.notice')
-                                    
-                                    {!! Form::open(['class' => 'install-form']) !!}
-                                        <div class="form-group row">
-                                            {!! Form::label('oldpassword', trans('lang.old_password'), ['class' => 'col-sm-3 col-form-label']) !!}
-                                            <div class="col-sm-7">
-                                                {!! Form::password('oldpassword', ['class' => 'form-control', 'required']) !!}
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            {!! Form::label('newpassword', trans('lang.new_password'), ['class' => 'col-sm-3 col-form-label']) !!}
-                                            <div class="col-sm-7">
-                                                {!! Form::password('newpassword', ['class' => 'form-control', 'required']) !!}
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            {!! Form::label('retypepassword', trans('lang.re_type_password'), ['class' => 'col-sm-3 col-form-label']) !!}
-                                            <div class="col-sm-7">
-                                                {!! Form::password('retypepassword', ['class' => 'form-control', 'required']) !!}
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <div class="col-sm-3"></div>
-                                            <div class="col-sm-7">
-                                                <div class="align-btn">
-                                                    {!! Form::button(trans('lang.update'), ['type' => 'submit', 'class' => 'btn btn-round btn-sm btn-secondary']) !!}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    {!! Form::close() !!}
+            <div class="right-profile col-xl-9 push-xl-9 col-lg-9 push-lg-9 col-md-12 col-sm-12 col-xs-12">
+                <div class="ui-block">
+                    <div class="ui-block-title">
+                        <h6 class="title title-top">@lang('lang.change_password')</h6>
+                    </div>
+                    <div class="ui-block-content">
+                        {!! Form::open(['class' => 'install-form', 'route' => 'survey.profile.changepassword', 'method' => 'post']) !!}
+                            <div class="form-group row">
+                                {!! Form::label('oldpassword', trans('lang.old_password'), ['class' => 'col-sm-3 col-form-label-profile']) !!}
+                                <div class="col-sm-7">
+                                    {!! Form::password('oldpassword', ['class' => 'form-control', 'required']) !!}
                                 </div>
                             </div>
-                        </div>
+                            <div class="form-group row">
+                                {!! Form::label('newpassword', trans('lang.new_password'), ['class' => 'col-sm-3 col-form-label-profile']) !!}
+                                <div class="col-sm-7">
+                                    {!! Form::password('newpassword', ['class' => 'form-control', 'required']) !!}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                {!! Form::label('retypepassword', trans('lang.re_type_password'), ['class' => 'col-sm-3 col-form-label-profile']) !!}
+                                <div class="col-sm-7">
+                                    {!! Form::password('retypepassword', ['class' => 'form-control', 'required']) !!}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="btn-submit-profile">
+                                    <div class="align-btn">
+                                        {!! Form::button(trans('lang.update'), ['type' => 'submit', 'class' => 'btn btn-round btn-sm btn-secondary']) !!}
+                                    </div>
+                                </div>
+                            </div>
+                        {!! Form::close() !!}
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Container wrapper -->
     </div>
 @endsection

@@ -36,4 +36,5 @@ elixir(function(mix) {
         .copy('resources/assets/templates/survey/js', 'public/templates/survey/js')
         .copy('resources/assets/templates/survey/images', 'public/templates/survey/images')
         .version(['public/templates/survey/css/*.css', 'public/templates/survey/js/*.js']);
+        .copy('resources/assets/templates/survey/fonts', 'public/templates/survey/fonts');
 });

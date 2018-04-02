@@ -12,6 +12,7 @@ use Hash;
 use Exception;
 use App\Http\Requests\Survey\ChangePassWordRequest;
 use App\Http\Requests\Survey\ProfileRequest;
+use File;
 
 class ProfileController extends Controller
 {
@@ -30,10 +31,11 @@ class ProfileController extends Controller
     {
         try {
             $user = Auth::user();
+            Session::put('page_profile_active', config('settings.page_profile_active.information'));
 
             return view('survey.profile.index', compact('user'));
         } catch (Exception $e) {
-            return view('404');
+            return view('templates.404');
         }
     }
 
@@ -71,7 +73,7 @@ class ProfileController extends Controller
 
             return view('survey.profile.index', compact('user'));
         } catch (Exception $e) {
-            return view('404');
+            return view('templates.404');
         }
     }
 
@@ -83,7 +85,14 @@ class ProfileController extends Controller
      */
     public function edit($id)
     {
-        //
+        try {
+            $user = $this->userRepository->find($id);
+            $this->authorize('update', $user);
+            
+            return view('survey.profile.setting', compact('user'));
+        } catch (Exception $e) {
+            return view('templates.404');
+        }
     }
 
     /**
@@ -96,6 +105,8 @@ class ProfileController extends Controller
     public function update(ProfileRequest $request, $id)
     {
         try {
+            $user = $this->userRepository->find($id);
+            $this->authorize('update', $user);
             $updateData = $request->only([
                 'name',
                 'phone',
@@ -104,19 +115,13 @@ class ProfileController extends Controller
             ]);
             $birthday = $request->birthday;
 
-            if (Session::get('locale') != 'vn') {
-                $birthday = str_replace('-', '/', $birthday);
+            if (Session::get('locale') == config('settings.vn')) {
+                $birthday = str_replace('/', '-', $birthday);
             }
 
             $updateData['birthday'] = Carbon::parse($birthday)->toDateString();
 
-            if ($request->image != '') {
-                $image = $this->userRepository->find($id)->image;
-                $updateData['image'] = $this->userRepository->
-                    uploadAvatar($request, 'image', $image);
-            }
-
-            $user = $this->userRepository->update($id, $updateData);
+            $this->userRepository->update($id, $updateData);
 
             return redirect()->back()->with('success', trans('lang.edit_success'));
         } catch (Exception $e) {
@@ -137,7 +142,13 @@ class ProfileController extends Controller
 
     public function showChangePassword()
     {
-        return view('survey.profile.changepassword');
+        try {
+            $user = Auth::user();
+
+            return view('survey.profile.changepassword', compact('user'));
+        } catch (Exception $e) {
+            return view('templates.404');
+        }
     }
 
     public function changePassword(ChangePassWordRequest $request)
@@ -147,21 +158,55 @@ class ProfileController extends Controller
 
             if (!Hash::check($request->oldpassword, $user->password)) {
                 $error = trans('lang.password_wrong');
-                throw new Exception();
+                throw new Exception('Old password wrong');
             }
 
             if ($request->newpassword != $request->retypepassword) {
                 $error = trans('lang.password_confirm_wrong');
-                throw new Exception();
+                throw new Exception('Password confirm wrong!');
             }
 
-            $data['password'] = $request->newpassword;
-            $user->update($data);
+            $updateData['password'] = $request->newpassword;
+            $this->userRepository->updateUser($user, $updateData);
             Session::flash('success', trans('lang.edit_success'));
         } catch (Exception $e) {
+            if (!isset($error)) {
+                $error = trans('lang.edit_error');
+            }
+
             Session::flash('error', $error);
         }
 
         return redirect()->back();
+    }
+
+    public function changeAvatar(Request $request) {
+        try {
+            $user = Auth::user();
+            $updateData['image'] = $this->userRepository->uploadAvatar($request, 'image', $user->image);
+
+            $this->userRepository->updateUser($user, $updateData);
+
+            return redirect()->back()->with('success', trans('lang.edit_success'));
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', trans('lang.edit_error'));
+        }
+    }
+
+    public function deleteAvatar() {
+        try {
+            $user = Auth::user();
+            $pathFile = $user->image;
+
+            if (File::exists(public_path($pathFile)) && $pathFile != config('settings.image_user_default')) {
+                File::delete(public_path($pathFile));
+            }
+
+            $user = $this->userRepository->updateUser($user, ['image' => '']);
+
+            return redirect()->back()->with('success', trans('lang.edit_success'));
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', trans('lang.edit_error'));
+        }
     }
 }

@@ -27,7 +27,7 @@ class ProfileRequest extends FormRequest
             'name' => 'required',
             'phone' => 'numeric',
             'gender' => 'required',
-            'birthday' => 'date',
+            'birthday' => 'date_format:' . trans('lang.date_format'),
         ];
     }
 }

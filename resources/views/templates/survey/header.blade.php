@@ -132,7 +132,7 @@
                                                 {{ Html::link('#', trans('lang.my_surveys'), ['class' => 'dropdown-item']) }}
                                             </li>
                                             <li>
-                                                {{ Html::link('#', trans('lang.settings'), ['class' => 'dropdown-item']) }}
+                                                {{ Html::link(route('survey.profile.index'), trans('lang.profile'), ['class' => 'dropdown-item']) }}
                                             </li>
                                             <li>
                                                 {{ Html::link(route('logout'), trans('lang.logout'), ['class' => 'dropdown-item']) }}

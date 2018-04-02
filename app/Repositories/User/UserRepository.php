@@ -8,6 +8,8 @@ use Exception;
 use App\Repositories\BaseRepository;
 use App\Models\User;
 use File;
+use Session;
+use Carbon\Carbon;
 
 class UserRepository extends BaseRepository implements UserInterface
 {
@@ -56,5 +58,10 @@ class UserRepository extends BaseRepository implements UserInterface
             ->take(config('survey.get_top_mail_suggestion'))
             ->get()
             ->pluck('email');
+    }
+
+    public function updateUser($user, $updateData)
+    {
+        return $user->update($updateData);
     }
 }

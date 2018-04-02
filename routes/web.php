@@ -182,6 +182,14 @@ Route::group(['namespace' => 'Survey'], function () {
         'uses' => 'ProfileController@changePassword',
         'as' => 'survey.profile.changepassword',
     ]);
+    Route::post('change-avatar', [
+        'uses' => 'ProfileController@changeAvatar',
+        'as' => 'survey.profile.changeavatar',
+    ]);
+    Route::get('delete-avatar', [
+        'uses' => 'ProfileController@deleteAvatar',
+        'as' => 'survey.profile.deleteavatar',
+    ]);
 });
 
 Route::group(['namespace' => 'Auth'], function () {

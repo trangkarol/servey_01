@@ -37,6 +37,8 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    protected $appends = ['gender_custom'];
+
     public function likes()
     {
         return $this->hasMany(Like::class);
@@ -160,6 +162,19 @@ class User extends Authenticatable
     {
         return $this->attributes['birthday']
             ? Carbon::parse($this->attributes['birthday'])->format(trans('lang.date_format')) : null;
+    }
+
+    public function getGenderCustomAttribute()
+    {
+        if ($this->gender == config('users.gender.male')) {
+            return trans('lang.male');
+        }
+
+        if ($this->gender == config('users.gender.female')) {
+            return trans('lang.female');
+        }
+
+        return trans('lang.other');;
     }
 
     public function checkLoginWsm()

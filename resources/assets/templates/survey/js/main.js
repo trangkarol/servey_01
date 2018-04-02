@@ -16,18 +16,28 @@
 
         return false;
     });
+    
+    $('#upload-avatar').change(function(e) {
+        $('.browse-your-computer').css('display', 'none');
+        $('.name-picture-profile').text($('#upload-avatar').val().split('\\').pop());
+        $('.submit-image-profile').show(300);
+    });
 
     if ($('.datepicker').length) {
-        $('.datepicker').datepicker();
-    }
-    
-    if ($('.datepicker-embed').length) {
-        $('.datepicker-embed').datepicker({
-            todayHighlight: true
+        var id = $('.calendar').attr('id');
+        var locale = 'mm/dd/yyyy';
+
+        if (id == 'vn') {
+            locale = 'dd/mm/yyyy';
+        }
+        
+        $('.datepicker').datepicker({
+            format: locale,
         });
     }
 
     $('.alert-message').delay(3000).slideUp(300);
+
     $('.counter').each(function() {
         var $this = $(this);
         var countTo = $this.attr('data-count');

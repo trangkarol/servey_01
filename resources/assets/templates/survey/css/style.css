@@ -4119,7 +4119,7 @@ Dashboard
     height: 100%;
     width: 100%;
     background-repeat: repeat-y;
-    background-image: url('../images/background_profile.jpg');
+    background-image: url('/templates/survey/images/background_profile.jpg');
 }
 
 .alert-error-profile {

@@ -98,4 +98,25 @@ return [
     'end_time__placeholder' => 'Thời gian kết thúc khảo sát',
     'description' => 'Mô tả',
     'description_placeholder' => 'Mô tả cho khảo sát này',
+
+    /*
+    | Profile Create Page
+    */
+
+    'information' => 'Thông tin',
+    'list_survey' => 'Danh sách survey',
+    'update_profile_photo' => 'Cập nhật ảnh đại diện',
+    'account_settings' => 'Cài đặt tài khoản',
+    'personal_info' => 'Thông tin cá nhân',
+    'create_survey' => 'Tạo survey',
+    'upload_photo' => 'Tải ảnh lên',
+    'browse_your_computer' => 'Duyệt máy tính của bạn.',
+    'change_info' => 'Thay đổi thông tin',
+    'delete_avatar' => 'Xóa hình đại điện',
+    '404' => '404',
+    'error' => 'Lỗi',
+    '404_message' => 'Trang bạn tìm kiếm không tồn tại.',
+    'go_home' => 'Trở về trang chủ',
+    'use_the_default_avatar' => 'Sử dụng hình đại diện mặc định',
+    'are_you_sure_want_to_delete' => 'Bạn có chắc muốn xóa?',
 ];
