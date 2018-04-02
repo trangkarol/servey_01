@@ -85,4 +85,17 @@ return [
     'vietnamese' => 'Tiếng Việt',
     'english' => 'Tiếng Anh',
     'japanese' => 'Tiếng Nhật',
+
+    /*
+    | Survey Create Page
+    */
+
+    'create_survey' => 'Tạo khảo sát',
+    'title' => 'Tiêu đề',
+    'title_placeholder' => 'Tiêu đề khảo sát',
+    'time' => 'Thời gian',
+    'start_time__placeholder' => 'Thời gian bắt đầu khảo sát',
+    'end_time__placeholder' => 'Thời gian kết thúc khảo sát',
+    'description' => 'Mô tả',
+    'description_placeholder' => 'Mô tả cho khảo sát này',
 ];

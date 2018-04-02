@@ -85,4 +85,17 @@ return [
     'vietnamese' => 'Vietnamese',
     'english' => 'English',
     'japanese' => 'Japanese',
+
+    /*
+    | Survey Create Page
+    */
+
+    'create_survey' => 'Create Survey',
+    'title' => 'Title',
+    'title_placeholder' => 'Title',
+    'time' => 'Time',
+    'start_time__placeholder' => 'Time to start the survey',
+    'end_time__placeholder' => 'Time to finish the survey',
+    'description' => 'Description',
+    'description_placeholder' => 'Description for this survey',
 ];

@@ -1,6 +1,7 @@
 @extends('templates.survey.master')
 @push('styles')
     {!! Html::style(asset(config('settings.plugins') . 'js-offcanvas/js-offcanvas.css')) !!}
+    {!! Html::style(asset(config('settings.plugins') . 'tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.css')) !!}
     {!! Html::style(asset(config('settings.plugins') . 'metismenu/metisMenu.min.css')) !!}
     {!! Html::style(asset(config('settings.public_template') . 'css/fontsv2/fonts-v2.css')) !!}
     {!! Html::style(elixir(config('settings.public_template') . 'css/form-builder-custom.css')) !!}
@@ -33,6 +34,54 @@
                     </div>
                 </div>
                 <!-- /Scroll buttons -->
+                <ul class="clearfix form-wrapper">
+                    <li class="form-line p-0">
+                        <div class="form-header">
+                            <h1>@lang('lang.create_survey')</h1>
+                        </div>
+                    </li>
+                    <li class="form-line">
+                        <label>@lang('lang.title')</label>
+                        <div class="form-group">
+                            {!! Form::textarea('title', '', [
+                                'class' => 'form-control input-area auto-resize',
+                                'data-autoresize',
+                                'placeholder' => trans('lang.title_placeholder'),
+                                'rows' => 1
+                            ]) !!}
+                        </div>
+                        <label>@lang('lang.time')</label>
+                        <div class="form-group form-row">
+                            <div class="col">
+                                {!! Form::text('start_time', '', [
+                                    'class' => 'form-control datetimepicker-input',
+                                    'id' => 'start-time',
+                                    'data-toggle' => 'datetimepicker',
+                                    'data-target' => '#start-time',
+                                    'placeholder' => trans('lang.start_time__placeholder'),
+                                ]) !!}
+                            </div>
+                            <div class="col">
+                                {!! Form::text('end_time', '', [
+                                    'class' => 'form-control datetimepicker-input',
+                                    'id' => 'end-time',
+                                    'data-toggle' => 'datetimepicker',
+                                    'data-target' => '#end-time',
+                                    'placeholder' => trans('lang.end_time__placeholder'),
+                                ]) !!}
+                            </div>
+                        </div>
+                        <label>@lang('lang.description')</label>
+                        <div class="form-group">
+                            {!! Form::textarea('description', '', [
+                                'class' => 'form-control auto-resize',
+                                'data-autoresize',
+                                'placeholder' => trans('lang.description_placeholder'),
+                                'rows' => 3
+                            ]) !!}
+                        </div>
+                    </li>
+                </ul>
                 <ul class="clearfix form-wrapper page-section" id="sortable1">
                     <li class="form-line p-0 no-sort sortable-first">
                         <div class="form-line-actions remove-element"><i class="fa fa-close"></i></div>
@@ -41,7 +90,7 @@
                             <h4>@lang('lang.survey')</h4>
                         </div>
                     </li>
-                    <li class="form-line">
+                    <li class="form-line sort">
                         <div class="form-line-actions remove-element"><i class="fa fa-close"></i></div>
                         <div class="form-row">
                             <div class="col">
@@ -60,6 +109,7 @@
     {!! Html::script(asset(config('settings.plugins') . 'jquery-ui/jquery-ui.min.js')) !!}
     {!! Html::script(asset(config('settings.public_template') . 'js/popper.min.js')) !!}
     {!! Html::script(asset(config('settings.public_template') . 'js/modernizr.js')) !!}
+    {!! Html::script(asset(config('settings.plugins') . 'tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.js')) !!}
     <!-- Custom Script -->
     {!! Html::script(asset(config('settings.plugins') . 'metismenu/metisMenu.min.js')) !!}
     {!! Html::script(asset(config('settings.plugins') . 'jquery-menu-aim/jquery.menu-aim.js')) !!}

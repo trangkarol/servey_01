@@ -686,7 +686,7 @@ small.form-text{font-size: 12px;}
 .btn-radius{border-radius: 5px;}
 .switch input {display:none;}
 .form-header{
-    background-color:  #1875f0;
+    background-color:  #70c4e0;
     box-shadow: 0px 10px 25px 0px rgba(0, 0, 0, 0.07);
    padding: 20px 35px;text-align: center;border-radius: 5px 5px 0 0;
 }
@@ -949,4 +949,66 @@ Scroll buttons
 .survey-action .btn {
     box-shadow: 0 0;
     border: 1px solid;
+}
+
+
+@media (max-width: 768px) {
+    .scroll-button-group-sidebar .button-group-sidebar {
+        position: fixed;
+        border-radius: 0px;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        text-align: center;
+        padding: 2px;
+        margin-right: 0px;
+    }
+
+    .scroll-button-group-sidebar .button-group-sidebar .survey-action {
+        display: inline;
+    }
+}
+
+/* Fix datetimepicker dropdown table */
+
+.bootstrap-datetimepicker-widget.dropdown-menu .table thead th,
+.bootstrap-datetimepicker-widget.dropdown-menu .table tfoot th {
+    font-size: 14px;
+    font-weight: 500;
+    padding: 0px;
+}
+
+@media(min-width:1300px) {
+    .bootstrap-datetimepicker-widget.dropdown-menu .table td,
+    .bootstrap-datetimepicker-widget.dropdown-menu .table th {
+        padding: 5px;
+    }
+}
+
+.bootstrap-datetimepicker-widget.dropdown-menu .btn-primary {
+    background-color: #007bff;
+}
+
+.bootstrap-datetimepicker-widget.dropdown-menu .btn-primary:hover {
+    background-color: #0069d9;
+    border-color: #0062cc;
+}
+
+.bootstrap-datetimepicker-widget.dropdown-menu a.btn {
+    box-shadow: 0 0;
+}
+
+.bootstrap-datetimepicker-widget.dropdown-menu button.btn {
+    box-shadow: 0 0;
+    border-radius: .25rem;
+}
+
+.bootstrap-datetimepicker-widget.dropdown-menu a .fa {
+    margin: 0;
+    color: #4786ff;
+}
+
+/* textarea */
+.input-area {
+    padding: 10px 0px 10px 10px;
 }

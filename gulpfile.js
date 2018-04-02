@@ -29,7 +29,11 @@ elixir(function(mix) {
         .copy('node_modules/metismenu/dist/metisMenu.min.css', 'public/plugins/metismenu')
         .copy('node_modules/metismenu/dist/metisMenu.min.js', 'public/plugins/metismenu')
         .copy('node_modules/jquery-ui-dist', 'public/plugins/jquery-ui')
+        .copy('node_modules/tempusdominus-bootstrap-4/build/css/tempusdominus-bootstrap-4.min.css', 'public/plugins/tempusdominus-bootstrap-4')
+        .copy('node_modules/tempusdominus-bootstrap-4/build/js/tempusdominus-bootstrap-4.min.js', 'public/plugins/tempusdominus-bootstrap-4')
+        .copy('node_modules/moment/min/moment-with-locales.min.js', 'public/plugins/moment')
         .copy('resources/assets/templates/survey/css', 'public/templates/survey/css')
         .copy('resources/assets/templates/survey/js', 'public/templates/survey/js')
-        .copy('resources/assets/templates/survey/images', 'public/templates/survey/images');
+        .copy('resources/assets/templates/survey/images', 'public/templates/survey/images')
+        .version(['public/templates/survey/css/*.css', 'public/templates/survey/js/*.js']);
 });
