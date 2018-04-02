@@ -6,6 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Carbon\Carbon;
 use File;
+use App\Notifications\ResetPasswordNotification;
 
 class User extends Authenticatable
 {
@@ -180,5 +181,10 @@ class User extends Authenticatable
     public function checkLoginWsm()
     {
         return $this->socialAccounts()->where('provider', SocialAccount::PROVIDER_FRAMGIA)->first();
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPasswordNotification($token));
     }
 }

@@ -105,7 +105,7 @@ return [
         'github_company' => 'https://github.com/framgia',
         'linkedin_company' => 'https://www.linkedin.com/company/framgia-vietnam',
         'tools_company' => 'http://wsm.framgia.vn/all-tools',
-        'hr_email_company' => 'hr_team@framgia.com', 
+        'hr_email_company' => 'hr_team@framgia.com',
     ],
     'public_template' => '/templates/survey/',
     'plugins' => '/plugins/',
@@ -122,4 +122,5 @@ return [
         'list_survey' => '2',
     ],
     'vn' => 'vn',
+    'fsurvey' => 'FSurvey',
 ];

@@ -11,4 +11,6 @@ interface UserInterface
     public function findEmail($keyword);
 
     public function updateUser($request, $user);
+    
+    public function checkEmailExist($email);
 }

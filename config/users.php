@@ -23,4 +23,6 @@ return [
     'undentified_email' => 'Undentified email',
     'register_success' => true,
     'register_fail' => false,
+    'email_user_not_exist' => true,
+    'send_mail_reset_password_success' => true,
 ];
