@@ -170,7 +170,7 @@
 
 Route::get('/', 'SurveyController@index')->name('home');
 
-Route::group(['namespace' => 'Survey'], function () {
+Route::group(['namespace' => 'Survey', 'middleware' => 'profile'], function () {
     Route::resource('profile', 'ProfileController', [
         'as' => 'survey',
     ]);
