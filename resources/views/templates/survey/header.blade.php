@@ -42,6 +42,22 @@
                                 <li class="nav-item">
                                     {{ Html::link('#', trans('lang.feedback'), ['class' => 'nav-link']) }}
                                 </li>
+                                @if (!Auth::guard()->check())
+                                    <li class="nav-item">
+                                        {{ Html::link('#', trans('lang.login'), [
+                                            'class' => 'nav-link',
+                                            'data-toggle' => 'modal',
+                                            'data-target' => '#modalLogin',
+                                        ]) }}
+                                    </li>
+                                    <li class="nav-item">
+                                        {{ Html::link('#', trans('lang.register'), [
+                                            'class' => 'nav-link',
+                                            'data-toggle' => 'modal',
+                                            'data-target' => '#modalRegister'
+                                        ]) }}
+                                    </li>
+                                @endif
                                 <li class="nav-item">
                                     <div class=" select">
                                         <input type="hidden" name="language" value="vn" id="language">
@@ -65,22 +81,7 @@
                                         </ul>
                                     </div>
                                 </li>
-                                @if (!Auth::guard()->check())
-                                    <li class="nav-item">
-                                        {{ Html::link('#', trans('lang.login'), [
-                                            'class' => 'nav-link',
-                                            'data-toggle' => 'modal',
-                                            'data-target' => '#modalLogin',
-                                        ]) }}
-                                    </li>
-                                    <li class="nav-item">
-                                        {{ Html::link('#', trans('lang.register'), [
-                                            'class' => 'nav-link',
-                                            'data-toggle' => 'modal',
-                                            'data-target' => '#modalRegister'
-                                        ]) }}
-                                    </li>
-                                @else
+                                @if (Auth::guard()->check())
                                     <li class="nav-item notifications" style="display: none;">
                                         <a class="nav-link dropdown-toggle" href="#" id="navNotifications"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

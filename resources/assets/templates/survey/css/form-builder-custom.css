@@ -1012,3 +1012,321 @@ Scroll buttons
 .input-area {
     padding: 10px 0px 10px 10px;
 }
+
+/*short-long answer*/
+.question-image-btn {
+    font-size: 23px;
+    opacity: 0.5;
+    color: #333;
+    margin-left: 5px;
+    line-height: 43px;
+}
+
+.question-image-btn:hover {
+    color: #333;
+    opacity: 0.8;
+}
+
+.survey-select {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    font-size: 14px;
+    color: #333;
+    width: 100%;
+    height: 40px;
+}
+
+.survey-select-styled {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 8px 11px;
+    -moz-transition: all 0.2s ease-in;
+    -o-transition: all 0.2s ease-in;
+    -webkit-transition: all 0.2s ease-in;
+    transition: all 0.2s ease-in;
+    border: 2px solid rgba(48, 56, 67, 0);
+    text-transform: none !important;
+    text-align: left;
+    background-color: #f1f1f1;
+    border-radius: 4px !important;
+    margin-top: 2px;
+}
+.survey-select-styled:after {
+    content: "";
+    width: 0;
+    height: 0;
+    border: 7px solid transparent;
+    border-color: #333 transparent transparent transparent;
+    position: absolute;
+    top: 14px;
+    right: 15px;
+    opacity: 0.5;
+}
+.survey-select-styled:hover {
+    background-color: #e6e6e6;
+}
+
+.survey-select-styled:active:after, .survey-select-styled.active:after {
+    top: 6px;
+    border-color: transparent transparent #333 transparent;
+}
+
+.survey-select-options {
+    display: none;
+    position: absolute;
+    top: -35%;
+    right: 0;
+    left: 0;
+    z-index: 999;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    background-color: #fff;
+    box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 
+        0 3px 14px 2px rgba(0, 0, 0, 0.12),
+        0 5px 5px -3px rgba(0, 0, 0, 0.2);
+
+}
+.survey-select-options li {
+    margin: 0;
+    padding: 10px 2px;
+    text-indent: 15px;
+    -moz-transition: all 0.15s ease-in;
+    -o-transition: all 0.15s ease-in;
+    -webkit-transition: all 0.15s ease-in;
+    transition: all 0.15s ease-in;
+    text-transform: none !important;
+    text-align: left;
+}
+.survey-select-options li:hover {
+    background: #eeeeef;
+}
+
+.answer-show-input {
+    padding: 10px 0 !important;
+    border-bottom: 1px dotted #333;
+    margin-left: 19px;
+    margin-bottom: 13px;
+    opacity: 0.7;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+.answer-block input {
+    margin-bottom: 10px;
+}
+
+.question-action-group {
+    margin: 30px 0 0 0;
+    border-top: 1px solid #e0e0e0;
+    padding-top: 15px;
+    width: 100%;
+    text-align: right;
+}
+
+.question-survey-btn {
+    width: 100%;
+}
+
+.question-survey-btn a {
+    display: inline-block;
+    font-size: 23px;
+    margin-right: 20px;
+    color: #333;
+    opacity: 0.7;
+}
+
+.question-survey-btn a:hover {
+    opacity: 1;
+}
+
+.question-survey-btn p {
+    display: inline-block;
+    font-size: 16px;
+    margin-bottom: 0 !important;
+    border-left: 1px solid #e0e0e0;
+    height: 100%;
+    padding: 5px 10px 5px 20px;
+    line-height: 25px;
+    color: #505050;
+}
+
+@media (min-width: 360px) {
+    .question-survey-btn a {
+        margin-right: 15px !important;
+    }
+}
+                            
+.question-required-checkbox {
+    position: relative;
+    display: block;
+    float: right;
+    width: 70px;
+    height: 26px;
+    margin-top: 5px;
+    text-align: right;
+}
+
+.question-required-checkbox label {
+    cursor: pointer;
+    color: rgba(0, 0, 0, 0.26);
+    user-select: none;
+    display: inline-block;
+    margin-bottom: .5rem;
+}
+
+.question-required-checkbox  label .toggle {
+    content: "";
+    display: inline-block;
+    width: 66px;
+    height: 30px;
+    background-color: rgba(80, 80, 80, 0.7);
+    border-radius: 15px;
+    margin-right: 0;
+    transition: background 0.5s ease;
+    vertical-align: middle;
+}
+
+.question-required-checkbox  label .toggle:after {
+    content: "";
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    line-height: 26px;
+    background-color: #FFFFFF;
+    border-radius: 20px;
+    position: relative;
+    left: -38px;
+    top: 3px;
+}
+
+.question-required-checkbox .ripple {
+    display: inline-block;
+    content: "";
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    line-height: 26px;
+    background-color: #47e613;
+    opacity: 0;
+    border-radius: 20px;
+    position: relative;
+    left: -14px;
+    top: 3px;
+    z-index: 1000;
+}
+
+.question-required-checkbox .ripple:active {
+    -webkit-animation: rippleRequired 0.5s linear;
+    -moz-animation: rippleRequired 0.5s linear;
+    -ms-animation: rippleRequired 0.5s linear;
+    -o-animation: rippleRequired 0.5s linear;
+    animation: rippleRequired 0.5s linear;
+}
+
+.question-required-checkbox .toggle.active .ripple {
+    left: 20px; 
+    background-color: #ddd;
+}
+
+.question-required-checkbox label input {
+    display: none;
+}
+
+.question-required-checkbox .toggle.active {
+    background-color: #36c308;
+}
+
+.question-required-checkbox .toggle.active:after {
+    left: -4px;
+}        
+
+.question-image-block, .question-dropdown-block, .question-action-group {
+    display: none;
+}
+
+.question-active .question-image-block {
+    display: block !important;
+}
+
+.question-active .question-dropdown-block {
+    display: block !important;
+}
+
+.question-active .question-action-group {
+    display: block !important;
+}
+
+.question-input.active {
+    pointer-events: none;
+    border: none;
+    padding: 0 11px;
+    font-size: 20px;
+    color: #666666;
+    margin-bottom: 0 !important;
+}
+
+.question-input.active::-webkit-input-placeholder {
+    opacity: 1 !important;
+    color: #666666 !important;
+}
+ 
+.question-input.active:::-moz-placeholder {
+    opacity: 1 !important;
+    color: #666666 !important;
+}
+ 
+.question-input.active::::-moz-placeholder {
+    opacity: 1 !important;
+    color: #666666 !important;
+}
+ 
+.question-input.active:::-ms-input-placeholder {  
+    opacity: 1 !important;
+    color: #333 !important;
+}
+
+@keyframes rippleRequired {
+    0% {
+        -webkit-transform: scale(1);
+        -moz-transform: scale(1);
+        -ms-transform: scale(1);
+        -o-transform: scale(1);
+        transform: scale(1);
+        -webkit-transform: scale(1);
+        -moz-transform: scale(1);
+        -ms-transform: scale(1);
+        -o-transform: scale(1);
+        transform: scale(1);
+        -webkit-opacity: 0.8;
+        -moz-opacity: 0.8;
+        -ms-opacity: 0.8;
+        -o-opacity: 0.8;
+        opacity: 0.8;
+        filter: alpha(opacity=80);
+
+    }
+
+    100% {
+        -webkit-transform: scale(2.5);
+        -moz-transform: scale(2.5);
+        -ms-transform: scale(2.5);
+        -o-transform: scale(2.5);
+        transform: scale(2.5);
+        -webkit-transform: scale(2.5);
+        -moz-transform: scale(2.5);
+        -ms-transform: scale(2.5);
+        -o-transform: scale(2.5);
+        transform: scale(2.5);
+        -webkit-opacity: 0;
+        -moz-opacity: 0;
+        -ms-opacity: 0;
+        -o-opacity: 0;
+        opacity: 0;
+        filter: alpha(opacity=0);
+    }
+}

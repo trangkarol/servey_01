@@ -103,6 +103,12 @@ return [
     'end_time__placeholder' => 'Thời gian kết thúc khảo sát',
     'description' => 'Mô tả',
     'description_placeholder' => 'Mô tả cho khảo sát này',
+    'question' => 'Câu hỏi',
+    'short_answer' => 'Trả lời ngắn',
+    'short_answer_text' => 'Văn bản trả lời ngắn',
+    'long_answer_text' => 'Văn bản trả lời dài',
+    'paragraph' => 'Đoạn',
+    'required' => 'Bắt buộc',
 
     /*
     | Profile Create Page

@@ -103,6 +103,12 @@ return [
     'end_time__placeholder' => 'Time to finish the survey',
     'description' => 'Description',
     'description_placeholder' => 'Description for this survey',
+    'question' => 'Question',
+    'short_answer' => 'Short answer',
+    'short_answer_text' => 'Short answer text',
+    'long_answer_text' => 'Long answer text',
+    'paragraph' => 'Paragraph',
+    'required' => 'Required',
 
     /*
     | Profile Create Page
