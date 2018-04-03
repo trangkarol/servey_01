@@ -194,6 +194,14 @@ Route::group(['namespace' => 'Survey', 'middleware' => 'profile'], function () {
         'uses' => 'ProfileController@deleteAvatar',
         'as' => 'survey.profile.deleteavatar',
     ]);
+    Route::get('list-survey', [
+        'as' => 'survey.survey.show-surveys',
+        'uses' => 'SurveyManagementController@showSurveys',
+    ]);
+    Route::get('list-survey-data', [
+        'as' => 'survey.survey.get-surveys',
+        'uses' => 'SurveyManagementController@getSurveys',
+    ]);
 });
 
 Route::group(['namespace' => 'Auth'], function () {

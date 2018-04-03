@@ -132,4 +132,38 @@ return [
     'use_the_default_avatar' => 'Use the default avatar',
     'are_you_sure_want_to_delete' => 'Are you sure want to delete?',
 
+    /*
+        Manage survey
+    */
+        
+    'open' => 'Survey is opening',
+    'closed' => 'Survey closed',
+    'name_survey' => 'Name survey',
+    'status' => 'Status',
+    'date_created' => 'Date created',
+    'index' => 'Index',
+    'share' => 'Share',
+
+    /*
+        Datatables
+    */
+        
+    'sEmptyTable' => 'テーブルにデータがありません',
+    'sInfo' => ' _TOTAL_ 件中 _START_ から _END_ まで表示',
+    'sInfoEmpty' => ' 0 件中 0 から 0 まで表示',
+    'sInfoFiltered' => '（全 _MAX_ 件より抽出）',
+    'sInfoPostFix' => '',
+    'sInfoThousands' => ',',
+    'sLengthMenu' => '_MENU_ 件表示',
+    'sLoadingRecords' => '読み込み中...',
+    'sProcessing' => '処理中...',
+    'sSearch' => '検索:',
+    'sZeroRecords' => '一致するレコードがありません',
+    'sFirst' => '先頭',
+    'sLast' => '最終',
+    'sNext' => '次',
+    'sPrevious' => '前',
+    'sSortAscending' =>  ': 列を昇順に並べ替えるにはアクティブにする',
+    'sSortDescending' => ': 列を降順に並べ替えるにはアクティブにする',
+    'searchPlaceholder' => 'サーチ...',
 ];

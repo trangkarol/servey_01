@@ -12,6 +12,7 @@ use App\Repositories\BaseRepository;
 use App\Models\Question;
 use Carbon\Carbon;
 use App\Models\Survey;
+use Auth;
 
 class SurveyRepository extends BaseRepository implements SurveyInterface
 {
@@ -496,5 +497,10 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
     public function getSurveysByStatus($status)
     {
         return $this->model->where('status', $status);
+    }
+
+    public function getAuthSurveys()
+    {
+        return Auth::user()->surveys();
     }
 }

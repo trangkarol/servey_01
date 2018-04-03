@@ -22,6 +22,10 @@ class Survey extends Model
         'update',
     ];
 
+    protected $appends = [
+        'status_custom',
+    ];
+
     public function invites()
     {
         return $this->hasMany(Invite::class);
@@ -64,13 +68,23 @@ class Survey extends Model
         return (empty($this->attributes['deadline']) || Carbon::parse($this->attributes['deadline'])->gt(Carbon::now()));
     }
 
-    public function getSubTitleAttribute()
+    public function getTitleAttribute()
     {
-        return str_limit($this->attributes['title'], config('settings.title_length_default'));
+        return ucwords(str_limit($this->attributes['title'], config('settings.title_length_default')));
     }
 
     public function getIsExpiredAttribute()
     {
         return empty($this->attributes['deadline']) ? false : $this->attributes['deadline'] <= Carbon::now()->toDateTimeString();
+    }
+
+    public function getStatusCustomAttribute()
+    {
+        return $this->attributes['status'] ? trans('lang.open') : trans('lang.closed');
+    }
+
+    public function getCreatedAtAttribute()
+    {
+        return Carbon::parse($this->attributes['created_at'])->format(trans('lang.date_format'));
     }
 }

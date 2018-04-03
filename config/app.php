@@ -189,6 +189,7 @@ return [
         Torann\DatabaseBackup\DatabaseBackupServiceProvider::class,
         Framgia\Education\Auth\FramgiaAuthServiceProvider::class,
         Mariuzzo\LaravelJsLocalization\LaravelJsLocalizationServiceProvider::class,
+        Yajra\Datatables\DatatablesServiceProvider::class,
     ],
 
     /*
@@ -242,5 +243,6 @@ return [
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'FAuth' => Framgia\Education\Auth\Facades\FramgiaAuth::class,
+        'Datatables' => yajra\Datatables\Datatables::class,
     ],
 ];
