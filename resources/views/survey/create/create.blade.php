@@ -98,6 +98,9 @@
                             </div>
                         </div>
                     </li>
+                    <li class="form-line sort">
+                        @include('templates.survey.elements.short-answer')
+                    </li>
                 </ul>
             {!! Form::close() !!}
         </div>

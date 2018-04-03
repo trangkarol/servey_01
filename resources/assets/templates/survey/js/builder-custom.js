@@ -81,4 +81,45 @@ jQuery(document).ready(function () {
 
         $(this).on('keyup input', function() { resizeTextarea(this); }).removeAttr('data-autoresize');
     });
+
+    // dropdown menu select element
+    $('.survey-select-styled').click(function(e) {
+        e.stopPropagation();
+        $('div.survey-select-styled.active').not(this).each(function() {
+            $(this).removeClass('active').next('ul.survey-select-options').hide();
+        });
+        $(this).toggleClass('active').next('ul.survey-select-options').toggle();
+    });
+  
+    $('.survey-select-options li').click(function(e) {
+        e.stopPropagation();
+        $('div.survey-select-styled').html($(this).html()).removeClass('active');
+        $('.survey-select-options').hide();
+        $('.survey-select-styled').removeClass('active');
+    });
+
+    $(document).click(function() {
+        $('.survey-select-styled').removeClass('active');
+        $('.survey-select-options').hide();
+    });
+
+    // required btn
+    $('.question-required-checkbox label .toggle').click(function () {
+        $(this).toggleClass('active');
+        var checked = $(this).prev().attr('checked');
+        $(this).prev().attr('checked', !checked);
+    });
+
+    // hide-show element block
+    $('.form-line').click(function () {
+        $('.form-line').each(function () {
+            $(this).removeClass('question-active');
+            $(this).children().children().children('.question-input').addClass('active');
+            $(this).children().children().children('.question-input').blur();
+        });
+        
+        $(this).addClass('question-active');
+        $(this).children().children().children('.question-input').removeClass('active');
+        $(this).children().children().children('.question-input').focus();
+    });
 });
