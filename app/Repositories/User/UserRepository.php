@@ -46,7 +46,7 @@ class UserRepository extends BaseRepository implements UserInterface
             $file = $request->file($name);
             $newFileName = time() . '.'. $file->getClientOriginalExtension();
             $file->move(config('settings.path_upload'), $newFileName);
-            
+
             return $newFileName;
         }
     }
@@ -63,5 +63,10 @@ class UserRepository extends BaseRepository implements UserInterface
     public function updateUser($user, $updateData)
     {
         return $user->update($updateData);
+    }
+
+    public function checkEmailExist($email)
+    {
+        return $this->model->where('email', $email)->exists();
     }
 }

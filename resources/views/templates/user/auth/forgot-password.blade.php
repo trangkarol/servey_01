@@ -10,19 +10,32 @@
                 </button>
             </div>
             <div class="modal-body mx-4">
-                <div class="md-form mb-5">
-                    {{ Form::email('email', old('email'), [
-                        'class' => 'form-control validate',
-                        'placeholder' => trans('lang.email_placeholder'),
-                    ]) }}
-                    <label data-error="wrong" data-success="right" for="elegantFormModalInput1" >@lang('lang.email')</label>
-                </div>
-                <div class="text-center mb-3">
-                    {{ Form::button(trans('lang.reset_password'), [
-                        'type' => 'button',
-                        'class' => 'btn blue-gradient btn-block btn-rounded z-depth-1a',
-                    ]) }}
-                </div>
+                {{ Form::open(['route' => 'send-mail-reset-password', 'method' => 'POST', 'id' => 'formResetPassword']) }}
+                    <div class="md-form mb-5">
+                        {{ Form::email('email', old('email'), [
+                            'class' => 'form-control validate',
+                            'placeholder' => trans('lang.email_placeholder'),
+                        ]) }}
+                        <label for="elegantFormModalInput1" >@lang('lang.email')</label>
+                       <div class="reset-password-process">
+                            <div class="alert alert-danger send-mail-fail hidden">
+                                <span class="help-block email-reset-messages"></span>
+                            </div>
+                            <span class="help-block spinner hidden">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </span>
+                       </div>
+                       <div class="notification-success">
+                           <div class="alert alert-success send-mail-succes hidden"></div>
+                       </div>
+                    </div>
+                    <div class="text-center mb-3">
+                        {{ Form::button(trans('lang.reset_password'), [
+                            'type' => 'submit',
+                            'class' => 'btn blue-gradient btn-block btn-rounded z-depth-1a',
+                        ]) }}
+                    </div>
+                {{ Form::close() }}
             </div>
             <div class="modal-footer mx-5 pt-3 mb-1">
                 <p class="font-small grey-text d-flex justify-content-end">@lang('lang.not_a_member')

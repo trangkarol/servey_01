@@ -2715,4 +2715,20 @@ img.fnone {
         right: -7px;
         left: auto;
     }
+.form-reset-password {
+    margin-top: 120px !important;
+    margin-bottom: 20px !important;
+}
+
+.reset-password-process {
+    text-align: center;
+}
+
+.spinner .fa-spin {
+    font-size: 24px;
+}
+
+.send-mail-succes {
+    font-size: 14px;
+    text-align: center;
 }

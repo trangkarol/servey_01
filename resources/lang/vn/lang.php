@@ -85,6 +85,11 @@ return [
     'vietnamese' => 'Tiếng Việt',
     'english' => 'Tiếng Anh',
     'japanese' => 'Tiếng Nhật',
+    'reason_send_mail_reset' => 'Bạn nhận được email này bởi vì chúng tôi nhận được yêu cầu đặt lại mật khẩu từ tài khoản Fsurvey của bạn.',
+    'thank_you_use_application' => 'Cảm ơn bạn đã sử dụng ứng dụng của chúng tôi!',
+    'email_user_not_exist' => 'Email này chưa được đăng ký hoặc sai thông tin.',
+    'send_mail_reset_password_success' => 'Email đặt lại mật khẩu đã được gửi thành công!',
+    'regards' => 'Trân trọng',
 
     /*
     | Survey Create Page
@@ -119,4 +124,5 @@ return [
     'go_home' => 'Trở về trang chủ',
     'use_the_default_avatar' => 'Sử dụng hình đại diện mặc định',
     'are_you_sure_want_to_delete' => 'Bạn có chắc muốn xóa?',
+
 ];

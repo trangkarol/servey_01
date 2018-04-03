@@ -85,6 +85,11 @@ return [
     'vietnamese' => 'Vietnamese',
     'english' => 'English',
     'japanese' => 'Japanese',
+    'reason_send_mail_reset' => 'You are receiving this email because we received a password reset request for your account.',
+    'thank_you_use_application' => 'Thank you for using our application!',
+    'email_user_not_exist' => 'We can not find a user with that e-mail address.',
+    'send_mail_reset_password_success' => 'We have sent your password reset link!',
+    'regards' => 'Regards',
 
     /*
     | Survey Create Page
@@ -116,7 +121,8 @@ return [
     '404' => '404',
     'error' => 'Error',
     '404_message' => 'The page you are looking for does not exists.',
-    'go_home' => 'Gome home',
+    'go_home' => 'Go home',
     'use_the_default_avatar' => 'Use the default avatar',
     'are_you_sure_want_to_delete' => 'Are you sure want to delete?',
+
 ];

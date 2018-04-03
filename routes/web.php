@@ -170,6 +170,8 @@
 
 Route::get('/', 'SurveyController@index')->name('home');
 
+Route::get('/home', 'SurveyController@index');
+
 Route::group(['namespace' => 'Survey', 'middleware' => 'profile'], function () {
     Route::resource('profile', 'ProfileController', [
         'as' => 'survey',
@@ -198,6 +200,12 @@ Route::group(['namespace' => 'Auth'], function () {
     Route::post('register', 'RegisterController@register')->name('register');
 
     Route::get('logout', 'LoginController@logout')->name('logout');
+
+    Route::post('reset-password', 'ForgotPasswordController@sendMailResetPassword')->name('send-mail-reset-password');
+
+    Route::get('password/reset/{token}', 'ResetPasswordController@showFormReset')->name('show-form-reset');
+
+    Route::post('password/reset', 'ResetPasswordController@resetPasswordUser')->name('reset-password');
 });
 
 Route::get('/redirect/{provider}', 'User\SocialAuthController@redirect')->name('socialRedirect');

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app()->getLocale() }}">
     <head>
         <title>@lang('lang.web_title')</title>
         <!-- Meta -->
