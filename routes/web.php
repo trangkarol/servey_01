@@ -168,6 +168,8 @@
 
 // Route::post('ajax/get-mail-suggestion', 'SurveyController@getMailSuggestion');
 
+Route::get('/languages', 'LanguageController@index')->name('set-language');
+
 Route::get('/', 'SurveyController@index')->name('home');
 
 Route::get('/home', 'SurveyController@index');
