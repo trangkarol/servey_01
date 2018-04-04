@@ -109,6 +109,8 @@ return [
     'long_answer_text' => 'Văn bản trả lời dài',
     'paragraph' => 'Đoạn',
     'required' => 'Bắt buộc',
+    'title_section_placeholder' => 'Tiêu đề',
+    'description_section_placeholder' => 'Mô tả (tùy chọn)',
 
     /*
     | Profile Create Page
