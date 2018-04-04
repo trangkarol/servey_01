@@ -26,7 +26,7 @@
                             </span>
                        </div>
                        <div class="notification-success">
-                           <div class="alert alert-success send-mail-succes hidden"></div>
+                           <div class="alert alert-success send-mail-success hidden"></div>
                        </div>
                     </div>
                     <div class="text-center mb-3">

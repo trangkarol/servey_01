@@ -45,7 +45,7 @@ $(document).ready(function () {
 
     $(document).on('submit', '#formResetPassword', function (e) {
         e.preventDefault();
-        $('.send-mail-succes').addClass('hidden');
+        $('.send-mail-success').addClass('hidden');
         $('.email-reset-messages').text('');
         $('.send-mail-fail').addClass('hidden');
         $('.spinner').removeClass('hidden');
@@ -58,8 +58,8 @@ $(document).ready(function () {
         .done(function (data) {
             $('.spinner').addClass('hidden');
             if (data) {
-                $('.send-mail-succes').removeClass('hidden');
-                $('.send-mail-succes').text(Lang.get('lang.send_mail_reset_password_success'));
+                $('.send-mail-success').removeClass('hidden');
+                $('.send-mail-success').text(Lang.get('lang.send_mail_reset_password_success'));
             } else {
                 $('.send-mail-fail').removeClass('hidden');
                 $('.email-reset-messages').text(Lang.get('lang.email_user_not_exist'));
@@ -67,6 +67,8 @@ $(document).ready(function () {
         })
         .fail(function (data) {
             var errors = JSON.parse(data.responseText);
+            $('.spinner').addClass('hidden');
+            $('.send-mail-fail').removeClass('hidden');
             $('.email-reset-messages').text(errors.email);
         });
     });
