@@ -2406,7 +2406,31 @@ body.no-header-wrapper {
 }
 
 #bt-login-wsm {
-    background: url(../../../user/images/socialize-icons/wsm.png) no-repeat 0 0;
+    background: url('/templates/survey/images/icon/wsm.png') no-repeat 0 0;
+    background-size: 20px 20px;
+    background-position: center;
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+#btn-facebook {
+    background: url('/templates/survey/images/icon/facebook.png') no-repeat 0 0;
+    background-size: 20px 20px;
+    background-position: center;
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+#btn-google {
+    background: url('/templates/survey/images/icon/googleplus.png') no-repeat 0 0;
+    background-size: 24px 24px;
+    background-position: center;
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+#btn-twitter {
+    background: url('/templates/survey/images/icon/twitter.png') no-repeat 0 0;
     background-size: 20px 20px;
     background-position: center;
     padding-left: 2rem;

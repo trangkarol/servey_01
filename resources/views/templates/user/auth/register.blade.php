@@ -48,16 +48,13 @@
                 {{ Form::close() }}
                 <p class="font-small dark-grey-text text-right d-flex justify-content-center mb-3 pt-2"> @lang('lang.or_sign_in_with')</p>
                 <div class="row my-3 d-flex justify-content-center">
-                    <a href="{{ route('socialRedirect', [config('settings.facebook')]) }}" class="btn btn-blue btn-rounded mr-md-3 z-depth-1a">
-                        <i class="fa fa-facebook text-center"></i>
+                    <a href="{{ route('socialRedirect', [config('settings.facebook')]) }}" class="btn btn-blue mr-md-3 z-depth-1a btn-social" id="btn-facebook">
                     </a>
-                    <a href="{{ route('socialRedirect', [config('settings.twitter')]) }}" class="btn btn-white btn-rounded mr-md-3 z-depth-1a">
-                        <i class="fa fa-twitter"></i>
+                    <a href="{{ route('socialRedirect', [config('settings.twitter')]) }}" class="btn btn-white mr-md-3 z-depth-1a btn-social" id="btn-twitter">
                     </a>
-                    <a href="{{ route('socialRedirect', config('settings.framgia')) }}" class="btn btn-orange btn-rounded mr-md-3 z-depth-1a" id="bt-login-wsm">
+                    <a href="{{ route('socialRedirect', config('settings.framgia')) }}" class="btn btn-orange  mr-md-3 z-depth-1a btn-social" id="bt-login-wsm">
                     </a>
-                    <a href="{{ route('socialRedirect', [config('settings.google')]) }}" class="btn btn-red btn-rounded z-depth-1a">
-                        <i class="fa fa-google-plus"></i>
+                    <a href="{{ route('socialRedirect', [config('settings.google')]) }}" class="btn btn-red z-depth-1a btn-social" id="btn-google">
                     </a>
                 </div>
             </div>
