@@ -82,14 +82,14 @@ return [
     'feature_3' => 'Feature #3',
     'feature_3_title' => 'Receive by email',
     'feature_3_content' => 'By accepting incoming email. The user will be able to reply to your email. Encouraging more transparent relationships within your organization. When you leave the web, correspondence history remains intact in your email and you can access link to manage your survey.',
-    'vietnamese' => 'Vietnamese',
-    'english' => 'English',
-    'japanese' => 'Japanese',
     'reason_send_mail_reset' => 'You are receiving this email because we received a password reset request for your account.',
     'thank_you_use_application' => 'Thank you for using our application!',
     'email_user_not_exist' => 'We can not find a user with that e-mail address.',
     'send_mail_reset_password_success' => 'We have sent your password reset link!',
     'regards' => 'Regards',
+    'vn' => 'Vietnamese',
+    'jp' => 'Japanese',
+    'en' => 'English',
 
     /*
     | Survey Create Page

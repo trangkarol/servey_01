@@ -60,23 +60,22 @@
                                 @endif
                                 <li class="nav-item">
                                     <div class=" select">
-                                        <input type="hidden" name="language" value="vn" id="language">
                                         <div class="select-styled">
-                                            {{ Html::image(config('settings.blank_icon'), '', ['class' => 'flag vn fnone']) }}
-                                            <span>@lang('lang.vietnamese')</span>
+                                            {{ Html::image(config('settings.blank_icon'), '', ['class' => 'flag ' . Session::get('locale') . ' fnone']) }}
+                                            <span>@lang('lang.' . Session::get('locale'))</span>
                                         </div>
-                                        <ul class="select-options">
+                                        <ul class="select-options select-language" data-url="{{ route('set-language') }}">
                                             <li rel="vn">
                                                 {{ Html::image(config('settings.blank_icon'), '', ['class' => 'flag vn fnone']) }}
-                                                <span>@lang('lang.vietnamese')</span>
+                                                <span>@lang('lang.vn')</span>
                                             </li>
                                             <li rel="en">
                                                 {{ Html::image(config('settings.blank_icon'), '', ['class' => 'flag en fnone']) }}
-                                                <span>@lang('lang.english')</span>
+                                                <span>@lang('lang.en')</span>
                                             </li>
                                             <li rel="jp">
                                                 {{ Html::image(config('settings.blank_icon'), '', ['class' => 'flag jp fnone']) }}
-                                                <span>@lang('lang.japanese')</span>
+                                                <span>@lang('lang.jp')</span>
                                             </li>
                                         </ul>
                                     </div>
