@@ -12,16 +12,30 @@
             <div class="title-survey-btn">
                 <a href="#" class="copy-element"><i class="fa fa-clone"></i></a>
                 <a href="#" class="remove-element"><i class="fa fa-trash"></i></a>
-                <a href="#"><i class="fa fa-ellipsis-v"></i></a>
+                <div class="option-menu-group">
+                    <a href="#" class="fa fa-ellipsis-v option-menu"></a>
+                    <ul class="option-menu-dropdown">
+                        <li class="copy-element">
+                            <i class="fa fa-clone"></i>
+                            <span class="option-menu-content">@lang('lang.duplicate_item')</span>
+                        </li>
+                        <li class="remove-element">
+                            <i class="fa fa-trash"></i>
+                            <span class="option-menu-content">@lang('lang.remove_item')</span>
+                        </li>
+                        <h5>@lang('lang.show')</h5>
+                        <li>
+                            <span class="option-menu-selected">
+                                <span></span>
+                            </span>
+                            <span class="option-menu-content">@lang('lang.description')</span>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
-    <div class="form-row description-block">
-        <div class="col-12">
-            {!! Form::text('description', '', [
-                'placeholder' => trans('lang.description_section_placeholder'),
-                'class' => 'form-control question-description-input active',
-            ]) !!}
-        </div>
+    <div class="form-row description-input">
+        <div class="col-12"></div>
     </div>
 </li>

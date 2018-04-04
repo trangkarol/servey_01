@@ -85,7 +85,7 @@
                     </li>
                 </ul>
                 <ul class="clearfix form-wrapper page-section" id="sortable1">
-                    <li class="form-line p-0 sortable-first">
+                    <li class="p-0 sortable-first">
                         <div class="form-header">
                             <h1>@lang('lang.survey')</h1>
                             <h4>@lang('lang.survey')</h4>
@@ -98,6 +98,7 @@
                             </div>
                         </div>
                     </li>
+
                     @include('templates.survey.elements.short-answer')
                     @include('templates.survey.elements.title-description')
                 </ul>
@@ -105,6 +106,14 @@
         </div>
         <!-- Content Wrapper  -->
     </main>
+    <div  id="question-description-input-clone">
+        {!! Form::textarea('description', '', [
+            'class' => 'form-control question-description-input input-area auto-resize',
+            'data-autoresize',
+            'placeholder' => trans('lang.description_section_placeholder'),
+            'rows' => 1
+        ]) !!}
+    </div>
 @endsection
 @push('scripts')
     <!-- Plugins -->
