@@ -107,12 +107,19 @@ return [
     'short_answer_text' => 'Short answer text',
     'long_answer_text' => 'Long answer text',
     'paragraph' => 'Paragraph',
+    'multiple_choice' => 'Multiple choice',
     'required' => 'Required',
     'title_section_placeholder' => 'Title',
     'description_section_placeholder' => 'Description (option)',
     'show' => 'Show',
     'duplicate_item' => 'Duplicate item',
     'remove_item' => 'Remove',
+    'option' => 'Option :index',
+    'option_1' => 'Option 1',
+    'other_option' => 'Other...',
+    'add_option' => 'Add option',
+    'add_other' => 'Add other',
+    'or' => 'or',
 
     /*
     | Profile Create Page
@@ -138,7 +145,7 @@ return [
     /*
         Manage survey
     */
-        
+
     'open' => 'Survey is opening',
     'closed' => 'Survey closed',
     'name_survey' => 'Name survey',
@@ -150,7 +157,7 @@ return [
     /*
         Datatables
     */
-        
+
     'sEmptyTable' => 'テーブルにデータがありません',
     'sInfo' => ' _TOTAL_ 件中 _START_ から _END_ まで表示',
     'sInfoEmpty' => ' 0 件中 0 から 0 まで表示',

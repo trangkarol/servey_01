@@ -2438,7 +2438,7 @@ body.no-header-wrapper {
 }
 
 .hidden {
-    display: none;
+    display: none !important;
 }
 
 .help-block {

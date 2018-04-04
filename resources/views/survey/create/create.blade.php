@@ -85,34 +85,51 @@
                     </li>
                 </ul>
                 <ul class="clearfix form-wrapper page-section" id="sortable1">
-                    <li class="p-0 sortable-first">
+                    <li class="p-0">
                         <div class="form-header">
                             <h1>@lang('lang.survey')</h1>
                             <h4>@lang('lang.survey')</h4>
                         </div>
                     </li>
-                    <li class="form-line sort">
-                        <div class="form-row">
-                            <div class="col">
-                                {!! Form::text('name', '', ['class' => 'form-control']) !!}
-                            </div>
+                    @include('templates.survey.elements.title-description')
+                    @include('templates.survey.elements.multiple-choice')
+                </ul>
+
+                <ul class="clearfix form-wrapper page-section" id="sortable2">
+                    <li class="p-0">
+                        <div class="form-header">
+                            <h1>@lang('lang.survey')</h1>
+                            <h4>@lang('lang.survey')</h4>
                         </div>
                     </li>
-
-                    @include('templates.survey.elements.short-answer')
                     @include('templates.survey.elements.title-description')
+                    @include('templates.survey.elements.multiple-choice')
                 </ul>
             {!! Form::close() !!}
         </div>
         <!-- Content Wrapper  -->
     </main>
-    <div  id="question-description-input-clone">
+    <div id="element-clone">
         {!! Form::textarea('description', '', [
             'class' => 'form-control question-description-input input-area auto-resize',
             'data-autoresize',
             'placeholder' => trans('lang.description_section_placeholder'),
             'rows' => 1
         ]) !!}
+
+        <div class="form-row choice other-choice-option">
+            <div class="radio-choice-icon"><i class="fa fa-circle-thin"></i></div>
+            <div class="col-xl-9 col-lg-9 col-md-9 col-sm-8 col-8 choice-input-block">
+                {!! Form::text('name', trans('lang.other_option'), [
+                    'class' => 'form-control',
+                    'readonly' => true,
+                ]) !!}
+            </div>
+            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-3 answer-image-btn-group">
+                {{ Html::link('#', '', ['class' => 'answer-image-btn fa fa-image invisible']) }}
+                {{ Html::link('#', '', ['class' => 'answer-image-btn fa fa-times remove-other-choice-option']) }}
+            </div>
+        </div>
     </div>
 @endsection
 @push('scripts')

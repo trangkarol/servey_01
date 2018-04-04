@@ -1,4 +1,5 @@
 <li class="form-line sort title-description-element">
+    <div class="form-row draggable-area"></div>
     <div class="form-row title-block">
         <div class="col-xl-9 col-lg-9 col-md-9 col-sm-8 col-10">
             {!! Form::textarea('element', '', [

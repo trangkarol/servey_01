@@ -108,12 +108,19 @@ return [
     'short_answer_text' => 'Văn bản trả lời ngắn',
     'long_answer_text' => 'Văn bản trả lời dài',
     'paragraph' => 'Đoạn',
+    'multiple_choice' => 'Trắc nghiệm',
     'required' => 'Bắt buộc',
     'title_section_placeholder' => 'Tiêu đề',
     'description_section_placeholder' => 'Mô tả (tùy chọn)',
     'show' => 'Hiển thị',
     'duplicate_item' => 'Sao chép',
     'remove_item' => 'Xóa',
+    'option' => 'Tùy chọn :index',
+    'option_1' => 'Tùy chọn 1',
+    'other_option' => 'Tùy chọn khác...',
+    'add_option' => 'Thêm tùy chọn',
+    'add_other' => 'Thêm khác',
+    'or' => 'hoặc',
 
     /*
     | Profile Create Page
@@ -139,7 +146,7 @@ return [
     /*
         Manage survey
     */
-        
+
     'open' => 'Survey đang mở',
     'closed' => 'Survey đã đóng',
     'name_survey' => 'Tên survey',
