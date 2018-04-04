@@ -109,6 +109,8 @@ return [
     'long_answer_text' => 'Long answer text',
     'paragraph' => 'Paragraph',
     'required' => 'Required',
+    'title_section_placeholder' => 'Title',
+    'description_section_placeholder' => 'Description (option)',
 
     /*
     | Profile Create Page

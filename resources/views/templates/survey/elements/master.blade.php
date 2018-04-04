@@ -1,5 +1,4 @@
-<li class="form-line sort"> 
-    <div class="form-line-actions remove-element"><i class="fa fa-close"></i></div>
+<li class="form-line sort">
     <div class="form-row answer-block">
         <div class="col-xl-8 col-lg-8 col-md-8 col-sm-11 col-10">
             {!! Form::text('name', '', ['class' => 'form-control question-input active', 'placeholder' => trans('lang.question')]) !!}
@@ -33,8 +32,8 @@
 
     <div class="form-row question-action-group">
         <div class="question-survey-btn">
-            {{ Html::link('#', '', ['class' => 'fa fa-clone']) }}
-            {{ Html::link('#', '', ['class' => 'fa fa-trash']) }}
+            {{ Html::link('#', '', ['class' => 'fa fa-clone copy-element']) }}
+            {{ Html::link('#', '', ['class' => 'fa fa-trash remove-element']) }}
             <p>@lang('lang.required')</p>
             <div class="question-required-checkbox">
                 <label>

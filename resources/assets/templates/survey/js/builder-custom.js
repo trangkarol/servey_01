@@ -55,8 +55,8 @@ jQuery(document).ready(function () {
     $("#sortable1").sortable({
         axis: 'y',
         cursor: 'pointer',
-        connectWith: ".page-section",
-        cancel: '.no-sort',
+        connectWith: '.page-section',
+        items: '> li:not(:first)',
         change: function (event, ui) {
             if (ui.placeholder.index() < 1) {
                 $('.sortable-first').after(ui.placeholder);
@@ -65,10 +65,11 @@ jQuery(document).ready(function () {
         stop: function (event, ui) {
             $(ui.item).removeAttr('style');
         },
-    }).disableSelection();
+    });
 
     $('.content-wrapper form').on('click', '.remove-element', function (event) {
-        $(this).parent('li').remove();
+        event.preventDefault();
+        $(this).closest('li').fadeOut(300);
     });
 
     // auto resize textarea
@@ -90,7 +91,7 @@ jQuery(document).ready(function () {
         });
         $(this).toggleClass('active').next('ul.survey-select-options').toggle();
     });
-  
+
     $('.survey-select-options li').click(function(e) {
         e.stopPropagation();
         $('div.survey-select-styled').html($(this).html()).removeClass('active');
@@ -116,10 +117,15 @@ jQuery(document).ready(function () {
             $(this).removeClass('question-active');
             $(this).children().children().children('.question-input').addClass('active');
             $(this).children().children().children('.question-input').blur();
+            $(this).children().children().children('.question-description-input').addClass('active');
+            $(this).children().children().children('.question-description-input').blur();
         });
-        
+
         $(this).addClass('question-active');
         $(this).children().children().children('.question-input').removeClass('active');
         $(this).children().children().children('.question-input').focus();
+        $(this).children().children().children('.question-description-input').removeClass('active');
+        $(this).children().children().children('.question-description-input').focus();
+
     });
 });

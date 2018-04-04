@@ -12,7 +12,9 @@
     <main class="cd-main-content">
         <!-- Content Wrapper  -->
         <div class="content-wrapper">
-            {!! Form::open() !!}
+            {!! Form::open([
+                'class' => 'survey-form',
+            ]) !!}
                 <!-- Scroll buttons -->
                 <div class="scroll-button-group-sidebar">
                     <div class="button-group-sidebar">
@@ -83,24 +85,21 @@
                     </li>
                 </ul>
                 <ul class="clearfix form-wrapper page-section" id="sortable1">
-                    <li class="form-line p-0 no-sort sortable-first">
-                        <div class="form-line-actions remove-element"><i class="fa fa-close"></i></div>
+                    <li class="form-line p-0 sortable-first">
                         <div class="form-header">
                             <h1>@lang('lang.survey')</h1>
                             <h4>@lang('lang.survey')</h4>
                         </div>
                     </li>
                     <li class="form-line sort">
-                        <div class="form-line-actions remove-element"><i class="fa fa-close"></i></div>
                         <div class="form-row">
                             <div class="col">
                                 {!! Form::text('name', '', ['class' => 'form-control']) !!}
                             </div>
                         </div>
                     </li>
-                    <li class="form-line sort">
-                        @include('templates.survey.elements.short-answer')
-                    </li>
+                    @include('templates.survey.elements.short-answer')
+                    @include('templates.survey.elements.title-description')
                 </ul>
             {!! Form::close() !!}
         </div>
