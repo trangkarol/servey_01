@@ -3,7 +3,8 @@
 @push('styles')
     {!! Html::style(elixir(config('settings.public_template') . 'css/theme-styles.css')) !!}
     {!! Html::style(elixir(config('settings.public_template') . 'css/blocks.css')) !!}
-    {!! Html::style(asset(config('settings.plugins') . 'datatables/jquery.dataTables.css')) !!}
+    {!! Html::style(asset(config('settings.plugins') . 'datatables/css/jquery.dataTables.css')) !!}
+    {!! Html::style(elixir(config('settings.public_template') . 'css/datatables-custom.css')) !!}
 @endpush
 
 @section ('content')
@@ -31,7 +32,7 @@
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="" class="{{ Session::get('page_profile_active') ==
+                                                    <a href="{{ route('survey.survey.show-surveys') }}" class="{{ Session::get('page_profile_active') ==
                                                             config('settings.page_profile_active.list_survey')
                                                             ? 'active' : '' }}">
                                                         @lang('lang.list_survey')
@@ -111,3 +112,7 @@
         </div>
     </div>
 @endsection
+@push('scripts')
+    {!! Html::script(asset(config('settings.plugins') . 'datatables/js/jquery.dataTables.js')) !!}
+    {!! Html::script(elixir(config('settings.public_template') . 'js/datatables-script.js')) !!}
+@endpush

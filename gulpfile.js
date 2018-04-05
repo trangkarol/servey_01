@@ -36,5 +36,8 @@ elixir(function(mix) {
         .copy('resources/assets/templates/survey/js', 'public/templates/survey/js')
         .copy('resources/assets/templates/survey/images', 'public/templates/survey/images')
         .copy('resources/assets/templates/survey/fonts', 'public/templates/survey/fonts')
+        .copy('node_modules/datatables.net-dt/css', 'public/plugins/datatables/css')
+        .copy('node_modules/datatables.net/js', 'public/plugins/datatables/js')
+        .copy('node_modules/datatables.net-dt/images', 'public/plugins/datatables/images')
         .version(['public/templates/survey/css/*.css', 'public/templates/survey/js/*.js']);
 });
