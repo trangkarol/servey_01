@@ -111,6 +111,9 @@ return [
     'required' => 'Required',
     'title_section_placeholder' => 'Title',
     'description_section_placeholder' => 'Description (option)',
+    'show' => 'Show',
+    'duplicate_item' => 'Duplicate item',
+    'remove_item' => 'Remove',
 
     /*
     | Profile Create Page

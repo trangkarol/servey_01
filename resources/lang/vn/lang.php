@@ -111,6 +111,9 @@ return [
     'required' => 'Bắt buộc',
     'title_section_placeholder' => 'Tiêu đề',
     'description_section_placeholder' => 'Mô tả (tùy chọn)',
+    'show' => 'Hiển thị',
+    'duplicate_item' => 'Sao chép',
+    'remove_item' => 'Xóa',
 
     /*
     | Profile Create Page

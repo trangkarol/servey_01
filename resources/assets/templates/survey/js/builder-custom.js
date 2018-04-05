@@ -69,7 +69,7 @@ jQuery(document).ready(function () {
 
     $('.content-wrapper form').on('click', '.remove-element', function (event) {
         event.preventDefault();
-        $(this).closest('li').fadeOut(300);
+        $(this).closest('li').fadeOut(300).remove();
     });
 
     // auto resize textarea
@@ -112,20 +112,75 @@ jQuery(document).ready(function () {
     });
 
     // hide-show element block
-    $('.form-line').click(function () {
+    $('.page-section .form-line').click(function () {
         $('.form-line').each(function () {
             $(this).removeClass('question-active');
             $(this).children().children().children('.question-input').addClass('active');
-            $(this).children().children().children('.question-input').blur();
+            $(this).children().children().children('.question-input').parent().addClass('col-xl-12');
             $(this).children().children().children('.question-description-input').addClass('active');
-            $(this).children().children().children('.question-description-input').blur();
         });
 
         $(this).addClass('question-active');
         $(this).children().children().children('.question-input').removeClass('active');
-        $(this).children().children().children('.question-input').focus();
+        $(this).children().children().children('.question-input').parent().removeClass('col-xl-12');
         $(this).children().children().children('.question-description-input').removeClass('active');
-        $(this).children().children().children('.question-description-input').focus();
+        
+    });
 
+    $('.question-input').focus(function () {
+        $(this).parent().parent().parent().click();
+    });
+
+    // survey option menu
+    $('.option-menu-group').click(function(e) {
+        e.stopPropagation();
+        $(this).children('.option-menu').toggleClass('active').next('ul.option-menu-dropdown').toggle();
+        
+        return false;
+    });
+
+    $(document).click(function() {
+        $('.option-menu').removeClass('active');
+        $('.option-menu-dropdown').hide();
+    });
+
+    $('.option-menu-dropdown li').click(function(e) {
+        e.stopPropagation();
+        $(this).children('.option-menu-selected').toggleClass('active');
+        $(this).parent().hide();
+        var descriptionInput = '';
+        
+        if ($(this).children('.option-menu-selected').hasClass('active')) {
+            descriptionInput = $('#question-description-input-clone').children().clone();
+        }
+
+        $(this).closest('li.form-line').find('.description-input').children('div').html(descriptionInput);
+
+        $.each($('textarea[data-autoresize]'), function() {
+            var offset = this.offsetHeight - this.clientHeight;
+
+            var resizeTextarea = function(el) {
+                $(el).css('height', 'auto').css('height', el.scrollHeight + offset);
+            };
+
+            $(this).on('keyup input', function() { resizeTextarea(this); }).removeAttr('data-autoresize');
+        });
+
+        $('.question-description-input').keypress(function(e) {
+            if ((e.keyCode || e.which) === 13) {
+                return false;
+            }
+        });
+    });
+
+    $('.question-input, .question-description-input').keypress(function(e) {
+        if ((e.keyCode || e.which) === 13) {
+            return false;
+        }
+    });
+
+    $('.option-menu-group .option-menu-dropdown .remove-element').click(function (event) {
+        event.preventDefault();
+        $(this).closest('li.form-line').fadeOut(300).remove();
     });
 });
