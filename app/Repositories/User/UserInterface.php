@@ -9,4 +9,6 @@ interface UserInterface
     public function uploadAvatar($file);
 
     public function findEmail($data, $userId);
+
+    public function getListSurveys($user);
 }

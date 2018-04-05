@@ -13,6 +13,7 @@ return [
         'required' => 1,
     ],
     'paginate' => 9,
+    'paginate_survey' => 15,
     'type_answer' => [
         'radiobutton' => '1',
         'checkbox' => '2',

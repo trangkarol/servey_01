@@ -16,3 +16,11 @@ use Illuminate\Http\Request;
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:api');
+
+Route::group(['prefix' => 'v1', 
+    'namespace' => 'Api1\User', 
+    'middleware' => 'auth:api',
+], function () {
+    Route::resource('surveys', 'SurveyController');
+    Route::get('surveys/resutls/{id}', 'SurveyController@getResutSurvey');
+});

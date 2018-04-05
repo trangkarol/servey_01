@@ -24,7 +24,10 @@ Route::group(['prefix' => '/', 'middleware' => 'guest'], function () {
         'uses' => 'Auth\RegisterController@register',
     ]);
 
-    Route::get('/login', 'Auth\LoginController@getLogin');
+    Route::get('/login', [
+        'as' => 'login',
+        'uses' => 'Auth\LoginController@getLogin',
+    ]);
 
     Route::post('/login', [
         'as' => 'login-user',
@@ -163,3 +166,7 @@ Route::post('verify-link-survey', 'AnswerController@verifyLinkSurvey');
 Route::post('survey/get-deadline', 'AnswerController@getDeadline');
 
 Route::post('ajax/get-mail-suggestion', 'SurveyController@getMailSuggestion');
+
+// authentication
+Route::get('/authentication', 'Api1\Auth\AuthenticationController@authentication')->middleware('cors');
+Route::get('/request-access-token', 'Api1\Auth\AuthenticationController@requestAccessToken')->middleware('cors');

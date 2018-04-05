@@ -55,4 +55,9 @@ class UserRepository extends BaseRepository implements UserInterface
 
         return $users->paginate(config('survey.get_top_mail_suggestion'));
     }
+
+    public function getListSurveys($user)
+    {
+        return $user->surveys()->paginate(config('settings.paginate_survey'));
+    }
 }

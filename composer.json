@@ -25,7 +25,8 @@
         "barryvdh/laravel-dompdf": "0.8.0",
         "torann/database-backup": "0.1.0",
         "framgia-education/laravel-omniauth-hrsystem": "dev-framgia",
-        "mariuzzo/laravel-js-localization": "^1.4"
+        "mariuzzo/laravel-js-localization": "^1.4",
+        "laravel/passport": "~1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "1.6.0",
@@ -42,7 +43,8 @@
             "App\\": "app/"
         },
         "files": [
-            "app/Helpers/Helper.php"
+            "app/Helpers/Helper.php",
+            "app/Helpers/StatusCode.php"
         ]
     },
     "autoload-dev": {
