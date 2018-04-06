@@ -1,7 +1,7 @@
 <li class="form-line sort">
     <div class="form-row draggable-area"></div>
     <div class="form-row answer-block">
-        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-11 col-10">
+        <div class="col-xl-7 col-lg-7 col-md-7 col-sm-11 col-10">
             {!! Form::textarea('name', '', [
                 'class' => 'form-control input-area auto-resize question-input active',
                 'data-autoresize',
@@ -12,25 +12,44 @@
         <div class="col-xl-1 col-lg-1 col-md-1 col-sm-1 col-2 question-image-block">
             {{ Html::link('#', '', ['class' => 'question-image-btn fa fa-image']) }}
         </div>
-        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-4 col-8 question-dropdown-block">
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-8 question-dropdown-block">
             <div class="survey-select">
                 <div class="survey-select-styled">
-                    <span>@lang('lang.short_answer')</span>
+                    <span class="answer-icon short-answer-icon"></span>
+                    <span class="option-menu-content">@lang('lang.short_answer')</span>
                 </div>
                 <ul class="survey-select-options">
                     <li>
-                        <span>@lang('lang.short_answer')</span>
+                        <span class="answer-icon short-answer-icon"></span>
+                        <span class="option-menu-content">@lang('lang.short_answer')</span>
                     </li>
                     <li>
-                        <span>@lang('lang.paragraph')</span>
+                        <span class="answer-icon paragraph-answer-icon"></span>
+                        <span class="option-menu-content">@lang('lang.paragraph')</span>
+                    </li>
+                    <hr/>
+                    <li>
+                        <span class="answer-icon multi-choice-answer-icon"></span>
+                        <span class="option-menu-content">@lang('lang.multiple_choice')</span>
                     </li>
                     <li>
-                        <span>@lang('lang.multiple_choice')</span>
+                        <span class="answer-icon checkboxes-answer-icon"></span>
+                        <span class="option-menu-content">@lang('lang.checkboxes')</span>
+                    </li>
+                    <hr/>
+                    <li>
+                        <span class="answer-icon date-answer-icon"></span>
+                        <span class="option-menu-content">@lang('lang.date')</span>
+                    </li>
+                    <li>
+                        <span class="answer-icon time-answer-icon"></span>
+                        <span class="option-menu-content">@lang('lang.time_answer')</span>
                     </li>
                 </ul>
             </div>
         </div>
     </div>
+
     <div class="form-row description-input">
         <div class="col-12"></div>
     </div>

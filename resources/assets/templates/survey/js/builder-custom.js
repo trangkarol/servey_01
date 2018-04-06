@@ -127,6 +127,7 @@ jQuery(document).ready(function () {
     // dropdown menu select element
     $('.survey-select-styled').click(function(e) {
         e.stopPropagation();
+        $('ul.option-menu-dropdown').hide();
         $('div.survey-select-styled.active').not(this).each(function() {
             $(this).removeClass('active').next('ul.survey-select-options').hide();
         });
@@ -160,7 +161,7 @@ jQuery(document).ready(function () {
             $(this).children().children().children('.question-input').parent().addClass('col-xl-12');
             $(this).children().children().children('.question-description-input').addClass('active');
         });
-
+        
         $(this).addClass('question-active');
         $(this).children().children().children('.question-input').removeClass('active');
         $(this).children().children().children('.question-input').parent().removeClass('col-xl-12');
@@ -174,6 +175,7 @@ jQuery(document).ready(function () {
     // survey option menu
     $('.option-menu-group').click(function(e) {
         e.stopPropagation();
+        $('.survey-select-options').hide();
         $(this).children('.option-menu').toggleClass('active').next('ul.option-menu-dropdown').toggle();
 
         return false;
@@ -192,6 +194,7 @@ jQuery(document).ready(function () {
 
         if ($(this).children('.option-menu-selected').hasClass('active')) {
             descriptionInput = $('#element-clone').find('.question-description-input').clone();
+            descriptionInput.attr('data-autoresize', '');
         }
 
         $(this).closest('li.form-line').find('.description-input').children('div').html(descriptionInput);

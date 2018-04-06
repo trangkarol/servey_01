@@ -121,6 +121,10 @@ return [
     'add_option' => 'Thêm tùy chọn',
     'add_other' => 'Thêm khác',
     'or' => 'hoặc',
+    'date_answer' => 'Tháng, ngày, năm',
+    'time_answer' => 'Giờ',
+    'checkboxes' => 'Hộp kiểm',
+    'date' => 'Ngày',
 
     /*
     | Profile Create Page
