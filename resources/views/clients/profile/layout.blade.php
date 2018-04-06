@@ -72,7 +72,7 @@
                             </div>
                             <div class="top-header-author">
                                 <a href="{{ route('survey.profile.show', $user->id) }}" class="author-thumb">
-                                    {!! Html::image(asset($user->image), '', ['width' => '120', 'height' => '120']) !!}
+                                    {!! Html::image(asset($user->image_path), '', ['width' => '120', 'height' => '120']) !!}
                                 </a>
                                 <div class="author-content">
                                     <a href="{{ route('survey.profile.show', $user->id) }}" class="h4 author-name">{{ ucwords($user->name) }}</a>

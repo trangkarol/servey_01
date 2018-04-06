@@ -68,6 +68,26 @@ return [
     'vn' => 'Vietnamese',
     'jp' => 'Japanese',
     'en' => 'English',
+    'image_preview' => 'Image preview',
+    'url_is_required' => 'URL is required',
+    'image_is_invalid' => 'Image is invalid (Support: jpeg, jpg, png, gif, bmp)',
+    'upload_or_by_url' => 'Upload or by URL',
+    'search_by_google' => 'Search by Google',
+    'insert_image' => 'Insert image',
+    'paste_a_url_or_upload_image' => 'Paste a URL or upload image',
+    'cancel' => 'Cancel',
+    'search_an_image' => 'Search an image...',
+    'paste_a_video_url' => 'Paste an video URL (Youtube)',
+    'insert_video' => 'Insert video',
+    'by_url' => 'By URL',
+    'search_in_youtube' => 'Search in Youtube',
+    'video_preview' => 'Video preview',
+    'url_is_invalid' => 'URL is invalid',
+    'image_title' => 'Image title',
+    'upload_image_fail' => 'Upload image fail',
+    'change_image' => 'Change image',
+    'delete_image' => 'Delete image',
+    'hover_text' => 'Hover text',
 
     /*
     | Survey Create Page
@@ -117,7 +137,7 @@ return [
     /*
     | 404 page
     */
-    
+
     '404' => '404',
     'error' => 'Error',
     '404_message' => 'The page you are looking for does not exists.',

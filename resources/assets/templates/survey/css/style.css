@@ -556,15 +556,6 @@ p {
     font-weight: 400;
 }
 
-.btn {
-    font-weight: 900;
-    padding: 12px 20px;
-    font-size: 15px;
-    cursor: pointer;
-    border-radius: 0;
-    text-transform: uppercase;
-}
-
 .btn-round {
     border-radius: 5px;
 }
@@ -649,16 +640,6 @@ p {
     box-shadow: none;
     background: #1875f0;
 }
-
-
-/*other buttons*/
-
-.btn-default {
-    background: #fff;
-    border-color: #fff;
-    color: #1875f0;
-}
-
 
 /*Outline buttons*/
 
@@ -2396,11 +2377,6 @@ form .text-center .btn {
     padding: 30px 50px;
 }
 
-.modal-dialog .form-control {
-    background: #fff;
-    height: 50px;
-}
-
 .modal-dialog label {
     color: #999999;
     font-size: 14px;
@@ -2583,10 +2559,6 @@ form .text-center .btn {
 }
 
 @media (min-width: 576px) {
-    .modal-dialog {
-        max-width: 520px;
-        margin: 60px auto;
-    }
     .create-form .modal-dialog {
         max-width: 1120px;
         margin: 60px auto;

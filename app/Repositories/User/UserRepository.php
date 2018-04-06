@@ -37,16 +37,16 @@ class UserRepository extends BaseRepository implements UserInterface
         }
     }
 
-    public function uploadAvatar($request, $name, $oldImageName)
+    public function uploadAvatar($request, $name, $oldImageName, $pathUpload)
     {
         if ($request->hasFile($name)) {
             $pathFile = $oldImageName;
 
-            if (File::exists(public_path($pathFile)) && $pathFile != config('settings.image_user_default')) {
-                File::delete(public_path($pathFile));
+            if (Storage::disk('local')->exists($oldImageName) && $oldImageName != config('settings.image_user_default')) {
+                Storage::disk('local')->delete($oldImageName);
             }
 
-            return $this->UploadImage($request, $name);
+            return $this->uploadImage($request, $name, $pathUpload);
         }
     }
 

@@ -9,7 +9,9 @@ return [
     'image_question_path' => '/user/uploads/question/',
     'image_answer_path' => '/user/uploads/answer/',
     'image_path_system' => '/user/images/',
-    'path_upload' => 'uploads/profiles/',
+    'path_upload' => 'public/uploads/',
+    'path_upload_image' => 'public/uploads/images',
+    'path_upload_avatar' => 'public/uploads/avatars',
     'cover-profile' => [
         'default' => 'templates/survey/images/cover-profile.jpg',
         '1' => 'templates/survey/images/cover-profile1.jpg',
@@ -144,4 +146,5 @@ return [
     ],
     'vn' => 'vn',
     'fsurvey' => 'FSurvey',
+    'max_size_image' => 5120,
 ];

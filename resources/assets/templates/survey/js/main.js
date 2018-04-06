@@ -1,4 +1,10 @@
 ﻿$(document).ready(function() {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
     $(this).scrollTop(0);
     $('#loader').delay(1000).slideUp(1300);
 

@@ -68,6 +68,26 @@ return [
     'email_user_not_exist' => 'Email này chưa được đăng ký hoặc sai thông tin.',
     'send_mail_reset_password_success' => 'Email đặt lại mật khẩu đã được gửi thành công!',
     'regards' => 'Trân trọng',
+    'image_preview' => 'Hình ảnh xem trước',
+    'url_is_required' => 'Url không được để trống',
+    'image_is_invalid' => 'Hình ảnh không tồn tại (Hỗ trợ: jpeg, jpg, png, gif, bmp)',
+    'upload_or_by_url' => 'Tải lên hoặc chèn URL',
+    'search_by_google' => 'Tìm kiếm bằng Google',
+    'insert_image' => 'Chèn hình ảnh',
+    'paste_a_url_or_upload_image' => 'Chèn url hình ảnh hoặc tải hình ảnh lên',
+    'cancel' => 'Hủy',
+    'search_an_image' => 'Tìm kiếm hình ảnh...',
+    'paste_a_video_url' => 'Chèn URL của video (Youtube)',
+    'insert_video' => 'Chèn video',
+    'by_url' => 'Bằng url video',
+    'search_in_youtube' => 'Tìm kiếm trên Youtube',
+    'video_preview' => 'Video xem trước',
+    'url_is_invalid' => 'URL không hợp lệ',
+    'image_title' => 'Tiêu đề hình ảnh',
+    'upload_image_fail' => 'Tải lên hình ảnh thất bại',
+    'change_image' => 'Thay đổi',
+    'delete_image' => 'Xóa',
+    'hover_text' => 'Văn bản khi di chuột',
 
     /*
     | Survey Create Page
@@ -117,7 +137,7 @@ return [
     /*
     | 404 page
     */
-    
+
     '404' => '404',
     'error' => 'Lỗi',
     '404_message' => 'Trang bạn tìm kiếm không tồn tại.',

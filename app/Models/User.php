@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Carbon\Carbon;
 use File;
 use App\Notifications\ResetPasswordNotification;
+use Storage;
 
 class User extends Authenticatable
 {
@@ -61,15 +62,13 @@ class User extends Authenticatable
         $this->attributes['image'] = $value ?: config('users.avatar_default');
     }
 
-    public function getImageAttribute()
+    public function getImagePathAttribute()
     {
-        $pathFile = config('settings.path_upload') . $this->attributes['image'];
-
-        if (!File::exists(public_path($pathFile)) || empty($this->attributes['image'])) {
+        if (!Storage::disk('local')->exists($this->attributes['image']) || empty($this->attributes['image'])) {
             return config('settings.image_user_default');
         }
 
-        return $pathFile;
+        return Storage::url($this->attributes['image']);
     }
 
     public function getBackgroundAttribute()
