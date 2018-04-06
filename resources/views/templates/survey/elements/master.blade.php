@@ -1,4 +1,5 @@
 <li class="form-line sort">
+    <div class="form-row draggable-area"></div>
     <div class="form-row answer-block">
         <div class="col-xl-8 col-lg-8 col-md-8 col-sm-11 col-10">
             {!! Form::textarea('name', '', [
@@ -24,7 +25,7 @@
                         <span>@lang('lang.paragraph')</span>
                     </li>
                     <li>
-                        <span>@lang('lang.short_answer')</span>
+                        <span>@lang('lang.multiple_choice')</span>
                     </li>
                 </ul>
             </div>
