@@ -16,7 +16,7 @@
                     <div class="ui-block">
                         <div class="top-header">
                             <div class="top-header-thumb image-background-profile">
-                                <img src="{{ asset(config('settings.top-background-profile')) }}" alt="nature">
+                                <img src="{{ asset($user->background) }}" alt="nature">
                             </div>
                             <div class="profile-section">
                                 <div class="row">
@@ -60,6 +60,9 @@
                                                     <a href="#" data-toggle="modal" data-target="#update-profile-photo">@lang('lang.update_profile_photo')</a>
                                                 </li>
                                                 <li>
+                                                    <a href="#" data-toggle="modal" data-target="#update-background-photo">@lang('lang.update_cover_photo')</a>
+                                                </li>
+                                                <li>
                                                     <a href="{{ route('survey.profile.edit', $user->id) }}">@lang('lang.account_settings')</a>
                                                 </li>
                                             </ul>
@@ -73,7 +76,7 @@
                                 </a>
                                 <div class="author-content">
                                     <a href="{{ route('survey.profile.show', $user->id) }}" class="h4 author-name">{{ ucwords($user->name) }}</a>
-                                    <div class="country">{{ ucwords($user->email) }}</div>
+                                    <div class="country">{{ $user->email }}</div>
                                 </div>
                             </div>
                         </div>
@@ -108,6 +111,121 @@
                     {!! Form::file('image', ['id' => 'upload-avatar', 'class' => 'a']) !!}
                     {!! Form::submit(trans('lang.change'), ['class' => 'submit-image-profile']) !!}
                 {!! Form::close() !!}
+            </div>
+        </div>
+
+        <div class="modal fade" id="update-background-photo">
+            <div class="modal-dialog ui-block window-popup choose-from-my-photo">
+                <a href="#" class="close icon-close" data-dismiss="modal">
+                    <span><i class="fa fa-times"></i></span>
+                </a>
+
+                <div class="ui-block-title">
+                    <h6 class="title">@lang('lang.update_cover_photo')</h6>
+                </div>
+                <div class="ui-block-content">
+                    <div class="tab-content">
+                        {!! Form::open(['route' => 'survey.survey.update-background', 'method' => 'post']) !!}
+                            <div class="tab-pane active" id="home" role="tabpanel" aria-expanded="true">
+                                <div class="choose-photo-item choose-photo-cover" data-mh="choose-item">
+                                    <div class="radio-image">
+                                        <label class="custom-radio">
+                                            {!! Html::image(asset(config('settings.choose-cover-profile.default')), '') !!}
+                                            {!! Form::radio('background_cover', config('settings.cover-profile.default')) !!}
+                                            <span class="circle"></span>
+                                            <span class="check"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="choose-photo-item choose-photo-cover" data-mh="choose-item">
+                                    <div class="radio-image">
+                                        <label class="custom-radio">
+                                            {!! Html::image(asset(config('settings.choose-cover-profile.1')), '') !!}
+                                            {!! Form::radio('background_cover', config('settings.cover-profile.1')) !!}
+                                            <span class="circle"></span>
+                                            <span class="check"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="choose-photo-item choose-photo-cover" data-mh="choose-item">
+                                    <div class="radio-image">
+                                        <label class="custom-radio">
+                                            {!! Html::image(asset(config('settings.choose-cover-profile.2')), '') !!}
+                                            {!! Form::radio('background_cover', config('settings.cover-profile.2')) !!}
+                                            <span class="circle"></span>
+                                            <span class="check"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="choose-photo-item choose-photo-cover" data-mh="choose-item">
+                                    <div class="radio-image">
+                                        <label class="custom-radio">
+                                            {!! Html::image(asset(config('settings.choose-cover-profile.3')), '') !!}
+                                            {!! Form::radio('background_cover', config('settings.cover-profile.3')) !!}
+                                            <span class="circle"></span>
+                                            <span class="check"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="choose-photo-item choose-photo-cover" data-mh="choose-item">
+                                    <div class="radio-image">
+                                        <label class="custom-radio">
+                                            {!! Html::image(asset(config('settings.choose-cover-profile.4')), '') !!}
+                                            {!! Form::radio('background_cover', config('settings.cover-profile.4')) !!}
+                                            <span class="circle"></span>
+                                            <span class="check"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="choose-photo-item choose-photo-cover" data-mh="choose-item">
+                                    <div class="radio-image">
+                                        <label class="custom-radio">
+                                            {!! Html::image(asset(config('settings.choose-cover-profile.5')), '') !!}
+                                            {!! Form::radio('background_cover', config('settings.cover-profile.5')) !!}
+                                            <span class="circle"></span>
+                                            <span class="check"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="choose-photo-item choose-photo-cover" data-mh="choose-item">
+                                    <div class="radio-image">
+                                        <label class="custom-radio">
+                                            {!! Html::image(asset(config('settings.choose-cover-profile.6')), '') !!}
+                                            {!! Form::radio('background_cover', config('settings.cover-profile.6')) !!}
+                                            <span class="circle"></span>
+                                            <span class="check"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="choose-photo-item choose-photo-cover" data-mh="choose-item">
+                                    <div class="radio-image">
+                                        <label class="custom-radio">
+                                            {!! Html::image(asset(config('settings.choose-cover-profile.7')), '') !!}
+                                            {!! Form::radio('background_cover', config('settings.cover-profile.7')) !!}
+                                            <span class="circle"></span>
+                                            <span class="check"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="choose-photo-item choose-photo-cover" data-mh="choose-item">
+                                    <div class="radio-image">
+                                        <label class="custom-radio">
+                                            {!! Html::image(asset(config('settings.choose-cover-profile.8')), '') !!}
+                                            {!! Form::radio('background_cover', config('settings.cover-profile.8')) !!}
+                                            <span class="circle"></span>
+                                            <span class="check"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="btn-update-cover-profile">
+                                {!! Form::button(trans('lang.cancel'), ['class' => 'btn btn-cancel btn-lg-profile btn-half-width-cover',
+                                    'data-dismiss' => 'modal']) !!}
+                                {!! Form::submit(trans('lang.change'), ['class' => 'btn btn-confirm btn-lg-profile btn-half-width-cover', 'disabled']) !!}
+                            </div>
+                        {!! Form::close() !!}
+                    </div>
+                </div>
             </div>
         </div>
     </div>

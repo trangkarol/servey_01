@@ -146,6 +146,8 @@ return [
     'go_home' => 'Trở về trang chủ',
     'use_the_default_avatar' => 'Sử dụng hình đại diện mặc định',
     'are_you_sure_want_to_delete' => 'Bạn có chắc muốn xóa?',
+    'update_cover_photo' => 'Cập nhật ảnh bìa',
+    'cancel' => 'Hủy bỏ',
 
     /*
         Manage survey
@@ -156,8 +158,17 @@ return [
     'name_survey' => 'Tên survey',
     'status' => 'Trạng thái',
     'date_created' => 'Ngày tạo',
-    'index' => 'Stt',
+    'index' => 'STT',
     'share' => 'Chia sẻ',
+    'send' => 'Gửi',
+    'all' => 'Tất cả',
+    'shareable_link' => 'Link có thể chia sẻ',
+    'copy_link' => 'Sao chép liên kết',
+    'use_this_link_to_share_with_people' => 'Sao chép link này để chia sẻ với mọi người',
+    'send_mail' => 'Gửi mail',
+    'enter_mail_placeholder' => 'Nhập email mà bạn muốn gửi...',
+    'exit' => 'Thoát',
+    'image_not_found' => 'Không tìm thấy hình ảnh.',
 
     /*
         Datatables

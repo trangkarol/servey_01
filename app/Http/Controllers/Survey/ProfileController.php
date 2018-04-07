@@ -184,7 +184,6 @@ class ProfileController extends Controller
         try {
             $user = Auth::user();
             $updateData['image'] = $this->userRepository->uploadAvatar($request, 'image', $user->image);
-
             $this->userRepository->updateUser($user, $updateData);
 
             return redirect()->back()->with('success', trans('lang.edit_success'));
@@ -208,5 +207,23 @@ class ProfileController extends Controller
         } catch (Exception $e) {
             return redirect()->back()->with('error', trans('lang.edit_error'));
         }
+    }
+
+    public function setBackground(Request $request)
+    {
+        try {
+            if ($request->background_cover) {
+                $user = Auth::user();
+                $updateData['background'] = $request->background_cover;
+                $this->userRepository->updateUser($user, $updateData);
+                Session::flash('success', trans('lang.edit_success'));
+            } else {
+                Session::flash('error', trans('lang.image_not_found'));
+            }
+        } catch (Exception $e) {
+            Session::flash('error', trans('lang.edit_error'));
+        }
+            
+        return redirect()->back();
     }
 }

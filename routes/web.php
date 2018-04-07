@@ -202,6 +202,10 @@ Route::group(['namespace' => 'Survey', 'middleware' => 'profile'], function () {
         'as' => 'survey.survey.get-surveys',
         'uses' => 'SurveyManagementController@getSurveys',
     ]);
+    Route::post('update-background', [
+        'as' => 'survey.survey.update-background',
+        'uses' => 'ProfileController@setBackground',
+    ]);
 });
 
 Route::group(['namespace' => 'Auth'], function () {
