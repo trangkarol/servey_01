@@ -80,7 +80,7 @@ class Survey extends Model
 
     public function getStatusCustomAttribute()
     {
-        return $this->attributes['status'] ? trans('lang.open') : trans('lang.closed');
+        return $this->attributes['status'] ? trans('profile.open') : trans('profile.closed');
     }
 
     public function getCreatedAtAttribute()

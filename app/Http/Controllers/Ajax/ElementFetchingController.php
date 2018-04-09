@@ -17,7 +17,7 @@ class ElementFetchingController extends Controller
 
         return response()->json([
             'success' => true,
-            'html' => view('templates.survey.elements.section')->render(),
+            'html' => view('clients.survey.elements.section')->render(),
         ]);
     }
 
@@ -31,7 +31,7 @@ class ElementFetchingController extends Controller
 
         return response()->json([
             'success' => true,
-            'html' => view('templates.survey.elements.multiple-choice')->render(),
+            'html' => view('clients.survey.elements.multiple-choice')->render(),
         ]);
     }
 }

@@ -27,28 +27,6 @@ return [
     'more_tools' => 'Các công cụ khác...',
     'copyright' => 'Bản quyền tập đoàn Framgia &copy;2018.',
     'date_format' => 'd/m/Y',
-    'profile' => 'Trang cá nhân',
-    'change_password' => 'Thay đổi mật khẩu',
-    'important_settings' => 'Thông tin quan trọng',
-    'general_settings' => 'Thông tin chung',
-    'edit_error' => 'Thay đổi thất bại!',
-    'edit_success' => 'Thay đổi thành công!',
-    'password_confirm_wrong' => 'Sai mật khẩu xác nhận!',
-    'password_wrong' => 'Sai mật khẩu củ!',
-    'change' => 'Thay đổi',
-    'male' => 'Nam',
-    'female' => 'Nữ',
-    'other' => 'Khác',
-    'update' => 'Cập nhật',
-    'name' => 'Tên',
-    'avatar' => 'Ảnh đại diện',
-    'gender' => 'Giới tính',
-    'birthday' => 'Ngày sinh',
-    'phone' => 'Số điện thoại',
-    'address' => 'Địa chỉ',
-    'old_password' => 'Mật khẩu củ',
-    'new_password' => 'Mật khẩu mới',
-    're_type_password' => 'Nhập lại mật khẩu',
     'sign_in' => 'Đăng nhập',
     'sign_up' => 'Đăng ký',
     'email' => 'Email',
@@ -127,64 +105,11 @@ return [
     'date' => 'Ngày',
 
     /*
-    | Profile Create Page
+    | 404 page
     */
-
-    'information' => 'Thông tin',
-    'list_survey' => 'Danh sách survey',
-    'update_profile_photo' => 'Cập nhật ảnh đại diện',
-    'account_settings' => 'Cài đặt tài khoản',
-    'personal_info' => 'Thông tin cá nhân',
-    'create_survey' => 'Tạo survey',
-    'upload_photo' => 'Tải ảnh lên',
-    'browse_your_computer' => 'Duyệt máy tính của bạn.',
-    'change_info' => 'Thay đổi thông tin',
-    'delete_avatar' => 'Xóa hình đại điện',
+    
     '404' => '404',
     'error' => 'Lỗi',
     '404_message' => 'Trang bạn tìm kiếm không tồn tại.',
     'go_home' => 'Trở về trang chủ',
-    'use_the_default_avatar' => 'Sử dụng hình đại diện mặc định',
-    'are_you_sure_want_to_delete' => 'Bạn có chắc muốn xóa?',
-    'update_cover_photo' => 'Cập nhật ảnh bìa',
-    'cancel' => 'Hủy bỏ',
-
-    /*
-        Manage survey
-    */
-
-    'open' => 'Survey đang mở',
-    'closed' => 'Survey đã đóng',
-    'name_survey' => 'Tên survey',
-    'status' => 'Trạng thái',
-    'date_created' => 'Ngày tạo',
-    'index' => 'STT',
-    'share' => 'Chia sẻ',
-    'send' => 'Gửi',
-    'all' => 'Tất cả',
-    'shareable_link' => 'Link có thể chia sẻ',
-    'copy_link' => 'Sao chép liên kết',
-    'use_this_link_to_share_with_people' => 'Sao chép link này để chia sẻ với mọi người',
-    'send_mail' => 'Gửi mail',
-    'enter_mail_placeholder' => 'Nhập email mà bạn muốn gửi...',
-    'exit' => 'Thoát',
-    'image_not_found' => 'Không tìm thấy hình ảnh.',
-
-    /*
-        Datatables
-    */
-
-    'sProcessing' => 'Đang xử lý...',
-    'sLengthMenu' => 'Xem _MENU_ mục',
-    'sZeroRecords' => 'Không tìm thấy dòng nào phù hợp',
-    'sInfo' => 'Đang xem _START_ đến _END_ trong tổng số _TOTAL_ mục',
-    'sInfoEmpty' => 'Đang xem 0 đến 0 trong tổng số 0 mục',
-    'sInfoFiltered' => '(được lọc từ _MAX_ mục)',
-    'sInfoPostFix' => '',
-    'sSearch' => 'Tìm:',
-    'sFirst' => 'Đầu',
-    'sPrevious' => 'Trước',
-    'sNext' => 'Tiếp',
-    'sLast' => 'Cuối',
-    'searchPlaceholder' => 'Tìm kiếm...',
 ];

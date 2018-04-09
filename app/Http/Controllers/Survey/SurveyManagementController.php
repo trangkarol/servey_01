@@ -26,9 +26,9 @@ class SurveyManagementController extends Controller
             $user = Auth::user();
             Session::put('page_profile_active', config('settings.page_profile_active.list_survey'));
 
-            return view('survey.survey.list-survey', compact('user'));
+            return view('clients.profile.list-survey', compact('user'));
         } catch (Exception $e) {
-            return view('templates.404');
+            return view('clients.layout.404');
         }
     }
 

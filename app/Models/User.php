@@ -178,14 +178,14 @@ class User extends Authenticatable
     public function getGenderCustomAttribute()
     {
         if ($this->gender == config('users.gender.male')) {
-            return trans('lang.male');
+            return trans('profile.male');
         }
 
         if ($this->gender == config('users.gender.female')) {
-            return trans('lang.female');
+            return trans('profile.female');
         }
 
-        return trans('lang.other');;
+        return trans('profile.other');;
     }
 
     public function checkLoginWsm()
