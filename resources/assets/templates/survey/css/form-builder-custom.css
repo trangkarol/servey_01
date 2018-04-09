@@ -817,6 +817,10 @@ body {
     display: none;
 }
 
+.form-line.liselected.hightlight .checkboxes-block {
+    display: none;
+}
+
 .form-line-actions {
     position: absolute;
     top: -10px;
@@ -1972,6 +1976,174 @@ li .multiple-choice-block .choice .remove-other-choice-option {
 
 li.question-active .multiple-choice-block .choice .remove-choice-option,
 li.question-active .multiple-choice-block .choice .remove-other-choice-option {
+    visibility: visible;
+}
+
+/* checkboxes element */
+
+li .checkboxes-block {
+    margin-top: 10px;
+}
+
+li .checkboxes-block .checkbox {
+    position: relative;
+    padding-left: 10px;
+}
+
+li.question-active .checkboxes-block .checkbox {
+    position: relative;
+    padding-left: 0px;
+}
+
+li .checkboxes-block .checkbox:hover:before {
+    position: absolute;
+    left: -15px;
+    top: 0;
+    content: "\f142";
+    color: #acacac;
+    font-size: 18px;
+    /* Approximation due to font substitution */
+    font-weight: 400;
+    font-family: FontAwesome;
+}
+
+li .checkboxes-block .checkbox:hover:after {
+    position: absolute;
+    left: -10px;
+    top: 0;
+    content: "\f142";
+    color: #acacac;
+    font-size: 18px;
+    /* Approximation due to font substitution */
+    font-weight: 400;
+    font-family: FontAwesome;
+}
+
+li .checkboxes-block .checkbox input {
+    border: 0;
+    border-color: #ced4da;
+    height: 25px;
+    background-color: #fff;
+    display: inline-block;
+    padding-left: 0;
+    margin-left: 5px;
+}
+
+li .checkboxes-block .square-checkbox-icon {
+    cursor: move;
+    padding: 1px 6px 0px;
+}
+
+li .checkboxes-block .checkbox .checkbox-input-block {
+    margin-bottom: 5px;
+}
+
+li .checkboxes-block .checkbox input:focus {
+    outline: 0;
+}
+
+li.question-active .checkboxes-block .checkbox.hightlight {
+    padding-top: 5px;
+    box-shadow: 0 0 2px rgba(0,0,0,.12), 0 1px 4px rgba(0,0,0,.24);
+    border-radius: 5px;
+    opacity: 0.9;
+}
+
+li.question-active .checkboxes-block .checkbox input {
+    border: 0;
+    border-color: #ced4da;
+    height: 25px;
+    background-color: #f5f5f5;
+    display: inline-block;
+    padding-left: 0;
+    margin-left: 5px;
+}
+
+li.question-active .checkboxes-block .checkbox input:focus {
+    outline: 0;
+    border-bottom: 1px solid #ced4da;
+    border-radius: 0;
+}
+
+li.question-active .checkboxes-block .checkbox input:hover {
+    border-bottom: 1px solid #ced4da;
+    border-radius: 0;
+}
+
+li .checkboxes-block .checkbox .answer-image-btn-group {
+    margin-top: -8px;
+}
+
+li .checkboxes-block .checkbox .answer-image-btn {
+    font-size: 18px;
+    opacity: 0.5;
+    color: #333;
+    width: 40px;
+    height: 40px;
+    padding-top: 9px;
+    display: inline-block;
+    text-align: center;
+    border-radius: 50%;
+}
+
+li .checkboxes-block .checkbox .answer-image-btn:hover {
+    color: #333;
+    opacity: 0.8;
+}
+
+li .checkboxes-block .checkbox .answer-image-btn:active {
+    background: #ececec;
+}
+
+li .checkboxes-block .other-checkbox {
+    display: none;
+}
+
+li.question-active .checkboxes-block .other-checkbox {
+    display: flex;
+    padding-left: 0px;
+}
+
+li .checkboxes-block .other-checkbox .other-checkbox-block {
+    padding-left: 10px;
+}
+
+li .checkboxes-block .other-checkbox .other-checkbox-block span {
+    font-size: 14px;
+}
+
+li .checkboxes-block .other-checkbox .other-checkbox-block .other-checkbox-btn {
+    display: inline-block;
+}
+
+li .checkboxes-block .other-checkbox .other-checkbox-block .add-checkbox,
+li .checkboxes-block .other-checkbox .other-checkbox-block .add-other-checkbox {
+    display: inline-block;
+    cursor: pointer;
+    color: #4285f4;
+    font-weight: bold;
+}
+
+li .checkboxes-block .other-checkbox .other-checkbox-block .add-checkbox:hover,
+li .checkboxes-block .other-checkbox .other-checkbox-block .add-other-checkbox:hover {
+    border-bottom: 1px dotted #333;
+}
+
+li .checkboxes-block .checkbox .upload-checkbox-image {
+    visibility: hidden;
+}
+
+li.question-active .checkboxes-block .checkbox .upload-checkbox-image {
+    visibility: visible;
+}
+
+li .checkboxes-block .checkbox .remove-checkbox-option,
+li .checkboxes-block .checkbox .remove-other-checkbox-option {
+    visibility: hidden;
+}
+
+li.question-active .checkboxes-block .checkbox .remove-checkbox-option,
+li.question-active .checkboxes-block .checkbox .remove-other-checkbox-option {
     visibility: visible;
 }
 

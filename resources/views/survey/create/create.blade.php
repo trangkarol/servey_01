@@ -92,7 +92,6 @@
                         </div>
                     </li>
                     @include('templates.survey.elements.title-description')
-                    @include('templates.survey.elements.multiple-choice')
                 </ul>
 
                 <ul class="clearfix form-wrapper page-section" id="sortable2">
@@ -103,7 +102,7 @@
                         </div>
                     </li>
                     @include('templates.survey.elements.title-description')
-                    @include('templates.survey.elements.multiple-choice')
+                    @include('templates.survey.elements.checkboxes')
                 </ul>
             {!! Form::close() !!}
         </div>
@@ -128,6 +127,20 @@
             <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-3 answer-image-btn-group">
                 {{ Html::link('#', '', ['class' => 'answer-image-btn fa fa-image invisible']) }}
                 {{ Html::link('#', '', ['class' => 'answer-image-btn fa fa-times remove-other-choice-option']) }}
+            </div>
+        </div>
+
+        <div class="form-row checkbox other-checkbox-option">
+            <div class="square-checkbox-icon"><i class="fa fa-square-o"></i></div>
+            <div class="col-xl-9 col-lg-9 col-md-9 col-sm-8 col-8 checkbox-input-block">
+                {!! Form::text('name', trans('lang.other_option'), [
+                    'class' => 'form-control',
+                    'readonly' => true,
+                ]) !!}
+            </div>
+            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-3 answer-image-btn-group">
+                {{ Html::link('#', '', ['class' => 'answer-image-btn fa fa-image invisible']) }}
+                {{ Html::link('#', '', ['class' => 'answer-image-btn fa fa-times remove-other-checkbox-option']) }}
             </div>
         </div>
     </div>
