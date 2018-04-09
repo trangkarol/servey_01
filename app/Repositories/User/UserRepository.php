@@ -10,9 +10,12 @@ use App\Models\User;
 use File;
 use Session;
 use Carbon\Carbon;
+use App\Traits\FileProcesser;
 
 class UserRepository extends BaseRepository implements UserInterface
 {
+    use FileProcesser;
+
     public function __construct(User $user)
     {
         parent::__construct($user);
@@ -43,11 +46,7 @@ class UserRepository extends BaseRepository implements UserInterface
                 File::delete(public_path($pathFile));
             }
 
-            $file = $request->file($name);
-            $newFileName = time() . '.'. $file->getClientOriginalExtension();
-            $file->move(config('settings.path_upload'), $newFileName);
-
-            return $newFileName;
+            return $this->UploadImage($request, $name);
         }
     }
 

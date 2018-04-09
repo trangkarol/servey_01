@@ -28,19 +28,19 @@
                             <div class="form-group row">
                                 {!! Form::label('oldpassword', trans('lang.old_password'), ['class' => 'col-sm-3 col-form-label-profile']) !!}
                                 <div class="col-sm-7">
-                                    {!! Form::password('oldpassword', ['class' => 'form-control', 'required']) !!}
+                                    {!! Form::password('oldpassword', ['class' => 'form-control', 'required', 'placeholder' => trans('lang.password_placeholder')]) !!}
                                 </div>
                             </div>
                             <div class="form-group row">
                                 {!! Form::label('newpassword', trans('lang.new_password'), ['class' => 'col-sm-3 col-form-label-profile']) !!}
                                 <div class="col-sm-7">
-                                    {!! Form::password('newpassword', ['class' => 'form-control', 'required']) !!}
+                                    {!! Form::password('newpassword', ['class' => 'form-control', 'required', 'placeholder' => trans('lang.password_placeholder')]) !!}
                                 </div>
                             </div>
                             <div class="form-group row">
                                 {!! Form::label('retypepassword', trans('lang.re_type_password'), ['class' => 'col-sm-3 col-form-label-profile']) !!}
                                 <div class="col-sm-7">
-                                    {!! Form::password('retypepassword', ['class' => 'form-control', 'required']) !!}
+                                    {!! Form::password('retypepassword', ['class' => 'form-control', 'required', 'placeholder' => trans('lang.password_placeholder')]) !!}
                                 </div>
                             </div>
                             <div class="form-group row">

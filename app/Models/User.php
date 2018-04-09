@@ -27,6 +27,7 @@ class User extends Authenticatable
         'image',
         'status',
         'level',
+        'background',
     ];
     /**
      * The attributes that should be hidden for arrays.
@@ -69,6 +70,15 @@ class User extends Authenticatable
         }
 
         return $pathFile;
+    }
+
+    public function getBackgroundAttribute()
+    {
+        if (!File::exists($this->attributes['background']) || empty($this->attributes['background'])) {
+            return config('settings.cover-profile.default');
+        }
+
+        return $this->attributes['background'];
     }
 
     public function setPasswordAttribute($value)

@@ -1042,6 +1042,9 @@ ul.widget.w-personal-info li {
 input.submit-image-profile {
     text-transform: uppercase;
     color: #4786ff;
+    line-height: 30px;
+    font-size: 0.875rem;
+    border-radius: 0.3rem;
 }
 
 input.submit-image-profile:hover {
