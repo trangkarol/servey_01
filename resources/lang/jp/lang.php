@@ -120,6 +120,10 @@ return [
     'add_option' => 'Add option',
     'add_other' => 'Add other',
     'or' => 'or',
+    'date_answer' => 'Moth, day, year',
+    'time_answer' => 'Time',
+    'checkboxes' => 'Checkboxes',
+    'date' => 'Date',
 
     /*
     | Profile Create Page

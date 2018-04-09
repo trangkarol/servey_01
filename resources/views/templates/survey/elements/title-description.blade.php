@@ -26,7 +26,7 @@
                         </li>
                         <h5>@lang('lang.show')</h5>
                         <li>
-                            <span class="option-menu-selected">
+                            <span class="option-menu-selected active">
                                 <span></span>
                             </span>
                             <span class="option-menu-content">@lang('lang.description')</span>
@@ -37,6 +37,13 @@
         </div>
     </div>
     <div class="form-row description-input">
-        <div class="col-12"></div>
+        <div class="col-12">
+            {!! Form::textarea('description', '', [
+                'class' => 'form-control question-description-input active input-area auto-resize',
+                'data-autoresize',
+                'placeholder' => trans('lang.description_section_placeholder'),
+                'rows' => 1
+            ]) !!}
+        </div>
     </div>
 </li>
