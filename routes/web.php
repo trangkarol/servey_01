@@ -168,6 +168,12 @@
 
 // Route::post('ajax/get-mail-suggestion', 'SurveyController@getMailSuggestion');
 
+Route::group(['namespace' => 'Ajax', 'prefix' => 'ajax'], function () {
+    Route::get('fetch-element/section', 'ElementFetchingController@fetchSection')->name('ajax-fetch-section');
+    Route::get('fetch-element/multiple-choice', 'ElementFetchingController@fetchMultipleChoice')
+        ->name('ajax-fetch-multiple-choice');
+});
+
 Route::get('/languages', 'LanguageController@index')->name('set-language');
 
 Route::get('/', 'SurveyController@index')->name('home');
