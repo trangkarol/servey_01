@@ -2698,3 +2698,8 @@ img.fnone {
     font-size: 14px;
     text-align: center;
 }
+
+.text-require-login {
+    color: #b92908;
+    margin-top: 1%;
+}

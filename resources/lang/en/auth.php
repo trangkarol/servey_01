@@ -15,5 +15,5 @@ return [
 
     'failed' => 'Incorrect email or password.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
-
+    'requrie_login' => 'You may login to create survey!',
 ];

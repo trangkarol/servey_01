@@ -38,5 +38,6 @@ elixir(function(mix) {
         .copy('node_modules/datatables.net-dt/css', 'public/plugins/datatables/css')
         .copy('node_modules/datatables.net/js', 'public/plugins/datatables/js')
         .copy('node_modules/datatables.net-dt/images', 'public/plugins/datatables/images')
+        .copy('node_modules/sweetalert/', 'public/plugins/sweetalert')
         .version(['public/templates/survey/css/*.css', 'public/templates/survey/js/*.js']);
 });

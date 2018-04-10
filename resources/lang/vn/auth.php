@@ -15,5 +15,5 @@ return [
 
     'failed' => 'Email hoặc mật khẩu không đúng.',
     'throttle' => 'Lần đăng nhập quá nhiều. Vui lòng thử lại :seconds Giây.',
-
+    'requrie_login' => 'Bạn cần đăng nhập để bắt đầu với khảo sát đầu tiên!',
 ];
