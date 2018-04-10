@@ -9,6 +9,8 @@ return [
     'messages' => [
         'auth',
         'lang',
+        'datatable',
+        'profile',
     ],
 
     /*

@@ -237,5 +237,3 @@ Route::group(['namespace' => 'Auth'], function () {
 Route::group(['middleware' => 'profile'], function () {
     Route::resource('surveys', 'SurveyController');
 });
-
-

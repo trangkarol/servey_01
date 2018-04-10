@@ -27,28 +27,6 @@ return [
     'more_tools' => 'More tools...',
     'copyright' => 'Copyright &copy;2018 Framgia, Inc.',
     'date_format' => 'm/d/Y',
-    'profile' => 'Profile',
-    'change_password' => 'Change password',
-    'important_settings' => 'Important Settings',
-    'general_settings' => 'General Settings',
-    'edit_error' => 'Edit error!',
-    'edit_success' => 'Edit success!',
-    'password_confirm_wrong' => 'Confirmation password wrong!',
-    'password_wrong' => 'Wrong old password!',
-    'change' => 'Change',
-    'male' => 'Male',
-    'female' => 'Female',
-    'other' => 'Other',
-    'update' => 'Update',
-    'name' => 'Name',
-    'avatar' => 'Avatar',
-    'gender' => 'Gender',
-    'birthday' => 'Birthday',
-    'phone' => 'Phone',
-    'address' => 'Address',
-    'old_password' => 'Old password',
-    'new_password' => 'New password',
-    're_type_password' => 'Re-type password',
     'sign_in' => 'Sign in',
     'sign_up' => 'Sign up',
     'email' => 'Email',
@@ -127,69 +105,11 @@ return [
     'date' => 'Date',
 
     /*
-    | Profile Create Page
+    | 404 page
     */
-
-    'information' => 'Information',
-    'list_survey' => 'List of survey',
-    'update_profile_photo' => 'Update profile photo',
-    'account_settings' => 'Account settings',
-    'personal_info' => 'Personal information',
-    'create_survey' => 'Create survey',
-    'upload_photo' => 'Upload photo',
-    'browse_your_computer' => 'Browse your computer.',
-    'change_info' => 'Change infomation',
-    'delete_avatar' => 'Delete avatar',
+    
     '404' => '404',
     'error' => 'Error',
     '404_message' => 'The page you are looking for does not exists.',
     'go_home' => 'Go home',
-    'use_the_default_avatar' => 'Use the default avatar',
-    'are_you_sure_want_to_delete' => 'Are you sure want to delete?',
-    'update_cover_photo' => 'Update cover photo',
-    'cancel' => 'Cancel',
-
-    /*
-        Manage survey
-    */
-
-    'open' => 'Survey is opening',
-    'closed' => 'Survey closed',
-    'name_survey' => 'Name survey',
-    'status' => 'Status',
-    'date_created' => 'Date created',
-    'index' => 'Index',
-    'share' => 'Share',
-    'send' => 'Send',
-    'all' => 'All',
-    'shareable_link' => 'Shareable link',
-    'copy_link' => 'Copy link',
-    'use_this_link_to_share_with_people' => 'Copy this link to share with people',
-    'send_mail' => 'Send mail',
-    'enter_mail_placeholder' => 'Enter the email you want to send...',
-    'exit' => 'Exit',
-    'image_not_found' => 'Image not found',
-
-    /*
-        Datatables
-    */
-
-    'sEmptyTable' => 'No data available in table',
-    'sInfo' => 'Showing _START_ to _END_ of _TOTAL_ entries',
-    'sInfoEmpty' => 'Showing 0 to 0 of 0 entries',
-    'sInfoFiltered' => '(filtered from _MAX_ total entries)',
-    'sInfoPostFix' => '',
-    'sInfoThousands' => ',',
-    'sLengthMenu' => 'Show _MENU_ entries',
-    'sLoadingRecords' => 'Loading...',
-    'sProcessing' => 'Processing...',
-    'sSearch' => 'Search:',
-    'sZeroRecords' => 'No matching records found',
-    'sFirst' => 'First',
-    'sLast' => 'Last',
-    'sNext' => 'Next',
-    'sPrevious' => 'Previous',
-    'sSortAscending' =>  ' => activate to sort column ascending',
-    'sSortDescending' => ' => activate to sort column descending',
-    'searchPlaceholder' => 'Search...',
 ];

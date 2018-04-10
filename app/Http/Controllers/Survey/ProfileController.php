@@ -33,9 +33,9 @@ class ProfileController extends Controller
             $user = Auth::user();
             Session::put('page_profile_active', config('settings.page_profile_active.information'));
 
-            return view('survey.profile.index', compact('user'));
+            return view('clients.profile.index', compact('user'));
         } catch (Exception $e) {
-            return view('templates.404');
+            return view('clients.layout.404');
         }
     }
 
@@ -71,9 +71,9 @@ class ProfileController extends Controller
         try {
             $user = $this->userRepository->find($id);
 
-            return view('survey.profile.index', compact('user'));
+            return view('clients.profile.index', compact('user'));
         } catch (Exception $e) {
-            return view('templates.404');
+            return view('clients.layout.404');
         }
     }
 
@@ -89,9 +89,9 @@ class ProfileController extends Controller
             $user = $this->userRepository->find($id);
             $this->authorize('update', $user);
             
-            return view('survey.profile.setting', compact('user'));
+            return view('clients.profile.setting', compact('user'));
         } catch (Exception $e) {
-            return view('templates.404');
+            return view('clients.layout.404');
         }
     }
 
@@ -123,9 +123,9 @@ class ProfileController extends Controller
 
             $this->userRepository->update($id, $updateData);
 
-            return redirect()->back()->with('success', trans('lang.edit_success'));
+            return redirect()->back()->with('success', trans('profile.edit_success'));
         } catch (Exception $e) {
-            return redirect()->back()->with('error', trans('lang.edit_error'));
+            return redirect()->back()->with('error', trans('profile.edit_error'));
         }
     }
 
@@ -145,9 +145,9 @@ class ProfileController extends Controller
         try {
             $user = Auth::user();
 
-            return view('survey.profile.changepassword', compact('user'));
+            return view('clients.profile.changepassword', compact('user'));
         } catch (Exception $e) {
-            return view('templates.404');
+            return view('clients.layout.404');
         }
     }
 
@@ -157,21 +157,21 @@ class ProfileController extends Controller
             $user = Auth::user();
 
             if (!Hash::check($request->oldpassword, $user->password)) {
-                $error = trans('lang.password_wrong');
+                $error = trans('profile.password_wrong');
                 throw new Exception('Old password wrong');
             }
 
             if ($request->newpassword != $request->retypepassword) {
-                $error = trans('lang.password_confirm_wrong');
+                $error = trans('profile.password_confirm_wrong');
                 throw new Exception('Password confirm wrong!');
             }
 
             $updateData['password'] = $request->newpassword;
             $this->userRepository->updateUser($user, $updateData);
-            Session::flash('success', trans('lang.edit_success'));
+            Session::flash('success', trans('profile.edit_success'));
         } catch (Exception $e) {
             if (!isset($error)) {
-                $error = trans('lang.edit_error');
+                $error = trans('profile.edit_error');
             }
 
             Session::flash('error', $error);
@@ -186,9 +186,9 @@ class ProfileController extends Controller
             $updateData['image'] = $this->userRepository->uploadAvatar($request, 'image', $user->image);
             $this->userRepository->updateUser($user, $updateData);
 
-            return redirect()->back()->with('success', trans('lang.edit_success'));
+            return redirect()->back()->with('success', trans('profile.edit_success'));
         } catch (Exception $e) {
-            return redirect()->back()->with('error', trans('lang.edit_error'));
+            return redirect()->back()->with('error', trans('profile.edit_error'));
         }
     }
 
@@ -203,9 +203,9 @@ class ProfileController extends Controller
 
             $user = $this->userRepository->updateUser($user, ['image' => '']);
 
-            return redirect()->back()->with('success', trans('lang.edit_success'));
+            return redirect()->back()->with('success', trans('profile.edit_success'));
         } catch (Exception $e) {
-            return redirect()->back()->with('error', trans('lang.edit_error'));
+            return redirect()->back()->with('error', trans('profile.edit_error'));
         }
     }
 
@@ -216,12 +216,12 @@ class ProfileController extends Controller
                 $user = Auth::user();
                 $updateData['background'] = $request->background_cover;
                 $this->userRepository->updateUser($user, $updateData);
-                Session::flash('success', trans('lang.edit_success'));
+                Session::flash('success', trans('profile.edit_success'));
             } else {
-                Session::flash('error', trans('lang.image_not_found'));
+                Session::flash('error', trans('profile.image_not_found'));
             }
         } catch (Exception $e) {
-            Session::flash('error', trans('lang.edit_error'));
+            Session::flash('error', trans('profile.edit_error'));
         }
             
         return redirect()->back();

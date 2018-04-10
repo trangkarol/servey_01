@@ -57,12 +57,12 @@ class SurveyController extends Controller
         $data['surveys_open'] = count($this->surveyRepository->getSurveysByStatus(config('survey.status.available'))->get());
         $data['feedbacks'] = count($this->feedbackRepository->lists('id'));
 
-        return view('survey.home.home', compact('data'));
+        return view('clients.home.index', compact('data'));
     }
 
     public function create()
     {
-        return view('survey.create.create');
+        return view('clients.survey.create.create');
     }
 
     public function store(Request $request)

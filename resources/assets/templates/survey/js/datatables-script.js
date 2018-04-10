@@ -5,19 +5,19 @@ $(document).ready(function() {
     var linkShare = $('#share-language').attr('data-url');
 
     var language = {
-        'sProcessing': Lang.get('lang.sProcessing'),
-        'sLengthMenu': Lang.get('lang.sLengthMenu'),
-        'sZeroRecords': Lang.get('lang.sZeroRecords'),
-        'sInfo': Lang.get('lang.sInfo'),
-        'sInfoEmpty': Lang.get('lang.sInfoEmpty'),
-        'sInfoFiltered': Lang.get('lang.sInfoFiltered'),
-        'searchPlaceholder': Lang.get('lang.searchPlaceholder'),
+        'sProcessing': Lang.get('datatable.sProcessing'),
+        'sLengthMenu': Lang.get('datatable.sLengthMenu'),
+        'sZeroRecords': Lang.get('datatable.sZeroRecords'),
+        'sInfo': Lang.get('datatable.sInfo'),
+        'sInfoEmpty': Lang.get('datatable.sInfoEmpty'),
+        'sInfoFiltered': Lang.get('datatable.sInfoFiltered'),
+        'searchPlaceholder': Lang.get('datatable.searchPlaceholder'),
         'sSearch': '',
         'oPaginate': {
-            'sFirst': Lang.get('lang.sFirst'),
-            'sPrevious': Lang.get('lang.sPrevious'),
-            'sNext': Lang.get('lang.sNext'),
-            'sLast': Lang.get('lang.sLast'),
+            'sFirst': Lang.get('datatable.sFirst'),
+            'sPrevious': Lang.get('datatable.sPrevious'),
+            'sNext': Lang.get('datatable.sNext'),
+            'sLast': Lang.get('datatable.sLast'),
         }
     };
 
@@ -73,7 +73,7 @@ $(document).ready(function() {
                         onclick="showLinkShare()" 
                         id="send_mail" token="${full.token}">
                         <i class="fa fa-paper-plane" aria-hidden="true"></i> 
-                        ${Lang.get('lang.send')}</a>`;
+                        ${Lang.get('profile.send')}</a>`;
                 }
             },
             {
@@ -82,7 +82,7 @@ $(document).ready(function() {
                 mRender: function(data, type, full) {
                     return `<a class="share-facebook" href="${linkShare}">
                         <i class="fa fa-facebook-square"></i>
-                        ${Lang.get('lang.share')}</a>`;
+                        ${Lang.get('profile.share')}</a>`;
                 }
             },
             {
@@ -101,9 +101,9 @@ $(document).ready(function() {
         $('#list-survey_filter').prepend(`<label>
                 <select name="list-survey_length" aria-controls="list-survey"
                     class="select-status select-status-survey">
-                    <option value="0">${Lang.get('lang.all')}</option>
-                    <option value="1">${Lang.get('lang.open')}</option>
-                    <option value="2">${Lang.get('lang.closed')}</option>
+                    <option value="0">${Lang.get('profile.all')}</option>
+                    <option value="1">${Lang.get('profile.open')}</option>
+                    <option value="2">${Lang.get('profile.closed')}</option>
                 </select>
             </label>`);
     }
