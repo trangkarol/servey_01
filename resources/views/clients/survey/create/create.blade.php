@@ -38,7 +38,7 @@
                 <!-- /Scroll buttons -->
                 <ul class="clearfix form-wrapper">
                     <li class="form-line p-0">
-                        <div class="form-header">
+                        <div class="form-header form-header-create">
                             <h1>@lang('lang.create_survey')</h1>
                         </div>
                     </li>
@@ -84,26 +84,7 @@
                         </div>
                     </li>
                 </ul>
-                <ul class="clearfix form-wrapper page-section sortable">
-                    <li class="p-0">
-                        <div class="form-header">
-                            <h1>@lang('lang.survey')</h1>
-                            <h4>@lang('lang.survey')</h4>
-                        </div>
-                    </li>
-                    @include('clients.survey.elements.title-description')
-                </ul>
-
-                <ul class="clearfix form-wrapper page-section sortable">
-                    <li class="p-0">
-                        <div class="form-header">
-                            <h1>@lang('lang.survey')</h1>
-                            <h4>@lang('lang.survey')</h4>
-                        </div>
-                    </li>
-                    @include('clients.survey.elements.title-description')
-                    @include('clients.survey.elements.checkboxes')
-                </ul>
+                @include('clients.survey.elements.section')
             {!! Form::close() !!}
         </div>
         <!-- Content Wrapper  -->

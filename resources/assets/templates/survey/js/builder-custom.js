@@ -111,7 +111,9 @@ jQuery(document).ready(function () {
     // dropdown menu select element
     $('.survey-form').on('click', '.survey-select-styled', function(e) {
         e.stopPropagation();
+        $('.survey-select-options').hide();
         $('ul.option-menu-dropdown').hide();
+        $('.section-select-options').hide();
         $('div.survey-select-styled.active').not(this).each(function() {
             $(this).removeClass('active').next('ul.survey-select-options').hide();
         });
@@ -141,15 +143,19 @@ jQuery(document).ready(function () {
     $('.survey-form').on('click', '.page-section .form-line', function () {
         $('.form-line').each(function () {
             $(this).removeClass('question-active');
-            $(this).children().children().children('.question-input').addClass('active');
-            $(this).children().children().children('.question-input').parent().addClass('col-xl-12');
-            $(this).children().children().children('.question-description-input').addClass('active');
+            $(this).find('.question-input').addClass('active');
+            $(this).find('.question-input').parent().addClass('col-xl-12');
+            $(this).find('.element-content').removeClass('hidden');
+            $(this).find('.question-description-input').removeClass('hidden');
+            $(this).find('.question-description-input').addClass('active');
         });
 
+        $(this).closest('.survey-form').find('.zoom-btn').removeClass('zoom-out-btn');
+        $(this).closest('.survey-form').find('.zoom-btn').addClass('zoom-in-btn');
         $(this).addClass('question-active');
-        $(this).children().children().children('.question-input').removeClass('active');
-        $(this).children().children().children('.question-input').parent().removeClass('col-xl-12');
-        $(this).children().children().children('.question-description-input').removeClass('active');
+        $(this).find('.question-input').removeClass('active');
+        $(this).find('.question-input').parent().removeClass('col-xl-12');
+        $(this).find('.question-description-input').removeClass('active');
     });
 
     $('.survey-form').on('focus', '.question-input', function () {
@@ -160,6 +166,8 @@ jQuery(document).ready(function () {
     $('.survey-form').on('click', '.option-menu-group', function(e) {
         e.stopPropagation();
         $('.survey-select-options').hide();
+        $('ul.option-menu-dropdown').hide();
+        $('.section-select-options').hide();
         $(this).children('.option-menu').toggleClass('active').next('ul.option-menu-dropdown').toggle();
 
         return false;
@@ -469,5 +477,63 @@ jQuery(document).ready(function () {
                 });
             }
         });
+    });
+
+    /**
+     * add Section
+     */
+
+    // section header dropdown 
+    $('.survey-form').on('click', '.section-select-styled', function(e) {
+        e.stopPropagation();
+        $('.survey-select-options').hide();
+        $('ul.option-menu-dropdown').hide();
+        $('.section-select-options').hide();
+        $('div.section-select-styled.active').not(this).each(function() {
+            $(this).removeClass('active').next('ul.section-select-options').hide();
+        });
+        $(this).toggleClass('active').next('ul.section-select-options').toggle();
+    });
+
+    $('.survey-form').on('click', '.section-select-options li', function(e) {
+        e.stopPropagation();
+        $('div.section-select-styled').html($(this).html()).removeClass('active');
+        $('.section-select-options').hide();
+        $('.section-select-styled').removeClass('active');
+    });
+
+    $(document).click(function() {
+        $('.section-select-styled').removeClass('active');
+        $('.section-select-options').hide();
+    });
+
+    // section zoom-in zoom-out btn
+    $('.survey-form').on('click', '.zoom-btn', function () {
+        if ($(this).hasClass('zoom-in-btn')) {
+            $(this).removeClass('zoom-in-btn');
+            $(this).addClass('zoom-out-btn');
+
+            $(this).closest('.page-section').find('.form-line').each(function () {
+                $(this).removeClass('liselected');
+                $(this).removeClass('question-active');
+                $(this).find('.question-input').addClass('active');
+                $(this).find('.question-input').parent().addClass('col-xl-12');
+                $(this).find('.question-description-input').addClass('hidden');
+                $(this).find('.element-content').addClass('hidden');
+            });
+        } else {
+            $(this).removeClass('zoom-out-btn');
+            $(this).addClass('zoom-in-btn');
+
+            $(this).closest('.page-section').find('.form-line').each(function () {
+                $(this).find('.question-input').addClass('active');
+                $(this).find('.question-input').parent().addClass('col-xl-12');
+                $(this).find('.question-description-input').removeClass('hidden');
+                $(this).find('.question-description-input').addClass('active');
+                $(this).find('.element-content').removeClass('hidden');
+            });
+        }
+
+        return false;
     });
 });

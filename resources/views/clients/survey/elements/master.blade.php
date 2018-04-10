@@ -53,7 +53,7 @@
     <div class="form-row description-input">
         <div class="col-12"></div>
     </div>
-    <div class="form-row">
+    <div class="form-row element-content">
         @yield('element-content')
     </div>
     <div class="form-row question-action-group">

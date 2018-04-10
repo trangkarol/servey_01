@@ -103,6 +103,16 @@ return [
     'time_answer' => 'Time',
     'checkboxes' => 'Checkboxes',
     'date' => 'Date',
+    'section' => 'Section',
+    'duplicate_section' => 'Duplicate section',
+    'move_section' => 'Move section',
+    'delete_section' => 'Delete section',
+    'merge_with_above' => 'Merge with above',
+    'section-title' => 'Untitled Section',
+    'after_section' => 'After section',
+    'continue_next_section' => 'Continue to next section',
+    'go_to_section' => 'Go to section :part',
+    'submit_form' => 'Submit form',
 
     /*
     | 404 page
