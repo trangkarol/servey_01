@@ -172,6 +172,8 @@ Route::group(['namespace' => 'Ajax', 'prefix' => 'ajax'], function () {
     Route::get('fetch-element/section', 'ElementFetchingController@fetchSection')->name('ajax-fetch-section');
     Route::get('fetch-element/multiple-choice', 'ElementFetchingController@fetchMultipleChoice')
         ->name('ajax-fetch-multiple-choice');
+    Route::get('fetch-element/title-description', 'ElementFetchingController@fetchTitleDescription')
+        ->name('ajax-fetch-title-description');
 });
 
 Route::get('/languages', 'LanguageController@index')->name('set-language');

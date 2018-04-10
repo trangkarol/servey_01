@@ -19,19 +19,29 @@
                 <div class="scroll-button-group-sidebar">
                     <div class="button-group-sidebar">
                         <div class="survey-action">
-                            <button class="btn btn-outline-light text-dark" id="add-question-btn" data-url="{{ route('ajax-fetch-multiple-choice') }}"><i class="fa fa-fw fa-plus-circle text-dark"></i></button>
+                            <button type="button" class="btn btn-outline-light text-dark" id="add-question-btn" data-url="{{ route('ajax-fetch-multiple-choice') }}">
+                                <i class="fa fa-fw fa-plus-circle text-dark"></i>
+                            </button>
                         </div>
                         <div class="survey-action">
-                            <button class="btn btn-outline-light text-dark" id="add-title-description-btn"><i class="fa fa-fw fa-header text-dark"></i></button>
+                            <button type="button" class="btn btn-outline-light text-dark" id="add-title-description-btn"  data-url="{{ route('ajax-fetch-title-description') }}">
+                                <i class="fa fa-fw fa-header text-dark"></i>
+                            </button>
                         </div>
                         <div class="survey-action">
-                            <button class="btn btn-outline-light text-dark"><i class="fa fa-fw fa-picture-o text-dark"></i></button>
+                            <button type="button" class="btn btn-outline-light text-dark">
+                                <i class="fa fa-fw fa-picture-o text-dark"></i>
+                            </button>
                         </div>
                         <div class="survey-action">
-                            <button class="btn btn-outline-light text-dark"><i class="fa fa-fw fa-video-camera text-dark"></i></button>
+                            <button type="button" class="btn btn-outline-light text-dark">
+                                <i class="fa fa-fw fa-video-camera text-dark"></i>
+                            </button>
                         </div>
                         <div class="survey-action">
-                        <button class="btn btn-outline-light text-dark" id="add-section-btn" data-url="{{ route('ajax-fetch-section') }}"><i class="fa fa-fw fa-bars text-dark"></i></button>
+                            <button type="button" class="btn btn-outline-light text-dark" id="add-section-btn" data-url="{{ route('ajax-fetch-section') }}">
+                                <i class="fa fa-fw fa-bars text-dark"></i>
+                            </button>
                         </div>
                     </div>
                 </div>

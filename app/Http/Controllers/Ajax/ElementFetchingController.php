@@ -21,6 +21,20 @@ class ElementFetchingController extends Controller
         ]);
     }
 
+    public function fetchTitleDescription(Request $request)
+    {
+        if (!$request->ajax()) {
+            return response()->json([
+                'success' => false,
+            ]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'html' => view('clients.survey.elements.title-description')->render(),
+        ]);
+    }
+
     public function fetchMultipleChoice(Request $request)
     {
         if (!$request->ajax()) {
