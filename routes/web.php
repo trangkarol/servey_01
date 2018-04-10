@@ -174,6 +174,12 @@ Route::get('/', 'SurveyController@index')->name('home');
 
 Route::get('/home', 'SurveyController@index');
 
+//login social
+
+Route::get('/redirect/{provider}', 'User\SocialAuthController@redirect')->name('socialRedirect');
+
+Route::get('/callback/{provider}', 'User\SocialAuthController@callback')->name('socialCallback');
+
 Route::group(['namespace' => 'Survey', 'middleware' => 'profile'], function () {
     Route::resource('profile', 'ProfileController', [
         'as' => 'survey',
@@ -222,10 +228,8 @@ Route::group(['namespace' => 'Auth'], function () {
     Route::post('password/reset', 'ResetPasswordController@resetPasswordUser')->name('reset-password');
 });
 
-Route::get('/redirect/{provider}', 'User\SocialAuthController@redirect')->name('socialRedirect');
-
-Route::get('/callback/{provider}', 'User\SocialAuthController@callback')->name('socialCallback');
-
-Route::get('survey/create', function () {
-    return view('survey.create.create');
+Route::group(['middleware' => 'profile'], function () {
+    Route::resource('surveys', 'SurveyController');
 });
+
+

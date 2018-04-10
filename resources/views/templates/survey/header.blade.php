@@ -129,7 +129,7 @@
                                                 @lang('lang.hello') {{ Auth::user()->name }}
                                             </li>
                                             <li>
-                                                {{ Html::link('#', trans('lang.my_surveys'), ['class' => 'dropdown-item']) }}
+                                                {{ Html::link( route('survey.survey.show-surveys'), trans('lang.my_surveys'), ['class' => 'dropdown-item']) }}
                                             </li>
                                             <li>
                                                 {{ Html::link(route('survey.profile.index'), trans('lang.profile'), ['class' => 'dropdown-item']) }}

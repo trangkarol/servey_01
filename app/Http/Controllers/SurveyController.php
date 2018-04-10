@@ -60,6 +60,160 @@ class SurveyController extends Controller
         return view('survey.home.home', compact('data'));
     }
 
+    public function create()
+    {
+        return view('survey.create.create');
+    }
+
+    public function store(Request $request)
+    {
+        $value = $request->only([
+            'title',
+            'feature',
+            'start_time',
+            'next_reminder_time',
+            'deadline',
+            'description',
+            'txt-question',
+            'checkboxRequired',
+            'email',
+            'emails',
+            'setting',
+            'name',
+            'image',
+            'image-url',
+            'video-url',
+        ]);
+
+        $validator = $this->makeValidator([
+            'txt-question' => $value['txt-question'],
+            'image' => $value['image'],
+        ], true);
+        $validator = Validator::make($request->all(), $validator);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withInput()
+                ->with('message-fail', trans_choice('messages.object_created_unsuccessfully', 1));
+        }
+
+        if (!strlen($value['title'])) {
+            $value['title'] = config('survey.title_default');
+        }
+
+        $token = md5(uniqid(rand(), true));
+        $tokenManage = md5(uniqid(rand(), true));
+        DB::beginTransaction();
+        try {
+            $inputs = collect([
+                'user_id' => (auth()->id()) ?: null,
+                'mail' => (!auth()->id()) ? $value['email'] : null,
+                'title' => $value['title'],
+                'feature' => empty($value['feature']) ? config('settings.feature') : config('settings.not_feature'),
+                'token' => $token,
+                'token_manage' => $tokenManage,
+                'status' => $value['deadline'],
+                'start_time' => $value['start_time'],
+                'next_reminder_time' => $value['next_reminder_time'],
+                'deadline' => $value['deadline'],
+                'description' => $value['description'],
+                'user_name' => $value['name'],
+            ]);
+            $survey = $this->surveyRepository->createSurvey(
+                $inputs,
+                ($value['setting']) ?: [],
+                $value['txt-question'],
+                ($value['checkboxRequired']['question']) ?: [],
+                ($value['image']) ?: [],
+                $this->removeEmptyValue($value['image-url']),
+                $this->removeEmptyValue($value['video-url']),
+                Session::get('locale')
+            );
+
+            if ($survey) {
+                $inputInfo = $request->only([
+                    'name',
+                    'email',
+                    'title',
+                    'description',
+                ]);
+                $inputInfo['link'] = action($inputs['feature']
+                    ? 'AnswerController@answerPublic'
+                    : 'AnswerController@answerPrivate', [
+                        'token' => $token,
+                    ]);
+                $inputInfo['linkManage'] = action('AnswerController@show', [
+                    'tokenManage' => $tokenManage,
+                ]);
+                $job = (new SendMail(collect($inputInfo), 'mailManage'))
+                    ->onConnection('database')
+                    ->onQueue('emails');
+                $isSuccess = ($this->dispatch($job) && $this->inviteUser($request, $survey, config('settings.return.bool')));
+
+                if (!$isSuccess) {
+                    throw new Exception('Create Survey is Fail.');
+                }
+            }
+
+            DB::commit();
+
+            return redirect()->action('SurveyController@complete', $tokenManage);
+        } catch (Exception $e) {
+            DB::rollback();
+
+            return redirect()->action('SurveyController@index')
+                ->withInput()
+                ->with('message-fail', trans_choice('messages.object_created_unsuccessfully', 1));
+        }
+    }
+
+    public function show($token)
+    {
+        $surveys = $this->surveyRepository->where('token', $token)->first();
+
+        if (!$surveys) {
+            return view('errors.404');
+        }
+
+        return view('user.pages.answer', compact('surveys'));
+    }
+
+    public function edit($id)
+    {
+        //
+    }
+
+    public function update($id, Request $request)
+    {
+        //
+    }
+
+    public function destroy(Request $request)
+    {
+        if (!$request->ajax()) {
+            return [
+                'success' => false,
+            ];
+        }
+
+        $surveyId = $request->get('idSurvey');
+        $this->surveyRepository->delete($surveyId);
+
+        try {
+            $redis = LRedis::connection();
+            $redis->publish('delete', json_encode([
+                'success' => true,
+                'surveyId' => $surveyId,
+            ]));
+        } catch (ConnectionException $e) {
+        }
+
+        return [
+            'success' => true,
+        ];
+    }
+
+
     public function checkCloseSurvey($inviteIds, $surveyIds)
     {
         $ids = array_merge(
@@ -140,31 +294,6 @@ class SurveyController extends Controller
         }
 
         return view('user.pages.list-survey', compact('surveys', 'invites', 'settings', 'surveyCloses'));
-    }
-
-    public function delete(Request $request)
-    {
-        if (!$request->ajax()) {
-            return [
-                'success' => false,
-            ];
-        }
-
-        $surveyId = $request->get('idSurvey');
-        $this->surveyRepository->delete($surveyId);
-
-        try {
-            $redis = LRedis::connection();
-            $redis->publish('delete', json_encode([
-                'success' => true,
-                'surveyId' => $surveyId,
-            ]));
-        } catch (ConnectionException $e) {
-        }
-
-        return [
-            'success' => true,
-        ];
     }
 
     public function open($id, Request $request)
@@ -255,17 +384,6 @@ class SurveyController extends Controller
                 'url' => action('AnswerController@show', ['token' => $newSurvey->token_manage]),
             ];
         }
-    }
-
-    public function show($token)
-    {
-        $surveys = $this->surveyRepository->where('token', $token)->first();
-
-        if (!$surveys) {
-            return view('errors.404');
-        }
-
-        return view('user.pages.answer', compact('surveys'));
     }
 
     public function updateSurvey(UpdateSurveyRequest $request, $id)
@@ -474,108 +592,6 @@ class SurveyController extends Controller
         }
 
         return $array;
-    }
-
-    public function create(Request $request)
-    {
-        $value = $request->only([
-            'title',
-            'feature',
-            'start_time',
-            'next_reminder_time',
-            'deadline',
-            'description',
-            'txt-question',
-            'checkboxRequired',
-            'email',
-            'emails',
-            'setting',
-            'name',
-            'image',
-            'image-url',
-            'video-url',
-        ]);
-
-        $validator = $this->makeValidator([
-            'txt-question' => $value['txt-question'],
-            'image' => $value['image'],
-        ], true);
-        $validator = Validator::make($request->all(), $validator);
-
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withInput()
-                ->with('message-fail', trans_choice('messages.object_created_unsuccessfully', 1));
-        }
-
-        if (!strlen($value['title'])) {
-            $value['title'] = config('survey.title_default');
-        }
-
-        $token = md5(uniqid(rand(), true));
-        $tokenManage = md5(uniqid(rand(), true));
-        DB::beginTransaction();
-        try {
-            $inputs = collect([
-                'user_id' => (auth()->id()) ?: null,
-                'mail' => (!auth()->id()) ? $value['email'] : null,
-                'title' => $value['title'],
-                'feature' => empty($value['feature']) ? config('settings.feature') : config('settings.not_feature'),
-                'token' => $token,
-                'token_manage' => $tokenManage,
-                'status' => $value['deadline'],
-                'start_time' => $value['start_time'],
-                'next_reminder_time' => $value['next_reminder_time'],
-                'deadline' => $value['deadline'],
-                'description' => $value['description'],
-                'user_name' => $value['name'],
-            ]);
-            $survey = $this->surveyRepository->createSurvey(
-                $inputs,
-                ($value['setting']) ?: [],
-                $value['txt-question'],
-                ($value['checkboxRequired']['question']) ?: [],
-                ($value['image']) ?: [],
-                $this->removeEmptyValue($value['image-url']),
-                $this->removeEmptyValue($value['video-url']),
-                Session::get('locale')
-            );
-
-            if ($survey) {
-                $inputInfo = $request->only([
-                    'name',
-                    'email',
-                    'title',
-                    'description',
-                ]);
-                $inputInfo['link'] = action($inputs['feature']
-                    ? 'AnswerController@answerPublic'
-                    : 'AnswerController@answerPrivate', [
-                        'token' => $token,
-                    ]);
-                $inputInfo['linkManage'] = action('AnswerController@show', [
-                    'tokenManage' => $tokenManage,
-                ]);
-                $job = (new SendMail(collect($inputInfo), 'mailManage'))
-                    ->onConnection('database')
-                    ->onQueue('emails');
-                $isSuccess = ($this->dispatch($job) && $this->inviteUser($request, $survey, config('settings.return.bool')));
-
-                if (!$isSuccess) {
-                    throw new Exception('Create Survey is Fail.');
-                }
-            }
-
-            DB::commit();
-
-            return redirect()->action('SurveyController@complete', $tokenManage);
-        } catch (Exception $e) {
-            DB::rollback();
-
-            return redirect()->action('SurveyController@index')
-                ->withInput()
-                ->with('message-fail', trans_choice('messages.object_created_unsuccessfully', 1));
-        }
     }
 
     public function complete($token)

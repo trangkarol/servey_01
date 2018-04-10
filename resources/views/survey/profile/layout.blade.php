@@ -45,7 +45,7 @@
                                         @if (Auth::user() == $user)
                                             <ul class="profile-menu">
                                                 <li>
-                                                    <a href="">@lang('lang.create_survey')</a>
+                                                    <a href="{{ route('surveys.create') }}">@lang('lang.create_survey')</a>
                                                 </li>
                                             </ul>
                                         @endif

@@ -58,7 +58,12 @@
                                         <span class="dash_title">@lang('lang.feedbacks')</span>
                                     </div>
                                 </div>
-                                <a class="btn btn-primary m-a-5 start-btn" href="#brief_1"><i class="fa fa-send-o"></i> @lang('lang.get_started')</a>
+                               
+                                <a class="btn btn-primary m-a-5 start-btn" href="{{ route('surveys.create') }}"><i class="fa fa-send-o"></i> @lang('lang.get_started')</a>
+
+                                @if (!Auth::guard()->check())
+                                    <p class="text-require-login">@lang('auth.requrie_login')</p>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -66,6 +71,7 @@
             </div>
         </div>
         <div class="section block-default align-c-xs-max about-1">
+           @include('survey.profile.notice')
             <div class="container">
                 <div class="row row-table">
                     <div class="col-md-6">
