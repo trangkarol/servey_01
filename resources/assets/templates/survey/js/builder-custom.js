@@ -1,6 +1,6 @@
 jQuery(document).ready(function () {
     /* Selecting form components*/
-    $('li.sort').on('click', function () {
+    $('.survey-form').on('click', 'ul.sortable li.sort', function () {
         $('.form-line').removeClass('liselected');
         $(this).addClass('liselected');
         setScrollButtonTop($('.button-group-sidebar'), $(this).position().top - 96);
@@ -51,65 +51,44 @@ jQuery(document).ready(function () {
         setScrollButtonTopByScroll($('.button-group-sidebar'));
     });
 
-    $('.survey-action').on('click', function (e) {
-        e.preventDefault();
-    });
+    /**
+     * Form sortable
+     */
 
-    $('#sortable1').sortable({
-        axis: 'y',
-        containment: 'form',
-        handle: '.draggable-area',
-        cursor: 'move',
-        classes: {
-            'ui-sortable-helper': 'hightlight'
-        },
-        connectWith: '.page-section',
-        items: '> li:not(:first)',
-        forcePlaceholderSize: true,
-        start: function(e, ui) {
-            if (ui.item.height() > 240) {
-                ui.item.offset(ui.placeholder.offset());
-                ui.item.height(240);
-                ui.placeholder.height(240);
-            } else {
-                ui.placeholder.height(ui.item.height());
-            }
-        },
-        stop: function (event, ui) {
-            $(ui.item).removeAttr('style');
-        },
-    });
+    function formSortable() {
+        $('.survey-form ul.sortable').sortable({
+            axis: 'y',
+            containment: '.content-wrapper',
+            handle: '.draggable-area',
+            cursor: 'move',
+            classes: {
+                'ui-sortable-helper': 'hightlight'
+            },
+            connectWith: '.page-section',
+            items: '> li:not(:first)',
+            forcePlaceholderSize: true,
+            start: function(e, ui) {
+                if (ui.item.height() > 240) {
+                    ui.item.offset(ui.placeholder.offset());
+                    ui.item.height(240);
+                    ui.placeholder.height(240);
+                } else {
+                    ui.placeholder.height(ui.item.height());
+                }
+            },
+            stop: function (event, ui) {
+                $(ui.item).removeAttr('style');
+            },
+        });
+    }
 
-    $('#sortable2').sortable({
-        axis: 'y',
-        containment: 'form',
-        handle: '.draggable-area',
-        cursor: 'move',
-        classes: {
-            'ui-sortable-helper': 'hightlight'
-        },
-        connectWith: '.page-section',
-        items: '> li:not(:first)',
-        forcePlaceholderSize: true,
-        start: function(e, ui) {
-            if (ui.item.height() > 240) {
-                ui.item.offset(ui.placeholder.offset());
-                ui.item.height(240);
-                ui.placeholder.height(240);
-            } else {
-                ui.placeholder.height(ui.item.height());
-            }
-        },
-        stop: function (event, ui) {
-            $(ui.item).removeAttr('style');
-        },
-    });
+    formSortable();
 
     /**
      * Select text in the input element when focus
      */
 
-    $('.page-section').on('focus', 'input', function (e) {
+    $('.survey-form').on('focus', '.page-section input', function (e) {
         $(this).select();
     });
 
@@ -130,7 +109,7 @@ jQuery(document).ready(function () {
     });
 
     // dropdown menu select element
-    $('.survey-select-styled').click(function(e) {
+    $('.survey-form').on('click', '.survey-select-styled', function(e) {
         e.stopPropagation();
         $('ul.option-menu-dropdown').hide();
         $('div.survey-select-styled.active').not(this).each(function() {
@@ -139,7 +118,7 @@ jQuery(document).ready(function () {
         $(this).toggleClass('active').next('ul.survey-select-options').toggle();
     });
 
-    $('.survey-select-options li').click(function(e) {
+    $('.survey-form').on('click', '.survey-select-options li', function(e) {
         e.stopPropagation();
         $('div.survey-select-styled').html($(this).html()).removeClass('active');
         $('.survey-select-options').hide();
@@ -152,14 +131,14 @@ jQuery(document).ready(function () {
     });
 
     // required btn
-    $('.question-required-checkbox label .toggle').click(function () {
+    $('.survey-form').on('click', '.question-required-checkbox label .toggle', function () {
         $(this).toggleClass('active');
         var checked = $(this).prev().attr('checked');
         $(this).prev().attr('checked', !checked);
     });
 
     // hide-show element block
-    $('.page-section .form-line').click(function () {
+    $('.survey-form').on('click', '.page-section .form-line', function () {
         $('.form-line').each(function () {
             $(this).removeClass('question-active');
             $(this).children().children().children('.question-input').addClass('active');
@@ -173,12 +152,12 @@ jQuery(document).ready(function () {
         $(this).children().children().children('.question-description-input').removeClass('active');
     });
 
-    $('.question-input').focus(function () {
+    $('.survey-form').on('focus', '.question-input', function () {
         $(this).parent().parent().parent().click();
     });
 
     // survey option menu
-    $('.option-menu-group').click(function(e) {
+    $('.survey-form').on('click', '.option-menu-group', function(e) {
         e.stopPropagation();
         $('.survey-select-options').hide();
         $(this).children('.option-menu').toggleClass('active').next('ul.option-menu-dropdown').toggle();
@@ -191,7 +170,7 @@ jQuery(document).ready(function () {
         $('.option-menu-dropdown').hide();
     });
 
-    $('.option-menu-dropdown li').click(function(e) {
+    $('.survey-form').on('click', '.option-menu-dropdown li', function(e) {
         e.stopPropagation();
         $(this).children('.option-menu-selected').toggleClass('active');
         $(this).parent().hide();
@@ -221,7 +200,7 @@ jQuery(document).ready(function () {
         });
     });
 
-    $('.question-input, .question-description-input').keypress(function(e) {
+    $('.survey-form').on('keypress', '.question-input, .question-description-input', function(e) {
         if ((e.keyCode || e.which) === 13) {
             return false;
         }
@@ -236,10 +215,10 @@ jQuery(document).ready(function () {
      * multiple choice
      */
 
-    $('#sortable1 .multiple-choice-block').sortable({
+    $('.survey-form ul.sortable .multiple-choice-block').sortable({
         axis: 'y',
         handle: '.radio-choice-icon',
-        containment: '#sortable1 .multiple-choice-block',
+        containment: '.survey-form ul.sortable .multiple-choice-block',
         cursor: 'move',
         items: '.choice-sortable',
         classes: {
@@ -250,21 +229,7 @@ jQuery(document).ready(function () {
         },
     });
 
-    $('#sortable2 .multiple-choice-block').sortable({
-        axis: 'y',
-        handle: '.radio-choice-icon',
-        containment: '#sortable2 .multiple-choice-block',
-        cursor: 'move',
-        items: '.choice-sortable',
-        classes: {
-            'ui-sortable-helper': 'hightlight'
-        },
-        stop: function (event, ui) {
-            $(ui.item).removeAttr('style');
-        },
-    });
-
-    $('.form-line .multiple-choice-block').on('keydown', '.choice', function (e) {
+    $('.survey-form').on('keydown', '.form-line .multiple-choice-block .choice', function (e) {
         if ($(this).hasClass('other-choice-option')) {
             return;
         }
@@ -295,7 +260,7 @@ jQuery(document).ready(function () {
         }
     });
 
-    $('.form-line .multiple-choice-block').on('click', '.choice', function (e) {
+    $('.survey-form').on('click', '.form-line .multiple-choice-block .choice', function (e) {
         var input = $(this).find('input');
 
         if (!input.val()) {
@@ -304,7 +269,7 @@ jQuery(document).ready(function () {
         }
     });
 
-    $('.form-line .multiple-choice-block').on('blur', '.choice', function (e) {
+    $('.survey-form').on('blur', '.form-line .multiple-choice-block .choice', function (e) {
         var input = $(this).find('input');
 
         if (!input.val()) {
@@ -314,7 +279,7 @@ jQuery(document).ready(function () {
     });
 
     // remove choice option
-    $('.form-line .multiple-choice-block').on('click', '.remove-choice-option', function (e) {
+    $('.survey-form').on('click', '.form-line .multiple-choice-block .remove-choice-option', function (e) {
         e.preventDefault();
         var option = $(this).closest('.choice.choice-sortable');
 
@@ -325,14 +290,14 @@ jQuery(document).ready(function () {
         }
     });
 
-    $('.form-line .multiple-choice-block').on('click', '.remove-other-choice-option', function (e) {
+    $('.survey-form').on('click', '.form-line .multiple-choice-block .remove-other-choice-option', function (e) {
         e.preventDefault();
         var option = $(this).closest('.choice');
         $(this).closest('.multiple-choice-block').find('.other-choice .other-choice-btn').first().show();
         option.fadeOut(500).remove();
     });
 
-    $('.form-line .multiple-choice-block .other-choice .other-choice-block .add-choice').on('click', function (e) {
+    $('.survey-form').on('click', '.form-line .multiple-choice-block .other-choice .other-choice-block .add-choice', function (e) {
         var multipleChoiceBlock = $(this).closest('.multiple-choice-block');
         var choice = $(this).closest('.multiple-choice-block').find('.choice').first();
         var nextElement;
@@ -351,7 +316,7 @@ jQuery(document).ready(function () {
         input.focus();
     });
 
-    $('.form-line .multiple-choice-block .other-choice .other-choice-block .add-other-choice').on('click', function (e) {
+    $('.survey-form').on('click', '.form-line .multiple-choice-block .other-choice .other-choice-block .add-other-choice', function (e) {
         if (!$(this).closest('.multiple-choice-block').find('.other-choice-option').first().length) {
             var otherChoice = $(this).closest('.other-choice');
             var otherChoiceOption = $('#element-clone').find('.other-choice-option').clone();
@@ -364,10 +329,10 @@ jQuery(document).ready(function () {
      * checkboxes
      */
 
-    $('#sortable1 .checkboxes-block').sortable({
+    $('.survey-form ul.sortable .checkboxes-block').sortable({
         axis: 'y',
         handle: '.square-checkbox-icon',
-        containment: '#sortable1 .checkboxes-block',
+        containment: '.survey-form ul.sortable .checkboxes-block',
         cursor: 'move',
         items: '.checkbox-sortable',
         classes: {
@@ -378,21 +343,7 @@ jQuery(document).ready(function () {
         },
     });
 
-    $('#sortable2 .checkboxes-block').sortable({
-        axis: 'y',
-        handle: '.square-checkbox-icon',
-        containment: '#sortable2 .checkboxes-block',
-        cursor: 'move',
-        items: '.checkbox-sortable',
-        classes: {
-            'ui-sortable-helper': 'hightlight'
-        },
-        stop: function (event, ui) {
-            $(ui.item).removeAttr('style');
-        },
-    });
-
-    $('.form-line .checkboxes-block').on('keydown', '.checkbox', function (e) {
+    $('.survey-form').on('keydown', '.form-line .checkboxes-block .checkbox', function (e) {
         if ($(this).hasClass('other-checkbox-option')) {
             return;
         }
@@ -423,7 +374,7 @@ jQuery(document).ready(function () {
         }
     });
 
-    $('.form-line .checkboxes-block').on('click', '.checkbox', function (e) {
+    $('.survey-form').on('click', '.form-line .checkboxes-block .checkbox', function (e) {
         var input = $(this).find('input');
 
         if (!input.val()) {
@@ -432,7 +383,7 @@ jQuery(document).ready(function () {
         }
     });
 
-    $('.form-line .checkboxes-block').on('blur', '.checkbox', function (e) {
+    $('.survey-form').on('blur', '.form-line .checkboxes-block .checkbox', function (e) {
         var input = $(this).find('input');
 
         if (!input.val()) {
@@ -442,7 +393,7 @@ jQuery(document).ready(function () {
     });
 
     // remove checkbox option
-    $('.form-line .checkboxes-block').on('click', '.remove-checkbox-option', function (e) {
+    $('.survey-form').on('click', '.form-line .checkboxes-block .remove-checkbox-option', function (e) {
         e.preventDefault();
         var option = $(this).closest('.checkbox.checkbox-sortable');
 
@@ -453,14 +404,14 @@ jQuery(document).ready(function () {
         }
     });
 
-    $('.form-line .checkboxes-block').on('click', '.remove-other-checkbox-option', function (e) {
+    $('.survey-form').on('click', '.form-line .checkboxes-block .remove-other-checkbox-option', function (e) {
         e.preventDefault();
         var option = $(this).closest('.checkbox');
         $(this).closest('.checkboxes-block').find('.other-checkbox .other-checkbox-btn').first().show();
         option.fadeOut(500).remove();
     });
 
-    $('.form-line .checkboxes-block .other-checkbox .other-checkbox-block .add-checkbox').on('click', function (e) {
+    $('.survey-form').on('click', '.form-line .checkboxes-block .other-checkbox .other-checkbox-block .add-checkbox', function (e) {
         var checkboxBlock = $(this).closest('.checkboxes-block');
         var checkbox = $(this).closest('.checkboxes-block').find('.checkbox').first();
         var nextElement;
@@ -479,12 +430,44 @@ jQuery(document).ready(function () {
         input.focus();
     });
 
-    $('.form-line .checkboxes-block .other-checkbox .other-checkbox-block .add-other-checkbox').on('click', function (e) {
+    $('.survey-form').on('click', '.form-line .checkboxes-block .other-checkbox .other-checkbox-block .add-other-checkbox', function (e) {
         if (!$(this).closest('.checkboxes-block').find('.other-checkbox-option').first().length) {
             var otherCheckbox = $(this).closest('.other-checkbox');
             var otherCheckboxOption = $('#element-clone').find('.other-checkbox-option').clone();
             otherCheckboxOption.insertBefore(otherCheckbox);
             otherCheckbox.find('.other-checkbox-btn').hide();
         }
+    });
+
+    /**
+     * Sidebar scroll group button
+     */
+
+    $('#add-question-btn').click(function (e) {
+        e.preventDefault();
+        $.ajax({
+            method: 'GET',
+            url: $(this).data('url'),
+        })
+        .done(function (data) {
+        });
+    });
+
+    $('#add-section-btn').click(function (e) {
+        e.preventDefault();
+        $.ajax({
+            method: 'GET',
+            url: $(this).data('url'),
+        })
+        .done(function (data) {
+            if (data.success) {
+                $('.survey-form').append(data.html);
+                formSortable();
+                $('.option-menu-group .option-menu-dropdown .remove-element').click(function (event) {
+                    event.preventDefault();
+                    $(this).closest('li.form-line').fadeOut(300).remove();
+                });
+            }
+        });
     });
 });
