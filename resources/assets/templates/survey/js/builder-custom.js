@@ -1,59 +1,5 @@
 jQuery(document).ready(function () {
-    /* Selecting form components*/
-    $('.survey-form').on('click', 'ul.sortable li.sort', function () {
-        $('.form-line').removeClass('liselected');
-        $(this).addClass('liselected');
-        setScrollButtonTop($('.button-group-sidebar'), $(this).position().top - 96);
-    });
-
-    // This is for resize window
-    $(function () {
-        $(window).bind('load resize', function () {
-            var width = (this.window.innerWidth > 0) ? this.window.innerWidth : this.screen.width;
-            if (width < 1170) {
-                $('body').addClass('content-wrapper');
-            } else {
-                $('body').removeClass('content-wrapper');
-            }
-        });
-    });
-
-    /* Datetimepicker */
-
-    $('#start-time').datetimepicker();
-
-    $('#end-time').datetimepicker();
-
-    /**
-     * Scroll button
-     */
-
-    function setScrollButtonTop(selector, offset) {
-        var width = (this.window.innerWidth > 0) ? this.window.innerWidth : this.screen.width;
-        if (width > 768) {
-            selector.css('top', offset);
-        } else {
-            selector.css('top', '');
-        }
-    }
-
-    function setScrollButtonTopByScroll(selector) {
-        var currentScrollTop = $(this).scrollTop();
-        var elementPosition = currentScrollTop + 5;
-        setScrollButtonTop(selector, elementPosition);
-    }
-
-    $(window).scroll(function() {
-        setScrollButtonTopByScroll($('.button-group-sidebar'));
-    });
-
-    $(window).resize(function() {
-        setScrollButtonTopByScroll($('.button-group-sidebar'));
-    });
-
-    /**
-     * Form sortable
-     */
+    var questionSelected = null;
 
     function formSortable() {
         $('.survey-form ul.sortable').sortable({
@@ -81,6 +27,63 @@ jQuery(document).ready(function () {
             },
         });
     }
+
+    function setScrollButtonTop(selector, offset) {
+        var width = (this.window.innerWidth > 0) ? this.window.innerWidth : this.screen.width;
+        if (width > 768) {
+            selector.css('top', offset);
+        } else {
+            selector.css('top', '');
+        }
+    }
+
+    function setScrollButtonTopByScroll(selector) {
+        var currentScrollTop = $(this).scrollTop();
+        var elementPosition = currentScrollTop + 5;
+        setScrollButtonTop(selector, elementPosition);
+    }
+
+    /* Selecting form components*/
+    $('.survey-form').on('click', 'ul.sortable li.sort', function () {
+        $('.form-line').removeClass('liselected');
+        $(this).addClass('liselected');
+        setScrollButtonTop($('.button-group-sidebar'), $(this).position().top - 96);
+        questionSelected = $(this);
+    });
+
+    // This is for resize window
+    $(function () {
+        $(window).bind('load resize', function () {
+            var width = (this.window.innerWidth > 0) ? this.window.innerWidth : this.screen.width;
+            if (width < 1170) {
+                $('body').addClass('content-wrapper');
+            } else {
+                $('body').removeClass('content-wrapper');
+            }
+        });
+    });
+
+    /* Datetimepicker */
+
+    $('#start-time').datetimepicker();
+
+    $('#end-time').datetimepicker();
+
+    /**
+     * Scroll button
+     */
+
+    $(window).scroll(function() {
+        setScrollButtonTopByScroll($('.button-group-sidebar'));
+    });
+
+    $(window).resize(function() {
+        setScrollButtonTopByScroll($('.button-group-sidebar'));
+    });
+
+    /**
+     * Form sortable
+     */
 
     formSortable();
 
@@ -451,13 +454,23 @@ jQuery(document).ready(function () {
      * Sidebar scroll group button
      */
 
-    $('#add-question-btn').click(function (e) {
+    $('#add-question-btn, #add-title-description-btn').click(function (e) {
         e.preventDefault();
         $.ajax({
             method: 'GET',
             url: $(this).data('url'),
         })
         .done(function (data) {
+            if (data.success) {
+                var element = $('<div></div>').html(data.html).children().first();
+                if (questionSelected == null) {
+                    var endSection = $('.survey-form').find('ul.sortable').last().find('.end-section').first();
+                    questionSelected = $(element).insertBefore(endSection);
+                } else {
+                    questionSelected = $(element).insertAfter(questionSelected);
+                }
+                questionSelected.click();
+            }
         });
     });
 
@@ -469,12 +482,14 @@ jQuery(document).ready(function () {
         })
         .done(function (data) {
             if (data.success) {
-                $('.survey-form').append(data.html);
+                var element = $('<div></div>').html(data.html).children().first();
+                $('.survey-form').append(element);
                 formSortable();
                 $('.option-menu-group .option-menu-dropdown .remove-element').click(function (event) {
                     event.preventDefault();
                     $(this).closest('li.form-line').fadeOut(300).remove();
                 });
+                element.find('li.sort').first().click();
             }
         });
     });
@@ -483,7 +498,7 @@ jQuery(document).ready(function () {
      * add Section
      */
 
-    // section header dropdown 
+    // section header dropdown
     $('.survey-form').on('click', '.section-select-styled', function(e) {
         e.stopPropagation();
         $('.survey-select-options').hide();
