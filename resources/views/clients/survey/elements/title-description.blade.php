@@ -1,8 +1,13 @@
-<li class="form-line sort title-description-element">
+<li class="form-line sort title-description-element"
+    data-question-id="{{ $questionId }}"
+    data-question-type="{{ config('settings.question_type.title') }}">
     <div class="form-row draggable-area"></div>
     <div class="form-row title-block">
         <div class="col-xl-9 col-lg-9 col-md-9 col-sm-8 col-10">
-            {!! Form::textarea('element', '', [
+            @php
+                $type = config('settings.question_type.title')
+            @endphp
+            {!! Form::textarea("title[section_$sectionId][question_$questionId]", '', [
                 'placeholder' => trans('lang.title_section_placeholder'),
                 'class' => 'form-control input-area auto-resize question-input active',
                 'data-autoresize',
@@ -38,7 +43,7 @@
     </div>
     <div class="form-row description-input active">
         <div class="col-12">
-            {!! Form::textarea('description', '', [
+            {!! Form::textarea("description[section_$sectionId][question_$questionId]", '', [
                 'class' => 'form-control question-description-input active input-area auto-resize',
                 'data-autoresize',
                 'placeholder' => trans('lang.description_section_placeholder'),

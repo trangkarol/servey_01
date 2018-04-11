@@ -1,5 +1,32 @@
 jQuery(document).ready(function () {
     var questionSelected = null;
+    var surveyData = $('#survey-data');
+
+    function s4() {
+        return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+    }
+
+    function generateId() {
+        return s4() + $.now();
+    }
+
+    function refreshSectionId() {
+        surveyData.data('section-id', generateId());
+
+        return surveyData.data('section-id');
+    }
+
+    function refreshQuestionId() {
+        surveyData.data('question-id', generateId());
+
+        return surveyData.data('question-id');
+    }
+
+    function refreshAnswerId() {
+        surveyData.data('answer-id', generateId());
+
+        return surveyData.data('answer-id');
+    }
 
     function formSortable() {
         $('.survey-form ul.sortable').sortable({
@@ -155,6 +182,7 @@ jQuery(document).ready(function () {
         $('.img-preview-in-modal').attr('src', '');
         $('.input-upload-image').val('');
     }
+
     //
     function resetModalVideo() {
         $('.input-url-video').val('');
@@ -163,16 +191,148 @@ jQuery(document).ready(function () {
         $('.video-preview').attr('data-thumbnail', '');
     }
 
+    /**
+     * Get survey data
+     */
+
+    // get all answers by question
+    function getAnswers(data, parentElement, questionId) {
+        var answers = [];
+
+        $(parentElement).find('.element-content .option').each(function (index, element) {
+            var answer = {};
+            var answerId = $(element).data('answer-id');
+
+            answer.id = answerId;
+
+            var content = data.find(item => item.name.includes(`answer[question_${questionId}][answer_${answerId}]`));
+            answer.content = content !== undefined ? content.value : '';
+
+            var media = data.find(item => item.name.includes(`media[question_${questionId}][answer_${answerId}]`));
+            answer.media = media !== undefined ? media.value : '';
+
+            var type = 2; // Other option
+
+            if ($(element).hasClass('choice-sortable')) {
+                type = 1; // Option
+            }
+
+            answer.type = type; // 1: Option, 2: Other option
+
+            if (!$.isEmptyObject(answer)) {
+                answers.push(answer);
+            }
+        });
+
+        return answers;
+    }
+
+    // get all questions by section
+    function getQuestions(data, parentElement, sectionId) {
+        var questions = [];
+
+        $(parentElement).find('li.form-line.sort').each(function (index, element) {
+            var question = {};
+            var questionId = $(element).data('question-id');
+
+            question.id = questionId;
+
+            var title = data.find(item => item.name === `title[section_${sectionId}][question_${questionId}]`);
+            question.title = title !== undefined ? title.value : '';
+
+            var description = data.find(item => item.name === `description[section_${sectionId}][question_${questionId}]`);
+            question.description = description !== undefined ? description.value : '';
+
+            var media = data.find(item => item.name === `media[section_${sectionId}][question_${questionId}]`);
+            question.media = media !== undefined ? media.value : '';
+
+            var type = $(element).data('question-type');
+            question.type = type;
+
+            var require = data.find(item => item.name === `require[section_${sectionId}][question_${questionId}]`);
+            question.require = require !== undefined ? parseInt(require.value) : 0; // 0: No require, 1: Require
+
+            question.answers = getAnswers(data, element, questionId);
+
+            if (!$.isEmptyObject(question)) {
+                questions.push(question);
+            }
+        });
+
+        return questions;
+    }
+
+    // get all sections
+    function getSections(data) {
+        var sections = [];
+        $('.survey-form ul.page-section.sortable').each(function (index, element) {
+            var section = {};
+            var sectionId = $(element).data('section-id');
+
+            var title = data.find(item => item.name === `title[section_${sectionId}]`);
+            section.title = title !== undefined ? title.value : '';
+
+            var description = data.find(item => item.name === `description[section_${sectionId}]`);
+            section.description = description !== undefined ? description.value : '';
+            section.questions = getQuestions(data, element, sectionId);
+
+            if (!$.isEmptyObject(section)) {
+                sections.push(section);
+            }
+        });
+
+        return sections;
+    }
+
+    function getSurvey(data = []) {
+        try {
+            var obj = {};
+
+            var title = data.find(item => item.name === 'title');
+            obj.title = title !== undefined ? title.value : '';
+
+            var startTime = data.find(item => item.name === 'start_time');
+            obj.start_time = startTime !== undefined ? startTime.value : '';
+
+            var endTime = data.find(item => item.name === 'end_time');
+            obj.end_time = endTime !== undefined ? endTime.value : '';
+
+            var description = data.find(item => item.name === 'description');
+            obj.description = description !== undefined ? description.value : '';
+
+            // invited emails
+            var invited_emails = [];
+
+            obj.invited_emails = invited_emails;
+
+            // setting
+            var setting = {};
+
+            obj.setting = setting;
+
+            // sections
+            var sections = getSections(data);
+            obj.sections = sections;
+
+            return obj;
+        } catch (error) {
+            return null;
+        }
+    }
+
     /* Selecting form components*/
     $('.survey-form').on('click', 'ul.sortable li.sort', function () {
         $('.form-line').removeClass('liselected');
         $(this).addClass('liselected');
         setScrollButtonTop($('.button-group-sidebar'), $(this).position().top - 96);
-        questionSelected = $(this);
+        this.questionSelected = $(this);
     });
 
     // This is for resize window
     $(function () {
+        // add new section when page loaded
+        $('#add-section-btn').click();
+
         $(window).bind('load resize', function () {
             var width = (this.window.innerWidth > 0) ? this.window.innerWidth : this.screen.width;
             if (width < 1170) {
@@ -218,6 +378,7 @@ jQuery(document).ready(function () {
     $('.content-wrapper form').on('click', '.remove-element', function (event) {
         event.preventDefault();
         $(this).closest('li').fadeOut(300).remove();
+        this.questionSelected = null;
     });
 
     // auto resize textarea
@@ -324,6 +485,7 @@ jQuery(document).ready(function () {
     $('.option-menu-group .option-menu-dropdown .remove-element').click(function (event) {
         event.preventDefault();
         $(this).closest('li.form-line').fadeOut(300).remove();
+        this.questionSelected = null;
     });
 
     /**
@@ -350,9 +512,28 @@ jQuery(document).ready(function () {
         }
 
         if (e.keyCode === 13) {
-            $(this).find('.remove-choice-option').removeClass('hidden');
+            $(this).find('.remove-checkbox-option').removeClass('hidden');
             var nextElement = $(this).clone().insertAfter($(this));
-            var input = nextElement.find('input');
+
+            var questionElement = $(this).closest('li.form-line.sort');
+            var questionId = questionElement.data('question-id');
+            var answerId = refreshAnswerId();
+            nextElement.data('answer-id', answerId);
+            var numberOfAnswers = questionElement.data('number-answer');
+            var optionId = numberOfAnswers + 1;
+            nextElement.data('option-id', optionId);
+            questionElement.data('number-answer', numberOfAnswers + 1);
+
+            // remove image answer
+            nextElement.find('div.image-answer').remove();
+
+            // change and reset input, image value, focus, select
+            var image = nextElement.find('input.image-answer-hidden');
+            image.attr('name', `media[question_${questionId}][answer_${answerId}][option_${optionId}]`);
+            image.val('');
+
+            var input = nextElement.find('input.form-control');
+            input.attr('name', `answer[question_${questionId}][answer_${answerId}][option_${optionId}]`);
             input.val(Lang.get('lang.option', {index: nextElement.index() + 1}));
             input.select();
             input.focus();
@@ -466,7 +647,25 @@ jQuery(document).ready(function () {
         if (e.keyCode === 13) {
             $(this).find('.remove-checkbox-option').removeClass('hidden');
             var nextElement = $(this).clone().insertAfter($(this));
-            var input = nextElement.find('input');
+
+            // change input name
+            var questionElement = $(this).closest('li.form-line.sort');
+            var questionId = questionElement.data('question-id');
+            var answerId = nextElement.data('answer-id');
+            var numberOfAnswers = questionElement.data('number-answer');
+            var optionId = numberOfAnswers + 1;
+            questionElement.data('number-answer', numberOfAnswers + 1);
+
+            // remove image answer
+            nextElement.find('div.image-answer').remove();
+
+            // change and reset input, image value, focus, select
+            var image = nextElement.find('input.image-answer-hidden');
+            image.attr('name', `media[question_${questionId}][answer_${answerId}][option_${optionId}]`);
+            image.val('');
+
+            var input = nextElement.find('input.form-control');
+            input.attr('name', `answer[question_${questionId}][answer_${answerId}][option_${optionId}]`);
             input.val(Lang.get('lang.option', {index: nextElement.index() + 1}));
             input.select();
             input.focus();
@@ -558,40 +757,109 @@ jQuery(document).ready(function () {
      * Sidebar scroll group button
      */
 
-    $('#add-question-btn, #add-title-description-btn').click(function (e) {
+    $('#add-question-btn').click(function (e) {
         e.preventDefault();
+
+        var sectionId = 0;
+        var questionId = refreshQuestionId();
+        var answerId = refreshAnswerId();
+
+        if (this.questionSelected == null) {
+            var endSection = $('.survey-form').find('ul.sortable').last().find('.end-section').first();
+            sectionId = endSection.closest('ul.page-section.sortable').data('section-id');
+        } else {
+            sectionId = this.questionSelected.closest('ul.page-section.sortable').data('section-id');
+        }
+
         $.ajax({
-            method: 'GET',
+            method: 'POST',
             url: $(this).data('url'),
+            data : {
+                sectionId: sectionId,
+                questionId: questionId,
+                answerId: answerId,
+            }
         })
         .done(function (data) {
             if (data.success) {
                 var element = $('<div></div>').html(data.html).children().first();
-                if (questionSelected == null) {
-                    var endSection = $('.survey-form').find('ul.sortable').last().find('.end-section').first();
-                    questionSelected = $(element).insertBefore(endSection);
+
+                if (this.questionSelected == null) {
+                    this.questionSelected = $(element).insertBefore(endSection);
                 } else {
-                    questionSelected = $(element).insertAfter(questionSelected);
+                    this.questionSelected = $(element).insertAfter(this.questionSelected);
                 }
-                questionSelected.click();
+
+                this.questionSelected.click();
+            }
+        });
+    });
+
+    $('#add-title-description-btn').click(function (e) {
+        e.preventDefault();
+
+        var sectionId = 0;
+        var questionId = refreshQuestionId();
+
+        if (this.questionSelected == null) {
+            var endSection = $('.survey-form').find('ul.sortable').last().find('.end-section').first();
+            sectionId = endSection.closest('ul.page-section.sortable').data('section-id');
+        } else {
+            sectionId = this.questionSelected.closest('ul.page-section.sortable').data('section-id');
+        }
+
+        $.ajax({
+            method: 'POST',
+            url: $(this).data('url'),
+            data : {
+                sectionId: sectionId,
+                questionId: questionId,
+            }
+        })
+        .done(function (data) {
+            if (data.success) {
+                var element = $('<div></div>').html(data.html).children().first();
+
+                if (this.questionSelected == null) {
+                    this.questionSelected = $(element).insertBefore(endSection);
+                } else {
+                    this.questionSelected = $(element).insertAfter(this.questionSelected);
+                }
+
+                this.questionSelected.click();
             }
         });
     });
 
     $('#add-section-btn').click(function (e) {
         e.preventDefault();
+
+        var numberOfSections = surveyData.data('number-section');
+        var sectionId = refreshSectionId();
+        var questionId = refreshQuestionId();
+        var answerId = refreshAnswerId();
+
         $.ajax({
-            method: 'GET',
+            method: 'POST',
             url: $(this).data('url'),
+            data : {
+                numberOfSections: numberOfSections,
+                sectionId: sectionId,
+                questionId: questionId,
+                answerId: answerId
+            }
         })
         .done(function (data) {
             if (data.success) {
                 var element = $('<div></div>').html(data.html).children().first();
                 $('.survey-form').append(element);
+                surveyData.data('number-section', numberOfSections + 1);
+                $('.total-section').html(numberOfSections + 1);
                 formSortable();
                 $('.option-menu-group .option-menu-dropdown .remove-element').click(function (event) {
                     event.preventDefault();
                     $(this).closest('li.form-line').fadeOut(300).remove();
+                    this.questionSelected = null;
                 });
                 element.find('li.sort').first().click();
             }
@@ -611,6 +879,15 @@ jQuery(document).ready(function () {
 
         $('#btn-insert-image-section').click(function () {
             var imageURL = $('.img-preview-in-modal').attr('src');
+            var sectionId = 0;
+            var questionId = refreshQuestionId();
+
+            if (this.questionSelected == null) {
+                var endSection = $('.survey-form').find('ul.sortable').last().find('.end-section').first();
+                sectionId = endSection.closest('ul.page-section.sortable').data('section-id');
+            } else {
+                sectionId = this.questionSelected.closest('ul.page-section.sortable').data('section-id');
+            }
 
             if (imageURL) {
                 $.ajax({
@@ -619,20 +896,21 @@ jQuery(document).ready(function () {
                     dataType: 'json',
                     data: {
                         'imageURL': imageURL,
+                        sectionId: sectionId,
+                        questionId: questionId
                     }
                 })
                 .done(function (data) {
                     if (data.success) {
                         var element = data.html;
 
-                        if (questionSelected == null) {
-                            var endSection = $('.survey-form').find('ul.sortable').last().find('.end-section').first();
-                            questionSelected = $(element).insertBefore(endSection);
+                        if (this.questionSelected == null) {
+                            this.questionSelected = $(element).insertBefore(endSection);
                         } else {
-                            questionSelected = $(element).insertAfter(questionSelected);
+                            this.questionSelected = $(element).insertAfter(this.questionSelected);
                         }
 
-                        questionSelected.click();
+                        this.questionSelected.click();
                     }
                 });
             } else {
@@ -658,6 +936,16 @@ jQuery(document).ready(function () {
             var urlEmbed = $('.video-preview').attr('src');
 
             if (urlEmbed) {
+                var sectionId = 0;
+                var questionId = refreshQuestionId();
+
+                if (this.questionSelected == null) {
+                    var endSection = $('.survey-form').find('ul.sortable').last().find('.end-section').first();
+                    sectionId = endSection.closest('ul.page-section.sortable').data('section-id');
+                } else {
+                    sectionId = this.questionSelected.closest('ul.page-section.sortable').data('section-id');
+                }
+
                 $.ajax({
                     method: 'POST',
                     url: url,
@@ -665,26 +953,28 @@ jQuery(document).ready(function () {
                     data: {
                         'thumbnailVideo': thumbnailVideo,
                         'urlEmbed': urlEmbed,
+                        sectionId: sectionId,
+                        questionId: questionId
                     }
                 })
                 .done(function (data) {
                     if (data.success) {
                         var element = data.html;
 
-                        if (questionSelected == null) {
-                            var endSection = $('.survey-form').find('ul.sortable').last().find('.end-section').first();
-                            questionSelected = $(element).insertBefore(endSection);
+                        if (this.questionSelected == null) {
+                            this.questionSelected = $(element).insertBefore(endSection);
                         } else {
-                            questionSelected = $(element).insertAfter(questionSelected);
+                            this.questionSelected = $(element).insertAfter(this.questionSelected);
                         }
 
-                        questionSelected.click();
+                        this.questionSelected.click();
+                        $('#modal-insert-video').modal('hide');
                     }
                 });
+            } else {
+                resetModalVideo();
+                $('#modal-insert-video').modal('hide');
             }
-
-            resetModalVideo();
-            $('#modal-insert-video').modal('hide');
         });
     });
 
@@ -931,6 +1221,33 @@ jQuery(document).ready(function () {
 
             resetModalVideo();
             $('#modal-insert-video').modal('hide');
+        });
+    });
+
+    $('#submit-survey-btn').click(function (e) {
+        e.preventDefault();
+        var dataArray = $('form.survey-form').serializeArray();
+        var survey = getSurvey(dataArray);
+
+        if (!survey) {
+            return;
+        }
+
+        var data = JSON.stringify(survey);
+
+        $.ajax({
+            method: 'POST',
+            url: $(this).data('url'),
+            data: {
+                data: data
+            }
+        })
+        .done(function (data) {
+            if (data.success) {
+                console.log(data.json);
+            }
+        })
+        .fail(function (data) {
         });
     });
 

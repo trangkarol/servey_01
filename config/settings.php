@@ -180,6 +180,9 @@ return [
         'answer_update' => [
             'default' => 0,
         ],
+        'option' => [
+            'first' => 1,
+        ],
     ],
     'question_type' => [
         'short_answer' => 1,
@@ -208,7 +211,7 @@ return [
         'privacy' => [
             'public' => 0,
             'private' => 1,
-        ]
+        ],
     ],
     'answer_type' => [
         'option' => 1,
@@ -225,7 +228,7 @@ return [
 
     'media_type' => [
         'image' => 1,
-        'video' => 2, 
+        'video' => 2,
     ],
 
     /**
@@ -257,5 +260,5 @@ return [
             'content' => 'answer_type',
             'key' => 6,
         ],
-    ]
+    ],
 ];
