@@ -117,8 +117,9 @@ jQuery(document).ready(function () {
     }
 
     // preview video in modal
-    function setPreviewVideo(src) {
+    function setPreviewVideo(src, thumbnailVideo = '') {
         $('.video-preview').attr('src', src);
+        $('.video-preview').attr('data-thumbnail', thumbnailVideo);
     }
 
     // upload image
@@ -611,7 +612,6 @@ jQuery(document).ready(function () {
                 }
             })
             .done(function (data) {
-                console.log(data);
                 if (data.success) {
                     var element = $('<div></div>').html(data.html).children().first();
                     if (questionSelected == null) {
@@ -625,6 +625,39 @@ jQuery(document).ready(function () {
             });
         } else {
             $('#modal-insert-image').modal('hide');
+        }
+    });
+
+    // insert video to section
+    $('.btn-insert-video').click(function (e) {
+        e.preventDefault();
+        var thumbnailVideo = $('.video-preview').data('thumbnail');
+        var urlEmbed = $('.video-preview').attr('src');
+
+        if (urlEmbed) {
+            $.ajax({
+                method: 'POST',
+                url: $(this).data('url'),
+                dataType: 'json',
+                data: {
+                    'thumbnailVideo': thumbnailVideo,
+                    'urlEmbed': urlEmbed,
+                }
+            })
+            .done(function (data) {
+                if (data.success) {
+                    var element = $('<div></div>').html(data.html).children().first();
+                    if (questionSelected == null) {
+                        var endSection = $('.survey-form').find('ul.sortable').last().find('.end-section').first();
+                        questionSelected = $(element).insertBefore(endSection);
+                    } else {
+                        questionSelected = $(element).insertAfter(questionSelected);
+                    }
+                    questionSelected.click();
+                }
+            });
+        } else {
+            $('#modal-insert-video').modal('hide');
         }
     });
 
@@ -737,7 +770,7 @@ jQuery(document).ready(function () {
                 videoInfo.thumbnail = thumbnailVideo;
                 showMessageVideo(Lang.get('lang.video_preview'), 'success');
                 var embedURLVideo = embedYoutube + videoInfo.id;
-                setPreviewVideo(embedURLVideo);
+                setPreviewVideo(embedURLVideo, thumbnailVideo);
             } else {
                 showMessageVideo(Lang.get('lang.url_is_invalid'));
                 setPreviewVideo('');

@@ -37,7 +37,7 @@
                                     </div>
                                     <div class="row col-md-10 offset-md-1">
                                         <div class="col-md-12 show-video">
-                                            <iframe class="video-preview" width="100%" height="300px"
+                                            <iframe data-thumbnail="" class="video-preview" width="100%" height="300px"
                                                 src="" allowfullscreen frameborder="0">
                                             </iframe>
                                         </div>
@@ -60,7 +60,7 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-default btn-cancel-insert-video" data-dismiss="modal">@lang('lang.cancel')</button>
-                <button class="btn btn-default btn-insert-video">@lang('lang.insert_video')</button>
+                <button class="btn btn-default btn-insert-video" data-dismiss="modal" data-url="{{ route('ajax-fetch-video') }}">@lang('lang.insert_video')</button>
             </div>
         </div>
     </div>

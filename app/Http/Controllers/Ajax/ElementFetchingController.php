@@ -51,17 +51,34 @@ class ElementFetchingController extends Controller
 
     public function fetchImage(Request $request)
     {
-        if ($request->ajax()) {
-            $imageURL = $request->imageURL;
-
+        if (!$request->ajax()) {
             return response()->json([
-                'success' => true,
-                'html' => view('clients.survey.elements.section-image', compact('imageURL'))->render(),
+                'success' => false,
             ]);
         }
 
+        $imageURL = $request->imageURL;
+
         return response()->json([
-            'success' => false,
+            'success' => true,
+            'html' => view('clients.survey.elements.section-image', compact('imageURL'))->render(),
+        ]);
+    }
+
+    public function fetchVideo(Request $request)
+    {
+        if (!$request->ajax()) {
+            return response()->json([
+                'success' => false,
+            ]);
+        }
+
+        $thumbnailVideo = $request->thumbnailVideo;
+        $urlEmbed = $request->urlEmbed;
+
+        return response()->json([
+            'success' => true,
+            'html' => view('clients.survey.elements.section-video', compact('thumbnailVideo', 'urlEmbed'))->render(),
         ]);
     }
 }

@@ -88,6 +88,7 @@ return [
     'change_image' => 'Change image',
     'delete_image' => 'Delete image',
     'hover_text' => 'Hover text',
+    'video_title' => 'Video title',
 
     /*
     | Survey Create Page

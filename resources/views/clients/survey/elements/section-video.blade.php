@@ -1,23 +1,67 @@
-<li class="form-line sort">
+<li class="form-line sort section-show-image-insert">
     <div class="form-row draggable-area"></div>
     <div class="form-row image-block">
-        <div class="col-xl-10 col-lg-10 col-md-10 col-sm-11 col-10">
-            {!! Form::text('titleVideo', '', ['class' => 'form-control title-video-input active', 'placeholder' => trans('lang.video_title')]) !!}
+        <div class="col-xl-9 col-lg-9 col-md-9 col-sm-8 col-10">
+            {!! Form::text('titleVideo', '', [
+                'class' => 'form-control question-input active',
+                'placeholder' => trans('lang.video_title')
+            ]) !!}
         </div>
-        <div class="col-xl-1 col-lg-1 col-md-1 col-sm-1 col-2">
-            <div class="btn-clone-image-block">
-                <a href="" class="fa fa-clone btn-clone-video-insert"></a>
+        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-4 col-2 button-group-block">
+            <div class="title-survey-btn">
+                <a href="#" class="copy-element"><i class="fa fa-clone"></i></a>
+                <a href="#" class="remove-element"><i class="fa fa-trash"></i></a>
+                <div class="option-menu-group">
+                    <a href="#" class="fa fa-ellipsis-v option-menu"></a>
+                    <ul class="option-menu-dropdown">
+                        <li class="copy-element">
+                            <i class="fa fa-clone"></i>
+                            <span class="option-menu-content">@lang('lang.duplicate_item')</span>
+                        </li>
+                        <li class="remove-element">
+                            <i class="fa fa-trash"></i>
+                            <span class="option-menu-content">@lang('lang.remove_item')</span>
+                        </li>
+                        <h5>@lang('lang.show')</h5>
+                        <li>
+                            <span class="option-menu-selected active">
+                                <span></span>
+                            </span>
+                            <span class="option-menu-content">@lang('lang.description')</span>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
-        <div class="col-xl-1 col-lg-1 col-md-1 col-sm-1 col-2">
-            <div class="btn-delete-image-block">
-                <a href="" class="fa fa-trash btn-delete-video-insert"></a>
-            </div>
+    </div>
+    <div class="form-row description-input">
+        <div class="col-12">
+            {!! Form::textarea('description', '', [
+                'class' => 'form-control question-description-input active input-area auto-resize',
+                'data-autoresize',
+                'placeholder' => trans('lang.description_section_placeholder'),
+                'rows' => 1
+            ]) !!}
         </div>
     </div>
     <div class="form-row show-image-block">
         <div class="col-xs-12 col-md-12 col-sm-12">
-            <img class="img-fluid show-thumbnail-video-section" src="" alt="">
+            <div class="box-show-image">
+                <img data-video="{{ $urlEmbed }}" class="img-fluid show-image-insert-section" src="{{ $thumbnailVideo }}" alt="">
+                <span class="option-image">
+                    <i class="fa fa-ellipsis-v"></i>
+                    <ul class="option-menu-dropdown option-menu-image">
+                        <li class="change-element">
+                            <i class="fa fa-clone"></i>
+                            <span class="option-menu-content">@lang('lang.change_video')</span>
+                        </li>
+                        <li class="remove-element">
+                            <i class="fa fa-trash"></i>
+                            <span class="option-menu-content">@lang('lang.delete_video')</span>
+                        </li>
+                    </ul>
+                </span>
+            </div>
         </div>
     </div>
 </li>
