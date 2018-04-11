@@ -42,6 +42,110 @@ jQuery(document).ready(function () {
         var elementPosition = currentScrollTop + 5;
         setScrollButtonTop(selector, elementPosition);
     }
+    // validate url image
+    function checkTimeLoadImage(e, t, i) {
+        var o, i = i || 3e3,
+            n = !1,
+            r = new Image;
+        r.onerror = r.onabort = function () {
+            n || (clearTimeout(o), t('error'))
+        }, r.onload = function () {
+            n || (clearTimeout(o), t('success'))
+        }, r.src = e, o = setTimeout(function () {
+            n = !0, t('timeout')
+        }, i)
+    }
+
+    // preview image in modal
+    function setPreviewImage(src) {
+        $('.img-preview-in-modal').attr('src', src);
+    }
+
+    // show messages validate in modal
+    function showMessageImage(message, type) {
+        $('.messages-validate-image').removeClass('hidden');
+        $('.messages-validate-image').text(message);
+
+        if (type == 'success') {
+            $('.messages-validate-image').removeClass('messages-error');
+            $('.messages-validate-image').addClass('messages-success');
+        } else {
+            $('.messages-validate-image').removeClass('messages-success');
+            $('.messages-validate-image').addClass('messages-error');
+        }
+    }
+
+    // check type file image
+    function checkTypeImage(input) {
+        var fileExtension = [
+            'jpeg',
+            'jpg',
+            'png',
+            'gif',
+            'bmp',
+            'svg',
+        ];
+        var fileName = input.name;
+        var fileNameExt = fileName.substr(fileName.lastIndexOf('.') + 1);
+
+        if ($.inArray(fileNameExt.toLowerCase(), fileExtension) == -1) {
+            return false;
+        }
+
+        return true;
+    }
+
+    // validate video url, support youtube
+    function validateVideoUrl(url) {
+        var rulesURL = /^(?:https?:\/\/)?(?:www\.)?youtube\.com\/watch\?(?=.*v=((\w|-){11}))(?:\S+)?$/;
+
+        return url.match(rulesURL) ? RegExp.$1 : false;
+    }
+
+    // show messages video validate
+    function showMessageVideo(message, type) {
+        $('.messages-validate-video').removeClass('hidden');
+        $('.messages-validate-video').text(message);
+
+        if (type == 'success') {
+            $('.messages-validate-video').removeClass('messages-error');
+            $('.messages-validate-video').addClass('messages-success');
+        } else {
+            $('.messages-validate-video').removeClass('messages-success');
+            $('.messages-validate-video').addClass('messages-error');
+        }
+    }
+
+    // preview video in modal
+    function setPreviewVideo(src) {
+        $('.video-preview').attr('src', src);
+    }
+
+    // upload image
+    function uploadImage(formData, url) {
+        $.ajax({
+            method: 'POST',
+            url: url,
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+        })
+        .done(function (response) {
+            if (response) {
+                showMessageImage(Lang.get('lang.image_preview'), 'success');
+                setPreviewImage(response);
+            } else {
+                showMessageImage(Lang.get('lang.upload_image_fail'));
+                setPreviewImage('');
+            }
+        })
+        .fail(function (response) {
+            var errors = JSON.parse(response.responseText)
+            showMessageImage(errors.image);
+            setPreviewImage('');
+        });
+    }
 
     /* Selecting form components*/
     $('.survey-form').on('click', 'ul.sortable li.sort', function () {
@@ -494,6 +598,36 @@ jQuery(document).ready(function () {
         });
     });
 
+    $('.btn-insert-image').click(function (e) {
+        e.preventDefault();
+        var imageURL = $('.img-preview-in-modal').attr('src');
+        if (imageURL) {
+            $.ajax({
+                method: 'POST',
+                url: $(this).data('url'),
+                dataType: 'json',
+                data: {
+                    'imageURL': imageURL,
+                }
+            })
+            .done(function (data) {
+                console.log(data);
+                if (data.success) {
+                    var element = $('<div></div>').html(data.html).children().first();
+                    if (questionSelected == null) {
+                        var endSection = $('.survey-form').find('ul.sortable').last().find('.end-section').first();
+                        questionSelected = $(element).insertBefore(endSection);
+                    } else {
+                        questionSelected = $(element).insertAfter(questionSelected);
+                    }
+                    questionSelected.click();
+                }
+            });
+        } else {
+            $('#modal-insert-image').modal('hide');
+        }
+    });
+
     /**
      * add Section
      */
@@ -550,5 +684,64 @@ jQuery(document).ready(function () {
         }
 
         return false;
+    });
+
+    // insert image by url
+    $('.input-url-image').on('keyup', function () {
+        var urlImage = $(this).val().trim();
+
+        if (!urlImage) {
+            showMessageImage(Lang.get('lang.url_is_required'));
+        } else {
+            checkTimeLoadImage(urlImage, function (result) {
+                if (result == 'success') { // is image url
+                    setPreviewImage(urlImage);
+                    showMessageImage(Lang.get('lang.image_preview'), 'success');
+                } else { // timeout or not image url
+                    setPreviewImage('');
+                    showMessageImage(Lang.get('lang.url_is_invalid'));
+                }
+            });
+        }
+    });
+
+    // insert image by upload from local
+    $(document).on('click', '.btn-upload-image', function () {
+        $('.input-upload-image').trigger('click');
+
+        $(document).on('change', '.input-upload-image', function () {
+            var formData = new FormData();
+            var url = $(this).data('url');
+            formData.append('image', this.files[0]);
+            uploadImage(formData, url);
+        });
+    });
+
+    // insert url video
+    $('.input-url-video').on('keyup', function () {
+        var urlVideo = $(this).val().trim();
+        var videoInfo = { url: urlVideo };
+        var thumbnailYoutube = 'https://img.youtube.com/vi/';
+        var embedYoutube = 'https://www.youtube.com/embed/';
+
+        if (!urlVideo) {
+            showMessageVideo(Lang.get('lang.url_is_required'));
+            setPreviewVideo('');
+        } else {
+            var rulesURL = /^(?:https?:\/\/)?(?:www\.)?youtube\.com\/watch\?(?=.*v=((\w|-){11}))(?:\S+)?$/;
+
+            if (urlVideo.match(rulesURL)) {
+                videoInfo.type = 'video';
+                videoInfo.id = RegExp.$1;
+                var thumbnailVideo = thumbnailYoutube + videoInfo.id + '/hqdefault.jpg';
+                videoInfo.thumbnail = thumbnailVideo;
+                showMessageVideo(Lang.get('lang.video_preview'), 'success');
+                var embedURLVideo = embedYoutube + videoInfo.id;
+                setPreviewVideo(embedURLVideo);
+            } else {
+                showMessageVideo(Lang.get('lang.url_is_invalid'));
+                setPreviewVideo('');
+            }
+        }
     });
 });

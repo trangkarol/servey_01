@@ -13,6 +13,7 @@ use Exception;
 use App\Http\Requests\Survey\ChangePassWordRequest;
 use App\Http\Requests\Survey\ProfileRequest;
 use File;
+use Storage;
 
 class ProfileController extends Controller
 {
@@ -88,7 +89,7 @@ class ProfileController extends Controller
         try {
             $user = $this->userRepository->find($id);
             $this->authorize('update', $user);
-            
+
             return view('clients.profile.setting', compact('user'));
         } catch (Exception $e) {
             return view('clients.layout.404');
@@ -180,10 +181,16 @@ class ProfileController extends Controller
         return redirect()->back();
     }
 
-    public function changeAvatar(Request $request) {
+    public function changeAvatar(Request $request)
+    {
         try {
             $user = Auth::user();
-            $updateData['image'] = $this->userRepository->uploadAvatar($request, 'image', $user->image);
+            $updateData['image'] = $this->userRepository->uploadAvatar(
+                $request,
+                'image',
+                $user->image,
+                config('settings.path_upload_avatar')
+            );
             $this->userRepository->updateUser($user, $updateData);
 
             return redirect()->back()->with('success', trans('profile.edit_success'));
@@ -192,13 +199,13 @@ class ProfileController extends Controller
         }
     }
 
-    public function deleteAvatar() {
+    public function deleteAvatar()
+    {
         try {
             $user = Auth::user();
-            $pathFile = $user->image;
 
-            if (File::exists(public_path($pathFile)) && $pathFile != config('settings.image_user_default')) {
-                File::delete(public_path($pathFile));
+            if (Storage::disk('local')->exists($user->image) && $user->image != config('settings.image_user_default')) {
+                Storage::disk('local')->delete($user->image);
             }
 
             $user = $this->userRepository->updateUser($user, ['image' => '']);
@@ -223,7 +230,7 @@ class ProfileController extends Controller
         } catch (Exception $e) {
             Session::flash('error', trans('profile.edit_error'));
         }
-            
+
         return redirect()->back();
     }
 }

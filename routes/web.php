@@ -174,6 +174,10 @@ Route::group(['namespace' => 'Ajax', 'prefix' => 'ajax'], function () {
         ->name('ajax-fetch-multiple-choice');
     Route::get('fetch-element/title-description', 'ElementFetchingController@fetchTitleDescription')
         ->name('ajax-fetch-title-description');
+    Route::post('upload-image', 'UploadImageController@insertImage')
+        ->name('ajax-upload-image');
+    Route::post('fetch-element/image', 'ElementFetchingController@fetchImage')
+        ->name('ajax-fetch-image');
 });
 
 Route::get('/languages', 'LanguageController@index')->name('set-language');

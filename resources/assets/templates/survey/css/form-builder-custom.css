@@ -2386,6 +2386,53 @@ li.question-active .checkboxes-block .checkbox .remove-other-checkbox-option {
     opacity: 0.7;
     float: right;
     background-position: 2px -3937px;
+  }
+
+.btn-clone-image-insert {
+    font-size: 23px;
+    color: #83868a;
+    line-height: 44px;
+}
+
+.btn-delete-image-insert {
+    font-size: 23px;
+    color: #83868a;
+    line-height: 44px;
+}
+
+.btn-clone-image-block {
+    text-align: right;
+    display: none;
+}
+
+.btn-clone-image-insert:hover {
+    color: #333333 !important;
+}
+
+.btn-delete-image-block {
+    text-align: right;
+    display: none;
+}
+
+.btn-delete-image-insert:hover {
+    color: #333333 !important;
+}
+
+
+.question-active .btn-clone-image-block {
+    display: block !important;
+}
+
+.question-active .btn-delete-image-block {
+    display: block !important;
+}
+
+.title-image-input {
+  border: 0px !important;
+}
+
+.question-active .title-image-input {
+  border: 1px solid #ced4da !important;
 }
 
 .form-header-create {
@@ -2782,4 +2829,44 @@ li.question-active .checkboxes-block .checkbox .remove-other-checkbox-option {
 
 .element-content.hidden {
     display: none;
+}
+
+.section-show-image-insert .button-group-block {
+    display: none;
+}
+
+.section-show-image-insert.question-active .button-group-block {
+    display: block !important;
+}
+
+.section-show-image-insert .image-block textarea {
+    margin-bottom: 10px;
+}
+
+.section-show-image-insert .image-block .title-survey-btn {
+    text-align: right;
+}
+
+.section-show-image-insert .image-block .title-survey-btn a {
+    font-size: 23px;
+    color: #333;
+    opacity: 0.7;
+    width: 40px;
+    height: 40px;
+    padding-top: 5px;
+    display: inline-block;
+    text-align: center;
+    border-radius: 50%;
+}
+
+.section-show-image-insert .image-block .title-survey-btn a:hover {
+    opacity: 1;
+}
+
+.section-show-image-insert .image-block .title-survey-btn a:active {
+    background: #ececec;
+}
+
+.show {
+    display: block !important;
 }

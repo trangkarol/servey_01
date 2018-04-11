@@ -48,4 +48,20 @@ class ElementFetchingController extends Controller
             'html' => view('clients.survey.elements.multiple-choice')->render(),
         ]);
     }
+
+    public function fetchImage(Request $request)
+    {
+        if ($request->ajax()) {
+            $imageURL = $request->imageURL;
+
+            return response()->json([
+                'success' => true,
+                'html' => view('clients.survey.elements.section-image', compact('imageURL'))->render(),
+            ]);
+        }
+
+        return response()->json([
+            'success' => false,
+        ]);
+    }
 }

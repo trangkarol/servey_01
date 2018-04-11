@@ -95,18 +95,6 @@ abstract class BaseRepository implements BaseInterface
         return $model;
     }
 
-    public function uploadImage($file, $path)
-    {
-        if (!$file) {
-            return null;
-        }
-
-        $fileName = uniqid(rand(), true) . '.' . $file->getClientOriginalExtension();
-        $file->move(public_path($path), $fileName);
-
-        return $fileName;
-    }
-
     public function uploadImageUrl($url, $path)
     {
         if (!$url) {
@@ -148,5 +136,5 @@ abstract class BaseRepository implements BaseInterface
     {
         return call_user_func_array([$this->model, $method], $args);
     }
-    
+
 }
