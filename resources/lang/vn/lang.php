@@ -142,4 +142,18 @@ return [
     'error' => 'Lỗi',
     '404_message' => 'Trang bạn tìm kiếm không tồn tại.',
     'go_home' => 'Trở về trang chủ',
+
+    // setting survey
+
+    'general_settings' => 'Cài đặt chung',
+    'required_infomation' => 'Yêu cầu để trả lời',
+    'login_by_wsm' => 'Yêu cầu phải đăng nhập tài khoản WSM',
+    'limit_replies' => 'Giới hạn số lần trả lời',
+    'send_a_reminder_email_periodically' => 'Gửi email nhắc nhở định kỳ',
+    'by_week' => 'Theo tuần',
+    'by_month' => 'Theo tháng',
+    'by_quarter' => 'Theo quý',
+    'private_this_survey' => 'Bảo mật cuộc khảo sát này?',
+    'save' => 'Lưu', 
+    'cancel' => 'Hủy',
 ];

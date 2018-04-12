@@ -143,4 +143,17 @@ return [
     '404_message' => 'The page you are looking for does not exists.',
     'go_home' => 'Go home',
 
+    // setting survey
+
+    'general_settings' => 'General settings',
+    'required_infomation' => 'Required information',
+    'login_by_wsm' => 'Login by WSM',
+    'limit_replies' => 'Limit replies',
+    'send_a_reminder_email_periodically' => 'Send a reminder email periodically',
+    'by_week' => 'By week',
+    'by_month' => 'By month',
+    'by_quarter' => 'By quarter',
+    'private_this_survey' => 'Private this survey',
+    'save' => 'Save', 
+    'cancel' => 'Cancel',
 ];

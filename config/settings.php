@@ -147,4 +147,9 @@ return [
     'vn' => 'vn',
     'fsurvey' => 'FSurvey',
     'max_size_image' => 5120,
+    'quantity_answer' => [
+        'default' => 1,
+        'min' => 1,
+        'max' => 10,
+    ],
 ];
