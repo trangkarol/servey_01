@@ -8,83 +8,70 @@ use Carbon\Carbon;
 class Survey extends Model
 {
     protected $fillable = [
-        'title',
-        'user_id',
-        'feature',
+        'tittle',
+        'description',
         'token',
         'status',
+        'end_time',
         'start_time',
-        'deadline',
-        'next_reminder_time',
-        'description',
-        'mail',
-        'user_name',
         'update',
     ];
 
-    protected $appends = [
-        'status_custom',
-    ];
+    // protected $appends = [
+    //     'status_custom',
+    // ];
 
     public function invites()
     {
         return $this->hasMany(Invite::class);
     }
 
-    public function user()
+    public function members()
     {
-        return $this->belongsTo(User::class);
-    }
-
-    public function questions()
-    {
-        return $this->hasMany(Question::class)->orderBy('sequence');
-    }
-
-    public function likes()
-    {
-        return $this->hasMany(Like::class);
-    }
-
-    public function getDeadlineAttribute()
-    {
-        return (!empty($this->attributes['deadline']))
-            ? Carbon::parse($this->attributes['deadline'])->format('Y-m-d H:i:s')
-            : null;
-    }
-
-    public function temps()
-    {
-        return $this->hasMany(Temp::class);
+        return $this->belongsToMany(User::class)
+            ->withPivot('role', 'status')
+            ->withTimestamps();
     }
 
     public function settings()
     {
-        return $this->hasMany(Setting::class);
+        return $this->morphMany(Setting::class, 'settingable');
     }
 
-    public function getIsOpenAttribute()
+    public function sections()
     {
-        return (empty($this->attributes['deadline']) || Carbon::parse($this->attributes['deadline'])->gt(Carbon::now()));
+        return $this->hasMany(Section::class)->orderBy('order');
     }
 
-    public function getTitleAttribute()
-    {
-        return ucwords(str_limit($this->attributes['title'], config('settings.title_length_default')));
-    }
+    // public function getDeadlineAttribute()
+    // {
+    //     return (!empty($this->attributes['deadline']))
+    //         ? Carbon::parse($this->attributes['deadline'])->format('Y-m-d H:i:s')
+    //         : null;
+    // }
 
-    public function getIsExpiredAttribute()
-    {
-        return empty($this->attributes['deadline']) ? false : $this->attributes['deadline'] <= Carbon::now()->toDateTimeString();
-    }
+    // public function getIsOpenAttribute()
+    // {
+    //     return (empty($this->attributes['deadline']) || Carbon::parse($this->attributes['deadline'])->gt(Carbon::now()));
+    // }
 
-    public function getStatusCustomAttribute()
-    {
-        return $this->attributes['status'] ? trans('profile.open') : trans('profile.closed');
-    }
+    // public function getTitleAttribute()
+    // {
+    //     return ucwords(str_limit($this->attributes['title'], config('settings.title_length_default')));
+    // }
 
-    public function getCreatedAtAttribute()
-    {
-        return Carbon::parse($this->attributes['created_at'])->format(trans('lang.date_format'));
-    }
+    // public function getIsExpiredAttribute()
+    // {
+    //     return empty($this->attributes['deadline']) ? false : $this->attributes['deadline'] <= Carbon::now()->toDateTimeString();
+    // }
+
+    // public function getStatusCustomAttribute()
+    // {
+    //     return $this->attributes['status'] ? trans('profile.open') : trans('profile.closed');
+    // }
+
+    // public function getCreatedAtAttribute()
+    // {
+    //     return Carbon::parse($this->attributes['created_at'])->format(trans('lang.date_format'));
+    // }
 }
