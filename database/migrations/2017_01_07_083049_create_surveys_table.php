@@ -14,10 +14,16 @@ class CreateSurveysTable extends Migration
     public function up()
     {
         Schema::create('surveys', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string('title');
+            $table->longText('description');
+            $table->string('token');
             $table->boolean('feature');
-            $table->integer('user_id');
+            $table->tinyInteger('status');
+            $table->timestamp('deadline')->nullable();
+            $table->timestamp('start_day')->nullable();
+            $table->string('token_manage');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

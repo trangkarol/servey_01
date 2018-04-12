@@ -14,11 +14,12 @@ class CreateResultsTable extends Migration
     public function up()
     {
         Schema::create('results', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('answer_id');
-            $table->integer('sender_id');
-            $table->integer('recevier_id');
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('answer_id');
             $table->longText('content');
+            $table->string('client_ip');
+            $table->unsignedInteger('user_id');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

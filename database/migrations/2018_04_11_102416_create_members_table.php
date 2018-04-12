@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateColumnTimestampsSocialAccountsTable extends Migration
+class CreateMembersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,12 @@ class CreateColumnTimestampsSocialAccountsTable extends Migration
      */
     public function up()
     {
-        Schema::table('social_accounts', function (Blueprint $table) {
+        Schema::create('members', function (Blueprint $table) {
+            $table->increments('id');
+            $table->tinyInteger('role');
+            $table->tinyInteger('status');
+            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('survey_id');
             $table->timestamps();
         });
     }
@@ -25,8 +30,6 @@ class CreateColumnTimestampsSocialAccountsTable extends Migration
      */
     public function down()
     {
-        Schema::table('social_accounts', function (Blueprint $table) {
-            $table->dropTimestamps();
-        });
+        Schema::dropIfExists('members');
     }
 }

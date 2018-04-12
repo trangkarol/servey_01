@@ -14,10 +14,14 @@ class UpdateUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->date('birthday')->nullable()->change();
-            $table->boolean('gender')->nullable()->change();
-            $table->string('phone')->nullable()->change();
-            $table->string('address')->nullable()->change();
+            $table->date('birthday')->nullable()->after('password');
+            $table->boolean('gender')->nullable()->after('birthday');
+            $table->string('phone')->nullable()->after('gender');
+            $table->string('address')->nullable()->after('phone');
+            $table->string('avatar')->nullable()->after('address');
+            $table->string('background')->nullable()->after('avatar');
+            $table->tinyInteger('level')->after('background');
+            $table->string('email')->nullable()->change();
         });
     }
 
@@ -29,10 +33,14 @@ class UpdateUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->date('birthday')->change();
-            $table->boolean('gender')->change();
-            $table->string('phone')->change();
-            $table->string('address')->change();
+            $table->dropColumn('birthday');
+            $table->dropColumn('gender');
+            $table->dropColumn('phone');
+            $table->dropColumn('address');
+            $table->dropColumn('avatar');
+            $table->dropColumn('background');
+            $table->dropColumn('level');
+            $table->string('email')->change();
         });
     }
 }

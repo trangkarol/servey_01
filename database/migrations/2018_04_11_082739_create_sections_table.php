@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCurrentSocialsTable extends Migration
+class CreateSectionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateCurrentSocialsTable extends Migration
      */
     public function up()
     {
-        Schema::create('current_socials', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('user_id');
-            $table->string('name')->nullable();
-            $table->string('email')->nullable();
-            $table->string('image')->nullable();
+        Schema::create('sections', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('title');
+            $table->longText('description');
+            $table->tinyInteger('update');
+            $table->unsignedBigInteger('survey_id');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ class CreateCurrentSocialsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('current_socials');
+        Schema::dropIfExists('sections');
     }
 }
