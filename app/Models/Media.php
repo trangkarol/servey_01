@@ -4,16 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Setting extends Model
+class Media extends Model
 {
     protected $fillable = [
-        'key',
-        'value',
-        'settingable_id',
-        'settingable_type',
+        'user_id',
+        'type',
+        'url',
+        'mediable_id',
+        'mediable_type',
     ];
 
-    public function settingable()
+    public function mediable()
     {
         return $this->morphTo();
     }

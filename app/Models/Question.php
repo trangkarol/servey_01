@@ -7,23 +7,31 @@ use Illuminate\Database\Eloquent\Model;
 class Question extends Model
 {
     protected $fillable = [
-        'content',
-        'image',
+        'tittle',
+        'description',
         'required',
-        'survey_id',
-        'sequence',
+        'order',
         'update',
-        'clone_id',
-        'video',
+        'section_id',
     ];
 
     protected $appends = [
         'trim_content',
     ];
 
-    public function survey()
+    public function settings()
     {
-        return $this->belongsTo(Survey::class);
+        return $this->morphMany(Setting::class, 'settingable');
+    }
+
+    public function media()
+    {
+        return $this->morphMany(Media::class, 'mediable');
+    }
+
+    public function section()
+    {
+        return $this->belongsTo(Section::class);
     }
 
     public function results()
@@ -58,24 +66,6 @@ class Question extends Model
         $questionImgUrl = $this->attributes['image'];
 
         return asset(config('settings.image_question_path') . $questionImgUrl);
-    }
-
-    public function getImageUpdateAttribute()
-    {
-        return $this->attributes['image'];
-    }
-
-    public function scopeOfClone($query, $surveyId)
-    {
-        if (!$this->clone_id) {
-            return $query->where('survey_id', $surveyId)->where('clone_id', $this->id);
-        }
-
-        return $query
-            ->newQuery($this)
-            ->where('survey_id', $surveyId)
-            ->where('clone_id', $this->clone_id)
-            ->where('id', '>', $this->id);
     }
 
     public function getTrimContentAttribute()
