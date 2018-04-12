@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRequestsTable extends Migration
+class CreateMediaTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class CreateRequestsTable extends Migration
      */
     public function up()
     {
-        Schema::create('requests', function (Blueprint $table) {
+        Schema::create('media', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('content');
-            $table->tinyInteger('status');
-            $table->integer('admin_id');
-            $table->integer('action_type');
-            $table->integer('member_id');
+            $table->unsignedInteger('user_id');
+            $table->tinyInteger('type');
+            $table->string('url');
+            $table->unsignedInteger('mediable_id');
+            $table->string('mediable_type');
             $table->timestamps();
         });
     }
@@ -31,6 +31,6 @@ class CreateRequestsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('requests');
+        Schema::dropIfExists('media');
     }
 }

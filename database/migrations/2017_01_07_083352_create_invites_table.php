@@ -15,9 +15,11 @@ class CreateInvitesTable extends Migration
     {
         Schema::create('invites', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('sender_id');
-            $table->integer('recevier_id');
-            $table->integer('survey_id');
+            $table->longText('invite_mail');
+            $table->longText('answer_mail');
+            $table->tinyInteger('status');
+            $table->unsignedBigInteger('survey_id');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
