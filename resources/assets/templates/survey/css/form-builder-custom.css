@@ -2870,3 +2870,255 @@ li.question-active .checkboxes-block .checkbox .remove-other-checkbox-option {
 .show {
     display: block !important;
 }
+
+.modal-header-setting-survey {
+    background-color: #70c4e0;
+    padding: 20px 24px 20px 24px;
+    border-bottom: none;
+}
+
+.title-setting-survey {
+    line-height: 20px;
+    color: #FFF;
+}
+
+.nav-setting-survey {
+    background-color: #70c4e0;
+}
+
+.nav-item-setting-survey a {
+    color: #fff;
+    padding: 12px 20px !important;
+    border-radius: 0px !important;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: 500;
+    opacity: 0.6;
+    border: none !important;
+}
+
+.nav-item-setting-survey a.active {
+    color: #41788a !important;
+     background: #ffffff !important;
+    border: none !important;
+    opacity: 1;
+}
+
+.container-checkbox-setting-survey, .container-radio-setting-survey {
+    display: block;
+    position: relative;
+    padding-left: 30px;
+    cursor: pointer;
+    font-size: 14px !important;
+    font-weight: unset !important;
+    color: #000 !important;
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+    display: inline-block;
+}
+
+.item-setting {
+    margin-bottom: 20px;
+}
+
+.tab-content-setting {
+    padding: 0 15px 50px 15px;
+}
+
+.setting-choose-confirm-reply, .setting-mail-remind {
+    display: none;
+}
+
+/* Hide the browser's default checkbox */
+.container-checkbox-setting-survey input, .container-radio-setting-survey input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Create a custom checkbox */
+.checkmark-setting-survey {
+    position: absolute;
+    top: 0px;
+    left: 0;
+    height: 21px;
+    width: 21px;
+    border: 2px solid #797878;
+    border-radius: 3px;
+    background-color: #fff;
+}
+
+/* On mouse-over, add a grey background color */
+.container-checkbox-setting-survey:hover input ~ .checkmark-setting-survey {
+    background-color: #2196f3a6;
+    border: 2px solid #2196f3a6;
+}
+
+.container-checkbox-setting-survey:hover input:checked ~ .checkmark-setting-survey {
+    background-color: #ccc;
+    border: 2px solid #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.container-checkbox-setting-survey input:checked ~ .checkmark-setting-survey {
+    background-color: #2196F3;
+    border: 2px solid #2196F3;
+}
+
+/* Create the checkmark-setting-survey/indicator (hidden when not checked) */
+.checkmark-setting-survey:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the checkmark-setting-survey when checked */
+.container-checkbox-setting-survey input:checked ~ .checkmark-setting-survey:after {
+    display: block;
+}
+
+/* Style the checkmark-setting-survey/indicator */
+.container-checkbox-setting-survey .checkmark-setting-survey:after {
+    left: 6px;
+    top: 3px;
+    width: 7px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(48deg);
+}
+
+.question-icon {
+    padding: 0 0 0px 10px;
+    font-size: 24px;
+    position: relative;
+    bottom: -3px;
+}
+
+.setting-choose-confirm-reply, .setting-mail-remind {
+    padding-left: 40px;
+    padding-top: 10px;
+}
+
+.number-limit-number-answer {
+    display: none;
+    height: 50px;
+    padding-left: 50px;
+    padding-top: 10px;
+}
+
+/* Create a custom radio button */
+.checkmark-radio {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #e5e5e5;
+    border-radius: 50%;
+}
+
+label.container-radio-setting-survey {
+    padding-bottom: 6px;
+}
+
+/* When the radio button is checked, add a blue background */
+.container-radio-setting-survey input:checked ~ .checkmark-radio {
+    background-color: #2196F3;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark-radio:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.container-radio-setting-survey input:checked ~ .checkmark-radio:after {
+    display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.container-radio-setting-survey .checkmark-radio:after {
+    top: 8px;
+    left: 8px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: white;
+}
+
+.div-action-setting {
+    position: absolute;
+    right: 15px;
+    line-height: 40px;
+    width: 25%;
+}
+
+.btn-action-setting-cancel, .btn-action-setting-save {
+    padding: 5px 10px;
+}
+
+a.btn-action-setting-cancel {
+    color: #333;
+}
+
+a.btn-action-setting-save {
+    color: #2a9abf;
+}
+
+.dec.qtybutton {
+    background-color: #e5e5e5;
+    border: 1px #ddd solid;
+    border-right: none;
+    transition: color 300ms ease-in-out 0s, background-color 300ms ease-in-out 0s, background-position 300ms ease-in-out 0s;
+    color: #333e48;
+    font-size: 12px;
+    line-height: normal;
+    padding: 12px 14px 9px 16px;
+    line-height: 13px;
+    display: inline-block;
+    border-radius: 50px 0 0 50px;
+    height: 36px;
+    float: left;
+    cursor: pointer;
+}
+
+.inc.qtybutton {
+    background-color: #e5e5e5;
+    border: 1px #ddd solid;
+    border-left: none;
+    transition: color 300ms ease-in-out 0s, background-color 300ms ease-in-out 0s, background-position 300ms ease-in-out 0s;
+    color: #333e48;
+    font-size: 12px;
+    line-height: normal;
+    padding: 12px 14px 9px 16px;
+    line-height: 13px;
+    display: inline-block;
+    border-radius: 0 50px 50px 0;
+    height: 36px;
+    float: left;
+    cursor: pointer;
+}
+
+input#quantity-answer {
+    border: 1px solid #e0e0e0;
+    color: #333e48;
+    float: left;
+    font-size: 14px;
+    height: 36px;
+    margin-right: 0;
+    padding: 0 5px;
+    text-align: center;
+    width: 65px;
+}
+
+input[name="quantity-answer"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

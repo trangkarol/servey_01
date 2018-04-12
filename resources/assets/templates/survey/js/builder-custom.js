@@ -744,4 +744,66 @@ jQuery(document).ready(function () {
             }
         }
     });
+    
+    $('#confirm-reply').change(function(event) {
+        var check = $(this).prop('checked');
+
+        if (check) {
+            $('.setting-choose-confirm-reply').show('300');
+            $('.setting-radio-request').removeAttr('disabled');
+        } else {
+            $('.setting-choose-confirm-reply').hide('300')
+            $('.setting-radio-request').attr('disabled', true);
+        }
+    });
+
+    $('#checkbox-mail-remind').change(function(event) {
+        var check = $(this).prop('checked');
+
+        if (check) {
+            $('.setting-mail-remind').show('300');
+            $('.radio-mail-remind').removeAttr('disabled');
+        } else {
+            $('.setting-mail-remind').hide('300')
+            $('.radio-mail-remind').attr('disabled', true);
+        }
+    });
+
+    $('#limit-number-answer').change(function(event) {
+        var check = $(this).prop('checked');
+
+        if (check) {
+            $('.number-limit-number-answer').show('300');
+        } else {
+            $('.number-limit-number-answer').hide('300')
+        }
+    });
+        
+    var minAnswer = parseInt($('#quantity-answer').attr('min'));
+    var maxAnswer = parseInt($('#quantity-answer').attr('max'));
+
+    $('#btn-minus-quantity').click(function(event) {
+        var quantity = parseInt($('#quantity-answer').val());
+
+        if (!isNaN(quantity) && quantity > minAnswer) {
+            $('#quantity-answer').val(--quantity);
+        }
+
+        return false;
+    });
+
+    $('#btn-plus-quantity').click(function(event) {
+        var quantity = parseInt($('#quantity-answer').val());
+        if (!isNaN(quantity) && quantity < maxAnswer) {
+            $('#quantity-answer').val(++quantity);
+        }
+
+        return false;
+    });
+
+    $('#quantity-answer').blur(function(event) {
+        if (parseInt($(this).val()) < minAnswer || parseInt($(this).val()) > maxAnswer) {
+            $(this).val(minAnswer);
+        }
+    });
 });
