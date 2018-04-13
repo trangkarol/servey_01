@@ -88,6 +88,7 @@ return [
     'change_image' => 'Thay đổi',
     'delete_image' => 'Xóa',
     'hover_text' => 'Văn bản khi di chuột',
+    'video_title' => 'Tiêu đề video',
 
     /*
     | Survey Create Page

@@ -178,6 +178,8 @@ Route::group(['namespace' => 'Ajax', 'prefix' => 'ajax'], function () {
         ->name('ajax-upload-image');
     Route::post('fetch-element/image', 'ElementFetchingController@fetchImage')
         ->name('ajax-fetch-image');
+    Route::post('fetch-element/video', 'ElementFetchingController@fetchVideo')
+        ->name('ajax-fetch-video');
 });
 
 Route::get('/languages', 'LanguageController@index')->name('set-language');
