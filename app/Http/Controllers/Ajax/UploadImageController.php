@@ -24,4 +24,23 @@ class UploadImageController extends Controller
 
         return response()->json(false);
     }
+
+    public function removeImage(Request $request)
+    {
+        if (!$request->ajax()) {
+            return response()->json([
+                'success' => false,
+            ]);
+        }
+
+        $urlImage = $request->imageURL;
+
+        if (Storage::disk('local')->exists($urlImage)) {
+            Storage::disk('local')->delete($urlImage);
+        }
+
+        return response()->json([
+            'success' => true,
+        ]);
+    }
 }

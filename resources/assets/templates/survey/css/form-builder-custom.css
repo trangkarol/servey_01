@@ -3122,3 +3122,184 @@ input[name="quantity-answer"]::-webkit-outer-spin-button, input[type="number"]::
     -webkit-appearance: none;
     margin: 0;
 }
+
+.image-question {
+    margin-top: 15px;
+}
+
+.image-answer {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.show-image-answer {
+    padding-left: 29px;
+}
+
+.remove-image-answer {
+    position: absolute;
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    text-align: center;
+    box-shadow: 0 1px 1px 0 rgba(0,0,0,0.14), 0 2px 1px -1px rgba(0,0,0,0.12), 0 1px 3px 0 rgba(0,0,0,0.2);
+    color: rgb(77, 75, 75);
+    cursor: pointer;
+    top: -13px;
+    right: -9px;
+    background: #fff;
+    display: none;
+}
+
+.remove-image-answer .fa {
+    line-height: 1.8;
+}
+
+.question-active .image-answer .show-image-answer:hover .remove-image-answer {
+    display: block;
+}
+
+.option-image-section {
+    height: 40px;
+    width: 40px;
+    position: absolute;
+    top: -14px;
+    left: -15px;
+    background-color: #fff;
+    box-shadow:0 1px 1px 0 rgba(0,0,0,0.14), 0 2px 1px -1px rgba(0,0,0,0.12), 0 1px 3px 0 rgba(0,0,0,0.2);
+    text-align: center;
+    border-radius: 50%;
+    color: rgb(24, 22, 22);
+    cursor: pointer;
+    display: none;
+}
+
+.option-image-section .fa {
+    line-height: 2.5;
+}
+
+.option-image-section .option-menu-dropdown {
+    width: 150px;
+    text-align: left;
+    background-color: #fff;
+    box-shadow: 0 1px 1px 0 rgba(0,0,0,0.14), 0 2px 1px -1px rgba(0,0,0,0.12), 0 1px 3px 0 rgba(0,0,0,0.2);
+    display: none;
+    position: absolute;
+    padding: 0px;
+    top: 30px;
+}
+
+.option-image-section .option-menu-dropdown li {
+    list-style-type: none;
+    text-align: left;
+    padding: 2px 0px 2px 20px;
+}
+
+.option-image-section .option-menu-dropdown li .fa {
+    width: 25px;
+}
+
+.option-image-section .option-menu-dropdown li:hover {
+    background: #f1f1f1;
+}
+
+.question-active .option-image-section {
+    display: block;
+}
+
+.option-image-question {
+    height: 40px;
+    width: 40px;
+    position: absolute;
+    top: -14px;
+    left: -15px;
+    background-color: #fff;
+    box-shadow:0 1px 1px 0 rgba(0,0,0,0.14), 0 2px 1px -1px rgba(0,0,0,0.12), 0 1px 3px 0 rgba(0,0,0,0.2);
+    text-align: center;
+    border-radius: 50%;
+    color: rgb(24, 22, 22);
+    cursor: pointer;
+    display: none;
+}
+
+.option-image-question .fa {
+    line-height: 2.5;
+}
+
+.option-image-question .option-menu-dropdown {
+    width: 150px;
+    text-align: left;
+    background-color: #fff;
+    box-shadow: 0 1px 1px 0 rgba(0,0,0,0.14), 0 2px 1px -1px rgba(0,0,0,0.12), 0 1px 3px 0 rgba(0,0,0,0.2);
+    display: none;
+    position: absolute;
+    padding: 0px;
+    top: 30px;
+}
+
+.option-image-question .option-menu-dropdown li {
+    list-style-type: none;
+    text-align: left;
+    padding: 2px 0px 2px 20px;
+}
+
+.option-image-question .option-menu-dropdown li .fa {
+    width: 25px;
+}
+
+.option-image-question .option-menu-dropdown li:hover {
+    background: #f1f1f1;
+}
+
+.question-active .option-image-question {
+    display: block;
+}
+
+.option-image-video {
+    height: 40px;
+    width: 40px;
+    position: absolute;
+    top: -14px;
+    left: -15px;
+    background-color: #fff;
+    box-shadow:0 1px 1px 0 rgba(0,0,0,0.14), 0 2px 1px -1px rgba(0,0,0,0.12), 0 1px 3px 0 rgba(0,0,0,0.2);
+    text-align: center;
+    border-radius: 50%;
+    color: rgb(24, 22, 22);
+    cursor: pointer;
+    display: none;
+}
+
+.option-image-video .fa {
+    line-height: 2.5;
+}
+
+.option-image-video .option-menu-dropdown {
+    width: 150px;
+    text-align: left;
+    background-color: #fff;
+    box-shadow: 0 1px 1px 0 rgba(0,0,0,0.14), 0 2px 1px -1px rgba(0,0,0,0.12), 0 1px 3px 0 rgba(0,0,0,0.2);
+    display: none;
+    position: absolute;
+    padding: 0px;
+    top: 30px;
+}
+
+.option-image-video .option-menu-dropdown li {
+    list-style-type: none;
+    text-align: left;
+    padding: 2px 0px 2px 20px;
+}
+
+.option-image-video .option-menu-dropdown li .fa {
+    width: 25px;
+}
+
+.option-image-video .option-menu-dropdown li:hover {
+    background: #f1f1f1;
+}
+
+.question-active .option-image-video {
+    display: block;
+}
+

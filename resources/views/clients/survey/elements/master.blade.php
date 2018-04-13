@@ -8,9 +8,10 @@
                 'placeholder' => trans('lang.question'),
                 'rows' => 1
             ]) !!}
+            {!! Form::hidden('imageQuestion', null, ['class' => 'image-question-hidden']) !!}
         </div>
         <div class="col-xl-1 col-lg-1 col-md-1 col-sm-1 col-2 question-image-block">
-            {{ Html::link('#', '', ['class' => 'question-image-btn fa fa-image']) }}
+            {{ Html::link('#', '', ['class' => 'question-image-btn fa fa-image', 'data-url' => route('ajax-fetch-image-question')]) }}
         </div>
         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-8 question-dropdown-block">
             <div class="survey-select">
@@ -49,7 +50,6 @@
             </div>
         </div>
     </div>
-
     <div class="form-row description-input">
         <div class="col-12"></div>
     </div>

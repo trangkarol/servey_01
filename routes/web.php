@@ -177,9 +177,15 @@ Route::group(['namespace' => 'Ajax', 'prefix' => 'ajax'], function () {
     Route::post('upload-image', 'UploadImageController@insertImage')
         ->name('ajax-upload-image');
     Route::post('fetch-element/image', 'ElementFetchingController@fetchImage')
-        ->name('ajax-fetch-image');
+        ->name('ajax-fetch-image-section');
     Route::post('fetch-element/video', 'ElementFetchingController@fetchVideo')
         ->name('ajax-fetch-video');
+    Route::post('fetch-element/image-question', 'ElementFetchingController@fetchImageQuestion')
+        ->name('ajax-fetch-image-question');
+    Route::post('fetch-element/image-answer', 'ElementFetchingController@fetchImageAnswer')
+        ->name('ajax-fetch-image-answer');
+    Route::post('remove-image', 'UploadImageController@removeImage')
+        ->name('ajax-remove-image');
 });
 
 Route::get('/languages', 'LanguageController@index')->name('set-language');

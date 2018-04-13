@@ -62,9 +62,9 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer btn-group-image-modal">
                 <button class="btn btn-success btn-cancel-insert-image" data-dismiss="modal">@lang('lang.cancel')</button>
-                <button class="btn btn-success btn-insert-image" data-dismiss="modal" data-url="{{ route('ajax-fetch-image') }}">@lang('lang.insert_image')</button>
+                <button class="btn btn-success btn-insert-image" data-dismiss="modal">@lang('lang.insert_image')</button>
             </div>
         </div>
     </div>
