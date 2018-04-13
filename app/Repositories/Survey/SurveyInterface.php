@@ -8,16 +8,7 @@ interface SurveyInterface
 
     public function getResutlSurvey($token);
 
-    public function createSurvey(
-        $inputs,
-        array $settings,
-        array $arrayQuestionWithAnswer,
-        array $questionsRequired,
-        array $images,
-        array $imageUrl,
-        array $videoUrl,
-        $locale
-    );
+    public function createSurvey($userId, $data);
 
     public function checkCloseSurvey($inviteIds, $surveyIds);
 

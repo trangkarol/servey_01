@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Section extends Model
 {
     protected $fillable = [
-        'tittle',
+        'title',
         'description',
         'survey_id',
         'order',
+        'update',
     ];
 
     public function settings()

@@ -13,9 +13,12 @@ use App\Models\Question;
 use Carbon\Carbon;
 use App\Models\Survey;
 use Auth;
+use App\Traits\SurveyProcesser;
 
 class SurveyRepository extends BaseRepository implements SurveyInterface
 {
+    use SurveyProcesser;
+
     public function __construct(Survey $survey)
     {
         parent::__construct($survey);
@@ -108,92 +111,131 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         return $results;
     }
 
-    public function createSurvey(
-        $inputs,
-        array $settings,
-        array $arrayQuestionWithAnswer,
-        array $questionsRequired,
-        array $images,
-        array $imageUrl,
-        array $videoUrl,
-        $locale
-    ) {
-        $surveyInputs = $inputs->only([
-            'user_id',
-            'mail',
-            'title',
-            'feature',
-            'token',
-            'token_manage',
-            'status',
-            'start_time',
-            'next_reminder_time',
-            'deadline',
-            'description',
-            'user_name',
-        ]);
+    public function createSurvey($userId, $data)
+    {
+        DB::beginTransaction();
 
-        // if the lang is english will be format from M-D-Y to M/D/Y
-        if ($inputs['start_time']) {
-            $inputs['start_time'] = $surveyInputs['start_time'] = Carbon::parse(in_array($locale, config('settings.sameFormatDateTime'))
-                ? str_replace('-', '/', $surveyInputs['start_time'])
-                : $surveyInputs['start_time'])
-                ->toDateTimeString();
-        }
-
-        if ($inputs['deadline']) {
-            $inputs['deadline'] = $surveyInputs['deadline'] = Carbon::parse(in_array($locale, config('settings.sameFormatDateTime'))
-                ? str_replace('-', '/', $surveyInputs['deadline'])
-                : $surveyInputs['deadline'])
-                ->toDateTimeString();
-        }
-
-        if ($inputs['next_reminder_time']) {
-            $inputs['next_reminder_time'] = $surveyInputs['next_reminder_time'] = Carbon::parse(in_array($locale, config('settings.sameFormatDateTime'))
-                ? str_replace('-', '/', $surveyInputs['next_reminder_time'])
-                : $surveyInputs['next_reminder_time'])
-                ->toDateTimeString();
-        }
-
-        $surveyInputs['status'] = config('survey.status.available');
-        $surveyInputs['start_time'] = $inputs['start_time'] ?: null;
-        $surveyInputs['deadline'] = $inputs['deadline'] ?: null;
-        $surveyInputs['next_reminder_time'] = $inputs['next_reminder_time'] ?: null;
-        $surveyInputs['description'] = $inputs['description'] ?: null;
-        $surveyInputs['created_at'] = $surveyInputs['updated_at'] = Carbon::now();
-        $surveyId = parent::create($surveyInputs->toArray());
-
-        if (!$surveyId) {
-            return false;
-        }
-
-        // (1,6) That is the settings quantity for a survey
-        foreach (range(1, 6) as $key) {
-            if (!array_has($settings, $key)) {
-                $settings[$key] = null;
+        try {
+            if ($userId != Auth::user()->id) {
+                throw new Exception("Error Processing Request", 1);
             }
+
+            $surveyInputs = $data->only([
+                'title', 
+                'description', 
+                'start_time',
+                'end_time'
+            ]);
+
+            $surveyInputs['feature'] = config('settings.survey.feature.default');
+            $surveyInputs['token'] = md5(uniqid(rand(), true));
+            $surveyInputs['token_manage'] = md5(uniqid(rand(), true));
+            $surveyInputs['status'] = config('settings.survey.status.public');
+
+            $survey = parent::create($surveyInputs);
+
+            if (!$survey) {
+                throw new Exception("Error Processing Request", 1);
+            }
+
+            //create owner
+            $survey->members()->attach($userId, [
+                'role' => Survey::OWNER,
+                'status' => Survey::APPROVE,
+            ]);
+            
+            // create invite email
+            if ($data->invited_emails) {
+                $invite_mails = $this->formatInviteMailsString($data->invited_emails);
+
+                $survey->invites()->create([
+                    'invite_mails' => $invite_mails,
+                    'answer_mails' => '',
+                    'status' => config('settings.survey.invite_status.not_finish'),
+                ]);
+            }
+
+            // create settings of survey
+            $settingsData = $this->createSettingDataArray($data->setting);
+            $survey->settings()->createMany($settingsData);
+
+            $orderSection = 0;
+
+            // create sections
+            foreach ($data->sections as $section) {
+                $sectionData['title'] = $section['title'];
+                $sectionData['description'] = $section['description'];
+                $sectionData['order'] = ++ $orderSection;
+                $sectionData['update'] = config('settings.survey.section_update.default');
+
+                $sectionCreated = $survey->sections()->create($sectionData);
+
+                $orderQuestion = 0;
+
+                // create questions
+                if (isset($section['questions'])) {
+                    foreach ($section['questions'] as $question) {
+                        $questionData['title'] = $question['title'];
+                        $questionData['description'] = $question['description'];
+                        $questionData['required'] = $question['require'];
+                        $questionData['order'] = ++ $orderQuestion;
+                        $questionData['update'] = config('settings.survey.question_update.default');
+
+                        $questionCreated = $sectionCreated->questions()->create($questionData);
+
+                        // create type question on setting
+                        $questionSetting['key'] = config('settings.setting_type.question_type.key');
+                        $questionSetting['value'] = $question['type'];
+                        $questionCreated->settings()->create($questionSetting);
+
+                        // create image or video (media) of question
+                        if ($question['media']) {
+                            $questionMedia['user_id'] = $userId;
+                            $questionMedia['url'] = $question['media'];
+                            $questionMedia['type'] = config('settings.media_type.image');
+                            
+                            if ($question['type'] == config('settings.question_type.video')) {
+                                $questionMedia['type'] = config('settings.media_type.video');
+                            }
+
+                            $questionCreated->media()->create($questionMedia);
+                        }
+
+                        // create answers
+                        if (isset($question['answers'])) {
+                            foreach ($question['answers'] as $answer) {
+                                $answerData['content'] = $answer['content'];
+                                $answerData['update'] = config('settings.survey.answer_update.default');;
+
+                                $answerCreated = $questionCreated->answers()->create($answerData);
+
+                                // create type answer on setting
+                                $answerSetting['key'] = config('settings.setting_type.answer_type.key');
+                                $answerSetting['value'] = $answer['type'];
+                                $answerCreated->settings()->create($answerSetting);
+
+                                // create image (media) of answer
+                                if ($answer['image']) {
+                                    $answerMedia['user_id'] = $userId;
+                                    $answerMedia['url'] = $answer['image'];
+                                    $answerMedia['type'] = config('settings.media_type.image');
+
+                                    $answerCreated->media()->create($answerMedia);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            DB::commit();
+
+            return $survey->id;
+        } catch (Exception $e) {
+            DB::rollback();
+
+            return false;      
         }
-
-        if (!$settings[config('settings.key.tailMail')]) {
-            $settings[config('settings.key.tailMail')] = null;
-        }
-
-        app(SettingInterface::class)->createMultiSetting($settings, $surveyId);
-        $txtQuestion = $arrayQuestionWithAnswer;
-        $questions = $txtQuestion['question'];
-        $answers = $txtQuestion['answers'];
-        app(QuestionInterface::class)
-            ->createMultiQuestion(
-                $surveyId,
-                $questions,
-                $answers,
-                $images,
-                $imageUrl,
-                $videoUrl,
-                $questionsRequired
-            );
-
-        return $surveyId;
     }
 
     public function checkCloseSurvey($inviteIds, $surveyIds)

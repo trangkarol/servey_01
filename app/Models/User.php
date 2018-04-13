@@ -54,7 +54,9 @@ class User extends Authenticatable
 
     public function surveys()
     {
-        return $this->hasMany(Survey::class);
+        return $this->belongsToMany(User::class, 'members', 'user_id', 'survey_id')
+            ->withPivot('role', 'status')
+            ->withTimestamps();
     }
 
     public function setImageAttribute($value)
