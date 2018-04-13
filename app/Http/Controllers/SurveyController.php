@@ -22,6 +22,7 @@ use Session;
 use App\Models\Survey;
 use App\Http\Requests\UpdateSurveyRequest;
 use Predis\Connection\ConnectionException;
+use App\Http\Requests\SurveyRequest;
 
 class SurveyController extends Controller
 {

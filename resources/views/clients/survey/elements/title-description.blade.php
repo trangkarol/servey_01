@@ -36,7 +36,7 @@
             </div>
         </div>
     </div>
-    <div class="form-row description-input">
+    <div class="form-row description-input active">
         <div class="col-12">
             {!! Form::textarea('description', '', [
                 'class' => 'form-control question-description-input active input-area auto-resize',

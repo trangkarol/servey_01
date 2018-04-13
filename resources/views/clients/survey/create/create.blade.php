@@ -110,13 +110,6 @@
         <!-- Content Wrapper  -->
     </main>
     <div id="element-clone">
-        {!! Form::textarea('description', '', [
-            'class' => 'form-control question-description-input input-area auto-resize',
-            'data-autoresize',
-            'placeholder' => trans('lang.description_section_placeholder'),
-            'rows' => 1
-        ]) !!}
-
         <div class="form-row choice other-choice-option">
             <div class="radio-choice-icon"><i class="fa fa-circle-thin"></i></div>
             <div class="col-xl-9 col-lg-9 col-md-9 col-sm-8 col-8 choice-input-block">
