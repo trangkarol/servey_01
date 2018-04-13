@@ -81,4 +81,38 @@ class ElementFetchingController extends Controller
             'html' => view('clients.survey.elements.section-video', compact('thumbnailVideo', 'urlEmbed'))->render(),
         ]);
     }
+
+    public function fetchImageQuestion(Request $request)
+    {
+        if (!$request->ajax()) {
+            return response()->json([
+                'success' => false,
+            ]);
+        }
+
+        $imageURL = $request->imageURL;
+
+        return response()->json([
+            'success' => true,
+            'html' => view('clients.survey.elements.image-question', compact('imageURL'))->render(),
+            'imageURL' => $imageURL,
+        ]);
+    }
+
+    public function fetchImageAnswer(Request $request)
+    {
+        if (!$request->ajax()) {
+            return response()->json([
+                'success' => false,
+            ]);
+        }
+
+        $imageURL = $request->imageURL;
+
+        return response()->json([
+            'success' => true,
+            'html' => view('clients.survey.elements.image-answer', compact('imageURL'))->render(),
+            'imageURL' => $imageURL,
+        ]);
+    }
 }

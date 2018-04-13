@@ -89,6 +89,8 @@ return [
     'delete_image' => 'Xóa',
     'hover_text' => 'Văn bản khi di chuột',
     'video_title' => 'Tiêu đề video',
+    'change_video' => 'Thay đổi',
+    'delete_video' => 'Xóa',
 
     /*
     | Survey Create Page
@@ -155,6 +157,6 @@ return [
     'by_month' => 'Theo tháng',
     'by_quarter' => 'Theo quý',
     'private_this_survey' => 'Bảo mật cuộc khảo sát này?',
-    'save' => 'Lưu', 
+    'save' => 'Lưu',
     'cancel' => 'Hủy',
 ];

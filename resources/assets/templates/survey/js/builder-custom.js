@@ -148,6 +148,13 @@ jQuery(document).ready(function () {
         });
     }
 
+    // reset modal image
+    function resetModalImage() {
+        $('.input-url-image').val('');
+        $('.messages-validate-image').text('');
+        $('.img-preview-in-modal').attr('src', '');
+        $('.input-upload-image').val('');
+    }
     /* Selecting form components*/
     $('.survey-form').on('click', 'ul.sortable li.sort', function () {
         $('.form-line').removeClass('liselected');
@@ -599,33 +606,49 @@ jQuery(document).ready(function () {
         });
     });
 
-    $('.btn-insert-image').click(function (e) {
+    // insert image to section
+    $('#add-image-section-btn').click(function (e) {
         e.preventDefault();
-        var imageURL = $('.img-preview-in-modal').attr('src');
-        if (imageURL) {
-            $.ajax({
-                method: 'POST',
-                url: $(this).data('url'),
-                dataType: 'json',
-                data: {
-                    'imageURL': imageURL,
-                }
-            })
-            .done(function (data) {
-                if (data.success) {
-                    var element = $('<div></div>').html(data.html).children().first();
-                    if (questionSelected == null) {
-                        var endSection = $('.survey-form').find('ul.sortable').last().find('.end-section').first();
-                        questionSelected = $(element).insertBefore(endSection);
-                    } else {
-                        questionSelected = $(element).insertAfter(questionSelected);
+        var url = $(this).data('url');
+        $('.btn-insert-image').remove();
+        $('.btn-group-image-modal').append(`
+            <button class="btn btn-success btn-insert-image"
+            id="btn-insert-image-section" data-dismiss="modal">${Lang.get('lang.insert_image')}</button>`
+        );
+        $('#modal-insert-image').modal('show');
+
+        $('#btn-insert-image-section').click(function () {
+            var imageURL = $('.img-preview-in-modal').attr('src');
+
+            if (imageURL) {
+                $.ajax({
+                    method: 'POST',
+                    url: url,
+                    dataType: 'json',
+                    data: {
+                        'imageURL': imageURL,
                     }
-                    questionSelected.click();
-                }
-            });
-        } else {
-            $('#modal-insert-image').modal('hide');
-        }
+                })
+                .done(function (data) {
+                    if (data.success) {
+                        var element = data.html;
+
+                        if (questionSelected == null) {
+                            var endSection = $('.survey-form').find('ul.sortable').last().find('.end-section').first();
+                            questionSelected = $(element).insertBefore(endSection);
+                        } else {
+                            questionSelected = $(element).insertAfter(questionSelected);
+                        }
+
+                        questionSelected.click();
+                    }
+                });
+            } else {
+                $('#modal-insert-image').modal('hide');
+            }
+
+            resetModalImage();
+        });
     });
 
     // insert video to section
@@ -646,20 +669,195 @@ jQuery(document).ready(function () {
             })
             .done(function (data) {
                 if (data.success) {
-                    var element = $('<div></div>').html(data.html).children().first();
+                    var element = data.html;
+
                     if (questionSelected == null) {
                         var endSection = $('.survey-form').find('ul.sortable').last().find('.end-section').first();
                         questionSelected = $(element).insertBefore(endSection);
                     } else {
                         questionSelected = $(element).insertAfter(questionSelected);
                     }
+
                     questionSelected.click();
+                    $('#modal-insert-video').modal('hide');
                 }
             });
         } else {
             $('#modal-insert-video').modal('hide');
         }
+
+        resetModalImage();
     });
+
+    // add image to question
+    $('.survey-form').on('click', '.question-image-btn', function (e) {
+        e.preventDefault();
+        var questionInsert = $(this).closest('.answer-block');
+        var imageQuestionHidden = $(questionInsert).find('.image-question-hidden');
+        var url = $(this).data('url');
+        $('.btn-insert-image').remove();
+        $('.btn-group-image-modal').append(`
+            <button class="btn btn-success btn-insert-image"
+            id="btn-insert-image-question" data-dismiss="modal">${Lang.get('lang.insert_image')}</button>`
+        );
+        $('#modal-insert-image').modal('show');
+
+        $('#btn-insert-image-question').click(function () {
+            var imageURL = $('.img-preview-in-modal').attr('src');
+
+            if (imageURL) {
+                $.ajax({
+                    method: 'POST',
+                    url: url,
+                    dataType: 'json',
+                    data: {
+                        'imageURL': imageURL,
+                    }
+                })
+                .done(function (data) {
+                    if (data.success) {
+                        var element = data.html
+                        $(element).insertAfter(questionInsert);
+                        $(imageQuestionHidden).val(data.imageURL);
+                    }
+
+                    $('#modal-insert-image').modal('hide');
+                });
+            } else {
+                $('#modal-insert-image').modal('hide');
+            }
+
+            resetModalImage();
+        });
+    });
+
+    // add image to answer
+    $('.survey-form').on('click', '.upload-choice-image', function (e) {
+        e.preventDefault();
+        var url = $(this).data('url');
+        var answerInsert = $(this).parent();
+        var imageAnswerHidden = $(this).closest('.choice-sortable').find('.image-answer-hidden');
+        var uploadChoiceTag = $(this);
+        $('.btn-insert-image').remove();
+        $('.btn-group-image-modal').append(`
+            <button class="btn btn-success btn-insert-image"
+            id="btn-insert-image-answer" data-dismiss="modal">${Lang.get('lang.insert_image')}</button>`
+        );
+        $('#modal-insert-image').modal('show');
+
+        $('#btn-insert-image-answer').click(function () {
+            var imageURL = $('.img-preview-in-modal').attr('src');
+
+            if (imageURL) {
+                $.ajax({
+                    method: 'POST',
+                    url: url,
+                    dataType: 'json',
+                    data: {
+                        'imageURL': imageURL,
+                    }
+                })
+                .done(function (data) {
+                    if (data.success) {
+                        var element = data.html;
+                        $(element).insertAfter(answerInsert);
+                        $(imageAnswerHidden).val(data.imageURL);
+                        $(uploadChoiceTag).addClass('hidden');
+                        $('#modal-insert-image').modal('hide');
+                    }
+                });
+            } else {
+                $('#modal-insert-image').modal('hide');
+            }
+
+            resetModalImage();
+        });
+    });
+
+    function removeImage(url, imageURL) {
+        var regexURL = /^http+/;
+
+        if (!regexURL.test(imageURL)) {
+            $.ajax({
+                method: 'POST',
+                url: url,
+                dataType: 'json',
+                data: {
+                    'imageURL': imageURL.replace('/storage', 'public'),
+                }
+            });
+        }
+    }
+
+    // remove image answer
+    $('.survey-form').on('click', '.remove-image-answer', function () {
+        $('.upload-choice-image').removeClass('hidden');
+        var url = $(this).data('url');
+        var imageAnswerTag = $(this).parent().children('.answer-image-url');
+        var imageURL = $(imageAnswerTag).attr('src');
+        removeImage(url, imageURL);
+        var imageAnswerHidden = $(this).closest('.choice-sortable').find('.image-answer-hidden');
+        $(imageAnswerHidden).val('');
+        $(this).closest('.image-answer').remove();
+    });
+
+    // show option image section
+    $('.survey-form').on('click', '.option-image-section', function (e) {
+        e.stopPropagation();
+        var optionMenuSelected = $(this).children('.option-menu-image');
+        $(optionMenuSelected).toggleClass('show');
+    });
+
+    // hide option image section
+    $(document).on('click', function () {
+        $('.option-menu-image').removeClass('show');
+    });
+
+    // show option image question
+    $('.survey-form').on('click', '.option-image-question', function (e) {
+        e.stopPropagation();
+        var optionMenuSelected = $(this).children('.option-menu-image');
+        $((optionMenuSelected)).toggleClass('show');
+    });
+
+    // hide option image question
+    $(document).on('click', function () {
+        $('.option-menu-image').removeClass('show');
+    });
+
+    // remove image question
+    $('.survey-form').on('click', '.remove-image', function (e) {
+        e.stopPropagation();
+        var imageQuestionTag = $(this).closest('.show-image-question').children('.image-question-url');
+        var imageURL = $(imageQuestionTag).attr('src');
+        var url = $(this).data('url');
+        removeImage(url, imageURL);
+        var imageQuestionHidden = $(this).closest('.form-line').find('.image-question-hidden');
+        $(imageQuestionHidden).val('');
+        $(this).closest('.image-question').remove();
+    });
+
+    // remove image section
+    $('.survey-form').on('click', '.remove-image-section', function (e) {
+        e.stopPropagation();
+        var imageSectionTag = $(this).closest('.box-show-image').children('.show-image-insert-section');
+        var imageURL = $(imageSectionTag).attr('src');
+        var url = $(this).data('url');
+        removeImage(url, imageURL);
+        $(this).closest('.section-show-image-insert').remove();
+    });
+
+    // show video option
+    $('.survey-form').on('click', '.option-image-video', function (e) {
+        e.stopPropagation();
+        $(this).children('.option-menu-image').toggleClass('show');
+    });
+
+    // remove video section
+    $('.survey-form').on('click', '.remove-video', function (e) {
+        e.stopPropagation();
+        $(this).closest('.section-show-image-insert').remove();
+    })
 
     /**
      * add Section
@@ -777,7 +975,7 @@ jQuery(document).ready(function () {
             }
         }
     });
-    
+
     $('#confirm-reply').change(function(event) {
         var check = $(this).prop('checked');
 
@@ -811,7 +1009,7 @@ jQuery(document).ready(function () {
             $('.number-limit-number-answer').hide('300')
         }
     });
-        
+
     var minAnswer = parseInt($('#quantity-answer').attr('min'));
     var maxAnswer = parseInt($('#quantity-answer').attr('max'));
 

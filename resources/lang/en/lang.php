@@ -89,6 +89,8 @@ return [
     'delete_image' => 'Delete image',
     'hover_text' => 'Hover text',
     'video_title' => 'Video title',
+    'change_video' => 'Change video',
+    'delete_video' => 'Delete video',
 
     /*
     | Survey Create Page
@@ -155,6 +157,6 @@ return [
     'by_month' => 'By month',
     'by_quarter' => 'By quarter',
     'private_this_survey' => 'Private this survey',
-    'save' => 'Save', 
+    'save' => 'Save',
     'cancel' => 'Cancel',
 ];

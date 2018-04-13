@@ -47,15 +47,16 @@
     <div class="form-row show-image-block">
         <div class="col-xs-12 col-md-12 col-sm-12">
             <div class="box-show-image">
-                <img data-video="{{ $urlEmbed }}" class="img-fluid show-image-insert-section" src="{{ $thumbnailVideo }}" alt="">
-                <span class="option-image">
+                {!! Form::hidden('urlVideo', $urlEmbed, ['class' => 'video-section-url-hidden']) !!}
+                <img class="img-fluid show-image-insert-section" src="{{ $thumbnailVideo }}" alt="">
+                <span class="option-image-video">
                     <i class="fa fa-ellipsis-v"></i>
                     <ul class="option-menu-dropdown option-menu-image">
-                        <li class="change-element">
-                            <i class="fa fa-clone"></i>
+                        <li class="change-video">
+                            <i class="fa fa-video-camera"></i>
                             <span class="option-menu-content">@lang('lang.change_video')</span>
                         </li>
-                        <li class="remove-element">
+                        <li class="remove-video">
                             <i class="fa fa-trash"></i>
                             <span class="option-menu-content">@lang('lang.delete_video')</span>
                         </li>

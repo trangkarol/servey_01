@@ -32,7 +32,7 @@
                         </div>
                         <div class="survey-action">
                             <button type="button" class="btn btn-outline-light text-dark"
-                                data-dismiss="modal" data-toggle="modal" data-target="#modal-insert-image">
+                                id="add-image-section-btn" data-url="{{ route('ajax-fetch-image-section') }}">
                                 <i class="fa fa-fw fa-picture-o text-dark"></i>
                             </button>
                         </div>

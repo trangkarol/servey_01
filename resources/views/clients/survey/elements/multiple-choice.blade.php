@@ -6,9 +6,10 @@
             <div class="radio-choice-icon"><i class="fa fa-circle-thin"></i></div>
             <div class="col-xl-9 col-lg-9 col-md-9 col-sm-8 col-8 choice-input-block">
                 {!! Form::text('name', trans('lang.option_1'), ['class' => 'form-control']) !!}
+                {!! Form::hidden('imageAnswer', null, ['class' => 'image-answer-hidden']) !!}
             </div>
             <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-3 answer-image-btn-group">
-                {{ Html::link('#', '', ['class' => 'answer-image-btn fa fa-image upload-choice-image']) }}
+                {{ Html::link('#', '', ['class' => 'answer-image-btn fa fa-image upload-choice-image', 'data-url' => route('ajax-fetch-image-answer')]) }}
                 {{ Html::link('#', '', ['class' => 'answer-image-btn fa fa-times remove-choice-option hidden']) }}
             </div>
         </div>
