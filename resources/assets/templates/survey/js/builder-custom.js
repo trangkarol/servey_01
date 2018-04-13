@@ -297,30 +297,14 @@ jQuery(document).ready(function () {
         e.stopPropagation();
         $(this).children('.option-menu-selected').toggleClass('active');
         $(this).parent().hide();
-        var descriptionInput = '';
 
         if ($(this).children('.option-menu-selected').hasClass('active')) {
-            descriptionInput = $('#element-clone').find('.question-description-input').clone();
-            descriptionInput.attr('data-autoresize', '');
+            $(this).closest('li.form-line').find('.description-input').addClass('active');
+        } else {
+            $(this).closest('li.form-line').find('.description-input .question-description-input').val('');
+            $(this).closest('li.form-line').find('.description-input .question-description-input').keyup();
+            $(this).closest('li.form-line').find('.description-input').removeClass('active');
         }
-
-        $(this).closest('li.form-line').find('.description-input').children('div').html(descriptionInput);
-
-        $.each($('textarea[data-autoresize]'), function() {
-            var offset = this.offsetHeight - this.clientHeight;
-
-            var resizeTextarea = function(el) {
-                $(el).css('height', 'auto').css('height', el.scrollHeight + offset);
-            };
-
-            $(this).on('keyup input', function() { resizeTextarea(this); }).removeAttr('data-autoresize');
-        });
-
-        $('.question-description-input').keypress(function(e) {
-            if ((e.keyCode || e.which) === 13) {
-                return false;
-            }
-        });
     });
 
     $('.survey-form').on('keypress', '.question-input, .question-description-input', function(e) {

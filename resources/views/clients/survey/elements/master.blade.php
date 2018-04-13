@@ -51,7 +51,14 @@
         </div>
     </div>
     <div class="form-row description-input">
-        <div class="col-12"></div>
+        <div class="col-12">
+            {!! Form::textarea('description', '', [
+                'class' => 'form-control question-description-input input-area auto-resize',
+                'data-autoresize',
+                'placeholder' => trans('lang.description_section_placeholder'),
+                'rows' => 1
+            ]) !!}
+        </div>
     </div>
     <div class="form-row element-content">
         @yield('element-content')
