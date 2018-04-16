@@ -136,6 +136,11 @@ return [
     'continue_next_section' => 'Tiếp tục với phần tiếp theo',
     'go_to_section' => 'Chuyển đến phần :part',
     'submit_form' => 'Gửi biểu mẫu',
+    'your_answer' => 'Câu trả lời của bạn',
+    'date_placeholder' => 'dd/mm/yyyy',
+    'time_placeholder' => 'hh:mm',
+    'next' => 'Tiếp',
+    'hour' => 'Giờ',
 
     /*
     | 404 page

@@ -136,6 +136,11 @@ return [
     'continue_next_section' => 'Continue to next section',
     'go_to_section' => 'Go to section :part',
     'submit_form' => 'Submit form',
+    'your_answer' => 'Your answer',
+    'date_placeholder' => 'yyyy/mm/dd',
+    'time_placeholder' => 'hh:mm',
+    'next' => 'Next',
+    'hour' => 'Hour',
 
     /*
     | 404 page

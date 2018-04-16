@@ -960,6 +960,32 @@ jQuery(document).ready(function () {
         }
     });
 
+    /*
+        setting survey
+    */
+
+    if ($('#confirm-reply').prop('checked')) {
+        $('.setting-choose-confirm-reply').show('300');
+        $('.setting-radio-request').removeAttr('disabled');
+    }
+    
+    if ($('#checkbox-mail-remind').prop('checked')) {
+        $('.setting-choose-confirm-reply').show('300');
+        $('.setting-radio-request').removeAttr('disabled');
+    }
+    
+    if ($('#limit-number-answer').prop('checked')) {
+        $('.number-limit-number-answer').show('300');
+    }
+
+    //disable event enter
+
+    $('#quantity-answer').keypress(function(event) {
+        if (event.keyCode == 13) {
+            event.preventDefault();
+        }
+    });
+    
     $('#confirm-reply').change(function(event) {
         var check = $(this).prop('checked');
 
