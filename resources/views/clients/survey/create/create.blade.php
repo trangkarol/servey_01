@@ -70,6 +70,14 @@
                         </div>
                         <div class="survey-action" data-placement="right"
                             data-trigger="hover"
+                            data-toggle="tooltip" title="@lang('lang.preview')">
+                            <button type="button" class="btn btn-outline-light text-dark" id="preview-survey-btn"
+                                data-url="{{ route('survey.create.get-json') }}" url-location={{ route('survey.create.preview') }}>
+                                <i class="fa fa-fw fa-eye text-dark"></i>
+                            </button>
+                        </div>
+                        <div class="survey-action" data-placement="right"
+                            data-trigger="hover"
                             data-toggle="tooltip" title="@lang('lang.send')">
                             <button type="button" class="btn btn-outline-light text-dark" id="submit-survey-btn" data-url="{{ route('surveys.store') }}">
                                 <i class="fa fa-fw fa-paper-plane text-dark"></i>

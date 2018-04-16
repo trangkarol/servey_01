@@ -285,6 +285,18 @@ return [
     'checkEventOdd' => 2,
     'roundPercent' => 2,
     'number_0' => 0,
+    'number_1' => 1,
     'number_100' => 100,
     'limit_answer_content' => 80,
+    'anser_type' => [
+        'option' => 1,
+        'option_other' => 2,
+    ],
+    'question_require' => [
+        'require' => 0,
+        'not_require' => 1,
+    ],
+    'detect_page_refresh' => 'max-age=0',
+    'section_show_default' => 0,
+    'section_order_default' => 1,
 ];

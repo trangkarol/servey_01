@@ -18,7 +18,7 @@ $(document).ready(function(){
             $(this).addClass('zoom-out-btn');
             $(this).closest('.wrapper-section-result').css('border-bottom', '1px solid #1987ad');
         } else {
-            $(contentSection).show
+            $(contentSection).show('slide', { direction: 'up', }, 600);
             $(this).removeClass('zoom-out-btn');
             $(this).addClass('zoom-in-btn');
             $(this).closest('.wrapper-section-result').css('border-bottom', 'none');

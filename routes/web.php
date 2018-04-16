@@ -276,10 +276,6 @@ Route::group(['namespace' => 'Auth'], function () {
 Route::group(['middleware' => 'profile'], function () {
     Route::resource('surveys', 'SurveyController');
 
-    Route::get('preview', function () {
-        return view('clients.survey.create.preview');
-    });
-
     Route::group(['namespace' => 'Survey'], function () {
         Route::get('survey/result/{token}', [
             'as' => 'survey.result.index',
@@ -289,6 +285,40 @@ Route::group(['middleware' => 'profile'], function () {
         Route::get('survey/result/detail', [
             'as' => 'survey.result.detail-result',
             'uses' => 'ResultController@detail',
+        ]);
+
+        Route::get('survey/preview', [
+            'uses' => 'PreviewSurveyController@show',
+            'as' => 'survey.create.preview',
+        ]);
+    
+        Route::get('next-preview', [
+            'uses' => 'PreviewSurveyController@nextSection',
+            'as' => 'survey.create.preview.next'
+        ]);
+        Route::get('previous-preview', [
+            'uses' => 'PreviewSurveyController@previousSection',
+            'as' => 'survey.create.preview.previous'
+        ]);
+
+        Route::get('survey/{token}', [
+            'uses' => 'FormSurveyController@getSurvey',
+            'as' => 'survey.create.do-survey',
+        ]);
+
+        Route::get('next-sections-survey/{token}', [
+            'uses' => 'FormSurveyController@nextSectionSurvey',
+            'as' => 'survey.create.next-section-survey',
+        ]);
+
+        Route::get('previous-sections-survey/{token}', [
+            'uses' => 'FormSurveyController@previousSectionSurvey',
+            'as' => 'survey.create.previous-section-survey',
+        ]);
+
+        Route::post('survey/preview/get-json', [
+            'uses' => 'PreviewSurveyController@getJson',
+            'as' => 'survey.create.get-json',
         ]);
     });
 });

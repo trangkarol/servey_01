@@ -107,4 +107,14 @@ class Question extends Model
         
         return $videoThumbnail;
     }
+
+    public function getTypeAttribute()
+    {
+        return $this->settings->first()->key;
+    }
+
+    public function getUrlMediaAttribute()
+    {
+        return $this->media->first()->url;
+    }
 }
