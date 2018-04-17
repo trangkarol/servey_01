@@ -47,12 +47,12 @@
     <div class="form-row show-image-block">
         <div class="col-xs-12 col-md-12 col-sm-12">
             <div class="box-show-image">
-                 {!! Form::hidden('urlImageSection', $imageURL, []) !!}
+                 {!! Form::hidden('urlImageSection', $imageURL, ['class' => 'input-image-section-hidden']) !!}
                 <img class="img-fluid show-image-insert-section" src="{{ $imageURL }}" alt="">
                 <span class="option-image-section" data-url="{{ route('ajax-remove-image') }}">
                     <i class="fa fa-ellipsis-v"></i>
                     <ul class="option-menu-dropdown option-menu-image">
-                        <li class="change-image">
+                        <li class="change-image-section">
                             <i class="fa fa-picture-o text-dark"></i>
                             <span class="option-menu-content">@lang('lang.change_image')</span>
                         </li>

@@ -117,7 +117,7 @@ jQuery(document).ready(function () {
     }
 
     // preview video in modal
-    function setPreviewVideo(src, thumbnailVideo = '') {
+    function setPreviewVideo(src, thumbnailVideo) {
         $('.video-preview').attr('src', src);
         $('.video-preview').attr('data-thumbnail', thumbnailVideo);
     }
@@ -155,6 +155,14 @@ jQuery(document).ready(function () {
         $('.img-preview-in-modal').attr('src', '');
         $('.input-upload-image').val('');
     }
+    //
+    function resetModalVideo() {
+        $('.input-url-video').val('');
+        $('.messages-validate-video').text('');
+        $('.video-preview').attr('src', '');
+        $('.video-preview').attr('data-thumbnail', '');
+    }
+
     /* Selecting form components*/
     $('.survey-form').on('click', 'ul.sortable li.sort', function () {
         $('.form-line').removeClass('liselected');
@@ -596,7 +604,7 @@ jQuery(document).ready(function () {
         var url = $(this).data('url');
         $('.btn-insert-image').remove();
         $('.btn-group-image-modal').append(`
-            <button class="btn btn-success btn-insert-image"
+            <button class="btn btn-default btn-insert-image"
             id="btn-insert-image-section" data-dismiss="modal">${Lang.get('lang.insert_image')}</button>`
         );
         $('#modal-insert-image').modal('show');
@@ -636,52 +644,59 @@ jQuery(document).ready(function () {
     });
 
     // insert video to section
-    $('.btn-insert-video').click(function (e) {
+    $('#add-video-section-btn').click(function (e) {
         e.preventDefault();
-        var thumbnailVideo = $('.video-preview').data('thumbnail');
-        var urlEmbed = $('.video-preview').attr('src');
+        var url = $(this).data('url');
+        $('.btn-insert-video').remove();
+        $('.btn-group-video-modal').append(`
+            <button class="btn btn-default btn-insert-video"
+            id="btn-insert-video-section" data-dismiss="modal">${Lang.get('lang.insert_video')}</button>`)
+        $('#modal-insert-video').modal('show');
 
-        if (urlEmbed) {
-            $.ajax({
-                method: 'POST',
-                url: $(this).data('url'),
-                dataType: 'json',
-                data: {
-                    'thumbnailVideo': thumbnailVideo,
-                    'urlEmbed': urlEmbed,
-                }
-            })
-            .done(function (data) {
-                if (data.success) {
-                    var element = data.html;
+        $('#btn-insert-video-section').click(function () {
+            var thumbnailVideo = $('.video-preview').data('thumbnail');
+            var urlEmbed = $('.video-preview').attr('src');
 
-                    if (questionSelected == null) {
-                        var endSection = $('.survey-form').find('ul.sortable').last().find('.end-section').first();
-                        questionSelected = $(element).insertBefore(endSection);
-                    } else {
-                        questionSelected = $(element).insertAfter(questionSelected);
+            if (urlEmbed) {
+                $.ajax({
+                    method: 'POST',
+                    url: url,
+                    dataType: 'json',
+                    data: {
+                        'thumbnailVideo': thumbnailVideo,
+                        'urlEmbed': urlEmbed,
                     }
+                })
+                .done(function (data) {
+                    if (data.success) {
+                        var element = data.html;
 
-                    questionSelected.click();
-                    $('#modal-insert-video').modal('hide');
-                }
-            });
-        } else {
+                        if (questionSelected == null) {
+                            var endSection = $('.survey-form').find('ul.sortable').last().find('.end-section').first();
+                            questionSelected = $(element).insertBefore(endSection);
+                        } else {
+                            questionSelected = $(element).insertAfter(questionSelected);
+                        }
+
+                        questionSelected.click();
+                    }
+                });
+            }
+
+            resetModalVideo();
             $('#modal-insert-video').modal('hide');
-        }
-
-        resetModalImage();
+        });
     });
 
     // add image to question
     $('.survey-form').on('click', '.question-image-btn', function (e) {
         e.preventDefault();
-        var questionInsert = $(this).closest('.answer-block');
+        var questionInsert = $(this).closest('.form-line').find('.description-input');
         var imageQuestionHidden = $(questionInsert).find('.image-question-hidden');
         var url = $(this).data('url');
         $('.btn-insert-image').remove();
         $('.btn-group-image-modal').append(`
-            <button class="btn btn-success btn-insert-image"
+            <button class="btn btn-default btn-insert-image"
             id="btn-insert-image-question" data-dismiss="modal">${Lang.get('lang.insert_image')}</button>`
         );
         $('#modal-insert-image').modal('show');
@@ -724,7 +739,7 @@ jQuery(document).ready(function () {
         var uploadChoiceTag = $(this);
         $('.btn-insert-image').remove();
         $('.btn-group-image-modal').append(`
-            <button class="btn btn-success btn-insert-image"
+            <button class="btn btn-default btn-insert-image"
             id="btn-insert-image-answer" data-dismiss="modal">${Lang.get('lang.insert_image')}</button>`
         );
         $('#modal-insert-image').modal('show');
@@ -841,7 +856,83 @@ jQuery(document).ready(function () {
     $('.survey-form').on('click', '.remove-video', function (e) {
         e.stopPropagation();
         $(this).closest('.section-show-image-insert').remove();
-    })
+    });
+
+    // change image question
+    $('.survey-form').on('click', '.change-image', function (e) {
+        e.stopPropagation();
+        var imageQuestion = $(this).closest('.show-image-question').children('.image-question-url');
+        var inputImageHidden = $(this).closest('.form-line').find('.image-question-hidden');
+        $('.btn-insert-image').remove();
+        $('.btn-group-image-modal').append(`
+            <button class="btn btn-default btn-insert-image"
+            id="btn-change-image-question" data-dismiss="modal">${Lang.get('lang.insert_image')}</button>`
+        );
+        $('#modal-insert-image').modal('show');
+
+        $('#btn-change-image-question').click(function () {
+            var imageURL = $('.img-preview-in-modal').attr('src');
+
+            if (imageURL) {
+                $(imageQuestion).attr('src', imageURL);
+                $(inputImageHidden).val(imageURL);
+            }
+
+            resetModalImage();
+            $('#modal-insert-image').modal('hide');
+        });
+    });
+
+    // change image section
+    $('.survey-form').on('click', '.change-image-section', function (e) {
+        e.stopPropagation();
+        var imageSection = $(this).closest('.box-show-image').children('.show-image-insert-section');
+        var inputImageHidden = $(this).closest('.box-show-image').children('.input-image-section-hidden');
+        $('.btn-insert-image').remove();
+        $('.btn-group-image-modal').append(`
+            <button class="btn btn-default btn-insert-image"
+            id="btn-change-image-section" data-dismiss="modal">${Lang.get('lang.insert_image')}</button>`
+        );
+        $('#modal-insert-image').modal('show');
+
+        $('#btn-change-image-section').click(function () {
+            var imageURL = $('.img-preview-in-modal').attr('src');
+
+            if (imageURL) {
+                $(imageSection).attr('src', imageURL);
+                $(inputImageHidden).val(imageURL);
+            } else {
+                $('#modal-insert-image').modal('hide');
+            }
+
+            resetModalImage();
+        });
+    });
+
+    // change video section
+    $('.survey-form').on('click', '.change-video', function (e) {
+        e.stopPropagation();
+        var imageVideo = $(this).closest('.box-show-image').children('.show-image-insert-section');
+        var inputVideoURL = $(this).closest('.box-show-image').children('.video-section-url-hidden');
+        $('.btn-insert-video').remove();
+        $('.btn-group-video-modal').append(`
+            <button class="btn btn-default btn-insert-video"
+            id="btn-change-video-section" data-dismiss="modal">${Lang.get('lang.insert_video')}</button>`)
+        $('#modal-insert-video').modal('show');
+
+        $('#btn-change-video-section').click(function () {
+            var thumbnailVideo = $('.video-preview').attr('data-thumbnail');
+            var urlEmbed = $('.video-preview').attr('src');
+
+            if (thumbnailVideo) {
+                $(imageVideo).attr('src', thumbnailVideo);
+                $(inputVideoURL).val(urlEmbed);
+            }
+
+            resetModalVideo();
+            $('#modal-insert-video').modal('hide');
+        });
+    });
 
     /**
      * add Section
@@ -941,7 +1032,7 @@ jQuery(document).ready(function () {
 
         if (!urlVideo) {
             showMessageVideo(Lang.get('lang.url_is_required'));
-            setPreviewVideo('');
+            setPreviewVideo('', '');
         } else {
             var rulesURL = /^(?:https?:\/\/)?(?:www\.)?youtube\.com\/watch\?(?=.*v=((\w|-){11}))(?:\S+)?$/;
 
@@ -955,7 +1046,7 @@ jQuery(document).ready(function () {
                 setPreviewVideo(embedURLVideo, thumbnailVideo);
             } else {
                 showMessageVideo(Lang.get('lang.url_is_invalid'));
-                setPreviewVideo('');
+                setPreviewVideo('', '');
             }
         }
     });
@@ -968,12 +1059,12 @@ jQuery(document).ready(function () {
         $('.setting-choose-confirm-reply').show('300');
         $('.setting-radio-request').removeAttr('disabled');
     }
-    
+
     if ($('#checkbox-mail-remind').prop('checked')) {
         $('.setting-choose-confirm-reply').show('300');
         $('.setting-radio-request').removeAttr('disabled');
     }
-    
+
     if ($('#limit-number-answer').prop('checked')) {
         $('.number-limit-number-answer').show('300');
     }
@@ -985,7 +1076,7 @@ jQuery(document).ready(function () {
             event.preventDefault();
         }
     });
-    
+
     $('#confirm-reply').change(function(event) {
         var check = $(this).prop('checked');
 
