@@ -7,14 +7,19 @@ use Carbon\Carbon;
 
 class Survey extends Model
 {
+    const OWNER = 1;
+    const APPROVE = 1;
+
     protected $fillable = [
-        'tittle',
+        'title',
         'description',
         'token',
         'status',
         'end_time',
         'start_time',
         'update',
+        'feature',
+        'token_manage',
     ];
 
     // protected $appends = [
@@ -28,7 +33,7 @@ class Survey extends Model
 
     public function members()
     {
-        return $this->belongsToMany(User::class)
+        return $this->belongsToMany(User::class, 'members', 'survey_id', 'user_id')
             ->withPivot('role', 'status')
             ->withTimestamps();
     }
@@ -41,6 +46,18 @@ class Survey extends Model
     public function sections()
     {
         return $this->hasMany(Section::class)->orderBy('order');
+    }
+
+    public function setStartTimeAttribute($value) {
+        if (!empty($value)) {
+            $this->attributes['start_time'] = Carbon::parse($value)->format('Y-m-d H:i:s');
+        }
+    }
+
+    public function setEndTimeAttribute($value) {
+        if (!empty($value)) {
+            $this->attributes['end_time'] = Carbon::parse($value)->format('Y-m-d H:i:s');
+        }
     }
 
     // public function getDeadlineAttribute()

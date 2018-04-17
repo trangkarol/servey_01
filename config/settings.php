@@ -152,4 +152,110 @@ return [
         'min' => 1,
         'max' => 10,
     ],
+
+    /**
+     * Survey settings
+     */
+
+    'survey' => [
+        'status' => [
+            'block' => 0,
+            'public' => 1,
+            'private' => 2,
+            'draft' => 3,
+        ],
+        'feature' => [
+            'default' => 1,
+        ],
+        'invite_status' => [
+            'not_finish' => 0,
+            'finished' => 1,
+        ],
+        'section_update' => [
+            'default' => 0,
+        ],
+        'question_update' => [
+            'default' => 0,
+        ],
+        'answer_update' => [
+            'default' => 0,
+        ],
+    ],
+    'question_type' => [
+        'short_answer' => 1,
+        'long_answer' => 2,
+        'multiple_choice' => 3,
+        'checkboxes' => 4,
+        'date' => 5,
+        'time' => 6,
+        'title' => 7,
+        'image' => 8,
+        'video' => 9,
+    ],
+    'survey_setting' => [
+        'answer_required' => [
+            'none' => 0,
+            'login' => 1,
+            'login_with_wsm' => 2,
+        ],
+        'answer_unlimited' => 0,
+        'reminder_email' => [
+            'none' => 0,
+            'by_week' => 1,
+            'by_month' => 2,
+            'by_quarter' => 3,
+        ],
+        'privacy' => [
+            'public' => 0,
+            'private' => 1,
+        ]
+    ],
+    'answer_type' => [
+        'option' => 1,
+        'other_option' => 2,
+    ],
+    'question_require' => [
+        'no_require' => 0,
+        'require' => 1,
+    ],
+
+    /**
+     * Media settings
+     */
+
+    'media_type' => [
+        'image' => 1,
+        'video' => 2, 
+    ],
+
+    /**
+     * Settings type
+     */
+
+    'setting_type' => [
+        'answer_required' => [
+            'content' => 'answer_required',
+            'key' => 1,
+        ],
+        'answer_limited' => [
+            'content' => 'answer_limited',
+            'key' => 2,
+        ],
+        'reminder_email' => [
+            'content' => 'reminder_email',
+            'key' => 3,
+        ],
+        'privacy' => [
+            'content' => 'privacy',
+            'key' => 4,
+        ],
+        'question_type' => [
+            'content' => 'question_type',
+            'key' => 5,
+        ],
+        'answer_type' => [
+            'content' => 'answer_type',
+            'key' => 6,
+        ],
+    ]
 ];
