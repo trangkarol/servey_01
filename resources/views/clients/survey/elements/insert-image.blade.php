@@ -63,8 +63,8 @@
                 </div>
             </div>
             <div class="modal-footer btn-group-image-modal">
-                <button class="btn btn-success btn-cancel-insert-image" data-dismiss="modal">@lang('lang.cancel')</button>
-                <button class="btn btn-success btn-insert-image" data-dismiss="modal">@lang('lang.insert_image')</button>
+                <button class="btn btn-default btn-cancel-insert-image" data-dismiss="modal">@lang('lang.cancel')</button>
+                <button class="btn btn-default btn-insert-image" data-dismiss="modal">@lang('lang.insert_image')</button>
             </div>
         </div>
     </div>

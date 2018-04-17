@@ -5,7 +5,7 @@
             <span class="option-image-question" >
                 <i class="fa fa-ellipsis-v"></i>
                 <ul class="option-menu-dropdown option-menu-image">
-                    <li class="change-image">
+                <li class="change-image">
                         <i class="fa fa-picture-o text-dark"></i>
                         <span class="option-menu-content">@lang('lang.change_image')</span>
                     </li>

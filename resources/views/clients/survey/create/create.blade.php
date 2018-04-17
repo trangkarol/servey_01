@@ -38,7 +38,7 @@
                         </div>
                         <div class="survey-action">
                             <button type="button" class="btn btn-outline-light text-dark"
-                                data-dismiss="modal" data-toggle="modal" data-target="#modal-insert-video">
+                                 id="add-video-section-btn" data-url="{{ route('ajax-fetch-video') }}">
                                 <i class="fa fa-fw fa-video-camera text-dark"></i>
                             </button>
                         </div>
@@ -140,7 +140,7 @@
     </div>
     @include('clients.survey.elements.insert-image')
     @include('clients.survey.elements.insert-video')
-    
+
     <!-- pupup setting survey -->
 
     <!-- The Modal -->
