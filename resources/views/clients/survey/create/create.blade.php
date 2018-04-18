@@ -53,6 +53,11 @@
                                 <i class="fa fa-fw fa-cog text-dark"></i>
                             </button>
                         </div>
+                        <div class="survey-action">
+                            <button type="button" class="btn btn-outline-light text-dark" id="submit-survey-btn" data-url="{{ route('surveys.store') }}">
+                                <i class="fa fa-fw fa-paper-plane text-dark"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
                 <!-- /Scroll buttons -->
@@ -69,7 +74,7 @@
                                 'class' => 'form-control input-area auto-resize',
                                 'data-autoresize',
                                 'placeholder' => trans('lang.title_placeholder'),
-                                'rows' => 1
+                                'rows' => 1,
                             ]) !!}
                         </div>
                         <label>@lang('lang.time')</label>
@@ -99,18 +104,18 @@
                                 'class' => 'form-control auto-resize',
                                 'data-autoresize',
                                 'placeholder' => trans('lang.description_placeholder'),
-                                'rows' => 3
+                                'rows' => 3,
                             ]) !!}
                         </div>
                     </li>
                 </ul>
-                @include('clients.survey.elements.section')
             {!! Form::close() !!}
         </div>
         <!-- Content Wrapper  -->
     </main>
+    <div id="survey-data" data-number-section="0"  data-section-id="0" data-question-id="0" data-answer-id="0"></div>
     <div id="element-clone">
-        <div class="form-row choice other-choice-option">
+        <div class="form-row option choice other-choice-option">
             <div class="radio-choice-icon"><i class="fa fa-circle-thin"></i></div>
             <div class="col-xl-9 col-lg-9 col-md-9 col-sm-8 col-8 choice-input-block">
                 {!! Form::text('name', trans('lang.other_option'), [
@@ -124,7 +129,7 @@
             </div>
         </div>
 
-        <div class="form-row checkbox other-checkbox-option">
+        <div class="form-row option checkbox other-checkbox-option">
             <div class="square-checkbox-icon"><i class="fa fa-square-o"></i></div>
             <div class="col-xl-9 col-lg-9 col-md-9 col-sm-8 col-8 checkbox-input-block">
                 {!! Form::text('name', trans('lang.other_option'), [

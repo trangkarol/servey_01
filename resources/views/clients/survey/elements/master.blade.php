@@ -1,14 +1,17 @@
-<li class="form-line sort">
+<li class="form-line sort" id="question_{{ $questionId }}"
+    data-question-id="{{ $questionId }}"
+    data-question-type="@yield('element-type')"
+    data-number-answer="1">
     <div class="form-row draggable-area"></div>
     <div class="form-row answer-block">
         <div class="col-xl-7 col-lg-7 col-md-7 col-sm-11 col-10">
-            {!! Form::textarea('name', '', [
+            {!! Form::textarea("title[section_$sectionId][question_$questionId]", '', [
                 'class' => 'form-control input-area auto-resize question-input active',
                 'data-autoresize',
                 'placeholder' => trans('lang.question'),
-                'rows' => 1
+                'rows' => 1,
             ]) !!}
-            {!! Form::hidden('imageQuestion', null, ['class' => 'image-question-hidden']) !!}
+            {!! Form::hidden("media[section_$sectionId][question_$questionId]", null, ['class' => 'image-question-hidden']) !!}
         </div>
         <div class="col-xl-1 col-lg-1 col-md-1 col-sm-1 col-2 question-image-block">
             {{ Html::link('#', '', ['class' => 'question-image-btn fa fa-image', 'data-url' => route('ajax-fetch-image-question')]) }}
@@ -52,7 +55,7 @@
     </div>
     <div class="form-row description-input">
         <div class="col-12">
-            {!! Form::textarea('description', '', [
+            {!! Form::textarea("description[section_$sectionId][question_$questionId]", '', [
                 'class' => 'form-control question-description-input input-area auto-resize',
                 'data-autoresize',
                 'placeholder' => trans('lang.description_section_placeholder'),
@@ -70,7 +73,8 @@
             <p>@lang('lang.required')</p>
             <div class="question-required-checkbox">
                 <label>
-                    {{ Form::checkbox('') }}
+                    {{ Form::checkbox("require[section_$sectionId][question_$questionId]") }}
+                    {{ Form::hidden("require[section_$sectionId][question_$questionId]", config('settings.question_require.no_require')) }}
                     <span class="toggle"><span class="ripple"></span></span>
                 </label>
             </div>

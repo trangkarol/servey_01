@@ -169,10 +169,10 @@
 // Route::post('ajax/get-mail-suggestion', 'SurveyController@getMailSuggestion');
 
 Route::group(['namespace' => 'Ajax', 'prefix' => 'ajax'], function () {
-    Route::get('fetch-element/section', 'ElementFetchingController@fetchSection')->name('ajax-fetch-section');
-    Route::get('fetch-element/multiple-choice', 'ElementFetchingController@fetchMultipleChoice')
+    Route::post('fetch-element/section', 'ElementFetchingController@fetchSection')->name('ajax-fetch-section');
+    Route::post('fetch-element/multiple-choice', 'ElementFetchingController@fetchMultipleChoice')
         ->name('ajax-fetch-multiple-choice');
-    Route::get('fetch-element/title-description', 'ElementFetchingController@fetchTitleDescription')
+    Route::post('fetch-element/title-description', 'ElementFetchingController@fetchTitleDescription')
         ->name('ajax-fetch-title-description');
     Route::post('upload-image', 'UploadImageController@insertImage')
         ->name('ajax-upload-image');

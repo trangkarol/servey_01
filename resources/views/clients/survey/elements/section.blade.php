@@ -1,8 +1,9 @@
-<ul class="clearfix form-wrapper page-section sortable">
+<ul class="clearfix form-wrapper page-section sortable"
+    id="section_{{ $sectionId }}" data-section-id="{{ $sectionId }}">
     <li class="p-0">
         <div class="form-header">
             <div class="section-badge section-option-menu">
-                <span class="number-of-section">@lang('lang.section') <span class="section-index">1</span> / <span class="total-section">2</span></span></span>
+                <span class="number-of-section">@lang('lang.section') <span class="section-index">{{ $numberOfSections + 1 }}</span> / <span class="total-section">{{ $numberOfSections }}</span></span>
                 <div class="right-header-section">
                     <a href="" class="zoom-in-btn zoom-btn">
                         <span class="zoom-icon"></span>
@@ -27,21 +28,26 @@
                 </div>
             </div>
             <hr/>
-            {!! Form::textarea('section-header-title', '', [
+            {!! Form::textarea("title[section_$sectionId]", '', [
                 'placeholder' => trans('lang.section-title'),
                 'class' => 'form-control input-area auto-resize section-header-title',
                 'data-autoresize',
                 'rows' => 1,
             ]) !!}
-            {!! Form::textarea('section-header-description', '', [
+            {!! Form::textarea("description[section_$sectionId]", '', [
                 'class' => 'form-control input-area auto-resize section-header-description',
                 'data-autoresize',
                 'placeholder' => trans('lang.description_section_placeholder'),
-                'rows' => 1
+                'rows' => 1,
             ]) !!}
         </div>
     </li>
-    @include('clients.survey.elements.multiple-choice')
+    @include('clients.survey.elements.multiple-choice', [
+        'sectionId' => $sectionId,
+        'questionId' => $questionId,
+        'answerId' => $answerId,
+        'optionId' => $optionId,
+    ])
     <li class="end-section">
         <span class="end-section-title">@lang('lang.after_section')</span>
         <div class="end-section-dropdown">
@@ -50,9 +56,11 @@
                     <span>@lang('lang.continue_next_section')</span>
                 </div>
                 <ul class="section-select-options">
-                    <li>
-                        <span>@lang('lang.go_to_section', ['part' => '1'])</span>
-                    </li>
+                    @for($i = 1; $i <= $numberOfSections; $i++)
+                        <li>
+                            <span>@lang('lang.go_to_section', ['part' => $i])</span>
+                        </li>
+                    @endfor
                     <li>
                         <span>@lang('lang.submit_form')</span>
                     </li>

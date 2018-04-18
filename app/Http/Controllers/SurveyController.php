@@ -68,6 +68,22 @@ class SurveyController extends Controller
 
     public function store(Request $request)
     {
+        if (!$request->ajax()) {
+            return response()->json([
+                'success' => false,
+            ]);
+        }
+
+        $data = $request->data;
+
+        return response()->json([
+            'success' => true,
+            'json' => $data,
+        ]);
+    }
+
+    public function storeTmp(Request $request)
+    {
         $value = $request->only([
             'title',
             'feature',
