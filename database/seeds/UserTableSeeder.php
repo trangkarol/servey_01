@@ -52,18 +52,16 @@ class UserTableSeeder extends Seeder
             // create sections
             factory(Section::class, 3)->create([
                 'survey_id' => $survey->id,
-            ])->each(function ($section) use ($faker) {
+            ])->each(function ($section) use ($faker, $user) {
                 factory(Question::class, 3)->create([
                     'section_id' => $section->id,
-                ])->each(function ($question) use ($faker) {
+                ])->each(function ($question) use ($faker, $user) {
                     $settings = $question->settings()->create([
                         'key' => $faker->numberBetween(1, 9),
                         'value' => config('settings.setting_type.question_type.key'),
                     ]);
 
                     if (in_array($settings->key, [
-                        config('settings.question_type.short_answer'),
-                        config('settings.question_type.long_answer'),
                         config('settings.question_type.multiple_choice'),
                         config('settings.question_type.checkboxes'),
                     ])) {
@@ -72,9 +70,63 @@ class UserTableSeeder extends Seeder
                             'question_id' => $question->id,
                         ]);
                     }
+
+                    if ($settings->key == config('settings.question_type.image')) {
+                        $question->media()->create([
+                            'user_id' => $user->id,
+                            'type' => config('settings.media_type.image'),
+                            'url' => $faker->imageUrl(124, 124, 'fashion', true, 'Faker', false),
+                        ]);
+                    }
+
+                    if ($settings->key == config('settings.question_type.video')) {
+                        $question->media()->create([
+                            'user_id' => $user->id,
+                            'type' => config('settings.media_type.video'),
+                            'url' => 'https://www.youtube.com/watch?v=s-p4Rmh9s9w',
+                        ]);
+                    }
                 });
             });
         });
+
+        //create result
+        $users = User::all();
+
+        foreach ($users as $user) {
+            $questions = Question::whereHas('settings', function ($query) {
+                $query->whereNotIn('key', [
+                    config('settings.question_type.image'),
+                    config('settings.question_type.video'),
+                    config('settings.question_type.title'),
+                ]);
+            })->get();
+
+            $results = [];
+
+            foreach ($questions as $question) {
+                $answer_id = 0;
+                $key = $question->settings()->pluck('key')->first();
+
+                if (in_array($key, [
+                    config('settings.question_type.multiple_choice'),
+                    config('settings.question_type.checkboxes'),
+                ])) {
+                    $answer_id = $question->answers()->get()->random()->id;
+                }
+
+                $content = $this->getContent($key);
+
+                $results[] = [
+                    'answer_id' => $answer_id,
+                    'content' => $content,
+                    'client_ip' => 0,
+                ];
+            }
+
+            $user->results()->createMany($results);
+        }
+
     }
 
     public function getEmailOfUser($user)
@@ -91,7 +143,7 @@ class UserTableSeeder extends Seeder
 
     public function getKeySetting()
     {
-        $keySettings =  [
+        $keySettings = [
             config('settings.setting_type.answer_required.key'),
             config('settings.setting_type.answer_limited.key'),
             config('settings.setting_type.reminder_email.key'),
@@ -126,6 +178,25 @@ class UserTableSeeder extends Seeder
             
             default:
                 break;
+        }
+    }
+
+    public function getContent($value)
+    {
+        $faker = Faker\Factory::create();
+
+        switch ($value) {
+            case config('settings.question_type.date'):
+                return Carbon::createFromFormat('Y-m-d', $faker->date($format = 'Y-m-d', $min = 'now'));
+            case config('settings.question_type.time'):
+                return Carbon::createFromFormat('h:i', $faker->date($format = 'h:i', $min = 'now'));
+            case config('settings.question_type.short_answer'):
+                return $faker->paragraph(10);
+            case config('settings.question_type.long_answer'):
+                return $faker->paragraph();
+            
+            default:
+                return '';
         }
     }
 }
