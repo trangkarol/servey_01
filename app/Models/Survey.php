@@ -22,9 +22,9 @@ class Survey extends Model
         'token_manage',
     ];
 
-    // protected $appends = [
-    //     'status_custom',
-    // ];
+    protected $appends = [
+        'status_custom',
+    ];
 
     public function invites()
     {
@@ -72,23 +72,35 @@ class Survey extends Model
     //     return (empty($this->attributes['deadline']) || Carbon::parse($this->attributes['deadline'])->gt(Carbon::now()));
     // }
 
-    // public function getTitleAttribute()
-    // {
-    //     return ucwords(str_limit($this->attributes['title'], config('settings.title_length_default')));
-    // }
+    public function getTitleAttribute()
+    {
+        return ucwords(str_limit($this->attributes['title'], config('settings.title_length_default')));
+    }
 
     // public function getIsExpiredAttribute()
     // {
     //     return empty($this->attributes['deadline']) ? false : $this->attributes['deadline'] <= Carbon::now()->toDateTimeString();
     // }
 
-    // public function getStatusCustomAttribute()
-    // {
-    //     return $this->attributes['status'] ? trans('profile.open') : trans('profile.closed');
-    // }
+    public function getStatusCustomAttribute()
+    {
+        switch ($this->attributes['status']) {
+            case config('survey.status.public'):
+                return trans('profile.public');
 
-    // public function getCreatedAtAttribute()
-    // {
-    //     return Carbon::parse($this->attributes['created_at'])->format(trans('lang.date_format'));
-    // }
+            case config('survey.status.private'):
+                return trans('profile.private');
+
+            case config('survey.status.closed'):
+                return trans('profile.closed');
+            
+            default:
+                return trans('profile.draft');
+        }
+    }
+
+    public function getCreatedAtAttribute()
+    {
+        return Carbon::parse($this->attributes['created_at'])->format(trans('lang.date_format'));
+    }
 }

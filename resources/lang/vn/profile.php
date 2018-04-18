@@ -46,8 +46,10 @@ return [
         Manage survey
     */
 
-    'open' => 'Survey đang mở',
+    'public' => 'Survey công khai',
+    'private' => 'Survey bảo mật',
     'closed' => 'Survey đã đóng',
+    'draft' => 'Survey nháp',
     'name_survey' => 'Tên survey',
     'status' => 'Trạng thái',
     'date_created' => 'Ngày tạo',

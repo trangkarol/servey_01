@@ -116,7 +116,7 @@ return [
         'en',
         'jp',
     ],
-    'title_length_default' => 20,
+    'title_length_default' => 50,
     'max_limit' => 10,
     'cookie' => [
         'timeout' => [

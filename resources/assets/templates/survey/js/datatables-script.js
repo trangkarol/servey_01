@@ -56,12 +56,8 @@ $(document).ready(function() {
             {
                 aTargets: [2],
                 mRender: function(statusCustom, type, full) {
-                    var color = full.status ? "#5cb85c" : "#d9534f";
-                    var icon = full.status ? '<i class="fa fa-check"></i> ' :
-                    '<i class="fa fa-times"></i> ';
-
-                    return `<span style="color: ${color}">
-                        ${icon + statusCustom} </span>`;
+                    return `<span style="color: #4786ff">
+                        ${statusCustom} </span>`;
                 }
             },
             {
@@ -102,8 +98,10 @@ $(document).ready(function() {
                 <select name="list-survey_length" aria-controls="list-survey"
                     class="select-status select-status-survey">
                     <option value="0">${Lang.get('profile.all')}</option>
-                    <option value="1">${Lang.get('profile.open')}</option>
-                    <option value="2">${Lang.get('profile.closed')}</option>
+                    <option value="1">${Lang.get('profile.public')}</option>
+                    <option value="2">${Lang.get('profile.private')}</option>
+                    <option value="3">${Lang.get('profile.closed')}</option>
+                    <option value="4">${Lang.get('profile.draft')}</option>
                 </select>
             </label>`);
     }

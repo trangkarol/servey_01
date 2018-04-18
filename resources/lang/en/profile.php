@@ -46,8 +46,10 @@ return [
         Manage survey
     */
 
-    'open' => 'Survey is opening',
-    'closed' => 'Survey closed',
+    'public' => 'Survey is public',
+    'private' => 'Survey is private',
+    'closed' => 'Survey is closed',
+    'draft' => 'Survey is drafted',
     'name_survey' => 'Name survey',
     'status' => 'Status',
     'date_created' => 'Date created',
