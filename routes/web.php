@@ -170,20 +170,43 @@
 
 Route::group(['namespace' => 'Ajax', 'prefix' => 'ajax'], function () {
     Route::post('fetch-element/section', 'ElementFetchingController@fetchSection')->name('ajax-fetch-section');
+
+    Route::post('fetch-element/short-answer', 'ElementFetchingController@fetchShortAnswer')
+        ->name('ajax-fetch-short-answer');
+
+    Route::post('fetch-element/long-answer', 'ElementFetchingController@fetchLongAnswer')
+        ->name('ajax-fetch-long-answer');
+
     Route::post('fetch-element/multiple-choice', 'ElementFetchingController@fetchMultipleChoice')
         ->name('ajax-fetch-multiple-choice');
+
+    Route::post('fetch-element/checkboxes', 'ElementFetchingController@fetchCheckboxes')
+        ->name('ajax-fetch-checkboxes');
+
+    Route::post('fetch-element/date', 'ElementFetchingController@fetchDate')
+        ->name('ajax-fetch-date');
+
+    Route::post('fetch-element/time', 'ElementFetchingController@fetchTime')
+        ->name('ajax-fetch-time');
+
     Route::post('fetch-element/title-description', 'ElementFetchingController@fetchTitleDescription')
         ->name('ajax-fetch-title-description');
+
     Route::post('upload-image', 'UploadImageController@insertImage')
         ->name('ajax-upload-image');
+
     Route::post('fetch-element/image', 'ElementFetchingController@fetchImage')
         ->name('ajax-fetch-image-section');
+
     Route::post('fetch-element/video', 'ElementFetchingController@fetchVideo')
         ->name('ajax-fetch-video');
+
     Route::post('fetch-element/image-question', 'ElementFetchingController@fetchImageQuestion')
         ->name('ajax-fetch-image-question');
+
     Route::post('fetch-element/image-answer', 'ElementFetchingController@fetchImageAnswer')
         ->name('ajax-fetch-image-answer');
+
     Route::post('remove-image', 'UploadImageController@removeImage')
         ->name('ajax-remove-image');
 });
@@ -251,7 +274,7 @@ Route::group(['namespace' => 'Auth'], function () {
 Route::group(['middleware' => 'profile'], function () {
     Route::resource('surveys', 'SurveyController');
 
-    Route::get('preview', function() {
+    Route::get('preview', function () {
         return view('clients.survey.create.preview');
     });
 });

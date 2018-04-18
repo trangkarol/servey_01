@@ -320,6 +320,50 @@ jQuery(document).ready(function () {
         }
     }
 
+    // change question elements
+    function changeQuestion(option) {
+        var currentQuestion = option.closest('li.sort');
+        var questionData = currentQuestion.find('input, textarea').serializeArray();
+        
+        var sectionId = refreshSectionId();
+        var questionId = refreshQuestionId();
+        var questionType = option.data('type');
+        var answerId = refreshAnswerId();
+
+        if (this.questionSelected == null) {
+            var endSection = $('.survey-form').find('ul.sortable').last().find('.end-section').first();
+            sectionId = endSection.closest('ul.page-section.sortable').data('section-id');
+        } else {
+            sectionId = this.questionSelected.closest('ul.page-section.sortable').data('section-id');
+        }
+
+        $.ajax({
+            method: 'POST',
+            url: option.data('url'),
+            data : {
+                sectionId: sectionId,
+                questionId: questionId,
+                answerId: answerId,
+            }
+        })
+        .done(function (data) {
+            if (data.success) {
+                var element = $('<div></div>').html(data.html).children().first();
+
+                if (this.questionSelected === null) {
+                    this.questionSelected = $(element).insertBefore(endSection);
+                } else {
+                    currentQuestion.replaceWith(element);
+                    this.questionSelected = element;
+                }
+
+                this.questionSelected.find('div.survey-select-styled').
+                    html(this.questionSelected.find(`ul.survey-select-options li[data-type="${questionType}"]`).html());
+                this.questionSelected.click();
+            }
+        });
+    }
+
     /* Selecting form components*/
     $('.survey-form').on('click', 'ul.sortable li.sort', function () {
         $('.form-line').removeClass('liselected');
@@ -409,6 +453,9 @@ jQuery(document).ready(function () {
         $('div.survey-select-styled').html($(this).html()).removeClass('active');
         $('.survey-select-options').hide();
         $('.survey-select-styled').removeClass('active');
+
+        // change question type and content
+        changeQuestion($(this));
     });
 
     $(document).click(function() {
@@ -760,7 +807,7 @@ jQuery(document).ready(function () {
     $('#add-question-btn').click(function (e) {
         e.preventDefault();
 
-        var sectionId = 0;
+        var sectionId = refreshSectionId();
         var questionId = refreshQuestionId();
         var answerId = refreshAnswerId();
 
@@ -798,7 +845,7 @@ jQuery(document).ready(function () {
     $('#add-title-description-btn').click(function (e) {
         e.preventDefault();
 
-        var sectionId = 0;
+        var sectionId = refreshSectionId();
         var questionId = refreshQuestionId();
 
         if (this.questionSelected == null) {
@@ -1021,7 +1068,7 @@ jQuery(document).ready(function () {
     });
 
     // add image to answer
-    $('.survey-form').on('click', '.upload-choice-image', function (e) {
+    $('.survey-form').on('click', '.upload-choice-image, .upload-checkbox-image', function (e) {
         e.preventDefault();
         var url = $(this).data('url');
         var answerInsert = $(this).parent();

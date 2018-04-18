@@ -23,29 +23,29 @@
                     <span class="option-menu-content">@lang('lang.short_answer')</span>
                 </div>
                 <ul class="survey-select-options">
-                    <li>
+                    <li data-type="{{ config('settings.question_type.short_answer') }}" data-url="{{ route('ajax-fetch-short-answer') }}">
                         <span class="answer-icon short-answer-icon"></span>
                         <span class="option-menu-content">@lang('lang.short_answer')</span>
                     </li>
-                    <li>
+                    <li data-type="{{ config('settings.question_type.long_answer') }}" data-url="{{ route('ajax-fetch-long-answer') }}">
                         <span class="answer-icon paragraph-answer-icon"></span>
                         <span class="option-menu-content">@lang('lang.paragraph')</span>
                     </li>
                     <hr/>
-                    <li>
+                    <li data-type="{{ config('settings.question_type.multiple_choice') }}" data-url="{{ route('ajax-fetch-multiple-choice') }}">
                         <span class="answer-icon multi-choice-answer-icon"></span>
                         <span class="option-menu-content">@lang('lang.multiple_choice')</span>
                     </li>
-                    <li>
+                    <li data-type="{{ config('settings.question_type.checkboxes') }}" data-url="{{ route('ajax-fetch-checkboxes') }}">
                         <span class="answer-icon checkboxes-answer-icon"></span>
                         <span class="option-menu-content">@lang('lang.checkboxes')</span>
                     </li>
                     <hr/>
-                    <li>
+                    <li data-type="{{ config('settings.question_type.date') }}" data-url="{{ route('ajax-fetch-date') }}">
                         <span class="answer-icon date-answer-icon"></span>
                         <span class="option-menu-content">@lang('lang.date')</span>
                     </li>
-                    <li>
+                    <li data-type="{{ config('settings.question_type.time') }}" data-url="{{ route('ajax-fetch-time') }}">
                         <span class="answer-icon time-answer-icon"></span>
                         <span class="option-menu-content">@lang('lang.time_answer')</span>
                     </li>
