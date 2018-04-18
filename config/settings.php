@@ -183,6 +183,13 @@ return [
         'option' => [
             'first' => 1,
         ],
+        'members' => [
+            'owner' => 0,
+            'editor' => 1,
+            'status' => [
+                'approve' => 1,
+            ],
+        ],
     ],
     'question_type' => [
         'short_answer' => 1,

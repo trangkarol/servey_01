@@ -543,6 +543,10 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
 
     public function getAuthSurveys()
     {
-        return Auth::user()->surveys();
+        $surveyIds = Auth::user()->members()
+            ->where('role', config('settings.survey.members.owner'))
+            ->pluck('survey_id');
+
+        return $this->model->whereIn('id', $surveyIds)->get();
     }
 }

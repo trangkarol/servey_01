@@ -52,7 +52,7 @@ class User extends Authenticatable
         return $this->hasMany(Result::class);
     }
 
-    public function surveys()
+    public function members()
     {
         return $this->belongsToMany(User::class, 'members', 'user_id', 'survey_id')
             ->withPivot('role', 'status')
