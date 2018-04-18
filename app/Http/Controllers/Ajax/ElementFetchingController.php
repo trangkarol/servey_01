@@ -23,7 +23,13 @@ class ElementFetchingController extends Controller
 
         return response()->json([
             'success' => true,
-            'html' => view('clients.survey.elements.section', compact('numberOfSections', 'sectionId', 'questionId', 'answerId', 'optionId'))->render(),
+            'html' => view('clients.survey.elements.section', compact(
+                'numberOfSections',
+                'sectionId',
+                'questionId',
+                'answerId',
+                'optionId'
+            ))->render(),
         ]);
     }
 
@@ -40,7 +46,50 @@ class ElementFetchingController extends Controller
 
         return response()->json([
             'success' => true,
-            'html' => view('clients.survey.elements.title-description', compact('sectionId', 'questionId'))->render(),
+            'html' => view('clients.survey.elements.title-description', compact(
+                'sectionId',
+                'questionId'
+            ))->render(),
+        ]);
+    }
+
+    public function fetchShortAnswer(Request $request)
+    {
+        if (!$request->ajax()) {
+            return response()->json([
+                'success' => false,
+            ]);
+        }
+
+        $sectionId = $request->sectionId;
+        $questionId = $request->questionId;
+
+        return response()->json([
+            'success' => true,
+            'html' => view('clients.survey.elements.short-answer', compact(
+                'sectionId',
+                'questionId'
+            ))->render(),
+        ]);
+    }
+
+    public function fetchLongAnswer(Request $request)
+    {
+        if (!$request->ajax()) {
+            return response()->json([
+                'success' => false,
+            ]);
+        }
+
+        $sectionId = $request->sectionId;
+        $questionId = $request->questionId;
+
+        return response()->json([
+            'success' => true,
+            'html' => view('clients.survey.elements.long-answer', compact(
+                'sectionId',
+                'questionId'
+            ))->render(),
         ]);
     }
 
@@ -59,7 +108,76 @@ class ElementFetchingController extends Controller
 
         return response()->json([
             'success' => true,
-            'html' => view('clients.survey.elements.multiple-choice', compact('sectionId', 'questionId', 'answerId', 'optionId'))->render(),
+            'html' => view('clients.survey.elements.multiple-choice', compact(
+                'sectionId',
+                'questionId',
+                'answerId',
+                'optionId'
+            ))->render(),
+        ]);
+    }
+
+    public function fetchCheckboxes(Request $request)
+    {
+        if (!$request->ajax()) {
+            return response()->json([
+                'success' => false,
+            ]);
+        }
+
+        $sectionId = $request->sectionId;
+        $questionId = $request->questionId;
+        $answerId = $request->answerId;
+        $optionId = config('settings.survey.option.first');
+
+        return response()->json([
+            'success' => true,
+            'html' => view('clients.survey.elements.checkboxes', compact(
+                'sectionId',
+                'questionId',
+                'answerId',
+                'optionId'
+            ))->render(),
+        ]);
+    }
+
+    public function fetchDate(Request $request)
+    {
+        if (!$request->ajax()) {
+            return response()->json([
+                'success' => false,
+            ]);
+        }
+
+        $sectionId = $request->sectionId;
+        $questionId = $request->questionId;
+
+        return response()->json([
+            'success' => true,
+            'html' => view('clients.survey.elements.date', compact(
+                'sectionId',
+                'questionId'
+            ))->render(),
+        ]);
+    }
+
+    public function fetchTime(Request $request)
+    {
+        if (!$request->ajax()) {
+            return response()->json([
+                'success' => false,
+            ]);
+        }
+
+        $sectionId = $request->sectionId;
+        $questionId = $request->questionId;
+
+        return response()->json([
+            'success' => true,
+            'html' => view('clients.survey.elements.time', compact(
+                'sectionId',
+                'questionId'
+            ))->render(),
         ]);
     }
 
@@ -77,7 +195,11 @@ class ElementFetchingController extends Controller
 
         return response()->json([
             'success' => true,
-            'html' => view('clients.survey.elements.section-image', compact('sectionId', 'questionId', 'imageURL'))->render(),
+            'html' => view('clients.survey.elements.section-image', compact(
+                'sectionId',
+                'questionId',
+                'imageURL'
+            ))->render(),
         ]);
     }
 
@@ -96,7 +218,12 @@ class ElementFetchingController extends Controller
 
         return response()->json([
             'success' => true,
-            'html' => view('clients.survey.elements.section-video', compact('sectionId', 'questionId', 'thumbnailVideo', 'urlEmbed'))->render(),
+            'html' => view('clients.survey.elements.section-video', compact(
+                'sectionId',
+                'questionId',
+                'thumbnailVideo',
+                'urlEmbed'
+            ))->render(),
         ]);
     }
 
