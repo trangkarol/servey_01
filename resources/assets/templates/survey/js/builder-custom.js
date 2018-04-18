@@ -324,7 +324,7 @@ jQuery(document).ready(function () {
     function changeQuestion(option) {
         var currentQuestion = option.closest('li.sort');
         var questionData = currentQuestion.find('input, textarea').serializeArray();
-        
+
         var sectionId = refreshSectionId();
         var questionId = refreshQuestionId();
         var questionType = option.data('type');
@@ -942,7 +942,7 @@ jQuery(document).ready(function () {
                     url: url,
                     dataType: 'json',
                     data: {
-                        'imageURL': imageURL,
+                        imageURL: imageURL,
                         sectionId: sectionId,
                         questionId: questionId
                     }
@@ -998,8 +998,8 @@ jQuery(document).ready(function () {
                     url: url,
                     dataType: 'json',
                     data: {
-                        'thumbnailVideo': thumbnailVideo,
-                        'urlEmbed': urlEmbed,
+                        thumbnailVideo: thumbnailVideo,
+                        urlEmbed: urlEmbed,
                         sectionId: sectionId,
                         questionId: questionId
                     }
@@ -1047,7 +1047,7 @@ jQuery(document).ready(function () {
                     url: url,
                     dataType: 'json',
                     data: {
-                        'imageURL': imageURL,
+                        imageURL: imageURL,
                     }
                 })
                 .done(function (data) {
@@ -1090,7 +1090,7 @@ jQuery(document).ready(function () {
                     url: url,
                     dataType: 'json',
                     data: {
-                        'imageURL': imageURL,
+                        imageURL: imageURL,
                     }
                 })
                 .done(function (data) {
@@ -1119,7 +1119,7 @@ jQuery(document).ready(function () {
                 url: url,
                 dataType: 'json',
                 data: {
-                    'imageURL': imageURL.replace('/storage', 'public'),
+                    imageURL: imageURL.replace('/storage', 'public'),
                 }
             });
         }
@@ -1297,6 +1297,146 @@ jQuery(document).ready(function () {
         .fail(function (data) {
         });
     });
+
+    // live suggest email
+    var i = 0;
+
+    $('.input-email-send').keyup(function (e) {
+        var keyword = $(this).val().trim();
+        var url = $(this).data('url');
+
+        if (keyword) {
+            $.ajax({
+                method: 'POST',
+                url: url,
+                dataType: 'json',
+                data: {
+                    keyword: keyword,
+                }
+            })
+            .done(function (data) {
+                if (data.success) {
+                    $('.live-suggest-email').empty();
+                    data.emails.forEach(el => {
+                        $('.live-suggest-email').append(`
+                            <li class="email-li-item"><i class="fa fa-envelope"></i>&ensp;<span class="email-span-item">${el}</span></li>
+                        `);
+                    });
+                }
+            });
+        } else {
+            $('.live-suggest-email').empty();
+        }
+    });
+
+    $(document).keydown(function (e) {
+        if (e.keyCode == 40) {
+            $('.input-email-send').blur();
+
+            if (i == $('.live-suggest-email').children('li').length) {
+                i = 0;
+                $('.live-suggest-email .email-li-item:nth-child(' + i + ')').removeClass('email-li-item-active');
+                $('.input-email-send').focus();
+            } else {
+                i++;
+                $('.live-suggest-email').find('.email-li-item').removeClass('email-li-item-active');
+                $('.live-suggest-email .email-li-item:nth-child(' + i + ')').addClass('email-li-item-active');
+            }
+        }
+
+        if (e.keyCode == 38) {
+            $('.input-email-send').blur();
+
+            if (i == 0) {
+                i = $('.live-suggest-email').children('li').length;
+                $('.live-suggest-email').find('.email-li-item').removeClass('email-li-item-active');
+                $('.live-suggest-email .email-li-item:nth-child(' + i + ')').addClass('email-li-item-active');
+            } else if (i == 1) {
+                $('.live-suggest-email .email-li-item:nth-child(' + i + ')').removeClass('email-li-item-active');
+                $('.input-email-send').focus();
+                i = 0;
+            } else {
+                i--;
+                $('.live-suggest-email').find('.email-li-item').removeClass('email-li-item-active');
+                $('.live-suggest-email .email-li-item:nth-child(' + i + ')').addClass('email-li-item-active');
+            }
+        }
+
+        if (e.keyCode == 13) {
+            if ($('.input-email-send').is(':focus')) {
+                var email = $('.input-email-send').val();
+
+                if (isEmail(email)) {
+                    addLabelEmail(email);
+                }
+            } else {
+                var liActive = $('.live-suggest-email').find('.email-li-item-active');
+                var email = $(liActive).children('.email-span-item').text().trim();
+
+                if (isEmail(email)) {
+                    addLabelEmail(email);
+                }
+            }
+        }
+    });
+
+    // add email
+    $('.live-suggest-email').on('click', '.email-li-item', function (e) {
+        e.stopPropagation();
+        var email = $(this).find('.email-span-item').text();
+        addLabelEmail(email);
+    });
+
+    // remove email
+    $('.div-show-all-email').on('click', '.delete-label-email', function () {
+        var labelEmail = $(this).closest('.label-show-email');
+        var email = $(labelEmail).data('email');
+        removeEmail(email);
+        $(labelEmail).remove();
+        $('.input-email-send').focus();
+    });
+
+    $(document).click(function (e) {
+        $('.live-suggest-email').empty();
+    });
+
+    // function common suggest email
+    function addLabelEmail(email) {
+        var emails = $('.emails-invite-hidden').val();
+        var arrayEmail = emails.split(',');
+        var isExist = jQuery.inArray(email, arrayEmail);
+
+        if (isExist == -1) {
+            arrayEmail.push(email);
+            $('.div-show-all-email').append(`
+                <label data-email="${email}" class="label-show-email">
+                    ${email}&ensp;<i class="fa fa-times delete-label-email"></i>
+                </label>
+            `);
+        }
+
+        $('.emails-invite-hidden').val(arrayEmail.join());
+        $('.live-suggest-email').empty();
+        $('.input-email-send').val(null);
+        $('.input-email-send').focus();
+    }
+
+    function removeEmail(email) {
+        var emails = $('.emails-invite-hidden').val();
+        var arrayEmail = emails.split(',');
+        var index = jQuery.inArray(email, arrayEmail);
+
+        if (index != -1) {
+            delete arrayEmail[index];
+            $('.emails-invite-hidden').val(arrayEmail.join());
+        }
+    }
+
+    function isEmail(email) {
+        var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+
+        return regex.test(email);
+    }
 
     /**
      * add Section

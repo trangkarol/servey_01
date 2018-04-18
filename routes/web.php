@@ -209,6 +209,8 @@ Route::group(['namespace' => 'Ajax', 'prefix' => 'ajax'], function () {
 
     Route::post('remove-image', 'UploadImageController@removeImage')
         ->name('ajax-remove-image');
+    Route::post('suggest-email', 'SuggestEmailController@suggestEmail')
+        ->name('ajax-suggest-email');
 });
 
 Route::get('/languages', 'LanguageController@index')->name('set-language');

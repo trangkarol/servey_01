@@ -157,11 +157,14 @@
                 </div>
                 <ul class="nav nav-tabs nav-setting-survey" role="tablist">
                     <li class="nav-item nav-item-setting-survey">
-                        <a class="nav-link active" data-toggle="tab" href="#general_settings">@lang('lang.general_settings')</a>
+                        <a class="nav-link active" data-toggle="tab" role="tab" href="#general_settings">@lang('lang.general_settings')</a>
+                    </li>
+                     <li class="nav-item nav-item-setting-survey">
+                        <a class="nav-link" data-toggle="tab" role="tab" href="#tab-send-mails">@lang('lang.send_survey')</a>
                     </li>
                 </ul>
 
-              <!-- Tab panes -->
+                <!-- start tab settings -->
                 <div class="tab-content tab-content-setting">
                     <div id="general_settings" class="container tab-pane active"><br>
                         {!! Form::open() !!}
@@ -239,7 +242,59 @@
                             </div>
                         {!! Form::close() !!}
                     </div>
+                    <div id="tab-send-mails" class="container tab-pane"><br>
+                        {!! Form::open() !!}
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <label for="" class="label-email">@lang('lang.email')</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="container-checkbox-setting-survey send-to-all">
+                                            <span>@lang('lang.send_to_all')</span>
+                                            {!! Form::checkbox('send_all', '', false, ['class' => 'send-to-all-wsm-acc']) !!}
+                                            <span class="checkmark-setting-survey"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 div-show-all-email">
+                                        {!! Form::hidden('emails_invite', '', ['class' => 'emails-invite-hidden']) !!}
+                                    </div>
+                                    <div class="col-md-12">
+                                        {!! Form::text('email', null, [
+                                            'class' => 'form-control input-email-send',
+                                            'data-url' => route('ajax-suggest-email'),
+                                            'autocomplete' => 'off',
+                                            'placeholder' => trans('lang.email_placeholder'),
+                                        ]) !!}
+                                        <ul class="live-suggest-email">
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="label-subject">@lang('lang.subject')</label>
+                                {!! Form::text('subjectEmail', trans('lang.subject_default_email'), [
+                                    'class' => 'form-control input-subject-email',
+                                ]) !!}
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="label-message">@lang('lang.message')</label>
+                                {!! Form::textarea('messageEmail', trans('lang.message_default_email'), [
+                                    'class' => 'form-control input-area auto-resize input-email-message',
+                                    'data-autoresize',
+                                    'rows' => 1,
+                                ]) !!}
+                            </div>
+                            <div class="div-action-send-survey">
+                                <a href="#" class="btn-cancel" data-dismiss="modal">@lang('lang.cancel')</a>
+                                <a href="#" class="btn-send-survey">@lang('lang.send')</a>
+                            </div>
+                        {!! Form::close() !!}
+                    </div>
                 </div>
+                <!-- end tab settings -->
             </div>
         </div>
     </div>
