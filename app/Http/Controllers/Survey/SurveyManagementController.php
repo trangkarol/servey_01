@@ -34,7 +34,7 @@ class SurveyManagementController extends Controller
 
     public function getSurveys(Request $request)
     {
-        $surveys = $this->surveyRepository->getAuthSurveys()->get();
+        $surveys = $this->surveyRepository->getAuthSurveys();
 
         return Datatables::of($surveys)->make(true);
     }
