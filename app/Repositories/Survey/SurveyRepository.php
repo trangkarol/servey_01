@@ -10,6 +10,8 @@ use App\Repositories\Invite\InviteInterface;
 use App\Repositories\Setting\SettingInterface;
 use App\Repositories\BaseRepository;
 use App\Models\Question;
+use App\Models\Answer;
+use App\Models\Result;
 use Carbon\Carbon;
 use App\Models\Survey;
 use Auth;
@@ -46,69 +48,90 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
 
     public function getResutlSurvey($token)
     {
-        $survey = $this->where('token', $token)->first();
+        $survey = $this->where('token', $token)->with('sections.questions.answers.results')->first();
 
-        if (!$survey) {
-            return view('errors.503');
-        }
-
-        $datasInput = app(InviteInterface::class)->getResult($survey->id);
-        $questions = $datasInput['questions'];
-        $temp = [];
-        $results = [];
-
-        if (empty($datasInput['results']->toArray())) {
-            return $results = false;
-        }
-
-        foreach ($questions as $key => $question) {
-            $answers = $datasInput['answers']->where('question_id', $question->id);
-            $idTemp = null;
-            $total = 0;
-
-            foreach ($answers as $answer) {
-                $total = $datasInput['results']
-                    ->whereIn('answer_id', $answers->pluck('id')->toArray())
-                    ->pluck('id')
-                    ->toArray();
-                $answerResult = $datasInput['results']
-                    ->whereIn('answer_id', $answer->id)
-                    ->pluck('id')
-                    ->toArray();
-
-                if (count($total)) {
-                    $temp[] = [
-                        'answerId' => $answer->id,
-                        'content' => (in_array($answer->type, [
-                                config('survey.type_time'),
-                                config('survey.type_text'),
-                                config('survey.type_date'),
-                            ]))
-                            ? $datasInput['results']->whereIn('answer_id', $answer->id)
-                            : $answer->trim_content,
-                        'percent' => (count($total)) ? (double)(count($answerResult) * 100) / (count($total)) : 0,
-                    ];
-                } else {
-                    $idTemp = $answer->id;
-                }
-            }
-
-            if (!$total) {
-                $temp[] = [
-                    'answerId' => $idTemp,
-                    'content' => collect([0 => ['content' => trans('result.not_answer')]]),
-                    'percent' => 0,
-                ];
-            }
-
-            $results[] = [
-                'question' => $question,
-                'answers' => $temp,
-            ];
+        foreach ($survey->sections as $section) {
             $temp = [];
+
+            foreach ($section->questions as $question) {
+                $totalAnswerResults = config('settings.number_0');
+
+                if ($question->answerResults->count()) {
+                    $totalAnswerResults = $question->answerResults->count();
+
+                    if ($totalAnswerResults) {
+                        $answerResults = $question->answerResults->groupBy('content');
+
+                        foreach ($answerResults as $answerResult) {
+                            $count = $answerResult->count();
+
+                            $temp[] = [
+                                'content' => $answerResult->first()->content,
+                                'percent' => round(($totalAnswerResults) ?
+                                    (double)($count * config('settings.number_100')) / ($totalAnswerResults) :
+                                    config('settings.number_0'), config('settings.roundPercent')),
+                            ];
+                        }
+                    }
+                } else {
+                    if ($question->answers->count()) {
+                        $totalAnswerResults = $question->results->count();
+
+                        foreach ($question->answers as $answer) {
+                            if ($totalAnswerResults) {
+                                if ($answer->settings()->first()->key == config('settings.answer_type.other_option')) {
+                                    $answerOthers = $answer->results->groupBy('content');
+
+                                    foreach ($answerOthers as $answerOther) {
+                                        $count = $answerOther->count();
+
+                                        $temp[] = [
+                                            'answer_id' => $answerOther->first()->answer_id,
+                                            'answer_type' => config('settings.answer_type.other_option'),
+                                            'content' => $answerOther->first()->content,
+                                            'percent' => round(($totalAnswerResults) ?
+                                                (double)($count * config('settings.number_100')) / ($totalAnswerResults) :
+                                                config('settings.number_0'), config('settings.roundPercent')),
+                                        ];
+                                    }
+                                } else {
+                                    $answerResults = $answer->results->count();
+
+                                    $temp[] = [
+                                        'answer_id' => $answer->id,
+                                        'answer_type' => config('settings.answer_type.option'),
+                                        'content' => $answer->content,
+                                        'percent' => round(($totalAnswerResults) ?
+                                            (double)($answerResults * config('settings.number_100')) / ($totalAnswerResults) :
+                                            config('settings.number_0'), config('settings.roundPercent')),
+                                    ];
+                                }
+                            }
+                        }
+                    } elseif ($question->settings()->first()->key == config('settings.question_type.title')) {
+                        $temp[] = [
+                            'content' => $question->title,
+                        ];
+                    }
+                }
+
+                $questionResult[] = [
+                    'question' => $question,
+                    'question_type' => $question->settings()->first()->key,
+                    'count_answer' => $totalAnswerResults,
+                    'answers' => $temp,
+                ];
+                $temp = [];
+            }
+
+            $resultsSurveys[] = [
+                'section' => $section,
+                'question_result' => $questionResult,
+            ];
+            $questionResult = [];
         }
 
-        return $results;
+        return $resultsSurveys;
     }
 
     public function createSurvey($userId, $data)

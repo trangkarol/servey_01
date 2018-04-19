@@ -7,6 +7,7 @@ use App\Models\Invite;
 use App\Models\Section;
 use App\Models\Question;
 use App\Models\Answer;
+use App\Models\Result;
 use Carbon\Carbon;
 
 class UserTableSeeder extends Seeder
@@ -68,7 +69,12 @@ class UserTableSeeder extends Seeder
 
                         factory(Answer::class, 3)->create([
                             'question_id' => $question->id,
-                        ]);
+                        ])->each(function ($answer) use ($faker){
+                            $answer->settings()->create([
+                                'key' => $faker->numberBetween(1, 2),
+                                'value' => config('settings.setting_type.answer_type.key'),
+                            ]);
+                        });
                     }
 
                     if ($settings->key == config('settings.question_type.image')) {
@@ -106,6 +112,7 @@ class UserTableSeeder extends Seeder
 
             foreach ($questions as $question) {
                 $answer_id = 0;
+                $question_id = 0;
                 $key = $question->settings()->pluck('key')->first();
 
                 if (in_array($key, [
@@ -113,12 +120,21 @@ class UserTableSeeder extends Seeder
                     config('settings.question_type.checkboxes'),
                 ])) {
                     $answer_id = $question->answers()->get()->random()->id;
+                    $question_id = 0;
+                } else {
+                    $question_id = $question->id;
+                    $answer_id = 0;
                 }
 
-                $content = $this->getContent($key);
+                if ($answer_id && Answer::find($answer_id)->settings()->pluck('key')->first() == 2) {
+                    $content = str_replace(' ', '', $faker->unique()->paragraph);
+                } else {
+                    $content = $this->getContent($key);
+                }
 
                 $results[] = [
                     'answer_id' => $answer_id,
+                    'question_id' => $question_id,
                     'content' => $content,
                     'client_ip' => 0,
                 ];
