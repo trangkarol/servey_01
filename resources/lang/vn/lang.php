@@ -91,6 +91,13 @@ return [
     'video_title' => 'Tiêu đề video',
     'change_video' => 'Thay đổi',
     'delete_video' => 'Xóa',
+    'send_survey' => 'Gửi khảo sát',
+    'send' => 'Gửi',
+    'send_to_all' => 'Gửi tới tất cả',
+    'message' => 'Tin nhắn',
+    'subject' => 'Chủ đề',
+    'subject_default_email' => 'Mẫu không có tiêu đề',
+    'message_default_email' => 'Mời bạn tham gia thực hiện khảo sát:',
 
     /*
     | Survey Create Page

@@ -91,6 +91,13 @@ return [
     'video_title' => 'Video title',
     'change_video' => 'Change video',
     'delete_video' => 'Delete video',
+    'send_survey' => 'Send survey',
+    'send' => 'Send',
+    'send_to_all' => 'Send to all',
+    'message' => 'Message',
+    'subject' => 'Subject',
+    'subject_default_email' => 'Untitled form',
+    'message_default_email' => 'I\'ve invited you to fill out a form:',
 
     /*
     | Survey Create Page

@@ -3314,3 +3314,102 @@ input[name="quantity-answer"]::-webkit-outer-spin-button, input[type="number"]::
 .description-input.active {
     display: block !important;
 }
+
+.div-action-send-survey {
+    position: absolute;
+    right: 1.3rem;
+}
+
+.div-action-send-survey a {
+    padding: 0px 10px 0px 10px;
+}
+
+.div-action-send-survey .btn-cancel {
+    color: #333;
+}
+
+.div-action-send-survey .btn-send-survey {
+    color: #2a9abf;
+}
+
+.div-show-all-email {
+    margin-bottom: 5px;
+}
+
+.label-show-email {
+    padding: 0px 5px 0px 5px;
+    background: #43add0;
+    color: #fff !important;
+    border-radius: 5px;
+    margin: 2px;
+    font-size: 12px !important;
+}
+
+.input-email-send {
+    border: 0px;
+    border-radius: 0px;
+    border-bottom: 1px solid #c1c1c1;
+    padding-left: 0px;
+}
+
+.input-email-send:focus {
+    outline: none;
+    border-radius: 0px;
+    border-bottom: 2px solid #70c4e0;
+}
+
+.input-subject-email {
+    border: 0px;
+    border-radius: 0px;
+    border-bottom: 1px solid #c1c1c1;
+    padding-left: 0px;
+}
+
+.input-subject-email:focus {
+    outline: none;
+    border-radius: 0px;
+    border-bottom: 2px solid #70c4e0
+}
+
+.input-email-message {
+    border: 0px;
+    border-radius: 0px;
+    border-bottom: 1px solid #c1c1c1;
+    padding-left: 0px;
+}
+
+.input-email-message:focus {
+    outline: none;
+    border-radius: 0px;
+    border-bottom: 2px solid #70c4e0
+}
+
+#tab-send-mails label {
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.live-suggest-email {
+    padding: 0px;
+    font-size: 13px;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
+}
+
+.live-suggest-email li {
+    list-style-type: none;
+    padding: 5px 0px 5px 10px;
+}
+
+.live-suggest-email li:hover {
+    background: #f1f1f1;
+    cursor: pointer;
+}
+
+.email-li-item-active {
+    background: #f1f1f1 !important;
+    color: #333;
+}
+
+.delete-label-email {
+    cursor: pointer;
+}
