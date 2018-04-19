@@ -8,7 +8,7 @@ interface UserInterface
 
     public function uploadAvatar($request, $name, $oldImageName, $pathUpload);
 
-    public function findEmail($keyword);
+    public function findEmail($data, $userId);
 
     public function updateUser($request, $user);
 
