@@ -40,7 +40,7 @@
     "jquery-ui-dist": "^1.12.1",
     "lightweight-bootstrap": "0.0.1",
     "moment": "^2.21.0",
-    "popper.js": "^1.14.1",
+    "popper.js": "^1.14.3",
     "redis": "^2.7.1",
     "socket.io": "^1.7.3",
     "sweetalert": "^2.1.0",
