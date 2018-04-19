@@ -190,6 +190,10 @@ return [
                 'approve' => 1,
             ],
         ],
+        'send_mail_to_wsm' => [
+            'none' => 0,
+            'all' => 1,
+        ], 
     ],
     'question_type' => [
         'short_answer' => 1,
@@ -214,6 +218,7 @@ return [
             'by_week' => 1,
             'by_month' => 2,
             'by_quarter' => 3,
+            'by_option' => 4,
         ],
         'privacy' => [
             'public' => 0,
@@ -267,6 +272,14 @@ return [
             'content' => 'answer_type',
             'key' => 6,
         ],
+        'send_mail_to_wsm' => [
+            'content' => 'send_mail_to_wsm',
+            'key' => 7,
+        ],
+        'next_remind_time' => [
+            'content' => 'next_time',
+            'key' => 8,
+        ]
     ],
 
     'checkEventOdd' => 2,

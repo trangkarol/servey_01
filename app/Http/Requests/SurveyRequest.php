@@ -30,9 +30,14 @@ class SurveyRequest extends FormRequest
             'end_time' => 'date|after:start_time',
             'setting.answer_required' => 'required|integer|between:0,2',
             'setting.answer_limited' => 'required|integer|min:0',
-            'setting.reminder_email' => 'required|integer|between:0,3',
+            'setting.reminder_email.type' => 'required|integer|between:0,4',
+            'setting.reminder_email.next_time' => 'date|after:start_time',
             'setting.privacy' => 'required|integer|boolean',
-            'invited_emails.*' => 'email|distinct',
+            'invited_email.subject' => 'required',
+            'invited_email.send_mail_to_wsm' => 'required|integer|between:0,1',
+            'invited_email.emails.*' => 'email|distinct',
+            'members.*.email' => 'email|distinct',
+            'members.*.role' => 'integer|in:1',
             'sections.*.title' => 'required|distinct',
             'sections.*.questions.*.title' => 'required|distinct',
             'sections.*.questions.*.type' => 'required|integer|between:1,9',
@@ -41,7 +46,7 @@ class SurveyRequest extends FormRequest
         ];
 
         // validation rules distinct answer in question
-        $sections = $this->request->get('sections');
+        $sections = $this->json()->get('sections');
         foreach ($sections as $sectionIndex => $sectionVal) {
             foreach ($sections[$sectionIndex]['questions'] as $questionIndex => $questionVal) {
                 $rules['sections.' . $sectionIndex . '.questions.' . $questionIndex . '.answers.*.content'] = 'required|distinct'; 
@@ -49,5 +54,15 @@ class SurveyRequest extends FormRequest
         }
 
         return $rules;
+    }
+
+    /**
+     * Get data to be validated from the request.
+     *
+     * @return array
+     */
+    protected function validationData()
+    {
+        return $this->json()->all();
     }
 }

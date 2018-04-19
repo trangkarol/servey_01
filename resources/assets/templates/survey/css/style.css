@@ -4170,3 +4170,11 @@ Dashboard
     box-sizing: border-box;
     resize: none;
 }
+
+.show-notice {
+    position: fixed;
+    top: 150px;
+    right: 1px;
+    width: 30%;
+    z-index: 100;
+}

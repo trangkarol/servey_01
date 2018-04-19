@@ -1,6 +1,6 @@
 <div class="show-notice">
     @if (Session::has('success'))
-        <div class="alert alert-info alert-message">
+        <div class="alert alert-success alert-message">
             {{ Session::get('success') }}
         </div>
     @endif

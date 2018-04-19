@@ -8,6 +8,7 @@ use App\Repositories\Question\QuestionInterface;
 use App\Repositories\Like\LikeInterface;
 use App\Repositories\Invite\InviteInterface;
 use App\Repositories\Setting\SettingInterface;
+use App\Repositories\User\UserInterface;
 use App\Repositories\BaseRepository;
 use App\Models\Question;
 use App\Models\Answer;
@@ -143,12 +144,13 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                 throw new Exception("Error Processing Request", 1);
             }
 
-            $surveyInputs = $data->only([
-                'title', 
-                'description', 
-                'start_time',
-                'end_time'
-            ]);
+            $surveyInputs = [
+                'title' => $data->get('title'), 
+                'description' => $data->get('description'), 
+                'start_time' => $data->get('start_time'),
+                'end_time' => $data->get('end_time'),
+            ];
+            $data = $data->all();
 
             $surveyInputs['feature'] = config('settings.survey.feature.default');
             $surveyInputs['token'] = md5(uniqid(rand(), true));
@@ -166,10 +168,21 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                 'role' => Survey::OWNER,
                 'status' => Survey::APPROVE,
             ]);
-            
+
+            // create member
+            foreach ($data['members'] as $member) {
+                $memberId = app(UserInterface::class)->where('email', $member['email'])->first()->id;
+                $survey->members()->attach($memberId, [
+                    'role' => $member['role'],
+                    'status' => Survey::APPROVE,
+                ]);
+            }
+
             // create invite email
-            if ($data->invited_emails) {
-                $invite_mails = $this->formatInviteMailsString($data->invited_emails);
+            $inviteData = $data['invited_email'];
+
+            if ($inviteData['emails']) {
+                $invite_mails = $this->formatInviteMailsString($inviteData['emails']);
 
                 $survey->invites()->create([
                     'invite_mails' => $invite_mails,
@@ -179,13 +192,19 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
             }
 
             // create settings of survey
-            $settingsData = $this->createSettingDataArray($data->setting);
+            $settingsData = $this->createSettingDataArray($data['setting']);
+            $settingMailToWsm = [
+                'key' => config('settings.setting_type.send_mail_to_wsm.key'),
+                'value' => $inviteData['send_mail_to_wsm'],
+            ];
+
+            array_push($settingsData, $settingMailToWsm);
             $survey->settings()->createMany($settingsData);
 
             $orderSection = 0;
 
             // create sections
-            foreach ($data->sections as $section) {
+            foreach ($data['sections'] as $section) {
                 $sectionData['title'] = $section['title'];
                 $sectionData['description'] = $section['description'];
                 $sectionData['order'] = ++ $orderSection;
@@ -238,9 +257,9 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                                 $answerCreated->settings()->create($answerSetting);
 
                                 // create image (media) of answer
-                                if ($answer['image']) {
+                                if ($answer['media']) {
                                     $answerMedia['user_id'] = $userId;
-                                    $answerMedia['url'] = $answer['image'];
+                                    $answerMedia['url'] = $answer['media'];
                                     $answerMedia['type'] = config('settings.media_type.image');
 
                                     $answerCreated->media()->create($answerMedia);
@@ -253,11 +272,11 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
 
             DB::commit();
 
-            return $survey->id;
+            return $survey;
         } catch (Exception $e) {
             DB::rollback();
 
-            return false;      
+            return false; 
         }
     }
 

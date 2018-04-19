@@ -54,7 +54,7 @@ class User extends Authenticatable
 
     public function members()
     {
-        return $this->belongsToMany(User::class, 'members', 'user_id', 'survey_id')
+        return $this->belongsToMany(Survey::class, 'members', 'user_id', 'survey_id')
             ->withPivot('role', 'status')
             ->withTimestamps();
     }
