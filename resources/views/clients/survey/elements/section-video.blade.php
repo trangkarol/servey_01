@@ -24,7 +24,7 @@
                         </li>
                         <h5>@lang('lang.show')</h5>
                         <li>
-                            <span class="option-menu-selected active">
+                            <span class="option-menu-selected">
                                 <span></span>
                             </span>
                             <span class="option-menu-content">@lang('lang.description')</span>

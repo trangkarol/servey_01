@@ -1028,8 +1028,9 @@ jQuery(document).ready(function () {
     // add image to question
     $('.survey-form').on('click', '.question-image-btn', function (e) {
         e.preventDefault();
+        var btnQuestionnImage = $(this);
         var questionInsert = $(this).closest('.form-line').find('.description-input');
-        var imageQuestionHidden = $(questionInsert).find('.image-question-hidden');
+        var imageQuestionHidden = $(this).closest('.form-line').find('.image-question-hidden');
         var url = $(this).data('url');
         $('.btn-insert-image').remove();
         $('.btn-group-image-modal').append(`
@@ -1055,20 +1056,18 @@ jQuery(document).ready(function () {
                         var element = data.html
                         $(element).insertAfter(questionInsert);
                         $(imageQuestionHidden).val(data.imageURL);
+                        $(btnQuestionnImage).addClass('hidden');
                     }
-
-                    $('#modal-insert-image').modal('hide');
                 });
-            } else {
-                $('#modal-insert-image').modal('hide');
             }
 
+            $('#modal-insert-image').modal('hide');
             resetModalImage();
         });
     });
 
-    // add image to answer
-    $('.survey-form').on('click', '.upload-choice-image, .upload-checkbox-image', function (e) {
+    // add image to multi choice
+    $('.survey-form').on('click', '.upload-choice-image', function (e) {
         e.preventDefault();
         var url = $(this).data('url');
         var answerInsert = $(this).parent();
@@ -1102,10 +1101,51 @@ jQuery(document).ready(function () {
                         $('#modal-insert-image').modal('hide');
                     }
                 });
-            } else {
-                $('#modal-insert-image').modal('hide');
             }
 
+            $('#modal-insert-image').modal('hide');
+            resetModalImage();
+        });
+    });
+
+    // add image to checkbox
+    $('.survey-form').on('click', '.upload-checkbox-image', function (e) {
+        e.preventDefault();
+        var url = $(this).data('url');
+        var answerInsert = $(this).parent();
+        var imageAnswerHidden = $(this).closest('.checkbox-sortable').find('.image-answer-hidden');
+        var uploadChoiceTag = $(this);
+        $('.btn-insert-image').remove();
+        $('.btn-group-image-modal').append(`
+            <button class="btn btn-default btn-insert-image"
+            id="btn-insert-image-answer" data-dismiss="modal">${Lang.get('lang.insert_image')}</button>`
+        );
+        $('#modal-insert-image').modal('show');
+
+        $('#btn-insert-image-answer').click(function () {
+            var imageURL = $('.img-preview-in-modal').attr('src');
+
+            if (imageURL) {
+                $.ajax({
+                    method: 'POST',
+                    url: url,
+                    dataType: 'json',
+                    data: {
+                        imageURL: imageURL,
+                    }
+                })
+                .done(function (data) {
+                    if (data.success) {
+                        var element = data.html;
+                        $(element).insertAfter(answerInsert);
+                        $(imageAnswerHidden).val(data.imageURL);
+                        $(uploadChoiceTag).addClass('hidden');
+                        $('#modal-insert-image').modal('hide');
+                    }
+                });
+            }
+
+            $('#modal-insert-image').modal('hide');
             resetModalImage();
         });
     });
@@ -1125,15 +1165,25 @@ jQuery(document).ready(function () {
         }
     }
 
-    // remove image answer
+    // remove image choice answer
     $('.survey-form').on('click', '.remove-image-answer', function () {
-        $('.upload-choice-image').removeClass('hidden');
+        var btUploadChoiceImage = $(this).closest('.choice-sortable').find('.answer-image-btn-group').children('.upload-choice-image');
+        var btUploadCheckboxImage = $(this).closest('.checkbox-sortable').find('.answer-image-btn-group').children('.upload-checkbox-image');
+        var inputImageChoiceHidden = $(this).closest('.choice-sortable').find('.image-answer-hidden');
+        var inputImageCheckboxHidden = $(this).closest('.checkbox-sortable').find('.image-answer-hidden');
+
+        if ($(btUploadChoiceImage).attr('class')) {
+            $(btUploadChoiceImage).removeClass('hidden');
+            $(inputImageChoiceHidden).val('');
+        } else {
+            $(btUploadCheckboxImage).removeClass('hidden');
+            $(inputImageCheckboxHidden).val('');
+        }
+
         var url = $(this).data('url');
         var imageAnswerTag = $(this).parent().children('.answer-image-url');
         var imageURL = $(imageAnswerTag).attr('src');
         removeImage(url, imageURL);
-        var imageAnswerHidden = $(this).closest('.choice-sortable').find('.image-answer-hidden');
-        $(imageAnswerHidden).val('');
         $(this).closest('.image-answer').remove();
     });
 
@@ -1164,12 +1214,14 @@ jQuery(document).ready(function () {
     // remove image question
     $('.survey-form').on('click', '.remove-image', function (e) {
         e.stopPropagation();
+        var btQuestionImage = $(this).closest('.form-line').find('.question-image-btn');
         var imageQuestionTag = $(this).closest('.show-image-question').children('.image-question-url');
         var imageURL = $(imageQuestionTag).attr('src');
         var url = $(this).data('url');
         removeImage(url, imageURL);
         var imageQuestionHidden = $(this).closest('.form-line').find('.image-question-hidden');
         $(imageQuestionHidden).val('');
+        $(btQuestionImage).removeClass('hidden');
         $(this).closest('.image-question').remove();
     });
 
@@ -1299,11 +1351,14 @@ jQuery(document).ready(function () {
     });
 
     // live suggest email
-    var i = 0;
+    var indexActiveLi = 0; // store index of li tag is active
 
     $('.input-email-send').keyup(function (e) {
         var keyword = $(this).val().trim();
         var url = $(this).data('url');
+        var emailsSuggested = $('input:hidden[name=emails_invite]').val();
+        var emails = emailsSuggested.split(',');
+        indexActiveLi = 0;
 
         if (keyword) {
             $.ajax({
@@ -1312,6 +1367,7 @@ jQuery(document).ready(function () {
                 dataType: 'json',
                 data: {
                     keyword: keyword,
+                    emails: emails,
                 }
             })
             .done(function (data) {
@@ -1322,6 +1378,8 @@ jQuery(document).ready(function () {
                             <li class="email-li-item"><i class="fa fa-envelope"></i>&ensp;<span class="email-span-item">${el}</span></li>
                         `);
                     });
+                    $('.live-suggest-email .email-li-item:nth-child(1)').addClass('email-li-item-active');
+                    indexActiveLi = 1;
                 }
             });
         } else {
@@ -1330,51 +1388,53 @@ jQuery(document).ready(function () {
     });
 
     $(document).keydown(function (e) {
-        if (e.keyCode == 40) {
-            $('.input-email-send').blur();
+        if ($('#setting-survey').is(':visible')) {
+            if (e.keyCode == 40) {
+                e.preventDefault();
+                $('.input-email-send').blur();
 
-            if (i == $('.live-suggest-email').children('li').length) {
-                i = 0;
-                $('.live-suggest-email .email-li-item:nth-child(' + i + ')').removeClass('email-li-item-active');
-                $('.input-email-send').focus();
-            } else {
-                i++;
-                $('.live-suggest-email').find('.email-li-item').removeClass('email-li-item-active');
-                $('.live-suggest-email .email-li-item:nth-child(' + i + ')').addClass('email-li-item-active');
-            }
-        }
-
-        if (e.keyCode == 38) {
-            $('.input-email-send').blur();
-
-            if (i == 0) {
-                i = $('.live-suggest-email').children('li').length;
-                $('.live-suggest-email').find('.email-li-item').removeClass('email-li-item-active');
-                $('.live-suggest-email .email-li-item:nth-child(' + i + ')').addClass('email-li-item-active');
-            } else if (i == 1) {
-                $('.live-suggest-email .email-li-item:nth-child(' + i + ')').removeClass('email-li-item-active');
-                $('.input-email-send').focus();
-                i = 0;
-            } else {
-                i--;
-                $('.live-suggest-email').find('.email-li-item').removeClass('email-li-item-active');
-                $('.live-suggest-email .email-li-item:nth-child(' + i + ')').addClass('email-li-item-active');
-            }
-        }
-
-        if (e.keyCode == 13) {
-            if ($('.input-email-send').is(':focus')) {
-                var email = $('.input-email-send').val();
-
-                if (isEmail(email)) {
-                    addLabelEmail(email);
+                if (indexActiveLi == $('.live-suggest-email').children('li').length) {
+                    indexActiveLi = 0;
+                    $('.live-suggest-email .email-li-item:nth-child(' + indexActiveLi + ')').removeClass('email-li-item-active');
+                    $('.input-email-send').focus();
+                } else {
+                    indexActiveLi ++;
+                    $('.live-suggest-email').find('.email-li-item').removeClass('email-li-item-active');
+                    $('.live-suggest-email .email-li-item:nth-child(' + indexActiveLi + ')').addClass('email-li-item-active');
                 }
-            } else {
-                var liActive = $('.live-suggest-email').find('.email-li-item-active');
-                var email = $(liActive).children('.email-span-item').text().trim();
+            }
 
-                if (isEmail(email)) {
-                    addLabelEmail(email);
+            if (e.keyCode == 38) {
+                e.preventDefault();
+                $('.input-email-send').blur();
+
+                if (indexActiveLi == 0) {
+                    indexActiveLi = $('.live-suggest-email').children('li').length;
+                    $('.live-suggest-email').find('.email-li-item').removeClass('email-li-item-active');
+                    $('.live-suggest-email .email-li-item:nth-child(' + indexActiveLi + ')').addClass('email-li-item-active');
+                } else if (indexActiveLi == 1) {
+                    $('.live-suggest-email .email-li-item:nth-child(' + indexActiveLi + ')').removeClass('email-li-item-active');
+                    $('.input-email-send').focus();
+                    indexActiveLi = 0;
+                } else {
+                    indexActiveLi --;
+                    $('.live-suggest-email').find('.email-li-item').removeClass('email-li-item-active');
+                    $('.live-suggest-email .email-li-item:nth-child(' + indexActiveLi + ')').addClass('email-li-item-active');
+                }
+            }
+
+            if (e.keyCode == 13) {
+                var liActive = $('.live-suggest-email').find('.email-li-item-active');
+                var emailSuggest = $(liActive).children('.email-span-item').text().trim();
+
+                if (isEmail(emailSuggest)) {
+                    addLabelEmail(emailSuggest);
+                } else {
+                    var email = $('.input-email-send').val().trim();
+
+                    if (isEmail(email)) {
+                        addLabelEmail(email);
+                    }
                 }
             }
         }
@@ -1404,6 +1464,11 @@ jQuery(document).ready(function () {
     function addLabelEmail(email) {
         var emails = $('.emails-invite-hidden').val();
         var arrayEmail = emails.split(',');
+
+        if (arrayEmail.length > 8) {
+            $('.div-show-all-email').addClass('overflow-y-scroll');
+        }
+
         var isExist = jQuery.inArray(email, arrayEmail);
 
         if (isExist == -1) {

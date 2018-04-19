@@ -50,15 +50,6 @@ class UserRepository extends BaseRepository implements UserInterface
         }
     }
 
-    public function findEmail($keyword)
-    {
-        return $this->model
-            ->where('email', 'like', "%$keyword%")
-            ->take(config('survey.get_top_mail_suggestion'))
-            ->get()
-            ->pluck('email');
-    }
-
     public function updateUser($user, $updateData)
     {
         return $user->update($updateData);
@@ -67,5 +58,18 @@ class UserRepository extends BaseRepository implements UserInterface
     public function checkEmailExist($email)
     {
         return $this->model->where('email', $email)->exists();
+    }
+
+    public function findEmail($data, $userId)
+    {
+        $users = $this->model
+            ->where('email', 'like', '%' . $data['keyword'] . '%')
+            ->where('id', '!=', $userId);
+
+        if (count($data['emails'])) {
+            $users = $users->whereNotIn('email', $data['emails']);
+        }
+
+        return $users->take(config('survey.get_top_mail_suggestion'))->pluck('email');
     }
 }

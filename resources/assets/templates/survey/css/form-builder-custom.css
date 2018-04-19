@@ -3393,6 +3393,9 @@ input[name="quantity-answer"]::-webkit-outer-spin-button, input[type="number"]::
     padding: 0px;
     font-size: 13px;
     box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
+    position: absolute;
+    background: #fff;
+    width: 94%;
 }
 
 .live-suggest-email li {
@@ -3406,10 +3409,16 @@ input[name="quantity-answer"]::-webkit-outer-spin-button, input[type="number"]::
 }
 
 .email-li-item-active {
-    background: #f1f1f1 !important;
-    color: #333;
+    background: #70c4e0 !important;
+    color: #fff;
+    box-shadow: 0 2px 4px 0px rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
 }
 
 .delete-label-email {
     cursor: pointer;
+}
+
+.overflow-y-scroll {
+    height: 120px;
+    overflow-y: scroll;
 }
