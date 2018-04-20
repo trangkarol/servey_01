@@ -11,13 +11,13 @@
                     <div class="option-menu-group">
                         <a href="#" class="fa fa-ellipsis-v option-menu"></a>
                         <ul class="option-menu-dropdown">
-                            <li>
+                            <li class="copy-section">
                                <span>@lang('lang.duplicate_section')</span>
                             </li>
                             <li>
                                 <span>@lang('lang.move_section')</span>
                             </li>
-                            <li>
+                            <li class="delete-section">
                                 <span>@lang('lang.delete_section')</span>
                             </li>
                             <li>
