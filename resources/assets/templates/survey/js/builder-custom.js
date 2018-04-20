@@ -1469,7 +1469,7 @@ jQuery(document).ready(function () {
     });
 
     $(document).keydown(function (e) {
-        if ($('#setting-survey').is(':visible')) {
+        if ($('#tab-send-mails').is(':visible')) {
             if (e.keyCode == 40) {
                 e.preventDefault();
                 $('.input-email-send').blur();
@@ -1519,6 +1519,103 @@ jQuery(document).ready(function () {
                 }
             }
         }
+
+        //key down show mail -- add member
+        if ($('#tab-add-manager').is(':visible')) {
+            if (e.keyCode == 40) {
+                e.preventDefault();
+                $('#input-email-member').blur();
+
+                if (indexActiveLi == $('.live-suggest-member-email').children('li').length) {
+                    indexActiveLi = 0;
+                    $('.live-suggest-member-email .email-li-item:nth-child(' + indexActiveLi + ')').removeClass('email-li-item-member-active');
+                    $('#input-email-member').focus();
+                } else {
+                    indexActiveLi++;
+                    $('.live-suggest-member-email').find('.email-li-item').removeClass('email-li-item-member-active');
+                    $('.live-suggest-member-email .email-li-item:nth-child(' + indexActiveLi + ')').addClass('email-li-item-member-active');
+                }
+            }
+
+            if (e.keyCode == 38) {
+                e.preventDefault();
+                $('#input-email-member').blur();
+
+                if (indexActiveLi == 0) {
+                    indexActiveLi = $('.live-suggest-member-email').children('li').length;
+                    $('.live-suggest-member-email').find('.email-li-item').removeClass('email-li-item-member-active');
+                    $('.live-suggest-member-email .email-li-item:nth-child(' + indexActiveLi + ')').addClass('email-li-item-member-active');
+                } else if (indexActiveLi == 1) {
+                    $('.live-suggest-member-email .email-li-item:nth-child(' + indexActiveLi + ')').removeClass('email-li-item-member-active');
+                    $('#input-email-member').focus();
+                    indexActiveLi = 0;
+                } else {
+                    indexActiveLi--;
+                    $('.live-suggest-member-email').find('.email-li-item').removeClass('email-li-item-member-active');
+                    $('.live-suggest-member-email .email-li-item:nth-child(' + indexActiveLi + ')').addClass('email-li-item-member-active');
+                }
+            }
+
+            if (e.keyCode == 13) {
+                e.preventDefault();
+
+                var liActive = $('.live-suggest-member-email').find('.email-li-item-member-active');
+                var emailSuggest = $(liActive).children('.email-span-item').text().trim();
+
+                if (isEmail(emailSuggest)) {
+                    addEmailToTable(emailSuggest);
+                } else {
+                    var email = $('#input-email-member').val().trim();
+
+                    if (isEmail(email)) {
+                        addEmailToTable(email);
+                    }
+                }
+            }
+        }
+    });
+
+    //Setting add mail member manage survey
+    if ($('.table-show-email-manager tr').length <= 1) {
+        $('.table-show-email-manager').hide();
+    } else {
+        $('.table-show-email-manager').show();
+    }
+
+    $('#input-email-member').keyup(function (e) {
+        var keyword = $(this).val().trim();
+        var url = $(this).data('url');
+        var emailsMember = [];
+        $('.emails-member').each(function() {
+            emailsMember.push($(this).text());
+        });
+        indexActiveLi = 0;
+
+        if (keyword) {
+            $.ajax({
+                method: 'POST',
+                url: url,
+                dataType: 'json',
+                data: {
+                    keyword: keyword,
+                    emails: emailsMember,
+                }
+            })
+            .done(function (data) {
+                if (data.success) {
+                    $('.live-suggest-member-email').empty();
+                    data.emails.forEach(el => {
+                        $('.live-suggest-member-email').append(`
+                            <li class="email-li-item"><i class="fa fa-envelope"></i>&ensp;<span class="email-span-item">${el}</span></li>
+                        `);
+                    });
+                    $('.live-suggest-member-email .email-li-item:nth-child(1)').addClass('email-li-item-member-active');
+                    indexActiveLi = 1;
+                }
+            });
+        } else {
+            $('.live-suggest-member-email').empty();
+        }
     });
 
     // add email
@@ -1526,6 +1623,13 @@ jQuery(document).ready(function () {
         e.stopPropagation();
         var email = $(this).find('.email-span-item').text();
         addLabelEmail(email);
+    });
+
+    // add email member
+    $('.live-suggest-member-email').on('click', '.email-li-item', function (e) {
+        e.stopPropagation();
+        var email = $(this).find('.email-span-item').text();
+        addEmailToTable(email);
     });
 
     // remove email
@@ -1550,7 +1654,7 @@ jQuery(document).ready(function () {
             $('.div-show-all-email').addClass('overflow-y-scroll');
         }
 
-        var isExist = jQuery.inArray(email, arrayEmail);
+        var isExist = $.inArray(email, arrayEmail);
 
         if (isExist == -1) {
             arrayEmail.push(email);
@@ -1566,6 +1670,51 @@ jQuery(document).ready(function () {
         $('.input-email-send').val(null);
         $('.input-email-send').focus();
     }
+
+    // function add email to table
+    function addEmailToTable(email) {
+        var emailsMember = [];
+        $('.emails-member').each(function() {
+            emailsMember.push($(this).text());
+        });
+        var isExist = jQuery.inArray(email, emailsMember);
+
+        if (isExist == -1) {
+            emailsMember.push(email);
+            $('.table-show-email-manager tbody').append(`
+                <tr>
+                    <td class="emails-member">${email}</td>
+                    <td class="roles-member">${Lang.get('lang.editor')}</td>
+                    <td><a href="#" class="delete-member"><i class="fa fa-times"></i></a></td>
+                </tr>
+            `);
+        }
+
+        $('.emails-member-hidden').val(emailsMember.join());
+        $('.live-suggest-member-email').empty();
+        $('#input-email-member').val(null);
+        $('#input-email-member').focus();
+
+        if ($('.table-show-email-manager tr').length <= 1) {
+            $('.table-show-email-manager').hide();
+        } else {
+            $('.table-show-email-manager').show();
+        }
+    }
+
+    //function remove email member
+    $('.table-show-email-manager').on('click', '.delete-member', function() {
+        var selector = $(this).closest('tr');
+        $(selector).remove();
+
+        if ($('.table-show-email-manager tr').length <= 1) {
+            $('.table-show-email-manager').hide();
+        } else {
+            $('.table-show-email-manager').show();
+        }
+
+        return false;
+    });
 
     function removeEmail(email) {
         var emails = $('.emails-invite-hidden').val();
@@ -1815,4 +1964,6 @@ jQuery(document).ready(function () {
         // select duplicating question
         this.questionSelected.click();
     });
+
+    $('[data-toggle="tooltip"]').tooltip();
 });

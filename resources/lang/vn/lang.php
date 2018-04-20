@@ -171,4 +171,23 @@ return [
     'private_this_survey' => 'Bảo mật cuộc khảo sát này?',
     'save' => 'Lưu',
     'cancel' => 'Hủy',
+
+    /*
+        add manager
+    */
+
+    'add_manager' => 'Thêm người quản lý',
+    'editor' => 'Có thể sửa',
+    'role' => 'Vai trò',
+
+    /*
+        survey action tooltip
+    */
+
+    'add_question' => 'Thêm câu hỏi',
+    'add_title' => 'Thêm tiêu đề và mô tả',
+    'add_image' => 'Thêm hình ảnh',
+    'add_video' => 'Thêm video',
+    'add_section' => 'Thêm phần',
+    'setting' => 'Cài đặt',
 ];

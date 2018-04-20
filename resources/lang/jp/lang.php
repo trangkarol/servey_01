@@ -171,4 +171,23 @@ return [
     'private_this_survey' => 'Private this survey',
     'save' => 'Save',
     'cancel' => 'Cancel',
+
+    /*
+        add manager
+    */
+
+    'add_manager' => 'Add manager',
+    'editor' => 'Editor',
+    'role' => 'Role',
+
+    /*
+        survey action tooltip
+    */
+
+    'add_question' => 'Add question',
+    'add_title' => 'Add title anh description',
+    'add_image' => 'Add image',
+    'add_video' => 'Add video',
+    'add_section' => 'Add section',
+    'setting' => 'Setting',
 ];
