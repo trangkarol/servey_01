@@ -1788,4 +1788,31 @@ jQuery(document).ready(function () {
             $(this).val(minAnswer);
         }
     });
+
+    // duplicate question
+    $('.survey-form').on('click', '.copy-element', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var questionType = $(this).closest('.form-line').data('question-type');
+        var cloneElement = $(this).closest('.form-line').clone();
+        var sectionId = $(this).closest('ul.page-section.sortable').data('section-id');
+        var questionId = refreshQuestionId();
+
+        this.questionSelected = $(cloneElement).insertAfter($(this).closest('.form-line'));
+        $(this.questionSelected).attr('id', 'question_' + questionId);
+        $(this.questionSelected).data('question-id', questionId);
+        $(this.questionSelected).find('.question-input').attr('name', 'title[section_' + sectionId + '][question_' + questionId + ']');
+        $(this.questionSelected).find('.image-question-hidden').attr('name', 'media[section_' + sectionId + '][question_' + questionId + ']');
+        $(this.questionSelected).find('.question-description-input').attr('name', 'description[section_'+ sectionId +'][question_' + questionId +']');
+        $(this.questionSelected).find('.element-content .option').each(function (i, e) {
+            i ++;
+            var answerId = refreshAnswerId();
+            $(this).data('answer-id', answerId);
+            $(this).find('input[type=text]').attr('name', 'answer[question_' + questionId + '][answer_' + answerId + '][option_' + i + ']');
+            $(this).find('input[type=hidden]').attr('name', 'media[question_' + questionId + '][answer_' + answerId + '][option_' + i + ']');
+        });
+
+        // select duplicating question
+        this.questionSelected.click();
+    });
 });
