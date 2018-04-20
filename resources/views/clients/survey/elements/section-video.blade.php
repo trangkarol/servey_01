@@ -1,4 +1,7 @@
-<li class="form-line sort section-show-image-insert" data-question-id="{{ $questionId }}" data-question-type="{{ config('settings.question_type.video') }}">
+<li class="form-line sort section-show-image-insert"
+    id="question_{{ $questionId }}"
+    data-question-id="{{ $questionId }}"
+    data-question-type="{{ config('settings.question_type.video') }}">
     <div class="form-row draggable-area"></div>
     <div class="form-row image-block">
         <div class="col-xl-9 col-lg-9 col-md-9 col-sm-8 col-10">

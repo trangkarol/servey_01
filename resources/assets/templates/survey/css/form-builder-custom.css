@@ -1862,8 +1862,11 @@ li .multiple-choice-block .choice input {
 }
 
 li .multiple-choice-block .radio-choice-icon {
-    cursor: move;
     padding: 1px 6px 0px;
+}
+
+li.liselected .multiple-choice-block .radio-choice-icon {
+    cursor: move;
 }
 
 li .multiple-choice-block .choice .choice-input-block {
@@ -2030,8 +2033,11 @@ li .checkboxes-block .checkbox input {
 }
 
 li .checkboxes-block .square-checkbox-icon {
-    cursor: move;
     padding: 1px 6px 0px;
+}
+
+li.liselected .checkboxes-block .square-checkbox-icon {
+    cursor: move;
 }
 
 li .checkboxes-block .checkbox .checkbox-input-block {
