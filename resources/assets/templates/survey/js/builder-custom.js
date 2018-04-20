@@ -55,6 +55,38 @@ jQuery(document).ready(function () {
         });
     }
 
+    function multipleChoiceSortable(question) {
+        $(`#${question} .multiple-choice-block`).sortable({
+            axis: 'y',
+            handle: '.radio-choice-icon',
+            containment: `#${question} .multiple-choice-block`,
+            cursor: 'move',
+            items: '.choice-sortable',
+            classes: {
+                'ui-sortable-helper': 'hightlight'
+            },
+            stop: function (event, ui) {
+                $(ui.item).removeAttr('style');
+            },
+        });
+    }
+
+    function checkboxesSortable(question) {
+        $(`#${question} .checkboxes-block`).sortable({
+            axis: 'y',
+            handle: '.square-checkbox-icon',
+            containment: `#${question} .checkboxes-block`,
+            cursor: 'move',
+            items: '.checkbox-sortable',
+            classes: {
+                'ui-sortable-helper': 'hightlight'
+            },
+            stop: function (event, ui) {
+                $(ui.item).removeAttr('style');
+            },
+        });
+    }
+
     function setScrollButtonTop(selector, offset) {
         var width = (this.window.innerWidth > 0) ? this.window.innerWidth : this.screen.width;
         if (width > 768) {
@@ -360,6 +392,16 @@ jQuery(document).ready(function () {
                 this.questionSelected.find('div.survey-select-styled').
                     html(this.questionSelected.find(`ul.survey-select-options li[data-type="${questionType}"]`).html());
                 this.questionSelected.click();
+
+                // add sortable event for multiple choice
+                if (questionType == 3) {
+                    multipleChoiceSortable(`question_${questionId}`);
+                }
+                
+                // add sortable event for checkboxes
+                if (questionType == 4) {
+                    checkboxesSortable(`question_${questionId}`);
+                }
             }
         });
     }
@@ -539,27 +581,15 @@ jQuery(document).ready(function () {
      * multiple choice
      */
 
-    $('.survey-form ul.sortable .multiple-choice-block').sortable({
-        axis: 'y',
-        handle: '.radio-choice-icon',
-        containment: '.survey-form ul.sortable .multiple-choice-block',
-        cursor: 'move',
-        items: '.choice-sortable',
-        classes: {
-            'ui-sortable-helper': 'hightlight'
-        },
-        stop: function (event, ui) {
-            $(ui.item).removeAttr('style');
-        },
-    });
-
     $('.survey-form').on('keydown', '.form-line .multiple-choice-block .choice', function (e) {
         if ($(this).hasClass('other-choice-option')) {
             return;
         }
 
         if (e.keyCode === 13) {
-            $(this).find('.remove-checkbox-option').removeClass('hidden');
+            // reshow remove button when copy answer element from first element
+            $(this).find('.remove-choice-option').removeClass('hidden');
+
             var nextElement = $(this).clone().insertAfter($(this));
 
             var questionElement = $(this).closest('li.form-line.sort');
@@ -573,6 +603,9 @@ jQuery(document).ready(function () {
 
             // remove image answer
             nextElement.find('div.image-answer').remove();
+
+            // show image button for answer element
+            nextElement.find('.upload-choice-image').removeClass('invisible');
 
             // change and reset input, image value, focus, select
             var image = nextElement.find('input.image-answer-hidden');
@@ -653,7 +686,32 @@ jQuery(document).ready(function () {
             nextElement = choice.clone().insertBefore($(this).closest('.other-choice'));
         }
 
-        var input = nextElement.find('input');
+
+        // reshow remove button when copy answer element from first element
+        $(this).closest('li.form-line.sort').find('.remove-choice-option').removeClass('hidden');
+
+        var questionElement = $(this).closest('li.form-line.sort');
+        var questionId = questionElement.data('question-id');
+        var answerId = refreshAnswerId();
+        nextElement.data('answer-id', answerId);
+        var numberOfAnswers = questionElement.data('number-answer');
+        var optionId = numberOfAnswers + 1;
+        nextElement.data('option-id', optionId);
+        questionElement.data('number-answer', numberOfAnswers + 1);
+
+        // remove image answer
+        nextElement.find('div.image-answer').remove();
+
+        // show image button for answer element
+        nextElement.find('.upload-choice-image').removeClass('invisible');
+
+        // change and reset input, image value, focus, select
+        var image = nextElement.find('input.image-answer-hidden');
+        image.attr('name', `media[question_${questionId}][answer_${answerId}][option_${optionId}]`);
+        image.val('');
+
+        var input = nextElement.find('input.form-control');
+        input.attr('name', `answer[question_${questionId}][answer_${answerId}][option_${optionId}]`);
         input.val(Lang.get('lang.option', {index: nextElement.index() + 1}));
         input.select();
         input.focus();
@@ -672,39 +730,31 @@ jQuery(document).ready(function () {
      * checkboxes
      */
 
-    $('.survey-form ul.sortable .checkboxes-block').sortable({
-        axis: 'y',
-        handle: '.square-checkbox-icon',
-        containment: '.survey-form ul.sortable .checkboxes-block',
-        cursor: 'move',
-        items: '.checkbox-sortable',
-        classes: {
-            'ui-sortable-helper': 'hightlight'
-        },
-        stop: function (event, ui) {
-            $(ui.item).removeAttr('style');
-        },
-    });
-
     $('.survey-form').on('keydown', '.form-line .checkboxes-block .checkbox', function (e) {
         if ($(this).hasClass('other-checkbox-option')) {
             return;
         }
 
         if (e.keyCode === 13) {
+            // reshow remove button when copy answer element from first element
             $(this).find('.remove-checkbox-option').removeClass('hidden');
+
             var nextElement = $(this).clone().insertAfter($(this));
 
-            // change input name
             var questionElement = $(this).closest('li.form-line.sort');
             var questionId = questionElement.data('question-id');
-            var answerId = nextElement.data('answer-id');
+            var answerId = refreshAnswerId();
+            nextElement.data('answer-id', answerId);
             var numberOfAnswers = questionElement.data('number-answer');
             var optionId = numberOfAnswers + 1;
+            nextElement.data('option-id', optionId);
             questionElement.data('number-answer', numberOfAnswers + 1);
 
             // remove image answer
             nextElement.find('div.image-answer').remove();
+
+            // show image button for answer element
+            nextElement.find('.upload-checkbox-image').removeClass('invisible');
 
             // change and reset input, image value, focus, select
             var image = nextElement.find('input.image-answer-hidden');
@@ -785,7 +835,31 @@ jQuery(document).ready(function () {
             nextElement = checkbox.clone().insertBefore($(this).closest('.other-checkbox'));
         }
 
-        var input = nextElement.find('input');
+        // reshow remove button when copy answer element from first element
+        $(this).closest('li.form-line.sort').find('.remove-checkbox-option').removeClass('hidden');
+
+        var questionElement = $(this).closest('li.form-line.sort');
+        var questionId = questionElement.data('question-id');
+        var answerId = refreshAnswerId();
+        nextElement.data('answer-id', answerId);
+        var numberOfAnswers = questionElement.data('number-answer');
+        var optionId = numberOfAnswers + 1;
+        nextElement.data('option-id', optionId);
+        questionElement.data('number-answer', numberOfAnswers + 1);
+
+        // remove image answer
+        nextElement.find('div.image-answer').remove();
+
+        // show image button for answer element
+        nextElement.find('.upload-checkbox-image').removeClass('invisible');
+
+        // change and reset input, image value, focus, select
+        var image = nextElement.find('input.image-answer-hidden');
+        image.attr('name', `media[question_${questionId}][answer_${answerId}][option_${optionId}]`);
+        image.val('');
+
+        var input = nextElement.find('input.form-control');
+        input.attr('name', `answer[question_${questionId}][answer_${answerId}][option_${optionId}]`);
         input.val(Lang.get('lang.option', {index: nextElement.index() + 1}));
         input.select();
         input.focus();
@@ -836,6 +910,9 @@ jQuery(document).ready(function () {
                 } else {
                     this.questionSelected = $(element).insertAfter(this.questionSelected);
                 }
+
+                // add sortable event for multiple choice
+                multipleChoiceSortable(`question_${questionId}`);
 
                 this.questionSelected.click();
             }
@@ -908,6 +985,10 @@ jQuery(document).ready(function () {
                     $(this).closest('li.form-line').fadeOut(300).remove();
                     this.questionSelected = null;
                 });
+
+                // add multiple sortable event
+                multipleChoiceSortable(`question_${questionId}`);
+
                 element.find('li.sort').first().click();
             }
         });
@@ -1097,7 +1178,7 @@ jQuery(document).ready(function () {
                         var element = data.html;
                         $(element).insertAfter(answerInsert);
                         $(imageAnswerHidden).val(data.imageURL);
-                        $(uploadChoiceTag).addClass('hidden');
+                        $(uploadChoiceTag).addClass('invisible');
                         $('#modal-insert-image').modal('hide');
                     }
                 });
@@ -1139,7 +1220,7 @@ jQuery(document).ready(function () {
                         var element = data.html;
                         $(element).insertAfter(answerInsert);
                         $(imageAnswerHidden).val(data.imageURL);
-                        $(uploadChoiceTag).addClass('hidden');
+                        $(uploadChoiceTag).addClass('invisible');
                         $('#modal-insert-image').modal('hide');
                     }
                 });

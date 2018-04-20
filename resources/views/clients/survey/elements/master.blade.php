@@ -19,8 +19,8 @@
         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-8 question-dropdown-block">
             <div class="survey-select">
                 <div class="survey-select-styled">
-                    <span class="answer-icon short-answer-icon"></span>
-                    <span class="option-menu-content">@lang('lang.short_answer')</span>
+                    <span class="answer-icon multi-choice-answer-icon"></span>
+                    <span class="option-menu-content">@lang('lang.multiple_choice')</span>
                 </div>
                 <ul class="survey-select-options">
                     <li data-type="{{ config('settings.question_type.short_answer') }}" data-url="{{ route('ajax-fetch-short-answer') }}">
