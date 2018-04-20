@@ -56,7 +56,7 @@ jQuery(document).ready(function () {
     }
 
     function multipleChoiceSortable(question) {
-        $(`#${question} .multiple-choice-block`).sortable({
+        $(`li#${question} .multiple-choice-block`).sortable({
             axis: 'y',
             handle: '.radio-choice-icon',
             containment: `#${question} .multiple-choice-block`,
@@ -72,7 +72,7 @@ jQuery(document).ready(function () {
     }
 
     function checkboxesSortable(question) {
-        $(`#${question} .checkboxes-block`).sortable({
+        $(`li#${question} .checkboxes-block`).sortable({
             axis: 'y',
             handle: '.square-checkbox-icon',
             containment: `#${question} .checkboxes-block`,
@@ -299,7 +299,9 @@ jQuery(document).ready(function () {
         var sections = [];
         $('.survey-form ul.page-section.sortable').each(function (index, element) {
             var section = {};
+
             var sectionId = $(element).data('section-id');
+            section.id = sectionId;
 
             var title = data.find(item => item.name === `title[section_${sectionId}]`);
             section.title = title !== undefined ? title.value : '';
@@ -404,6 +406,30 @@ jQuery(document).ready(function () {
                 }
             }
         });
+    }
+
+    /**
+     * Scroll to question element (question, image, video)
+     */
+    
+    function scrollToQuestion(questionId) {
+        $('.survey-form').one('click', '#question_' + questionId, function() {  
+            $('html, body').animate({scrollTop: $(this).offset().top - 80}, 1200);
+        });
+
+        $('#question_' + questionId).click();
+    }
+
+    /**
+     * Scroll to section
+     */
+    
+    function scrollToSection(sectionId) {
+        $('.survey-form').one('click', '#section_' + sectionId, function() {  
+            $('html, body').animate({scrollTop: $(this).offset().top - 80}, 1200);
+        });
+
+        $('#section_' + sectionId).click();
     }
 
     /* Selecting form components*/
@@ -911,10 +937,13 @@ jQuery(document).ready(function () {
                     this.questionSelected = $(element).insertAfter(this.questionSelected);
                 }
 
+                this.questionSelected.click();
+
                 // add sortable event for multiple choice
                 multipleChoiceSortable(`question_${questionId}`);
 
-                this.questionSelected.click();
+                // scroll to question element
+                scrollToQuestion(questionId);
             }
         });
     });
@@ -951,6 +980,9 @@ jQuery(document).ready(function () {
                 }
 
                 this.questionSelected.click();
+
+                // scroll to title description element
+                scrollToQuestion(questionId);
             }
         });
     });
@@ -986,10 +1018,13 @@ jQuery(document).ready(function () {
                     this.questionSelected = null;
                 });
 
+                element.find('li.sort').first().click();
+
                 // add multiple sortable event
                 multipleChoiceSortable(`question_${questionId}`);
 
-                element.find('li.sort').first().click();
+                // scroll to section
+                scrollToSection(sectionId);
             }
         });
     });
@@ -1039,6 +1074,9 @@ jQuery(document).ready(function () {
                         }
 
                         this.questionSelected.click();
+
+                        // scroll to image element
+                        scrollToQuestion(questionId);
                     }
                 });
             } else {
@@ -1097,6 +1135,9 @@ jQuery(document).ready(function () {
 
                         this.questionSelected.click();
                         $('#modal-insert-video').modal('hide');
+
+                        // scroll to video element
+                        scrollToQuestion(questionId);
                     }
                 });
             } else {

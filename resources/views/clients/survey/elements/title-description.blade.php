@@ -1,4 +1,5 @@
 <li class="form-line sort title-description-element"
+    id="question_{{ $questionId }}"
     data-question-id="{{ $questionId }}"
     data-question-type="{{ config('settings.question_type.title') }}">
     <div class="form-row draggable-area"></div>
