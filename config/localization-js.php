@@ -11,6 +11,7 @@ return [
         'lang',
         'datatable',
         'profile',
+        'validation',
     ],
 
     /*

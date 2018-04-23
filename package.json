@@ -38,6 +38,7 @@
     "flipclock": "^0.7.8",
     "font-awesome": "^4.7.0",
     "jquery-ui-dist": "^1.12.1",
+    "jquery-validation": "^1.17.0",
     "lightweight-bootstrap": "0.0.1",
     "moment": "^2.21.0",
     "popper.js": "^1.14.3",

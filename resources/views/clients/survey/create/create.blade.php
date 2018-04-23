@@ -19,6 +19,7 @@
                 <div class="scroll-button-group-sidebar">
                     <div class="button-group-sidebar">
                         <div class="survey-action" data-placement="right"
+                            data-trigger="hover"
                             data-toggle="tooltip" title="@lang('lang.add_question')">
                             <button type="button" class="btn btn-outline-light text-dark" id="add-question-btn"
                                 data-url="{{ route('ajax-fetch-multiple-choice') }}">
@@ -26,6 +27,7 @@
                             </button>
                         </div>
                         <div class="survey-action" data-placement="right"
+                            data-trigger="hover"
                             data-toggle="tooltip" title="@lang('lang.add_title')">
                            <button type="button" class="btn btn-outline-light text-dark" id="add-title-description-btn"
                                 data-url="{{ route('ajax-fetch-title-description') }}">
@@ -33,6 +35,7 @@
                             </button>
                         </div>
                         <div class="survey-action" data-placement="right"
+                            data-trigger="hover"
                             data-toggle="tooltip" title="@lang('lang.add_image')">
                             <button type="button" class="btn btn-outline-light text-dark"
                                 id="add-image-section-btn" data-url="{{ route('ajax-fetch-image-section') }}">
@@ -40,6 +43,7 @@
                             </button>
                         </div>
                         <div class="survey-action" data-placement="right"
+                            data-trigger="hover"
                             data-toggle="tooltip" title="@lang('lang.add_video')">
                             <button type="button" class="btn btn-outline-light text-dark"
                                  id="add-video-section-btn" data-url="{{ route('ajax-fetch-video') }}">
@@ -47,19 +51,24 @@
                             </button>
                         </div>
                         <div class="survey-action" data-placement="right"
+                            data-trigger="hover"
                             data-toggle="tooltip" title="@lang('lang.add_section')">
                             <button type="button" class="btn btn-outline-light text-dark" id="add-section-btn"
                                 data-url="{{ route('ajax-fetch-section') }}">
                                 <i class="fa fa-fw fa-bars text-dark"></i>
                             </button>
                         </div>
-                        <div class="survey-action" data-placement="right"
+                        <div class="survey-action"
+                            id="setting-btn"
+                            data-placement="right"
+                            data-trigger="hover"
                             data-toggle="tooltip" title="@lang('lang.setting')">
                             <button type="button" class="btn btn-outline-light text-dark" data-toggle="modal" data-target="#setting-survey">
                                 <i class="fa fa-fw fa-cog text-dark"></i>
                             </button>
                         </div>
                         <div class="survey-action" data-placement="right"
+                            data-trigger="hover"
                             data-toggle="tooltip" title="@lang('lang.send')">
                             <button type="button" class="btn btn-outline-light text-dark" id="submit-survey-btn" data-url="{{ route('surveys.store') }}">
                                 <i class="fa fa-fw fa-paper-plane text-dark"></i>
@@ -167,5 +176,6 @@
     {!! Html::script(asset(config('settings.plugins') . 'jquery-menu-aim/jquery.menu-aim.js')) !!}
     {!! Html::script(asset(config('settings.plugins') . 'popper/popper.min.js')) !!}
     {!! Html::script(asset(config('settings.plugins') . 'bootstrap/bootstrap.min.js')) !!}
+    {!! Html::script(asset(config('settings.plugins') . 'jquery-validation/jquery.validate.min.js')) !!}
     {!! Html::script(elixir(config('settings.public_template') . 'js/builder-custom.js')) !!}
 @endpush

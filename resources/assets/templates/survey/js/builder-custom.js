@@ -101,6 +101,7 @@ jQuery(document).ready(function () {
         var elementPosition = currentScrollTop + 5;
         setScrollButtonTop(selector, elementPosition);
     }
+
     // validate url image
     function checkTimeLoadImage(e, t, i) {
         var o, i = i || 3e3,
@@ -430,6 +431,63 @@ jQuery(document).ready(function () {
         });
 
         $('#section_' + sectionId).click();
+    }
+
+    /**
+     * Survey validation
+     */
+    
+    $.validator.setDefaults({
+        errorPlacement: function(error, element) {
+            $(element).attr('data-toggle', 'tooltip');
+            $(element).attr('data-original-title', error.text());
+            $(element).attr('data-placement', 'auto');
+            $(element).attr('data-template', `
+                <div class="tooltip" role="tooltip">
+                    <div class="arrow tooltip-arrow-validate"></div>
+                    <div class="tooltip-inner tooltip-inner-validate"></div>
+                </div>
+            `);
+            $('.errorHighlight[data-toggle="tooltip"]').tooltip('show');
+            $('html, body').animate({scrollTop: $('.errorHighlight').offset().top - 100}, 500);
+        },
+        highlight: function(element){
+            $(element).removeClass("successHighlight");
+            $(element).addClass("errorHighlight");
+        },
+        unhighlight: function(element){
+            $(element).removeClass("errorHighlight");
+            $(element).addClass("successHighlight");
+            $(element).removeAttr('data-toggle');
+            $(element).removeAttr('data-original-title');
+            $(element).removeAttr('data-placement');
+            $(element).removeAttr('data-template');
+        }
+    });
+
+    // validation i18n
+    $.extend( $.validator.messages, {
+        required: Lang.get('validation.msg.required'),
+        maxlength: $.validator.format(Lang.get('validation.msg.maxlength'))
+    } );
+
+    var form = $(".survey-form");
+    var validator = form.validate({
+        debug: false,
+        rules: {
+            title: {
+                required: true,
+                maxlength: 255
+            },
+        }
+    });
+    
+    function validateSurvey() {
+        if (!form.valid()) {
+            return false;
+        }
+
+        return true;
     }
 
     /* Selecting form components*/
@@ -1023,10 +1081,25 @@ jQuery(document).ready(function () {
                 // add multiple sortable event
                 multipleChoiceSortable(`question_${questionId}`);
 
+                // add validation rules for questions
+                $(`#question_${questionId} textarea:regex(name, ^title\\[section_.*\\]\\[question_.*\\])`).each(function () {
+                    $(this).rules('add', {
+                        required: true,
+                        maxlength: 255,
+                    });
+                });
+
                 // scroll to section
                 scrollToSection(sectionId);
             }
         });
+    });
+
+    $('#setting-btn').click(function (e) {
+        e.preventDefault();
+        // e.stopPropagation();
+
+        $('[data-toggle="tooltip"]').tooltip('hide');
     });
 
     // insert image to section
@@ -1447,6 +1520,13 @@ jQuery(document).ready(function () {
 
     $('#submit-survey-btn').click(function (e) {
         e.preventDefault();
+
+        var valid = validateSurvey();
+
+        if (!valid) {
+            return;
+        }
+
         var dataArray = $('form.survey-form').serializeArray();
         var survey = getSurvey(dataArray);
 
