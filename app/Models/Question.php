@@ -46,7 +46,7 @@ class Question extends Model
         * The config other checkbox will be larger than the type checkbox, orther radio will be larger than the type radio
         * Config radio and checkbox = [1, 2], config orther radio and orther checkbox = [5, 6]
         */
-        return $this->hasMany(Answer::class)->orderBy('type');
+        return $this->hasMany(Answer::class);
     }
 
     public function duplicate($newQuestion)
