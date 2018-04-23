@@ -3476,3 +3476,29 @@ input[name="quantity-answer"]::-webkit-outer-spin-button, input[type="number"]::
 .tooltip-inner {
     font-size: 10px;
 }
+
+/**
+ * Validation css custom
+ */
+
+.errorHighlight {
+    border-color: #CC0000;
+}
+
+.successHighlight {
+    border-color: #dddddd;
+}
+
+/**
+ * Tooltip css custom for validation
+ */
+
+.tooltip-arrow-validate::before {
+    border-bottom-color: #CC0000 !important;
+    border-top-color: #CC0000 !important;
+}
+
+.tooltip-inner-validate {
+    background-color: #CC0000 !important;
+    font-size: 12px;
+}

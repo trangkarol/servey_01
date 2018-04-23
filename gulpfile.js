@@ -40,5 +40,6 @@ elixir(function(mix) {
         .copy('node_modules/datatables.net-dt/images', 'public/plugins/datatables/images')
         .copy('node_modules/sweetalert/', 'public/plugins/sweetalert')
         .copy('node_modules/popper.js/dist/umd/popper.min.js', 'public/plugins/popper/popper.min.js')
+        .copy('node_modules/jquery-validation/dist', 'public/plugins/jquery-validation')
         .version(['public/templates/survey/css/*.css', 'public/templates/survey/js/*.js']);
 });
