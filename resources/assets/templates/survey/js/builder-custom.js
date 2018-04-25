@@ -400,7 +400,7 @@ jQuery(document).ready(function () {
                 if (questionType == 3) {
                     multipleChoiceSortable(`question_${questionId}`);
                 }
-                
+
                 // add sortable event for checkboxes
                 if (questionType == 4) {
                     checkboxesSortable(`question_${questionId}`);
@@ -412,9 +412,9 @@ jQuery(document).ready(function () {
     /**
      * Scroll to question element (question, image, video)
      */
-    
+
     function scrollToQuestion(questionId) {
-        $('.survey-form').one('click', '#question_' + questionId, function() {  
+        $('.survey-form').one('click', '#question_' + questionId, function() {
             $('html, body').animate({scrollTop: $(this).offset().top - 80}, 1200);
         });
 
@@ -424,9 +424,9 @@ jQuery(document).ready(function () {
     /**
      * Scroll to section
      */
-    
+
     function scrollToSection(sectionId) {
-        $('.survey-form').one('click', '#section_' + sectionId, function() {  
+        $('.survey-form').one('click', '#section_' + sectionId, function() {
             $('html, body').animate({scrollTop: $(this).offset().top - 80}, 1200);
         });
 
@@ -436,7 +436,7 @@ jQuery(document).ready(function () {
     /**
      * Survey validation
      */
-    
+
     $.validator.setDefaults({
         errorPlacement: function(error, element) {
             $(element).attr('data-toggle', 'tooltip');
@@ -481,7 +481,7 @@ jQuery(document).ready(function () {
             },
         }
     });
-    
+
     function validateSurvey() {
         if (!form.valid()) {
             return false;
@@ -2095,7 +2095,7 @@ jQuery(document).ready(function () {
         e.stopPropagation();
         var numberOfSections = surveyData.data('number-section');
         var sectionDuplicate = $(this).closest('.page-section').clone();
-        
+
         $(this).closest('.page-section').find('.form-line').each(function () {
             $(this).removeClass('liselected question-active');
         });
@@ -2130,7 +2130,56 @@ jQuery(document).ready(function () {
         $('.survey-form').find('.page-section').each(function (i) {
             $(this).find('.section-index').text(i + 1);
         });
+
         $(pageSectionSelected).find('.form-line').first().click();
         scrollToSection(sectionId);
+    });
+
+    // remove section
+    $('.survey-form').on('click', '.delete-section', function (e) {
+        var numberOfSections = surveyData.data('number-section');
+        var currentSectionSelected = $(this).closest('.page-section');
+        var prevSection = $(currentSectionSelected).prev();
+        $(this).closest('.page-section').remove();
+        surveyData.data('number-section', numberOfSections - 1);
+        $('.total-section').html(numberOfSections - 1);
+
+        $('.survey-form').find('.page-section').each(function (i) {
+            $(this).find('.section-index').text(i + 1);
+        });
+
+        $(prevSection).find('.form-line.sort').first().click();
+        scrollToSection($(prevSection).data('section-id'));
+    });
+
+    // merge section with above
+    $('.survey-form').on('click', '.merge-with-above', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var numberOfSections = surveyData.data('number-section');
+        var currentSection = $(this).closest('.page-section');
+        var prevSection = $(currentSection).prev('.page-section');
+        var prevSectionId = $(prevSection).data('section-id');
+
+        if (prevSection.length) {
+            $(currentSection).find('.form-line.sort').each(function () {
+                var questionId = $(this).data('question-id');
+                $(this).find('.question-input').attr('name', `title[section_${prevSectionId}][question_${questionId}]`);
+                $(this).find('.image-question-hidden').attr('name', `media[section_${prevSectionId}][question_${questionId}]`);
+                $(this).find('.question-description-input').attr('name', `description[section_${prevSectionId}][question_${questionId}]`)
+                $(this).insertAfter($(prevSection).find('.form-line.sort').last());
+            });
+
+            $(currentSection).remove();
+            surveyData.data('number-section', numberOfSections - 1);
+            $('.total-section').html(numberOfSections - 1);
+            $('.survey-form').find('.page-section').each(function (i) {
+                $(this).find('.section-index').text(i + 1);
+            });
+
+            $(prevSection).find('.form-line.sort').last().click();
+            var questionId = $(prevSection).find('.form-line.sort').last().data('question-id');
+            scrollToQuestion(questionId);
+        }
     });
 });

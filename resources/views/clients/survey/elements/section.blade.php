@@ -20,7 +20,7 @@
                             <li class="delete-section">
                                 <span>@lang('lang.delete_section')</span>
                             </li>
-                            <li>
+                            <li class="merge-with-above">
                                 <span>@lang('lang.merge_with_above')</span>
                             </li>
                         </ul>
