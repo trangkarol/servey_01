@@ -133,5 +133,10 @@ return [
         'invalid_mail' => 'Vui lòng nhập đúng định dạng đuôi email.',
         'file' => 'Tập tin phải có định dạng jpeg|jpg|png||gif|bmp và kích thước nhỏ hơn 2MB',
         'tailmail' => 'Bạn phải nhập tối thiểu một loại email',
+        'after_start_time' => 'Thời gian kết thúc khảo sát phải sau thời gian bắt đầu.',
+        'more_than_30_minutes' => 'Thời gian kết thúc cuộc khảo sát phải sau thời gian hiện tại ít nhất 30 phút.',
+        'duplicate_section_title' => 'Tiêu đề phần đã bị trùng',
+        'duplicate_question_title' => 'Đã có một câu hỏi trùng với câu hỏi này',
+        'duplicate_answer_title' => 'Đã có một câu trả lời trùng với câu trả lời này',
     ],
 ];
