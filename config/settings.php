@@ -268,4 +268,10 @@ return [
             'key' => 6,
         ],
     ],
+
+    'checkEventOdd' => 2,
+    'roundPercent' => 2,
+    'number_0' => 0,
+    'number_100' => 100,
+    'limit_answer_content' => 80,
 ];

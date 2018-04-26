@@ -39,6 +39,11 @@ class Question extends Model
         return $this->hasManyThrough(Result::class, Answer::class);
     }
 
+    public function answerResults()
+    {
+        return $this->hasMany(Result::class);
+    }
+
     public function answers()
     {
         /*

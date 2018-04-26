@@ -48,8 +48,9 @@ li.form-line.content-title-section {
 
 h3.title-section {
     padding-top: 20px;
-    line-height: 10px;
-    font-size: 25px;
+    line-height: 32px;
+    font-size: 24px;
+    word-break: break-all;
 }
 
 .form-group.form-group-description-section {
@@ -101,12 +102,15 @@ input.input-answer-other:focus {
 }
 
 h4.title-question {
-    font-size: 22px;
+    font-size: 20px;
     color: #000;
+    word-break: break-all;
+    line-height: 30px;
 }
 
 h2.title-survey-preview {
-    color: #000;
+    color: #131313bd;
+    font-size: 29px;
 }
 
 .btn-action-preview {

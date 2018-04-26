@@ -279,4 +279,16 @@ Route::group(['middleware' => 'profile'], function () {
     Route::get('preview', function () {
         return view('clients.survey.create.preview');
     });
+
+    Route::group(['namespace' => 'Survey'], function () {
+        Route::get('survey/result/{token}', [
+            'as' => 'survey.result.index',
+            'uses' => 'ResultController@result',
+        ]);
+        
+        Route::get('survey/result/detail', [
+            'as' => 'survey.result.detail-result',
+            'uses' => 'ResultController@detail',
+        ]);
+    });
 });
