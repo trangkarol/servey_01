@@ -1337,6 +1337,7 @@ input:checked+.slider:before {
         text-align: center;
         padding: 2px;
         margin-right: 0px;
+        z-index: 1071;
     }
 
     .scroll-button-group-sidebar .button-group-sidebar .survey-action {
@@ -3482,11 +3483,16 @@ input[name="quantity-answer"]::-webkit-outer-spin-button, input[type="number"]::
  */
 
 .errorHighlight {
-    border-color: #CC0000;
+    border-color: #CC0000 !important;
 }
 
 .successHighlight {
-    border-color: #dddddd;
+    border-color: #dddddd !important;
+}
+
+#end-time-error {
+    color: #CC0000;
+    font-size: 13px;
 }
 
 /**

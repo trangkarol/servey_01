@@ -103,6 +103,7 @@
                                     'data-target' => '#start-time',
                                     'placeholder' => trans('lang.start_time__placeholder'),
                                 ]) !!}
+                                <span id="start-time-error"></span>
                             </div>
                             <div class="col">
                                 {!! Form::text('end_time', '', [
@@ -112,6 +113,7 @@
                                     'data-target' => '#end-time',
                                     'placeholder' => trans('lang.end_time__placeholder'),
                                 ]) !!}
+                                <span id="end-time-error"></span>
                             </div>
                         </div>
                         <label>@lang('lang.description')</label>

@@ -31,14 +31,13 @@ jQuery(document).ready(function () {
     function formSortable() {
         $('.survey-form ul.sortable').sortable({
             axis: 'y',
-            containment: '.content-wrapper',
             handle: '.draggable-area',
             cursor: 'move',
             classes: {
                 'ui-sortable-helper': 'hightlight'
             },
             connectWith: '.page-section',
-            items: '> li:not(:first)',
+            items: '> li:not(:first, :last)',
             forcePlaceholderSize: true,
             start: function(e, ui) {
                 if (ui.item.height() > 240) {
@@ -100,6 +99,19 @@ jQuery(document).ready(function () {
         var currentScrollTop = $(this).scrollTop();
         var elementPosition = currentScrollTop + 5;
         setScrollButtonTop(selector, elementPosition);
+    }
+
+    // auto resize textarea
+    function autoResizeTextarea() {
+        $.each($('textarea[data-autoresize]'), function() {
+            var offset = this.offsetHeight - this.clientHeight;
+
+            var resizeTextarea = function(el) {
+                $(el).css('height', 'auto').css('height', el.scrollHeight + offset);
+            };
+
+            $(this).on('keyup input', function() { resizeTextarea(this); }).removeAttr('data-autoresize');
+        });
     }
 
     // validate url image
@@ -365,11 +377,11 @@ jQuery(document).ready(function () {
         var questionType = option.data('type');
         var answerId = refreshAnswerId();
 
-        if (this.questionSelected == null) {
+        if (window.questionSelected == null) {
             var endSection = $('.survey-form').find('ul.sortable').last().find('.end-section').first();
             sectionId = endSection.closest('ul.page-section.sortable').data('section-id');
         } else {
-            sectionId = this.questionSelected.closest('ul.page-section.sortable').data('section-id');
+            sectionId = window.questionSelected.closest('ul.page-section.sortable').data('section-id');
         }
 
         $.ajax({
@@ -385,16 +397,21 @@ jQuery(document).ready(function () {
             if (data.success) {
                 var element = $('<div></div>').html(data.html).children().first();
 
-                if (this.questionSelected === null) {
-                    this.questionSelected = $(element).insertBefore(endSection);
+                if (window.questionSelected === null) {
+                    window.questionSelected = $(element).insertBefore(endSection);
                 } else {
+                    // remove validation tooltip
+                    currentQuestion.find('textarea[data-toggle="tooltip"], input[data-toggle="tooltip"]').each(function () {
+                        $(`#${$(this).attr('aria-describedby')}`).remove();
+                    });
+
                     currentQuestion.replaceWith(element);
-                    this.questionSelected = element;
+                    window.questionSelected = element;
                 }
 
-                this.questionSelected.find('div.survey-select-styled').
-                    html(this.questionSelected.find(`ul.survey-select-options li[data-type="${questionType}"]`).html());
-                this.questionSelected.click();
+                window.questionSelected.find('div.survey-select-styled').
+                    html(window.questionSelected.find(`ul.survey-select-options li[data-type="${questionType}"]`).html());
+                window.questionSelected.click();
 
                 // add sortable event for multiple choice
                 if (questionType == 3) {
@@ -405,6 +422,12 @@ jQuery(document).ready(function () {
                 if (questionType == 4) {
                     checkboxesSortable(`question_${questionId}`);
                 }
+
+                // auto resize for new textarea
+                autoResizeTextarea();
+
+                // add validation rules for question
+                addValidationRuleForQuestion(questionId);
             }
         });
     }
@@ -434,21 +457,40 @@ jQuery(document).ready(function () {
     }
 
     /**
+     * Remove element
+     */
+    
+    function removeElement(event, element) {
+        event.preventDefault();
+        // remove validation tooltip
+        element.closest('li.form-line').find('textarea[data-toggle="tooltip"], input[data-toggle="tooltip"]').each(function () {
+            $(`#${$(this).attr('aria-describedby')}`).remove();
+        });
+        element.closest('li.form-line').fadeOut(300).remove();
+        window.questionSelected = null;
+    }
+
+    /**
      * Survey validation
      */
 
     $.validator.setDefaults({
         errorPlacement: function(error, element) {
-            $(element).attr('data-toggle', 'tooltip');
-            $(element).attr('data-original-title', error.text());
-            $(element).attr('data-placement', 'auto');
-            $(element).attr('data-template', `
-                <div class="tooltip" role="tooltip">
-                    <div class="arrow tooltip-arrow-validate"></div>
-                    <div class="tooltip-inner tooltip-inner-validate"></div>
-                </div>
-            `);
-            $('.errorHighlight[data-toggle="tooltip"]').tooltip('show');
+            if (!$(element).hasClass('datetimepicker-input')) {
+                $(element).attr('data-toggle', 'tooltip');
+                $(element).attr('data-original-title', error.text());
+                $(element).attr('data-placement', 'auto');
+                $(element).attr('data-template', `
+                    <div class="tooltip" role="tooltip">
+                        <div class="arrow tooltip-arrow-validate"></div>
+                        <div class="tooltip-inner tooltip-inner-validate"></div>
+                    </div>
+                `);
+                $('.errorHighlight[data-toggle="tooltip"]').tooltip('show');
+            } else {
+                $('#end-time-error').text(error.text());
+            }
+            
             $('html, body').animate({scrollTop: $('.errorHighlight').offset().top - 100}, 500);
         },
         highlight: function(element){
@@ -458,12 +500,141 @@ jQuery(document).ready(function () {
         unhighlight: function(element){
             $(element).removeClass("errorHighlight");
             $(element).addClass("successHighlight");
-            $(element).removeAttr('data-toggle');
-            $(element).removeAttr('data-original-title');
-            $(element).removeAttr('data-placement');
-            $(element).removeAttr('data-template');
+
+            if (!$(element).hasClass('datetimepicker-input')) {
+                $(element).removeAttr('data-original-title');
+                $(element).removeAttr('data-placement');
+                $(element).removeAttr('data-template');
+                $(`#${$(element).attr('aria-describedby')}`).remove();
+            } else {
+                $('#end-time-error').empty();
+            }
         }
     });
+
+    // validate custom rules
+    
+    $.validator.addMethod('more_than_30_minutes', function (value, element) {
+        var today = new Date();
+        var dateChoose = value;
+
+        dateChoose = dateChoose.split('-')[1] + '-' + dateChoose.split('-')[0] + dateChoose.substring(5);
+
+        var endTime = new Date(Date.parse(dateChoose));
+        var validateTime = endTime.getTime() - today.getTime();
+
+        if (!endTime.length && validateTime < 1800000) {
+            return false;
+        }
+
+        return true;
+    }, Lang.get('validation.msg.more_than_30_minutes'));
+
+    $.validator.addMethod('after_start_time', function (value, element) {
+        var startTime = $('#start-time').val();
+
+        if (!startTime.length) {
+            return true;
+        }
+
+        var dateChoose = value;
+        startTime = startTime.split('-')[1] + '-' + startTime.split('-')[0] + startTime.substring(5);
+        dateChoose = dateChoose.split('-')[1] + '-' + dateChoose.split('-')[0] + dateChoose.substring(5);
+
+        startTime = new Date(Date.parse(startTime));
+        var endTime = new Date(Date.parse(dateChoose));
+        var validateTime = endTime.getTime() - startTime.getTime();
+
+        if (!endTime.length && validateTime <= 0) {
+            return false;
+        }
+
+        return true;
+    }, Lang.get('validation.msg.after_start_time'));
+    
+    // section unique rule
+    $.validator.addMethod('sectionunique', function (value, element) {
+        var parentForm = $(element).closest('form');
+        var timeRepeated = 0;
+
+        if (value.trim()) {
+            $(parentForm.find('div.form-header textarea:regex(name, ^title\\[section_.*\\]$)')).each(function () {
+                if ($(this).val() === value) {
+                    timeRepeated++;
+                }
+            });
+        }
+
+        return timeRepeated === 1 || timeRepeated === 0;
+
+    }, Lang.get('validation.msg.duplicate_section_title'));
+
+    // question unique rule
+    $.validator.addMethod('questionunique', function (value, element) {
+        var parentForm = $(element).closest('form');
+        var timeRepeated = 0;
+
+        if (value.trim()) {
+            $(parentForm.find('li.form-line.sort div.form-row textarea:regex(name, ^title\\[section_.*\\]\\[question_.*\\]$)')).each(function () {
+                if ($(this).val() === value) {
+                    timeRepeated++;
+                }
+            });
+        }
+
+        return timeRepeated === 1 || timeRepeated === 0;
+
+    }, Lang.get('validation.msg.duplicate_question_title'));
+
+    // answer unique rule
+    $.validator.addMethod('answerunique', function (value, element) {
+        var parentForm = $(element).closest('li div.element-content');
+        var timeRepeated = 0;
+
+        if (value.trim()) {
+            $(parentForm.find('input:regex(name, ^answer\\[question_.*\\]\\[answer_.*\\]\\[option_.*\\]$)')).each(function () {
+                if ($(this).val() === value) {
+                    timeRepeated++;
+                }
+            });
+        }
+
+        return timeRepeated === 1 || timeRepeated === 0;
+
+    }, Lang.get('validation.msg.duplicate_answer_title'));
+    
+    // add validation rule for section input element
+    function addValidationRuleForSection(sectionId) {
+        $(`#section_${sectionId} textarea:regex(name, ^title\\[section_.*\\]$)`).each(function () {
+            $(this).rules('add', {
+                required: true,
+                maxlength: 255,
+                sectionunique: true,
+            });
+        });
+    }
+
+    // add validation rule for question input element
+    function addValidationRuleForQuestion(questionId) {
+        $(`#question_${questionId} textarea:regex(name, ^title\\[section_.*\\]\\[question_.*\\]$)`).each(function () {
+            $(this).rules('add', {
+                required: true,
+                maxlength: 255,
+                questionunique: true,
+            });
+        });
+    }
+
+    // add validation rule for answer input element
+    function addValidationRuleForAnswer(answerId) {
+        $(`#answer_${answerId} input:regex(name, ^answer\\[question_.*\\]\\[answer_.*\\]\\[option_.*\\]$)`).each(function () {
+            $(this).rules('add', {
+                required: true,
+                maxlength: 255,
+                answerunique: true,
+            });
+        });
+    }
 
     // validation i18n
     $.extend( $.validator.messages, {
@@ -479,6 +650,10 @@ jQuery(document).ready(function () {
                 required: true,
                 maxlength: 255
             },
+            end_time: {
+                more_than_30_minutes: true,
+                after_start_time: true
+            }
         }
     });
 
@@ -495,11 +670,14 @@ jQuery(document).ready(function () {
         $('.form-line').removeClass('liselected');
         $(this).addClass('liselected');
         setScrollButtonTop($('.button-group-sidebar'), $(this).position().top - 96);
-        this.questionSelected = $(this);
+        window.questionSelected = $(this);
     });
 
     // This is for resize window
     $(function () {
+        // auto resize textarea
+        autoResizeTextarea();
+
         // add new section when page loaded
         $('#add-section-btn').click();
 
@@ -515,9 +693,21 @@ jQuery(document).ready(function () {
 
     /* Datetimepicker */
 
-    $('#start-time').datetimepicker();
+    $('#start-time').datetimepicker({
+        format: 'DD-MM-YYYY LT',
+    });
 
-    $('#end-time').datetimepicker();
+    $('#end-time').datetimepicker({
+        format: 'DD-MM-YYYY LT'
+    });
+
+    $("#start-time").on("change.datetimepicker", function (e) {
+        $('#end-time').datetimepicker('minDate', e.date);
+    });
+
+    $("#end-time").on("change.datetimepicker", function (e) {
+        $('#start-time').datetimepicker('maxDate', e.date);
+    });
 
     /**
      * Scroll button
@@ -546,20 +736,7 @@ jQuery(document).ready(function () {
     });
 
     $('.content-wrapper form').on('click', '.remove-element', function (event) {
-        event.preventDefault();
-        $(this).closest('li').fadeOut(300).remove();
-        this.questionSelected = null;
-    });
-
-    // auto resize textarea
-    $.each($('textarea[data-autoresize]'), function() {
-        var offset = this.offsetHeight - this.clientHeight;
-
-        var resizeTextarea = function(el) {
-            $(el).css('height', 'auto').css('height', el.scrollHeight + offset);
-        };
-
-        $(this).on('keyup input', function() { resizeTextarea(this); }).removeAttr('data-autoresize');
+        removeElement(event, $(this));
     });
 
     // dropdown menu select element
@@ -656,9 +833,7 @@ jQuery(document).ready(function () {
     });
 
     $('.option-menu-group .option-menu-dropdown .remove-element').click(function (event) {
-        event.preventDefault();
-        $(this).closest('li.form-line').fadeOut(300).remove();
-        this.questionSelected = null;
+        removeElement(event, $(this));
     });
 
     /**
@@ -680,10 +855,11 @@ jQuery(document).ready(function () {
             var questionId = questionElement.data('question-id');
             var answerId = refreshAnswerId();
             nextElement.data('answer-id', answerId);
+            nextElement.attr('id', `answer_${answerId}`);
             var numberOfAnswers = questionElement.data('number-answer');
             var optionId = numberOfAnswers + 1;
             nextElement.data('option-id', optionId);
-            questionElement.data('number-answer', numberOfAnswers + 1);
+            questionElement.data('number-answer', numberOfAnswers + 1); 
 
             // remove image answer
             nextElement.find('div.image-answer').remove();
@@ -701,6 +877,9 @@ jQuery(document).ready(function () {
             input.val(Lang.get('lang.option', {index: nextElement.index() + 1}));
             input.select();
             input.focus();
+
+            // add validation rule for answer input element
+            addValidationRuleForAnswer(answerId);
         } else if (e.keyCode == 8 || e.keyCode == 46) {
             var currentInput = $(this).find('input');
             var previousElement = $(this).prev();
@@ -778,6 +957,7 @@ jQuery(document).ready(function () {
         var questionId = questionElement.data('question-id');
         var answerId = refreshAnswerId();
         nextElement.data('answer-id', answerId);
+        nextElement.attr('id', `answer_${answerId}`);
         var numberOfAnswers = questionElement.data('number-answer');
         var optionId = numberOfAnswers + 1;
         nextElement.data('option-id', optionId);
@@ -799,6 +979,9 @@ jQuery(document).ready(function () {
         input.val(Lang.get('lang.option', {index: nextElement.index() + 1}));
         input.select();
         input.focus();
+
+        // add validation rule for answer input element
+        addValidationRuleForAnswer(answerId);
     });
 
     $('.survey-form').on('click', '.form-line .multiple-choice-block .other-choice .other-choice-block .add-other-choice', function (e) {
@@ -829,6 +1012,7 @@ jQuery(document).ready(function () {
             var questionId = questionElement.data('question-id');
             var answerId = refreshAnswerId();
             nextElement.data('answer-id', answerId);
+            nextElement.attr('id', `answer_${answerId}`);
             var numberOfAnswers = questionElement.data('number-answer');
             var optionId = numberOfAnswers + 1;
             nextElement.data('option-id', optionId);
@@ -850,6 +1034,9 @@ jQuery(document).ready(function () {
             input.val(Lang.get('lang.option', {index: nextElement.index() + 1}));
             input.select();
             input.focus();
+
+            // add validation rule for answer input element
+            addValidationRuleForAnswer(answerId);
         } else if (e.keyCode == 8 || e.keyCode == 46) {
             var currentInput = $(this).find('input');
             var previousElement = $(this).prev();
@@ -926,6 +1113,7 @@ jQuery(document).ready(function () {
         var questionId = questionElement.data('question-id');
         var answerId = refreshAnswerId();
         nextElement.data('answer-id', answerId);
+        nextElement.attr('id', `answer_${answerId}`);
         var numberOfAnswers = questionElement.data('number-answer');
         var optionId = numberOfAnswers + 1;
         nextElement.data('option-id', optionId);
@@ -947,6 +1135,9 @@ jQuery(document).ready(function () {
         input.val(Lang.get('lang.option', {index: nextElement.index() + 1}));
         input.select();
         input.focus();
+
+        // add validation rule for answer input element
+        addValidationRuleForAnswer(answerId);
     });
 
     $('.survey-form').on('click', '.form-line .checkboxes-block .other-checkbox .other-checkbox-block .add-other-checkbox', function (e) {
@@ -969,11 +1160,11 @@ jQuery(document).ready(function () {
         var questionId = refreshQuestionId();
         var answerId = refreshAnswerId();
 
-        if (this.questionSelected == null) {
+        if (window.questionSelected == null) {
             var endSection = $('.survey-form').find('ul.sortable').last().find('.end-section').first();
             sectionId = endSection.closest('ul.page-section.sortable').data('section-id');
         } else {
-            sectionId = this.questionSelected.closest('ul.page-section.sortable').data('section-id');
+            sectionId = window.questionSelected.closest('ul.page-section.sortable').data('section-id');
         }
 
         $.ajax({
@@ -988,20 +1179,26 @@ jQuery(document).ready(function () {
         .done(function (data) {
             if (data.success) {
                 var element = $('<div></div>').html(data.html).children().first();
-
-                if (this.questionSelected == null) {
-                    this.questionSelected = $(element).insertBefore(endSection);
+                
+                if (window.questionSelected == null) {
+                    window.questionSelected = $(element).insertBefore(endSection);
                 } else {
-                    this.questionSelected = $(element).insertAfter(this.questionSelected);
+                    window.questionSelected = $(element).insertAfter(window.questionSelected);
                 }
 
-                this.questionSelected.click();
+                window.questionSelected.click();
 
                 // add sortable event for multiple choice
                 multipleChoiceSortable(`question_${questionId}`);
 
+                // auto resize for new textarea
+                autoResizeTextarea();
+
                 // scroll to question element
                 scrollToQuestion(questionId);
+
+                // add validation rules for question
+                addValidationRuleForQuestion(questionId);
             }
         });
     });
@@ -1012,11 +1209,11 @@ jQuery(document).ready(function () {
         var sectionId = refreshSectionId();
         var questionId = refreshQuestionId();
 
-        if (this.questionSelected == null) {
+        if (window.questionSelected == null) {
             var endSection = $('.survey-form').find('ul.sortable').last().find('.end-section').first();
             sectionId = endSection.closest('ul.page-section.sortable').data('section-id');
         } else {
-            sectionId = this.questionSelected.closest('ul.page-section.sortable').data('section-id');
+            sectionId = window.questionSelected.closest('ul.page-section.sortable').data('section-id');
         }
 
         $.ajax({
@@ -1031,16 +1228,22 @@ jQuery(document).ready(function () {
             if (data.success) {
                 var element = $('<div></div>').html(data.html).children().first();
 
-                if (this.questionSelected == null) {
-                    this.questionSelected = $(element).insertBefore(endSection);
+                if (window.questionSelected == null) {
+                    window.questionSelected = $(element).insertBefore(endSection);
                 } else {
-                    this.questionSelected = $(element).insertAfter(this.questionSelected);
+                    window.questionSelected = $(element).insertAfter(window.questionSelected);
                 }
 
-                this.questionSelected.click();
+                window.questionSelected.click();
+
+                // auto resize for new textarea
+                autoResizeTextarea();
 
                 // scroll to title description element
                 scrollToQuestion(questionId);
+
+                // add validation rules for question
+                addValidationRuleForQuestion(questionId);
             }
         });
     });
@@ -1071,9 +1274,7 @@ jQuery(document).ready(function () {
                 $('.total-section').html(numberOfSections + 1);
                 formSortable();
                 $('.option-menu-group .option-menu-dropdown .remove-element').click(function (event) {
-                    event.preventDefault();
-                    $(this).closest('li.form-line').fadeOut(300).remove();
-                    this.questionSelected = null;
+                    removeElement(event, $(this));
                 });
 
                 element.find('li.sort').first().click();
@@ -1081,23 +1282,32 @@ jQuery(document).ready(function () {
                 // add multiple sortable event
                 multipleChoiceSortable(`question_${questionId}`);
 
-                // add validation rules for questions
-                $(`#question_${questionId} textarea:regex(name, ^title\\[section_.*\\]\\[question_.*\\])`).each(function () {
+                $(`#section_${sectionId} textarea:regex(name, ^title\\[section_.*\\])`).each(function () {
                     $(this).rules('add', {
                         required: true,
                         maxlength: 255,
                     });
                 });
 
+                // add validation rules for section and question
+                addValidationRuleForSection(sectionId);
+                addValidationRuleForQuestion(questionId);
+                addValidationRuleForAnswer(answerId);
+                
+
+                // auto resize for new textarea
+                autoResizeTextarea();
+
                 // scroll to section
-                scrollToSection(sectionId);
+                if (numberOfSections) {
+                    scrollToSection(sectionId);
+                }
             }
         });
     });
 
     $('#setting-btn').click(function (e) {
         e.preventDefault();
-        // e.stopPropagation();
 
         $('[data-toggle="tooltip"]').tooltip('hide');
     });
@@ -1105,6 +1315,9 @@ jQuery(document).ready(function () {
     // insert image to section
     $('#add-image-section-btn').click(function (e) {
         e.preventDefault();
+
+        $('[data-toggle="tooltip"]').tooltip('hide');
+
         var url = $(this).data('url');
         $('.btn-insert-image').remove();
         $('.btn-group-image-modal').append(`
@@ -1118,11 +1331,11 @@ jQuery(document).ready(function () {
             var sectionId = 0;
             var questionId = refreshQuestionId();
 
-            if (this.questionSelected == null) {
+            if (window.questionSelected == null) {
                 var endSection = $('.survey-form').find('ul.sortable').last().find('.end-section').first();
                 sectionId = endSection.closest('ul.page-section.sortable').data('section-id');
             } else {
-                sectionId = this.questionSelected.closest('ul.page-section.sortable').data('section-id');
+                sectionId = window.questionSelected.closest('ul.page-section.sortable').data('section-id');
             }
 
             if (imageURL) {
@@ -1140,13 +1353,13 @@ jQuery(document).ready(function () {
                     if (data.success) {
                         var element = data.html;
 
-                        if (this.questionSelected == null) {
-                            this.questionSelected = $(element).insertBefore(endSection);
+                        if (window.questionSelected == null) {
+                            window.questionSelected = $(element).insertBefore(endSection);
                         } else {
-                            this.questionSelected = $(element).insertAfter(this.questionSelected);
+                            window.questionSelected = $(element).insertAfter(window.questionSelected);
                         }
 
-                        this.questionSelected.click();
+                        window.questionSelected.click();
 
                         // scroll to image element
                         scrollToQuestion(questionId);
@@ -1163,6 +1376,9 @@ jQuery(document).ready(function () {
     // insert video to section
     $('#add-video-section-btn').click(function (e) {
         e.preventDefault();
+
+        $('[data-toggle="tooltip"]').tooltip('hide');
+
         var url = $(this).data('url');
         $('.btn-insert-video').remove();
         $('.btn-group-video-modal').append(`
@@ -1178,11 +1394,11 @@ jQuery(document).ready(function () {
                 var sectionId = 0;
                 var questionId = refreshQuestionId();
 
-                if (this.questionSelected == null) {
+                if (window.questionSelected == null) {
                     var endSection = $('.survey-form').find('ul.sortable').last().find('.end-section').first();
                     sectionId = endSection.closest('ul.page-section.sortable').data('section-id');
                 } else {
-                    sectionId = this.questionSelected.closest('ul.page-section.sortable').data('section-id');
+                    sectionId = window.questionSelected.closest('ul.page-section.sortable').data('section-id');
                 }
 
                 $.ajax({
@@ -1200,13 +1416,13 @@ jQuery(document).ready(function () {
                     if (data.success) {
                         var element = data.html;
 
-                        if (this.questionSelected == null) {
-                            this.questionSelected = $(element).insertBefore(endSection);
+                        if (window.questionSelected == null) {
+                            window.questionSelected = $(element).insertBefore(endSection);
                         } else {
-                            this.questionSelected = $(element).insertAfter(this.questionSelected);
+                            window.questionSelected = $(element).insertAfter(window.questionSelected);
                         }
 
-                        this.questionSelected.click();
+                        window.questionSelected.click();
                         $('#modal-insert-video').modal('hide');
 
                         // scroll to video element
@@ -1518,8 +1734,9 @@ jQuery(document).ready(function () {
         });
     });
 
-    $('#submit-survey-btn').click(function (e) {
+    $('#submit-survey-btn').on('click', function (e) {
         e.preventDefault();
+        e.stopPropagation();
 
         var valid = validateSurvey();
 
@@ -2068,13 +2285,20 @@ jQuery(document).ready(function () {
         var sectionId = $(this).closest('ul.page-section.sortable').data('section-id');
         var questionId = refreshQuestionId();
 
-        this.questionSelected = $(cloneElement).insertAfter($(this).closest('.form-line'));
-        $(this.questionSelected).attr('id', `question_${questionId}`);
-        $(this.questionSelected).data('question-id', questionId);
-        $(this.questionSelected).find('.question-input').attr('name', `title[section_${sectionId}][question_${questionId}]`);
-        $(this.questionSelected).find('.image-question-hidden').attr('name', `media[section_${sectionId}][question_${questionId}]`);
-        $(this.questionSelected).find('.question-description-input').attr('name', `description[section_${sectionId}][question_${questionId}]`);
-        $(this.questionSelected).find('.element-content .option').each(function (i) {
+        window.questionSelected = $(cloneElement).insertAfter($(this).closest('.form-line'));
+
+        $(window.questionSelected).attr('id', `question_${questionId}`);
+        $(window.questionSelected).data('question-id', questionId);
+
+        $(window.questionSelected).find('.question-input').attr('name', `title[section_${sectionId}][question_${questionId}]`);
+        $(window.questionSelected).find('.question-input').attr('data-autoresize', 'data-autoresize');
+
+        $(window.questionSelected).find('.image-question-hidden').attr('name', `media[section_${sectionId}][question_${questionId}]`);
+
+        $(window.questionSelected).find('.question-description-input').attr('name', `description[section_${sectionId}][question_${questionId}]`);
+        $(window.questionSelected).find('.question-description-input').attr('data-autoresize', 'data-autoresize');
+
+        $(window.questionSelected).find('.element-content .option').each(function (i) {
             i ++;
             var answerId = refreshAnswerId();
             $(this).data('answer-id', answerId);
@@ -2083,8 +2307,11 @@ jQuery(document).ready(function () {
         });
 
         // select duplicating question
-        this.questionSelected.click();
+        window.questionSelected.click();
         scrollToQuestion(questionId);
+
+        // auto resize for new textarea
+        autoResizeTextarea();
     });
 
     $('[data-toggle="tooltip"]').tooltip();
@@ -2108,16 +2335,25 @@ jQuery(document).ready(function () {
         var sectionId = refreshSectionId();
         $(pageSectionSelected).attr('id', `section_${sectionId}`);
         $(pageSectionSelected).data('section-id', sectionId);
+
         $(pageSectionSelected).find('.section-header-title').attr('name', `title[section_${sectionId}]`);
+        $(pageSectionSelected).find('.section-header-title').attr('data-autoresize', 'data-autoresize');
+
         $(pageSectionSelected).find('.section-header-description').attr('name', `description[section_${sectionId}]`);
+        $(pageSectionSelected).find('.section-header-description').attr('data-autoresize', 'data-autoresize');
 
         $(pageSectionSelected).find('.form-line').each(function () {
             var questionId = refreshQuestionId();
             $(this).attr('id', `question_${questionId}`);
             $(this).data('question-id', questionId);
+
             $(this).find('.question-input').attr('name', `title[section_${sectionId}][question_${questionId}]`);
+            $(this).find('.question-input').attr('data-autoresize', 'data-autoresize');
+
             $(this).find('.image-question-hidden').attr('name', `media[section_${sectionId}][question_${questionId}]`);
+
             $(this).find('.question-description-input').attr('name', `description[section_${sectionId}][question_${questionId}]`);
+            $(this).find('.question-description-input').attr('data-autoresize', 'data-autoresize');
             $(this).find('.element-content .option').each(function (i) {
                 i ++;
                 var answerId = refreshAnswerId();
@@ -2133,6 +2369,9 @@ jQuery(document).ready(function () {
 
         $(pageSectionSelected).find('.form-line').first().click();
         scrollToSection(sectionId);
+
+        // auto resize for new textarea
+        autoResizeTextarea();
     });
 
     // remove section
@@ -2140,6 +2379,12 @@ jQuery(document).ready(function () {
         var numberOfSections = surveyData.data('number-section');
         var currentSectionSelected = $(this).closest('.page-section');
         var prevSection = $(currentSectionSelected).prev();
+
+        // remove validation tooltip
+        currentSectionSelected.find('textarea[data-toggle="tooltip"], input[data-toggle="tooltip"]').each(function () {
+            $(`#${$(this).attr('aria-describedby')}`).remove();
+        });
+
         $(this).closest('.page-section').remove();
         surveyData.data('number-section', numberOfSections - 1);
         $('.total-section').html(numberOfSections - 1);
@@ -2168,6 +2413,11 @@ jQuery(document).ready(function () {
                 $(this).find('.image-question-hidden').attr('name', `media[section_${prevSectionId}][question_${questionId}]`);
                 $(this).find('.question-description-input').attr('name', `description[section_${prevSectionId}][question_${questionId}]`)
                 $(this).insertAfter($(prevSection).find('.form-line.sort').last());
+            });
+
+            // remove validation tooltip
+            currentSection.find('textarea[data-toggle="tooltip"], input[data-toggle="tooltip"]').each(function () {
+                $(`#${$(this).attr('aria-describedby')}`).remove();
             });
 
             $(currentSection).remove();

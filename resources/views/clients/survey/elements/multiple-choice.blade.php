@@ -2,7 +2,10 @@
 @section('element-type', config('settings.question_type.multiple_choice'))
 @section('element-content')
     <div class="col-12 multiple-choice-block">
-        <div class="form-row option choice choice-sortable" data-answer-id="{{ $answerId }}" data-option-id="{{ $optionId }}">
+        <div class="form-row option choice choice-sortable"
+            id="answer_{{ $answerId }}"
+            data-answer-id="{{ $answerId }}"
+            data-option-id="{{ $optionId }}">
             <div class="radio-choice-icon"><i class="fa fa-circle-thin"></i></div>
             <div class="col-xl-9 col-lg-9 col-md-9 col-sm-8 col-8 choice-input-block">
                 {!! Form::text("answer[question_$questionId][answer_$answerId][option_$optionId]", trans('lang.option_1'), ['class' => 'form-control']) !!}

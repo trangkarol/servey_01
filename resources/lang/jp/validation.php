@@ -133,5 +133,10 @@ return [
         'invalid_mail' => 'Please enter vali tail email.',
         'file' => 'The file upload must be type in jpeg|jpg|png||gif|bmp and at least 2MB',
         'tailmail' => 'You must enter at least one type of email',
+        'after_start_time' => 'The end of the survey must be after the start time.',
+        'more_than_30_minutes' => 'The closing time must be at least 30 minutes longer than the current time.',
+        'duplicate_section_title' => 'The title of the section is identical',
+        'duplicate_question_title' => 'There is a question that coincides with this question',
+        'duplicate_answer_title' => 'There was an answer that matched this answer',
     ],
 ];
