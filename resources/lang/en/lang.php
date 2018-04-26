@@ -150,6 +150,8 @@ return [
     'hour' => 'Hour',
     'survey_create_success' => 'Success! Has created new survey!',
     'survey_create_failed' => 'Failed! Try again!',
+    'reorder_section' => 'Reorder section',
+    'of' => 'of',
 
     /*
     | 404 page

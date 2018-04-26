@@ -14,7 +14,7 @@
                             <li class="copy-section">
                                <span>@lang('lang.duplicate_section')</span>
                             </li>
-                            <li>
+                            <li class="move-section">
                                 <span>@lang('lang.move_section')</span>
                             </li>
                             <li class="delete-section">

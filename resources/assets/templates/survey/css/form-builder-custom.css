@@ -3539,3 +3539,94 @@ input[name="quantity-answer"]::-webkit-outer-spin-button, input[type="number"]::
     padding-top: 5px;
     font-size: 14px;
 }
+
+.btn-save-reorder {
+    background: #43add0;
+    color: #fff;
+}
+
+.btn-cancel-reorder {
+    background: #929090;
+    color: #fff;
+}
+
+.btn-save-reorder:hover {
+    background: #43add0;
+    color: #fff;
+}
+
+.btn-cancel-reorder:hover {
+    background: #929090;
+    color: #fff;
+}
+
+.item-reorder {
+    text-align: center;
+    border: 1px solid #c1c1c1;
+    padding: 0px;
+    border-radius: 0px !important;
+    border-right: 3px solid transparent;
+    border-left: 3px solid transparent;
+}
+
+.item-reorder:hover {
+    border-left: 3px solid #43add0;
+}
+
+.item-reorder .item-row-reorder {
+    float: left;
+}
+
+.item-row-reorder.reorder-draggable-area {
+    width: 15%;
+    line-height: 3.9;
+    color: #999999e6;
+    cursor: pointer;
+}
+
+.item-row-reorder.section-info {
+    width: 60%;
+    text-align: left;
+}
+
+.item-row-reorder.reorder-action {
+    width: 25%;
+    line-height: 3.9;
+    cursor: pointer;
+}
+
+.bt-move-section-up {
+    width: 50%;
+}
+
+.reorder-section-title {
+    color: #343a40 !important;
+    word-break: break-all;
+}
+
+.reorder-section-info {
+    font-weight: 500 !important;
+    font-size: 13px !important;
+}
+
+.list-group-item.item-reorder.hight-light {
+    opacity: 0.8;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
+}
+
+.reorder-action .btn-move-section {
+    float: left;
+}
+
+.bt-move-section-down {
+    width: 50%;
+}
+
+.btn-cursor-default {
+    cursor: default !important;
+    color: #c1c1c1;
+}
+
+.modal {
+    z-index: 1072 !important;
+}
