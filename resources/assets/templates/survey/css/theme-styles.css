@@ -1026,14 +1026,6 @@ ul.widget.w-personal-info li {
     margin: 0;
 }
 
-.show-notice {
-    position: fixed;
-    top: 150px;
-    right: 1px;
-    width: 30%;
-    z-index: 100;
-}
-
 .btn-submit-profile {
     margin: 0px auto;
     margin-top: 20px;

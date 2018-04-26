@@ -23,6 +23,7 @@ use App\Models\Survey;
 use App\Http\Requests\UpdateSurveyRequest;
 use Predis\Connection\ConnectionException;
 use App\Http\Requests\SurveyRequest;
+use Auth;
 
 class SurveyController extends Controller
 {
@@ -66,7 +67,7 @@ class SurveyController extends Controller
         return view('clients.survey.create.create');
     }
 
-    public function store(Request $request)
+    public function store(SurveyRequest $request)
     {
         if (!$request->ajax()) {
             return response()->json([
@@ -74,11 +75,19 @@ class SurveyController extends Controller
             ]);
         }
 
-        $data = $request->data;
+        $success = true;
+        $survey = $this->surveyRepository->createSurvey(Auth::user()->id, $request->json());
+
+        if (!$survey) {
+            $success = false;
+        } else {
+            $request->session()->flash('success', trans('lang.survey_create_success'));
+        }
 
         return response()->json([
-            'success' => true,
-            'json' => $data,
+            'success' => $success,
+            'json' => $survey,
+            'redirect' => route('survey.survey.show-surveys'),
         ]);
     }
 

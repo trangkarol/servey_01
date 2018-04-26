@@ -2991,7 +2991,7 @@ li.question-active .checkboxes-block .checkbox .remove-other-checkbox-option {
 /* Style the checkmark-setting-survey/indicator */
 .container-checkbox-setting-survey .checkmark-setting-survey:after {
     left: 5px;
-    top: 3px;
+    top: 2px;
     width: 7px;
     height: 10px;
     border: solid white;
@@ -3068,9 +3068,8 @@ label.container-radio-setting-survey {
 
 .div-action-setting {
     position: absolute;
-    right: 15px;
+    right: 17px;
     line-height: 40px;
-    width: 30%;
 }
 
 .btn-action-setting-cancel, .btn-action-setting-save {
@@ -3507,4 +3506,36 @@ input[name="quantity-answer"]::-webkit-outer-spin-button, input[type="number"]::
 .tooltip-inner-validate {
     background-color: #CC0000 !important;
     font-size: 12px;
+}
+
+.setting-mail-remind-option {
+    float: left;
+}
+
+.next-remind-block {
+    float: right;
+    margin-top: 6%;
+}
+
+@media (max-width: 575px) {
+.next-remind-block {
+        float: none !important;
+        margin-top: 0%;
+    }
+}
+
+.next-remind-label {
+    font-size: 14px !important;
+    font-weight: unset !important;
+    color: #000 !important;
+}
+
+#input-email-send.error {
+    border-bottom: 2px solid #e61a2d;
+}
+
+.error-mail-send {
+    color: #e61a2d;
+    padding-top: 5px;
+    font-size: 14px;
 }

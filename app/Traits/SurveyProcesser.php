@@ -47,6 +47,19 @@ trait SurveyProcesser
                 'value' => $value,
             ];
 
+            if ($keyContent == config('settings.setting_type.reminder_email.content')) {
+                $temp['value'] = $value['type'];
+
+                if (!empty($value['next_time'])) { 
+                    $nextRemindTime = [
+                        'key' => config('settings.setting_type.next_remind_time.key'),
+                        'value' => $value['next_time'],
+                    ];
+
+                    array_push($resultData, $nextRemindTime);
+                }
+            }
+
             array_push($resultData, $temp);
         }
 

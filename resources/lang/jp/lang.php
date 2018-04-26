@@ -148,6 +148,8 @@ return [
     'time_placeholder' => 'hh:mm',
     'next' => 'Next',
     'hour' => 'Hour',
+    'survey_create_success' => 'Success! Has created new survey!',
+    'survey_create_failed' => 'Failed! Try again!',
 
     /*
     | 404 page
@@ -168,9 +170,12 @@ return [
     'by_week' => 'By week',
     'by_month' => 'By month',
     'by_quarter' => 'By quarter',
+    'by_option' => 'By option',
+    'next_remind_label' => 'The next reminder time',
     'private_this_survey' => 'Private this survey',
     'save' => 'Save',
     'cancel' => 'Cancel',
+    'mail-send-validate' => 'Email is not empty because You have checked Send a reminder email periodically',
 
     /*
         add manager

@@ -148,6 +148,8 @@ return [
     'time_placeholder' => 'hh:mm',
     'next' => 'Tiếp',
     'hour' => 'Giờ',
+    'survey_create_success' => 'Thành công! Đã tạo khảo sát mới!',
+    'survey_create_failed' => 'Thất bại! Hãy thử lại!',
 
     /*
     | 404 page
@@ -168,9 +170,12 @@ return [
     'by_week' => 'Theo tuần',
     'by_month' => 'Theo tháng',
     'by_quarter' => 'Theo quý',
+    'by_option' => 'Tùy chọn',
+    'next_remind_label' => 'Thời gian nhắc nhở kế tiếp',
     'private_this_survey' => 'Bảo mật cuộc khảo sát này?',
     'save' => 'Lưu',
     'cancel' => 'Hủy',
+    'mail-send-validate' => 'Email không được trống vì bạn đã chọn mục Gửi email nhắc nhở định kì',
 
     /*
         add manager

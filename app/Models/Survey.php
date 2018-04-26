@@ -7,7 +7,7 @@ use Carbon\Carbon;
 
 class Survey extends Model
 {
-    const OWNER = 1;
+    const OWNER = 0;
     const APPROVE = 1;
 
     protected $fillable = [

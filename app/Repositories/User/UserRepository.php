@@ -66,7 +66,7 @@ class UserRepository extends BaseRepository implements UserInterface
             ->where('email', 'like', '%' . $data['keyword'] . '%')
             ->where('id', '!=', $userId);
 
-        if (count($data['emails'])) {
+        if (!empty($data['emails']) && count($data['emails'])) {
             $users = $users->whereNotIn('email', $data['emails']);
         }
 

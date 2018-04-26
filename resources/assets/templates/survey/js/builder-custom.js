@@ -331,6 +331,67 @@ jQuery(document).ready(function () {
         return sections;
     }
 
+    // get all setting
+    function getSettings() {
+        var answerRequired = $('#survey-setting').attr('answer-required');
+        var answerLimited = $('#survey-setting').attr('answer-limited');
+        var reminderEmail = $('#survey-setting').attr('reminder-email');
+        var nextTime = $('#survey-setting').attr('time');
+        var privacy = $('#survey-setting').attr('privacy');
+
+        var settings = {
+            "answer_required" : answerRequired,
+            "answer_limited" : answerLimited,
+            "reminder_email" : {
+                "type" : reminderEmail,
+                "next_time" : nextTime
+            },
+            "privacy" : privacy
+        }
+
+        return settings;
+    }
+
+    //  get all member
+    function getMembers() {
+        var members = [];
+        var membersData = $('#members-setting').attr('members-data');
+        membersData = membersData.split('/').filter(Boolean);
+        
+        membersData.forEach(function (data) {
+            data = data.split(',');
+            var member = {};
+            // data[0] - mail suggest, data[1] - role
+            var mail = data[0].trim();
+            var role = parseInt(data[1].trim());
+
+            if (isEmail(mail) && !isNaN(role)) {
+                member.email = mail;
+                member.role = role;
+                members.push(member);
+            }
+        });
+
+        return members;
+    }
+
+    function getInvitedEmail() {
+        var invitedEmail = {};
+        subject = $('#invite-setting').attr('subject');
+        
+        if (!subject) {
+            subject = $('#survey-title').val();    
+        }
+
+        invitedEmail.subject = subject;
+        invitedEmail.message = $('#invite-setting').attr('msg');
+        emails = $('#invite-setting').attr('invite-data');
+        invitedEmail.emails = emails.split('/').filter(Boolean);
+        invitedEmail.send_mail_to_wsm = $('#invite-setting').attr('all');
+
+        return invitedEmail;
+    }
+
     function getSurvey(data = []) {
         try {
             var obj = {};
@@ -348,18 +409,16 @@ jQuery(document).ready(function () {
             obj.description = description !== undefined ? description.value : '';
 
             // invited emails
-            var invited_emails = [];
+            obj.invited_email = getInvitedEmail();
 
-            obj.invited_emails = invited_emails;
+            // settings
+            obj.setting = getSettings();
 
-            // setting
-            var setting = {};
-
-            obj.setting = setting;
+            // members
+            obj.members = getMembers();
 
             // sections
-            var sections = getSections(data);
-            obj.sections = sections;
+            obj.sections = getSections(data);
 
             return obj;
         } catch (error) {
@@ -709,6 +768,7 @@ jQuery(document).ready(function () {
         $('#start-time').datetimepicker('maxDate', e.date);
     });
 
+    $('#next-remind-time').datetimepicker();
     /**
      * Scroll button
      */
@@ -1756,17 +1816,19 @@ jQuery(document).ready(function () {
         $.ajax({
             method: 'POST',
             url: $(this).data('url'),
-            data: {
-                data: data
-            }
+            data: data
         })
         .done(function (data) {
             if (data.success) {
-                console.log(data.json);
+                $(window).attr('location', data.redirect);
+            } else {
+                var messageAlert = '<div class="show-notice"><div class="alert alert-danger alert-message alert-error-profile">';
+                messageAlert += Lang.get('lang.survey_create_failed') + '</div></div>';
+                $('#message-alert').html(messageAlert);
+                $('.alert-message').delay(3000).slideUp(300);
             }
         })
-        .fail(function (data) {
-        });
+        .fail(function (data) {});
     });
 
     // live suggest email
@@ -2010,7 +2072,7 @@ jQuery(document).ready(function () {
     }
 
     // function add email to table
-    function addEmailToTable(email) {
+    function addEmailToTable(email, role = 1) {
         var emailsMember = [];
         $('.emails-member').each(function() {
             emailsMember.push($(this).text());
@@ -2022,7 +2084,7 @@ jQuery(document).ready(function () {
             $('.table-show-email-manager tbody').append(`
                 <tr>
                     <td class="emails-member">${email}</td>
-                    <td class="roles-member">${Lang.get('lang.editor')}</td>
+                    <td class="roles-member" val="${role}">${Lang.get('lang.editor')}</td>
                     <td><a href="#" class="delete-member"><i class="fa fa-times"></i></a></td>
                 </tr>
             `);
@@ -2056,7 +2118,7 @@ jQuery(document).ready(function () {
 
     function removeEmail(email) {
         var emails = $('.emails-invite-hidden').val();
-        var arrayEmail = emails.split(',');
+        var arrayEmail = emails.split(',').filter(Boolean);
         var index = jQuery.inArray(email, arrayEmail);
 
         if (index != -1) {
@@ -2214,17 +2276,42 @@ jQuery(document).ready(function () {
         }
     });
 
-    $('#confirm-reply').change(function(event) {
+    $('#confirm-reply').change(function () {
         var check = $(this).prop('checked');
 
         if (check) {
             $('.setting-choose-confirm-reply').show('300');
             $('.setting-radio-request').removeAttr('disabled');
         } else {
-            $('.setting-choose-confirm-reply').hide('300')
+            $('.setting-choose-confirm-reply').hide('300');
             $('.setting-radio-request').attr('disabled', true);
         }
     });
+
+    function getNextRemindTime($type) {
+        var startTime = $('#start-time').val();
+        var nextTime = new Date();
+
+        if (startTime.length) {
+            nextTime = new Date(Date.parse(startTime));
+        }
+
+        switch ($type) {
+            case 'week':
+                nextTime.setDate(nextTime.getDate() + 7);
+                break;
+            case 'month':
+                nextTime.setMonth(nextTime.getMonth() + 1);
+                break;
+            case 'quarter':
+                nextTime.setMonth(nextTime.getMonth() + 3);
+                break;
+            default:
+                break;
+        }
+
+        return nextTime;
+    }
 
     $('#checkbox-mail-remind').change(function(event) {
         var check = $(this).prop('checked');
@@ -2232,26 +2319,94 @@ jQuery(document).ready(function () {
         if (check) {
             $('.setting-mail-remind').show('300');
             $('.radio-mail-remind').removeAttr('disabled');
+            $('#next-remind-time').data('datetimepicker').date(getNextRemindTime('week'));
         } else {
-            $('.setting-mail-remind').hide('300')
+            $('.setting-mail-remind').hide('300');
             $('.radio-mail-remind').attr('disabled', true);
         }
     });
 
-    $('#limit-number-answer').change(function(event) {
+    $('.setting-mail-remind-option').on('click', '#remind-by-week', function () {
+        $('#next-remind-time').data('datetimepicker').date(getNextRemindTime('week'));
+    });
+
+    $('.setting-mail-remind-option').on('click', '#remind-by-month', function () {
+        $('#next-remind-time').data('datetimepicker').date(getNextRemindTime('month'));
+    });
+
+    $('.setting-mail-remind-option').on('click', '#remind-by-quarter', function () {
+        $('#next-remind-time').data('datetimepicker').date(getNextRemindTime('quarter'));
+    });
+
+    $('.setting-mail-remind-option').on('click', '#remind-by-option', function () {
+        $('#next-remind-time').data('datetimepicker').date(new Date());
+    });
+
+    $('.next-remind-block').on('change.datetimepicker', '#next-remind-time', function() {     
+        var dateSelect = new Date($(this).val());
+        var dateStart = $('#start-time').val();
+        var dateRemindByWeek = getNextRemindTime('week');
+        var dateRemindByMonth = getNextRemindTime('month');
+        var dateRemindByQuarter = getNextRemindTime('quarter');
+
+        // if have start time
+        if (dateStart.length) {
+            dateStart = new Date(Date.parse(dateStart));
+            // next remind time must after start time 30 min
+            dateStart = new Date(dateStart.getTime() + 30 * 1000 * 60);
+            var diffdateStart = Math.round((dateStart - dateSelect) / (1000 * 60));
+
+            if (diffdateStart > 0) {
+                $('#next-remind-time').data('datetimepicker').date(dateStart);
+                return;
+            }
+        }
+
+        var dateNow = new Date();
+        var diffdateNow = Math.round((dateNow - dateSelect) / (1000 * 60));
+        
+        // if time select <= time now
+        if (diffdateNow >= 0) {
+            // next remind time must after time now 30 min
+            dateRemindMin =  new Date(dateNow.getTime() + 30 * 1000 * 60);
+            $('#next-remind-time').data('datetimepicker').date(dateRemindMin);
+            
+            return;
+        }
+
+        var diffByWeek = Math.round(Math.abs(dateRemindByWeek - dateSelect) / (1000 * 60));
+        var diffByMonth = Math.round(Math.abs(dateRemindByMonth - dateSelect) / (1000 * 60));
+        var diffByQuarter = Math.round(Math.abs(dateRemindByQuarter - dateSelect) / (1000 * 60));
+
+        if (diffByQuarter > 1) {
+            if (diffByMonth > 1) {
+                if (diffByWeek > 1) {
+                    $('#remind-by-option').prop('checked', 'checked');
+                } else {
+                    $('#remind-by-week').prop('checked', 'checked');
+                }
+            } else {
+                $('#remind-by-month').prop('checked', 'checked');
+            }
+        } else {
+            $('#remind-by-quarter').prop('checked', 'checked');
+        }
+    });
+
+    $('#limit-number-answer').change(function () {
         var check = $(this).prop('checked');
 
         if (check) {
             $('.number-limit-number-answer').show('300');
         } else {
-            $('.number-limit-number-answer').hide('300')
+            $('.number-limit-number-answer').hide('300');
         }
     });
 
     var minAnswer = parseInt($('#quantity-answer').attr('min'));
     var maxAnswer = parseInt($('#quantity-answer').attr('max'));
 
-    $('#btn-minus-quantity').click(function(event) {
+    $('#btn-minus-quantity').click(function () {
         var quantity = parseInt($('#quantity-answer').val());
 
         if (!isNaN(quantity) && quantity > minAnswer) {
@@ -2431,5 +2586,206 @@ jQuery(document).ready(function () {
             var questionId = $(prevSection).find('.form-line.sort').last().data('question-id');
             scrollToQuestion(questionId);
         }
+    });
+
+    // show subject default when subject-input empty 
+    $('#input-subject-email').on('change', function () {
+        if ($(this).val() == '') {
+            $(this).val($(this).attr('default'));
+        }
+    });
+
+    // delete message validate error
+    $('#input-email-send').on('focus', function () {
+        $(this).removeClass('error');
+        $(this).next('.error-mail-send').remove();
+    });
+
+    // btn save setting
+    $('.btn-action-setting-save').click(function () {
+        // validate required email invite if checked reminder time]
+        if ($('#checkbox-mail-remind').prop('checked')) {
+            var mailInvite = $('.div-show-all-email label.label-show-email');
+
+            if (!mailInvite.length) {
+                $('#setting-survey .nav-item-setting-survey .nav-link').last().click();
+                $('#input-email-send').addClass('error');
+                $('<div class="error-mail-send">'+ Lang.get('lang.mail-send-validate') +'</div>').insertAfter('#input-email-send');
+
+                return false;
+            }   
+        }
+
+        // save survey setting tab
+        if ($('#confirm-reply').prop('checked')) {
+            $('.setting-radio-request').each(function () {
+                if ($(this).prop('checked')) {
+                    $('#survey-setting').attr('answer-required', $(this).attr('val'));
+                }
+            });
+        } else {
+            $('#survey-setting').attr('answer-required', $('#confirm-reply').attr('default'));
+        }
+
+        if ($('#limit-number-answer').prop('checked')) {
+            $('#survey-setting').attr('answer-limited', $('#quantity-answer').val());
+        } else {
+            $('#survey-setting').attr('answer-limited', $('#limit-number-answer').attr('default'));
+        }
+
+        if ($('#checkbox-mail-remind').prop('checked')) {
+            $('.radio-mail-remind').each(function () {
+                if ($(this).prop('checked')) {
+                    $('#survey-setting').attr('reminder-email', $(this).attr('val'));
+                    $('#survey-setting').attr('time', $('#next-remind-time').val());
+                }
+            });
+        } else {
+            $('#survey-setting').attr('reminder-email', $('#checkbox-mail-remind').attr('default'));
+            $('#survey-setting').attr('time', '');
+        }
+
+        if ($('#security-survey').prop('checked')) {
+            $('#survey-setting').attr('privacy', $('#security-survey').attr('val'));
+        } else {
+            $('#survey-setting').attr('privacy', $('#security-survey').attr('default'));
+        }
+
+        // save member setting tab
+        var memberMailLists = '';
+
+        $('.table-show-email-manager .emails-member').each(function () {
+            var role = $(this).next().attr('val');
+            memberMailLists += $(this).text() + ',' + role + '/';
+        });
+
+        $('#members-setting').attr('members-data', memberMailLists);
+
+        // save invite setting tab
+        if ($('#send-to-all-wsm-acc').prop('checked')) {
+            $('#invite-setting').attr('all', $('#send-to-all-wsm-acc').attr('val'));
+        } else {
+            $('#invite-setting').attr('all', $('#send-to-all-wsm-acc').attr('default'));
+        }
+            // save mailList
+        var mailSendLists = '';
+        
+        $('.div-show-all-email .label-show-email').each(function () {
+            mailSendLists += $(this).attr('data-email') + '/';
+        })
+
+        $('#invite-setting').attr('invite-data', mailSendLists);
+            // save title mail
+        var subject = $('#input-subject-email').val();
+
+        if (!subject) {
+            subject = $('#input-subject-email').attr('default');
+        }
+
+        $('#invite-setting').attr('subject', subject);
+            // save message mail
+        $('#invite-setting').attr('msg', $('#input-email-message').val());
+    });
+
+    // btn open menu survey setting
+    $('#survey-setting-btn').on('click', function () {
+        $('#setting-survey .nav-item-setting-survey .nav-link').first().click();
+        $('#input-email-send').removeClass('error');
+        $('#input-email-send').next('.error-mail-send').remove();
+
+        // survey setting tab
+        var answerRequired = $('#survey-setting').attr('answer-required');
+        var answerLimited = $('#survey-setting').attr('answer-limited');
+        var reminderEmail = $('#survey-setting').attr('reminder-email');
+        var privacy = $('#survey-setting').attr('privacy');
+    
+        if (answerRequired != $('#confirm-reply').attr('default')) {
+            $('#confirm-reply').prop('checked', 'checked');
+            $('.setting-choose-confirm-reply').show();
+            $('.setting-radio-request').removeAttr('disabled');
+            $('.setting-radio-request').each(function () {
+                if (answerRequired == $(this).attr('val')) {
+                    $(this).prop('checked', 'checked');
+                }
+            });
+        } else {
+            $('#confirm-reply').prop('checked', '');
+            $('.setting-choose-confirm-reply').hide();
+            $('.setting-radio-request').attr('disabled', true);
+        }
+
+        if (answerLimited != $('#limit-number-answer').attr('default')) {
+            $('.number-limit-number-answer').show();
+            $('#limit-number-answer').prop('checked', 'checked');
+            $('#quantity-answer').val(answerLimited);
+        } else {
+            $('#limit-number-answer').prop('checked', '');
+            $('.number-limit-number-answer').hide();
+        }
+
+        if (reminderEmail != $('#checkbox-mail-remind').attr('default')) {
+            $('#checkbox-mail-remind').prop('checked', 'checked');
+            $('.setting-mail-remind').show();
+            $('.radio-mail-remind').removeAttr('disabled');
+            var remindTime = $('#survey-setting').attr('time');
+            $('#next-remind-time').data('datetimepicker').date(new Date(Date.parse(remindTime)));
+        } else {
+            $('#checkbox-mail-remind').prop('checked', '');
+            $('.setting-mail-remind').hide();
+            $('.radio-mail-remind').attr('disabled', true);
+        }
+
+        if (privacy != $('#security-survey').attr('default')) {
+            $('#security-survey').prop('checked', 'checked');
+        } else {
+            $('#security-survey').prop('checked', '');
+        }
+
+        // member setting tab
+        var membersData = $('#members-setting').attr('members-data');
+        membersData = membersData.split('/').filter(Boolean);
+        
+        membersData.forEach(function (data) {
+            data = data.split(',');
+            // data[0] - mail suggest, data[1] - role
+            var mail = data[0].trim();
+            var role = data[1].trim();
+
+            if (isEmail(mail)) {
+                addEmailToTable(mail, role);
+            }
+        });
+
+        // invite setting tab
+        var sendMailAllWsm = $('#invite-setting').attr('all');
+
+        if (sendMailAllWsm != $('#send-to-all-wsm-acc').attr('default')) {
+            $('#send-to-all-wsm-acc').prop('checked', 'checked');
+        } else {
+            $('#send-to-all-wsm-acc').prop('checked', '');
+        }
+
+        var mailSendLists = $('#invite-setting').attr('invite-data');
+        mailSendLists = mailSendLists.split('/').filter(Boolean);
+        mailSendLists.forEach(function (mail) {
+            if (isEmail(mail)) {
+                addLabelEmail(mail);
+            }
+        });
+
+        var subject = $('#survey-title').val();
+
+        if (subject == '') {
+            subject = $('#input-subject-email').attr('subject-default');       
+        } 
+
+        $('#input-subject-email').attr('default', subject);           
+        $('#input-subject-email').val(subject);
+
+        if ($('#invite-setting').attr('subject') != '') {
+            $('#input-subject-email').val($('#invite-setting').attr('subject'));
+        }
+
+        $('#input-email-message').val($('#invite-setting').attr('msg'));
     });
 });

@@ -7,6 +7,7 @@
     {!! Html::style(elixir(config('settings.public_template') . 'css/form-builder-custom.css')) !!}
 @endpush
 @section('content')
+    <div id="message-alert"></div>
     <div class="background-user-profile"></div>
     <!-- .cd-main-header -->
     <main class="cd-main-content">
@@ -63,7 +64,7 @@
                             data-placement="right"
                             data-trigger="hover"
                             data-toggle="tooltip" title="@lang('lang.setting')">
-                            <button type="button" class="btn btn-outline-light text-dark" data-toggle="modal" data-target="#setting-survey">
+                            <button type="button" class="btn btn-outline-light text-dark" data-toggle="modal" data-target="#setting-survey" id="survey-setting-btn">
                                 <i class="fa fa-fw fa-cog text-dark"></i>
                             </button>
                         </div>
@@ -91,6 +92,7 @@
                                 'data-autoresize',
                                 'placeholder' => trans('lang.title_placeholder'),
                                 'rows' => 1,
+                                'id' => 'survey-title',
                             ]) !!}
                         </div>
                         <label>@lang('lang.time')</label>
