@@ -357,7 +357,7 @@ jQuery(document).ready(function () {
         var members = [];
         var membersData = $('#members-setting').attr('members-data');
         membersData = membersData.split('/').filter(Boolean);
-        
+
         membersData.forEach(function (data) {
             data = data.split(',');
             var member = {};
@@ -378,9 +378,9 @@ jQuery(document).ready(function () {
     function getInvitedEmail() {
         var invitedEmail = {};
         subject = $('#invite-setting').attr('subject');
-        
+
         if (!subject) {
-            subject = $('#survey-title').val();    
+            subject = $('#survey-title').val();
         }
 
         invitedEmail.subject = subject;
@@ -518,7 +518,7 @@ jQuery(document).ready(function () {
     /**
      * Remove element
      */
-    
+
     function removeElement(event, element) {
         event.preventDefault();
         // remove validation tooltip
@@ -549,7 +549,7 @@ jQuery(document).ready(function () {
             } else {
                 $('#end-time-error').text(error.text());
             }
-            
+
             $('html, body').animate({scrollTop: $('.errorHighlight').offset().top - 100}, 500);
         },
         highlight: function(element){
@@ -572,7 +572,7 @@ jQuery(document).ready(function () {
     });
 
     // validate custom rules
-    
+
     $.validator.addMethod('more_than_30_minutes', function (value, element) {
         var today = new Date();
         var dateChoose = value;
@@ -610,7 +610,7 @@ jQuery(document).ready(function () {
 
         return true;
     }, Lang.get('validation.msg.after_start_time'));
-    
+
     // section unique rule
     $.validator.addMethod('sectionunique', function (value, element) {
         var parentForm = $(element).closest('form');
@@ -661,7 +661,7 @@ jQuery(document).ready(function () {
         return timeRepeated === 1 || timeRepeated === 0;
 
     }, Lang.get('validation.msg.duplicate_answer_title'));
-    
+
     // add validation rule for section input element
     function addValidationRuleForSection(sectionId) {
         $(`#section_${sectionId} textarea:regex(name, ^title\\[section_.*\\]$)`).each(function () {
@@ -862,6 +862,7 @@ jQuery(document).ready(function () {
         $('.survey-select-options').hide();
         $('ul.option-menu-dropdown').hide();
         $('.section-select-options').hide();
+        hideMenuSection();
         $(this).children('.option-menu').toggleClass('active').next('ul.option-menu-dropdown').toggle();
 
         return false;
@@ -919,7 +920,7 @@ jQuery(document).ready(function () {
             var numberOfAnswers = questionElement.data('number-answer');
             var optionId = numberOfAnswers + 1;
             nextElement.data('option-id', optionId);
-            questionElement.data('number-answer', numberOfAnswers + 1); 
+            questionElement.data('number-answer', numberOfAnswers + 1);
 
             // remove image answer
             nextElement.find('div.image-answer').remove();
@@ -1239,7 +1240,7 @@ jQuery(document).ready(function () {
         .done(function (data) {
             if (data.success) {
                 var element = $('<div></div>').html(data.html).children().first();
-                
+
                 if (window.questionSelected == null) {
                     window.questionSelected = $(element).insertBefore(endSection);
                 } else {
@@ -1353,7 +1354,7 @@ jQuery(document).ready(function () {
                 addValidationRuleForSection(sectionId);
                 addValidationRuleForQuestion(questionId);
                 addValidationRuleForAnswer(answerId);
-                
+
 
                 // auto resize for new textarea
                 autoResizeTextarea();
@@ -2342,7 +2343,7 @@ jQuery(document).ready(function () {
         $('#next-remind-time').data('datetimepicker').date(new Date());
     });
 
-    $('.next-remind-block').on('change.datetimepicker', '#next-remind-time', function() {     
+    $('.next-remind-block').on('change.datetimepicker', '#next-remind-time', function() {
         var dateSelect = new Date($(this).val());
         var dateStart = $('#start-time').val();
         var dateRemindByWeek = getNextRemindTime('week');
@@ -2364,13 +2365,13 @@ jQuery(document).ready(function () {
 
         var dateNow = new Date();
         var diffdateNow = Math.round((dateNow - dateSelect) / (1000 * 60));
-        
+
         // if time select <= time now
         if (diffdateNow >= 0) {
             // next remind time must after time now 30 min
             dateRemindMin =  new Date(dateNow.getTime() + 30 * 1000 * 60);
             $('#next-remind-time').data('datetimepicker').date(dateRemindMin);
-            
+
             return;
         }
 
@@ -2588,7 +2589,7 @@ jQuery(document).ready(function () {
         }
     });
 
-    // show subject default when subject-input empty 
+    // show subject default when subject-input empty
     $('#input-subject-email').on('change', function () {
         if ($(this).val() == '') {
             $(this).val($(this).attr('default'));
@@ -2613,7 +2614,7 @@ jQuery(document).ready(function () {
                 $('<div class="error-mail-send">'+ Lang.get('lang.mail-send-validate') +'</div>').insertAfter('#input-email-send');
 
                 return false;
-            }   
+            }
         }
 
         // save survey setting tab
@@ -2669,7 +2670,7 @@ jQuery(document).ready(function () {
         }
             // save mailList
         var mailSendLists = '';
-        
+
         $('.div-show-all-email .label-show-email').each(function () {
             mailSendLists += $(this).attr('data-email') + '/';
         })
@@ -2698,7 +2699,7 @@ jQuery(document).ready(function () {
         var answerLimited = $('#survey-setting').attr('answer-limited');
         var reminderEmail = $('#survey-setting').attr('reminder-email');
         var privacy = $('#survey-setting').attr('privacy');
-    
+
         if (answerRequired != $('#confirm-reply').attr('default')) {
             $('#confirm-reply').prop('checked', 'checked');
             $('.setting-choose-confirm-reply').show();
@@ -2744,7 +2745,7 @@ jQuery(document).ready(function () {
         // member setting tab
         var membersData = $('#members-setting').attr('members-data');
         membersData = membersData.split('/').filter(Boolean);
-        
+
         membersData.forEach(function (data) {
             data = data.split(',');
             // data[0] - mail suggest, data[1] - role
@@ -2776,10 +2777,10 @@ jQuery(document).ready(function () {
         var subject = $('#survey-title').val();
 
         if (subject == '') {
-            subject = $('#input-subject-email').attr('subject-default');       
-        } 
+            subject = $('#input-subject-email').attr('subject-default');
+        }
 
-        $('#input-subject-email').attr('default', subject);           
+        $('#input-subject-email').attr('default', subject);
         $('#input-subject-email').val(subject);
 
         if ($('#invite-setting').attr('subject') != '') {
@@ -2788,4 +2789,136 @@ jQuery(document).ready(function () {
 
         $('#input-email-message').val($('#invite-setting').attr('msg'));
     });
+
+    // move section
+    $('.survey-form').on('click', '.move-section', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var numberOfSections = surveyData.data('number-section');
+        $('.wrap-item-section-reorder').empty();
+
+        $('.wrap-item-section-reorder').sortable({
+            containment: '.wrap-item-section-reorder',
+            handle: '.reorder-draggable-area',
+            cursor: 'move',
+            classes: {
+                'ui-sortable-helper': 'hight-light'
+            },
+        });
+
+        $('.survey-form').find('.page-section').each(function () {
+            var sectionID = $(this).data('section-id');
+            var sectionTitle = $(this).find('.section-header-title').val();
+            var sectionIndex = $(this).find('.section-index').text();
+
+            $('.wrap-item-section-reorder').append(`
+                <li class="list-group-item item-reorder ui-sortable" id="section_${sectionID}" data-section-id="${sectionID}">
+                    <div class="item-row-reorder reorder-draggable-area ui-sortable-handle">
+                        <i class="fa fa-ellipsis-v"></i>
+                        <i class="fa fa-ellipsis-v"></i>
+                    </div>
+                    <div class="item-row-reorder section-info">
+                        <label class="reorder-section-title">${sectionTitle}</label><br>
+                        <label class="reorder-section-info">${Lang.get('lang.section')}&nbsp;
+                            <span class="reorder-section-index">${sectionIndex}</span>&nbsp;
+                            ${Lang.get('lang.of')}&nbsp;<span>${numberOfSections}</span></label>
+                    </div>
+                    <div class="item-row-reorder reorder-action">
+                         <div class="btn-move-section bt-move-section-up">
+                            <i class="fa fa-chevron-up"></i>
+                        </div>
+                        <div class="btn-move-section bt-move-section-down">
+                            <i class="fa fa-chevron-down bt-move-section-down"></i>
+                        </div>
+                    </div>
+                </li>
+            `);
+        });
+
+        markBtnDisableClick();
+        $('#modal-reorder-section').modal('show');
+    });
+
+    $('.wrap-item-section-reorder').on("sortstop", function (event, ui) {
+        markBtnDisableClick();
+        $(this).find('.item-reorder').each(function (i) {
+            $(this).find('.reorder-section-index').text(i+1);
+        });
+    });
+
+    $('.wrap-item-section-reorder').on('click', '.bt-move-section-up', function (e) {
+        e.stopPropagation();
+        var currentItemSelector = $(this).closest('.list-group-item.item-reorder');
+        var prevItemSelector = $(currentItemSelector).prev('.list-group-item.item-reorder');
+
+        if (prevItemSelector.length) {
+            var currentItem = $(currentItemSelector).detach();
+            $(currentItem).insertBefore(prevItemSelector);
+            $('.wrap-item-section-reorder').find('.item-reorder').each(function (i) {
+                $(this).find('.reorder-section-index').text(i + 1);
+            });
+            markBtnDisableClick();
+        }
+    });
+
+    $('.wrap-item-section-reorder').on('click', '.bt-move-section-down', function (e) {
+        e.stopPropagation();
+        var currentItemSelector = $(this).closest('.list-group-item.item-reorder');
+        var afterItemSelector = $(currentItemSelector).next('.list-group-item.item-reorder');
+
+        if (afterItemSelector.length) {
+            var currentItem = $(currentItemSelector).detach();
+            $(currentItem).insertAfter(afterItemSelector);
+            $('.wrap-item-section-reorder').find('.item-reorder').each(function (i) {
+                $(this).find('.reorder-section-index').text(i + 1);
+            });
+            markBtnDisableClick();
+        }
+    });
+
+    $('#btn-save-reorder').click(function (e) {
+        e.stopPropagation();
+        var prevSectionID = null;
+
+        $('.wrap-item-section-reorder').find('.list-group-item.item-reorder').each(function (){
+            var sectionID = $(this).attr('id');
+            var pageSection = $('.survey-form').find(`#${sectionID}`).clone();
+            $(`.survey-form #${sectionID}`).remove();
+
+            if (prevSectionID) {
+                $(pageSection).insertAfter($('.survey-form').find(`#${prevSectionID}`));
+            } else {
+                $(pageSection).insertAfter($('.survey-form').find('.page-section-header'));
+            }
+
+            prevSectionID = sectionID;
+        });
+
+        $('.survey-form').find('.page-section').each(function (i) {
+            $(this).find('.section-index').text(i + 1);
+        });
+        $('#modal-reorder-section').modal('hide');
+    });
+
+    function markBtnDisableClick() {
+        $('.wrap-item-section-reorder').find('.bt-move-section-up').removeClass('btn-cursor-default');
+        $('.wrap-item-section-reorder').find('.bt-move-section-down').removeClass('btn-cursor-default');
+        var firstItem = $('.wrap-item-section-reorder').find('.list-group-item.item-reorder').first();
+        $(firstItem).find('.bt-move-section-up').addClass('btn-cursor-default');
+        var lastItem = $('.wrap-item-section-reorder').find('.list-group-item.item-reorder').last();
+        $(lastItem).find('.bt-move-section-down').addClass('btn-cursor-default');
+    }
+
+    // hide menu merge with above if section is first section
+    function hideMenuSection() {
+        $('.survey-form').find('.merge-with-above').removeClass('hidden');
+        $('.survey-form').find('.move-section').removeClass('hidden');
+        var firstSection = $('.survey-form').find('.page-section').first();
+        $(firstSection).find('.merge-with-above').addClass('hidden');
+        var numberOfSections = surveyData.data('number-section');
+
+        if (numberOfSections == 1) {
+            $(firstSection).find('.move-section').addClass('hidden');
+        }
+    }
 });

@@ -78,7 +78,7 @@
                     </div>
                 </div>
                 <!-- /Scroll buttons -->
-                <ul class="clearfix form-wrapper">
+                <ul class="clearfix form-wrapper page-section-header">
                     <li class="form-line p-0">
                         <div class="form-header form-header-create">
                             <h1>@lang('lang.create_survey')</h1>
@@ -165,6 +165,7 @@
     </div>
     @include('clients.survey.elements.insert-image')
     @include('clients.survey.elements.insert-video')
+    @include('clients.survey.elements.reorder-section')
 
     <!-- pupup setting survey -->
     @include('clients.survey.create.setting')

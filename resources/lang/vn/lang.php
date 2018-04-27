@@ -150,6 +150,8 @@ return [
     'hour' => 'Giờ',
     'survey_create_success' => 'Thành công! Đã tạo khảo sát mới!',
     'survey_create_failed' => 'Thất bại! Hãy thử lại!',
+    'reorder_section' => 'Sắp xếp lại thứ tự',
+    'of' => 'của',
 
     /*
     | 404 page

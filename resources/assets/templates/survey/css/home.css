@@ -1913,6 +1913,7 @@ body.no-header-wrapper {
 /* ======= Modal ======= */
 .modal {
     overflow: auto !important;
+    z-index: 1072 !important;
 }
 
 /* ======= Bootstrap Image Gallery ======== */
