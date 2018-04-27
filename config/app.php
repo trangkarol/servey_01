@@ -190,6 +190,7 @@ return [
         Framgia\Education\Auth\FramgiaAuthServiceProvider::class,
         Mariuzzo\LaravelJsLocalization\LaravelJsLocalizationServiceProvider::class,
         Yajra\Datatables\DatatablesServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
     ],
 
     /*
@@ -244,5 +245,6 @@ return [
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'FAuth' => Framgia\Education\Auth\Facades\FramgiaAuth::class,
         'Datatables' => yajra\Datatables\Datatables::class,
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,
     ],
 ];

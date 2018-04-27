@@ -578,6 +578,11 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         return $this->model->where('token', $token)->exists();
     }
 
+    public function getSurveyByTokenManage($token)
+    {
+        return $this->model->where('token_manage', $token)->first();
+    }
+
     public function getSurveysByStatus($status)
     {
         return $this->model->where('status', $status);
