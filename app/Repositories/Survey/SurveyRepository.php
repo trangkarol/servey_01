@@ -233,7 +233,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                         // create image or video (media) of question
                         if ($question['media']) {
                             $questionMedia['user_id'] = $userId;
-                            $questionMedia['url'] = $question['media'];
+                            $questionMedia['url'] = $this->cutUrlImage($question['media']);
                             $questionMedia['type'] = config('settings.media_type.image');
                             
                             if ($question['type'] == config('settings.question_type.video')) {
@@ -259,7 +259,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                                 // create image (media) of answer
                                 if ($answer['media']) {
                                     $answerMedia['user_id'] = $userId;
-                                    $answerMedia['url'] = $answer['media'];
+                                    $answerMedia['url'] = $this->cutUrlImage($answer['media']);
                                     $answerMedia['type'] = config('settings.media_type.image');
 
                                     $answerCreated->media()->create($answerMedia);

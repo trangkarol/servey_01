@@ -17,7 +17,7 @@ class UploadImageController extends Controller
     {
         if ($request->ajax()) {
             $filePath = $this->uploadImage($request, 'image', config('settings.path_upload_image'));
-            $urlImage = Storage::url($filePath);
+            $urlImage = url('/') . Storage::url($filePath);
 
             return response()->json($urlImage);
         }

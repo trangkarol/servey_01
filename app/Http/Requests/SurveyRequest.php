@@ -39,16 +39,24 @@ class SurveyRequest extends FormRequest
             'members.*.email' => 'email|distinct',
             'members.*.role' => 'integer|in:1',
             'sections.*.title' => 'required|distinct',
-            'sections.*.questions.*.title' => 'required|distinct',
+            'sections.*.questions.*.media' => 'url',
             'sections.*.questions.*.type' => 'required|integer|between:1,9',
             'sections.*.questions.*.require' => 'required|boolean',
             'sections.*.questions.*.answers.*.type' => 'required|integer|between:1,2',
+            'sections.*.questions.*.answers.*.media' => 'url',
         ];
 
         // validation rules distinct answer in question
         $sections = $this->json()->get('sections');
         foreach ($sections as $sectionIndex => $sectionVal) {
             foreach ($sections[$sectionIndex]['questions'] as $questionIndex => $questionVal) {
+                if (!in_array($questionVal['type'], [
+                    config('settings.question_type.image'),
+                    config('settings.question_type.video'),
+                ])) {
+                    $rules['sections.*.questions.' . $questionIndex . '.title'] = 'required|distinct';
+                }
+
                 $rules['sections.' . $sectionIndex . '.questions.' . $questionIndex . '.answers.*.content'] = 'required|distinct'; 
             }
         }
