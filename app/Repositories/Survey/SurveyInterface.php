@@ -26,6 +26,8 @@ interface SurveyInterface
 
     public function checkExist($token);
 
+    public function getSurveyByTokenManage($token);
+
     public function getSurveysByStatus($status);
 
     public function getAuthSurveys();

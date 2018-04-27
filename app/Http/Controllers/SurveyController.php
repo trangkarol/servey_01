@@ -204,9 +204,18 @@ class SurveyController extends Controller
         return view('user.pages.answer', compact('surveys'));
     }
 
-    public function edit($id)
+    public function edit($tokenManage)
     {
-        //
+        // check survey owner authorization
+        // check survey exists with token manage and get data
+        
+        $survey = $this->surveyRepository->getSurveyByTokenManage($tokenManage);
+        
+        if (!$survey) {
+            return redirect()->route('survey.survey.show-surveys');
+        }
+
+        return view('clients.survey.edit.index');
     }
 
     public function update($id, Request $request)
@@ -446,7 +455,7 @@ class SurveyController extends Controller
 
             DB::beginTransaction();
             if ($survey && !$this->surveyRepository->update($id, $data)) {
-                throw new Exception("Error Processing Request", 1);
+                throw new Exception('Error Processing Request', 1);
             }
 
             DB::commit();
