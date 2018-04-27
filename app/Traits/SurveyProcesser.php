@@ -65,4 +65,16 @@ trait SurveyProcesser
 
         return $resultData;
     }
+
+    public function cutUrlImage($url)
+    {
+        $url = trim($url);
+        $webUrl = url('/');
+
+        if (strpos($url, $webUrl) === 0) {
+            $url = substr($url, strlen($webUrl));
+        }
+
+        return $url;
+    }
 }

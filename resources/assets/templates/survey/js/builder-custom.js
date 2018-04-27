@@ -2608,6 +2608,10 @@ jQuery(document).ready(function () {
         if ($('#checkbox-mail-remind').prop('checked')) {
             var mailInvite = $('.div-show-all-email label.label-show-email');
 
+            $('.error-mail-send').each(function () {
+                $(this).remove();
+            });
+
             if (!mailInvite.length) {
                 $('#setting-survey .nav-item-setting-survey .nav-link').last().click();
                 $('#input-email-send').addClass('error');
