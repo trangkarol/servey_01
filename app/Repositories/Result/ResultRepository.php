@@ -7,9 +7,9 @@ use App\Repositories\BaseRepository;
 
 class ResultRepository extends BaseRepository implements ResultInterface
 {
-    public function __construct(Result $result)
+    public function getModel()
     {
-        parent::__construct($result);
+        return Result::class;
     }
 
     public function create($answers)

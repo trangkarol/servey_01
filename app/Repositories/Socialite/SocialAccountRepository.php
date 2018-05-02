@@ -11,10 +11,9 @@ use App\Models\User;
 
 class SocialAccountRepository extends BaseRepository
 {
-
-    public function __construct(SocialAccount $socialAccount) 
+    public function getModel()
     {
-        parent::__construct($socialAccount);
+        return SocialAccount::class;
     }
 
     public function createOrGetUser($providerUser, $provider)

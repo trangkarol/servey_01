@@ -159,9 +159,8 @@ return [
 
     'survey' => [
         'status' => [
-            'block' => 0,
-            'public' => 1,
-            'private' => 2,
+            'open' => 1,
+            'close' => 2,
             'draft' => 3,
         ],
         'feature' => [

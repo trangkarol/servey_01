@@ -7,9 +7,9 @@ use App\Models\Feedback;
 
 class FeedbackRepository extends BaseRepository implements FeedbackInterface
 {
-    public function __construct(Feedback $feedback)
+    public function getModel()
     {
-        parent::__construct($feedback);
+        return Feedback::class;
     }
 
     public function create($input)

@@ -16,9 +16,9 @@ class UserRepository extends BaseRepository implements UserInterface
 {
     use FileProcesser;
 
-    public function __construct(User $user)
+    public function getModel()
     {
-        parent::__construct($user);
+        return User::class;
     }
 
     public function changeStatus($ids, $status)

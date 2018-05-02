@@ -2,28 +2,34 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
-use App\Repositories\Survey\SurveyInterface;
-use App\Repositories\Invite\InviteInterface;
-use Illuminate\Support\Facades\Mail;
+use Mail;
+use DateTime;
 use Carbon\Carbon;
-use App\Models\Survey;
+use App\Mail\ReminderEmail;
+use Illuminate\Console\Command;
+use App\Repositories\Invite\InviteInterface;
+use App\Repositories\Survey\SurveyInterface;
+use App\Repositories\Setting\SettingInterface;
 
 class ResendReminderEmailCommand extends Command
 {
+    protected $surveyRepository;
+    protected $inviteRepository;
+    protected $settingRepository;
+
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'command:resend-reminder-email';
+    protected $signature = 'command:send_reminder_email';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Resend reminder email by week, month or quarter';
+    protected $description = 'Send reminder email to invited user by week, month, quater or other setup time';
 
     /**
      * Create a new command instance.
@@ -32,11 +38,13 @@ class ResendReminderEmailCommand extends Command
      */
     public function __construct(
         SurveyInterface $surveyRepository,
-        InviteInterface $inviteRepository
+        InviteInterface $inviteRepository,
+        SettingInterface $settingRepository
     ) {
         parent::__construct();
         $this->surveyRepository = $surveyRepository;
         $this->inviteRepository = $inviteRepository;
+        $this->settingRepository = $settingRepository;
     }
 
     /**
@@ -46,66 +54,85 @@ class ResendReminderEmailCommand extends Command
      */
     public function handle()
     {
-        $surveys = $this->surveyRepository
-            ->with('user', 'settings')
-            ->whereHas('settings', function ($query) {
-                return $query->where('key', config('settings.key.reminder'))
-                    ->whereIn('value', array_values(config('settings.reminder')));
-            })
-            ->where('status', '<>', config('survey.status.block'))
-            ->get();
+        $surveys = $this->surveyRepository->whereHas('settings', function ($query) {
+            return $query->where('key', config('settings.setting_type.next_remind_time.key'))
+                ->where('value', '!=', config('settings.survey_setting.reminder_email.none'));
+        })
+        ->with([
+            'members',
+            'invites',
+            'settings' => function ($query) {
+                return $query->whereIn('key', [
+                        config('settings.setting_type.reminder_email.key'),
+                        config('settings.setting_type.next_remind_time.key'),
+                    ])
+                    ->where('value', '!=', config('settings.survey_setting.reminder_email.none'));
+            },
+        ])
+        ->where('status', config('settings.survey.status.open'))
+        ->get();
 
-        foreach ($surveys as $survey) {
-            if (!empty($survey->next_reminder_time) &&
-                $survey->next_reminder_time > Carbon::now()->subMinutes(1) &&
-                $survey->next_reminder_time < Carbon::now()->addMinutes(1)
-            ) {
-                $type = $survey->settings->whereIn('key', config('settings.key.reminder'))->toArray()[1]['value'];
-                $nextTime = Carbon::now();
+        if ($surveys->isNotEmpty()) {
+            foreach ($surveys as $survey) {
+                $settings = $survey->settings;
+                $first = $settings->first();
+                $last = $settings->last();
+                $reminderTime = $first->key == config('settings.setting_type.next_remind_time.key')
+                    ? $first->value : $last->value;
+                $reminderBy = $first->key == config('settings.setting_type.reminder_email.key')
+                    ? $first->value : $last->value;
+                $reminderTime = Carbon::parse($reminderTime);
+                $now = Carbon::now();
 
-                switch ($type) {
-                    case config('settings.reminder.week'):
-                        $nextTime->addWeek();
-                        break;
-                    case config('settings.reminder.month'):
-                        $nextTime->addMonth();
-                        break;
-                    case config('settings.reminder.quarter'):
-                        $nextTime->addQuarter();
-                        break;
-                    default:
-                        break;
+                if (!empty($reminderTime) &&
+                    $reminderTime > $now->subMinutes(1) &&
+                    $reminderTime < $now->addMinutes(1)
+                ) {
+                    $this->queueMail($survey);
+
+                    switch ($reminderBy) {
+                        case config('settings.survey_setting.reminder_email.by_week'):
+                            $reminderTime->addWeek();
+                            break;
+                        case config('settings.survey_setting.reminder_email.by_month'):
+                            $reminderTime->addMonth();
+                            break;
+                        case config('settings.survey_setting.reminder_email.by_quarter'):
+                            $reminderTime->addQuarter();
+                            break;
+                        default:
+                            break;
+                    }
+
+                    $settingId = $first->key == config('settings.setting_type.next_remind_time.key') ? $first->id : $last->id;
+                    $nextReminderTime = new Datetime($reminderTime->toDateTimeString());
+                    $nextReminderTime = $nextReminderTime->format('m/d/Y g:i A');
+                    $this->settingRepository->update($settingId, ['value' => $nextReminderTime]);
                 }
-
-                // remind: sendMail use queue, have to run "php artisan queue:work"
-                $this->sendMail($survey);
-                $survey->update(['next_reminder_time' => $nextTime]);
             }
         }
     }
 
-    public function sendMail($survey)
+    public function queueMail($survey)
     {
-        $emails = $this->inviteRepository->where('survey_id', $survey->id)->pluck('mail')->toArray();
-        if (count($emails)) {
+        $inviteEmails = explode('/', $survey->invites->first()->invite_mails);
+        $inviteEmails = array_values(array_filter($inviteEmails, 'strlen'));
+        $answerEmails = explode('/', $survey->invites->first()->answer_mails);
+        $answerEmails = array_values(array_filter($answerEmails, 'strlen'));
+        $inviteEmails = array_diff($inviteEmails, $answerEmails);
+        $numberEmails = count($inviteEmails);
+
+        if (count($inviteEmails)) {
             $data = [
                 'name' => empty($survey->user_id) ? $survey->user_name : $survey->user->name,
                 'title' => $survey->title,
                 'description' => $survey->description,
-                'link' => action($survey->feature
-                    ? 'AnswerController@answerPublic'
-                    : 'AnswerController@answerPrivate', [
-                        'token' => $survey->token,
-                    ]),
-                'emailSender' => empty($survey->user_id) ? $survey->mail : $survey->user->email,
+                'link' => url('/'),
+                'subject' => trans('lang.subject_invitation_email'),
             ];
-            $view = 'emails.email_invite';
-            $subject = trans('survey.invite');
 
-            Mail::queue($view, $data, function ($message) use ($emails, $subject) {
-                $message->from(config('mail.from.address'), trans('survey.title_web'));
-                $message->to($emails)->subject($subject);
-            });
+            Mail::to($inviteEmails)->queue(new ReminderEmail($data));
+            $this->info("Send $numberEmails emails success!");
         }
     }
 }
