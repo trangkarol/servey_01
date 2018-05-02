@@ -48,24 +48,19 @@ class Survey extends Model
         return $this->hasMany(Section::class)->orderBy('order');
     }
 
-    public function setStartTimeAttribute($value) {
+    public function setStartTimeAttribute($value)
+    {
         if (!empty($value)) {
             $this->attributes['start_time'] = Carbon::parse($value)->format('Y-m-d H:i:s');
         }
     }
 
-    public function setEndTimeAttribute($value) {
+    public function setEndTimeAttribute($value)
+    {
         if (!empty($value)) {
             $this->attributes['end_time'] = Carbon::parse($value)->format('Y-m-d H:i:s');
         }
     }
-
-    // public function getDeadlineAttribute()
-    // {
-    //     return (!empty($this->attributes['deadline']))
-    //         ? Carbon::parse($this->attributes['deadline'])->format('Y-m-d H:i:s')
-    //         : null;
-    // }
 
     // public function getIsOpenAttribute()
     // {

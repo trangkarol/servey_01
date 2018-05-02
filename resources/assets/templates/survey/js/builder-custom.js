@@ -400,10 +400,10 @@ jQuery(document).ready(function () {
             obj.title = title !== undefined ? title.value : '';
 
             var startTime = data.find(item => item.name === 'start_time');
-            obj.start_time = startTime !== undefined ? startTime.value : '';
+            obj.start_time = startTime !== undefined ? moment(startTime.value, 'DD/MM/YYYY h:mm A').format('MM/DD/YYYY h:mm A') : '';
 
             var endTime = data.find(item => item.name === 'end_time');
-            obj.end_time = endTime !== undefined ? endTime.value : '';
+            obj.end_time = endTime !== undefined ? moment(endTime.value, 'DD/MM/YYYY h:mm A').format('MM/DD/YYYY h:mm A') : '';
 
             var description = data.find(item => item.name === 'description');
             obj.description = description !== undefined ? description.value : '';
@@ -577,7 +577,7 @@ jQuery(document).ready(function () {
         var today = new Date();
         var dateChoose = value;
 
-        dateChoose = dateChoose.split('-')[1] + '-' + dateChoose.split('-')[0] + dateChoose.substring(5);
+        dateChoose = dateChoose.split('/')[1] + '-' + dateChoose.split('/')[0] + dateChoose.substring(5);
 
         var endTime = new Date(Date.parse(dateChoose));
         var validateTime = endTime.getTime() - today.getTime();
@@ -597,8 +597,8 @@ jQuery(document).ready(function () {
         }
 
         var dateChoose = value;
-        startTime = startTime.split('-')[1] + '-' + startTime.split('-')[0] + startTime.substring(5);
-        dateChoose = dateChoose.split('-')[1] + '-' + dateChoose.split('-')[0] + dateChoose.substring(5);
+        startTime = startTime.split('/')[1] + '-' + startTime.split('/')[0] + startTime.substring(5);
+        dateChoose = dateChoose.split('/')[1] + '-' + dateChoose.split('/')[0] + dateChoose.substring(5);
 
         startTime = new Date(Date.parse(startTime));
         var endTime = new Date(Date.parse(dateChoose));
@@ -738,7 +738,9 @@ jQuery(document).ready(function () {
         autoResizeTextarea();
 
         // add new section when page loaded
-        $('#add-section-btn').click();
+        if (surveyData.data('page') === 'create') {
+            $('#add-section-btn').click();
+        }
 
         $(window).bind('load resize', function () {
             var width = (this.window.innerWidth > 0) ? this.window.innerWidth : this.screen.width;
@@ -753,12 +755,21 @@ jQuery(document).ready(function () {
     /* Datetimepicker */
 
     $('#start-time').datetimepicker({
-        format: 'DD-MM-YYYY LT',
+        format: 'DD/MM/YYYY h:mm A',
     });
 
+    if ($('#start-time').data('time')) {
+        $('#start-time').data('datetimepicker').date(new Date($('#start-time').data('time')));
+    }
+
     $('#end-time').datetimepicker({
-        format: 'DD-MM-YYYY LT'
+        useCurrent: false,
+        format: 'DD/MM/YYYY h:mm A',
     });
+
+    if ($('#end-time').data('time')) {
+        $('#end-time').data('datetimepicker').date(new Date($('#end-time').data('time')));
+    }
 
     $("#start-time").on("change.datetimepicker", function (e) {
         $('#end-time').datetimepicker('minDate', e.date);
@@ -769,6 +780,7 @@ jQuery(document).ready(function () {
     });
 
     $('#next-remind-time').datetimepicker();
+
     /**
      * Scroll button
      */

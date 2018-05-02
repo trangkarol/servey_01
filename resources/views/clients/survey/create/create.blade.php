@@ -133,7 +133,7 @@
         </div>
         <!-- Content Wrapper  -->
     </main>
-    <div id="survey-data" data-number-section="0"  data-section-id="0" data-question-id="0" data-answer-id="0"></div>
+    <div id="survey-data" data-page="create" data-number-section="0"  data-section-id="0" data-question-id="0" data-answer-id="0"></div>
     <div id="element-clone">
         <div class="form-row option choice other-choice-option">
             <div class="radio-choice-icon"><i class="fa fa-circle-thin"></i></div>

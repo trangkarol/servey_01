@@ -1,11 +1,11 @@
 <li class="form-line sort title-description-element"
-    id="question_{{ $questionId }}"
-    data-question-id="{{ $questionId }}"
+    id="question_{{ $question->id }}"
+    data-question-id="{{ $question->id }}"
     data-question-type="{{ config('settings.question_type.title') }}">
     <div class="form-row draggable-area"></div>
     <div class="form-row title-block">
         <div class="col-xl-9 col-lg-9 col-md-9 col-sm-8 col-10">
-            {!! Form::textarea("title[section_$sectionId][question_$questionId]", '', [
+            {!! Form::textarea("title[section_$sectionId][question_$question->id]", $question->title, [
                 'placeholder' => trans('lang.title_section_placeholder'),
                 'class' => 'form-control input-area auto-resize question-input active',
                 'data-autoresize',
@@ -41,7 +41,7 @@
     </div>
     <div class="form-row description-input active">
         <div class="col-12">
-            {!! Form::textarea("description[section_$sectionId][question_$questionId]", '', [
+            {!! Form::textarea("description[section_$sectionId][question_$question->id]", $question->description, [
                 'class' => 'form-control question-description-input active input-area auto-resize',
                 'data-autoresize',
                 'placeholder' => trans('lang.description_section_placeholder'),
