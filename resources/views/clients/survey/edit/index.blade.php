@@ -87,7 +87,7 @@
                     <li class="form-line">
                         <label>@lang('lang.title')</label>
                         <div class="form-group">
-                            {!! Form::textarea('title', '', [
+                            {!! Form::textarea('title', $survey->title, [
                                 'class' => 'form-control input-area auto-resize',
                                 'data-autoresize',
                                 'placeholder' => trans('lang.title_placeholder'),
@@ -103,6 +103,7 @@
                                     'id' => 'start-time',
                                     'data-toggle' => 'datetimepicker',
                                     'data-target' => '#start-time',
+                                    'data-time' => $survey->start_time,
                                     'placeholder' => trans('lang.start_time__placeholder'),
                                 ]) !!}
                                 <span id="start-time-error"></span>
@@ -113,6 +114,7 @@
                                     'id' => 'end-time',
                                     'data-toggle' => 'datetimepicker',
                                     'data-target' => '#end-time',
+                                    'data-time' => $survey->end_time,
                                     'placeholder' => trans('lang.end_time__placeholder'),
                                 ]) !!}
                                 <span id="end-time-error"></span>
@@ -120,7 +122,7 @@
                         </div>
                         <label>@lang('lang.description')</label>
                         <div class="form-group">
-                            {!! Form::textarea('description', '', [
+                            {!! Form::textarea('description', $survey->description, [
                                 'class' => 'form-control auto-resize',
                                 'data-autoresize',
                                 'placeholder' => trans('lang.description_placeholder'),
@@ -129,11 +131,18 @@
                         </div>
                     </li>
                 </ul>
+                @foreach ($survey->sections as $section)
+                    @include('clients.survey.edit.elements.section', [
+                        'index' => $loop->iteration,
+                        'numberOfSections' => $loop->count,
+                        'section' => $section,
+                    ])
+                @endforeach
             {!! Form::close() !!}
         </div>
         <!-- Content Wrapper  -->
     </main>
-    <div id="survey-data" data-number-section="0"  data-section-id="0" data-question-id="0" data-answer-id="0"></div>
+    <div id="survey-data" data-page="edit" data-number-section="0"  data-section-id="0" data-question-id="0" data-answer-id="0"></div>
     <div id="element-clone">
         <div class="form-row option choice other-choice-option">
             <div class="radio-choice-icon"><i class="fa fa-circle-thin"></i></div>

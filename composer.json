@@ -26,15 +26,15 @@
         "torann/database-backup": "0.1.0",
         "framgia-education/laravel-omniauth-hrsystem": "dev-framgia",
         "mariuzzo/laravel-js-localization": "^1.4",
-        "yajra/laravel-datatables-oracle": "^6.0",
-        "barryvdh/laravel-debugbar": "~2.4"
+        "yajra/laravel-datatables-oracle": "^6.0"
     },
     "require-dev": {
         "fzaninotto/faker": "1.6.0",
         "mockery/mockery": "0.9.9",
         "phpunit/phpunit": "5.7.19",
         "symfony/css-selector": "3.1.10",
-        "symfony/dom-crawler": "3.1.10"
+        "symfony/dom-crawler": "3.1.10",
+        "barryvdh/laravel-debugbar": "~2.4"
     },
     "autoload": {
         "classmap": [

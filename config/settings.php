@@ -193,9 +193,10 @@ return [
         'send_mail_to_wsm' => [
             'none' => 0,
             'all' => 1,
-        ], 
+        ],
     ],
     'question_type' => [
+        'no_type' => 0,
         'short_answer' => 1,
         'long_answer' => 2,
         'multiple_choice' => 3,
@@ -279,7 +280,7 @@ return [
         'next_remind_time' => [
             'content' => 'next_time',
             'key' => 8,
-        ]
+        ],
     ],
 
     'checkEventOdd' => 2,
