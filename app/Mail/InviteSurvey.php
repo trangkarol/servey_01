@@ -16,11 +16,11 @@ class InviteSurvey extends Mailable implements ShouldQueue
      *
      * @return void
      */
-    protected $inputs;
+    protected $data;
 
-    public function __construct(array $inputs)
+    public function __construct($data)
     {
-        $this->inputs = $inputs;
+        $this->data = $data;
     }
 
     /**
@@ -30,6 +30,8 @@ class InviteSurvey extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        return $this->view('emails.email_invite')->with($this->inputs);
+        return $this->view('clients.email.survey.invite')
+            ->subject(trans('email.invite_email_subject'))
+            ->with($this->data);
     }
 }

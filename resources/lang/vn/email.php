@@ -57,4 +57,8 @@ return [
     'regards' => 'Trân trọng',
     'hello' => 'Xin chào!',
     'start_survey' => 'Bắt đầu',
+    'invite_email_subject' => 'Mời khảo sát',
+    'manage_email_subject' => 'Quản lý khảo sát',
+    'reminder_email_subject' => 'Nhắc nhở khảo sát',
+    'thank_you' => 'Thank you',
 ];

@@ -43,51 +43,63 @@
     $fontFamily = 'font-family: Arial, \'Helvetica Neue\', Helvetica, sans-serif;';
 @endphp
 
-@extends('clients.user.emails.master')
+@extends('clients.email.layout.master')
 @section('content')
-    @foreach (config('settings.locale') as $lang)
-        <tr>
-            <td style="{{ $style['email-body'] }}" width="100%">
-                <table style="{{ $style['email-body_inner'] }}" align="center" width="570" cellpadding="0" cellspacing="0">
-                    <tr>
-                        <td style="{{ $fontFamily }} {{ $style['email-body_cell'] }}">
-                            <!-- Greeting -->
-                            <h1 style="{{ $style['header-1'] }}">
-                                {{ Lang::choice('email.hello', 0, [], $lang) }}
-                            </h1>
+    <tr>
+        <td style="{{ $style['email-body'] }}" width="100%">
+            <table style="{{ $style['email-body_inner'] }}" align="center" width="570" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td style="{{ $fontFamily }} {{ $style['email-body_cell'] }}">
+                        <!-- Greeting -->
+                        <h1 style="{{ $style['header-1'] }}">
+                            @if (! empty($greeting))
+                                {{ $greeting }}
+                            @else
+                                @if ($level == 'error')
+                                    Whoops!
+                                @else
+                                    Hello!
+                                @endif
+                            @endif
+                        </h1>
 
-                            <!-- Intro -->
+                        <!-- Intro -->
+                        @foreach ($introLines as $line)
                             <p style="{{ $style['paragraph'] }}">
-                                {{ Lang::choice('email.participant', 0, [], $lang) }}
+                                {{ $line }}
                             </p>
-                            <p style="{{ $style['paragraph'] }}">
-                                {{ $title }}
-                            </p>
+                        @endforeach
 
-                            <!-- Action Button -->
+                        <!-- Action Button -->
+                        @if (isset($actionText))
                             <table style="{{ $style['body_action'] }}" align="center" width="100%" cellpadding="0" cellspacing="0">
                                 <tr>
                                     <td align="center">
-                                        <a href="{{ $link }}"
+                                        <a href="{{ $actionUrl }}"
                                             style="{{ $fontFamily }} {{ $style['button'] }} {{ $style['button--blue'] }}"
                                             class="button"
                                             target="_blank">
-                                            {{ Lang::choice('email.start_survey', 0, [], $lang) }}
+                                            {{ $actionText }}
                                         </a>
                                     </td>
                                 </tr>
                             </table>
+                        @endif
 
-                            <!-- Salutation -->
+                        <!-- Outro -->
+                        @foreach ($outroLines as $line)
                             <p style="{{ $style['paragraph'] }}">
-                                {{ Lang::choice('email.regards', 0, [], $lang) }},<br>{{ config('settings.fsurvey') }}
+                                {{ $line }}
                             </p>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-        <hr>
-    @endforeach
+                        @endforeach
 
+                        <!-- Salutation -->
+                        <p style="{{ $style['paragraph'] }}">
+                            @lang('lang.regards'),<br>{{ config('settings.fsurvey') }}
+                        </p>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
 @endsection

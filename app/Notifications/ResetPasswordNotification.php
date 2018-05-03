@@ -43,7 +43,7 @@ class ResetPasswordNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->view('clients.user.emails.reset-password')
+            ->view('clients.email.user.reset-password')
             ->line(trans('lang.reason_send_mail_reset'))
             ->action(trans('lang.reset_password'), route('show-form-reset', ['token' => $this->token]))
             ->line(trans('lang.thank_you_use_application'));

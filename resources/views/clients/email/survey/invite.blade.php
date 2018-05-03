@@ -27,6 +27,7 @@
         'anchor' => 'color: #3869D4;',
         'header-1' => 'margin-top: 0; color: #2F3133; font-size: 19px; font-weight: bold; text-align: left;',
         'paragraph' => 'margin-top: 0; color: #74787E; font-size: 16px; line-height: 1.5em;',
+        'title-survey' => 'margin-top: 0; color: #19c4d0; line-height: 1.5em; text-align: center; font-size: 30px; text-shadow: 2px 2px 2px #5f797d; margin-bottom: 0.5em; font-weight: bold;',
         'paragraph-sub' => 'margin-top: 0; color: #74787E; font-size: 12px; line-height: 1.5em;',
         'paragraph-center' => 'text-align: center;',
 
@@ -43,63 +44,53 @@
     $fontFamily = 'font-family: Arial, \'Helvetica Neue\', Helvetica, sans-serif;';
 @endphp
 
-@extends('clients.user.emails.master')
+@extends('clients.email.layout.master')
 @section('content')
-    <tr>
-        <td style="{{ $style['email-body'] }}" width="100%">
-            <table style="{{ $style['email-body_inner'] }}" align="center" width="570" cellpadding="0" cellspacing="0">
-                <tr>
-                    <td style="{{ $fontFamily }} {{ $style['email-body_cell'] }}">
-                        <!-- Greeting -->
-                        <h1 style="{{ $style['header-1'] }}">
-                            @if (! empty($greeting))
-                                {{ $greeting }}
-                            @else
-                                @if ($level == 'error')
-                                    Whoops!
-                                @else
-                                    Hello!
-                                @endif
-                            @endif
-                        </h1>
+    @foreach (config('settings.locale') as $lang)
+        <tr>
+            <td style="{{ $style['email-body'] }}" width="100%">
+                <table style="{{ $style['email-body_inner'] }}" align="center" width="570" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td style="{{ $fontFamily }} {{ $style['email-body_cell'] }}">
+                            <!-- Greeting -->
+                            <h1 style="{{ $style['header-1'] }}">
+                                {{ Lang::choice('email.hello', 0, [], $lang) }}
+                            </h1>
 
-                        <!-- Intro -->
-                        @foreach ($introLines as $line)
+                            <!-- Intro -->
                             <p style="{{ $style['paragraph'] }}">
-                                {{ $line }}
+                                {{ Lang::choice('email.participant', 0, [], $lang) }}
                             </p>
-                        @endforeach
+                            <p style="{{ $style['title-survey'] }}">
+                                {{ ucfirst($title) }}
+                            </p>
+                            <p style="{{ $style['paragraph'] }}">
+                                {{ ucfirst($messages) }}
+                            </p>
 
-                        <!-- Action Button -->
-                        @if (isset($actionText))
+                            <!-- Action Button -->
                             <table style="{{ $style['body_action'] }}" align="center" width="100%" cellpadding="0" cellspacing="0">
                                 <tr>
                                     <td align="center">
-                                        <a href="{{ $actionUrl }}"
+                                        <a href="{{ $link }}"
                                             style="{{ $fontFamily }} {{ $style['button'] }} {{ $style['button--blue'] }}"
                                             class="button"
                                             target="_blank">
-                                            {{ $actionText }}
+                                            {{ Lang::choice('email.start_survey', 0, [], $lang) }}
                                         </a>
                                     </td>
                                 </tr>
                             </table>
-                        @endif
 
-                        <!-- Outro -->
-                        @foreach ($outroLines as $line)
+                            <!-- Salutation -->
                             <p style="{{ $style['paragraph'] }}">
-                                {{ $line }}
+                                {{ Lang::choice('email.regards', 0, [], $lang) }},<br>{{ config('settings.fsurvey') }}
                             </p>
-                        @endforeach
-
-                        <!-- Salutation -->
-                        <p style="{{ $style['paragraph'] }}">
-                            @lang('lang.regards'),<br>{{ config('settings.fsurvey') }}
-                        </p>
-                    </td>
-                </tr>
-            </table>
-        </td>
-    </tr>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <hr>
+    @endforeach
 @endsection

@@ -57,4 +57,8 @@ return [
     'regards' => 'Regards',
     'hello' => 'Hello!',
     'start_survey' => 'Start survey',
+    'invite_email_subject' => 'Invite Survey',
+    'manage_email_subject' => 'Manage Survey',
+    'reminder_email_subject' => 'Reminder Survey',
+    'thank_you' => 'Thank you',
 ];

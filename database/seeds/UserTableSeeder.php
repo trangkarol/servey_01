@@ -48,6 +48,7 @@ class UserTableSeeder extends Seeder
                 'invite_mails' => $this->getEmailOfUser($user),
                 'answer_mails' => '',
                 'status' => config('settings.survey.invite_status.not_finish'),
+                'subject' => $survey->title,
             ]);
 
             // create sections

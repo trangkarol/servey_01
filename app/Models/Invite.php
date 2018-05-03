@@ -12,6 +12,8 @@ class Invite extends Model
         'survey_id',
         'invite_mails',
         'answer_mails',
+        'subject',
+        'message',
         'status',
     ];
 
