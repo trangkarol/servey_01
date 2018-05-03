@@ -2,21 +2,18 @@
 
 namespace App\Repositories\Question;
 
-use App\Repositories\Answer\AnswerInterface;
-use App\Repositories\BaseRepository;
-use App\Models\Answer;
-use DB;
 use Exception;
+use App\Models\Answer;
 use App\Models\Question;
 use Illuminate\Support\Collection;
+use App\Repositories\BaseRepository;
+use App\Repositories\Answer\AnswerInterface;
 
 class QuestionRepository extends BaseRepository implements QuestionInterface
 {
-    protected $answerRepository;
-
-    public function __construct(Question $question)
+    public function getModel()
     {
-        parent::__construct($question);
+        return Question::class;
     }
 
     public function deleteBySurveyId($surveyIds)

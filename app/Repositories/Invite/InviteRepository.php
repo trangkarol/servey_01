@@ -14,9 +14,9 @@ use Carbon\Carbon;
 
 class InviteRepository extends BaseRepository implements InviteInterface
 {
-    public function __construct(Invite $invite)
+    public function getModel()
     {
-        parent::__construct($invite);
+        return Invite::class;
     }
 
     public function deleteBySurveyId($surveyId)

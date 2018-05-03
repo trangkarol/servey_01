@@ -15,9 +15,9 @@ class AnswerRepository extends BaseRepository implements AnswerInterface
 {
     protected $resultRepository;
 
-    public function __construct(Answer $answer)
+    public function getModel()
     {
-        parent::__construct($answer);
+        return Answer::class;
     }
 
     public function deleteByQuestionId($questionIds)

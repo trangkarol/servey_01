@@ -22,9 +22,9 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
 {
     use SurveyProcesser;
 
-    public function __construct(Survey $survey)
+    public function getModel()
     {
-        parent::__construct($survey);
+        return Survey::class;
     }
 
     public function delete($ids)
@@ -145,8 +145,8 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
             }
 
             $surveyInputs = [
-                'title' => $data->get('title'), 
-                'description' => $data->get('description'), 
+                'title' => $data->get('title'),
+                'description' => $data->get('description'),
                 'start_time' => $data->get('start_time'),
                 'end_time' => $data->get('end_time'),
             ];
@@ -235,7 +235,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                             $questionMedia['user_id'] = $userId;
                             $questionMedia['url'] = $this->cutUrlImage($question['media']);
                             $questionMedia['type'] = config('settings.media_type.image');
-                            
+
                             if ($question['type'] == config('settings.question_type.video')) {
                                 $questionMedia['type'] = config('settings.media_type.video');
                             }
@@ -276,7 +276,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         } catch (Exception $e) {
             DB::rollback();
 
-            return false; 
+            return false;
         }
     }
 

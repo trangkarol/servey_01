@@ -2,18 +2,16 @@
 
 namespace App\Repositories\Setting;
 
-use DB;
 use Exception;
-use App\Repositories\Setting\SettingInterface;
-use App\Repositories\Survey\SurveyInterface;
-use App\Repositories\BaseRepository;
 use App\Models\Setting;
+use App\Repositories\BaseRepository;
+use App\Repositories\Setting\SettingInterface;
 
 class SettingRepository extends BaseRepository implements SettingInterface
 {
-    public function __construct(Setting $setting)
+    public function getModel()
     {
-        parent::__construct($setting);
+        return Setting::class;
     }
 
     public function delete($ids)
@@ -61,35 +59,5 @@ class SettingRepository extends BaseRepository implements SettingInterface
         }
 
         return $this->multiCreate($inputs);
-    }
-
-    public function update($surveyId, $value)
-    {
-        if (!$surveyId || !$value) {
-            return false;
-        }
-
-        $settings = $this
-            ->where('survey_id', $surveyId)
-            ->whereIn('key', config('settings.listKey'))
-            ->get();
-
-        foreach ($settings as $setting) {
-            if (!array_has($value['setting'], $setting->key) || !$value['setting'][$setting->key]) {
-                $value['setting'][$setting->key] = null;
-            }
-
-            $input = [
-                'key' => $setting->key,
-                'value' => $value['setting'][$setting->key],
-            ];
-            parent::update($setting->id, $input);
-
-            if ($setting !== end($settings)) {
-                $this->newQuery($setting);
-            }
-        }
-
-        return true;
     }
 }
