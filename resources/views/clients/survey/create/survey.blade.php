@@ -24,7 +24,7 @@
                             <h2 class="title-survey-preview">{{ $survey->title }}</h2>
                         </div>
                         <div class="form-group">
-                            <span>{{ $survey->description }}</span>
+                            <span class="description-survey">{{ $survey->description }}</span>
                         </div>
                     </li>
                     <li class="form-line content-title-section">
@@ -42,9 +42,13 @@
                             $indexQuestion = config('settings.number_0');
                         @endphp
                         @foreach ($section->questions as $question)
+                            @php
+                                $questionSetting = $question->type;
+                                $countQuestionMedia = $question->media->count();
+                            @endphp
                             <li class="li-question-review form-line">
                                 <!-- tittle -->
-                                @if ($question->type === config('settings.question_type.title'))
+                                @if ($questionSetting == config('settings.question_type.title'))
                                     <div class="title-question-preview">
                                         <span>{{ $question->title }}</span>
                                     </div>
@@ -52,40 +56,40 @@
                                         <span class="description-section">{{ $question->description }}</span>
                                     </div>
                                 <!-- video -->
-                                @elseif ($question->type === config('settings.question_type.video'))
+                                @elseif ($questionSetting == config('settings.question_type.video'))
                                     <h4 class="title-question">{{ $question->title }}</h4>
 
-                                    @if ($question->media)
+                                    @if ($countQuestionMedia)
                                         <div class="img-preview-question-survey videoWrapper">
-                                            <iframe src="{{ $question->media }}"
+                                            <iframe src="{{ $question->url_media }}"
                                                 frameborder="0">
                                             </iframe>
                                         </div>
                                     @endif
 
                                     <div class="form-group form-group-description-section">
-                                        <span>{{ $question->description }}</span>
+                                        <span class="description-question">{{ $question->description }}</span>
                                     </div>
                                 <!-- image -->
-                                @elseif ($question->type === config('settings.question_type.image'))
+                                @elseif ($questionSetting == config('settings.question_type.image'))
                                     <h4 class="title-question">{{ $question->title }}</h4>
                                     <div class="img-preview-question-survey">
-                                        {!! Html::image($question->media, '', ['title' => $question->description]) !!}
+                                        {!! Html::image($question->url_media, '', ['title' => $question->description]) !!}
                                     </div>
                                 @else
                                     <h4 class="title-question">
                                         <span class="index-question">{{ ++ $indexQuestion}}</span>{{ $question->title }}
                                     </h4>
                                     <div class="form-group">
-                                        <span>{{ $question->description }}</span>
+                                        <span class="description-question">{{ $question->description }}</span>
                                     </div>
-                                    @if ($question->media)
+                                    @if ($countQuestionMedia)
                                         <div class="img-preview-question-survey">
-                                            {!! Html::image($question->media) !!}
+                                            {!! Html::image($question->url_media) !!}
                                         </div>
                                     @endif
                                     <!-- short answer -->
-                                    @if ($question->type === config('settings.question_type.short_answer'))
+                                    @if ($questionSetting == config('settings.question_type.short_answer'))
                                         <div class="item-answer">
                                             <div class="magic-box-preview short-answer-preview">
                                                 {!! Form::textarea('', '', ['class' => 'input-answer-other auto-resize',
@@ -94,7 +98,7 @@
                                             </div>
                                         </div>
                                     <!-- long answer -->
-                                    @elseif ($question->type === config('settings.question_type.long_answer'))
+                                    @elseif ($questionSetting == config('settings.question_type.long_answer'))
                                         <div class="item-answer">
                                             <div class="magic-box-preview long-answer-preview">
                                                 {!! Form::textarea('', '', ['class' => 'input-answer-other auto-resize',
@@ -103,16 +107,16 @@
                                             </div>
                                         </div>
                                     <!-- multi choice -->
-                                    @elseif ($question->type === config('settings.question_type.multiple_choice'))
+                                    @elseif ($questionSetting == config('settings.question_type.multiple_choice'))
                                         @foreach ($question->answers as $answer)
                                             <div class="item-answer">
-                                                @if ($answer->media)
+                                                @if ($answer->media->count())
                                                     <div class="img-preview-answer-survey img-radio-preview">
-                                                        {!! Html::image($answer->media, '',
+                                                        {!! Html::image($answer->url_media, '',
                                                             ['class' => 'img-answer']) !!}
                                                     </div>
                                                 @endif
-                                                @if ($answer->type === config('settings.anser_type.option_other'))
+                                                @if ($answer->type == config('settings.anser_type.option_other'))
                                                     <label class="container-radio-setting-survey">@lang('lang.other')
                                                         {!! Form::radio('answer', '', false, ['class' => 'radio-answer-preview']) !!}
                                                         <span class="checkmark-radio"></span>
@@ -129,16 +133,16 @@
                                             </div>
                                         @endforeach
                                     <!-- check boxes -->
-                                    @elseif ($question->type === config('settings.question_type.checkboxes'))
+                                    @elseif ($questionSetting == config('settings.question_type.checkboxes'))
                                         @foreach ($question->answers as $answer)
                                             <div class="item-answer">
-                                                @if ($answer->media)
+                                                @if ($answer->media->count())
                                                     <div class="img-preview-answer-survey img-checkbox-preview">
-                                                        {!! Html::image($answer->media, '',
+                                                        {!! Html::image($answer->url_media, '',
                                                             ['class' => 'img-answer']) !!}
                                                     </div>
                                                 @endif
-                                                @if ($answer->type === config('settings.anser_type.option_other'))
+                                                @if ($answer->type == config('settings.anser_type.option_other'))
                                                     <label class="container-checkbox-setting-survey">
                                                         <span>@lang('lang.other')</span>
                                                         {!! Form::checkbox('', '', false, ['class' => 'checkbox-answer-preview']) !!}
@@ -157,7 +161,7 @@
                                             </div>
                                         @endforeach
                                     <!-- date -->
-                                    @elseif ($question->type === config('settings.question_type.date'))
+                                    @elseif ($questionSetting == config('settings.question_type.date'))
                                         <div class="item-answer">
                                             <span class="description-date-time">@lang('lang.date') :</span>
                                             <div class="input-group date">
@@ -167,7 +171,7 @@
                                             </div>
                                         </div>
                                     <!-- time -->
-                                    @elseif ($question->type === config('settings.question_type.time'))
+                                    @elseif ($questionSetting == config('settings.question_type.time'))
                                         <div class="item-answer">
                                             <span class="description-date-time">@lang('lang.hour') :</span>
                                             <div class="input-group date">
@@ -182,15 +186,16 @@
                         @endforeach
 
                         <li class="li-question-review form-line">
-                            @if ($numOfSection > config('settings.number_1'))
-                                @if (config('settings.number_0') !== $currentSection)
-                                    <a href="{{ route('survey.create.preview.previous') }}"
-                                        class="btn-action-preview">@lang('lang.previous')</a>
-                                @endif
-                                @if ($numOfSection - config('settings.number_1') !== $currentSection)
-                                    <a href="{{ route('survey.create.preview.next') }}"
-                                        class="btn-action-preview">@lang('lang.next')</a>
-                                @endif
+                            @if ($currentSection > config('settings.section_order_default'))
+                                <a href="{{ route('survey.create.previous-section-survey', $survey->token) }}"
+                                    class="btn-action-preview">@lang('lang.previous')</a>
+                            @endif
+                            @if ($numOfSection > $currentSection)
+                                <a href="{{ route('survey.create.next-section-survey', $survey->token) }}"
+                                    class="btn-action-preview">@lang('lang.next')</a>
+                            @endif
+                            @if ($numOfSection == $currentSection || $numOfSection == config('settings.number_1'))
+                                {!! Form::button(trans('profile.send'), ['class' => 'btn-action-preview btn-action-preview-submit']) !!}
                             @endif
                         </li>
                     </ul>

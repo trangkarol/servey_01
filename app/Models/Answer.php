@@ -40,4 +40,14 @@ class Answer extends Model
     {
         return (mb_strlen($this->attributes['content']) > 50) ? mb_substr($this->attributes['content'], 0, 50) . '...' : $this->attributes['content'];
     }
+
+    public function getTypeAttribute()
+    {
+        return $this->settings->first()->key;
+    }
+
+    public function getUrlMediaAttribute()
+    {
+        return $this->media->first()->url;
+    }
 }

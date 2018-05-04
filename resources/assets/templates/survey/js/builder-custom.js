@@ -258,7 +258,7 @@ jQuery(document).ready(function () {
 
             var type = 2; // Other option
 
-            if ($(element).hasClass('choice-sortable')) {
+            if ($(element).hasClass('choice-sortable') || $(element).hasClass('checkbox-sortable')) {
                 type = 1; // Option
             }
 
@@ -1840,8 +1840,36 @@ jQuery(document).ready(function () {
                 $('#message-alert').html(messageAlert);
                 $('.alert-message').delay(3000).slideUp(300);
             }
+        });
+    });
+
+    //preview
+
+    $('#preview-survey-btn').click(function (e) {
+        e.preventDefault();
+
+        var valid = validateSurvey();
+        var urlLocation = $(this).attr('url-location');
+        var dataArray = $('form.survey-form').serializeArray();
+        var survey = getSurvey(dataArray);
+        var data = JSON.stringify(survey);
+
+        if (!valid || !survey) {
+            return;
+        }
+
+        $.ajax({
+            method: 'POST',
+            url: $(this).data('url'),
+            data: {
+                data: data
+            }
         })
-        .fail(function (data) {});
+        .done(function (data) {
+            if (data.success) {
+                window.open(urlLocation);
+            }
+        });
     });
 
     // live suggest email

@@ -80,7 +80,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
 
                         foreach ($question->answers as $answer) {
                             if ($totalAnswerResults) {
-                                if ($answer->settings()->first()->key == config('settings.answer_type.other_option')) {
+                                if ($answer->type == config('settings.answer_type.other_option')) {
                                     $answerOthers = $answer->results->groupBy('content');
 
                                     foreach ($answerOthers as $answerOther) {
@@ -109,7 +109,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                                 }
                             }
                         }
-                    } elseif ($question->settings()->first()->key == config('settings.question_type.title')) {
+                    } elseif ($question->type == config('settings.question_type.title')) {
                         $temp[] = [
                             'content' => $question->title,
                         ];
@@ -118,7 +118,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
 
                 $questionResult[] = [
                     'question' => $question,
-                    'question_type' => $question->settings()->first()->key,
+                    'question_type' => $question->type,
                     'count_answer' => $totalAnswerResults,
                     'answers' => $temp,
                 ];
@@ -605,5 +605,22 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
             ->pluck('survey_id');
 
         return $this->model->whereIn('id', $surveyIds)->get();
+    }
+
+    //get survey by token
+    public function getSurvey($token)
+    {
+        return $this->model->where('token', $token)->with(['sections.questions' => function ($query) {
+            $query->with(['settings', 'media',
+                'answers' => function ($queryAnswer) {
+                    $queryAnswer->with('settings', 'media');
+                }]);
+            }])->first();
+    }
+
+    //get section current
+    public function getSectionCurrent($survey, $currentSection)
+    {
+        return $survey->sections->where('order', $currentSection)->first();
     }
 }

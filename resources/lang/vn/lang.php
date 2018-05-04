@@ -152,6 +152,7 @@ return [
     'survey_create_failed' => 'Thất bại! Hãy thử lại!',
     'reorder_section' => 'Sắp xếp lại thứ tự',
     'of' => 'của',
+    'previous' => 'Quay lại',
 
     /*
     | 404 page
@@ -197,4 +198,6 @@ return [
     'add_video' => 'Thêm video',
     'add_section' => 'Thêm phần',
     'setting' => 'Cài đặt',
+    'other' => 'Khác:',
+    'preview' => 'Xem trưóc',
 ];

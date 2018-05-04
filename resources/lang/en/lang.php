@@ -152,6 +152,7 @@ return [
     'survey_create_failed' => 'Failed! Try again!',
     'reorder_section' => 'Reorder section',
     'of' => 'of',
+    'previous' => 'Previous',
 
     /*
     | 404 page
@@ -197,4 +198,6 @@ return [
     'add_video' => 'Add video',
     'add_section' => 'Add section',
     'setting' => 'Setting',
+    'other' => 'Other:',
+    'preview' => 'Preview',
 ];

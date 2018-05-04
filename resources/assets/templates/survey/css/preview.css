@@ -44,13 +44,14 @@ li.form-line.content-title-section {
     padding-top:  0px;
     background: #43add0;
     color: #fff;
+    box-shadow: 0px 10px 25px 0px rgba(0, 0, 0, 0.07);
 }
 
 h3.title-section {
     padding-top: 20px;
     line-height: 32px;
     font-size: 24px;
-    word-break: break-all;
+    word-break: break-word;
 }
 
 .form-group.form-group-description-section {
@@ -99,18 +100,23 @@ input.input-answer-other:focus {
 
 .item-answer {
     padding-top: 15px;
+    word-break: break-word;
 }
 
 h4.title-question {
     font-size: 20px;
     color: #000;
-    word-break: break-all;
+    word-break: break-word;
     line-height: 30px;
+    font-weight: bold;
 }
 
 h2.title-survey-preview {
-    color: #131313bd;
-    font-size: 29px;
+    color: #000000;
+    font-size: 2rem;
+    font-weight: bold;
+    text-shadow: 1px 1px 0 #a0a0a0;
+    word-break: break-word;
 }
 
 .btn-action-preview {
@@ -157,6 +163,7 @@ h2.title-survey-preview {
     background-size: 100% 100%;
     margin-bottom: 10px;
     font-size: 22px;
+    word-break: break-word !important;
 }
 
 .img-preview-answer-survey {
@@ -196,6 +203,17 @@ h2.title-survey-preview {
     border-bottom: 1px solid #ced4da;
 }
 
+span.index-question {
+    margin-right: 10px;
+    background: #43add1;
+    border-radius: 50%;
+    height: 30px;
+    display: inline-block;
+    width: 30px;
+    text-align: center;
+    color: #fff;
+}
+
 .magic-box-preview::after, .magic-box-preview::before {
     content: ' ';
     width:0%;
@@ -218,11 +236,31 @@ h2.title-survey-preview {
     width:100%;
 }
 
+span.description-survey {
+    color: #040f25;
+    font-size: 13px;
+}
+
+span.description-section {
+    color: #fff;
+    font-size: 13px;
+}
+
 span.description-date-time {
     font-size: 13px;
     padding-left: 2px;
     display: block;
     padding-top: 10px;
+}
+
+span.description-question {
+    color: #1a2b53;
+    font-size: 13px;
+}
+
+.bootstrap-datetimepicker-widget.dropdown-menu {
+    width: 15rem !important;
+    box-shadow: 0px 0px 4px 0px #012e3e94;
 }
 
 @media (max-width: 1200px) {
@@ -256,6 +294,21 @@ span.description-date-time {
 
     ul.content-margin-top-preview {
         margin-top: 40px !important;
+    }
+    
+    .videoWrapper {
+        position: relative;
+        padding-bottom: 56.25%; /* 16:9 */
+        padding-top: 25px;
+        height: 0;
+    }
+    
+    .videoWrapper iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
     }
 }
 

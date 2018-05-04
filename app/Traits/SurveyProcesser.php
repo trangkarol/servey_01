@@ -2,6 +2,8 @@
 
 namespace App\Traits;
 
+use Session;
+
 trait SurveyProcesser
 {
     public function formatInviteMailsString($data)
@@ -76,5 +78,16 @@ trait SurveyProcesser
         }
 
         return $url;
+    }
+
+    public function reloadPage($key, $numOfSection, $section_order)
+    {
+        if (isset($_SERVER['HTTP_CACHE_CONTROL']) && $_SERVER['HTTP_CACHE_CONTROL'] === config('settings.detect_page_refresh')) {
+            Session::put($key, $section_order);
+        } elseif (!Session::has($key) ||
+            Session::get($key) > $numOfSection ||
+            Session::get($key) < $section_order) {
+                Session::put($key, $section_order);
+        }
     }
 }
