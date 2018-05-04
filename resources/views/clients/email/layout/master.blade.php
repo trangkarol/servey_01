@@ -27,11 +27,11 @@
             <td style="{{ $style['email-wrapper'] }}" align="center">
                 <table width="100%" cellpadding="0" cellspacing="0">
                     <!-- Logo -->
-                   @include('clients.user.emails.header')
+                   @include('clients.email.layout.header')
                     <!-- Email Body -->
                    @yield('content')
                     <!-- Footer -->
-                    @include('clients.user.emails.footer')
+                    @include('clients.email.layout.footer')
                 </table>
             </td>
         </tr>

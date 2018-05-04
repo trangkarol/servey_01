@@ -17,6 +17,9 @@ use Carbon\Carbon;
 use App\Models\Survey;
 use Auth;
 use App\Traits\SurveyProcesser;
+use App\Mail\ManageSurvey;
+use App\Mail\InviteSurvey;
+use Mail;
 
 class SurveyRepository extends BaseRepository implements SurveyInterface
 {
@@ -155,7 +158,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
             $surveyInputs['feature'] = config('settings.survey.feature.default');
             $surveyInputs['token'] = md5(uniqid(rand(), true));
             $surveyInputs['token_manage'] = md5(uniqid(rand(), true));
-            $surveyInputs['status'] = config('settings.survey.status.public');
+            $surveyInputs['status'] = config('settings.survey.status.open');
 
             $survey = parent::create($surveyInputs);
 
@@ -164,12 +167,12 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
             }
 
             //create owner
-            $survey->members()->attach($userId, [
+            $owner = $survey->members()->attach($userId, [
                 'role' => Survey::OWNER,
                 'status' => Survey::APPROVE,
             ]);
 
-            // create member
+            // create members
             foreach ($data['members'] as $member) {
                 $memberId = app(UserInterface::class)->where('email', $member['email'])->first()->id;
                 $survey->members()->attach($memberId, [
@@ -184,9 +187,11 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
             if ($inviteData['emails']) {
                 $invite_mails = $this->formatInviteMailsString($inviteData['emails']);
 
-                $survey->invites()->create([
+                $survey->invite()->create([
                     'invite_mails' => $invite_mails,
                     'answer_mails' => '',
+                    'subject' => $inviteData['subject'],
+                    'message' => $inviteData['message'],
                     'status' => config('settings.survey.invite_status.not_finish'),
                 ]);
             }
@@ -226,9 +231,9 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                         $questionCreated = $sectionCreated->questions()->create($questionData);
 
                         // create type question on setting
-                        $questionSetting['key'] = config('settings.setting_type.question_type.key');
-                        $questionSetting['value'] = $question['type'];
-                        $questionCreated->settings()->create($questionSetting);
+                        $questionCreated->settings()->create([
+                            'key' => $question['type'],
+                        ]);
 
                         // create image or video (media) of question
                         if ($question['media']) {
@@ -252,9 +257,9 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                                 $answerCreated = $questionCreated->answers()->create($answerData);
 
                                 // create type answer on setting
-                                $answerSetting['key'] = config('settings.setting_type.answer_type.key');
-                                $answerSetting['value'] = $answer['type'];
-                                $answerCreated->settings()->create($answerSetting);
+                                $answerCreated->settings()->create([
+                                    'key' => $answer['type'],
+                                ]);
 
                                 // create image (media) of answer
                                 if ($answer['media']) {
@@ -270,13 +275,35 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                 }
             }
 
+            // send mail manage to owner
+            $emailData = [
+                'name' => Auth::user()->name,
+                'title' => $data['invited_email']['subject'],
+                'messages' => $data['invited_email']['message'],
+                'description' => $survey->description,
+                'linkManage' => route('surveys.edit', $survey->token_manage),
+                'link' => route('survey.create.do-survey', $survey->token),
+            ];
+
+            Mail::to(Auth::user()->email)->queue(new ManageSurvey($emailData));
+
+            // send mail manage to members
+            foreach ($data['members'] as $member) {
+                $emailData['name'] = app(UserInterface::class)->where('email', $member['email'])->first()->name;
+                Mail::to($member['email'])->queue(new ManageSurvey($emailData));
+            }
+
+            // send mail invite
+            Mail::to($inviteData['emails'])->queue(new InviteSurvey($emailData));
+
             DB::commit();
 
             return $survey;
         } catch (Exception $e) {
             DB::rollback();
 
-            return false;
+            // return false;
+            return $e->getMessage();
         }
     }
 

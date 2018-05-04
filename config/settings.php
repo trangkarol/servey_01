@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'title_web' => 'FSurvey',
     'image_system' => '/user/images/',
     'image_user_default' => '/templates/survey/images/default_user.png',
     'background_profile' => '/templates/survey/images/background_profile.jpg',
@@ -289,14 +290,6 @@ return [
     'number_1' => 1,
     'number_100' => 100,
     'limit_answer_content' => 80,
-    'anser_type' => [
-        'option' => 1,
-        'option_other' => 2,
-    ],
-    'question_require' => [
-        'require' => 0,
-        'not_require' => 1,
-    ],
     'detect_page_refresh' => 'max-age=0',
     'section_show_default' => 0,
     'section_order_default' => 1,

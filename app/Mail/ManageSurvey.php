@@ -7,7 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class ReminderEmail extends Mailable
+class ManageSurvey extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -18,7 +18,7 @@ class ReminderEmail extends Mailable
      *
      * @return void
      */
-    public function __construct(array $data)
+    public function __construct($data)
     {
         $this->data = $data;
     }
@@ -30,8 +30,8 @@ class ReminderEmail extends Mailable
      */
     public function build()
     {
-        return $this->view('clients.email.survey.invite')
-            ->subject(trans('email.reminder_email_subject'))
+        return $this->view('clients.email.survey.manage')
+            ->subject(trans('email.manage_email_subject'))
             ->with($this->data);
     }
 }

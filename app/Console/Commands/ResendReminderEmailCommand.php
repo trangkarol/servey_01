@@ -60,7 +60,7 @@ class ResendReminderEmailCommand extends Command
         })
         ->with([
             'members',
-            'invites',
+            'invite',
             'settings' => function ($query) {
                 return $query->whereIn('key', [
                         config('settings.setting_type.reminder_email.key'),
@@ -115,20 +115,19 @@ class ResendReminderEmailCommand extends Command
 
     public function queueMail($survey)
     {
-        $inviteEmails = explode('/', $survey->invites->first()->invite_mails);
+        $inviteEmails = explode('/', $survey->invite->invite_mails);
         $inviteEmails = array_values(array_filter($inviteEmails, 'strlen'));
-        $answerEmails = explode('/', $survey->invites->first()->answer_mails);
+        $answerEmails = explode('/', $survey->invite->answer_mails);
         $answerEmails = array_values(array_filter($answerEmails, 'strlen'));
         $inviteEmails = array_diff($inviteEmails, $answerEmails);
         $numberEmails = count($inviteEmails);
 
         if (count($inviteEmails)) {
             $data = [
-                'name' => empty($survey->user_id) ? $survey->user_name : $survey->user->name,
-                'title' => $survey->title,
+                'title' => $survey->invite->subject,
+                'messages' => $survey->invite->message,
                 'description' => $survey->description,
-                'link' => url('/'),
-                'subject' => trans('lang.subject_invitation_email'),
+                'link' => route('survey.create.do-survey', $survey->token),
             ];
 
             Mail::to($inviteEmails)->queue(new ReminderEmail($data));

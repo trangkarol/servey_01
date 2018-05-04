@@ -26,9 +26,9 @@ class Survey extends Model
         'status_custom',
     ];
 
-    public function invites()
+    public function invite()
     {
-        return $this->hasMany(Invite::class);
+        return $this->hasOne(Invite::class);
     }
 
     public function members()
