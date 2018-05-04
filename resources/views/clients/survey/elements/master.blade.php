@@ -74,7 +74,9 @@
             <div class="question-required-checkbox">
                 <label>
                     {{ Form::checkbox("require[section_$sectionId][question_$questionId]") }}
-                    {{ Form::hidden("require[section_$sectionId][question_$questionId]", config('settings.question_require.no_require')) }}
+                    {{ Form::hidden("require[section_$sectionId][question_$questionId]",
+                        config('settings.question_require.no_require'),
+                        ['class' => 'checkbox-question-required']) }}
                     <span class="toggle"><span class="ripple"></span></span>
                 </label>
             </div>
