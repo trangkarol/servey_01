@@ -88,7 +88,7 @@ class Survey extends Model
 
             case config('survey.status.closed'):
                 return trans('profile.closed');
-            
+
             default:
                 return trans('profile.draft');
         }
@@ -97,5 +97,29 @@ class Survey extends Model
     public function getCreatedAtAttribute()
     {
         return Carbon::parse($this->attributes['created_at'])->format(trans('lang.date_format'));
+    }
+
+    public function getMemberListAttribute()
+    {
+        $members = $this->members;
+        $memberList = '';
+
+        foreach ($members as $member) {
+            $memberList .= $member->email . ',' . $member->pivot->role . '/';
+        }
+
+        return $memberList;
+    }
+
+    public function getSetting($key = 0)
+    {
+        $settings = $this->settings;
+        $filtered = $settings->whereIn('key', $key)->all();
+
+        if (count($filtered)) {
+            return current($filtered)->value;
+        }
+
+        return config('settings.survey_setting.default');
     }
 }

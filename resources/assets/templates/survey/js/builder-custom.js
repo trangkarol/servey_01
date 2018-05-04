@@ -400,10 +400,10 @@ jQuery(document).ready(function () {
             obj.title = title !== undefined ? title.value : '';
 
             var startTime = data.find(item => item.name === 'start_time');
-            obj.start_time = startTime !== undefined ? moment(startTime.value, 'DD/MM/YYYY h:mm A').format('MM/DD/YYYY h:mm A') : '';
+            obj.start_time = startTime !== undefined && startTime.value != '' ? moment(startTime.value, 'DD/MM/YYYY h:mm A').format('MM/DD/YYYY h:mm A') : '';
 
             var endTime = data.find(item => item.name === 'end_time');
-            obj.end_time = endTime !== undefined ? moment(endTime.value, 'DD/MM/YYYY h:mm A').format('MM/DD/YYYY h:mm A') : '';
+            obj.end_time = endTime !== undefined && endTime.value != '' ? moment(endTime.value, 'DD/MM/YYYY h:mm A').format('MM/DD/YYYY h:mm A') : '';
 
             var description = data.find(item => item.name === 'description');
             obj.description = description !== undefined ? description.value : '';

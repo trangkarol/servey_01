@@ -176,7 +176,7 @@
     @include('clients.survey.elements.insert-video')
 
     <!-- pupup setting survey -->
-    @include('clients.survey.create.setting')
+    @include('clients.survey.edit.setting')
 @endsection
 @push('scripts')
     <!-- Plugins -->

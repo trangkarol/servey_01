@@ -64,7 +64,7 @@ class SurveyController extends Controller
 
     public function create()
     {
-        return view('clients.survey.create.create');
+        return view('clients.survey.create.index');
     }
 
     public function store(SurveyRequest $request)
@@ -209,7 +209,7 @@ class SurveyController extends Controller
         // check survey owner authorization
         // check survey exists with token manage and get data
         $survey = $this->surveyRepository->getSurveyByTokenManage($tokenManage);
-        
+
         if (!$survey) {
             return redirect()->route('survey.survey.show-surveys');
         }

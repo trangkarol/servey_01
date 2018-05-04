@@ -43,59 +43,59 @@
         </div>
     </li>
     @foreach ($section->questions as $question)
-        @if ($question->question_type == config('settings.question_type.short_answer'))
+        @if ($question->type == config('settings.question_type.short_answer'))
             @include('clients.survey.edit.elements.short-answer', [
                 'sectionId' => $section->id,
                 'question' => $question,
-                'type' => $question->question_type,
+                'type' => $question->type,
             ])
-        @elseif ($question->question_type == config('settings.question_type.long_answer'))
+        @elseif ($question->type == config('settings.question_type.long_answer'))
             @include('clients.survey.edit.elements.long-answer', [
                 'sectionId' => $section->id,
                 'question' => $question,
-                'type' => $question->question_type,
+                'type' => $question->type,
             ])
-        @elseif ($question->question_type == config('settings.question_type.multiple_choice'))
+        @elseif ($question->type == config('settings.question_type.multiple_choice'))
             @include('clients.survey.edit.elements.multiple-choice', [
                 'sectionId' => $section->id,
                 'question' => $question,
-                'type' => $question->question_type,
+                'type' => $question->type,
             ])
-        @elseif ($question->question_type == config('settings.question_type.checkboxes'))
+        @elseif ($question->type == config('settings.question_type.checkboxes'))
             @include('clients.survey.edit.elements.checkboxes', [
                 'sectionId' => $section->id,
                 'question' => $question,
-                'type' => $question->question_type,
+                'type' => $question->type,
             ])
-        @elseif ($question->question_type == config('settings.question_type.date'))
+        @elseif ($question->type == config('settings.question_type.date'))
             @include('clients.survey.edit.elements.date', [
                 'sectionId' => $section->id,
                 'question' => $question,
-                'type' => $question->question_type,
+                'type' => $question->type,
             ])
-        @elseif ($question->question_type == config('settings.question_type.time'))
+        @elseif ($question->type == config('settings.question_type.time'))
             @include('clients.survey.edit.elements.time', [
                 'sectionId' => $section->id,
                 'question' => $question,
-                'type' => $question->question_type,
+                'type' => $question->type,
             ])
-        @elseif ($question->question_type == config('settings.question_type.title'))
+        @elseif ($question->type == config('settings.question_type.title'))
             @include('clients.survey.edit.elements.title-description', [
                 'sectionId' => $section->id,
                 'question' => $question,
-                'type' => $question->question_type,
+                'type' => $question->type,
             ])
-        @elseif ($question->question_type == config('settings.question_type.image'))
+        @elseif ($question->type == config('settings.question_type.image'))
             @include('clients.survey.edit.elements.section-image', [
                 'sectionId' => $section->id,
                 'question' => $question,
-                'type' => $question->question_type,
+                'type' => $question->type,
             ])
-        @elseif ($question->question_type == config('settings.question_type.video'))
+        @elseif ($question->type == config('settings.question_type.video'))
             @include('clients.survey.edit.elements.section-video', [
                 'sectionId' => $section->id,
                 'question' => $question,
-                'type' => $question->question_type,
+                'type' => $question->type,
             ])
         @endif
     @endforeach

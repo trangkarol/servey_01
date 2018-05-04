@@ -141,7 +141,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
 
         try {
             if ($userId != Auth::user()->id) {
-                throw new Exception("Error Processing Request", 1);
+                throw new Exception('Error Processing Request', 1);
             }
 
             $surveyInputs = [
@@ -160,7 +160,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
             $survey = parent::create($surveyInputs);
 
             if (!$survey) {
-                throw new Exception("Error Processing Request", 1);
+                throw new Exception('Error Processing Request', 1);
             }
 
             //create owner
@@ -583,6 +583,9 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         return $this->model->with([
             'settings',
             'invites',
+            'members' => function ($query) {
+                return $query->where('role', config('settings.survey.members.owner'));
+            },
             'sections' => function ($query) {
                 $query->with([
                     'questions' => function ($query) {

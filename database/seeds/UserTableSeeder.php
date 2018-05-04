@@ -30,7 +30,7 @@ class UserTableSeeder extends Seeder
             'email' => 'supperadmin@gmail.com',
             'name' => 'Supper Admin',
         ]);
-        
+
         factory(User::class, 10)->create()->each(function ($user) use ($faker) {
             $survey = factory(Survey::class)->create();
 
@@ -191,7 +191,7 @@ class UserTableSeeder extends Seeder
                 return $faker->numberBetween(0, 1);
             case config('settings.setting_type.reminder_email.key'):
                 return $faker->numberBetween(0, 3);
-            
+
             default:
                 break;
         }
@@ -210,7 +210,7 @@ class UserTableSeeder extends Seeder
                 return $faker->paragraph(10);
             case config('settings.question_type.long_answer'):
                 return $faker->paragraph();
-            
+
             default:
                 return '';
         }

@@ -207,6 +207,7 @@ return [
         'video' => 9,
     ],
     'survey_setting' => [
+        'default' => 0,
         'answer_required' => [
             'none' => 0,
             'login' => 1,
