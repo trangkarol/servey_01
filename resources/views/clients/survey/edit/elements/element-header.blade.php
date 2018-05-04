@@ -21,22 +21,22 @@
         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-8 question-dropdown-block">
             <div class="survey-select">
                 <div class="survey-select-styled">
-                    @if ($question->question_type == config('settings.question_type.short_answer'))
+                    @if ($question->type == config('settings.question_type.short_answer'))
                         <span class="answer-icon short-answer-icon"></span>
                         <span class="option-menu-content">@lang('lang.short_answer')</span>
-                    @elseif ($question->question_type == config('settings.question_type.long_answer'))
+                    @elseif ($question->type == config('settings.question_type.long_answer'))
                         <span class="answer-icon paragraph-answer-icon"></span>
                         <span class="option-menu-content">@lang('lang.paragraph')</span>
-                    @elseif ($question->question_type == config('settings.question_type.multiple_choice'))
+                    @elseif ($question->type == config('settings.question_type.multiple_choice'))
                         <span class="answer-icon multi-choice-answer-icon"></span>
                         <span class="option-menu-content">@lang('lang.multiple_choice')</span>
-                    @elseif ($question->question_type == config('settings.question_type.checkboxes'))
+                    @elseif ($question->type == config('settings.question_type.checkboxes'))
                         <span class="answer-icon checkboxes-answer-icon"></span>
                         <span class="option-menu-content">@lang('lang.checkboxes')</span>
-                    @elseif ($question->question_type == config('settings.question_type.date'))
+                    @elseif ($question->type == config('settings.question_type.date'))
                         <span class="answer-icon date-answer-icon"></span>
                         <span class="option-menu-content">@lang('lang.date')</span>
-                    @elseif ($question->question_type == config('settings.question_type.time'))
+                    @elseif ($question->type == config('settings.question_type.time'))
                         <span class="answer-icon time-answer-icon"></span>
                         <span class="option-menu-content">@lang('lang.time_answer')</span>
                     @endif

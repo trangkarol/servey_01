@@ -78,18 +78,6 @@ class Question extends Model
         return (mb_strlen($this->attributes['content']) > 50) ? mb_substr($this->attributes['content'], 0, 50) . '...' : $this->attributes['content'];
     }
 
-    public function getQuestionTypeAttribute()
-    {
-        $settings = $this->settings;
-        $filtered = $settings->whereIn('key', config('settings.setting_type.question_type.key'))->all();
-
-        if (count($filtered)) {
-            return $filtered[0]->value;
-        }
-
-        return config('settings.question_type.no_type');
-    }
-
     public function getVideoThumbnailAttribute()
     {
         $videoThumbnail = '';
@@ -104,7 +92,7 @@ class Question extends Model
                 $videoThumbnail = $youtubeThumbnail . $youtubeId . '/hqdefault.jpg';
             }
         }
-        
+
         return $videoThumbnail;
     }
 
