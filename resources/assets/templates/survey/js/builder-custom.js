@@ -521,12 +521,13 @@ jQuery(document).ready(function () {
 
     function removeElement(event, element) {
         event.preventDefault();
+        window.questionSelected = element.closest('li').prev();
         // remove validation tooltip
         element.closest('li.form-line').find('textarea[data-toggle="tooltip"], input[data-toggle="tooltip"]').each(function () {
             $(`#${$(this).attr('aria-describedby')}`).remove();
         });
         element.closest('li.form-line').fadeOut(300).remove();
-        window.questionSelected = null;
+        window.questionSelected.click();
     }
 
     /**
@@ -808,6 +809,8 @@ jQuery(document).ready(function () {
     });
 
     $('.content-wrapper form').on('click', '.remove-element', function (event) {
+        event.preventDefault();
+        event.stopPropagation();
         removeElement(event, $(this));
     });
 
