@@ -854,6 +854,9 @@ jQuery(document).ready(function () {
             $(this).find('.element-content').removeClass('hidden');
             $(this).find('.question-description-input').removeClass('hidden');
             $(this).find('.question-description-input').addClass('active');
+
+            // mark question required
+            markQuestionRequired();
         });
 
         $(this).closest('.survey-form').find('.zoom-btn').removeClass('zoom-out-btn');
@@ -1272,6 +1275,9 @@ jQuery(document).ready(function () {
 
                 // add validation rules for question
                 addValidationRuleForQuestion(questionId);
+
+                // mark question required
+                markQuestionRequired();
             }
         });
     });
@@ -2965,4 +2971,24 @@ jQuery(document).ready(function () {
             $(firstSection).find('.move-section').addClass('hidden');
         }
     }
+
+    // mark question required
+    function markQuestionRequired()
+    {
+        $('.survey-form').find('.mark-question-required').remove();
+        $('.survey-form').find('.form-line.sort').each(function (i) {
+            if ($(this).find('.checkbox-question-required').is(':checked')) {
+                $(`<span class="mark-question-required">&#42;<span>`).insertBefore($(this).find('.question-input'));
+            }
+        });
+        var questionSelected = $('.survey-form').find('.liselected.question-active');
+
+        if ($(questionSelected).find('.checkbox-question-required').is(':checked')) {
+            $(questionSelected).find('.mark-question-required').remove();
+        }
+    }
+
+    $('.survey-form').on('click', '.form-line.sort', function (e) {
+        markQuestionRequired();
+    });
 });

@@ -3630,3 +3630,9 @@ input[name="quantity-answer"]::-webkit-outer-spin-button, input[type="number"]::
 .modal {
     z-index: 1072 !important;
 }
+
+.mark-question-required {
+    color: #cc0025;
+    position: absolute;
+    top: 0px;
+}
