@@ -429,7 +429,29 @@ jQuery(document).ready(function () {
     // change question elements
     function changeQuestion(option) {
         var currentQuestion = option.closest('li.sort');
-        var questionData = currentQuestion.find('input, textarea').serializeArray();
+        var questionType = currentQuestion.data('question-type');
+        var answers = [];
+
+        // get answers if is multi choice
+        if (questionType == 3) {
+            currentQuestion.find('.option.choice').each(function() {
+                answers.push($(this).find('.image-answer-hidden').prev().val());
+            });
+        }
+        
+        // get answers if is checkboxes
+        if (questionType == 4) {
+            currentQuestion.find('.option.checkbox').each(function() {
+                answers.push($(this).find('.image-answer-hidden').prev().val());
+            });
+        }
+
+        var questionData = {
+            'content': currentQuestion.find('.question-input').val(),
+            'description': currentQuestion.find('.question-description-input').val()
+        }
+
+        imageURL = currentQuestion.find('.image-question-hidden').val();
 
         var sectionId = refreshSectionId();
         var questionId = refreshQuestionId();
@@ -450,6 +472,7 @@ jQuery(document).ready(function () {
                 sectionId: sectionId,
                 questionId: questionId,
                 answerId: answerId,
+                imageURL: imageURL, 
             }
         })
         .done(function (data) {
@@ -475,11 +498,27 @@ jQuery(document).ready(function () {
                 // add sortable event for multiple choice
                 if (questionType == 3) {
                     multipleChoiceSortable(`question_${questionId}`);
+                    if (answers.length) {
+                        element.find('.option.choice .image-answer-hidden').prev().val(answers[0]);
+
+                        for (var i = 0; i < answers.length - 1; i++) {
+                            element.find('.other-choice .other-choice-block .add-choice').click();
+                            element.find('.option.choice .image-answer-hidden').last().prev().val(answers[i + 1]);                            
+                        }
+                    }
                 }
 
                 // add sortable event for checkboxes
                 if (questionType == 4) {
                     checkboxesSortable(`question_${questionId}`);
+                    if (answers.length) {
+                        element.find('.option.checkbox .image-answer-hidden').prev().val(answers[0]);
+
+                        for (var i = 0; i < answers.length - 1; i++) {
+                            element.find('.other-checkbox .other-checkbox-block .add-checkbox').click();
+                            element.find('.option.checkbox .image-answer-hidden').last().prev().val(answers[i + 1]);
+                        }
+                    }
                 }
 
                 // auto resize for new textarea
@@ -487,6 +526,18 @@ jQuery(document).ready(function () {
 
                 // add validation rules for question
                 addValidationRuleForQuestion(questionId);
+
+                // set old question value
+                var image = data.image
+                $(image).insertAfter(element.find('.description-input'));
+
+                element.find('.question-input').val(questionData['content']);
+
+                if (questionData['description']) {
+                    element.find('.question-description-input').val(questionData['description']);
+                    element.find('.description-input').addClass('active');
+                    element.find('.option-menu-selected').addClass('active');
+                }
             }
         });
     }

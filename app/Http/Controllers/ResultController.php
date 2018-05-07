@@ -10,6 +10,7 @@ use App\Repositories\Invite\InviteInterface;
 use App\Repositories\Setting\SettingInterface;
 use App\Repositories\Question\QuestionInterface;
 use App\Http\Requests\AnswerRequest;
+use App\Http\Requests\ResultRequest;
 use App\Traits\ClientInformation;
 use Carbon\Carbon;
 use Exception;

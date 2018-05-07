@@ -11,7 +11,7 @@
                 'placeholder' => trans('lang.question'),
                 'rows' => 1,
             ]) !!}
-            {!! Form::hidden("media[section_$sectionId][question_$questionId]", null, ['class' => 'image-question-hidden']) !!}
+            {!! Form::hidden("media[section_$sectionId][question_$questionId]", isset($imageURL) ? $imageURL : '', ['class' => 'image-question-hidden']) !!}
         </div>
         <div class="col-xl-1 col-lg-1 col-md-1 col-sm-1 col-2 question-image-block">
             {{ Html::link('#', '', ['class' => 'question-image-btn fa fa-image', 'data-url' => route('ajax-fetch-image-question')]) }}
