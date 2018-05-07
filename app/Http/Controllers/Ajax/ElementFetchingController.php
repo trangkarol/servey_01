@@ -63,13 +63,18 @@ class ElementFetchingController extends Controller
 
         $sectionId = $request->sectionId;
         $questionId = $request->questionId;
+        $imageURL = $request->imageURL;
+
+        $image = $imageURL ? view('clients.survey.elements.image-question', compact('imageURL'))->render() : '';
 
         return response()->json([
             'success' => true,
             'html' => view('clients.survey.elements.short-answer', compact(
                 'sectionId',
-                'questionId'
+                'questionId',
+                'imageURL'
             ))->render(),
+            'image' => $image,
         ]);
     }
 
@@ -83,13 +88,18 @@ class ElementFetchingController extends Controller
 
         $sectionId = $request->sectionId;
         $questionId = $request->questionId;
+        $imageURL = $request->imageURL;
 
+        $image = $imageURL ? view('clients.survey.elements.image-question', compact('imageURL'))->render() : '';
+        
         return response()->json([
             'success' => true,
             'html' => view('clients.survey.elements.long-answer', compact(
                 'sectionId',
-                'questionId'
+                'questionId',
+                'imageURL'
             ))->render(),
+            'image' => $image,
         ]);
     }
 
@@ -105,6 +115,9 @@ class ElementFetchingController extends Controller
         $questionId = $request->questionId;
         $answerId = $request->answerId;
         $optionId = config('settings.survey.option.first');
+        $imageURL = $request->imageURL;
+
+        $image = $imageURL ? view('clients.survey.elements.image-question', compact('imageURL'))->render() : '';
 
         return response()->json([
             'success' => true,
@@ -112,8 +125,10 @@ class ElementFetchingController extends Controller
                 'sectionId',
                 'questionId',
                 'answerId',
-                'optionId'
+                'optionId',
+                'imageURL'
             ))->render(),
+            'image' => $image,
         ]);
     }
 
@@ -129,6 +144,9 @@ class ElementFetchingController extends Controller
         $questionId = $request->questionId;
         $answerId = $request->answerId;
         $optionId = config('settings.survey.option.first');
+        $imageURL = $request->imageURL;
+
+        $image = $imageURL ? view('clients.survey.elements.image-question', compact('imageURL'))->render() : '';
 
         return response()->json([
             'success' => true,
@@ -136,8 +154,10 @@ class ElementFetchingController extends Controller
                 'sectionId',
                 'questionId',
                 'answerId',
-                'optionId'
+                'optionId',
+                'imageURL'
             ))->render(),
+            'image' => $image,
         ]);
     }
 
@@ -151,13 +171,18 @@ class ElementFetchingController extends Controller
 
         $sectionId = $request->sectionId;
         $questionId = $request->questionId;
+        $imageURL = $request->imageURL;
+
+        $image = $imageURL ? view('clients.survey.elements.image-question', compact('imageURL'))->render() : '';
 
         return response()->json([
             'success' => true,
             'html' => view('clients.survey.elements.date', compact(
                 'sectionId',
-                'questionId'
+                'questionId',
+                'imageURL'
             ))->render(),
+            'image' => $image,
         ]);
     }
 
@@ -171,13 +196,18 @@ class ElementFetchingController extends Controller
 
         $sectionId = $request->sectionId;
         $questionId = $request->questionId;
+        $imageURL = $request->imageURL;
+
+        $image = $imageURL ? view('clients.survey.elements.image-question', compact('imageURL'))->render() : '';
 
         return response()->json([
             'success' => true,
             'html' => view('clients.survey.elements.time', compact(
                 'sectionId',
-                'questionId'
+                'questionId',
+                'imageURL'
             ))->render(),
+            'image' => $image,
         ]);
     }
 
