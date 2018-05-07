@@ -1064,11 +1064,26 @@ jQuery(document).ready(function () {
     });
 
     $('.survey-form').on('click', '.form-line .multiple-choice-block .other-choice .other-choice-block .add-other-choice', function (e) {
-        if (!$(this).closest('.multiple-choice-block').find('.other-choice-option').first().length) {
+        var multipleChoiceBlock = $(this).closest('.multiple-choice-block');
+
+        if (!multipleChoiceBlock.find('.other-choice-option').first().length) {
             var otherChoice = $(this).closest('.other-choice');
             var otherChoiceOption = $('#element-clone').find('.other-choice-option').clone();
             otherChoiceOption.insertBefore(otherChoice);
             otherChoice.find('.other-choice-btn').hide();
+
+            var questionElement = multipleChoiceBlock.closest('li.form-line.sort');
+            var questionId = questionElement.data('question-id');
+            var answerId = refreshAnswerId();
+            otherChoiceOption.attr('data-answer-id', answerId);
+            otherChoiceOption.attr('id', `answer_${answerId}`);
+            var numberOfAnswers = questionElement.data('number-answer');
+            var optionId = numberOfAnswers + 1;
+            otherChoiceOption.attr('data-option-id', optionId);
+            questionElement.data('number-answer', numberOfAnswers + 1);
+
+            var input = otherChoiceOption.find('input.form-control');
+            input.attr('name', `answer[question_${questionId}][answer_${answerId}][option_${optionId}]`);
         }
     });
 
@@ -1220,11 +1235,26 @@ jQuery(document).ready(function () {
     });
 
     $('.survey-form').on('click', '.form-line .checkboxes-block .other-checkbox .other-checkbox-block .add-other-checkbox', function (e) {
-        if (!$(this).closest('.checkboxes-block').find('.other-checkbox-option').first().length) {
+        var checkboxBlock = $(this).closest('.checkboxes-block');
+
+        if (!checkboxBlock.find('.other-checkbox-option').first().length) {
             var otherCheckbox = $(this).closest('.other-checkbox');
             var otherCheckboxOption = $('#element-clone').find('.other-checkbox-option').clone();
             otherCheckboxOption.insertBefore(otherCheckbox);
             otherCheckbox.find('.other-checkbox-btn').hide();
+
+            var questionElement = checkboxBlock.closest('li.form-line.sort');
+            var questionId = questionElement.data('question-id');
+            var answerId = refreshAnswerId();
+            otherCheckboxOption.attr('data-answer-id', answerId);
+            otherCheckboxOption.attr('id', `answer_${answerId}`);
+            var numberOfAnswers = questionElement.data('number-answer');
+            var optionId = numberOfAnswers + 1;
+            otherCheckboxOption.attr('data-option-id', optionId);
+            questionElement.data('number-answer', numberOfAnswers + 1);
+
+            var input = otherCheckboxOption.find('input.form-control');
+            input.attr('name', `answer[question_${questionId}][answer_${answerId}][option_${optionId}]`);
         }
     });
 
