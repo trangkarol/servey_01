@@ -226,4 +226,6 @@ return [
     'copy_link' => 'Sao chép link',
     'copied_link' => 'Đã sao chép',
     'share' => 'Chia sẻ',
+    'question_required' => 'Đây là câu hỏi bắt buộc',
+    'your_answer_has_been_recorded' => 'Câu trả lời của bạn đã được ghi lại',
 ];
