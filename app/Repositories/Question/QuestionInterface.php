@@ -6,8 +6,6 @@ interface QuestionInterface
 {
     public function deleteBySurveyId($surveyId);
 
-    public function delete($ids);
-
     public function createMultiQuestion(
         $survey,
         $questions,
@@ -23,4 +21,6 @@ interface QuestionInterface
     public function getResultByQuestionIds($surveyId, $time = null);
 
     public function updateSurvey(array $inputs, $surveyId);
+
+    public function deleteQuestions($ids);
 }

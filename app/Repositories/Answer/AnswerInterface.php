@@ -8,11 +8,11 @@ interface AnswerInterface
 {
     public function deleteByQuestionId($questionIds);
 
-    public function delete($ids);
-
     public function getAnswerIds($questionIds, $update = false);
 
     public function getResultByAnswer($questionIds, $time = null, $isUpdate = false);
 
     public function createOrUpdateAnswer(array $answers, array $data);
+
+    public function deleteAnswers($ids);
 }

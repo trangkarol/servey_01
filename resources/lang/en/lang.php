@@ -153,7 +153,9 @@ return [
     'reorder_section' => 'Reorder section',
     'of' => 'of',
     'previous' => 'Previous',
-
+    'delete_survey_success' => 'Delete survey success!',
+    'delete_survey_success' => 'Delete survey fail!',
+    'not_allowed_to_delete_survey' => 'You are not allowed to delete this survey!',
     /*
     | 404 page
     */
@@ -162,6 +164,11 @@ return [
     'error' => 'Error',
     '404_message' => 'The page you are looking for does not exists.',
     'go_home' => 'Go home',
+
+     // 403 page
+
+    '403' => '403',
+    '403_message' => 'Access is denied',
 
     // setting survey
 

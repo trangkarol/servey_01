@@ -4,17 +4,19 @@ namespace App\Repositories\Answer;
 
 use App\Models\Answer;
 use App\Models\Result;
+use App\Models\Setting;
 use App\Repositories\BaseRepository;
 use App\Repositories\Result\ResultInterface;
+use App\Repositories\Setting\SettingInterface;
+use App\Repositories\Media\MediaInterface;
 use Illuminate\Support\Collection;
 use DB;
+use Storage;
 use Exception;
 use Carbon\Carbon;
 
 class AnswerRepository extends BaseRepository implements AnswerInterface
 {
-    protected $resultRepository;
-
     public function getModel()
     {
         return Answer::class;
@@ -27,24 +29,6 @@ class AnswerRepository extends BaseRepository implements AnswerInterface
         app(ResultInterface::class)
             ->delete(app(ResultInterface::class)->whereIn('answer_id', $answers)->lists('id')->toArray());
         parent::delete($answers);
-    }
-
-    public function delete($ids)
-    {
-        DB::beginTransaction();
-        try {
-            $ids = is_array($ids) ? $ids : [$ids];
-            app(ResultInterface::class)
-                ->delete(app(ResultInterface::class)->whereIn('answer_id', $ids)->lists('id')->toArray());
-            parent::delete($ids);
-            DB::commit();
-
-            return true;
-        } catch (Exception $e) {
-            DB::rollback();
-
-            return false;
-        }
     }
 
     public function getAnswerIds($questionIds, $update = false)
@@ -220,5 +204,14 @@ class AnswerRepository extends BaseRepository implements AnswerInterface
             'answers' => $answers,
             'isEdit' => $isEdit,
         ];
+    }
+
+    public function deleteAnswers($ids)
+    {
+        $ids = is_array($ids) ? $ids : [$ids];
+        app(SettingInterface::class)->deleteSettings($ids, Answer::class);
+        app(MediaInterface::class)->deleteMedia($ids, Answer::class);
+
+        return $this->model->whereIn('id', $ids)->delete();
     }
 }

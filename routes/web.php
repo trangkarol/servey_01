@@ -257,6 +257,10 @@ Route::group(['namespace' => 'Survey', 'middleware' => 'profile'], function () {
         'as' => 'survey.survey.update-background',
         'uses' => 'ProfileController@setBackground',
     ]);
+    Route::delete('survey/delete/{token}', [
+        'uses' => 'SurveyManagementController@delete',
+        'as' => 'survey.delete',
+    ]);
 });
 
 Route::group(['namespace' => 'Auth'], function () {
@@ -281,7 +285,7 @@ Route::group(['middleware' => 'profile'], function () {
             'as' => 'survey.result.index',
             'uses' => 'ResultController@result',
         ]);
-        
+
         Route::get('survey/result/detail', [
             'as' => 'survey.result.detail-result',
             'uses' => 'ResultController@detail',
@@ -291,7 +295,7 @@ Route::group(['middleware' => 'profile'], function () {
             'uses' => 'PreviewSurveyController@show',
             'as' => 'survey.create.preview',
         ]);
-    
+
         Route::get('next-preview', [
             'uses' => 'PreviewSurveyController@nextSection',
             'as' => 'survey.create.preview.next'

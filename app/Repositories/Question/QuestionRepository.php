@@ -2,12 +2,15 @@
 
 namespace App\Repositories\Question;
 
+use DB;
 use Exception;
 use App\Models\Answer;
 use App\Models\Question;
 use Illuminate\Support\Collection;
 use App\Repositories\BaseRepository;
 use App\Repositories\Answer\AnswerInterface;
+use App\Repositories\Setting\SettingInterface;
+use App\Repositories\Media\MediaInterface;
 
 class QuestionRepository extends BaseRepository implements QuestionInterface
 {
@@ -22,23 +25,6 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
         $questions = $this->whereIn('survey_id', $ids)->lists('id')->toArray();
         app(AnswerInterface::class)->deleteByQuestionId($questions);
         parent::delete($questions);
-    }
-
-    public function delete($ids)
-    {
-        DB::beginTransaction();
-        try {
-            $ids = is_array($ids) ? $ids : [$ids];
-            app(AnswerInterface::class)->deleteByQuestionId($ids);
-            parent::delete($ids);
-            DB::commit();
-
-            return true;
-        } catch (Exception $e) {
-            DB::rollback();
-
-            throw $e;
-        }
     }
 
     public function createMultiQuestion(
@@ -500,5 +486,16 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
         $success['isEdit'] = $isEdit;
 
         return $success;
+    }
+
+    public function deleteQuestions($ids)
+    {
+        $ids = is_array($ids) ? $ids : [$ids];
+        $answerIds = app(AnswerInterface::class)->whereIn('question_id', $ids)->pluck('id')->all();
+        app(AnswerInterface::class)->deleteAnswers($answerIds);
+        app(MediaInterface::class)->deleteMedia($ids, Question::class);
+        app(SettingInterface::class)->deleteSettings($ids, Question::class);
+
+        return $this->model->whereIn('id', $ids)->delete();
     }
 }

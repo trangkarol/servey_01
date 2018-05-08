@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ trans('lang.404') }}</title>
+    <title>@lang('lang.403')</title>
     {!! Html::style(asset(config('settings.plugins') . 'bootstrap/bootstrap.min.css')) !!}
     {!! Html::style(elixir('/user/errors/404.css')) !!}
 </head>
@@ -45,13 +45,13 @@
                 <div class="cat-tail"></div>
                 <div class="cat-tail-end"></div>
             </div>
-            <h1>@lang('lang.404')</h1>
+            <h1>@lang('lang.403')</h1>
         </div>
         </div>
         <div class="col-md-12">
         <div class="message">
             <h2>@lang('lang.error')</h2>
-            <p>@lang('lang.404_message')</p><br>
+            <p>@lang('lang.403_message')</p><br>
             <div class="btndiv">
                 <div class="btn">
                     <a href="{{ route('home') }}">
