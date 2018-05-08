@@ -122,4 +122,19 @@ class Survey extends Model
 
         return config('settings.survey_setting.default');
     }
+
+    public function isOpen()
+    {
+        return $this->status == config('settings.survey.status.open');
+    }
+
+    public function isClose()
+    {
+        return $this->status == config('settings.survey.status.close');
+    }
+
+    public function isDraft()
+    {
+        return $this->status == config('settings.survey.status.draft');
+    }
 }
