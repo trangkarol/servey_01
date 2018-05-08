@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use ErrorException;
+use Auth;
 
 trait ClientInformation
 {
@@ -35,5 +36,47 @@ trait ClientInformation
         }
 
         return $ipaddress;
+    }
+
+    public function processAnswererInformation($data, $survey)
+    {
+        // get client information
+        $clientInfo['client_ip'] = $data->get('client_ip');
+
+        $answerRequiredSetting = $survey->settings()->where('key', config('settings.setting_type.answer_required.key'))->first()->value;
+
+        // check answer_required setting
+        switch ($answerRequiredSetting) {
+            case config('settings.survey_setting.answer_required.none'):
+                # code...
+                break;
+            case config('settings.survey_setting.answer_required.login'):
+                $userId = $data->get('user_id');
+
+                if ($userId != Auth::user()->id) {
+                    throw new Exception("Error Processing Request", 1);
+                }
+
+                $clientInfo['user_id'] = $userId;
+
+                // update mail invite and mail answer
+                $userMail = Auth::user()->email . '/';
+                $invite = $survey->invite;
+                
+                $invite->update([
+                    'invite_mails' => str_replace($userMail, '', $invite->invite_mails),
+                    'answer_mails' => $invite->answer_mails . $userMail,
+                ]);
+
+                break;
+            case config('settings.survey_setting.answer_required.login_with_wsm'):
+                # code...
+                break;
+            default:
+                throw new Exception("Error Processing Request", 1);
+                return;
+        }
+
+        return $clientInfo;
     }
 }

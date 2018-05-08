@@ -24,7 +24,7 @@ class ResultRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'survey_id' => 'required|integer|min:0',
+            'survey_token' => 'required',
             'email' => 'email',
             'user_id' => 'integer|min:0',
             'sections.*.questions.*.question_id' => 'required|integer|distinct',
