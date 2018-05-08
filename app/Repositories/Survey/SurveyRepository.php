@@ -302,8 +302,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         } catch (Exception $e) {
             DB::rollback();
 
-            // return false;
-            return $e->getMessage();
+            return false;
         }
     }
 

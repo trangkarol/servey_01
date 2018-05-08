@@ -219,6 +219,7 @@ abstract class BaseRepository implements BaseInterface
     {
         return $this->model->create($input);
     }
+
     public function firstOrCreate($input)
     {
         return $this->model->firstOrCreate($input);
