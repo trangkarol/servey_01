@@ -125,4 +125,41 @@
             }
         });
     });
+
+    // create survey complete page
+    $('.complete-content .copy-link-survey').on('click', function () {
+        // copy link
+        var $temp = $('<input>');
+        $('body').append($temp);
+        $temp.val($('.complete-content .link-survey').text()).select();
+        document.execCommand('copy');
+        $temp.remove();
+
+        // show message tooltip
+        $(this).find('.tooltiptext').text(Lang.get('lang.copied_link'));
+
+        return false;
+    });
+
+    $('.complete-content .copy-link-survey').on('mouseover', function () {
+        $(this).find('.tooltiptext').text(Lang.get('lang.copy_link'));
+    });
+
+    $('.complete-content .copy-link-manage').on('click', function () {
+        // copy link
+        var $temp = $('<input>');
+        $('body').append($temp);
+        $temp.val($('.complete-content .link-manage').text()).select();
+        document.execCommand('copy');
+        $temp.remove();
+        
+        // show message tooltip
+        $(this).find('.tooltiptext').text(Lang.get('lang.copied_link'));
+
+        return false;
+    });
+
+    $('.complete-content .copy-link-manage').on('mouseover', function () {
+        $(this).find('.tooltiptext').text(Lang.get('lang.copy_link'));
+    });
 });

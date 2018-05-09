@@ -35,6 +35,10 @@ return [
         '7' => 'templates/survey/images/choose-cover-profile7.jpg',
         '8' => 'templates/survey/images/choose-cover-profile8.jpg',
     ],
+    'create_survey_complete' => [
+        'header_img' => '/templates/survey/images/event-bottom.png',
+        'congrat_img' => '/templates/survey/images/congrat.png',
+    ],
     'question' => [
         'not_required' => 0,
         'required' => 1,

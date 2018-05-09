@@ -200,4 +200,19 @@ return [
     'setting' => 'Setting',
     'other' => 'Other:',
     'preview' => 'Preview',
+
+    /*
+        create survey complete
+    */
+
+    'thank_you' => 'Thank you',
+    'create_survey_success' => 'Your survey has been created',
+    'send_mail_link_message' => 'Here are 2 links that have been submitted',
+    'survey_link_title' => 'This is a survey link',
+    'survey_link_message' => 'Send this link to anyone you wish to invite:',
+    'manage_link_title' => 'This is a manage link',
+    'manage_link_message' => 'Visit this link to edit survey:',
+    'copy_link' => 'Copy link',
+    'copied_link' => 'Copied',
+    'share' => 'Share',
 ];

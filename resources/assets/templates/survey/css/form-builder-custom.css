@@ -3636,3 +3636,109 @@ input[name="quantity-answer"]::-webkit-outer-spin-button, input[type="number"]::
     position: absolute;
     top: 0px;
 }
+
+/*loader send survey*/
+#send-modal-loader {
+    overflow: hidden !important;
+    text-align: center;
+    margin-top: 200px;
+}
+
+#send-modal-loader section {
+    width: 30%;
+    display: inline-block;
+    text-align: center;
+    min-height: 215px;
+    vertical-align: top;
+    margin: 1%;
+}
+
+@media only screen and (max-width: 600px) {
+    #send-modal-loader section {
+        min-width: 350px;
+    }
+}
+
+#send-modal-loader .loader-spin {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin: 75px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#send-modal-loader .loader-spin .loader-outter-spin {
+    position: absolute;
+    border: 4px solid #08d0da;
+    border-left-color: transparent;
+    border-bottom: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    -webkit-animation: loaderOutterSpin 1s cubic-bezier(.42, .61, .58, .41) infinite;
+    animation: loaderOutterSpin 1s cubic-bezier(.42, .61, .58, .41) infinite;
+}
+
+#send-modal-loader .loader-spin .loader-inner-spin {
+    position: absolute;
+    border: 4px solid #08d8a8;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    left: calc(50% - 20px);
+    top: calc(50% - 20px);
+    border-right: 0;
+    border-top-color: transparent;
+    -webkit-animation: loaderInnerSpin 1s cubic-bezier(.42, .61, .58, .41) infinite;
+    animation: loaderInnerSpin 1s cubic-bezier(.42, .61, .58, .41) infinite;
+}
+
+@-webkit-keyframes loaderOutterSpin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes loaderOutterSpin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+@-webkit-keyframes loaderInnerSpin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(-360deg);
+        transform: rotate(-360deg);
+    }
+}
+
+@keyframes loaderInnerSpin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(-360deg);
+        transform: rotate(-360deg);
+    }
+}
+
+.modal-backdrop.send-loader {
+    opacity: .7;
+}
