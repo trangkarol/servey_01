@@ -276,6 +276,11 @@ Route::group(['namespace' => 'Auth'], function () {
 Route::group(['middleware' => 'profile'], function () {
     Route::resource('surveys', 'SurveyController');
 
+    Route::get('/surveys/complete/{token}', [
+        'uses' => 'SurveyController@complete',
+        'as' => 'survey.create.complete',
+    ]);
+
     Route::group(['namespace' => 'Survey'], function () {
         Route::get('survey/result/{token}', [
             'as' => 'survey.result.index',

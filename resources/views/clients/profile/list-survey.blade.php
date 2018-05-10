@@ -1,7 +1,6 @@
 @extends('clients.profile.layout')
 
 @section('content-profile')
-    @include('clients.profile.notice')
     <a href="#tag-link-table-survey" id="auto-focus-table"></a>
     <div class="container padding-profile" id="tag-link-table-survey">
         <div class="row">

@@ -87,7 +87,7 @@ class SurveyController extends Controller
         return response()->json([
             'success' => $success,
             'json' => $survey,
-            'redirect' => route('survey.survey.show-surveys'),
+            'redirect' => route('survey.create.complete', $survey->token_manage),
         ]);
     }
 
@@ -628,21 +628,24 @@ class SurveyController extends Controller
         return $array;
     }
 
+    // rewrite
     public function complete($token)
     {
         if (!$token) {
-            return view('errors.404');
+            return view('clients.layout.404');
         }
 
         $survey = $this->surveyRepository->where('token_manage', $token)->first();
 
         if (!$survey) {
-            return view('errors.404');
+            return view('clients.layout.404');
         }
 
-        $mail = auth()->check() ? auth()->user()->email : $survey->mail;
+        $user = Auth::user();
+        $linkManage = route('surveys.edit', $survey->token_manage);
+        $link = route('survey.create.do-survey', $survey->token);
 
-        return view('user.pages.complete', compact('survey', 'mail'));
+        return view('clients.survey.create.complete', compact('user', 'linkManage', 'link'));
     }
 
     public function inviteUser(Request $request, $surveyId, $type)

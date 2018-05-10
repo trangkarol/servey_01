@@ -200,4 +200,19 @@ return [
     'setting' => 'Cài đặt',
     'other' => 'Khác:',
     'preview' => 'Xem trưóc',
+
+    /*
+        create survey complete
+    */
+
+    'thank_you' => 'Cảm ơn bạn',
+    'create_survey_success' => 'Survey của bạn đã được tạo',
+    'send_mail_link_message' => 'Dưới đây là 2 link đã được gửi đến',
+    'survey_link_title' => 'Đây là link khảo sát',
+    'survey_link_message' => 'Gửi link này đến bất cứ người nào mà bạn muốn mời:',
+    'manage_link_title' => 'Đây là link quản lý',
+    'manage_link_message' => 'Truy cập link này để chỉnh sửa khảo sát:',
+    'copy_link' => 'Sao chép link',
+    'copied_link' => 'Đã sao chép',
+    'share' => 'Chia sẻ',
 ];

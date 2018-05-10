@@ -174,9 +174,16 @@
     @include('clients.survey.elements.insert-image')
     @include('clients.survey.elements.insert-video')
     @include('clients.survey.elements.reorder-section')
-
     <!-- pupup setting survey -->
     @include('clients.survey.create.setting')
+    <div class="modal fade" id="send-modal-loader">
+        <section>
+            <div class="loader-spin">
+                <div class="loader-outter-spin"></div>
+                <div class="loader-inner-spin"></div>
+            </div>
+        </section>
+    </div>
 @endsection
 @push('scripts')
     <!-- Plugins -->

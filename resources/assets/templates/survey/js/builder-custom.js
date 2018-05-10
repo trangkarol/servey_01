@@ -1914,6 +1914,10 @@ jQuery(document).ready(function () {
             return;
         }
 
+        $('#send-modal-loader').addClass('show');
+        $('body').append('<div class="modal-backdrop send-loader fade show"></div>');
+        $('body').css('overflow', 'hidden');
+
         var data = JSON.stringify(survey);
 
         $.ajax({
@@ -1925,6 +1929,10 @@ jQuery(document).ready(function () {
             if (data.success) {
                 $(window).attr('location', data.redirect);
             } else {
+                $('#send-modal-loader').removeClass('show');
+                $('.send-loader').remove();
+                $('body').css('overflow', '');
+
                 var messageAlert = '<div class="show-notice"><div class="alert alert-danger alert-message alert-error-profile">';
                 messageAlert += Lang.get('lang.survey_create_failed') + '</div></div>';
                 $('#message-alert').html(messageAlert);
