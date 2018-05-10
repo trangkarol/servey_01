@@ -438,7 +438,7 @@ jQuery(document).ready(function () {
                 answers.push($(this).find('.image-answer-hidden').prev().val());
             });
         }
-        
+
         // get answers if is checkboxes
         if (questionType == 4) {
             currentQuestion.find('.option.checkbox').each(function() {
@@ -472,7 +472,7 @@ jQuery(document).ready(function () {
                 sectionId: sectionId,
                 questionId: questionId,
                 answerId: answerId,
-                imageURL: imageURL, 
+                imageURL: imageURL,
             }
         })
         .done(function (data) {
@@ -503,7 +503,7 @@ jQuery(document).ready(function () {
 
                         for (var i = 0; i < answers.length - 1; i++) {
                             element.find('.other-choice .other-choice-block .add-choice').click();
-                            element.find('.option.choice .image-answer-hidden').last().prev().val(answers[i + 1]);                            
+                            element.find('.option.choice .image-answer-hidden').last().prev().val(answers[i + 1]);
                         }
                     }
                 }
@@ -2103,12 +2103,6 @@ jQuery(document).ready(function () {
 
                 if (isEmail(emailSuggest)) {
                     addEmailToTable(emailSuggest);
-                } else {
-                    var email = $('#input-email-member').val().trim();
-
-                    if (isEmail(email)) {
-                        addEmailToTable(email);
-                    }
                 }
             }
         }

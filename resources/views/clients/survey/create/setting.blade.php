@@ -22,7 +22,7 @@
                 <div id="general_settings" class="container tab-pane active"><br>
                     <input type="hidden" name="survey-setting"
                         id="survey-setting"
-                        answer-required="{{ config('settings.survey_setting.answer_required.none') }}" 
+                        answer-required="{{ config('settings.survey_setting.answer_required.none') }}"
                         answer-limited="{{ config('settings.survey_setting.answer_unlimited') }}"
                         reminder-email="{{ config('settings.survey_setting.reminder_email.none') }}"
                         privacy="{{ config('settings.survey_setting.privacy.public') }}"
@@ -43,7 +43,7 @@
                                 <label class="container-radio-setting-survey">@lang('lang.login')
                                     {!! Form::radio('radio_request_login', '', true, [
                                         'class' => 'setting-radio-request',
-                                        'disabled', 
+                                        'disabled',
                                         'val' => config('settings.survey_setting.answer_required.login'),
                                     ]) !!}
                                     <span class="checkmark-radio"></span>
@@ -110,17 +110,17 @@
                                     </label><br>
                                     <label class="container-radio-setting-survey">@lang('lang.by_quarter')
                                         {!! Form::radio('radio_mail_remind', '', false, [
-                                            'class' => 'radio-mail-remind', 
-                                            'disabled', 
+                                            'class' => 'radio-mail-remind',
+                                            'disabled',
                                             'id' => 'remind-by-quarter',
                                             'val' => config('settings.survey_setting.reminder_email.by_quarter'),
                                         ]) !!}
                                         <span class="checkmark-radio"></span>
-                                    </label><br>    
+                                    </label><br>
                                     <label class="container-radio-setting-survey">@lang('lang.by_option')
                                         {!! Form::radio('radio_mail_remind', '', false, [
-                                            'class' => 'radio-mail-remind', 
-                                            'disabled', 
+                                            'class' => 'radio-mail-remind',
+                                            'disabled',
                                             'id' => 'remind-by-option',
                                             'val' => config('settings.survey_setting.reminder_email.by_option'),
                                         ]) !!}
@@ -157,10 +157,10 @@
                     </div>
                 </div>
                 <div id="tab-send-mails" class="container tab-pane"><br>
-                    <input type="hidden" name="invite-setting" 
+                    <input type="hidden" name="invite-setting"
                         id="invite-setting"
                         all="{{ config('settings.survey.send_mail_to_wsm.none') }}"
-                        invite-data="" 
+                        invite-data=""
                         subject=""
                         msg="{{ trans('lang.message_default_email') }}">
                     <div class="form-group">
@@ -172,7 +172,7 @@
                                 <label class="container-checkbox-setting-survey send-to-all">
                                     <span>@lang('lang.send_to_all')</span>
                                     {!! Form::checkbox('send_all', '', false, [
-                                        'class' => 'send-to-all-wsm-acc', 
+                                        'class' => 'send-to-all-wsm-acc',
                                         'id' => 'send-to-all-wsm-acc',
                                         'default' => config('settings.survey.send_mail_to_wsm.none'),
                                         'val' => config('settings.survey.send_mail_to_wsm.all')
@@ -222,7 +222,7 @@
                     </div>
                 </div>
                 <div id="tab-add-manager" class="container tab-pane"><br>
-                    <input type="hidden" name="members-setting" 
+                    <input type="hidden" name="members-setting"
                         id="members-setting"
                         members-data="">
                     <div class="form-group">
@@ -247,10 +247,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group table-member-div">
+                    <div class="form-group table-member-div" id="style-scroll-custom">
                         <table class="table-show-email-manager" border="1" cellspacing="0">
                             <thead>
-                                <tr>  
+                                <tr>
                                     <th>@lang('lang.email')</th>
                                     <th>@lang('lang.role')</th>
                                     <th><i class="fa fa-trash"></i></th>
