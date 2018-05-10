@@ -286,7 +286,7 @@ Route::group(['middleware' => 'profile'], function () {
             'as' => 'survey.result.index',
             'uses' => 'ResultController@result',
         ]);
-        
+
         Route::get('survey/result/detail', [
             'as' => 'survey.result.detail-result',
             'uses' => 'ResultController@detail',
@@ -296,7 +296,7 @@ Route::group(['middleware' => 'profile'], function () {
             'uses' => 'PreviewSurveyController@show',
             'as' => 'survey.create.preview',
         ]);
-    
+
         Route::get('next-preview', [
             'uses' => 'PreviewSurveyController@nextSection',
             'as' => 'survey.create.preview.next'
