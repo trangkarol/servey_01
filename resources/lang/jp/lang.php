@@ -156,6 +156,9 @@ return [
     'delete_survey_success' => 'Delete survey success!',
     'delete_survey_success' => 'Delete survey fail!',
     'not_allowed_to_delete_survey' => 'You are not allowed to delete this survey!',
+    'confirm_remove_last_question' => 'Are you sure want to remove this question and this section?',
+    'can_not_remove_last_section' => 'Can not remove! Survey must be have least a section!',
+    'can_not_remove_last_question' => 'Can not remove! Survey must be have least a question!',
 
     /*
     | 404 page
@@ -186,7 +189,7 @@ return [
     'private_this_survey' => 'Private this survey',
     'save' => 'Save',
     'cancel' => 'Cancel',
-    'mail-send-validate' => 'Email is not empty because You have checked Send a reminder email periodically',
+    'mail-send-validate' => 'Email is not empty because You have checked Send a reminder email periodically or Private this survey',
 
     /*
         add manager

@@ -156,6 +156,9 @@ return [
     'reorder_section' => 'Sắp xếp lại thứ tự',
     'of' => 'của',
     'previous' => 'Quay lại',
+    'confirm_remove_last_question' => 'Bạn có chắc chắn muốn xóa câu hỏi này và phần này không?',
+    'can_not_remove_last_section' => 'Không thể xóa! Khảo sát phải có ít nhất 1 phần!',
+    'can_not_remove_last_question' => 'Không thể xóa! Khảo sát phải có ít nhất 1 câu hỏi!',
 
     /*
     | 404 page
@@ -186,7 +189,7 @@ return [
     'private_this_survey' => 'Bảo mật cuộc khảo sát này?',
     'save' => 'Lưu',
     'cancel' => 'Hủy',
-    'mail-send-validate' => 'Email không được trống vì bạn đã chọn mục Gửi email nhắc nhở định kì',
+    'mail-send-validate' => 'Email không được trống vì bạn đã chọn mục Gửi email nhắc nhở định kì hoặc mục Bảo mật cuộc khảo sát này',
 
     /*
         add manager
