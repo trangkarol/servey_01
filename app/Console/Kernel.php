@@ -28,11 +28,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('command:auto-change-status')->daily();
-        $schedule->command('command:open-survey')->everyMinute();
+        $schedule->command('command:command:auto-close-survey')->everyMinute();
+        $schedule->command('command:auto-open-survey')->everyMinute();
         $schedule->command('backup:database')->weekly();
         $schedule->command('command:resend-email-remind-time-remaining')->everyMinute();
-        $schedule->command('command:send_reminder_email')->everyMinute();
+        $schedule->command('command:send-reminder-email')->everyMinute();
     }
 
     /**
