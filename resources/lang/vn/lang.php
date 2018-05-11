@@ -98,6 +98,9 @@ return [
     'subject' => 'Chủ đề',
     'subject_default_email' => 'Mẫu không có tiêu đề',
     'message_default_email' => 'Mời bạn tham gia thực hiện khảo sát:',
+    'delete_survey_success' => 'Xóa khảo sát thành công!',
+    'delete_survey_success' => 'Xóa khảo sát thất bại!',
+    'not_allowed_to_delete_survey' => 'Bạn không được phép khảo sát này!',
 
     /*
     | Survey Create Page
@@ -162,6 +165,11 @@ return [
     'error' => 'Lỗi',
     '404_message' => 'Trang bạn tìm kiếm không tồn tại.',
     'go_home' => 'Trở về trang chủ',
+
+    // 403 page
+
+    '403' => '403',
+    '403_message' => 'Bạn không có quyền thực hiện truy cập này',
 
     // setting survey
 

@@ -9,6 +9,7 @@ use App\Repositories\Like\LikeInterface;
 use App\Repositories\Invite\InviteInterface;
 use App\Repositories\Setting\SettingInterface;
 use App\Repositories\User\UserInterface;
+use App\Repositories\Section\SectionInterface;
 use App\Repositories\BaseRepository;
 use App\Models\Question;
 use App\Models\Answer;
@@ -28,26 +29,6 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
     public function getModel()
     {
         return Survey::class;
-    }
-
-    public function delete($ids)
-    {
-        DB::beginTransaction();
-        try {
-            $ids = is_array($ids) ? $ids : [$ids];
-            app(InviteInterface::class)->deleteBySurveyId($ids);
-            app(LikeInterface::class)->deleteBySurveyId($ids);
-            app(QuestionInterface::class)->deleteBySurveyId($ids);
-            app(SettingInterface::class)->deleteBySurveyId($ids);
-            parent::delete($ids);
-            DB::commit();
-
-            return true;
-        } catch (Exception $e) {
-            DB::rollback();
-
-            return false;
-        }
     }
 
     public function getResutlSurvey($token)
@@ -651,5 +632,14 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
     public function getSectionCurrent($survey, $currentSection)
     {
         return $survey->sections->where('order', $currentSection)->first();
+    }
+
+    public function deleteSurvey($survey)
+    {
+        $survey->invite()->delete();
+        $survey->settings()->delete();
+        $survey->members()->detach();
+
+        return $survey->forceDelete();
     }
 }

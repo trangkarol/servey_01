@@ -48,9 +48,9 @@ interface BaseInterface
 
     public function multiUpdate($column, $value, $input);
 
-    public function delete($ids);
+    public function delete();
 
-    public function forceDelete($ids);
+    public function forceDelete();
 
     public function join($tableName, $tableColumn, $modelColumn, $option = '');
 

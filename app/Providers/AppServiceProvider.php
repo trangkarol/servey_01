@@ -16,16 +16,14 @@ use App\Repositories\Result\ResultInterface;
 use App\Repositories\Result\ResultRepository;
 use App\Repositories\Invite\InviteInterface;
 use App\Repositories\Invite\InviteRepository;
-use App\Repositories\Like\LikeInterface;
-use App\Repositories\Like\LikeRepository;
-use App\Repositories\Temp\TempInterface;
-use App\Repositories\Temp\TempRepository;
 use App\Repositories\Setting\SettingInterface;
 use App\Repositories\Setting\SettingRepository;
+use App\Repositories\Section\SectionInterface;
+use App\Repositories\Section\SectionRepository;
 use App\Repositories\Feedback\FeedbackInterface;
 use App\Repositories\Feedback\FeedbackRepository;
-use App\Repositories\Request\RequestInterface;
-use App\Repositories\Request\RequestRepository;
+use App\Repositories\Media\MediaInterface;
+use App\Repositories\Media\MediaRepository;
 use Blade;
 use Session;
 
@@ -63,10 +61,9 @@ class AppServiceProvider extends ServiceProvider
         App::bind(QuestionInterface::class, QuestionRepository::class);
         App::bind(ResultInterface::class, ResultRepository::class);
         App::bind(InviteInterface::class, InviteRepository::class);
-        App::bind(LikeInterface::class, LikeRepository::class);
-        App::bind(TempInterface::class, TempRepository::class);
         App::bind(SettingInterface::class, SettingRepository::class);
         App::bind(FeedbackInterface::class, FeedbackRepository::class);
-        App::bind(RequestInterface::class, RequestRepository::class);
+        App::bind(SectionInterface::class, SectionRepository::class);
+        App::bind(MediaInterface::class, MediaRepository::class);
     }
 }

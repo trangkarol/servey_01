@@ -25,37 +25,6 @@ class InviteRepository extends BaseRepository implements InviteInterface
         parent::delete($this->whereIn('survey_id', $surveyId)->lists('id')->toArray());
     }
 
-    public function delete($ids)
-    {
-        DB::beginTransaction();
-        try {
-            $ids = is_array($ids) ? $ids : [$ids];
-            $invite = $this->whereIn('id', $ids)->get();
-            $senderId = $invite->recevier_id;
-            $surveyId = $invite->survey_id;
-            $questions = app(QuestionInterface::class)
-                ->where('survey_id', $surveyId)
-                ->lists('id')
-                ->toArray();
-            $answerIds = app(AnswerInterface::class)
-                ->whereIn('question_id', $questions)
-                ->lists('id')
-                ->toArray();
-            app(ResultInterface::class)
-                ->where('sender_id', $senderId)
-                ->whereIn('answer_id', $answerIds)
-                ->delete();
-            parent::delete($ids);
-            DB::commit();
-
-            return true;
-        } catch (Exception $e) {
-            DB::rollback();
-
-            return false;
-        }
-    }
-
     public function getResult($surveyId)
     {
         $charts = [];

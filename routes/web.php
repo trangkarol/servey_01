@@ -257,6 +257,10 @@ Route::group(['namespace' => 'Survey', 'middleware' => 'profile'], function () {
         'as' => 'survey.survey.update-background',
         'uses' => 'ProfileController@setBackground',
     ]);
+    Route::delete('survey/delete/{token}', [
+        'uses' => 'SurveyManagementController@delete',
+        'as' => 'survey.delete',
+    ]);
 });
 
 Route::group(['namespace' => 'Auth'], function () {

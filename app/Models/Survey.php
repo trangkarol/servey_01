@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Survey extends Model
 {
+    use SoftDeletes;
+
     const OWNER = 0;
     const APPROVE = 1;
 
@@ -25,6 +28,8 @@ class Survey extends Model
     protected $appends = [
         'status_custom',
     ];
+
+    protected $dates = ['deleted_at'];
 
     public function invite()
     {

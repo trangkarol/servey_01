@@ -246,18 +246,15 @@ abstract class BaseRepository implements BaseInterface
         return $this->model->whereIn($column, $value)->update($input);
     }
 
-    public function delete($ids)
+    public function delete()
     {
-        $ids = is_array($ids) ? $ids : [$ids];
-
-        return $this->model->whereIn('id', $ids)->delete();
+        return $this->model->delete();
     }
 
-    public function forceDelete($ids)
+    public function forceDelete()
     {
-        $ids = is_array($ids) ? $ids : [$ids];
 
-        return $this->model->whereIn('id', $ids)->forceDelete();
+        return $this->model->forceDelete();
     }
 
     public function orderBy($column, $option = 'asc')
