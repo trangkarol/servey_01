@@ -4,6 +4,7 @@ namespace App\Repositories\Survey;
 
 use DB;
 use Exception;
+use App\Repositories\Result\ResultInterface;
 use App\Repositories\Question\QuestionInterface;
 use App\Repositories\Like\LikeInterface;
 use App\Repositories\Invite\InviteInterface;
@@ -31,11 +32,8 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         return Survey::class;
     }
 
-    /* get survey result -new- */
-    public function getResutlSurvey($token)
+    public function getResutlSurvey($survey)
     {
-        $survey = $this->where('token', $token)->with('sections.questions.answers.results')->first();
-
         foreach ($survey->sections as $section) {
             $temp = [];
 
@@ -530,31 +528,23 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         ];
     }
 
-    public function exportExcel($id)
+    /* new */
+    public function getResultExport($survey)
     {
-        $survey = $this->model->find($id);
-
-        $checkRequireAnswer = $survey->settings()->where('key', config('settings.key.requireAnswer'))->pluck('value', 'key')->all();
-        $results = [];
-        $questions = $survey->questions()->with('results.answer')->get()->all();
-        $numberResults = count($survey->questions->first()->results()->get()->all());
-        $numberQuestion = count($questions);
-
-        for ($i = 0; $i < $numberResults; $i ++) {
-            $question = [];
-            for ($j = 0; $j < $numberQuestion; $j ++) {
-                if (isset($questions[$j]['results'][$i])) {
-                    $question = $questions[$j]['results'][$i];
+        $requiredSurvey = $survey->required;
+        $questions = app(QuestionInterface::class)->whereIn('section_id', $survey->sections->pluck('id'))
+            ->with('answerResults', 'settings')->get();
+        $results = app(ResultInterface::class)->whereIn('question_id', $questions->pluck('id'))
+            ->with('answer.settings', 'user')->get()->groupBy(
+                function($date) {
+                    return Carbon::parse($date->created_at)->format('Y-m-d H:m:s.u');
                 }
-            }
-
-            $results[] = $question;
-        }
+            );
 
         return [
             'questions' => $questions,
             'results' => $results,
-            'checkRequireAnswer' => $checkRequireAnswer,
+            'requiredSurvey' => $requiredSurvey,
         ];
     }
 

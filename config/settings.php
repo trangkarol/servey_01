@@ -297,4 +297,5 @@ return [
     'detect_page_refresh' => 'max-age=0',
     'section_show_default' => 0,
     'section_order_default' => 1,
+    'limit_title_excel' => 25,
 ];

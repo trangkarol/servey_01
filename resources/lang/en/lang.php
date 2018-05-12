@@ -159,7 +159,7 @@ return [
     'confirm_remove_last_question' => 'Are you sure want to remove this question and this section?',
     'can_not_remove_last_section' => 'Can not remove! Survey must be have least a section!',
     'can_not_remove_last_question' => 'Can not remove! Survey must be have least a question!',
-    
+
     /*
     | 404 page
     */
@@ -228,4 +228,9 @@ return [
     'share' => 'Share',
     'question_required' => 'This is a required question',
     'your_answer_has_been_recorded' => 'Your answer has been recorded',
+    'export_excel' => 'Download the answer',
+    'type' => 'Type',
+    'exit' => 'Exit',
+    'export' => 'Download',
+    'export_error' => 'Export error!',
 ];

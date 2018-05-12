@@ -71,7 +71,7 @@ span.percent-answer {
 }
 
 .highcharts-pie-series .highcharts-point {
-    stroke: none !important; 
+    stroke: none !important;
 }
 
 .form-line-title-survey-result {
@@ -173,4 +173,25 @@ span.index-question {
     width: 30px;
     text-align: center;
     color: #fff;
+}
+
+.btn-export-excel {
+    text-align: right;
+}
+
+.btn-export-excel a {
+    color: #000;
+    font-size: 20px;
+}
+
+.content-pupup-export {
+    padding: 5px 30px;
+}
+
+.footer-pupup-export {
+    padding-right: 15px;
+}
+
+.modal-dialog {
+    width: 500px;
 }
