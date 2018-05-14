@@ -44,7 +44,7 @@ class UserTableSeeder extends Seeder
             ]);
 
             //create invites mail
-            $survey->invites()->create([
+            $survey->invite()->create([
                 'invite_mails' => $this->getEmailOfUser($user),
                 'answer_mails' => '',
                 'status' => config('settings.survey.invite_status.not_finish'),
@@ -113,7 +113,7 @@ class UserTableSeeder extends Seeder
 
             foreach ($questions as $question) {
                 $answer_id = 0;
-                $question_id = 0;
+                $question_id = $question->id;
                 $key = $question->settings()->pluck('key')->first();
 
                 if (in_array($key, [
@@ -121,9 +121,7 @@ class UserTableSeeder extends Seeder
                     config('settings.question_type.checkboxes'),
                 ])) {
                     $answer_id = $question->answers()->get()->random()->id;
-                    $question_id = 0;
                 } else {
-                    $question_id = $question->id;
                     $answer_id = 0;
                 }
 

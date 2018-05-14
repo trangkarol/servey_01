@@ -39,8 +39,8 @@
                         <li class="p-0">
                             <div class="form-header">
                                 <div class="section-badge section-option-menu">
-                                    <span class="number-of-section">@lang('lang.section') 
-                                        <span class="section-index">{{ $loop->iteration }}</span> / 
+                                    <span class="number-of-section">@lang('lang.section')
+                                        <span class="section-index">{{ $loop->iteration }}</span> /
                                         <span class="total-section"></span>{{ count($resultsSurveys) }}
                                     </span>
                                     <div class="right-header-section">
@@ -78,7 +78,12 @@
                                         <div class="form-group form-group-description-section">
                                             <span class="number-result-answer">{{ $result['count_answer'] }} @lang('result.number_answer')</span>
                                         </div>
-                                        @if ($result['question']->answerResults->count())
+                                        @if (in_array($result['question']->type, [
+                                                config('settings.question_type.short_answer'),
+                                                config('settings.question_type.long_answer'),
+                                                config('settings.question_type.date'),
+                                                config('settings.question_type.time'),
+                                            ]))
                                             <div class="answer-result scroll-answer-result" id="style-scroll-3">
                                                 @foreach ($result['answers'] as $answer)
                                                     <p class="{{ ($loop->iteration % config('settings.checkEventOdd')) ?

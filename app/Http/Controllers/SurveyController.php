@@ -10,6 +10,7 @@ use App\Repositories\Invite\InviteInterface;
 use App\Repositories\Setting\SettingInterface;
 use App\Repositories\User\UserInterface;
 use App\Repositories\Feedback\FeedbackInterface;
+use App\Repositories\Result\ResultInterface;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use App\Jobs\SendMail;
 use Carbon\Carbon;
@@ -23,11 +24,13 @@ use App\Models\Survey;
 use App\Http\Requests\UpdateSurveyRequest;
 use Predis\Connection\ConnectionException;
 use App\Http\Requests\SurveyRequest;
+use App\Http\Requests\ResultRequest;
 use Auth;
+use App\Traits\SurveyProcesser;
 
 class SurveyController extends Controller
 {
-    use DispatchesJobs;
+    use DispatchesJobs, SurveyProcesser;
 
     protected $surveyRepository;
     protected $questionRepository;
@@ -35,6 +38,7 @@ class SurveyController extends Controller
     protected $settingRepository;
     protected $userRepository;
     protected $feedbackRepository;
+    protected $resultRepository;
 
     public function __construct(
         SurveyInterface $surveyRepository,
@@ -42,7 +46,8 @@ class SurveyController extends Controller
         InviteInterface $inviteRepository,
         SettingInterface $settingRepository,
         UserInterface $userRepository,
-        FeedbackInterface $feedbackRepository
+        FeedbackInterface $feedbackRepository,
+        ResultInterface $resultRepository
     ) {
         $this->surveyRepository = $surveyRepository;
         $this->questionRepository = $questionRepository;
@@ -50,6 +55,7 @@ class SurveyController extends Controller
         $this->settingRepository = $settingRepository;
         $this->userRepository = $userRepository;
         $this->feedbackRepository = $feedbackRepository;
+        $this->resultRepository = $resultRepository;
     }
 
     public function index()
@@ -193,15 +199,41 @@ class SurveyController extends Controller
         }
     }
 
-    public function show($token)
+    public function show(Request $request, $token)
     {
-        $surveys = $this->surveyRepository->where('token', $token)->first();
+        $survey = $this->surveyRepository->getSurvey($token);
+        $numOfSection = $survey->sections()->count();
 
-        if (!$surveys) {
-            return view('errors.404');
+        if ($request->ajax()) {
+            $currentSection = $request->session()->get('current_section_survey');
+            $request->session()->put('current_section_survey', ++ $currentSection);
+            $section = $this->surveyRepository->getSectionCurrent($survey, $currentSection);
+            $sectionOrder = 'section-' . $section->order;
+
+            return response()->json([
+                'success' => true,
+                'html' => view('clients.survey.detail.content-survey', compact([
+                    'section',
+                    'currentSection',
+                    'numOfSection',
+                    'survey',
+                ]))->render(),
+                'section_order' => $sectionOrder,
+            ]);
         }
 
-        return view('user.pages.answer', compact('surveys'));
+        Session::put('current_section_survey', config('settings.section_order_default'));
+        $currentSection = config('settings.section_order_default');
+        $section = $this->surveyRepository->getSectionCurrent($survey, $currentSection);
+
+        return view('clients.survey.detail.index', compact([
+                'survey',
+                'section',
+                'numOfSection',
+                'currentSection',
+                'questionPrevious',
+            ])
+        );
     }
 
     public function edit($tokenManage)
@@ -723,5 +755,32 @@ class SurveyController extends Controller
                 return response()->json($emails);
             }
         }
+    }
+
+    /* store result -new- */
+    public function storeResult(ResultRequest $request)
+    {
+        if (!$request->ajax()) {
+            return response()->json([
+                'success' => false,
+            ]);
+        }
+
+        $success = true;
+        $survey = $this->resultRepository->storeResult($request->json(), $this->surveyRepository);
+
+        if (!$survey) {
+            $success = false;
+        } else {
+            $request->session()->flash('success', trans('lang.your_answer_has_been_recorded'));
+        }
+
+        $request->session()->forget('current_section_survey');
+
+        return response()->json([
+            'success' => $success,
+            'json' => $survey,
+            'redirect' => route('home'),
+        ]);
     }
 }

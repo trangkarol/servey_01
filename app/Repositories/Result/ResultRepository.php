@@ -36,8 +36,8 @@ class ResultRepository extends BaseRepository implements ResultInterface
 
             foreach ($sections as $section) {
                 $temp = [
-                    'question_id' => '',
-                    'answer_id' => '',
+                    'question_id' => 0,
+                    'answer_id' => 0,
                     'content' => '',
                 ];
 

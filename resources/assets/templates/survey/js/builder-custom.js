@@ -1978,6 +1978,7 @@ jQuery(document).ready(function () {
         var dataArray = $('form.survey-form').serializeArray();
         var survey = getSurvey(dataArray);
         var data = JSON.stringify(survey);
+        var redirectWindow = window.open(urlLocation, '_blank');
 
         if (!valid || !survey) {
             return;
@@ -1992,7 +1993,7 @@ jQuery(document).ready(function () {
         })
         .done(function (data) {
             if (data.success) {
-                window.open(urlLocation);
+                redirectWindow.location;
             }
         });
     });

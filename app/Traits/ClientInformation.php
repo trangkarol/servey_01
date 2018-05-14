@@ -62,7 +62,7 @@ trait ClientInformation
                 // update mail invite and mail answer
                 $userMail = Auth::user()->email . '/';
                 $invite = $survey->invite;
-                
+
                 $invite->update([
                     'invite_mails' => str_replace($userMail, '', $invite->invite_mails),
                     'answer_mails' => $invite->answer_mails . $userMail,

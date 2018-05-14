@@ -226,4 +226,6 @@ return [
     'copy_link' => 'Copy link',
     'copied_link' => 'Copied',
     'share' => 'Share',
+    'question_required' => 'This is a required question',
+    'your_answer_has_been_recorded' => 'Your answer has been recorded',
 ];

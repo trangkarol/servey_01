@@ -31,6 +31,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         return Survey::class;
     }
 
+    /* get survey result -new- */
     public function getResutlSurvey($token)
     {
         $survey = $this->where('token', $token)->with('sections.questions.answers.results')->first();
@@ -40,8 +41,14 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
 
             foreach ($section->questions as $question) {
                 $totalAnswerResults = config('settings.number_0');
+                $questionType = $question->type;
 
-                if ($question->answerResults->count()) {
+                if (in_array($question->type, [
+                    config('settings.question_type.short_answer'),
+                    config('settings.question_type.long_answer'),
+                    config('settings.question_type.date'),
+                    config('settings.question_type.time'),
+                ])) {
                     $totalAnswerResults = $question->answerResults->count();
 
                     if ($totalAnswerResults) {
