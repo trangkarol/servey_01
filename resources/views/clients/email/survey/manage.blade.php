@@ -8,18 +8,18 @@
             .content-body {
                 background: #e6e6e6;
                 margin: 0;
-                padding: 50px 120px;
+                padding: 5px 120px;
             }
 
             table.content {
                margin: 50px auto;
                border-collapse: collapse;
                width: 100%;
-               max-width: 600px;
+               max-width: 700px;
             }
 
             table.content > tbody tr td {
-                padding: 20px 20px 10px 20px;
+                padding: 20px 40px 0px 40px;
                 color: #555555;
                 font-family: Arial, sans-serif;
                 font-size: 17px;
@@ -30,7 +30,7 @@
             table.content > tbody tr.tr-1 > td {
                 background: #404040;
                 text-align: center;
-                padding: 20px 20px 20px 20px;
+                padding: 20px 40px 20px 40px;
                 color: #ffffff;
                 font-family: VnBodoni;
                 font-size: 36px;
@@ -38,7 +38,7 @@
             }
 
             table.content > tbody tr.tr-3 > td {
-                padding: 0 20px 20px 20px;
+                padding: 0 40px 20px 40px;
                 color: #555555;
                 font-family: Arial, sans-serif;
                 font-size: 15px;
@@ -47,17 +47,21 @@
             }
 
             table.content > tbody tr.tr-5 > td {
-                padding: 10px 20px 0px 20px;
+                padding: 10px 40px 0px 40px;
                 font-family: Arial, sans-serif;
                 font-size: 20px;
             }
 
             table.content > tbody tr.tr-6 > td {
-               background: white;
-               padding: 0 20px 20px 20px;
-               font-family: Arial, sans-serif;
-               line-height: 24px;
-               border-bottom: 1px solid #f6f6f6;
+                background: white;
+                padding: 0 40px 20px 40px;
+                font-family: Arial, sans-serif;
+                line-height: 24px;
+                border-bottom: 20px solid #e6e6e6;
+            }
+
+            .footer-mail-content {
+                border-bottom: none !important;
             }
 
             table.content > tbody tr.tr-7 > td {
@@ -118,16 +122,16 @@
     <body>
         <div class="content-body">
             <div>
-                @foreach (config('settings.locale') as $lang)
-                    <table align="center" border="0" cellpadding="0" cellspacing="0" class="content">
-                        <tbody>
-                            <tr class="tr-1">
-                                <td>
-                                    <h1 class="logo">
-                                        <a href="{{ route('home') }}">{!! config('settings.logo_content') !!}</a>
-                                    </h1>
-                                </td>
-                            </tr>
+                <table align="center" border="0" cellpadding="0" cellspacing="0" class="content">
+                    <tbody>
+                        <tr class="tr-1">
+                            <td>
+                                <h1 class="logo">
+                                    <a href="{{ route('home') }}">{!! config('settings.logo_content') !!}</a>
+                                </h1>
+                            </td>
+                        </tr>
+                        @foreach (config('settings.locale') as $lang)
                             <tr class="tr-2">
                                 <td>
                                     <h4>{{ Lang::choice('email.dear', 0, [], $lang) . ', ' . $name . '.' }}</h4>
@@ -158,7 +162,7 @@
                                 </td>
                             </tr>
                             <tr class="tr-6">
-                                <td>
+                                <td class="{{ (count(config('settings.locale')) == $loop->iteration) ? 'footer-mail-content' : '' }}">
                                     <p>{{ Lang::choice('email.title', 0, [], $lang) . ': ' . $title }}</p>
                                     <p>{{ Lang::choice('email.description', 0, [], $lang) . ': ' .
                                         ($description ?: Lang::choice('email.no_description', 0, [], $lang)) }}</p>
@@ -168,11 +172,10 @@
                                     </div>
                                 </td>
                             </tr>
-                            <tr class="tr-7"><td></td></tr>
-                        </tbody>
-                    </table>
-                    <hr/>
-                @endforeach
+                        @endforeach
+                        <tr class="tr-7"><td></td></tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </body>

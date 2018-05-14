@@ -532,11 +532,13 @@ jQuery(document).ready(function () {
                 $(image).insertAfter(element.find('.description-input'));
 
                 element.find('.question-input').val(questionData['content']);
+                element.find('.question-input').keyup();
 
                 if (questionData['description']) {
                     element.find('.question-description-input').val(questionData['description']);
                     element.find('.description-input').addClass('active');
                     element.find('.option-menu-selected').addClass('active');
+                    element.find('.question-description-input').keyup();
                 }
             }
         });
@@ -572,7 +574,12 @@ jQuery(document).ready(function () {
 
     function removeElement(event, element) {
         event.preventDefault();
-        window.questionSelected = element.closest('li').prev();
+        window.questionSelected = element.closest('li.question-active').prev('li.form-line.sort');
+
+        if (!window.questionSelected.length) {
+            window.questionSelected = element.closest('li.question-active').next('li.form-line.sort');
+        }
+
         // remove validation tooltip
         element.closest('li.form-line').find('textarea[data-toggle="tooltip"], input[data-toggle="tooltip"]').each(function () {
             $(`#${$(this).attr('aria-describedby')}`).remove();
@@ -862,6 +869,33 @@ jQuery(document).ready(function () {
     $('.content-wrapper form').on('click', '.remove-element', function (event) {
         event.preventDefault();
         event.stopPropagation();
+
+        var question = $(this).closest('.page-section.sortable.ui-sortable').find('li.form-line.sort');
+        var section = $('.page-section.sortable.ui-sortable');
+
+        // if just have 1 question on section
+        if (question.length == 1) {
+            // if just have 1 section on page, then can not delete
+            if (section.length == 1) {
+                alert(Lang.get('lang.can_not_remove_last_question'))
+
+                return false;
+            }
+
+            if (confirm(Lang.get('lang.confirm_remove_last_question'))) {
+                selectSection = $(this).closest('.page-section.sortable.ui-sortable').prev('.page-section.sortable.ui-sortable');
+
+                if (!selectSection.length) {
+                    selectSection = $(this).closest('.page-section.sortable.ui-sortable').next('.page-section.sortable.ui-sortable');
+                }
+
+                selectSection.find('li.form-line.sort').click();
+                $(this).closest('.page-section.sortable.ui-sortable').find('.delete-section').click();
+            }
+
+            return false;
+        }
+
         removeElement(event, $(this));
     });
 
@@ -960,10 +994,6 @@ jQuery(document).ready(function () {
         if ((e.keyCode || e.which) === 13) {
             return false;
         }
-    });
-
-    $('.option-menu-group .option-menu-dropdown .remove-element').click(function (event) {
-        removeElement(event, $(this));
     });
 
     /**
@@ -1436,9 +1466,6 @@ jQuery(document).ready(function () {
                 surveyData.data('number-section', numberOfSections + 1);
                 $('.total-section').html(numberOfSections + 1);
                 formSortable();
-                $('.option-menu-group .option-menu-dropdown .remove-element').click(function (event) {
-                    removeElement(event, $(this));
-                });
 
                 element.find('li.sort').first().click();
 
@@ -2668,6 +2695,12 @@ jQuery(document).ready(function () {
         var currentSectionSelected = $(this).closest('.page-section');
         var prevSection = $(currentSectionSelected).prev();
 
+        if (numberOfSections == 1) {
+            alert(Lang.get('lang.can_not_remove_last_section'))
+
+            return false;
+        }
+
         // remove validation tooltip
         currentSectionSelected.find('textarea[data-toggle="tooltip"], input[data-toggle="tooltip"]').each(function () {
             $(`#${$(this).attr('aria-describedby')}`).remove();
@@ -2737,7 +2770,7 @@ jQuery(document).ready(function () {
     // btn save setting
     $('.btn-action-setting-save').click(function () {
         // validate required email invite if checked reminder time]
-        if ($('#checkbox-mail-remind').prop('checked')) {
+        if ($('#checkbox-mail-remind').prop('checked') || $('#security-survey').prop('checked')) {
             var mailInvite = $('.div-show-all-email label.label-show-email');
 
             $('.error-mail-send').each(function () {
@@ -3076,5 +3109,23 @@ jQuery(document).ready(function () {
 
     $('.survey-form').on('click', '.form-line.sort', function (e) {
         markQuestionRequired();
+    });
+
+    // if click header section
+    $('.survey-form').on('click', '.section-header-title, .section-header-description', function (e) {
+        var active = false;
+        var question = $(this).closest('.page-section').find('.form-line.sort');
+
+        question.each(function () {
+            if ($(this).hasClass('question-active')) {
+                active = true;
+
+                return;
+            }
+        });
+
+        if (!active) {
+            question.first().click();
+        }
     });
 });
