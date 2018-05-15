@@ -86,4 +86,17 @@ class SurveyManagementController extends Controller
             return back()->with('delete_survey_fail', trans('lang.delete_survey_fail'));
         }
     }
+
+    public function closeSurvey($token)
+    {
+        $survey = $this->surveyRepository->where('token_manage', $token)->first();
+
+        if (Auth::user()->cannot('close', $survey)) {
+            return view('clients.layout.403');
+        }
+
+        $survey->delete();
+
+        return back()->with('close_survey_success', trans('lang.close_survey_success'));
+    }
 }

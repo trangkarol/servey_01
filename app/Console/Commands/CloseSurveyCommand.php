@@ -15,7 +15,7 @@ class CloseSurveyCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'command:auto-change-status';
+    protected $signature = 'command:auto-close-survey';
     protected $surveyRepository;
     protected $settingRepository;
 
@@ -45,18 +45,10 @@ class CloseSurveyCommand extends Command
      */
     public function handle()
     {
-        $surveyIds = $this->surveyRepository
-            ->where('deadline', '<', Carbon::now())
-            ->where('status', '<>', config('survey.status.block'))
-            ->lists('id')
+        $surveyIds = $this->surveyRepository->where('status', config('settings.survey.status.open'))
+            ->where('end_time', '<', Carbon::now())
+            ->pluck('id')
             ->all();
-        $surveyInSetting = $this->settingRepository
-            ->where('key', config('settings.key.limitAnswer'))
-            ->where('value', '0')
-            ->lists('survey_id')
-            ->all();
-        $surveyCloses = array_unique(array_merge($surveyIds, $surveyInSetting));
-        $this->surveyRepository->newQuery(new Survey());
-        $this->surveyRepository->multiUpdate('id', $surveyCloses, ['status' => config('survey.status.block')]);
+        $this->surveyRepository->whereIn('id', $surveyIds)->delete();
     }
 }

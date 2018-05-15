@@ -75,6 +75,18 @@ class SurveyPolicy
         return false;
     }
 
+    public function close(User $user, Survey $survey)
+    {
+        $creator = $survey->members->where('role', config('settings.survey.members.owner'))->first();
+
+        // only creator can close survey
+        if ($user->id == $creator->id) {
+            return true;
+        }
+
+        return false;
+    }
+
     public function before(User $user)
     {
         if ($user->isAdmin() || $user->isSupperAdmin()) {

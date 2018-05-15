@@ -22,7 +22,7 @@ class ResendReminderEmailCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'command:send_reminder_email';
+    protected $signature = 'command:send-reminder-email';
 
     /**
      * The console command description.

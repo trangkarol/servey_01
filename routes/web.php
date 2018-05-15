@@ -261,6 +261,10 @@ Route::group(['namespace' => 'Survey', 'middleware' => 'profile'], function () {
         'uses' => 'SurveyManagementController@delete',
         'as' => 'survey.delete',
     ]);
+    Route::get('survey/close/{token}', [
+        'uses' => 'SurveyManagementController@closeSurvey',
+        'as' => 'survey.close',
+    ]);
 });
 
 Route::group(['namespace' => 'Auth'], function () {

@@ -14,7 +14,7 @@ class OpenSurveyCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'command:open-survey';
+    protected $signature = 'command:auto-open-survey';
 
     /**
      * The console command description.
@@ -41,13 +41,10 @@ class OpenSurveyCommand extends Command
      */
     public function handle()
     {
-        $surveyIds = $this->surveyRepository
-            ->where('start_time', '>', Carbon::now()->subMinutes(1))
-            ->where('start_time', '<', Carbon::now()->addMinutes(1))
-            ->where('status', '<>', config('survey.status.available'))
-            ->lists('id')
+        $surveyIds = $this->surveyRepository->where('status', config('settings.survey.status.close'))
+            ->where('start_time', '<', Carbon::now())
+            ->pluck('id')
             ->all();
-        $this->surveyRepository->newQuery(new Survey());
-        $this->surveyRepository->multiUpdate('id', $surveyIds, ['status' => config('survey.status.available')]);
+        $this->surveyRepository->multiUpdate('id', $surveyIds, ['status' => config('settings.survey.status.open')]);
     }
 }
