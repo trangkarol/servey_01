@@ -50,6 +50,14 @@
             </div>
             <!-- Content Wrapper  -->
         </main>
+        <div class="modal fade" id="loader-section-survey-doing">
+            <section>
+                <div class="loader-spin">
+                    <div class="loader-outter-spin"></div>
+                    <div class="loader-inner-spin"></div>
+                </div>
+            </section>
+        </div>
     </body>
     <!-- Plugins -->
     {!! Html::script(asset(config('settings.plugins') . 'jquery/jquery.min.js')) !!}

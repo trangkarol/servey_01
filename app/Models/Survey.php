@@ -84,7 +84,7 @@ class Survey extends Model
             return Carbon::parse($this->attributes['end_time'])->diffInDays(Carbon::parse($start_time));
         }
 
-        return ''; 
+        return '';
     }
 
     public function getTrimTitleAttribute()

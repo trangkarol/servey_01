@@ -125,9 +125,10 @@ $(document).ready(function() {
         var selector = $(this).closest('.ul-content-preview');
 
         if (selector) {
-            $(selector).hide('slide', { direction: 'right' }, 600);
-            $(`#${$(selector).attr('data-prev')}`).show(600);
-            $('html, body').animate({ scrollTop: 0 });
+            showLoaderSection();
+            $(selector).hide();
+            $(`#${$(selector).attr('data-prev')}`).show();
+            hideLoaderSection();
         }
 
         return false;
@@ -143,10 +144,12 @@ $(document).ready(function() {
             return false;
         }
 
+        showLoaderSection();
+
         if ($(selector).attr('data-next')) {
-            $(selector).hide('slide', { direction: 'left' }, 600);
-            $(`#${$(selector).attr('data-next')}`).show(600);
-            $('html, body').animate({ scrollTop: 0 });
+            $(selector).hide();
+            $(`#${$(selector).attr('data-next')}`).show();
+            hideLoaderSection();
         } else {
             var sectionOrderPrev = $(selector).attr('id');
             var dataUrl = $(this).attr('data-url');
@@ -173,7 +176,7 @@ $(document).ready(function() {
 
                     $('.ul-content-preview').each(function () {
                         if($(this).attr('id') != data.section_order) {
-                            $(this).hide('slide', { direction: 'left' }, 600);
+                            $(this).hide();
                         } else {
                             $(this).attr('data-prev', sectionOrderPrev);
                         }
@@ -197,8 +200,7 @@ $(document).ready(function() {
                     })
 
                     autoResizeTextarea();
-
-                    $('html, body').animate({ scrollTop: 0 });
+                    hideLoaderSection();
                 }
             })
         }
@@ -231,6 +233,7 @@ $(document).ready(function() {
         obj.client_ip = '';
         obj.sections = getSections();
         var result = JSON.stringify(obj);
+        showLoaderSection();
 
         $.ajax({
             url: dataUrl,
@@ -246,6 +249,30 @@ $(document).ready(function() {
 
         return false;
     });
+
+    $(document).on('keyup blur', '.short-answer-text', function() {
+        var text = $(this).val();
+        var countChar = text.length;
+
+        if (countChar > 100) {
+            $(this).closest('.li-question-review.form-line').find('.notice-max-length').addClass('show');
+        } else {
+            $(this).closest('.li-question-review.form-line').find('.notice-max-length').removeClass('show');
+        }
+    })
+
+    function hideLoaderSection() {
+        $('html, body').scrollTop(0);
+        setTimeout(function() {
+            $('#loader-section-survey-doing').removeClass('show');
+            document.body.style.overflow = 'visible';
+        }, 500);
+    }
+
+    function showLoaderSection() {
+        $('#loader-section-survey-doing').addClass('show');
+        document.body.style.overflow = 'hidden';
+    }
 
     function checkCheckboxCheckRequired(selector) {
         if ($(selector).prop('checked') &&
@@ -298,11 +325,13 @@ $(document).ready(function() {
 
     function getResults(element) {
         var results = [];
+        var checkResult = false;
 
         $(element).children('.item-answer').each(function () {
             var answerId = $(this).attr('data-id');
 
             if (!answerId) {
+                checkResult = true;
                 var result = {};
                 result.answer_id = '';
                 result.answer_type = '';
@@ -313,6 +342,7 @@ $(document).ready(function() {
                 var answerType = $(this).attr('data-type');
 
                 if ($(selectorAnswer).is(':checked')) {
+                    checkResult = true;
                     var result = {};
                     result.answer_id = answerId;
                     result.answer_type = answerType;
@@ -321,6 +351,14 @@ $(document).ready(function() {
                 }
             }
         });
+
+        if (!checkResult) {
+            var result = {};
+            result.answer_id = '';
+            result.answer_type = '';
+            result.content = '';
+            results.push(result);
+        }
 
         return results;
     }
@@ -364,12 +402,15 @@ $(document).ready(function() {
                     selectorQuestion.find('.magic-box-preview').removeClass('change-css-required');
                     $(selectorQuestion).find('.notice-required').hide();
                 }
+            }
 
+            if (selectorQuestion.find('.notice-max-length').length) {
+                check = true;
             }
         })
 
         if (check) {
-            $(selector).find('.notice-required').each(function() {
+            $(selector).find('.notice-required, .notice-max-length').each(function() {
                 if ($(this).is(':visible')) {
                     $('html, body').animate({
                         scrollTop: $(this).offset().top - 150

@@ -109,20 +109,25 @@
                         @endphp
 
                         @foreach ($resultsSurvey['question_result'] as $result)
-                            @if ($result['answers'])
-                                <li class="li-question-review form-line li-question-result">
-                                    @if ($result['question_type'] == config('settings.question_type.title'))
-                                        <div class="title-question-preview">
-                                            <span>{{ $result['question']->title }}</span>
-                                        </div>
-                                        <div class="form-group form-group-description-section">
-                                            <span class="description-section">{{ $result['question']->description }}</span>
-                                        </div>
-                                    @else
-                                        <h4 class="title-question"><span class="index-question">{{ ++ $indexQuestion}}</span>{{ $result['question']->title }}</h4>
-                                        <div class="form-group form-group-description-section">
-                                            <span class="number-result-answer">{{ $result['count_answer'] }} @lang('result.number_answer')</span>
-                                        </div>
+                            <li class="li-question-review form-line li-question-result">
+                                @if ($result['question_type'] == config('settings.question_type.title'))
+                                    <div class="title-question-preview">
+                                        <span>{{ $result['question']->title }}</span>
+                                    </div>
+                                    <div class="form-group form-group-description-section">
+                                        <span class="description-section">{{ $result['question']->description }}</span>
+                                    </div>
+                                @else
+                                    <h4 class="title-question">
+                                        <span class="index-question">{{ ++ $indexQuestion }}</span>{{ $result['question']->title }}
+                                        @if ($result['question']->required)
+                                            <span class="notice-required-question"> *</span>
+                                        @endif
+                                    </h4>
+                                    <div class="form-group form-group-description-section">
+                                        <span class="number-result-answer">{{ $result['count_answer'] }} @lang('result.number_answer')</span>
+                                    </div>
+                                    @if ($result['answers'])
                                         @if (in_array($result['question']->type, [
                                                 config('settings.question_type.short_answer'),
                                                 config('settings.question_type.long_answer'),
@@ -154,9 +159,11 @@
                                                     data="{{ json_encode($result['answers']) }}"></div>
                                             @endif
                                         @endif
+                                    @else
+                                        <span class="no-answer">@lang('result.there_is_no_result')</span>
                                     @endif
-                                </li>
-                            @endif
+                                @endif
+                            </li>
                         @endforeach
                     </ul>
                 @endforeach

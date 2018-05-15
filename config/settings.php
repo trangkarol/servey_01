@@ -303,4 +303,5 @@ return [
     'date_format_vn' => 'DD/MM/YYYY',
     'date_format_en' => 'MM/DD/YYYY',
     'date_format_jp' => 'YYYY/MM/DD',
+    'group_content_result' => '',
 ];

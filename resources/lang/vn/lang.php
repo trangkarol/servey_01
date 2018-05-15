@@ -212,6 +212,7 @@ return [
     'setting' => 'Cài đặt',
     'other' => 'Khác:',
     'preview' => 'Xem trưóc',
+    'require_length_short' => 'Không được nhập quá 100 kí tự',
 
     /*
         create survey complete
