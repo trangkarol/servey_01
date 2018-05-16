@@ -4,12 +4,13 @@ $(document).ready(function() {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+    $('.datepicker-preview').each(function() {
+        var dateFormat = $(this).attr('data-dateformat');
 
-    var locale = $('.datepicker-preview').attr('locale');
-
-    $('.datepicker-preview').datetimepicker({
-        format: getTimeZone(locale),
-    });
+        $(this).datetimepicker({
+            format: dateFormat,
+        });
+    })
 
     $('.timepicker-preview').datetimepicker({
         format: 'HH:mm',

@@ -197,7 +197,7 @@ return [
         'send_mail_to_wsm' => [
             'none' => 0,
             'all' => 1,
-        ], 
+        ],
         'paginate' => 15,
     ],
     'question_type' => [
@@ -300,4 +300,7 @@ return [
     'section_order_default' => 1,
     'limit_title_excel' => 25,
     'invited' => 1,
+    'date_format_vn' => 'DD/MM/YYYY',
+    'date_format_en' => 'MM/DD/YYYY',
+    'date_format_jp' => 'YYYY/MM/DD',
 ];
