@@ -4178,3 +4178,77 @@ Dashboard
     width: 30%;
     z-index: 100;
 }
+
+.float-left {
+    float: left;
+}
+
+.clear {
+    clear: both;
+}
+
+.progress.process-bar-survey {
+    height: 19px !important;
+    border: 1px solid #c8c8c8 !important;
+}
+
+.icon-list-survey {
+    margin-top: 1%;
+}
+
+.badge-list-survey {
+    padding: 3%;
+    padding-bottom: 4%;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2
+}
+
+.form-search-list-survey {
+    display: inherit;
+    margin-bottom: 1%;
+}
+
+.select-list-survey {
+    padding: 0.9rem 1.1rem !important;
+    font-weight: 400 !important;
+    color: #8c8f92 !important;
+    border-color: #dddddd !important;
+}
+
+tr, th, td {
+    border-color: #dddddd !important;
+}
+
+.table-list-survey thead th {
+    background: #19b0ec;
+    color: #fff !important;;
+}
+
+.btn-search-owner {
+    margin-top: 0.5%;
+}
+
+.image-coordinator {
+    padding-right: 3%;
+}
+
+.image-coordinator img {
+    height: 43px;
+}
+
+.name-coordinator {
+    color: #333;
+}
+
+.mail-coordinator {
+    font-size: 12px;
+    color: #a59797;
+}
+
+.empty-data {
+    padding: 2%;
+    background: #f8f8f8;
+    border-radius: 1%;
+}

@@ -15,5 +15,5 @@ return [
 
     'previous' => '&laquo; Previous',
     'next'     => 'Next &raquo;',
-
+    'empty_data' => 'Nothing data to show.',
 ];

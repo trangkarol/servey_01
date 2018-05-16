@@ -15,5 +15,5 @@ return [
 
     'previous' => '&laquo; Lùi lại',
     'next'     => 'Tiếp theo &raquo;',
-
+    'empty_data' => 'Dữ liệu là trống..',
 ];

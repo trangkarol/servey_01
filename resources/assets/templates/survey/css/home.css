@@ -2945,3 +2945,11 @@ img.fnone {
     margin-top: 20px;
     position: relative;
 }
+
+.btn-list-survey {
+    margin-left: 6%;
+}
+
+.div-list-survey {
+    min-height: 350px;
+}
