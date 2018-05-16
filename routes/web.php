@@ -292,6 +292,11 @@ Route::group(['middleware' => 'profile'], function () {
         'as' => 'survey.create.complete',
     ]);
 
+    Route::post('/surveys/save-draft', [
+        'uses' => 'SurveyController@saveDraft',
+        'as' => 'survey.save-draft',
+    ]);
+
     Route::post('store-result', [
         'uses' => 'SurveyController@storeResult',
         'as' => 'survey.create.storeresult',

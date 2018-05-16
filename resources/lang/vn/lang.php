@@ -212,6 +212,7 @@ return [
     'setting' => 'Cài đặt',
     'other' => 'Khác:',
     'preview' => 'Xem trưóc',
+    'save_as_draft' => 'Lưu nháp',
     'require_length_short' => 'Không được nhập quá 100 kí tự',
 
     /*
@@ -243,4 +244,13 @@ return [
     'date_format_vn' => 'Ngày, tháng, năm',
     'date_format_en' => 'Tháng, ngày, năm',
     'date_format_jp' => 'Năm, tháng, ngày',
+    
+    /*
+        save survey as draft
+    */
+
+    'confirm_save_as_draft' => 'Bạn có muốn lưu khảo sát này dưới dạng bản nháp không?',
+    'over_limit_save_draft' => 'Không thể lưu! Số lượng bản nháp quá giới hạn! Giới hạn của bạn là :limit khảo sát nháp!',
+    'save_survey_draft_failed' => 'Thất bại! Hãy thử lại!',
+    'save_survey_draft_success' =>  'Thành công! Đã lưu khảo sát dưới dạng bản nháp!',
 ];

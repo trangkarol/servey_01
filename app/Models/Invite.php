@@ -15,6 +15,8 @@ class Invite extends Model
         'subject',
         'message',
         'status',
+        'number_invite',
+        'number_answer',
     ];
 
     public function survey()

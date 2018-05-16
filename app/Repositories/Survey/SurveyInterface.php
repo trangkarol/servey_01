@@ -6,7 +6,7 @@ interface SurveyInterface
 {
     public function getResutlSurvey($token);
 
-    public function createSurvey($userId, $data);
+    public function createSurvey($userId, $data, $status);
 
     public function checkCloseSurvey($inviteIds, $surveyIds);
 
@@ -37,4 +37,6 @@ interface SurveyInterface
     public function deleteSurvey($survey);
 
     public function getAuthSurveys($role);
+
+    public function countSurveyDraftOfUser($userId);
 }

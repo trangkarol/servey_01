@@ -199,6 +199,7 @@ return [
             'all' => 1,
         ],
         'paginate' => 15,
+        'number_answer_default' => 0,
     ],
     'question_type' => [
         'no_type' => 0,

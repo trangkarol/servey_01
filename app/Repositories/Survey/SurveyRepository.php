@@ -84,15 +84,9 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         return $resultsSurveys;
     }
 
-    public function createSurvey($userId, $data)
+    public function createSurvey($userId, $data, $status)
     {
-        DB::beginTransaction();
-
         try {
-            if ($userId != Auth::user()->id) {
-                throw new Exception('Error Processing Request', 1);
-            }
-
             $surveyInputs = [
                 'title' => $data->get('title'),
                 'description' => $data->get('description'),
@@ -104,7 +98,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
             $surveyInputs['feature'] = config('settings.survey.feature.default');
             $surveyInputs['token'] = md5(uniqid(rand(), true));
             $surveyInputs['token_manage'] = md5(uniqid(rand(), true));
-            $surveyInputs['status'] = config('settings.survey.status.open');
+            $surveyInputs['status'] = $status;
 
             $survey = parent::create($surveyInputs);
 
@@ -131,14 +125,16 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
             $inviteData = $data['invited_email'];
 
             if ($inviteData['emails']) {
-                $invite_mails = $this->formatInviteMailsString($inviteData['emails']);
+                $inviteMails = $this->formatInviteMailsString($inviteData['emails']);
 
                 $survey->invite()->create([
-                    'invite_mails' => $invite_mails,
+                    'invite_mails' => $inviteMails,
                     'answer_mails' => '',
                     'subject' => $inviteData['subject'],
                     'message' => $inviteData['message'],
                     'status' => config('settings.survey.invite_status.not_finish'),
+                    'number_invite' => count($inviteData['emails']),
+                    'number_answer' => config('settings.survey.number_answer_default'),
                 ]);
             }
 
@@ -223,34 +219,33 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                 }
             }
 
-            // send mail manage to owner
-            $emailData = [
-                'name' => Auth::user()->name,
-                'title' => $data['invited_email']['subject'],
-                'messages' => $data['invited_email']['message'],
-                'description' => $survey->description,
-                'linkManage' => route('surveys.edit', $survey->token_manage),
-                'link' => route('survey.create.do-survey', $survey->token),
-            ];
+            // if survey is create
+            if ($status == config('settings.survey.status.open')) {
+                // send mail manage to owner
+                $emailData = [
+                    'name' => Auth::user()->name,
+                    'title' => $data['invited_email']['subject'],
+                    'messages' => $data['invited_email']['message'],
+                    'description' => $survey->description,
+                    'linkManage' => route('surveys.edit', $survey->token_manage),
+                    'link' => route('survey.create.do-survey', $survey->token),
+                ];
 
-            Mail::to(Auth::user()->email)->queue(new ManageSurvey($emailData));
+                Mail::to(Auth::user()->email)->queue(new ManageSurvey($emailData));
 
-            // send mail manage to members
-            foreach ($data['members'] as $member) {
-                $emailData['name'] = app(UserInterface::class)->where('email', $member['email'])->first()->name;
-                Mail::to($member['email'])->queue(new ManageSurvey($emailData));
+                // send mail manage to members
+                foreach ($data['members'] as $member) {
+                    $emailData['name'] = app(UserInterface::class)->where('email', $member['email'])->first()->name;
+                    Mail::to($member['email'])->queue(new ManageSurvey($emailData));
+                }
+
+                // send mail invite
+                Mail::to($inviteData['emails'])->queue(new InviteSurvey($emailData)); 
             }
-
-            // send mail invite
-            Mail::to($inviteData['emails'])->queue(new InviteSurvey($emailData));
-
-            DB::commit();
 
             return $survey;
         } catch (Exception $e) {
-            DB::rollback();
-
-            return false;
+            throw $e;
         }
     }
 
@@ -627,5 +622,13 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         $survey->members()->detach();
 
         return $survey->forceDelete();
+    }
+
+    public function countSurveyDraftOfUser($userId)
+    {
+        return $this->model->where('status', config('settings.survey.status.draft'))
+            ->whereHas('members', function ($query) use ($userId) {
+                $query->where('user_id', $userId)->where('role', Survey::OWNER);
+            })->count();
     }
 }

@@ -25,4 +25,5 @@ return [
     'register_fail' => false,
     'email_user_not_exist' => true,
     'send_mail_reset_password_success' => true,
+    'survey_draft_limit' => 10,
 ];
