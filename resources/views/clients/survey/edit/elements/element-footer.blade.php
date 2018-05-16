@@ -6,8 +6,9 @@
             <p>@lang('lang.required')</p>
             <div class="question-required-checkbox">
                 <label>
-                    {{ Form::checkbox("require[section_$sectionId][question_$question->id]") }}
-                    {{ Form::hidden("require[section_$sectionId][question_$question->id]", config('settings.question_require.no_require')) }}
+                    {{ Form::hidden("require[section_$sectionId][question_$question->id]", 
+                        $question->required, 
+                        ['class' => 'checkbox-question-required']) }}
                     <span class="toggle"><span class="ripple"></span></span>
                 </label>
             </div>
@@ -24,7 +25,7 @@
                     </li>
                     <h5>@lang('lang.show')</h5>
                     <li>
-                        <span class="option-menu-selected">
+                        <span class="option-menu-selected {{ $question->description ? 'active' : '' }}">
                             <span></span>
                         </span>
                         <span class="option-menu-content">@lang('lang.description')</span>

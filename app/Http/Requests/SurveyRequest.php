@@ -54,7 +54,7 @@ class SurveyRequest extends FormRequest
                     config('settings.question_type.image'),
                     config('settings.question_type.video'),
                 ])) {
-                    $rules['sections.*.questions.' . $questionIndex . '.title'] = 'required|distinct';
+                    $rules['sections.' . $sectionIndex . '.questions.' . $questionIndex . '.title'] = 'required|distinct';
                 }
 
                 $rules['sections.' . $sectionIndex . '.questions.' . $questionIndex . '.answers.*.content'] = 'required|distinct'; 

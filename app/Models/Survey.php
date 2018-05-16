@@ -140,12 +140,13 @@ class Survey extends Model
     {
         $settings = $this->settings;
         $filtered = $settings->whereIn('key', $key)->all();
+        $result = '';
 
         if (count($filtered)) {
-            return current($filtered)->value;
+            $result = current($filtered)->value;
         }
 
-        return config('settings.survey_setting.default');
+        return $result;
     }
 
     public function isOpen()

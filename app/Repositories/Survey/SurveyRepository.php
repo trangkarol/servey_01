@@ -587,7 +587,9 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         return $this->model->with([
             'settings',
             'invite',
-            'members',
+            'members' => function ($query) {
+                $query->where('role', Survey::APPROVE);
+            },
             'sections' => function ($query) {
                 $query->with([
                     'questions' => function ($query) {

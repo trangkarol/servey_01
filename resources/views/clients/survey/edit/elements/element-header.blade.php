@@ -72,7 +72,7 @@
             </div>
         </div>
     </div>
-    <div class="form-row description-input">
+    <div class="form-row description-input {{ $question->description ? 'active' : '' }}">
         <div class="col-12">
             {!! Form::textarea("description[section_$sectionId][question_$question->id]", $question->description, [
                 'class' => 'form-control question-description-input input-area auto-resize',

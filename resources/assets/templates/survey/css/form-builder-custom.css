@@ -3489,7 +3489,7 @@ input[name="quantity-answer"]::-webkit-outer-spin-button, input[type="number"]::
     border-color: #dddddd !important;
 }
 
-#end-time-error {
+#end-time-error, #start-time-error {
     color: #CC0000;
     font-size: 13px;
 }

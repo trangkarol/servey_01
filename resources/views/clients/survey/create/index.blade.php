@@ -107,7 +107,7 @@
                         <div class="form-group form-row">
                             <div class="col">
                                 {!! Form::text('start_time', '', [
-                                    'class' => 'form-control datetimepicker-input',
+                                    'class' => 'form-control datetimepicker-input start-time',
                                     'id' => 'start-time',
                                     'data-toggle' => 'datetimepicker',
                                     'data-target' => '#start-time',
@@ -117,7 +117,7 @@
                             </div>
                             <div class="col">
                                 {!! Form::text('end_time', '', [
-                                    'class' => 'form-control datetimepicker-input',
+                                    'class' => 'form-control datetimepicker-input end-time',
                                     'id' => 'end-time',
                                     'data-toggle' => 'datetimepicker',
                                     'data-target' => '#end-time',
@@ -141,7 +141,7 @@
         </div>
         <!-- Content Wrapper  -->
     </main>
-    <div id="survey-data" data-page="create" data-number-section="0"  data-section-id="0" data-question-id="0" data-answer-id="0"></div>
+    <div id="survey-data" data-page="create" data-number-section="0"  data-section-id="0" data-question-id="0" data-answer-id="0" data-survey-id=""></div>
     <div id="element-clone">
         <div class="form-row option choice other-choice-option">
             <div class="radio-choice-icon"><i class="fa fa-circle-thin"></i></div>
