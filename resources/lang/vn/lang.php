@@ -228,4 +228,9 @@ return [
     'share' => 'Chia sẻ',
     'question_required' => 'Đây là câu hỏi bắt buộc',
     'your_answer_has_been_recorded' => 'Câu trả lời của bạn đã được ghi lại',
+    'export_excel' => 'Tải xuống câu trả lời',
+    'type' => 'Loại file',
+    'exit' => 'Thoát',
+    'export' => 'Tải xuống',
+    'export_error' => 'Lổi khi tải xuống!',
 ];

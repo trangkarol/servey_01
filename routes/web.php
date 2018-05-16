@@ -319,6 +319,23 @@ Route::group(['middleware' => 'profile'], function () {
             'as' => 'survey.create.preview.previous'
         ]);
 
+        Route::get('survey/{token}', [
+            'uses' => 'FormSurveyController@getSurvey',
+            'as' => 'survey.create.do-survey',
+        ]);
+
+        Route::get('surveys/export/{token}/{type}/{name}', 'ExportController@export')->name('export-result');
+
+        Route::get('next-sections-survey/{token}', [
+            'uses' => 'FormSurveyController@nextSectionSurvey',
+            'as' => 'survey.create.next-section-survey',
+        ]);
+
+        Route::get('previous-sections-survey/{token}', [
+            'uses' => 'FormSurveyController@previousSectionSurvey',
+            'as' => 'survey.create.previous-section-survey',
+        ]);
+
         Route::post('surveys/preview/get-json', [
             'uses' => 'PreviewSurveyController@getJson',
             'as' => 'survey.create.get-json',

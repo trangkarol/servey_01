@@ -13,6 +13,7 @@
     <div class="background-user-profile"></div>
     <!-- .cd-main-header -->
     <main class="cd-main-content">
+        @include('clients.profile.notice')
         <div class="content-wrapper">
             <!-- /Scroll buttons -->
             <ul class="clearfix form-wrapper content-margin-top-preview ul-result">
@@ -26,13 +27,57 @@
                     <div class="form-group">
                         <span>@lang('result.number_answer')</span>
                     </div>
-                    <div class="btn-group" role="group">
-                        <a href="{{ route('survey.result.index', $survey->token) }}" class="btn btn-secondary-result-answer
-                            btn-secondary-result-answer-actived">@lang('result.summary')</a>
-                        <a href="" class="btn btn-secondary-result-answer">@lang('result.personal')</a>
+                    <div class="row">
+                        <div class="btn-group col-md-6 col-xs-9" role="group">
+                            <a href="{{ route('survey.result.index', $survey->token) }}" class="btn btn-secondary-result-answer
+                                btn-secondary-result-answer-actived">@lang('result.summary')</a>
+                            <a href="" class="btn btn-secondary-result-answer">@lang('result.personal')</a>
+                        </div>
+                        <div class="btn-export-excel col-md-6 col-xs-3">
+                            <a href="#" class="option-menu" id="export-file-excel" data-toggle="modal" data-target="#rename-excel"
+                                data-url="{{ route('export-result', [$survey->token, '', '']) }}"
+                                title="@lang('lang.export_excel')">
+                                <i class="fa fa-download" aria-hidden="true"></i>
+                            </a>
+                        </div>
                     </div>
                 </li>
             </ul>
+            <!-- The Modal -->
+            <div class="modal fade" id="rename-excel">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">@lang('lang.export_excel')</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        {{ Form::open(['class' => 'info-export']) }}
+                            <div class="modal-body">
+                                <div class="content-pupup-export">
+                                    <div class="form-group">
+                                        <label for="name">@lang('lang.name')</label>
+                                        {{ Form::text('name', str_limit($survey->title, config('settings.limit_title_excel')),
+                                            ['class' => 'form-control name-file-export',
+                                            'data-name' => str_limit($survey->title, config('settings.limit_title_excel'))]) }}
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="type">@lang('lang.type')</label>
+                                        {{ Form::select('type', ['xls' => '.xls', 'csv' => '.csv'], 'xls',
+                                            ['class' => 'form-control type-file-export']) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <div class="footer-pupup-export">
+                                    {{ Form::button(trans('lang.exit'), ['class' => 'btn btn-danger', 'data-dismiss' => 'modal']) }}
+                                    {{ Form::button(trans('lang.export'),
+                                        ['class' => 'btn btn-info submit-export-excel', 'data-dismiss' => 'modal']) }}
+                                </div>
+                            </div>
+                        {{ Form::close() }}
+                    </div>
+                </div>
+            </div>
             <div class="content-section-preview">
                 @foreach ($resultsSurveys as $resultsSurvey)
                     <ul class="clearfix form-wrapper ul-result wrapper-section-result">

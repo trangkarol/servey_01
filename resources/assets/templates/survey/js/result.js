@@ -1,6 +1,6 @@
 $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip();
-    
+
     if ($('.scroll-answer-result').height() >= 250) {
         $('.scroll-answer-result').css({
             'overflow-y': 'scroll',
@@ -203,4 +203,28 @@ $(document).ready(function(){
             }
         });
     });
+
+    // excel option menu
+    $('.option-menu-group').on('click', function(e) {
+        e.stopPropagation();
+        $('.survey-select-options').hide();
+        $('.option-menu-dropdown').hide();
+        $(this).children('.option-menu').toggleClass('active').next('ul.option-menu-dropdown').toggle();
+
+        return false;
+    });
+
+    $(document).click(function() {
+        $('.option-menu').removeClass('active');
+        $('.option-menu-dropdown').hide();
+    });
+
+    $('.submit-export-excel').click(function() {
+        var formSelector = $(this).closest('.info-export');
+        var name = $(formSelector).find('.name-file-export').val();
+        name = name ? name : $(formSelector).find('.name-file-export').attr('data-name');
+        var type = $(formSelector).find('.type-file-export').val();
+        var dataUrl = $('#export-file-excel').attr('data-url');
+        window.location.href = `${dataUrl}/${type}/${name}`;
+    })
 });

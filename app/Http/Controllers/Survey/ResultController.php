@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Survey;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repositories\Survey\SurveyInterface;
+use Exception;
 
 class ResultController extends Controller
 {
@@ -17,9 +18,13 @@ class ResultController extends Controller
 
     public function result($token)
     {
-        $survey = $this->surveyRepository->where('token', $token)->first();
-        $resultsSurveys = $this->surveyRepository->getResutlSurvey($token);
+        try {
+            $survey = $this->surveyRepository->where('token', $token)->with('sections.questions.answers.results')->first();
+            $resultsSurveys = $this->surveyRepository->getResutlSurvey($survey);
 
-        return view('clients.survey.result.index', compact('survey', 'resultsSurveys'));
+            return view('clients.survey.result.index', compact('survey', 'resultsSurveys'));
+        } catch (Exception $e) {
+            return view('clients.layout.404');
+        }
     }
 }
