@@ -524,9 +524,6 @@ jQuery(document).ready(function () {
                 // auto resize for new textarea
                 autoResizeTextarea();
 
-                // add validation rules for question
-                addValidationRuleForQuestion(questionId);
-
                 // set old question value
                 var image = data.image
                 $(image).insertAfter(element.find('.description-input'));
@@ -540,6 +537,9 @@ jQuery(document).ready(function () {
                     element.find('.option-menu-selected').addClass('active');
                     element.find('.question-description-input').keyup();
                 }
+
+                // add validation rules for question
+                addValidationRuleForQuestion(questionId);
             }
         });
     }
@@ -605,6 +605,8 @@ jQuery(document).ready(function () {
                     </div>
                 `);
                 $('.errorHighlight[data-toggle="tooltip"]').tooltip('show');
+            } else if ($(element).hasClass('start-time')) {
+                $('#start-time-error').text(error.text());
             } else {
                 $('#end-time-error').text(error.text());
             }
@@ -624,6 +626,8 @@ jQuery(document).ready(function () {
                 $(element).removeAttr('data-placement');
                 $(element).removeAttr('data-template');
                 $(`#${$(element).attr('aria-describedby')}`).remove();
+            } else if ($(element).hasClass('start-time')) {
+                $('#start-time-error').empty();
             } else {
                 $('#end-time-error').empty();
             }
@@ -631,6 +635,21 @@ jQuery(document).ready(function () {
     });
 
     // validate custom rules
+    $.validator.addMethod('start_time_after_now', function (value, element) {
+        var today = new Date();
+        var dateChoose = value;
+
+        dateChoose = dateChoose.split('/')[1] + '-' + dateChoose.split('/')[0] + dateChoose.substring(5);
+
+        var startTime = new Date(Date.parse(dateChoose));
+        var validateTime = today.getTime() - startTime.getTime();
+
+        if (!startTime.length && startTime.getTime() <= today.getTime() && validateTime > 60000) {
+            return false;
+        }
+
+        return true;
+    }, Lang.get('validation.msg.start_time_after_now'));
 
     $.validator.addMethod('more_than_30_minutes', function (value, element) {
         var today = new Date();
@@ -755,7 +774,7 @@ jQuery(document).ready(function () {
     }
 
     // validation i18n
-    $.extend( $.validator.messages, {
+    $.extend($.validator.messages, {
         required: Lang.get('validation.msg.required'),
         maxlength: $.validator.format(Lang.get('validation.msg.maxlength'))
     } );
@@ -771,7 +790,10 @@ jQuery(document).ready(function () {
             end_time: {
                 more_than_30_minutes: true,
                 after_start_time: true
-            }
+            },
+            start_time: {
+                start_time_after_now: true
+            },
         }
     });
 
@@ -838,7 +860,9 @@ jQuery(document).ready(function () {
         $('#start-time').datetimepicker('maxDate', e.date);
     });
 
-    $('#next-remind-time').datetimepicker();
+    $('#next-remind-time').datetimepicker({
+        format: 'DD/MM/YYYY h:mm A',
+    });
 
     /**
      * Scroll button
@@ -931,6 +955,7 @@ jQuery(document).ready(function () {
         $(this).toggleClass('active');
         var checked = $(this).prev().attr('checked');
         $(this).prev().attr('checked', !checked);
+        $(this).prev().val(checked ? 0 : 1);
     });
 
     // hide-show element block
@@ -985,9 +1010,10 @@ jQuery(document).ready(function () {
             $(this).closest('li.form-line').find('.description-input').addClass('active');
         } else {
             $(this).closest('li.form-line').find('.description-input .question-description-input').val('');
-            $(this).closest('li.form-line').find('.description-input .question-description-input').keyup();
             $(this).closest('li.form-line').find('.description-input').removeClass('active');
         }
+
+        $(this).closest('li.form-line').find('.description-input .question-description-input').keyup();
     });
 
     $('.survey-form').on('keypress', '.question-input, .question-description-input', function(e) {
@@ -2454,6 +2480,7 @@ jQuery(document).ready(function () {
         var nextTime = new Date();
 
         if (startTime.length) {
+            startTime = startTime.split('/')[1] + '-' + startTime.split('/')[0] + startTime.substring(5);
             nextTime = new Date(Date.parse(startTime));
         }
 
@@ -2504,7 +2531,9 @@ jQuery(document).ready(function () {
     });
 
     $('.next-remind-block').on('change.datetimepicker', '#next-remind-time', function() {
-        var dateSelect = new Date($(this).val());
+        var dateSelect = $(this).val();
+        dateSelect = dateSelect.split('/')[1] + '-' + dateSelect.split('/')[0] + dateSelect.substring(5);
+        dateSelect = new Date(dateSelect);
         var dateStart = $('#start-time').val();
         var dateRemindByWeek = getNextRemindTime('week');
         var dateRemindByMonth = getNextRemindTime('month');
@@ -2512,7 +2541,9 @@ jQuery(document).ready(function () {
 
         // if have start time
         if (dateStart.length) {
+            dateStart = dateStart.split('/')[1] + '-' + dateStart.split('/')[0] + dateStart.substring(5);
             dateStart = new Date(Date.parse(dateStart));
+
             // next remind time must after start time 30 min
             dateStart = new Date(dateStart.getTime() + 30 * 1000 * 60);
             var diffdateStart = Math.round((dateStart - dateSelect) / (1000 * 60));
@@ -2808,7 +2839,9 @@ jQuery(document).ready(function () {
             $('.radio-mail-remind').each(function () {
                 if ($(this).prop('checked')) {
                     $('#survey-setting').attr('reminder-email', $(this).attr('val'));
-                    $('#survey-setting').attr('time', $('#next-remind-time').val());
+                    var nextTime = $('#next-remind-time').val();
+                    nextTime = moment(nextTime, 'DD/MM/YYYY h:mm A').format('MM/DD/YYYY h:mm A');
+                    $('#survey-setting').attr('time', nextTime);
                 }
             });
         } else {
@@ -3129,4 +3162,89 @@ jQuery(document).ready(function () {
             question.first().click();
         }
     });
+
+
+    /*
+     *  SURVEY EDIT PAGE
+     */
+
+    if (surveyData.data('page') == 'edit') {
+        // re-load event
+        $('.input-area').each(function () {
+            if ($(this).hasClass('input-email-message')) {
+                return;
+            }
+
+            autoResizeTextarea();
+            $(this).focus();
+            $(this).keyup();
+        });
+
+        $('.question-required-checkbox label .toggle').each(function () {
+            var checked = parseInt($(this).prev().val());
+            $(this).prev().attr('checked', checked ? true : false);
+
+            if (checked) {
+                $(this).addClass('active');
+                markQuestionRequired();
+            }
+        });
+
+        // focus first section title
+        $('.input-area.section-header-title').first().focus();
+        $('.input-area.section-header-title').first().click();
+
+        // re-load validation
+        $('ul.page-section').each(function () {
+            addValidationRuleForSection($(this).data('section-id'));
+
+            $(this).find('li.form-line').each(function () {
+                var questionType = parseInt($(this).data('question-type'));
+
+                if (questionType > 0 && questionType <= 7) {
+                    addValidationRuleForQuestion($(this).data('question-id'));
+
+                    $(this).find('div.form-row.option').each(function () {
+                        addValidationRuleForAnswer($(this).data('answer-id'));
+                    });
+                }
+            });
+        });
+
+        // edit and send survey
+        $('#edit-survey-btn').on('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            var valid = validateSurvey();
+
+            if (!valid) {
+                return;
+            }
+
+            var dataArray = $('form.survey-form').serializeArray();
+            var survey = getSurvey(dataArray);
+
+            if (!survey) {
+                return;
+            }
+
+            $('#send-modal-loader').addClass('show');
+            $('body').append('<div class="modal-backdrop send-loader fade show"></div>');
+            $('body').css('overflow', 'hidden');
+
+            var data = JSON.stringify(survey);
+
+            $.ajax({
+                method: 'PUT',
+                url: $(this).data('url'),
+                data: data
+            })
+            .done(function (data) {
+                $('#send-modal-loader').removeClass('show');
+                $('.send-loader').remove();
+                $('body').css('overflow', '');
+            });
+        });
+    }
 });

@@ -99,7 +99,7 @@
             ])
         @endif
     @endforeach
-    <li class="end-section">
+    <li class="end-section" style="display: none;">
         <span class="end-section-title">@lang('lang.after_section')</span>
         <div class="end-section-dropdown">
             <div class="section-select">

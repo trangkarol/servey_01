@@ -71,7 +71,7 @@
                         <div class="survey-action" data-placement="right"
                             data-trigger="hover"
                             data-toggle="tooltip" title="@lang('lang.send')">
-                            <button type="button" class="btn btn-outline-light text-dark" id="submit-survey-btn" data-url="{{ route('surveys.store') }}">
+                            <button type="button" class="btn btn-outline-light text-dark" id="edit-survey-btn" data-url="{{ route('surveys.update', $survey->token_manage) }}">
                                 <i class="fa fa-fw fa-paper-plane text-dark"></i>
                             </button>
                         </div>
@@ -99,7 +99,7 @@
                         <div class="form-group form-row">
                             <div class="col">
                                 {!! Form::text('start_time', '', [
-                                    'class' => 'form-control datetimepicker-input',
+                                    'class' => 'form-control datetimepicker-input start-time',
                                     'id' => 'start-time',
                                     'data-toggle' => 'datetimepicker',
                                     'data-target' => '#start-time',
@@ -110,7 +110,7 @@
                             </div>
                             <div class="col">
                                 {!! Form::text('end_time', '', [
-                                    'class' => 'form-control datetimepicker-input',
+                                    'class' => 'form-control datetimepicker-input end-time',
                                     'id' => 'end-time',
                                     'data-toggle' => 'datetimepicker',
                                     'data-target' => '#end-time',
@@ -142,7 +142,7 @@
         </div>
         <!-- Content Wrapper  -->
     </main>
-    <div id="survey-data" data-page="edit" data-number-section="0"  data-section-id="0" data-question-id="0" data-answer-id="0"></div>
+    <div id="survey-data" data-page="edit" data-number-section="{{ count($survey->sections) }}"  data-section-id="0" data-question-id="0" data-answer-id="0"></div>
     <div id="element-clone">
         <div class="form-row option choice other-choice-option">
             <div class="radio-choice-icon"><i class="fa fa-circle-thin"></i></div>
@@ -177,6 +177,14 @@
 
     <!-- pupup setting survey -->
     @include('clients.survey.edit.setting')
+    <div class="modal fade" id="send-modal-loader">
+        <section>
+            <div class="loader-spin">
+                <div class="loader-outter-spin"></div>
+                <div class="loader-inner-spin"></div>
+            </div>
+        </section>
+    </div>
 @endsection
 @push('scripts')
     <!-- Plugins -->

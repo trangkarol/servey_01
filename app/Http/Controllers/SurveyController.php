@@ -249,9 +249,18 @@ class SurveyController extends Controller
         return view('clients.survey.edit.index', compact('survey'));
     }
 
-    public function update($id, Request $request)
+    public function update($token, Request $request)
     {
-        //
+        if (!$request->ajax()) {
+            return [
+                'success' => fasle,
+            ];
+        }
+
+        return response()->json([
+            'success' => true,
+            'result' => $request->json()->all(),
+        ]);
     }
 
     public function destroy(Request $request)

@@ -160,7 +160,7 @@
                     <input type="hidden" name="invite-setting"
                         id="invite-setting"
                         all="{{ $survey->getSetting(config('settings.setting_type.send_mail_to_wsm.key')) }}"
-                        invite-data="{{ $survey->invites ? $survey->invites->invite_mails : '' }}"
+                        invite-data="{{ $survey->invite ? $survey->invite->invite_mails : '' }}"
                         subject=""
                         msg="{{ trans('lang.message_default_email') }}">
                     <div class="form-group">

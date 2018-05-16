@@ -29,7 +29,7 @@
                         </li>
                         <h5>@lang('lang.show')</h5>
                         <li>
-                            <span class="option-menu-selected active">
+                            <span class="option-menu-selected {{ $question->description ? 'active' : '' }}">
                                 <span></span>
                             </span>
                             <span class="option-menu-content">@lang('lang.description')</span>
@@ -39,7 +39,7 @@
             </div>
         </div>
     </div>
-    <div class="form-row description-input active">
+    <div class="form-row description-input {{ $question->description ? 'active' : '' }}">
         <div class="col-12">
             {!! Form::textarea("description[section_$sectionId][question_$question->id]", $question->description, [
                 'class' => 'form-control question-description-input active input-area auto-resize',
