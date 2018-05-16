@@ -28,8 +28,6 @@ interface SurveyInterface
 
     public function getSurveysByStatus($status);
 
-    public function getAuthSurveys();
-
     //get survey by token
     public function getSurvey($token);
 
@@ -37,4 +35,6 @@ interface SurveyInterface
     public function getSectionCurrent($survey, $currentSection);
 
     public function deleteSurvey($survey);
+
+    public function getAuthSurveys($role);
 }

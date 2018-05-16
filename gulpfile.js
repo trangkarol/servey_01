@@ -16,8 +16,7 @@ gulp.task('langjs', shell.task('php artisan lang:js -c public/plugins/languages/
 elixir(function(mix) {
     mix.task('langjs')
         .copy('node_modules/jquery/dist/jquery.min.js', 'public/plugins/jquery')
-        .copy('node_modules/bootstrap/dist/css/bootstrap.min.css', 'public/plugins/bootstrap')
-        .copy('node_modules/bootstrap/dist/js/bootstrap.min.js', 'public/plugins/bootstrap')
+        .copy('node_modules/bootstrap/', 'public/plugins/bootstrap')
         .copy('node_modules/font-awesome/fonts', 'public/plugins/font-awesome/fonts')
         .copy('node_modules/font-awesome/css/font-awesome.min.css', 'public/plugins/font-awesome/css')
         .copy('node_modules/jquery-menu-aim/jquery.menu-aim.js', 'public/plugins/jquery-menu-aim')

@@ -211,6 +211,8 @@ Route::group(['namespace' => 'Ajax', 'prefix' => 'ajax'], function () {
         ->name('ajax-remove-image');
     Route::post('suggest-email', 'SuggestEmailController@suggestEmail')
         ->name('ajax-suggest-email');
+    Route::get('list-survey/{flag}', 'SurveyController@getListSurvey')
+        ->name('ajax-list-survey');
 });
 
 Route::get('/languages', 'LanguageController@index')->name('set-language');
@@ -265,6 +267,7 @@ Route::group(['namespace' => 'Survey', 'middleware' => 'profile'], function () {
         'uses' => 'SurveyManagementController@closeSurvey',
         'as' => 'survey.close',
     ]);
+    Route::get('management-survey/{tokenManage}', 'SurveyManagementController@managementSurvey')->name('survey.management');
 });
 
 Route::group(['namespace' => 'Auth'], function () {

@@ -27,6 +27,8 @@ class Survey extends Model
 
     protected $appends = [
         'status_custom',
+        'trim_title',
+        'remaining_time',
     ];
 
     protected $dates = ['deleted_at'];
@@ -67,14 +69,32 @@ class Survey extends Model
         }
     }
 
-    // public function getIsOpenAttribute()
-    // {
-    //     return (empty($this->attributes['deadline']) || Carbon::parse($this->attributes['deadline'])->gt(Carbon::now()));
-    // }
+    public function getEndTimeAttribute()
+    {
+        return (!empty($this->attributes['end_time']))
+            ? Carbon::parse($this->attributes['end_time'])->format('Y/m/d H:i:s')
+            : null;
+    }
+
+    public function getRemainingTimeAttribute()
+    {
+        if (!empty($this->attributes['end_time'])) {
+            $start_time = $this->attributes['start_time'] ? $this->attributes['start_time'] : $this->attributes['created_at'];
+
+            return Carbon::parse($this->attributes['end_time'])->diffInDays(Carbon::parse($start_time));
+        }
+
+        return ''; 
+    }
+
+    public function getTrimTitleAttribute()
+    {
+        return ucwords(str_limit($this->attributes['title'], config('settings.title_length_default')));
+    }
 
     public function getTitleAttribute()
     {
-        return ucwords(str_limit($this->attributes['title'], config('settings.title_length_default')));
+        return ucwords($this->attributes['title'], config('settings.title_length_default'));
     }
 
     // public function getIsExpiredAttribute()
@@ -85,17 +105,17 @@ class Survey extends Model
     public function getStatusCustomAttribute()
     {
         switch ($this->attributes['status']) {
-            case config('survey.status.public'):
-                return trans('profile.public');
+            case config('settings.survey.status.open'):
+                return trans('profile.open');
 
-            case config('survey.status.private'):
-                return trans('profile.private');
-
-            case config('survey.status.closed'):
+            case config('settings.survey.status.closed'):
                 return trans('profile.closed');
 
-            default:
+            case config('settings.survey.status.draft'):
                 return trans('profile.draft');
+
+            default:
+                return '';
         }
     }
 
@@ -145,5 +165,16 @@ class Survey extends Model
     public function getRequiredAttribute()
     {
         return $this->settings()->where('key', config('settings.setting_type.answer_required.key'))->first()->value;
+    }
+
+    public function getInvites()
+    {
+        $invite = $this->invite;
+
+        if (!empty($invite) && $invite->number_answer) {
+            return number_format(($invite->number_answer / $invite->number_invite) * 100, 2);
+        }
+
+        return 0;
     }
 }
