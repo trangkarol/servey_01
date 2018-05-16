@@ -90,4 +90,12 @@ trait SurveyProcesser
                 Session::put($key, $section_order);
         }
     }
+
+    public function getUserFromInvite($invite)
+    {
+        return [
+            'inviteMails' => array_pop(explode('/', $invite->invite_mails)),
+            'answerMails' => array_pop(explode('/', $invite->answer_mails)),
+        ]; 
+    }
 }

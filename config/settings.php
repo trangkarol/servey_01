@@ -197,7 +197,8 @@ return [
         'send_mail_to_wsm' => [
             'none' => 0,
             'all' => 1,
-        ],
+        ], 
+        'paginate' => 15,
     ],
     'question_type' => [
         'no_type' => 0,
@@ -298,4 +299,5 @@ return [
     'section_show_default' => 0,
     'section_order_default' => 1,
     'limit_title_excel' => 25,
+    'invited' => 1,
 ];

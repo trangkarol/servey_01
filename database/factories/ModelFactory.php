@@ -36,7 +36,7 @@ $factory->define(App\Models\Survey::class, function (Faker\Generator $faker) {
         'description' => $faker->paragraph(),
         'feature' => $faker->numberBetween(0, 1),
         'token' => md5(uniqid(rand(), true)),
-        'status' => $faker->numberBetween(0, 3),
+        'status' => $faker->numberBetween(0, 2),
         'end_time' => Carbon::createFromFormat('Y-m-d', $faker->date($format = 'Y-m-d', $min = 'now')),
         'start_time' => Carbon::createFromFormat('Y-m-d', $faker->date($format = 'Y-m-d', $max = 'now')),
         'token_manage' => md5(uniqid(rand(), true)),

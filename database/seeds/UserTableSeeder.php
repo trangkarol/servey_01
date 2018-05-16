@@ -49,6 +49,7 @@ class UserTableSeeder extends Seeder
                 'answer_mails' => '',
                 'status' => config('settings.survey.invite_status.not_finish'),
                 'subject' => $survey->title,
+                'number_invite' => User::where('id', '!=', $user->id)->count(),
             ]);
 
             // create sections

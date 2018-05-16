@@ -586,10 +586,8 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
     {
         return $this->model->with([
             'settings',
-            'invites',
-            'members' => function ($query) {
-                return $query->where('role', config('settings.survey.members.owner'));
-            },
+            'invite',
+            'members',
             'sections' => function ($query) {
                 $query->with([
                     'questions' => function ($query) {
@@ -605,13 +603,40 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         return $this->model->where('status', $status);
     }
 
-    public function getAuthSurveys()
+    public function getAuthSurveys($flag, $data = [])
     {
-        $surveyIds = Auth::user()->members()
-            ->where('role', config('settings.survey.members.owner'))
-            ->pluck('survey_id');
+        $userId = Auth::user()->id;
 
-        return $this->model->whereIn('id', $surveyIds)->get();
+        $survey = $this->model;
+
+        //check flag
+        if ($flag == config('settings.survey.members.owner') ||
+            $flag == config('settings.survey.members.editor')) {
+            $survey = $survey->whereHas('members', function ($query) use ($flag, $userId) {
+                $query->where('role', $flag)
+                    ->where('user_id', $userId);
+            });
+        }
+        
+        //check paramater
+        if (isset($data['name']) && !empty($data['name'])) {
+            $survey = $survey->where('title', 'like', '%' . $data['name'] . '%');
+        }
+
+        if (isset($data['privacy']) && !empty($data['privacy'])) {
+            $privacy = $data['privacy'];
+            $survey = $survey->whereHas('settings', function ($query) use ($privacy) {
+                $query->where('key', config('settings.setting_type.privacy.key'))
+                    ->where('value', $privacy);
+            });
+        }
+
+        if (isset($data['status']) && !empty($data['status'])) {
+            $survey = $survey->where('status', $data['status']);
+        }
+
+
+        return $survey->paginate(config('settings.survey.paginate'));
     }
 
     //get survey by token

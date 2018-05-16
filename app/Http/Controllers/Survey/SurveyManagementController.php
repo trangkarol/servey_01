@@ -20,9 +20,12 @@ use App\Repositories\Media\MediaInterface;
 use App\Models\Question;
 use App\Models\Answer;
 use App\Models\Section;
+use App\Traits\SurveyProcesser;
 
 class SurveyManagementController extends Controller
 {
+    use SurveyProcesser;
+
     protected $surveyRepository;
     protected $sectionRepository;
     protected $questionRepository;
@@ -51,18 +54,12 @@ class SurveyManagementController extends Controller
         try {
             $user = Auth::user();
             Session::put('page_profile_active', config('settings.page_profile_active.list_survey'));
-
-            return view('clients.profile.list-survey', compact('user'));
+            $surveys = $this->surveyRepository->getAuthSurveys(config('settings.survey.members.owner'));
+            
+            return view('clients.profile.list-survey', compact('user', 'surveys'));
         } catch (Exception $e) {
             return view('clients.layout.404');
         }
-    }
-
-    public function getSurveys(Request $request)
-    {
-        $surveys = $this->surveyRepository->getAuthSurveys();
-
-        return Datatables::of($surveys)->make(true);
     }
 
     public function delete($token)
@@ -98,5 +95,21 @@ class SurveyManagementController extends Controller
         $survey->delete();
 
         return back()->with('close_survey_success', trans('lang.close_survey_success'));
+    }
+
+    public function managementSurvey($tokenManage)
+    {
+        $survey = $this->surveyRepository->getSurveyByTokenManage($tokenManage);
+
+        if (!$survey) {
+            return redirect()->route('survey.survey.show-surveys');
+        }
+
+        $user = Auth::user();
+
+        return view('clients.survey.management.index', compact([
+            'user',
+            'survey',
+        ]));
     }
 }
