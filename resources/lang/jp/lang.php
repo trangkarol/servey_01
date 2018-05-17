@@ -214,7 +214,7 @@ return [
     'preview' => 'Preview',
     'save_as_draff' => 'Save as draff',
     'require_length_short' => 'Do not enter more than 100 characters',
-    
+
     /*
         create survey complete
     */
@@ -244,6 +244,7 @@ return [
     'date_format_vn' => 'Day, month, year',
     'date_format_en' => 'Month, day, year',
     'date_format_jp' => 'Year, month, day',
+    'timestamps' => 'Timestamps',
 
     /*
         save survey as draft
