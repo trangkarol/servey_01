@@ -202,7 +202,7 @@ class SurveyController extends Controller
     public function show(Request $request, $token)
     {
         $survey = $this->surveyRepository->getSurvey($token);
-        $numOfSection = $survey->sections()->count();
+        $numOfSection = $survey->sections->count();
 
         if ($request->ajax()) {
             $currentSection = $request->session()->get('current_section_survey');

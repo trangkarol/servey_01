@@ -212,6 +212,7 @@ return [
     'setting' => 'Setting',
     'other' => 'Other:',
     'preview' => 'Preview',
+    'require_length_short' => 'Do not enter more than 100 characters',
 
     /*
         create survey complete

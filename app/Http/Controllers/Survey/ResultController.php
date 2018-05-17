@@ -19,7 +19,19 @@ class ResultController extends Controller
     public function result($token)
     {
         try {
-            $survey = $this->surveyRepository->where('token', $token)->with('sections.questions.answers.results')->first();
+            $survey = $this->surveyRepository->where('token', $token)->with([
+                'sections.questions' => function ($query) {
+                    $query->with([
+                        'settings',
+                        'results',
+                        'answers' => function ($queryAnswer) {
+                            $queryAnswer->with([
+                                'settings',
+                            ]);
+                        }
+                    ]);
+                }])->first();
+
             $resultsSurveys = $this->surveyRepository->getResutlSurvey($survey);
 
             return view('clients.survey.result.index', compact('survey', 'resultsSurveys'));

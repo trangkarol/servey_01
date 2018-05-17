@@ -38,80 +38,40 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
             $temp = [];
 
             foreach ($section->questions as $question) {
-                $totalAnswerResults = config('settings.number_0');
-                $questionType = $question->type;
-
-                if (in_array($question->type, [
-                    config('settings.question_type.short_answer'),
-                    config('settings.question_type.long_answer'),
-                    config('settings.question_type.date'),
-                    config('settings.question_type.time'),
+                if (!in_array($question->type, [
+                    config('settings.question_type.image'),
+                    config('settings.question_type.video'),
                 ])) {
-                    $totalAnswerResults = $question->answerResults->count();
+                    $totalAnswerResults = config('settings.number_0');
+                    $questionType = $question->type;
+                    $resultQuestion = [];
 
-                    if ($totalAnswerResults) {
-                        $answerResults = $question->answerResults->groupBy('content');
-
-                        foreach ($answerResults as $answerResult) {
-                            $count = $answerResult->count();
-
-                            $temp[] = [
-                                'content' => $answerResult->first()->content,
-                                'percent' => round(($totalAnswerResults) ?
-                                    (double)($count * config('settings.number_100')) / ($totalAnswerResults) :
-                                    config('settings.number_0'), config('settings.roundPercent')),
-                            ];
+                    if (in_array($question->type, [
+                        config('settings.question_type.short_answer'),
+                        config('settings.question_type.long_answer'),
+                        config('settings.question_type.date'),
+                        config('settings.question_type.time'),
+                    ])) {
+                        $resultQuestion = $this->getTextQuestionResult($question);
+                    } else {
+                        if ($question->answers->count()) {
+                            $resultQuestion = $this->getResultChoiceQuestion($question);
+                        } else { // title
+                            $resultQuestion['temp'] = $question->title;
+                            $resultQuestion['total_answer_results'] = $totalAnswerResults;
                         }
                     }
-                } else {
-                    if ($question->answers->count()) {
-                        $totalAnswerResults = $question->results->count();
 
-                        foreach ($question->answers as $answer) {
-                            if ($totalAnswerResults) {
-                                if ($answer->type == config('settings.answer_type.other_option')) {
-                                    $answerOthers = $answer->results->groupBy('content');
-
-                                    foreach ($answerOthers as $answerOther) {
-                                        $count = $answerOther->count();
-
-                                        $temp[] = [
-                                            'answer_id' => $answerOther->first()->answer_id,
-                                            'answer_type' => config('settings.answer_type.other_option'),
-                                            'content' => $answerOther->first()->content,
-                                            'percent' => round(($totalAnswerResults) ?
-                                                (double)($count * config('settings.number_100')) / ($totalAnswerResults) :
-                                                config('settings.number_0'), config('settings.roundPercent')),
-                                        ];
-                                    }
-                                } else {
-                                    $answerResults = $answer->results->count();
-
-                                    $temp[] = [
-                                        'answer_id' => $answer->id,
-                                        'answer_type' => config('settings.answer_type.option'),
-                                        'content' => $answer->content,
-                                        'percent' => round(($totalAnswerResults) ?
-                                            (double)($answerResults * config('settings.number_100')) / ($totalAnswerResults) :
-                                            config('settings.number_0'), config('settings.roundPercent')),
-                                    ];
-                                }
-                            }
-                        }
-                    } elseif ($question->type == config('settings.question_type.title')) {
-                        $temp[] = [
-                            'content' => $question->title,
-                        ];
-                    }
+                    $temp = $resultQuestion['temp'];
+                    $totalAnswerResults = $resultQuestion['total_answer_results'];
+                    $questionResult[] = [
+                        'question' => $question,
+                        'question_type' => $question->type,
+                        'count_answer' => $totalAnswerResults,
+                        'answers' => $temp,
+                    ];
+                    $temp = [];
                 }
-
-                $questionResult[] = [
-                    'question' => $question,
-                    'question_type' => $question->type,
-                    'count_answer' => $totalAnswerResults,
-                    'answers' => $temp,
-                ];
-                $temp = [];
             }
 
             $resultsSurveys[] = [

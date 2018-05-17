@@ -96,6 +96,79 @@ trait SurveyProcesser
         return [
             'inviteMails' => array_pop(explode('/', $invite->invite_mails)),
             'answerMails' => array_pop(explode('/', $invite->answer_mails)),
-        ]; 
+        ];
+    }
+
+    // get result text question
+    public function getTextQuestionResult($question)
+    {
+        $temp = [];
+        $answerResults = $question->answerResults->where('content', '<>', config('settings.group_content_result'));
+        $totalAnswerResults = $answerResults->count();
+
+        if ($totalAnswerResults) {
+            $answerResults = $answerResults->groupBy('upper_content');
+
+            foreach ($answerResults as $answerResult) {
+                $count = $answerResult->count();
+
+                $temp[] = [
+                    'content' => $answerResult->first()->content,
+                    'percent' => round(($totalAnswerResults) ?
+                        (double)($count * config('settings.number_100')) / ($totalAnswerResults) :
+                        config('settings.number_0'), config('settings.roundPercent')),
+                ];
+            }
+        }
+
+        return [
+            'temp' => $temp,
+            'total_answer_results' => $totalAnswerResults,
+        ];
+    }
+
+    // get result choice quesion
+    public function getResultChoiceQuestion($question)
+    {
+        $temp = [];
+        $totalAnswerResults = $question->results->count();
+
+        foreach ($question->answers as $answer) {
+            if ($totalAnswerResults) {
+                // get choice answer other
+                if ($answer->type == config('settings.answer_type.other_option')) {
+                    $answerOthers = $answer->results->groupBy('content');
+
+                    foreach ($answerOthers as $answerOther) {
+                        $count = $answerOther->count();
+
+                        $temp[] = [
+                            'answer_id' => $answerOther->first()->answer_id,
+                            'answer_type' => config('settings.answer_type.other_option'),
+                            'content' => $answerOther->first()->content ? $answerOther->first()->content : trans('result.other'),
+                            'percent' => round(($totalAnswerResults) ?
+                                (double)($count * config('settings.number_100')) / ($totalAnswerResults) :
+                                config('settings.number_0'), config('settings.roundPercent')),
+                        ];
+                    }
+                } else {
+                    $answerResults = $answer->results->count();
+
+                    $temp[] = [
+                        'answer_id' => $answer->id,
+                        'answer_type' => config('settings.answer_type.option'),
+                        'content' => $answer->content,
+                        'percent' => round(($totalAnswerResults) ?
+                            (double)($answerResults * config('settings.number_100')) / ($totalAnswerResults) :
+                            config('settings.number_0'), config('settings.roundPercent')),
+                    ];
+                }
+            }
+        }
+
+        return [
+            'temp' => $temp,
+            'total_answer_results' => $totalAnswerResults,
+        ];
     }
 }

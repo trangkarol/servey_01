@@ -52,11 +52,12 @@ class ResultRepository extends BaseRepository implements ResultInterface
                             config('settings.question_type.time'),
                         ])) {
                             $temp['content'] = $result['content'];
-                        } elseif ($result['answer_type'] == config('settings.answer_type.other_option')) {
+                        } elseif ($result['answer_id']) {
                             $temp['answer_id'] = $result['answer_id'];
-                            $temp['content'] = $result['content'];
-                        } else {
-                            $temp['answer_id'] = $result['answer_id'];
+
+                            if ($result['answer_type'] == config('settings.answer_type.other_option')) {
+                                $temp['content'] = $result['content'];
+                            }
                         }
 
                         array_push($resultsData, array_merge($temp, $clientInfo));

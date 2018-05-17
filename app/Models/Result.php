@@ -37,4 +37,9 @@ class Result extends Model
 
         return $this->attributes['content'];
     }
+
+    public function getUpperContentAttribute()
+    {
+        return strtoupper($this->attributes['content']);
+    }
 }
