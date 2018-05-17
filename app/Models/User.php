@@ -122,11 +122,6 @@ class User extends Authenticatable
         return $this->level == config('users.level.admin');
     }
 
-    public function isSupperAdmin()
-    {
-        return $this->level == config('users.level.supperadmin');
-    }
-
     public function isActive()
     {
         return $this->status == config('users.status.active');

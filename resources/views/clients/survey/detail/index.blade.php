@@ -24,9 +24,7 @@
         <div class="background-user-profile"></div>
         <!-- .cd-main-header -->
         <main class="cd-main-content">
-            <div class="image-header">
-                {!! Html::image(asset(Auth::user()->background)) !!}
-            </div>
+            <div class="image-header"></div>
             <!-- Content Wrapper  -->
             <div class="content-wrapper" id="user-id" data-user-id="{{ Auth::user()->id }}">
                 <!-- /Scroll buttons -->

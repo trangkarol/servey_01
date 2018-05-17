@@ -5,9 +5,8 @@ return [
     'avatar_path' => 'public/uploads/images',
     'password_default' => '123123',
     'level' => [
-        'user' => 0,
         'admin' => 1,
-        'supperadmin' => 2,
+        'user' => 0,
     ],
     'status' => [
         'block' => 0,

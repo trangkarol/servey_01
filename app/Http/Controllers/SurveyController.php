@@ -85,7 +85,7 @@ class SurveyController extends Controller
 
         try {
             $survey = $this->surveyRepository->createSurvey(
-                Auth::user()->id, 
+                Auth::user()->id,
                 $request->json(),
                 config('settings.survey.status.open')
             );
@@ -97,14 +97,14 @@ class SurveyController extends Controller
             $request->session()->flash('success', trans('lang.survey_create_success'));
 
             DB::commit();
-        
+
             return response()->json([
                 'success' => true,
                 'redirect' => route('survey.create.complete', $survey->token_manage),
             ]);
         } catch (Exception $e) {
             DB::rollback();
-        
+
             return response()->json([
                 'success' => false,
                 'message' => trans('lang.survey_create_failed'),
@@ -218,6 +218,10 @@ class SurveyController extends Controller
     {
         $survey = $this->surveyRepository->getSurvey($token);
         $numOfSection = $survey->sections->count();
+
+        if (Auth::user()->cannot('view', $survey)) {
+            return view('clients.layout.403');
+        }
 
         if ($request->ajax()) {
             $currentSection = $request->session()->get('current_section_survey');
@@ -795,8 +799,7 @@ class SurveyController extends Controller
 
         if (!$survey) {
             $success = false;
-        } else {
-            $request->session()->flash('success', trans('lang.your_answer_has_been_recorded'));
+            $message = trans('lang.save_survey_draft_failed');
         }
 
         $request->session()->forget('current_section_survey');
@@ -804,7 +807,7 @@ class SurveyController extends Controller
         return response()->json([
             'success' => $success,
             'json' => $survey,
-            'redirect' => route('home'),
+            'message' => isset($message) ? $message : '',
         ]);
     }
 
@@ -832,7 +835,7 @@ class SurveyController extends Controller
 
         try {
             $survey = $this->surveyRepository->createSurvey(
-                Auth::user()->id, 
+                Auth::user()->id,
                 $request->json(),
                 config('settings.survey.status.draft')
             );
@@ -843,7 +846,7 @@ class SurveyController extends Controller
 
             $request->session()->flash('success', trans('lang.save_survey_draft_success'));
             $redirect = route('surveys.edit', $survey->token_manage);
-            
+
             DB::commit();
 
             return response()->json([
@@ -858,5 +861,10 @@ class SurveyController extends Controller
                 'message' => trans('lang.save_survey_draft_failed'),
             ]);
         }
+    }
+
+    public function showCompleteAnswer($title)
+    {
+        return view('clients.survey.detail.complete', compact('title'));
     }
 }

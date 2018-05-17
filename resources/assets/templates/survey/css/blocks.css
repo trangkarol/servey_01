@@ -7901,7 +7901,7 @@ ol ol li {
 }
 
 .congrat-img {
-    width: 60%; 
+    width: 60%;
 }
 
 @media (min-width: 1600px) {
@@ -7911,7 +7911,7 @@ ol ol li {
     }
 
     .congrat-img {
-        width: 70%; 
+        width: 70%;
     }
 }
 
@@ -7952,7 +7952,7 @@ ol ol li {
 }
 
 .complete-content .control-btn .row {
-    margin: 0 auto;    
+    margin: 0 auto;
 }
 
 .copy-link-survey {
@@ -7993,4 +7993,8 @@ ol ol li {
 .copy-link-manage:hover .tooltiptext {
     visibility: visible;
     opacity: 1;
+}
+
+.content-bg-wrap-answer-complete {
+    top: 70px;
 }

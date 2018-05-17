@@ -4,7 +4,7 @@ $(document).ready(function () {
         var url = $(this).attr('data-url');
         $('.list-survey-ajax').removeClass('active');
         $(this).addClass('active');
-        list_survey(url);
+        listSurvey(url);
     });
 
     reloadPagination();

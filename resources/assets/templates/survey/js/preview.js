@@ -224,7 +224,7 @@ $(document).ready(function() {
         if (validateDoingSection(selector)) {
             return false;
         }
-
+        var redirect = $(this).attr('data-redirect');
         var dataUrl = $(this).attr('data-url');
         var obj = {};
         obj.survey_token = $('#id-survey-preview').attr('data-token');
@@ -243,7 +243,19 @@ $(document).ready(function() {
         })
         .done(function(data) {
             if (data.success) {
-                $(window).attr('location', data.redirect);
+                $(window).attr('location', redirect);
+            } else {
+                swal({
+                    buttons: true,
+                    text: data.message,
+                    icon: 'error'
+                }).then(function (isConfirm) {
+                    if (isConfirm) {
+                        window.location.reload();
+                    } else {
+                        hideLoaderSection();
+                    }
+                });
             }
         })
 
