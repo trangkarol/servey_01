@@ -7,7 +7,7 @@
     {!! Html::style(elixir(config('settings.public_template') . 'css/form-builder-custom.css')) !!}
 @endpush
 @section('content')
-    <div id="message-alert"></div>
+    @include('clients.profile.notice')
     <div class="background-user-profile"></div>
     <!-- .cd-main-header -->
     <main class="cd-main-content">
@@ -68,6 +68,15 @@
                                 <i class="fa fa-fw fa-cog text-dark"></i>
                             </button>
                         </div>
+                        @if ($survey->isDraft())
+                            <div class="survey-action" data-placement="right"
+                                data-trigger="hover"
+                                data-toggle="tooltip" title="@lang('lang.save_as_draft')">
+                                <button type="button" class="btn btn-outline-light text-dark" id="" data-url="">
+                                    <i class="fa fa-fw fa-save text-dark"></i>
+                                </button>
+                            </div>
+                        @endif
                         <div class="survey-action" data-placement="right"
                             data-trigger="hover"
                             data-toggle="tooltip" title="@lang('lang.send')">

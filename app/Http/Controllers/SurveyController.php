@@ -81,20 +81,35 @@ class SurveyController extends Controller
             ]);
         }
 
-        $success = true;
-        $survey = $this->surveyRepository->createSurvey(Auth::user()->id, $request->json());
+        DB::beginTransaction();
 
-        if (!$survey) {
-            $success = false;
-        } else {
+        try {
+            $survey = $this->surveyRepository->createSurvey(
+                Auth::user()->id, 
+                $request->json(),
+                config('settings.survey.status.open')
+            );
+
+            if (!$survey) {
+                throw new Exception("Create survey failed", 1);
+            }
+
             $request->session()->flash('success', trans('lang.survey_create_success'));
-        }
 
-        return response()->json([
-            'success' => $success,
-            'json' => $survey,
-            'redirect' => route('survey.create.complete', $survey->token_manage),
-        ]);
+            DB::commit();
+        
+            return response()->json([
+                'success' => true,
+                'redirect' => route('survey.create.complete', $survey->token_manage),
+            ]);
+        } catch (Exception $e) {
+            DB::rollback();
+        
+            return response()->json([
+                'success' => false,
+                'message' => trans('lang.survey_create_failed'),
+            ]);
+        }
     }
 
     public function storeTmp(Request $request)
@@ -791,5 +806,57 @@ class SurveyController extends Controller
             'json' => $survey,
             'redirect' => route('home'),
         ]);
+    }
+
+    // write new
+    public function saveDraft(Request $request)
+    {
+        if (!$request->ajax()) {
+            return [
+                'success' => false,
+            ];
+        }
+
+        $totalDraft = $this->surveyRepository->countSurveyDraftOfUser(Auth::user()->id);
+
+        if ($totalDraft >= config('users.survey_draft_limit')) {
+            return response()->json([
+                'success' => false,
+                'message' => trans('lang.over_limit_save_draft', [
+                    'limit' => config('users.survey_draft_limit'),
+                ]),
+            ]);
+        }
+
+        DB::beginTransaction();
+
+        try {
+            $survey = $this->surveyRepository->createSurvey(
+                Auth::user()->id, 
+                $request->json(),
+                config('settings.survey.status.draft')
+            );
+
+            if (!$survey) {
+                throw new Exception("Save survey as draft failed", 1);
+            }
+
+            $request->session()->flash('success', trans('lang.save_survey_draft_success'));
+            $redirect = route('surveys.edit', $survey->token_manage);
+            
+            DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'redirect' => $redirect,
+            ]);
+        } catch (Exception $e) {
+            DB::rollback();
+
+            return response()->json([
+                'success' => false,
+                'message' => trans('lang.save_survey_draft_failed'),
+            ]);
+        }
     }
 }

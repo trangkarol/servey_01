@@ -212,6 +212,7 @@ return [
     'setting' => 'Setting',
     'other' => 'Other:',
     'preview' => 'Preview',
+    'save_as_draff' => 'Save as draff',
     'require_length_short' => 'Do not enter more than 100 characters',
 
     /*
@@ -243,4 +244,13 @@ return [
     'date_format_vn' => 'Day, month, year',
     'date_format_en' => 'Month, day, year',
     'date_format_jp' => 'Year, month, day',
+
+    /*
+        save survey as draft
+    */
+
+    'confirm_save_as_draft' => 'Do you want to save this survey as draft?',
+    'over_limit_save_draft' => 'Can not save! Number of survey draft is over limit! Your limit is :limit survey draft!',
+    'save_survey_draft_failed' => 'Failed! Try again!',
+    'save_survey_draft_success' =>  'Success! Has saved survey as draft!',
 ];

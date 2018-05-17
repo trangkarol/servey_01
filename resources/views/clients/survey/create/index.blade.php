@@ -7,7 +7,6 @@
     {!! Html::style(elixir(config('settings.public_template') . 'css/form-builder-custom.css')) !!}
 @endpush
 @section('content')
-    <div id="message-alert"></div>
     <div class="background-user-profile"></div>
     <!-- .cd-main-header -->
     <main class="cd-main-content">
@@ -74,6 +73,13 @@
                             <button type="button" class="btn btn-outline-light text-dark" id="preview-survey-btn"
                                 data-url="{{ route('survey.create.get-json') }}" url-location={{ route('survey.create.preview') }}>
                                 <i class="fa fa-fw fa-eye text-dark"></i>
+                            </button>
+                        </div>
+                        <div class="survey-action" data-placement="right"
+                            data-trigger="hover"
+                            data-toggle="tooltip" title="@lang('lang.save_as_draft')">
+                            <button type="button" class="btn btn-outline-light text-dark" id="save-draft-btn" data-url="{{ route('survey.save-draft') }}">
+                                <i class="fa fa-fw fa-save text-dark"></i>
                             </button>
                         </div>
                         <div class="survey-action" data-placement="right"
