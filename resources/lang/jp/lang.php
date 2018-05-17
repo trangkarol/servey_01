@@ -129,7 +129,8 @@ return [
     'add_option' => 'Add option',
     'add_other' => 'Add other',
     'or' => 'or',
-    'date_answer' => 'Moth, day, year',
+    'date_answer' => 'Year, moth, day',
+    'date_answer_format' => 'YYYY/MM/DD',
     'time_answer' => 'Time',
     'checkboxes' => 'Checkboxes',
     'date' => 'Date',
@@ -233,4 +234,12 @@ return [
     'exit' => 'Exit',
     'export' => 'Download',
     'export_error' => 'Export error!',
+
+    /*
+        date time format
+    */
+
+    'date_format_vn' => 'Day, month, year',
+    'date_format_en' => 'Month, day, year',
+    'date_format_jp' => 'Year, month, day',
 ];

@@ -217,8 +217,10 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                         $questionCreated = $sectionCreated->questions()->create($questionData);
 
                         // create type question on setting
+                        $valueSetting = $question['type'] == config('settings.question_type.date') ? $question['date_format'] : '';
                         $questionCreated->settings()->create([
                             'key' => $question['type'],
+                            'value' => $valueSetting,
                         ]);
 
                         // create image or video (media) of question

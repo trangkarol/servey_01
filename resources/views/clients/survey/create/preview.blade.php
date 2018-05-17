@@ -161,9 +161,9 @@
                                         <div class="item-answer">
                                             <span class="description-date-time">@lang('lang.date') :</span>
                                             <div class="input-group date">
-                                                <input type="text" class="input-answer-other datetimepicker-input date-answer-preview"
-                                                    id="datepicker-preview" data-toggle="datetimepicker" locale="{{ Session::get('locale') }}"
-                                                    data-target="#datepicker-preview" placeholder="@lang('lang.date_placeholder')" />
+                                                <input type="text" class="input-answer-other datetimepicker-input date-answer-preview datepicker-preview"
+                                                    id="datepicker-preview{{ $question->id }}" data-toggle="datetimepicker"  data-dateformat="{{ $question->date_format }}"
+                                                    data-target="#datepicker-preview{{ $question->id }}" placeholder="{{ strtolower($question->date_format) }}" />
                                             </div>
                                         </div>
                                     <!-- time -->
@@ -171,9 +171,9 @@
                                         <div class="item-answer">
                                             <span class="description-date-time">@lang('lang.hour') :</span>
                                             <div class="input-group date">
-                                                <input type="text" class="input-answer-other datetimepicker-input time-answer-preview"
-                                                    id="timepicker-preview" data-toggle="datetimepicker"
-                                                    data-target="#timepicker-preview" placeholder="@lang('lang.time_placeholder')" />
+                                                <input type="text" class="input-answer-other datetimepicker-input time-answer-preview timepicker-preview"
+                                                    id="timepicker-preview{{ $question->id }}" data-toggle="datetimepicker"
+                                                    data-target="#timepicker-preview{{ $question->id }}" placeholder="@lang('lang.time_placeholder')" />
                                             </div>
                                         </div>
                                     @endif

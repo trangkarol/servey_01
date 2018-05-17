@@ -132,7 +132,8 @@ return [
     'add_option' => 'Thêm tùy chọn',
     'add_other' => 'Thêm khác',
     'or' => 'hoặc',
-    'date_answer' => 'Tháng, ngày, năm',
+    'date_answer' => 'Ngày, tháng, năm',
+    'date_answer_format' => 'DD/MM/YYYY',
     'time_answer' => 'Giờ',
     'checkboxes' => 'Hộp kiểm',
     'date' => 'Ngày',
@@ -233,4 +234,12 @@ return [
     'exit' => 'Thoát',
     'export' => 'Tải xuống',
     'export_error' => 'Lổi khi tải xuống!',
+
+    /*
+        date time format
+    */
+
+    'date_format_vn' => 'Ngày, tháng, năm',
+    'date_format_en' => 'Tháng, ngày, năm',
+    'date_format_jp' => 'Năm, tháng, ngày',
 ];

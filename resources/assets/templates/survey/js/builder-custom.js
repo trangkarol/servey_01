@@ -294,6 +294,11 @@ jQuery(document).ready(function () {
             var type = $(element).data('question-type');
             question.type = type;
 
+            if (type == 5) {
+                var dateFormat = $(element).find('.date-format-question').attr('data-dateformat');
+                question.date_format = dateFormat;
+            }
+
             var require = data.find(item => item.name === `require[section_${sectionId}][question_${questionId}]`);
             question.require = require !== undefined ? parseInt(require.value) : 0; // 0: No require, 1: Require
 
@@ -2004,7 +2009,6 @@ jQuery(document).ready(function () {
         var dataArray = $('form.survey-form').serializeArray();
         var survey = getSurvey(dataArray);
         var data = JSON.stringify(survey);
-        var redirectWindow = window.open(urlLocation, '_blank');
 
         if (!valid || !survey) {
             return;
@@ -2019,6 +2023,7 @@ jQuery(document).ready(function () {
         })
         .done(function (data) {
             if (data.success) {
+                var redirectWindow = window.open(urlLocation, '_blank');
                 redirectWindow.location;
             }
         });
@@ -3163,7 +3168,6 @@ jQuery(document).ready(function () {
         }
     });
 
-
     /*
      *  SURVEY EDIT PAGE
      */
@@ -3247,4 +3251,21 @@ jQuery(document).ready(function () {
             });
         });
     }
+
+    // choose date format
+    $('.content-wrapper').on('click', '.date-answer-icon, .date-format-question', function (e) {
+        e.stopPropagation();
+        $(this).closest('.date-answer-input').find('.menu-choice-dateformat ul').show();
+    })
+
+    $('.content-wrapper').on('click', '.date-format', function () {
+        var selector = $(this).closest('.date-answer-input').find('.date-format-question');
+        $(selector).attr('data-dateformat', $(this).attr('data-dateformat'));
+        $(selector).text($(this).text());
+        $(this).closest('.menu-choice-dateformat ul').hide();
+    })
+
+    $(document).click(function () {
+        $('.menu-choice-dateformat ul').hide();
+    })
 });

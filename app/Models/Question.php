@@ -101,6 +101,11 @@ class Question extends Model
         return $this->settings->first()->key;
     }
 
+    public function getValueSettingAttribute()
+    {
+        return $this->settings->first()->value;
+    }
+
     public function getUrlMediaAttribute()
     {
         return $this->media->first()->url;
