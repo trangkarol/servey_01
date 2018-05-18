@@ -206,12 +206,45 @@ class AnswerRepository extends BaseRepository implements AnswerInterface
         ];
     }
 
-    public function deleteAnswers($ids)
+    public function deleteFromQuestionId($idQuestions)
     {
-        $ids = is_array($ids) ? $ids : [$ids];
-        app(SettingInterface::class)->deleteSettings($ids, Answer::class);
-        app(MediaInterface::class)->deleteMedia($ids, Answer::class);
+        if (!empty($idQuestions)) {
+            $answers = $this->model->withTrashed()->whereIn('question_id', $idQuestions);
 
-        return $this->model->whereIn('id', $ids)->delete();
+            $answers->each(function ($answer) {
+                $answer->settings()->withTrashed()->forceDelete();
+                $answer->media()->withTrashed()->forceDelete();
+            });
+
+            return $answers->forceDelete();
+        }
+    }
+
+    public function closeFromQuestionId($idQuestions)
+    {
+        if (!empty($idQuestions)) {
+            $answers = $this->model->whereIn('question_id', $idQuestions);
+
+            $answers->get()->each(function ($answer) {
+                $answer->settings()->delete();
+                $answer->media()->delete();
+            });
+
+            return $answers->delete();
+        }
+    }
+
+    public function openFromQuestionId($idQuestions)
+    {
+        if (!empty($idQuestions)) {
+            $answers = $this->model->onlyTrashed()->whereIn('question_id', $idQuestions);
+
+            $answers->get()->each(function ($answer) {
+                $answer->settings()->onlyTrashed()->restore();
+                $answer->media()->onlyTrashed()->restore();
+            });
+
+            return $answers->restore();
+        }
     }
 }

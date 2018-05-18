@@ -28,7 +28,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('command:command:auto-close-survey')->everyMinute();
+        $schedule->command('command:auto-close-survey')->everyMinute();
         $schedule->command('command:auto-open-survey')->everyMinute();
         $schedule->command('backup:database')->weekly();
         $schedule->command('command:resend-email-remind-time-remaining')->everyMinute();

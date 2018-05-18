@@ -5,10 +5,20 @@ namespace App\Console\Commands;
 use App\Models\Survey;
 use Illuminate\Console\Command;
 use App\Repositories\Survey\SurveyInterface;
+use App\Repositories\Section\SectionInterface;
+use App\Repositories\Question\QuestionInterface;
+use App\Repositories\Answer\AnswerInterface;
+use App\Repositories\Setting\SettingInterface;
+use App\Repositories\Media\MediaInterface;
+use App\Repositories\Result\ResultInterface;
+use App\Repositories\Invite\InviteInterface;
 use Carbon\Carbon;
+use App\Traits\ManageSurvey;
 
 class OpenSurveyCommand extends Command
 {
+    use ManageSurvey;
+
     /**
      * The name and signature of the console command.
      *
@@ -28,10 +38,26 @@ class OpenSurveyCommand extends Command
      *
      * @return void
      */
-    public function __construct(SurveyInterface $surveyRepository)
-    {
+    public function __construct(
+        SurveyInterface $surveyRepository,
+        QuestionInterface $questionRepository,
+        SectionInterface $sectionRepository,
+        AnswerInterface $answerRepository,
+        SettingInterface $settingRepository,
+        MediaInterface $mediaRepository,
+        ResultInterface $resultRepository,
+        InviteInterface $inviteRepository
+    ) {
         parent::__construct();
         $this->surveyRepository = $surveyRepository;
+        $this->surveyRepository = $surveyRepository;
+        $this->questionRepository = $questionRepository;
+        $this->sectionRepository = $sectionRepository;
+        $this->answerRepository = $answerRepository;
+        $this->settingRepository = $settingRepository;
+        $this->mediaRepository = $mediaRepository;
+        $this->resultRepository = $resultRepository;
+        $this->inviteRepository = $inviteRepository;
     }
 
     /**
@@ -41,10 +67,11 @@ class OpenSurveyCommand extends Command
      */
     public function handle()
     {
-        $surveyIds = $this->surveyRepository->where('status', config('settings.survey.status.close'))
+        $surveys = $this->surveyRepository->where('status', config('settings.survey.status.close'))
             ->where('start_time', '<', Carbon::now())
-            ->pluck('id')
             ->all();
-        $this->surveyRepository->multiUpdate('id', $surveyIds, ['status' => config('settings.survey.status.open')]);
+        foreach ($surveys as $survey) {
+            $this->open($survey);
+        }
     }
 }

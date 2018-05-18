@@ -488,14 +488,45 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
         return $success;
     }
 
-    public function deleteQuestions($ids)
+    public function deleteFromSectionId($idSections)
     {
-        $ids = is_array($ids) ? $ids : [$ids];
-        $answerIds = app(AnswerInterface::class)->whereIn('question_id', $ids)->pluck('id')->all();
-        app(AnswerInterface::class)->deleteAnswers($answerIds);
-        app(MediaInterface::class)->deleteMedia($ids, Question::class);
-        app(SettingInterface::class)->deleteSettings($ids, Question::class);
+        if (!empty($idSections)) {
+            $questions = $this->model->withTrashed()->whereIn('section_id', $idSections);
 
-        return $this->model->whereIn('id', $ids)->delete();
+            $questions->each(function ($question) {
+                $question->settings()->withTrashed()->forceDelete();
+                $question->media()->withTrashed()->forceDelete();
+            });
+
+            return $questions->forceDelete();
+        }
+    }
+
+    public function closeFromSectionId($idSections)
+    {
+        if (!empty($idSections)) {
+            $questions = $this->model->whereIn('section_id', $idSections);
+
+            $questions->get()->each(function ($question) {
+                $question->settings()->delete();
+                $question->media()->delete();
+            });
+
+            return $questions->delete();
+        }
+    }
+    
+    public function openFromSectionId($idSections)
+    {
+        if (!empty($idSections)) {
+            $questions = $this->model->onlyTrashed()->whereIn('section_id', $idSections);
+
+            $questions->get()->each(function ($question) {
+                $question->settings()->onlyTrashed()->restore();
+                $question->media()->onlyTrashed()->restore();
+            });
+
+            return $questions->restore();
+        }
     }
 }

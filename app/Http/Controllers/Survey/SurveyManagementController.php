@@ -17,14 +17,18 @@ use App\Repositories\Question\QuestionInterface;
 use App\Repositories\Answer\AnswerInterface;
 use App\Repositories\Setting\SettingInterface;
 use App\Repositories\Media\MediaInterface;
+use App\Repositories\Result\ResultInterface;
+use App\Repositories\Invite\InviteInterface;
 use App\Models\Question;
 use App\Models\Answer;
 use App\Models\Section;
 use App\Traits\SurveyProcesser;
+use App\Traits\ManageSurvey;
+use Carbon\Carbon;
 
 class SurveyManagementController extends Controller
 {
-    use SurveyProcesser;
+    use SurveyProcesser, ManageSurvey;
 
     protected $surveyRepository;
     protected $sectionRepository;
@@ -32,6 +36,8 @@ class SurveyManagementController extends Controller
     protected $answerRepository;
     protected $settingRepository;
     protected $mediaRepository;
+    protected $resultRepository;
+    protected $inviteRepository;
 
     public function __construct(
         SurveyInterface $surveyRepository,
@@ -39,7 +45,9 @@ class SurveyManagementController extends Controller
         SectionInterface $sectionRepository,
         AnswerInterface $answerRepository,
         SettingInterface $settingRepository,
-        MediaInterface $mediaRepository
+        MediaInterface $mediaRepository,
+        ResultInterface $resultRepository,
+        InviteInterface $inviteRepository
     ) {
         $this->surveyRepository = $surveyRepository;
         $this->questionRepository = $questionRepository;
@@ -47,6 +55,8 @@ class SurveyManagementController extends Controller
         $this->answerRepository = $answerRepository;
         $this->settingRepository = $settingRepository;
         $this->mediaRepository = $mediaRepository;
+        $this->resultRepository = $resultRepository;
+        $this->inviteRepository = $inviteRepository;
     }
 
     public function showSurveys()
@@ -62,39 +72,70 @@ class SurveyManagementController extends Controller
         }
     }
 
-    public function delete($token)
+    public function deleteSurvey($token)
     {
         DB::beginTransaction();
         try {
-            $survey = $this->surveyRepository->where('token_manage', $token)->first();
+            $survey = $this->surveyRepository->withTrashed()->where('token_manage', $token)->first();
 
             if (Auth::user()->cannot('delete', $survey)) {
                 return view('clients.layout.403');
             }
 
-            $this->sectionRepository->deleteSections($survey->sections->pluck('id')->all());
-            $this->surveyRepository->deleteSurvey($survey);
-            DB::Commit();
+            $this->delete($survey);
 
-            return back()->with('delete_survey_success', trans('lang.delete_survey_success'));
+            DB::commit();
+            
+            return back()->with('success', trans('lang.delete_survey_success'));
         } catch (Exception $e) {
             DB::rollback();
 
-            return back()->with('delete_survey_fail', trans('lang.delete_survey_fail'));
+            return back()->with('error', trans('lang.process_failed'));
         }
     }
 
     public function closeSurvey($token)
     {
-        $survey = $this->surveyRepository->where('token_manage', $token)->first();
+        DB::beginTransaction();
+        try {
+            $survey = $this->surveyRepository->where('token_manage', $token)->first();
 
-        if (Auth::user()->cannot('close', $survey)) {
-            return view('clients.layout.403');
+            if (Auth::user()->cannot('close', $survey)) {
+                return view('clients.layout.403');
+            }
+
+            $this->close($survey);
+
+            DB::commit();
+
+            return back()->with('success', trans('lang.close_survey_success'));
+        } catch (Exception $e) {
+            DB::rollback();
+
+            return back()->with('error', trans('lang.process_failed'));
         }
+    }
 
-        $survey->delete();
+    public function openSurvey($token)
+    {
+        DB::beginTransaction();
+        try {
+            $survey = $this->surveyRepository->onlyTrashed()->where('token_manage', $token)->first();
 
-        return back()->with('close_survey_success', trans('lang.close_survey_success'));
+            if (Auth::user()->cannot('open', $survey)) {
+                return view('clients.layout.403');
+            }
+
+            $this->open($survey);
+
+            DB::commit();
+
+            return back()->with('success', trans('lang.open_survey_success'));
+        } catch (Exception $e) {
+            DB::rollback();
+
+            return back()->with('error', trans('lang.process_failed'));
+        }
     }
 
     public function managementSurvey($tokenManage)

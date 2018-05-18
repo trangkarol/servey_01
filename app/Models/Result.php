@@ -35,6 +35,11 @@ class Result extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function survey()
+    {
+        return $this->belongsTo(Survey::class);
+    }
+
     public function getContentAnswerAttribute()
     {
         $answer = $this->answer;
