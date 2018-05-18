@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Section extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'title',
         'description',
@@ -13,6 +16,8 @@ class Section extends Model
         'order',
         'update',
     ];
+
+    protected $dates = ['deleted_at'];
 
     public function settings()
     {
