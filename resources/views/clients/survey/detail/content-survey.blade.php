@@ -80,7 +80,8 @@
         @endif
         @if ($numOfSection == $currentSection || $numOfSection == config('settings.number_1'))
             {!! Form::button(trans('profile.send'), ['class' => 'btn-action-preview btn-action-preview-submit',
-                'data-url' => route('survey.create.storeresult', $survey->token)]) !!}
+                'data-url' => route('survey.create.storeresult', $survey->token),
+                'data-redirect' => route('show-complete-answer', $survey->title)]) !!}
         @endif
     </li>
 </ul>

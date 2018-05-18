@@ -334,9 +334,14 @@ Route::group(['middleware' => 'profile'], function () {
             'as' => 'survey.create.get-json',
         ]);
     });
-
-    Route::get('surveys/{token}', [
-        'uses' => 'SurveyController@show',
-        'as' => 'survey.create.do-survey',
-    ]);
 });
+
+Route::get('surveys/{token}', [
+    'uses' => 'SurveyController@show',
+    'as' => 'survey.create.do-survey',
+]);
+
+Route::get('answer-complete/{title}', [
+    'uses' => 'SurveyController@showCompleteAnswer',
+    'as' => 'show-complete-answer',
+]);

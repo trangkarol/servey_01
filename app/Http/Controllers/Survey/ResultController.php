@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repositories\Survey\SurveyInterface;
 use Exception;
+use Auth;
 
 class ResultController extends Controller
 {
@@ -31,6 +32,10 @@ class ResultController extends Controller
                         }
                     ]);
                 }])->first();
+
+            if (Auth::user()->cannot('view', $survey)) {
+                return view('clients.layout.403');
+            }
 
             $resultsSurveys = $this->surveyRepository->getResutlSurvey($survey);
 

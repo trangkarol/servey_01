@@ -2025,6 +2025,8 @@ jQuery(document).ready(function () {
             return;
         }
 
+        var redirectWindow = window.open(urlLocation, '_blank');
+
         $.ajax({
             method: 'POST',
             url: $(this).data('url'),
@@ -2034,7 +2036,6 @@ jQuery(document).ready(function () {
         })
         .done(function (data) {
             if (data.success) {
-                var redirectWindow = window.open(urlLocation, '_blank');
                 redirectWindow.location;
             }
         });
