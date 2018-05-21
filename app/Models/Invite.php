@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Invite extends Model
 {
+    use SoftDeletes;
+
     const NOT_DONE = 0;
 
     protected $fillable = [
@@ -18,6 +21,8 @@ class Invite extends Model
         'number_invite',
         'number_answer',
     ];
+
+    protected $dates = ['deleted_at'];
 
     public function survey()
     {

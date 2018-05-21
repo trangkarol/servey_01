@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Result extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'answer_id',
         'user_id',
@@ -14,6 +17,8 @@ class Result extends Model
     ];
 
     public $timestamps = true;
+
+    protected $dates = ['deleted_at'];
 
     public function answer()
     {

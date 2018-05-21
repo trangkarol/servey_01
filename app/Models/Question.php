@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Question extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'title',
         'description',
@@ -18,6 +21,8 @@ class Question extends Model
     protected $appends = [
         'trim_content',
     ];
+
+    protected $dates = ['deleted_at'];
 
     public function settings()
     {

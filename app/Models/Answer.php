@@ -3,14 +3,19 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Answer extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'content',
         'question_id',
         'update',
     ];
+
+    protected $dates = ['deleted_at'];
 
     protected $appends = [
         'trim_content',

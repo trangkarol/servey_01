@@ -55,6 +55,11 @@ class Survey extends Model
         return $this->hasMany(Section::class)->orderBy('order');
     }
 
+    public function results()
+    {
+        return $this->hasMany(Result::class);
+    }
+
     public function setStartTimeAttribute($value)
     {
         if (!empty($value)) {

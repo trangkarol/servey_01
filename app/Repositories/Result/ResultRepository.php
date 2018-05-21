@@ -25,8 +25,6 @@ class ResultRepository extends BaseRepository implements ResultInterface
         try {
             $surveyToken = $data->get('survey_token');
             $survey = $survey->where('token', $surveyToken)->first();
-            $createdAt = Carbon::now();
-            $updatedAt = Carbon::now();
 
             if (!$survey) {
                 throw new Exception("Error Processing Request", 1);
@@ -46,8 +44,6 @@ class ResultRepository extends BaseRepository implements ResultInterface
 
                 foreach ($section['questions'] as $question) {
                     $temp['question_id'] = $question['question_id'];
-                    $temp['created_at'] = $createdAt;
-                    $temp['updated_at'] = $updatedAt;
 
                     foreach ($question['results'] as $result) {
                         if (in_array($question['type'], [
@@ -70,7 +66,7 @@ class ResultRepository extends BaseRepository implements ResultInterface
                 }
             }
 
-            $this->multiCreate($resultsData);
+            $survey->results()->createMany($resultsData);
 
             DB::commit();
 
