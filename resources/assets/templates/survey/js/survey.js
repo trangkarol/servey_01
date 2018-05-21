@@ -4,7 +4,7 @@ $(document).ready(function () {
         var url = $(this).attr('data-url');
         $('.list-survey-ajax').removeClass('active');
         $(this).addClass('active');
-        listSurvey(url);
+        listSurvey(url, 'list-survey-ajax');
     });
 
     reloadPagination();
@@ -32,15 +32,20 @@ $(document).ready(function () {
     });
 });
 
-function listSurvey(url) {
+function listSurvey(url, flag = 'form-search') {
     $.ajax({
         method: 'GET',
         url: url,
         data: $('.form-search-list-survey').serialize(),
         dataType: 'json',
-        success: function(data) {
-            $('#show-list-surveys').html(data.html);
-            reloadPagination();
+        success: function (data) {
+            $('#show-list-surveys').html(data.html).promise().done(function () {
+                if (flag == 'list-survey-ajax') {
+                    $('.element-search-survey').val('');
+                }
+
+                reloadPagination();
+            });
         }
     });
 }

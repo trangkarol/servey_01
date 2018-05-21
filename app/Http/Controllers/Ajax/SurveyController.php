@@ -22,7 +22,7 @@ class SurveyController extends Controller
                 'success' => false,
             ]);
         }
-        
+
         $flag = $request->flag;
         $data = $request->only('name', 'status', 'privacy');
         $surveys = $this->surveyRepository->getAuthSurveys($flag, $data);

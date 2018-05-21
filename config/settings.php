@@ -229,7 +229,7 @@ return [
             'by_option' => 4,
         ],
         'privacy' => [
-            'public' => 0,
+            'public' => 2,
             'private' => 1,
         ],
     ],
