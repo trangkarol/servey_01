@@ -106,6 +106,20 @@ class Question extends Model
         return $this->settings->first()->value;
     }
 
+    public function getDateContentAttribute()
+    {
+        switch ($this->value_setting) {
+            case config('settings.date_format_vn'):
+                return trans('lang.date_format_vn');
+
+            case config('settings.date_format_en'):
+                return trans('lang.date_format_en');
+
+            default:
+                return trans('lang.date_format_jp');
+        }
+    }
+
     public function getUrlMediaAttribute()
     {
         return $this->media->first()->url;

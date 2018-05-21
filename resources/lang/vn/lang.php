@@ -244,7 +244,8 @@ return [
     'date_format_vn' => 'Ngày, tháng, năm',
     'date_format_en' => 'Tháng, ngày, năm',
     'date_format_jp' => 'Năm, tháng, ngày',
-    
+    'timestamps' => 'Thời gian',
+
     /*
         save survey as draft
     */

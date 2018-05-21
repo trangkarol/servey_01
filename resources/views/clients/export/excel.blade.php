@@ -4,11 +4,11 @@
     <title></title>
 </head>
 <body>
-    <table class="table-result table">
+    <table class="table-result table" border="1">
         <thead class="thead-default">
             <tr>
                 <th>
-                    {{ trans('survey.timestamps') }}
+                    {{ trans('lang.timestamps') }}
                 </th>
                 @if ($data['requiredSurvey'] != config('settings.survey_setting.answer_required.none'))
                     <th>{{ trans('lang.email') }}</th>

@@ -240,7 +240,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                 }
 
                 // send mail invite
-                Mail::to($inviteData['emails'])->queue(new InviteSurvey($emailData)); 
+                Mail::to($inviteData['emails'])->queue(new InviteSurvey($emailData));
             }
 
             return $survey;
@@ -489,9 +489,10 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
     public function getResultExport($survey)
     {
         $requiredSurvey = $survey->required;
-        $questions = app(QuestionInterface::class)->whereIn('section_id', $survey->sections->pluck('id'))
+        $questions = app(QuestionInterface::class)
+            ->whereIn('section_id', $survey->sections->pluck('id')->all())
             ->with('answerResults', 'settings')->get();
-        $results = app(ResultInterface::class)->whereIn('question_id', $questions->pluck('id'))
+        $results = app(ResultInterface::class)->whereIn('question_id', $questions->pluck('id')->all())
             ->with('answer.settings', 'user')->get()->groupBy(
                 function($date) {
                     return Carbon::parse($date->created_at)->format('Y-m-d H:m:s.u');
@@ -576,7 +577,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                     ->where('user_id', $userId);
             });
         }
-        
+
         //check paramater
         if (isset($data['name']) && !empty($data['name'])) {
             $survey = $survey->where('title', 'like', '%' . $data['name'] . '%');

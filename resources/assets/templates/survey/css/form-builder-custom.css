@@ -3184,6 +3184,10 @@ input[name="quantity-answer"]::-webkit-outer-spin-button, input[type="number"]::
     display: block;
 }
 
+.date-format-question {
+    cursor: pointer;
+}
+
 .option-image-section {
     height: 40px;
     width: 40px;

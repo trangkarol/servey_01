@@ -13,6 +13,8 @@ class Result extends Model
         'client_ip',
     ];
 
+    public $timestamps = true;
+
     public function answer()
     {
         return $this->belongsTo(Answer::class);
