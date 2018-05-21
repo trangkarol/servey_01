@@ -301,6 +301,11 @@ Route::group(['middleware' => 'profile'], function () {
         'as' => 'survey.save-draft',
     ]);
 
+    Route::put('/surveys/update-setting/{token}', [
+        'uses' => 'SurveyController@updateSetting',
+        'as' => 'update-setting',
+    ]);
+
     Route::post('store-result', [
         'uses' => 'SurveyController@storeResult',
         'as' => 'survey.create.storeresult',

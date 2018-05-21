@@ -19,4 +19,5 @@ return [
     'survey_invited' => 'Invited',
     'survey_editor' => 'Editor',
     'remaining_date' => ' days remaining.',
+    'no_title' => '(No title)',
 ];

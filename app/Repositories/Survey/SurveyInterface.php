@@ -8,6 +8,8 @@ interface SurveyInterface
 
     public function createSurvey($userId, $data, $status);
 
+    public function updateSettingSurvey($survey, $data, $userRepo);
+
     public function checkCloseSurvey($inviteIds, $surveyIds);
 
     public function listsSurvey($userId, $email = null);

@@ -86,167 +86,247 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
 
     public function createSurvey($userId, $data, $status)
     {
-        try {
-            $surveyInputs = [
-                'title' => $data->get('title'),
-                'description' => $data->get('description'),
-                'start_time' => $data->get('start_time'),
-                'end_time' => $data->get('end_time'),
-            ];
-            $data = $data->all();
+        $surveyInputs = [
+            'title' => $data->get('title'),
+            'description' => $data->get('description'),
+            'start_time' => $data->get('start_time'),
+            'end_time' => $data->get('end_time'),
+        ];
+        $data = $data->all();
 
-            $surveyInputs['feature'] = config('settings.survey.feature.default');
-            $surveyInputs['token'] = md5(uniqid(rand(), true));
-            $surveyInputs['token_manage'] = md5(uniqid(rand(), true));
-            $surveyInputs['status'] = $status;
+        $surveyInputs['feature'] = config('settings.survey.feature.default');
+        $surveyInputs['token'] = md5(uniqid(rand(), true));
+        $surveyInputs['token_manage'] = md5(uniqid(rand(), true));
+        $surveyInputs['status'] = $status;
 
-            $survey = parent::create($surveyInputs);
+        $survey = parent::create($surveyInputs);
 
-            if (!$survey) {
-                throw new Exception('Error Processing Request', 1);
+        if (!$survey) {
+            throw new Exception('Error Processing Request', 1);
+        }
+
+        //create owner
+        $owner = $survey->members()->attach($userId, [
+            'role' => Survey::OWNER,
+            'status' => Survey::APPROVE,
+        ]);
+
+        // create members
+        foreach ($data['members'] as $member) {
+            $memberId = app(UserInterface::class)->where('email', $member['email'])->first()->id;
+
+            if ($member['role'] == Survey::OWNER) {
+                throw new Exception("Role not permited!", 1);
             }
 
-            //create owner
-            $owner = $survey->members()->attach($userId, [
-                'role' => Survey::OWNER,
+            $survey->members()->attach($memberId, [
+                'role' => $member['role'],
                 'status' => Survey::APPROVE,
             ]);
+        }
 
-            // create members
-            foreach ($data['members'] as $member) {
-                $memberId = app(UserInterface::class)->where('email', $member['email'])->first()->id;
-                $survey->members()->attach($memberId, [
-                    'role' => $member['role'],
-                    'status' => Survey::APPROVE,
-                ]);
-            }
+        // create invite email
+        $inviteData = $data['invited_email'];
 
-            // create invite email
-            $inviteData = $data['invited_email'];
+        if (count($inviteData['emails'])) {
+            $inviteMails = $this->formatInviteMailsString($inviteData['emails']);
 
-            if ($inviteData['emails']) {
-                $inviteMails = $this->formatInviteMailsString($inviteData['emails']);
+            $survey->invite()->create([
+                'invite_mails' => $inviteMails,
+                'answer_mails' => '',
+                'subject' => $inviteData['subject'],
+                'message' => $inviteData['message'],
+                'status' => config('settings.survey.invite_status.not_finish'),
+                'number_invite' => count($inviteData['emails']),
+                'number_answer' => config('settings.survey.number_answer_default'),
+            ]);
+        }
 
-                $survey->invite()->create([
-                    'invite_mails' => $inviteMails,
-                    'answer_mails' => '',
-                    'subject' => $inviteData['subject'],
-                    'message' => $inviteData['message'],
-                    'status' => config('settings.survey.invite_status.not_finish'),
-                    'number_invite' => count($inviteData['emails']),
-                    'number_answer' => config('settings.survey.number_answer_default'),
-                ]);
-            }
+        // create settings of survey
+        $settingsData = $this->createSettingDataArray($data['setting']);
+        $settingMailToWsm = [
+            'key' => config('settings.setting_type.send_mail_to_wsm.key'),
+            'value' => $inviteData['send_mail_to_wsm'],
+        ];
 
-            // create settings of survey
-            $settingsData = $this->createSettingDataArray($data['setting']);
-            $settingMailToWsm = [
-                'key' => config('settings.setting_type.send_mail_to_wsm.key'),
-                'value' => $inviteData['send_mail_to_wsm'],
-            ];
+        array_push($settingsData, $settingMailToWsm);
+        $survey->settings()->createMany($settingsData);
 
-            array_push($settingsData, $settingMailToWsm);
-            $survey->settings()->createMany($settingsData);
+        $orderSection = 0;
 
-            $orderSection = 0;
+        // create sections
+        foreach ($data['sections'] as $section) {
+            $sectionData['title'] = $section['title'];
+            $sectionData['description'] = $section['description'];
+            $sectionData['order'] = ++ $orderSection;
+            $sectionData['update'] = config('settings.survey.section_update.default');
 
-            // create sections
-            foreach ($data['sections'] as $section) {
-                $sectionData['title'] = $section['title'];
-                $sectionData['description'] = $section['description'];
-                $sectionData['order'] = ++ $orderSection;
-                $sectionData['update'] = config('settings.survey.section_update.default');
+            $sectionCreated = $survey->sections()->create($sectionData);
 
-                $sectionCreated = $survey->sections()->create($sectionData);
+            $orderQuestion = 0;
 
-                $orderQuestion = 0;
+            // create questions
+            if (isset($section['questions'])) {
+                foreach ($section['questions'] as $question) {
+                    $questionData['title'] = $question['title'];
+                    $questionData['description'] = $question['description'];
+                    $questionData['required'] = $question['require'];
+                    $questionData['order'] = ++ $orderQuestion;
+                    $questionData['update'] = config('settings.survey.question_update.default');
 
-                // create questions
-                if (isset($section['questions'])) {
-                    foreach ($section['questions'] as $question) {
-                        $questionData['title'] = $question['title'];
-                        $questionData['description'] = $question['description'];
-                        $questionData['required'] = $question['require'];
-                        $questionData['order'] = ++ $orderQuestion;
-                        $questionData['update'] = config('settings.survey.question_update.default');
+                    $questionCreated = $sectionCreated->questions()->create($questionData);
 
-                        $questionCreated = $sectionCreated->questions()->create($questionData);
+                    // create type question on setting
+                    $valueSetting = $question['type'] == config('settings.question_type.date') ? $question['date_format'] : '';
+                    $questionCreated->settings()->create([
+                        'key' => $question['type'],
+                        'value' => $valueSetting,
+                    ]);
 
-                        // create type question on setting
-                        $valueSetting = $question['type'] == config('settings.question_type.date') ? $question['date_format'] : '';
-                        $questionCreated->settings()->create([
-                            'key' => $question['type'],
-                            'value' => $valueSetting,
-                        ]);
+                    // create image or video (media) of question
+                    if ($question['media']) {
+                        $questionMedia['user_id'] = $userId;
+                        $questionMedia['url'] = $this->cutUrlImage($question['media']);
+                        $questionMedia['type'] = config('settings.media_type.image');
 
-                        // create image or video (media) of question
-                        if ($question['media']) {
-                            $questionMedia['user_id'] = $userId;
-                            $questionMedia['url'] = $this->cutUrlImage($question['media']);
-                            $questionMedia['type'] = config('settings.media_type.image');
-
-                            if ($question['type'] == config('settings.question_type.video')) {
-                                $questionMedia['type'] = config('settings.media_type.video');
-                            }
-
-                            $questionCreated->media()->create($questionMedia);
+                        if ($question['type'] == config('settings.question_type.video')) {
+                            $questionMedia['type'] = config('settings.media_type.video');
                         }
 
-                        // create answers
-                        if (isset($question['answers'])) {
-                            foreach ($question['answers'] as $answer) {
-                                $answerData['content'] = $answer['content'];
-                                $answerData['update'] = config('settings.survey.answer_update.default');;
+                        $questionCreated->media()->create($questionMedia);
+                    }
 
-                                $answerCreated = $questionCreated->answers()->create($answerData);
+                    // create answers
+                    if (isset($question['answers'])) {
+                        foreach ($question['answers'] as $answer) {
+                            $answerData['content'] = $answer['content'];
+                            $answerData['update'] = config('settings.survey.answer_update.default');;
 
-                                // create type answer on setting
-                                $answerCreated->settings()->create([
-                                    'key' => $answer['type'],
-                                ]);
+                            $answerCreated = $questionCreated->answers()->create($answerData);
 
-                                // create image (media) of answer
-                                if ($answer['media']) {
-                                    $answerMedia['user_id'] = $userId;
-                                    $answerMedia['url'] = $this->cutUrlImage($answer['media']);
-                                    $answerMedia['type'] = config('settings.media_type.image');
+                            // create type answer on setting
+                            $answerCreated->settings()->create([
+                                'key' => $answer['type'],
+                            ]);
 
-                                    $answerCreated->media()->create($answerMedia);
-                                }
+                            // create image (media) of answer
+                            if ($answer['media']) {
+                                $answerMedia['user_id'] = $userId;
+                                $answerMedia['url'] = $this->cutUrlImage($answer['media']);
+                                $answerMedia['type'] = config('settings.media_type.image');
+
+                                $answerCreated->media()->create($answerMedia);
                             }
                         }
                     }
                 }
             }
+        }
 
-            // if survey is create
-            if ($status == config('settings.survey.status.open')) {
-                // send mail manage to owner
-                $emailData = [
-                    'name' => Auth::user()->name,
-                    'title' => $data['invited_email']['subject'],
-                    'messages' => $data['invited_email']['message'],
-                    'description' => $survey->description,
-                    'linkManage' => route('surveys.edit', $survey->token_manage),
-                    'link' => route('survey.create.do-survey', $survey->token),
-                ];
+        // if survey is create
+        if ($status == config('settings.survey.status.open')) {
+            // send mail manage to owner
+            $emailData = [
+                'name' => Auth::user()->name,
+                'title' => $data['invited_email']['subject'],
+                'messages' => $data['invited_email']['message'],
+                'description' => $survey->description,
+                'linkManage' => route('surveys.edit', $survey->token_manage),
+                'link' => route('survey.create.do-survey', $survey->token),
+            ];
 
-                Mail::to(Auth::user()->email)->queue(new ManageSurvey($emailData));
+            Mail::to(Auth::user()->email)->queue((new ManageSurvey($emailData))->onConnection('database'));
 
-                // send mail manage to members
-                foreach ($data['members'] as $member) {
-                    $emailData['name'] = app(UserInterface::class)->where('email', $member['email'])->first()->name;
-                    Mail::to($member['email'])->queue(new ManageSurvey($emailData));
-                }
-
-                // send mail invite
-                Mail::to($inviteData['emails'])->queue(new InviteSurvey($emailData));
+            // send mail manage to members
+            foreach ($data['members'] as $member) {
+                $emailData['name'] = app(UserInterface::class)->where('email', $member['email'])->first()->name;
+                Mail::to($member['email'])->queue((new ManageSurvey($emailData))->onConnection('database'));
             }
 
-            return $survey;
-        } catch (Exception $e) {
-            throw $e;
+            // send mail invite
+            if (count($inviteData['emails'])) {
+                Mail::to($inviteData['emails'])->queue((new InviteSurvey($emailData))->onConnection('database'));
+            }
         }
+
+        return $survey;
+    }
+
+    public function updateSettingSurvey($survey, $data, $userRepo)
+    {
+        $data = $data->all();
+
+        // update members
+        $membersData = [];
+        $ownerId = $survey->members()->wherePivot('role', Survey::OWNER)->first()->id;
+
+        foreach ($data['members'] as $member) {
+            $memberId = app(UserInterface::class)->where('email', $member['email'])->first()->id;
+
+            if ($memberId == $ownerId || $memberId == Auth::user()->id || $member['role'] == Survey::OWNER) {
+                throw new Exception("Can not edit member", 1);
+            }
+
+            $membersData[$memberId] = [
+                'role' => $member['role'],
+                'status' => Survey::APPROVE,
+            ];
+        }
+
+        $survey->members()->wherePivot('role', '!=', Survey::OWNER)->sync($membersData);
+
+        // update invite mail
+        $inviteData = $data['invited_email'];
+
+        if (!empty($survey->invite) || !empty($inviteData['emails'])) {
+            $answerMails = $answerOld = !empty($survey->invite) ? $survey->invite->answer_mails : '';
+            
+            $answerOld = collect(!empty($answerOld) ? explode('/', trim($answerOld, '/')) : []);
+            $answerDelete = $answerOld->diff($inviteData['answer_emails'])->all();
+
+            if (count($answerDelete)) {
+                $userIds = $userRepo->whereIn('email', $answerDelete)->pluck('id')->all();
+                $isDelete = $survey->results()->whereIn('user_id', $userIds)->forceDelete();
+
+                if (!$isDelete) {
+                    throw new Exception("Delete result answers of user failed !", 1);
+                }
+
+                $answerMails = $this->formatInviteMailsString($inviteData['answer_emails']);
+            }
+
+            $inviteMails = $this->formatInviteMailsString($inviteData['emails']);
+
+            $updateInviteData = [
+                'invite_mails' => $inviteMails,
+                'answer_mails' => $answerMails,
+                'subject' => $inviteData['subject'],
+                'message' => $inviteData['message'],
+                'status' => config('settings.survey.invite_status.not_finish'),
+                'number_invite' => count($inviteData['emails']),
+                'number_answer' => config('settings.survey.number_answer_default'),
+            ];
+
+            if (empty($survey->invite)) {
+                $survey->invite()->create($updateInviteData);
+            } else {
+                $survey->invite()->update($updateInviteData);
+            }
+        }
+
+        // update settings of survey
+        $survey->settings()->forceDelete();
+
+        $settingsData = $this->createSettingDataArray($data['setting']);
+        $settingMailToWsm = [
+            'key' => config('settings.setting_type.send_mail_to_wsm.key'),
+            'value' => $inviteData['send_mail_to_wsm'],
+        ];
+        array_push($settingsData, $settingMailToWsm);
+
+        $survey->settings()->createMany($settingsData);
+
+        return true;
     }
 
     public function checkCloseSurvey($inviteIds, $surveyIds)
@@ -546,7 +626,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
             'settings',
             'invite',
             'members' => function ($query) {
-                $query->where('role', Survey::APPROVE);
+                $query->where('role', '!=', Survey::OWNER);
             },
             'sections' => function ($query) {
                 $query->with([

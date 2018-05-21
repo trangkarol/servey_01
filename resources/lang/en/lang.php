@@ -190,7 +190,9 @@ return [
     'private_this_survey' => 'Private this survey',
     'save' => 'Save',
     'cancel' => 'Cancel',
-    'mail-send-validate' => 'Email is not empty because You have checked Send a reminder email periodically or Private this survey',
+    'mail_send_validate' => 'Email is not empty because You have checked Send a reminder email periodically or Private this survey',
+    'not_yet_answered' => 'Not yet answered',
+    'answered' => 'Answered',
 
     /*
         add manager
@@ -263,4 +265,14 @@ return [
    'delete_survey_success' => 'Delete survey successful!',
    'open_survey_success' => 'Delete survey successful!',
    'process_failed' => 'Failed! Try again!',
+
+    /*
+        Edit survey page
+    */
+
+    'option_update' => 'Option update',
+    'send_all_question_survey_again' => 'Send all question of this survey again',
+    'only_send_updated_question_survey' => 'Only send updated questions of this survey',
+    'confirm_delete_answered_email' => 'This email has answered survey! Are you sure want to remove this email and all involve results ?',
+    'error_update_setting_survey' => 'Save setting error! Try again!',
 ];

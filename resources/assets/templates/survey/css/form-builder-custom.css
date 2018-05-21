@@ -3085,15 +3085,16 @@ label.container-radio-setting-survey {
     line-height: 40px;
 }
 
-.btn-action-setting-cancel, .btn-action-setting-save {
+.btn-action-setting-cancel, .btn-action-setting-save,
+.btn-option-update-cancel, .btn-option-update-send {
     padding: 5px 10px;
 }
 
-a.btn-action-setting-cancel {
+a.btn-action-setting-cancel, a.btn-option-update-cancel {
     color: #333;
 }
 
-a.btn-action-setting-save {
+a.btn-action-setting-save, a.btn-option-update-send {
     color: #2a9abf;
 }
 
@@ -3368,6 +3369,10 @@ input[name="quantity-answer"]::-webkit-outer-spin-button, input[type="number"]::
     border-radius: 5px;
     margin: 2px;
     font-size: 12px !important;
+}
+
+.label-show-email.active {
+    background-color: #59bd0d;
 }
 
 .input-email-member, .input-email-send {
@@ -3817,4 +3822,29 @@ input[name="quantity-answer"]::-webkit-outer-spin-button, input[type="number"]::
 #style-scroll-custom::-webkit-scrollbar-thumb {
     background-color: #0ea684;
     border-radius: 10px;
+}
+
+.label-email, .label-subject, .label-message {
+    color: #444 !important;
+    font-weight: bold !important;
+}
+
+.inviter-description {
+    font-weight: 500 !important;
+}
+
+.inviter-description .blue {
+    color: #42add1;
+}
+
+.inviter-description .green {
+    color: #5cbe26;
+}
+
+#option-update-modal {
+    top: 100px !important;
+}
+
+.option-update-content {
+    padding: 3% 5%;
 }

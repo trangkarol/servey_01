@@ -1,5 +1,5 @@
 <!-- The Modal -->
-<div class="modal fade setting-survey" id="setting-survey">
+<div class="modal fade setting-survey" id="setting-survey" data-url="{{ route('update-setting', $survey->token_manage) }}">
     <div class="modal-dialog">
         <div class="modal-content modal-content-setting-create-survey">
             <div class="modal-header modal-header-setting-survey">
@@ -88,6 +88,7 @@
                                         'default' => config('settings.survey_setting.reminder_email.none')
                                     ]) !!}
                                     <span class="checkmark-setting-survey"></span>
+                                </label>
                             </div>
                             <div class="setting-mail-remind">
                                 <div class="col-sm-6 col-12 setting-mail-remind-option">
@@ -161,12 +162,18 @@
                         id="invite-setting"
                         all="{{ $survey->getSetting(config('settings.setting_type.send_mail_to_wsm.key')) }}"
                         invite-data="{{ $survey->invite ? $survey->invite->invite_mails : '' }}"
+                        answer-data="{{ $survey->invite ? $survey->invite->answer_mails : '' }}"
                         subject=""
                         msg="{{ trans('lang.message_default_email') }}">
                     <div class="form-group">
                         <div class="row">
                             <div class="col-md-8">
-                                <label for="" class="label-email">@lang('lang.email')</label>
+                                <label for="" class="label-email">@lang('lang.email')
+                                    <span class="inviter-description">
+                                        (<span class="fa fa-circle blue"></span> @lang('lang.not_yet_answered')
+                                        / <span class="fa fa-circle green"></span> @lang('lang.answered'))
+                                    </span>
+                                </label>
                             </div>
                             <div class="col-md-4">
                                 <label class="container-checkbox-setting-survey send-to-all">
@@ -269,3 +276,43 @@
         </div>
     </div>
 </div>
+<!-- start option update survey modal -->
+<div class="modal fade setting-survey" id="option-update-modal" data-url="{{ route('update-setting', $survey->token_manage) }}">
+    <div class="modal-dialog">
+        <div class="modal-content modal-content-setting-create-survey">
+            <div class="modal-header modal-header-setting-survey">
+                <h4 class="modal-title title-setting-survey">@lang('lang.option_update')</h4>
+            </div>
+            <!-- start tab settings -->
+            <div class="tab-content tab-content-setting">
+                <div id="general_settings" class="container tab-pane active"><br>
+                    <div class="option-update-content">
+                        <div class="item-setting">
+                            <label class="container-radio-setting-survey">@lang('lang.send_all_question_survey_again')
+                                {!! Form::radio('option_send_survey', '', true, [
+                                    'class' => '',
+                                    'val' => config('settings.option_update.send_all_question_survey_again'),
+                                ]) !!}
+                                <span class="checkmark-radio"></span>
+                            </label><br>
+                            <label class="container-radio-setting-survey">@lang('lang.only_send_updated_question_survey')
+                                {!! Form::radio('option_send_survey', '', false, [
+                                    'class' => '',
+                                    'val' => config('settings.option_update.only_send_updated_question_survey'),
+                                ]) !!}
+                                <span class="checkmark-radio"></span>
+                            </label>
+                        </div>
+                        <div class="div-action-setting">
+                            <a href="#" class="btn-option-update-cancel" data-dismiss="modal">@lang('lang.cancel')</a>
+                            <a href="#" class="btn-option-update-send" id="send-update-btn" data-dismiss="modal">@lang('lang.send')</a>
+                            <a href="#" id="edit-survey-btn" data-url="{{ route('surveys.update', $survey->token_manage) }}"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end tab settings -->
+        </div>
+    </div>
+</div>
+<!-- end option update survey modal -->

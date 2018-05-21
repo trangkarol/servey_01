@@ -94,7 +94,9 @@ class Survey extends Model
 
     public function getTrimTitleAttribute()
     {
-        return ucwords(str_limit($this->attributes['title'], config('settings.title_length_default')));
+        return !empty($this->attributes['title']) ? 
+            ucwords(str_limit($this->attributes['title'], config('settings.title_length_default'))) 
+            : trans('survey.no_title');
     }
 
     public function getTitleAttribute()

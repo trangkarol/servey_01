@@ -32,7 +32,7 @@ class SurveyRequest extends FormRequest
             'setting.answer_limited' => 'required|integer|min:0',
             'setting.reminder_email.type' => 'required|integer|between:0,4',
             'setting.reminder_email.next_time' => 'date|after:start_time',
-            'setting.privacy' => 'required|integer|boolean',
+            'setting.privacy' => 'required|integer|between:1,2',
             'invited_email.subject' => 'required',
             'invited_email.send_mail_to_wsm' => 'required|integer|between:0,1',
             'invited_email.emails.*' => 'email|distinct',
