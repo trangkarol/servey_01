@@ -579,11 +579,11 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         }
 
         //check paramater
-        if (isset($data['name']) && !empty($data['name'])) {
+        if (isset($data['name']) && $data['name']) {
             $survey = $survey->where('title', 'like', '%' . $data['name'] . '%');
         }
 
-        if (isset($data['privacy']) && !empty($data['privacy'])) {
+        if (isset($data['privacy']) && $data['privacy']) {
             $privacy = $data['privacy'];
             $survey = $survey->whereHas('settings', function ($query) use ($privacy) {
                 $query->where('key', config('settings.setting_type.privacy.key'))
@@ -591,12 +591,15 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
             });
         }
 
-        if (isset($data['status']) && !empty($data['status'])) {
+
+        if (isset($data['status']) && $data['status']) {
             $survey = $survey->where('status', $data['status']);
         }
 
 
-        return $survey->paginate(config('settings.survey.paginate'));
+        return $survey->with(['settings' => function ($query) {
+                $query->where('key', config('settings.setting_type.privacy.key'));
+            }])->paginate(config('settings.survey.paginate'));
     }
 
     //get survey by token

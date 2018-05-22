@@ -113,7 +113,7 @@ class Survey extends Model
             case config('settings.survey.status.open'):
                 return trans('profile.open');
 
-            case config('settings.survey.status.closed'):
+            case config('settings.survey.status.close'):
                 return trans('profile.closed');
 
             case config('settings.survey.status.draft'):

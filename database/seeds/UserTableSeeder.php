@@ -188,7 +188,7 @@ class UserTableSeeder extends Seeder
             case config('settings.setting_type.answer_limited.key'):
                 return $faker->numberBetween(1, 10);
             case config('settings.setting_type.privacy.key'):
-                return $faker->numberBetween(0, 1);
+                return $faker->numberBetween(1, 2);
             case config('settings.setting_type.reminder_email.key'):
                 return $faker->numberBetween(0, 3);
 
