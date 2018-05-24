@@ -38,6 +38,11 @@ class Survey extends Model
         return $this->hasOne(Invite::class);
     }
 
+    public function withTrashedInvite()
+    {
+        return $this->hasOne(Invite::class)->withTrashed();
+    }
+
     public function members()
     {
         return $this->belongsToMany(User::class, 'members', 'survey_id', 'user_id')
@@ -50,14 +55,29 @@ class Survey extends Model
         return $this->morphMany(Setting::class, 'settingable');
     }
 
+    public function withTrashedSettings()
+    {
+        return $this->morphMany(Setting::class, 'settingable')->withTrashed();
+    }
+
     public function sections()
     {
         return $this->hasMany(Section::class)->orderBy('order');
     }
 
+    public function withTrashedSections()
+    {
+        return $this->hasMany(Section::class)->withTrashed()->orderBy('order');
+    }
+
     public function results()
     {
         return $this->hasMany(Result::class);
+    }
+
+    public function withTrashedResults()
+    {
+        return $this->hasMany(Result::class)->withTrashed();
     }
 
     public function setStartTimeAttribute($value)

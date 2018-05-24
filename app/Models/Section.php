@@ -33,4 +33,9 @@ class Section extends Model
     {
         return $this->hasMany(Question::class);
     }
+
+    public function withTrashedQuestions()
+    {
+        return $this->hasMany(Question::class)->withTrashed();
+    }
 }

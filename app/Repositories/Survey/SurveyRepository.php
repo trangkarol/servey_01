@@ -763,4 +763,23 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
             ->groupBy('date')
             ->get();
     }
+
+    public function getSurveyForResult($tokenManage)
+    {
+        $result = $this->model->with([
+            'withTrashedSections.withTrashedQuestions' => function ($query) {
+                $query->with([
+                    'withTrashedSettings',
+                    'withTrashedAnswers.withTrashedSettings',
+                ]);
+            },
+            'withTrashedResults',
+        ])->where('token_manage', $tokenManage)->first();
+
+        if (empty($result)) {
+            throw new Exception("Survey not found", 1);
+        }
+
+        return $result;
+    }
 }

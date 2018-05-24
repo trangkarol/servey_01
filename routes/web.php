@@ -314,7 +314,7 @@ Route::group(['middleware' => 'profile'], function () {
     ]);
 
     Route::group(['namespace' => 'Survey'], function () {
-        Route::get('surveys/result/{token}', [
+        Route::get('surveys/result/{tokenManage}', [
             'as' => 'survey.result.index',
             'uses' => 'ResultController@result',
         ]);

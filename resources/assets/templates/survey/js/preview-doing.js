@@ -140,7 +140,7 @@ $(document).ready(function() {
 
         var selector = $(this).closest('.ul-content-preview');
 
-        if (validateDoingSection(selector)) {
+        if (!validateDoingSection(selector)) {
             return false;
         }
 
@@ -166,9 +166,13 @@ $(document).ready(function() {
                     $('.content-section-preview').append(data.html);
                     var locale = $('.datepicker-preview').attr('locale');
 
-                    $('.datepicker-preview').datetimepicker({
-                        format: getTimeZone(locale),
-                    });
+                    $('.datepicker-preview').each(function() {
+                        var dateFormat = $(this).attr('data-dateformat');
+
+                        $(this).datetimepicker({
+                            format: dateFormat,
+                        });
+                    })
 
                     $('.timepicker-preview').datetimepicker({
                         format: 'HH:mm',
@@ -221,9 +225,10 @@ $(document).ready(function() {
         event.stopPropagation();
         var selector = $(this).closest('.ul-content-preview');
 
-        if (validateDoingSection(selector)) {
+        if (!validateDoingSection(selector)) {
             return false;
         }
+
         var redirect = $(this).attr('data-redirect');
         var dataUrl = $(this).attr('data-url');
         var obj = {};
@@ -376,7 +381,7 @@ $(document).ready(function() {
     }
 
     function validateDoingSection(selector) {
-        var check = false;
+        var check = true;
 
         selector.find('.required-question').each(function() {
             var selectorQuestion = $(this).closest('.li-question-review.form-line');
@@ -386,29 +391,29 @@ $(document).ready(function() {
                 selectorQuestion.find('.input-answer-other').addClass('change-css-required');
                 selectorQuestion.find('.magic-box-preview').addClass('change-css-required');
                 $(selectorQuestion).find('.notice-required').show();
-                check = true;
+                check = false;
             }
 
             if (selectorQuestion.find('.choice-answer').length) {
-                var checkChoiceAnswer = true;
+                var checkChoiceAnswer = false;
 
                 selectorQuestion.find('.choice-answer').each(function() {
                     if ($(this).prop('checked')) {
                         if ($(this).closest('.item-answer').attr('data-type') == 2) {
                             if (!$(this).closest('.item-answer').find('.option-other').val()) {
-                                checkChoiceAnswer = true;
+                                checkChoiceAnswer = false;
                                 selectorQuestion.find('.magic-box-preview').addClass('change-css-required');
                             } else {
-                                checkChoiceAnswer = false;
+                                checkChoiceAnswer = true;
                             }
                         } else {
-                            checkChoiceAnswer = false;
+                            checkChoiceAnswer = true;
                         }
                     }
                 });
 
-                if (checkChoiceAnswer) {
-                    check = true;
+                if (!checkChoiceAnswer) {
+                    check = false;
                     $(selectorQuestion).find('.notice-required').show();
                 } else {
                     selectorQuestion.find('.magic-box-preview').removeClass('change-css-required');
@@ -416,12 +421,12 @@ $(document).ready(function() {
                 }
             }
 
-            if (selectorQuestion.find('.notice-max-length').length) {
-                check = true;
+            if (selectorQuestion.find('.notice-max-length').is(':visible')) {
+                check = false;
             }
         })
 
-        if (check) {
+        if (!check) {
             $(selector).find('.notice-required, .notice-max-length').each(function() {
                 if ($(this).is(':visible')) {
                     $('html, body').animate({
@@ -432,10 +437,10 @@ $(document).ready(function() {
                 }
             })
 
-            return true;
+            return false;
         }
 
-        return false;
+        return true;
     }
 
     function checkCheckbox(selector) {
