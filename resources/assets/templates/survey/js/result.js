@@ -26,7 +26,11 @@ $(document).ready(function(){
 
         return false;
     });
+    
+    results();
+});
 
+function results() {
     $('.checkboxes-result').each(function(){
         var data = $.parseJSON($(this).attr('data'));
         var text = '';
@@ -227,4 +231,4 @@ $(document).ready(function(){
         var dataUrl = $('#export-file-excel').attr('data-url');
         window.location.href = `${dataUrl}/${type}/${name}`;
     })
-});
+}

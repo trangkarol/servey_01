@@ -4253,3 +4253,7 @@ tr, th, td {
     border-radius: 1%;
     margin-top: 2%;
 }
+
+.ul-result-management {
+    max-width: 100% !important;
+}
