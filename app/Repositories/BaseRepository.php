@@ -276,6 +276,7 @@ abstract class BaseRepository implements BaseInterface
                 break;
             default:
                 $this->model = $this->model->join($tableName, $tableColumn, $modelColumn);
+                break;
         }
 
         return $this;
@@ -284,8 +285,9 @@ abstract class BaseRepository implements BaseInterface
     public function groupBy($colunms)
     {
         $colunms = is_array($colunms) ? $colunms : [$colunms];
+        $this->model = $this->model->groupBy($colunms);
 
-        return $this->model->groupBy($colunms);
+        return $this;
     }
 
     public function count()
@@ -310,7 +312,7 @@ abstract class BaseRepository implements BaseInterface
             $relationships = func_get_args();
         }
 
-        $this->model = $this->model->with($relationships);
+        $this->model = $this->model->with($relationships);   
 
         return $this;
     }

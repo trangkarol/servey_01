@@ -4,13 +4,6 @@ namespace App\Http\Controllers\Survey;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Exception;
-use Auth;
-use Datatables;
-use User;
-use Session;
-use DB;
-use Storage;
 use App\Repositories\Survey\SurveyInterface;
 use App\Repositories\Section\SectionInterface;
 use App\Repositories\Question\QuestionInterface;
@@ -22,9 +15,10 @@ use App\Repositories\Invite\InviteInterface;
 use App\Models\Question;
 use App\Models\Answer;
 use App\Models\Section;
+use Exception, Auth, Datatables, Session, DB, Storage;
+use Carbon\Carbon;
 use App\Traits\SurveyProcesser;
 use App\Traits\ManageSurvey;
-use Carbon\Carbon;
 
 class SurveyManagementController extends Controller
 {
@@ -65,7 +59,7 @@ class SurveyManagementController extends Controller
             $user = Auth::user();
             Session::put('page_profile_active', config('settings.page_profile_active.list_survey'));
             $surveys = $this->surveyRepository->getAuthSurveys(config('settings.survey.members.owner'));
-
+            
             return view('clients.profile.list-survey', compact('user', 'surveys'));
         } catch (Exception $e) {
             return view('clients.layout.404');
@@ -140,17 +134,17 @@ class SurveyManagementController extends Controller
 
     public function managementSurvey($tokenManage)
     {
-        $survey = $this->surveyRepository->getSurveyByTokenManage($tokenManage);
+        try {
+            $survey = $this->surveyRepository->getSurveyFromTokenManage($tokenManage); 
+            $results = $this->getOverview($survey);
 
-        if (!$survey) {
-            return redirect()->route('survey.survey.show-surveys');
+            return view('clients.survey.management.index', compact([
+                'results',
+                'survey'
+            ]));
+        } catch (Exception $e) {
+            return view('clients.layout.404');
         }
-
-        $user = Auth::user();
-
-        return view('clients.survey.management.index', compact([
-            'user',
-            'survey',
-        ]));
+        
     }
 }

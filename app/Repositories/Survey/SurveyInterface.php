@@ -47,4 +47,8 @@ interface SurveyInterface
     public function openSurvey($survey);
 
     public function updateSurvey($survey, $values);
+
+    public function getOverviewSurvey($survey);
+
+    public function getSurveyFromTokenManage($token_manage);
 }

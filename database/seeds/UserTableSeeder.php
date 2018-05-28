@@ -99,7 +99,7 @@ class UserTableSeeder extends Seeder
         });
 
         //create result
-        $users = User::all();
+        $users = User::where('id', '>=', 3)->get();
 
         foreach ($users as $user) {
             $questions = Question::whereHas('settings', function ($query) {
@@ -137,6 +137,7 @@ class UserTableSeeder extends Seeder
                     'question_id' => $question_id,
                     'content' => $content,
                     'client_ip' => 0,
+                    'survey_id' => $user->members()->get()->random()->pivot->survey_id,
                 ];
             }
 

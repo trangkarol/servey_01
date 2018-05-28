@@ -17,7 +17,7 @@ class ResultController extends Controller
         $this->surveyRepository = $surveyRepository;
     }
 
-    public function result($token)
+    public function result(Request $request, $token)
     {
         try {
             $survey = $this->surveyRepository->where('token', $token)->with([
@@ -38,6 +38,13 @@ class ResultController extends Controller
             }
 
             $resultsSurveys = $this->surveyRepository->getResutlSurvey($survey);
+
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'html' => view('clients.survey.result.content_result', compact('survey', 'resultsSurveys'))->render(),
+                ]);
+            }
 
             return view('clients.survey.result.index', compact('survey', 'resultsSurveys'));
         } catch (Exception $e) {

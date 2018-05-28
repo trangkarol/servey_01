@@ -676,7 +676,6 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
             $survey = $survey->where('status', $data['status']);
         }
 
-
         return $survey->with(['settings' => function ($query) {
                 $query->where('key', config('settings.setting_type.privacy.key'));
             }])->paginate(config('settings.survey.paginate'));
@@ -685,12 +684,29 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
     //get survey by token
     public function getSurvey($token)
     {
-        return $this->model->where('token', $token)->with(['sections.questions' => function ($query) {
-            $query->with(['settings', 'media',
-                'answers' => function ($queryAnswer) {
+        $survey =  $this->model->where('token', $token)->with(['sections.questions' => function ($query) {
+            $query->with(['settings', 'media', 'answers' => function ($queryAnswer) {
                     $queryAnswer->with('settings', 'media');
                 }]);
             }])->first();
+
+        if (!$survey) {
+            throw new Exception("Error Processing Request", 1);
+        }
+
+        return $survey;
+    }
+
+    //get survey by token
+    public function getSurveyFromTokenManage($token_manage)
+    {
+        $survey = $this->model->where('token_manage', $token_manage)->first();
+
+        if (!$survey) {
+            throw new Exception("Error Processing Request", 1);
+        }
+
+        return $survey;
     }
 
     //get section current
@@ -715,7 +731,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                 $query->where('user_id', $userId)->where('role', Survey::OWNER);
             })->count();
     }
-
+    
     public function closeSurvey($survey)
     {
         $survey->settings()->delete();
@@ -735,5 +751,16 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
     public function updateSurvey($survey, $values)
     {
         return $survey->update($values);
+    }
+
+    public function getOverviewSurvey($survey)
+    {
+        $subQuery = DB::table('results')->where('survey_id', $survey->id)->select('results.created_at')->groupBy('results.created_at');
+
+        return DB::table(DB::raw("({$subQuery->toSql()}) as result"))
+            ->select(DB::RAW("DATE_FORMAT(created_at, '%m/%d/%Y') as date"), DB::RAW("COUNT(DATE_FORMAT(created_at, '%m/%d/%Y')) as number"))
+            ->mergeBindings($subQuery)
+            ->groupBy('date')
+            ->get();
     }
 }
