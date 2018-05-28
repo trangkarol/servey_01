@@ -92,4 +92,20 @@ class ResultRepository extends BaseRepository implements ResultInterface
 
         $this->multiCreate($input);
     }
+
+
+    public function closeFromSurvey($survey)
+    {
+        return $survey->results()->delete();
+    }
+
+    public function openFromSurvey($survey)
+    {
+        return $survey->results()->onlyTrashed()->restore();
+    }
+
+    public function deleteFromSurvey($survey)
+    {
+        return $survey->results()->withTrashed()->forceDelete();
+    }
 }

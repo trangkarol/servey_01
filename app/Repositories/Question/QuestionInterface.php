@@ -22,5 +22,9 @@ interface QuestionInterface
 
     public function updateSurvey(array $inputs, $surveyId);
 
-    public function deleteQuestions($ids);
+    public function deleteFromSectionId($idSections);
+
+    public function closeFromSectionId($idSections);
+    
+    public function openFromSectionId($idSections);
 }

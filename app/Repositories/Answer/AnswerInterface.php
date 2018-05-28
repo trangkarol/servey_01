@@ -14,5 +14,9 @@ interface AnswerInterface
 
     public function createOrUpdateAnswer(array $answers, array $data);
 
-    public function deleteAnswers($ids);
+    public function deleteFromQuestionId($idQuestions);
+
+    public function closeFromQuestionId($idQuestions);
+
+    public function openFromQuestionId($idQuestions);
 }

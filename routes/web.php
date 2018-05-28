@@ -259,13 +259,17 @@ Route::group(['namespace' => 'Survey', 'middleware' => 'profile'], function () {
         'as' => 'survey.survey.update-background',
         'uses' => 'ProfileController@setBackground',
     ]);
-    Route::delete('survey/delete/{token}', [
-        'uses' => 'SurveyManagementController@delete',
+    Route::get('surveys/delete/{token}', [
+        'uses' => 'SurveyManagementController@deleteSurvey',
         'as' => 'survey.delete',
     ]);
     Route::get('surveys/close/{token}', [
         'uses' => 'SurveyManagementController@closeSurvey',
         'as' => 'survey.close',
+    ]);
+    Route::get('surveys/open/{token}', [
+        'uses' => 'SurveyManagementController@openSurvey',
+        'as' => 'survey.open',
     ]);
     Route::get('management-survey/{tokenManage}', 'SurveyManagementController@managementSurvey')->name('survey.management');
 });

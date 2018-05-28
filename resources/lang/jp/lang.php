@@ -254,4 +254,13 @@ return [
     'over_limit_save_draft' => 'Can not save! Number of survey draft is over limit! Your limit is :limit survey draft!',
     'save_survey_draft_failed' => 'Failed! Try again!',
     'save_survey_draft_success' =>  'Success! Has saved survey as draft!',
+
+    /*
+        manage survey
+    */
+   
+   'close_survey_success' => 'Close survey successful!',
+   'delete_survey_success' => 'Delete survey successful!',
+   'open_survey_success' => 'Delete survey successful!',
+   'process_failed' => 'Failed! Try again!',
 ];

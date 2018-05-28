@@ -254,4 +254,13 @@ return [
     'over_limit_save_draft' => 'Không thể lưu! Số lượng bản nháp quá giới hạn! Giới hạn của bạn là :limit khảo sát nháp!',
     'save_survey_draft_failed' => 'Thất bại! Hãy thử lại!',
     'save_survey_draft_success' =>  'Thành công! Đã lưu khảo sát dưới dạng bản nháp!',
+
+    /*
+        manage survey
+    */
+   
+   'close_survey_success' => 'Đóng survey thành công!',
+   'delete_survey_success' => 'Xóa survey thành công!',
+   'open_survey_success' => 'Mở survey thành công!',
+   'process_failed' => 'Thất bại! Hãy thử lại!',
 ];

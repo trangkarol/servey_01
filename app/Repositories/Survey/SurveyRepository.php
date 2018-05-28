@@ -621,9 +621,9 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
 
     public function deleteSurvey($survey)
     {
-        $survey->invite()->delete();
-        $survey->settings()->delete();
         $survey->members()->detach();
+        $survey->settings()->withTrashed()->forceDelete();
+        $survey->invite()->withTrashed()->forceDelete();
 
         return $survey->forceDelete();
     }
@@ -634,5 +634,26 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
             ->whereHas('members', function ($query) use ($userId) {
                 $query->where('user_id', $userId)->where('role', Survey::OWNER);
             })->count();
+    }
+
+    public function closeSurvey($survey)
+    {
+        $survey->settings()->delete();
+        $survey->invite()->delete();
+
+        return $survey->delete();
+    }
+
+    public function openSurvey($survey)
+    {
+        $survey->settings()->onlyTrashed()->restore();
+        $survey->invite()->onlyTrashed()->restore();
+
+        return $survey->restore();
+    }
+
+    public function updateSurvey($survey, $values)
+    {
+        return $survey->update($values);
     }
 }

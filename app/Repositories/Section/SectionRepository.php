@@ -24,4 +24,19 @@ class SectionRepository extends BaseRepository implements SectionInterface
 
         return $this->model->whereIn('id', $ids)->delete();
     }
+
+    public function closeFromSurvey($survey)
+    {
+        return $survey->sections()->delete();
+    }
+
+    public function openFromSurvey($survey)
+    {
+        return $survey->sections()->onlyTrashed()->restore();
+    }
+
+    public function deleteFromSurvey($survey)
+    {
+        return $survey->sections()->withTrashed()->forceDelete();
+    }
 }

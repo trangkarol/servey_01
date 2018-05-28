@@ -39,4 +39,10 @@ interface SurveyInterface
     public function getAuthSurveys($role);
 
     public function countSurveyDraftOfUser($userId);
+
+    public function closeSurvey($survey);
+
+    public function openSurvey($survey);
+
+    public function updateSurvey($survey, $values);
 }
