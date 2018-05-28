@@ -268,7 +268,7 @@ class SurveyController extends Controller
         return view('clients.survey.edit.index', compact('survey'));
     }
 
-    public function update($token, Request $request)
+    public function update($token, SurveyRequest $request)
     {
         if (!$request->ajax()) {
             return [
@@ -279,6 +279,7 @@ class SurveyController extends Controller
         return response()->json([
             'success' => true,
             'result' => $request->json()->all(),
+            'json' => $request->json()->all(),
         ]);
     }
 
@@ -866,5 +867,48 @@ class SurveyController extends Controller
     public function showCompleteAnswer($title)
     {
         return view('clients.survey.detail.complete', compact('title'));
+    }
+
+
+    public function updateSetting(Request $request, $token)
+    {
+        if (!$request->ajax()) {
+            return [
+                'success' => false,
+            ];
+        }
+
+        DB::beginTransaction();
+
+        try {
+            $survey = $this->surveyRepository->where('token_manage', $token)->first();
+
+            if (!$survey) {
+                throw new Exception("Survey not found", 1);
+            }
+
+            if (Auth::user()->cannot('edit', $survey)) {
+                throw new Exception("Not permitted edit!", 1);
+            }
+
+            $result = $this->surveyRepository->updateSettingSurvey(
+                $survey, 
+                $request->json(),
+                $this->userRepository
+            );
+
+            DB::commit();
+
+            return response()->json([
+                'success' => true,
+            ]);
+        } catch (Exception $e) {
+            DB::rollback();
+
+            return response()->json([
+                'success' => false,
+                'message' => trans('lang.error_update_setting_survey'),
+            ]);
+        }
     }
 }

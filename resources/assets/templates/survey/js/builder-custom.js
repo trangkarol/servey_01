@@ -7,6 +7,13 @@ jQuery(document).ready(function () {
     var questionSelected = null;
     var surveyData = $('#survey-data');
 
+    // get oldSsurveyData on edit-page
+    if (surveyData.data('page') == 'edit') {
+        var isUpdate = false;
+        var oldSurveyData = getSections($('form.survey-form').serializeArray());
+        isUpdate = true;
+    }
+
     function s4() {
         return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
     }
@@ -246,7 +253,7 @@ jQuery(document).ready(function () {
      */
 
     // get all answers by question
-    function getAnswers(data, parentElement, questionId) {
+    function getAnswers(data, parentElement, questionId, sectionId = 0) {
         var answers = [];
 
         $(parentElement).find('.element-content .option').each(function (index, element) {
@@ -257,6 +264,7 @@ jQuery(document).ready(function () {
 
             var content = data.find(item => item.name.includes(`answer[question_${questionId}][answer_${answerId}]`));
             answer.content = content !== undefined ? content.value : '';
+            answer.content = answer.content.trim();
 
             var media = data.find(item => item.name.includes(`media[question_${questionId}][answer_${answerId}]`));
             answer.media = media !== undefined ? media.value : '';
@@ -268,6 +276,11 @@ jQuery(document).ready(function () {
             }
 
             answer.type = type; // 1: Option, 2: Other option
+
+            // get update status of answer on edit-page
+            if (surveyData.data('page') == 'edit' && isUpdate) {
+                answer.status = getUpdateStatusOfAnswer(sectionId, questionId, answer);
+            }
 
             if (!$.isEmptyObject(answer)) {
                 answers.push(answer);
@@ -307,7 +320,12 @@ jQuery(document).ready(function () {
             var require = data.find(item => item.name === `require[section_${sectionId}][question_${questionId}]`);
             question.require = require !== undefined ? parseInt(require.value) : 0; // 0: No require, 1: Require
 
-            question.answers = getAnswers(data, element, questionId);
+            question.answers = getAnswers(data, element, questionId, sectionId);
+
+            // get update status of question on edit-page
+            if (surveyData.data('page') == 'edit' && isUpdate) {
+                question.status = getUpdateStatusOfQuestion(sectionId, question);
+            }
 
             if (!$.isEmptyObject(question)) {
                 questions.push(question);
@@ -332,6 +350,11 @@ jQuery(document).ready(function () {
             var description = data.find(item => item.name === `description[section_${sectionId}]`);
             section.description = description !== undefined ? description.value : '';
             section.questions = getQuestions(data, element, sectionId);
+
+            // get update status of section on edit-page
+            if (surveyData.data('page') == 'edit' && isUpdate) {
+                section.status = getUpdateStatusOfSection(section);
+            }
 
             if (!$.isEmptyObject(section)) {
                 sections.push(section);
@@ -395,9 +418,15 @@ jQuery(document).ready(function () {
 
         invitedEmail.subject = subject;
         invitedEmail.message = $('#invite-setting').attr('msg');
+        
         emails = $('#invite-setting').attr('invite-data');
         invitedEmail.emails = emails.split('/').filter(Boolean);
         invitedEmail.send_mail_to_wsm = $('#invite-setting').attr('all');
+
+        if (surveyData.data('page') == 'edit') {
+            emailsAnswer = $('#invite-setting').attr('answer-data');
+            invitedEmail.answer_emails = emailsAnswer.split('/').filter(Boolean);            
+        }
 
         return invitedEmail;
     }
@@ -2240,9 +2269,14 @@ jQuery(document).ready(function () {
     $('.div-show-all-email').on('click', '.delete-label-email', function () {
         var labelEmail = $(this).closest('.label-show-email');
         var email = $(labelEmail).data('email');
-        removeEmail(email);
-        $(labelEmail).remove();
-        $('.input-email-send').focus();
+        
+        if (labelEmail.hasClass('active')) {
+            removeEmailAnswered(email, labelEmail);
+        } else {
+            removeEmail(email);
+            $(labelEmail).remove();
+            $('.input-email-send').focus();
+        }
     });
 
     $(document).click(function (e) {
@@ -2259,11 +2293,20 @@ jQuery(document).ready(function () {
         }
 
         var isExist = $.inArray(email, arrayEmail);
+        var isAnswer = '';
+
+        if (surveyData.data('page') == 'edit') {
+            var mailsAnswer = $('#invite-setting').attr('answer-data').split('/');
+            
+            if ($.inArray(email, mailsAnswer) != -1) {
+                isAnswer = 'active';
+            }
+        }
 
         if (isExist == -1) {
             arrayEmail.push(email);
             $('.div-show-all-email').append(`
-                <label data-email="${email}" class="label-show-email">
+                <label data-email="${email}" class="label-show-email ${isAnswer}">
                     ${email}&ensp;<i class="fa fa-times delete-label-email"></i>
                 </label>
             `);
@@ -2829,7 +2872,7 @@ jQuery(document).ready(function () {
             if (!mailInvite.length) {
                 $('#setting-survey .nav-item-setting-survey .nav-link').last().click();
                 $('#input-email-send').addClass('error');
-                $('<div class="error-mail-send">'+ Lang.get('lang.mail-send-validate') +'</div>').insertAfter('#input-email-send');
+                $('<div class="error-mail-send">'+ Lang.get('lang.mail_send_validate') +'</div>').insertAfter('#input-email-send');
 
                 return false;
             }
@@ -2890,12 +2933,19 @@ jQuery(document).ready(function () {
         }
             // save mailList
         var mailSendLists = '';
+        var mailAnswerLists = '';
 
         $('.div-show-all-email .label-show-email').each(function () {
-            mailSendLists += $(this).attr('data-email') + '/';
-        })
+            if (surveyData.data('page') == 'edit' && $(this).hasClass('active')) {
+                mailAnswerLists += $(this).attr('data-email') + '/';
+            } else {
+                mailSendLists += $(this).attr('data-email') + '/';
+            }
+        });
 
         $('#invite-setting').attr('invite-data', mailSendLists);
+        $('#invite-setting').attr('answer-data', mailAnswerLists);
+
             // save title mail
         var subject = $('#input-subject-email').val();
 
@@ -2906,6 +2956,37 @@ jQuery(document).ready(function () {
         $('#invite-setting').attr('subject', subject);
             // save message mail
         $('#invite-setting').attr('msg', $('#input-email-message').val());
+
+        if (surveyData.data('page') == 'edit') {
+            var data = {};
+            // invited emails
+            data.invited_email = getInvitedEmail();
+
+            // settings
+            data.setting = getSettings();
+
+            // members
+            data.members = getMembers();
+
+            $('#send-modal-loader').addClass('show');
+            $('body').append('<div class="modal-backdrop send-loader fade show"></div>');
+            $('body').css('overflow', 'hidden');
+
+            $.ajax({
+                method: 'PUT',
+                url: $('#setting-survey').data('url'),
+                data: JSON.stringify(data),
+            })
+            .done(function (data) {
+                $('#send-modal-loader').removeClass('show');
+                    $('.send-loader').remove();
+                    $('body').css('overflow', '');
+
+                if (!data.success) {
+                    alertDanger({message: data.message});
+                }
+            });
+        }
     });
 
     // btn open menu survey setting
@@ -2986,8 +3067,9 @@ jQuery(document).ready(function () {
             $('#send-to-all-wsm-acc').prop('checked', '');
         }
 
-        var mailSendLists = $('#invite-setting').attr('invite-data');
+        var mailSendLists = $('#invite-setting').attr('invite-data') + $('#invite-setting').attr('answer-data');
         mailSendLists = mailSendLists.split('/').filter(Boolean);
+
         mailSendLists.forEach(function (mail) {
             if (isEmail(mail)) {
                 addLabelEmail(mail);
@@ -3291,6 +3373,98 @@ jQuery(document).ready(function () {
             });
         });
 
+        // some of function of edit-page
+
+        function removeEmailAnswered(email, labelEmail) {
+            swal({
+                buttons: true,
+                icon: 'warning',
+                text: Lang.get('lang.confirm_delete_answered_email'),
+            }).then(function (isConfirm) {
+                if (isConfirm) {
+                    removeEmail(email);
+                    $(labelEmail).remove();
+                    $('.input-email-send').focus();
+                }
+            });
+        }
+
+        // 0: no-edit   1: edit    2: create
+        function getUpdateStatusOfAnswer(sectionId, questionId, answer) {
+            var status = 0; // no-edit
+
+            var oldSesion = collect(oldSurveyData).where('id', sectionId);
+            var oldQuestions = collect(!oldSesion.isEmpty() ? oldSesion.first().questions : []);
+            var oldQuestion = oldQuestions.where('id', questionId);
+            var oldAnswers = collect(!oldQuestion.isEmpty() ? oldQuestion.first().answers : []);
+            var oldAnswer = oldAnswers.where('id', answer.id);
+            oldAnswer = !oldAnswer.isEmpty() ? oldAnswer.first() : '';
+
+            if (oldAnswer == '') {
+                status = 2; //create
+            } else if (oldAnswer.type != answer.type || oldAnswer.content != answer.content || oldAnswer.media != answer.media) {
+                status = 1; //edit
+            }
+
+            return status;
+        }
+
+        // 0: no-edit   1: edit    2: create
+        function getUpdateStatusOfQuestion(sectionId, question) {
+            var status = 0; // no-edit
+
+            var oldSection = collect(oldSurveyData).where('id', sectionId);
+            var oldQuestions = collect(!oldSection.isEmpty() ? oldSection.first().questions : [])
+            var oldQuestion = oldQuestions.where('id', question.id);
+            oldQuestion = !oldQuestion.isEmpty() ? oldQuestion.first() : '';
+
+            if (oldQuestion == '') {
+                status = 2; // create
+            } else if (oldQuestion.title != question.title || oldQuestion.media != question.media || oldQuestion.require != question.require) {
+               status = 1; // edit
+            }
+
+            // check answers of this question is change ?
+            if (!status) {
+                collect(question.answers).each(function (answer) {
+                    if (answer.status) {
+                        status = 1;
+
+                        return;
+                    }
+                });
+            }
+
+            return status;
+        }
+
+        // 0: no-edit   1: edit    2: create
+        function getUpdateStatusOfSection(section) {
+            var status = 0; // no-edit
+
+            var oldSection = collect(oldSurveyData).where('id', section.id);
+
+            if (oldSection.isEmpty()) {
+                status = 2; // create
+            } else {
+                // check questions of this section is change ?
+                collect(section.questions).each(function (question) {
+                    if (question.status) {
+                        status = 1;
+
+                        return;
+                    }
+                });
+            }
+
+            return status;
+        }
+
+        // close modal option and click btn edit survey
+        $('#send-update-btn').on('click', function (e) {
+            $(this).next('#edit-survey-btn').click();
+        });
+
         // edit and send survey
         $('#edit-survey-btn').on('click', function (e) {
             e.preventDefault();
@@ -3304,7 +3478,7 @@ jQuery(document).ready(function () {
 
             var dataArray = $('form.survey-form').serializeArray();
             var survey = getSurvey(dataArray);
-
+            
             if (!survey) {
                 return;
             }
@@ -3318,6 +3492,7 @@ jQuery(document).ready(function () {
             $.ajax({
                 method: 'PUT',
                 url: $(this).data('url'),
+                type: 'json',
                 data: data
             })
             .done(function (data) {

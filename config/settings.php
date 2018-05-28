@@ -305,4 +305,13 @@ return [
     'date_format_en' => 'MM/DD/YYYY',
     'date_format_jp' => 'YYYY/MM/DD',
     'group_content_result' => '',
+
+    /**
+     *  Survey edit
+    */
+
+    'option_update' => [
+        'send_all_question_survey_again' => 0,
+        'only_send_updated_question_survey' => 1,
+    ],
 ];

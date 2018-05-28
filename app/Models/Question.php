@@ -80,7 +80,7 @@ class Question extends Model
 
     public function getTrimContentAttribute()
     {
-        return (mb_strlen($this->attributes['content']) > 50) ? mb_substr($this->attributes['content'], 0, 50) . '...' : $this->attributes['content'];
+        return (mb_strlen($this->attributes['title']) > 50) ? mb_substr($this->attributes['title'], 0, 50) . '...' : $this->attributes['title'];
     }
 
     public function getVideoThumbnailAttribute()

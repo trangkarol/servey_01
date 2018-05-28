@@ -190,7 +190,9 @@ return [
     'private_this_survey' => 'Bảo mật cuộc khảo sát này?',
     'save' => 'Lưu',
     'cancel' => 'Hủy',
-    'mail-send-validate' => 'Email không được trống vì bạn đã chọn mục Gửi email nhắc nhở định kì hoặc mục Bảo mật cuộc khảo sát này',
+    'mail_send_validate' => 'Email không được trống vì bạn đã chọn mục Gửi email nhắc nhở định kì hoặc mục Bảo mật cuộc khảo sát này',
+    'not_yet_answered' => 'Chưa trả lời',
+    'answered' => 'Đã trả lời',
 
     /*
         add manager
@@ -263,4 +265,14 @@ return [
    'delete_survey_success' => 'Xóa survey thành công!',
    'open_survey_success' => 'Mở survey thành công!',
    'process_failed' => 'Thất bại! Hãy thử lại!',
+
+    /*
+        Edit survey page
+    */
+
+    'option_update' => 'Tùy chọn cập nhật',
+    'send_all_question_survey_again' => 'Gửi lại tất cả các câu hỏi của khảo sát',
+    'only_send_updated_question_survey' => 'Chỉ gửi những câu hỏi đã được cập nhật của khảo sát',
+    'confirm_delete_answered_email' => 'Email này đã trả lời khảo sát! Bạn thực sự muốn xóa email này và tất cả kết quả liên quan không?',
+    'error_update_setting_survey' => 'Lưu cài đặt thất bại! Hãy thử lại!',
 ];

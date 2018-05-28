@@ -88,7 +88,7 @@
                         <div class="survey-action" data-placement="right"
                             data-trigger="hover"
                             data-toggle="tooltip" title="@lang('lang.send')">
-                            <button type="button" class="btn btn-outline-light text-dark" id="edit-survey-btn" data-url="{{ route('surveys.update', $survey->token_manage) }}">
+                            <button type="button" data-target="#option-update-modal" data-toggle="modal" class="btn btn-outline-light text-dark">
                                 <i class="fa fa-fw fa-paper-plane text-dark"></i>
                             </button>
                         </div>
@@ -209,6 +209,7 @@
     {!! Html::script(asset(config('settings.public_template') . 'js/popper.min.js')) !!}
     {!! Html::script(asset(config('settings.public_template') . 'js/modernizr.js')) !!}
     {!! Html::script(asset(config('settings.plugins') . 'tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.js')) !!}
+    {!! Html::script(asset(config('settings.plugins') . 'collect/collect.min.js')) !!}
     <!-- Custom Script -->
     {!! Html::script(asset(config('settings.plugins') . 'metismenu/metisMenu.min.js')) !!}
     {!! Html::script(asset(config('settings.plugins') . 'jquery-menu-aim/jquery.menu-aim.js')) !!}
