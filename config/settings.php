@@ -314,4 +314,5 @@ return [
         'send_all_question_survey_again' => 0,
         'only_send_updated_question_survey' => 1,
     ],
+    'invited' => 1,
 ];

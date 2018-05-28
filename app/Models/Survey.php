@@ -170,6 +170,7 @@ class Survey extends Model
     {
         return $this->status == config('settings.survey.status.draft');
     }
+
     public function getRequiredAttribute()
     {
         return $this->settings()->where('key', config('settings.setting_type.answer_required.key'))->first()->value;

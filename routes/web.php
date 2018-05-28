@@ -213,6 +213,8 @@ Route::group(['namespace' => 'Ajax', 'prefix' => 'ajax'], function () {
         ->name('ajax-suggest-email');
     Route::get('list-survey/{flag}', 'SurveyController@getListSurvey')
         ->name('ajax-list-survey');
+    Route::get('get-overview/{tokenManage}', 'ManagementSurvey@getOverviewSurvey')
+        ->name('ajax-get-overview');
 });
 
 Route::get('/languages', 'LanguageController@index')->name('set-language');

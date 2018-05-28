@@ -40,6 +40,7 @@ class ResultRepository extends BaseRepository implements ResultInterface
                     'question_id' => 0,
                     'answer_id' => 0,
                     'content' => '',
+                    'user_id' => auth()->user()->id,
                 ];
 
                 foreach ($section['questions'] as $question) {

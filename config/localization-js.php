@@ -12,6 +12,7 @@ return [
         'datatable',
         'profile',
         'validation',
+        'result',
     ],
 
     /*

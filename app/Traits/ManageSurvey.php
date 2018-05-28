@@ -38,4 +38,17 @@ trait ManageSurvey
         $this->sectionRepository->deleteFromSurvey($survey);
         $this->surveyRepository->deleteSurvey($survey);
     }
+
+    public function getOverview($survey)
+    {
+        $overviews = $this->surveyRepository->getOverviewSurvey($survey);
+        $results = [];
+
+        foreach ($overviews as $value) {
+            $results['x'][] = $value->date;
+            $results['y'][] = $value->number;
+        }
+
+        return $results;
+    }
 }
