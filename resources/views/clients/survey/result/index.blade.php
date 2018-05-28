@@ -26,6 +26,6 @@
     {!! Html::script(asset(config('settings.plugins') . 'highcharts/modules/exporting.js')) !!}
     {!! Html::script(asset(config('settings.plugins') . 'highcharts/modules/export-data.js')) !!}
     {!! Html::script(asset(config('settings.plugins') . 'popper/popper.min.js')) !!}
-    {!! Html::script(asset(config('settings.plugins') . 'bootstrap/bootstrap.min.js')) !!}
+    {!! Html::script(asset(config('settings.plugins') . 'bootstrap/dist/js/bootstrap.min.js')) !!}
     {!! Html::script(elixir(config('settings.public_template') . 'js/result.js')) !!}
 @endpush

@@ -8,7 +8,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <!-- Plugins CSS -->
-        {!! Html::style(asset(config('settings.plugins') . 'bootstrap/bootstrap.min.css')) !!}
+        {!! Html::style(asset(config('settings.plugins') . 'bootstrap/dist/css/bootstrap.min.css')) !!}
         {!! Html::style(asset(config('settings.plugins') . 'font-awesome/css/font-awesome.min.css')) !!}
         {!! Html::style(asset(config('settings.plugins') . 'ionicons/css/ionicons.min.css')) !!}
         <!-- Theme CSS -->
@@ -59,7 +59,7 @@
     </body>
     <!-- Plugins -->
     {!! Html::script(asset(config('settings.plugins') . 'jquery/jquery.min.js')) !!}
-    {!! Html::script(asset(config('settings.plugins') . 'bootstrap/bootstrap.min.js')) !!}
+    {!! Html::script(asset(config('settings.plugins') . 'bootstrap/dist/js/bootstrap.min.js')) !!}
     {!! Html::script(asset(config('settings.plugins') . 'moment/moment-with-locales.min.js')) !!}
     {!! Html::script(asset(config('settings.plugins') . 'sweetalert/dist/sweetalert.min.js')) !!}
     {!! Html::script(asset(config('settings.plugins') . 'jquery-ui/jquery-ui.min.js')) !!}
@@ -67,10 +67,9 @@
     {!! Html::script(asset(config('settings.plugins') . 'metismenu/metisMenu.min.js')) !!}
     {!! Html::script(asset(config('settings.plugins') . 'jquery-menu-aim/jquery.menu-aim.js')) !!}
     {!! Html::script(asset(config('settings.plugins') . 'popper/popper.min.js')) !!}
-    {!! Html::script(asset(config('settings.plugins') . 'bootstrap/bootstrap.min.js')) !!}
     {!! Html::script(asset(config('settings.plugins') . 'jquery-validation/jquery.validate.min.js')) !!}
     <!-- Custom Script -->
     {!! Html::script(asset(config('settings.public_template') . 'js/popper.min.js')) !!}
     {!! Html::script(asset(config('settings.public_template') . 'js/modernizr.js')) !!}
-    {!! Html::script(elixir(config('settings.public_template') . 'js/preview.js')) !!}
+    {!! Html::script(elixir(config('settings.public_template') . 'js/preview-doing.js')) !!}
 </html>

@@ -29,7 +29,17 @@ class Question extends Model
         return $this->morphMany(Setting::class, 'settingable');
     }
 
+    public function withTrashedSettings()
+    {
+        return $this->morphMany(Setting::class, 'settingable')->withTrashed();
+    }
+
     public function media()
+    {
+        return $this->morphMany(Media::class, 'mediable');
+    }
+
+    public function withTrashedMedia()
     {
         return $this->morphMany(Media::class, 'mediable');
     }
@@ -57,6 +67,11 @@ class Question extends Model
         * Config radio and checkbox = [1, 2], config orther radio and orther checkbox = [5, 6]
         */
         return $this->hasMany(Answer::class);
+    }
+
+    public function withTrashedAnswers()
+    {
+        return $this->hasMany(Answer::class)->withTrashed();
     }
 
     public function duplicate($newQuestion)

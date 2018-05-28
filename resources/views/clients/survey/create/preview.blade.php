@@ -207,5 +207,5 @@
     <!-- Custom Script -->
     {!! Html::script(asset(config('settings.plugins') . 'metismenu/metisMenu.min.js')) !!}
     {!! Html::script(asset(config('settings.plugins') . 'jquery-menu-aim/jquery.menu-aim.js')) !!}
-    {!! Html::script(elixir(config('settings.public_template') . 'js/preview.js')) !!}
+    {!! Html::script(elixir(config('settings.public_template') . 'js/preview-doing.js')) !!}
 @endpush

@@ -11,6 +11,8 @@ class Result extends Model
 
     protected $fillable = [
         'answer_id',
+        'question_id',
+        'survey_id',
         'user_id',
         'question_id',
         'survey_id',

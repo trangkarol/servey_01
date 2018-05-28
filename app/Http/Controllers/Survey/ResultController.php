@@ -17,21 +17,10 @@ class ResultController extends Controller
         $this->surveyRepository = $surveyRepository;
     }
 
-    public function result(Request $request, $token)
+    public function result(Request $request, $tokenManage)
     {
         try {
-            $survey = $this->surveyRepository->where('token', $token)->with([
-                'sections.questions' => function ($query) {
-                    $query->with([
-                        'settings',
-                        'results',
-                        'answers' => function ($queryAnswer) {
-                            $queryAnswer->with([
-                                'settings',
-                            ]);
-                        }
-                    ]);
-                }])->first();
+            $survey = $this->surveyRepository->getSurveyForResult($tokenManage);
 
             if (Auth::user()->cannot('view', $survey)) {
                 return view('clients.layout.403');

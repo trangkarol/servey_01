@@ -34,7 +34,7 @@
 
                                             <li>
                                                 <a href="javascript:void(0)" class="menu-management" id="results-survey"
-                                                    data-url="{{ route('survey.result.index', $survey->token) }}">
+                                                    data-url="{{ route('survey.result.index', $survey->token_manage) }}">
                                                     @lang('survey.result')
                                                 </a>
                                             </li>

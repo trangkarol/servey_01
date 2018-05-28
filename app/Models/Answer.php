@@ -36,7 +36,17 @@ class Answer extends Model
         return $this->morphMany(Setting::class, 'settingable');
     }
 
+    public function withTrashedSettings()
+    {
+        return $this->morphMany(Setting::class, 'settingable')->withTrashed();
+    }
+
     public function media()
+    {
+        return $this->morphMany(Media::class, 'mediable');
+    }
+
+    public function withTrashedMedia()
     {
         return $this->morphMany(Media::class, 'mediable');
     }
