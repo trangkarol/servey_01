@@ -15,7 +15,7 @@
                 <tr>
                     <td class="text-center">{{ $loop->iteration }}</td>
                     <td>
-                        <a href="{{ route('survey.create.do-survey', $survey->token) }}" data-toggle="tooltip" title="{{ $survey->title }}">{{ $survey->trim_title }}</a>
+                        <a href="{{ route('survey.create.do-survey', $survey->token) }}" target="_blank" data-toggle="tooltip" title="{{ $survey->title }}">{{ $survey->trim_title }}</a>
                     </td>
                     <td>
                         <span class="badge badge-info badge-list-survey">{{ $survey->settings->first()->value == config('settings.survey_setting.privacy.public') ? trans('profile.public') :  trans('profile.private') }}</span>
@@ -32,7 +32,6 @@
                     </td>
                     <td>
                         <span class="badge badge-info badge-list-survey">{{ $survey->remaining_time ? $survey->remaining_time . trans('survey.remaining_date') : '' }}</span>
-                       <!--  {{ $survey->remaining_time ? $survey->remaining_time . trans('survey.remaining_date') : '' }} -->
                     </td>
                     <td>
                         <a href="{{ route('survey.management', $survey->token_manage) }}" class="btn btn-info" data-toggle="tooltip" title="Setting">

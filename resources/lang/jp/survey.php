@@ -7,6 +7,7 @@ return [
     'setting' => 'Setting',
     'result' => 'Result',
     'other' => 'Other',
+    'overview' => 'Overview',
     'role' => 'Role',
     'owner' => 'Owner',
     'coordinator' => 'Coordinator',

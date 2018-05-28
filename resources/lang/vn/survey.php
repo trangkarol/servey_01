@@ -7,6 +7,7 @@ return [
     'setting' => 'Cài đặt',
     'result' => 'Kết quả',
     'other' => 'Khác',
+    'overview' => 'Tổng quan',
     'role' => 'Vai trò',
     'owner' => 'Owner',
     'coordinator' => 'Người hỗ trợ',
