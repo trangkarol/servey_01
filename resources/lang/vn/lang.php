@@ -269,6 +269,19 @@ return [
    'comfirm_close_survey' => 'Bạn có muốn đóng khảo sát này lại không?',
    'comfirm_delete_survey' => 'Bạn có muốn xóa khảo sát này lại không?',
    'comfirm_open_survey' => 'Bạn có muốn mở khảo sát này lại không?',
+   'link_doing_survey' => 'Link thực hiện survey:',
+   'link_manage_survey' => 'Link quản lý survey:',
+   'confirm_change_token' => 'Bạn có muốn đổi token :token thành :new_token không?',
+   'confirm_change_token_manage' => 'Bạn có muốn đổi token manage :token_manage thành :new_token_manage không?',
+   'change_success' => 'Đổi thành công!',
+   'token_is_already_used' => 'Token đã được sử dụng!',
+   'token_is_required' => 'Token không được để trống!',
+   'token_is_too_long' => 'Token không được quá :number kí tự!',
+   'token_manage_is_already_used' => 'Token manage đã được sử dụng!',
+   'token_manage_is_required' => 'Token manage không được để trống!',
+   'token_manage_is_too_long' => 'Token manage không được quá :number kí tự!',
+   'change_token' => 'Thay đổi token',
+   'change_token_manage' => 'Thay đổi token manage',
 
     /*
         Edit survey page

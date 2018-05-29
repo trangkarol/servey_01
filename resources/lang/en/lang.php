@@ -269,6 +269,19 @@ return [
    'comfirm_close_survey' => 'Do you want to close this survey?',
    'comfirm_delete_survey' => 'Do you want to delete this survey?',
    'comfirm_open_survey' => 'Do you want to open this survey?',
+   'link_doing_survey' => 'Link doing survey:',
+   'link_manage_survey' => 'Link manage survey:',
+   'confirm_change_token' => 'Are you want to change token  :token to :new_token?',
+   'confirm_change_token_manage' => 'Are you want to change token manage :token_manage to :new_token_manage?',
+   'change_success' => 'Change successful!',
+   'token_is_already_used' => 'Token is already used!',
+   'token_is_required' => 'Token is required!',
+   'token_is_too_long' => 'Token can not be more than :number characters!',
+   'token_manage_is_already_used' => 'Token manage is already used!',
+   'token_manage_is_required' => 'Token manage is required!',
+   'token_manage_is_too_long' => 'Token manage can not be more than :number characters!',
+   'change_token' => 'Change token',
+   'change_token_manage' => 'Change token manage',
 
     /*
         Edit survey page

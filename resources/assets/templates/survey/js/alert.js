@@ -24,13 +24,13 @@ function baseAlert(data) {
     swal(data);
 }
 
-function confirmInfo(event, element, data) {
+function confirmInfo(data, callback) {
     data.icon = 'info';
     data.confirmButtonClass = 'btn-info';
     baseConfirm(data, callback);
 }
 
-function confirmWarning(event, element, data) {
+function confirmWarning(data, callback) {
     data.icon = 'warning';
     data.confirmButtonClass = 'btn-warning';
     baseConfirm(data, callback);

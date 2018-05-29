@@ -214,7 +214,7 @@
     {!! Html::script(asset(config('settings.plugins') . 'metismenu/metisMenu.min.js')) !!}
     {!! Html::script(asset(config('settings.plugins') . 'jquery-menu-aim/jquery.menu-aim.js')) !!}
     {!! Html::script(asset(config('settings.plugins') . 'popper/popper.min.js')) !!}
-    {!! Html::script(asset(config('settings.plugins') . 'bootstrap/bootstrap.min.js')) !!}
+    {!! Html::script(asset(config('settings.plugins') . 'bootstrap/dist/js/bootstrap.min.js')) !!}
     {!! Html::script(asset(config('settings.plugins') . 'jquery-validation/jquery.validate.min.js')) !!}
     {!! Html::script(elixir(config('settings.public_template') . 'js/builder-custom.js')) !!}
 @endpush

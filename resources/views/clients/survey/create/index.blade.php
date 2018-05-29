@@ -5,6 +5,7 @@
     {!! Html::style(asset(config('settings.plugins') . 'metismenu/metisMenu.min.css')) !!}
     {!! Html::style(asset(config('settings.public_template') . 'css/fontsv2/fonts-v2.css')) !!}
     {!! Html::style(elixir(config('settings.public_template') . 'css/form-builder-custom.css')) !!}
+    {!! Html::style(elixir(config('settings.public_template') . 'css/preview.css')) !!}
 @endpush
 @section('content')
     <div class="background-user-profile"></div>

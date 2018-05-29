@@ -1,14 +1,9 @@
 $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip();
 
-    if ($('.scroll-answer-result').height() >= 250) {
-        $('.scroll-answer-result').css({
-            'overflow-y': 'scroll',
-            'max-height': '250px',
-        });
-    }
+    autoScroll();
 
-    $('.zoom-btn-result').on('click', function(event) {
+    $(document).on('click', '.zoom-btn-result', function(event) {
         event.preventDefault();
         var contentSection = $(this).closest('.wrapper-section-result').next('.content-section-result');
 
@@ -29,6 +24,15 @@ $(document).ready(function(){
     
     results();
 });
+
+function autoScroll() {
+    if ($('.scroll-answer-result').height() >= 250) {
+        $('.scroll-answer-result').css({
+            'overflow-y': 'scroll',
+            'max-height': '250px',
+        });
+    }
+}
 
 function results() {
     $('.checkboxes-result').each(function(){
@@ -74,6 +78,9 @@ function results() {
             },
             credits: {
                 enabled: false,
+                position: {
+                    align: 'left',
+                }
             },
             plotOptions: {
                 series: {
@@ -157,6 +164,9 @@ function results() {
             },
             credits: {
                 enabled: false,
+                position: {
+                    align: 'left',
+                }
             },
             plotOptions: {
                 pie: {

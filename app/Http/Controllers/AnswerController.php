@@ -145,18 +145,6 @@ class AnswerController extends Controller
         ];
     }
 
-    public function updateLinkSurvey(UpdateLinkSurveyRequest $request)
-    {
-        if ($request->ajax()) {
-            $array['token'] = $request->input('token');
-            $surveyId = $request->input('survey_id');
-            $survey = $this->surveyRepository->update($surveyId, $array);
-            $publicLink = action('AnswerController@answerPublic', ['token' => $survey->token]);
-
-            return response()->json($publicLink);
-        }
-    }
-
     public function verifyLinkSurvey(Request $request)
     {
         if ($request->ajax()) {

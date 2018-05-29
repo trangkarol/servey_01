@@ -10,13 +10,9 @@
         <!-- Plugins CSS -->
         {!! Html::style(asset(config('settings.plugins') . 'bootstrap/dist/css/bootstrap.min.css')) !!}
         {!! Html::style(asset(config('settings.plugins') . 'font-awesome/css/font-awesome.min.css')) !!}
-        {!! Html::style(asset(config('settings.plugins') . 'ionicons/css/ionicons.min.css')) !!}
         <!-- Theme CSS -->
         {!! Html::style(elixir(config('settings.public_template') . 'css/style.css')) !!}
-        {!! Html::style(asset(config('settings.plugins') . 'js-offcanvas/js-offcanvas.css')) !!}
         {!! Html::style(asset(config('settings.plugins') . 'tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.css')) !!}
-        {!! Html::style(asset(config('settings.plugins') . 'metismenu/metisMenu.min.css')) !!}
-        {!! Html::style(asset(config('settings.public_template') . 'css/fontsv2/fonts-v2.css')) !!}
         {!! Html::style(elixir(config('settings.public_template') . 'css/form-builder-custom.css')) !!}
         {!! Html::style(elixir(config('settings.public_template') . 'css/preview.css')) !!}
     </head>
@@ -24,19 +20,4 @@
         <div class="background-user-profile"></div>
         @include('clients.survey.detail.detail_survey')
     </body>
-    <!-- Plugins -->
-    {!! Html::script(asset(config('settings.plugins') . 'jquery/jquery.min.js')) !!}
-    {!! Html::script(asset(config('settings.plugins') . 'bootstrap/dist/js/bootstrap.min.js')) !!}
-    {!! Html::script(asset(config('settings.plugins') . 'moment/moment-with-locales.min.js')) !!}
-    {!! Html::script(asset(config('settings.plugins') . 'sweetalert/dist/sweetalert.min.js')) !!}
-    {!! Html::script(asset(config('settings.plugins') . 'jquery-ui/jquery-ui.min.js')) !!}
-    {!! Html::script(asset(config('settings.plugins') . 'tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.js')) !!}
-    {!! Html::script(asset(config('settings.plugins') . 'metismenu/metisMenu.min.js')) !!}
-    {!! Html::script(asset(config('settings.plugins') . 'jquery-menu-aim/jquery.menu-aim.js')) !!}
-    {!! Html::script(asset(config('settings.plugins') . 'popper/popper.min.js')) !!}
-    {!! Html::script(asset(config('settings.plugins') . 'jquery-validation/jquery.validate.min.js')) !!}
-    <!-- Custom Script -->
-    {!! Html::script(asset(config('settings.public_template') . 'js/popper.min.js')) !!}
-    {!! Html::script(asset(config('settings.public_template') . 'js/modernizr.js')) !!}
-    {!! Html::script(elixir(config('settings.public_template') . 'js/preview-doing.js')) !!}
 </html>

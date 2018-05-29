@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateLinkSurveyRequest extends FormRequest
+class UpdateTokenRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,14 +25,16 @@ class UpdateLinkSurveyRequest extends FormRequest
     public function rules()
     {
         return [
-            'token' => 'required|string|unique:surveys|max:255',
+            'token' => 'required|string|unique:surveys|max:100',
         ];
     }
 
     public function messages()
     {
         return [
-            'token.unique' => trans('survey.token_is_already_used'),
+            'token.unique' => trans('lang.token_is_already_used'),
+            'token.required' => trans('lang.token_is_required'),
+            'token.max' => trans('lang.token_is_too_long', ['number' => 100]),
         ];
     }
 }

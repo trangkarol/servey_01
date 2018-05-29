@@ -1,4 +1,10 @@
 $(document).ready(function() {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    
     $('.datepicker-preview').each(function() {
         var dateFormat = $(this).attr('data-dateformat');
 
