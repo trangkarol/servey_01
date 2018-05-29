@@ -10,6 +10,8 @@ interface SurveyInterface
 
     public function updateSettingSurvey($survey, $data, $userRepo);
 
+    public function updateSurvey($survey, $data, $status, $questionRepo, $answerRepo);
+
     public function checkCloseSurvey($inviteIds, $surveyIds);
 
     public function listsSurvey($userId, $email = null);
@@ -45,8 +47,6 @@ interface SurveyInterface
     public function closeSurvey($survey);
 
     public function openSurvey($survey);
-
-    public function updateSurvey($survey, $values);
 
     public function getOverviewSurvey($survey);
 

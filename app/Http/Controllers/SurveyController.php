@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repositories\Survey\SurveyInterface;
 use App\Repositories\Question\QuestionInterface;
+use App\Repositories\Answer\AnswerInterface;
 use App\Repositories\Invite\InviteInterface;
 use App\Repositories\Setting\SettingInterface;
 use App\Repositories\User\UserInterface;
@@ -27,6 +28,7 @@ use App\Http\Requests\SurveyRequest;
 use App\Http\Requests\ResultRequest;
 use App\Http\Requests\UpdateTokenRequest;
 use App\Http\Requests\UpdateTokenManageRequest;
+use App\Http\Requests\UpdateSurveySettingRequest;
 use Auth;
 use App\Traits\SurveyProcesser;
 use App\Traits\DoSurvey;
@@ -37,6 +39,7 @@ class SurveyController extends Controller
 
     protected $surveyRepository;
     protected $questionRepository;
+    protected $answerRepository;
     protected $inviteRepository;
     protected $settingRepository;
     protected $userRepository;
@@ -46,6 +49,7 @@ class SurveyController extends Controller
     public function __construct(
         SurveyInterface $surveyRepository,
         QuestionInterface $questionRepository,
+        AnswerInterface $answerRepository,
         InviteInterface $inviteRepository,
         SettingInterface $settingRepository,
         UserInterface $userRepository,
@@ -54,6 +58,7 @@ class SurveyController extends Controller
     ) {
         $this->surveyRepository = $surveyRepository;
         $this->questionRepository = $questionRepository;
+        $this->answerRepository = $answerRepository;
         $this->inviteRepository = $inviteRepository;
         $this->settingRepository = $settingRepository;
         $this->userRepository = $userRepository;
@@ -265,7 +270,7 @@ class SurveyController extends Controller
         return view('clients.survey.edit.index', compact('survey'));
     }
 
-    public function update($token, SurveyRequest $request)
+    public function update($token, UpdateSurveyRequest $request)
     {
         if (!$request->ajax()) {
             return [
@@ -273,11 +278,40 @@ class SurveyController extends Controller
             ];
         }
 
-        return response()->json([
-            'success' => true,
-            'result' => $request->json()->all(),
-            'json' => $request->json()->all(),
-        ]);
+        DB::beginTransaction();
+
+        try {
+            $survey = $this->surveyRepository->getSurveyFromTokenManage($token);
+
+            if (Auth::user()->cannot('edit', $survey)) {
+                throw new Exception("Not permitted edit!", 403);
+            }
+
+            $this->surveyRepository->updateSurvey(
+                $survey, 
+                $request->json(),
+                config('settings.survey.status.open'),
+                $this->questionRepository,
+                $this->answerRepository
+            );
+
+            DB::commit();
+            
+            $request->session()->flash('success', trans('lang.edit_survey_success'));
+
+            return response()->json([
+                'success' => true,
+                'redirect' => route('survey.management', $survey->token_manage),
+            ]);
+        } catch (Exception $e) {
+            DB::rollback();
+
+            return response()->json([
+                'success' => false,
+                'message' => trans('lang.edit_survey_error'),
+                'redirect' => ($e->getCode() == 403) ? route('403') : '',
+            ]);
+        }
     }
 
     public function destroy(Request $request)
@@ -475,149 +509,6 @@ class SurveyController extends Controller
                 'success' => true,
                 'url' => action('AnswerController@show', ['token' => $newSurvey->token_manage]),
             ];
-        }
-    }
-
-    public function updateSurvey(UpdateSurveyRequest $request, $id)
-    {
-        try {
-            $survey = $this->surveyRepository->find($id);
-
-            if ($survey->status == config('survey.status.available')) {
-                throw new Exception('Can not update the survey information when status is available');
-            }
-
-            $isSuccess = false;
-            $data = $request->only([
-                'title',
-                'description',
-            ]);
-
-            $data['start_time'] = null;
-            $data['deadline'] = null;
-
-            if ($request->get('start_time')) {
-                $data['start_time'] = Carbon::parse(in_array(Session::get('locale'), config('settings.sameFormatDateTime'))
-                    ? str_replace('-', '/', $request->get('start_time'))
-                    : $request->get('start_time'))
-                    ->toDateTimeString();
-            }
-
-            if ($request->get('deadline')) {
-                $data['deadline'] = Carbon::parse(in_array(Session::get('locale'), config('settings.sameFormatDateTime'))
-                    ? str_replace('-', '/', $request->get('deadline'))
-                    : $request->get('deadline'))
-                    ->toDateTimeString();
-            }
-
-            DB::beginTransaction();
-            if ($survey && !$this->surveyRepository->update($id, $data)) {
-                throw new Exception('Error Processing Request', 1);
-            }
-
-            DB::commit();
-
-            $redis = LRedis::connection();
-            $redis->publish('update', json_encode([
-                'success' => true,
-                'surveyId' => $id,
-            ]));
-        } catch (ConnectionException $e) {
-        } catch (Exception $e) {
-            DB::rollback();
-            return redirect()->action('AnswerController@show', $survey->token_manage)
-                ->with('message-fail', trans_choice('messages.object_updated_unsuccessfully', 1));
-        }
-
-        return redirect()->action('AnswerController@show', $survey->token_manage)
-                ->with('message', trans_choice('messages.object_updated_successfully', 1));
-    }
-
-    public function updateSurveyContent(Request $request, $surveyId, $token)
-    {
-        DB::beginTransaction();
-        try {
-            $survey = null;
-
-            if ($token) {
-                $survey = $this->surveyRepository->where('token_manage', $token)->first();
-            }
-
-            if (!$survey) {
-                return view('errors.404');
-            }
-
-            if ($survey->update == config('survey.maxEdit')) {
-                return redirect()->action('AnswerController@show', $token)
-                    ->with('message-fail', trans_choice('messages.object_updated_unsuccessfully', 1));
-            }
-
-            $inputs = $request->only([
-                'txt-question',
-                'checkboxRequired',
-                'required-question',
-                'image',
-                'image-url',
-                'video-url',
-                'del-question',
-                'del-answer',
-                'del-question-image',
-                'del-answer-image',
-            ]);
-            $inputs['image-url'] = $this->removeEmptyValue($inputs['image-url']);
-            $inputs['video-url'] = $this->removeEmptyValue($inputs['video-url']);
-            $validator = $this->makeValidator([
-                'txt-question' => $inputs['txt-question'],
-                'image' => $inputs['image'],
-            ]);
-            $validator = Validator::make($request->all(), $validator);
-
-            if ($validator->fails()) {
-                return redirect()->action('AnswerController@show', $token)
-                    ->with('message-fail', trans_choice('messages.object_updated_unexicute', 1));
-            }
-
-            $results = $this->questionRepository->updateSurvey($inputs, $surveyId);
-
-            if (!$results['isEdit']) {
-                return redirect()->action('AnswerController@show', $token)
-                    ->with('message-fail', trans_choice('messages.object_updated_unexicute', 1));
-            }
-
-            $this->surveyRepository->update($survey->id, [
-                'update' => $survey->update + 1,
-            ]);
-            $mailInput = [
-                'title' => $survey->title,
-                'description' => $survey->description,
-                'link' => action($survey->feature
-                        ? 'AnswerController@answerPublic'
-                        : 'AnswerController@answerPrivate', [
-                            'token' => $survey->token,
-                        ]),
-                'name' => $survey->user_name,
-                'email' => $results['emails'],
-            ];
-            $job = (new SendMail(collect($mailInput), 'reAnswer'))
-                ->onConnection('database')
-                ->onQueue('emails');
-            $this->dispatch($job);
-
-            DB::commit();
-
-            $redis = LRedis::connection();
-            $redis->publish('update', json_encode([
-                'success' => true,
-                'surveyId' => $surveyId,
-            ]));
-
-            return redirect()->action('AnswerController@show', $token)
-                ->with('message', trans_choice('messages.object_updated_successfully', 1));
-        } catch (Exception $e) {
-            DB::rollback();
-
-            return redirect()->action('AnswerController@show', $token)
-                ->with('message-fail', trans_choice('messages.object_updated_unsuccessfully', 1));
         }
     }
 
@@ -867,7 +758,7 @@ class SurveyController extends Controller
     }
 
 
-    public function updateSetting(Request $request, $token)
+    public function updateSetting(UpdateSurveySettingRequest $request, $token)
     {
         if (!$request->ajax()) {
             return [
@@ -878,14 +769,10 @@ class SurveyController extends Controller
         DB::beginTransaction();
 
         try {
-            $survey = $this->surveyRepository->where('token_manage', $token)->first();
-
-            if (!$survey) {
-                throw new Exception("Survey not found", 1);
-            }
+            $survey = $this->surveyRepository->getSurveyFromTokenManage($token);
 
             if (Auth::user()->cannot('edit', $survey)) {
-                throw new Exception("Not permitted edit!", 1);
+                throw new Exception("Not permitted edit!", 403);
             }
 
             $result = $this->surveyRepository->updateSettingSurvey(
@@ -905,6 +792,51 @@ class SurveyController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => trans('lang.error_update_setting_survey'),
+                'redirect' => ($e->getCode() == 403) ? route('403') : '',
+            ]);
+        }
+    }
+
+    public function updateDraft($token, Request $request) 
+    {
+        if (!$request->ajax()) {
+            return [
+                'success' => fasle,
+            ];
+        }
+
+        DB::beginTransaction();
+
+        try {
+            $survey = $this->surveyRepository->getSurveyFromTokenManage($token);
+
+            if (Auth::user()->cannot('edit', $survey)) {
+                throw new Exception("Not permitted edit!", 403);
+            }
+
+            $this->surveyRepository->updateSurvey(
+                $survey, 
+                $request->json(),
+                config('settings.survey.status.draft'),
+                $this->questionRepository,
+                $this->answerRepository
+            );
+
+            DB::commit();
+            
+            $request->session()->flash('success', trans('lang.save_survey_draft_success'));
+
+            return response()->json([
+                'success' => true,
+                'redirect' => route('surveys.edit', $survey->token_manage),
+            ]);
+        } catch (Exception $e) {
+            DB::rollback();
+
+            return response()->json([
+                'success' => false,
+                'message' => trans('lang.save_survey_draft_failed'),
+                'redirect' => ($e->getCode() == 403) ? route('403') : '',
             ]);
         }
     }

@@ -529,4 +529,17 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
             return $questions->restore();
         }
     }
+
+    public function deleteQuestionsById($idQuestions)
+    {
+        $idQuestions = is_array($idQuestions) ? $idQuestions : [$idQuestions];
+        
+        DB::table('media')->where('mediable_type', Question::class)
+            ->whereIn('mediable_id', $idQuestions)->delete();
+
+        DB::table('settings')->where('settingable_type', Question::class)
+            ->whereIn('settingable_id', $idQuestions)->delete();
+            
+        DB::table('questions')->whereIn('id', $idQuestions)->delete();  
+    }
 }

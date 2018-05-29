@@ -82,16 +82,12 @@ class Survey extends Model
 
     public function setStartTimeAttribute($value)
     {
-        if (!empty($value)) {
-            $this->attributes['start_time'] = Carbon::parse($value)->format('Y-m-d H:i:s');
-        }
+        $this->attributes['start_time'] = !empty($value) ? Carbon::parse($value)->format('Y-m-d H:i:s') : null;
     }
 
     public function setEndTimeAttribute($value)
     {
-        if (!empty($value)) {
-            $this->attributes['end_time'] = Carbon::parse($value)->format('Y-m-d H:i:s');
-        }
+        $this->attributes['end_time'] = !empty($value) ? Carbon::parse($value)->format('Y-m-d H:i:s') : null;
     }
 
     public function getEndTimeAttribute()

@@ -31,12 +31,12 @@ class Section extends Model
 
     public function questions()
     {
-        return $this->hasMany(Question::class)->withTrashed();
+        return $this->hasMany(Question::class)->withTrashed()->orderBy('order');
     }
 
     public function withTrashedQuestions()
     {
-        return $this->hasMany(Question::class)->withTrashed();
+        return $this->hasMany(Question::class)->withTrashed()->orderBy('order');
     }
 
     public function getLimitTitleAttribute()

@@ -247,4 +247,17 @@ class AnswerRepository extends BaseRepository implements AnswerInterface
             return $answers->restore();
         }
     }
+
+    public function deleteAnswersById($idAnswers)
+    {
+        $idAnswers = is_array($idAnswers) ? $idAnswers : [$idAnswers];
+        
+        DB::table('media')->where('mediable_type', Answer::class)
+            ->whereIn('mediable_id', $idAnswers)->delete();
+
+        DB::table('settings')->where('settingable_type', Answer::class)
+            ->whereIn('settingable_id', $idAnswers)->delete();
+
+        DB::table('questions')->whereIn('id', $idAnswers)->delete(); 
+    }  
 }

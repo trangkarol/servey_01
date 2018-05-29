@@ -171,4 +171,98 @@ trait SurveyProcesser
             'total_answer_results' => $totalAnswerResults,
         ];
     }
+
+    // create new sections
+    public function createNewSections($survey, $sectionsData, $userId)
+    {
+        // create new sections
+        foreach ($sectionsData as $section) {
+            $sectionData['title'] = $section['title'];
+            $sectionData['description'] = $section['description'];
+            $sectionData['order'] = $section['order'];
+            $sectionData['update'] = config('settings.survey.section_update.updated');
+
+            $sectionCreated = $survey->sections()->create($sectionData);
+
+            // create questions
+            if (isset($section['questions'])) {
+                $this->createNewQuestions($sectionCreated, '', $section['questions'], $userId);
+            }
+        }
+    }
+
+    // create new questions in new created section or in old sections
+    public function createNewQuestions($sectionCreated, $survey, $questionsData, $userId)
+    {
+        $orderQuestion = 0;
+
+        // create new questions in old sections
+        foreach ($questionsData as $question) {
+            $questionData['title'] = $question['title'];
+            $questionData['description'] = $question['description'];
+            $questionData['required'] = $question['require'];
+            $questionData['order'] = !empty($question['order']) ? $question['order'] : ++ $orderQuestion;
+            $questionData['update'] = config('settings.survey.question_update.updated');
+
+            if (empty($sectionCreated) && !empty($survey)) {
+                $sectionCreated = $survey->sections()->where('id', $question['section_id'])->first();
+            }
+
+            $questionCreated = $sectionCreated->questions()->create($questionData);
+
+            // create type question in setting
+            $valueSetting = $question['type'] == config('settings.question_type.date') ? $question['date_format'] : '';
+            $questionCreated->settings()->create([
+                'key' => $question['type'],
+                'value' => $valueSetting,
+            ]);
+
+            // create image or video (media) of question
+            if ($question['media']) {
+                $questionMedia['user_id'] = $userId;
+                $questionMedia['url'] = $this->cutUrlImage($question['media']);
+                $questionMedia['type'] = config('settings.media_type.image');
+
+                if ($question['type'] == config('settings.question_type.video')) {
+                    $questionMedia['type'] = config('settings.media_type.video');
+                }
+
+                $questionCreated->media()->create($questionMedia);
+            }
+
+            if (isset($question['answers'])) {
+                $this->createNewAnswers($questionCreated, '', $question['answers'], $userId);
+            }
+        }
+    }
+
+    // create new answers in new created questions or old questions
+    public function createNewAnswers($questionCreated, $questionRepo, $answersData, $userId)
+    {
+        // create new answers in old questions
+        foreach ($answersData as $answer) {
+            $answerData['content'] = $answer['content'];
+            $answerData['update'] = config('settings.survey.answer_update.updated');
+
+            if (empty($questionCreated) && !empty($questionRepo)) {
+                $questionCreated = $questionRepo->where('id', $answer['question_id'])->first();
+            }
+
+            $answerCreated = $questionCreated->answers()->create($answerData);
+
+            // create type answer in setting
+            $answerCreated->settings()->create([
+                'key' => $answer['type'],
+            ]);
+
+            // create image (media) of answer
+            if ($answer['media']) {
+                $answerMedia['user_id'] = $userId;
+                $answerMedia['url'] = $this->cutUrlImage($answer['media']);
+                $answerMedia['type'] = config('settings.media_type.image');
+
+                $answerCreated->media()->create($answerMedia);
+            }
+        }
+    }
 }

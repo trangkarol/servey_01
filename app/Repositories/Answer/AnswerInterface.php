@@ -19,4 +19,6 @@ interface AnswerInterface
     public function closeFromQuestionId($idQuestions);
 
     public function openFromQuestionId($idQuestions);
+
+    public function deleteAnswersById($idAnswers);   
 }

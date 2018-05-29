@@ -7,11 +7,23 @@ jQuery(document).ready(function () {
     var questionSelected = null;
     var surveyData = $('#survey-data');
 
-    // get oldSsurveyData on edit-page
+    // get oldSsurveyData in edit-page
     if (surveyData.data('page') == 'edit') {
         var isUpdate = false;
         var oldSurveyData = getSections($('form.survey-form').serializeArray());
-        isUpdate = true;
+        var isUpdate = true;
+        
+        var sectionsUpdate = {};
+        var questionsUpdate = {};
+        var answersUpdate = {};
+
+        var sectionsCreate = [];
+        var questionsCreate = [];
+        var answersCreate = [];
+        
+        var sectionsUpdateId = [];
+        var questionsUpdateId = [];
+        var answersUpdateId = [];
     }
 
     function s4() {
@@ -62,6 +74,15 @@ jQuery(document).ready(function () {
             },
             stop: function (event, ui) {
                 $(ui.item).removeAttr('style');
+
+                // when move question, change name of question follow new section
+                var sectionId = ui.item.closest('ul.page-section.sortable').data('section-id');
+                var questionId = ui.item.data('question-id');
+                var name = `[section_${sectionId}][question_${questionId}]`;
+                ui.item.find('.question-input').attr('name', 'title' + name);
+                ui.item.find('.question-description-input').attr('name', 'description' + name);
+                ui.item.find('.checkbox-question-required').attr('name', 'require' + name);
+                ui.item.find('.image-question-hidden').attr('name', 'media' + name);
             },
         });
     }
@@ -277,9 +298,32 @@ jQuery(document).ready(function () {
 
             answer.type = type; // 1: Option, 2: Other option
 
-            // get update status of answer on edit-page
+            // get update status of answer in edit-page and get answers update data
             if (surveyData.data('page') == 'edit' && isUpdate) {
                 answer.status = getUpdateStatusOfAnswer(sectionId, questionId, answer);
+                var tempData = {};
+
+                // if answer is no edit, small edit, and big edit
+                if (answer.status == 0 || answer.status == 1) {
+                    tempData.type = answer.type;
+                    tempData.content = answer.content;
+                    tempData.media = answer.media;
+                    tempData.update = answer.status;
+
+                    answersUpdate[answerId] = tempData;
+                    answersUpdateId.push(answerId);
+                } else if (answer.status == 2) {        // if is create
+                    var oldSesion = collect(oldSurveyData).where('id', sectionId);
+                    var oldQuestions = collect(!oldSesion.isEmpty() ? oldSesion.first().questions : []);
+                    var oldQuestion = oldQuestions.where('id', questionId);
+
+                    if (!oldQuestion.isEmpty()) {
+                        answer.question_id = questionId;
+
+                        answersCreate.push(answer);
+                    }
+                }
+
             }
 
             if (!$.isEmptyObject(answer)) {
@@ -293,6 +337,7 @@ jQuery(document).ready(function () {
     // get all questions by section
     function getQuestions(data, parentElement, sectionId) {
         var questions = [];
+        var orderQuestion = 0; // orderQuestion of edit page
 
         $(parentElement).find('li.form-line.sort').each(function (index, element) {
             var question = {};
@@ -322,9 +367,33 @@ jQuery(document).ready(function () {
 
             question.answers = getAnswers(data, element, questionId, sectionId);
 
-            // get update status of question on edit-page
+            // get update status of question in edit-page and get questions update data
             if (surveyData.data('page') == 'edit' && isUpdate) {
                 question.status = getUpdateStatusOfQuestion(sectionId, question);
+                var tempData = {};
+                ++ orderQuestion;
+
+                // if questions is no edit, small edit, and big edit
+                if (question.status == 0 || question.status == 1) {
+                    tempData.title = question.title;
+                    tempData.description = question.description;
+                    tempData.media = question.media;
+                    tempData.order = orderQuestion;
+                    tempData.update = question.status;
+                    tempData.required = question.require;
+
+                    questionsUpdate[questionId] = tempData;
+                    questionsUpdateId.push(questionId);
+                } else if (question.status == 2) {       // if is create         
+                    var oldSection = collect(oldSurveyData).where('id', sectionId);
+                    
+                    if (!oldSection.isEmpty()) {
+                        question.section_id = sectionId;
+                        question.order = orderQuestion;
+
+                        questionsCreate.push(question);
+                    }
+                }
             }
 
             if (!$.isEmptyObject(question)) {
@@ -338,6 +407,8 @@ jQuery(document).ready(function () {
     // get all sections
     function getSections(data) {
         var sections = [];
+        var orderSection = 0;  // orderSection of edit page
+
         $('.survey-form ul.page-section.sortable').each(function (index, element) {
             var section = {};
 
@@ -350,10 +421,26 @@ jQuery(document).ready(function () {
             var description = data.find(item => item.name === `description[section_${sectionId}]`);
             section.description = description !== undefined ? description.value : '';
             section.questions = getQuestions(data, element, sectionId);
-
-            // get update status of section on edit-page
+            
+            // get update status of section in edit-page and get sections update data
             if (surveyData.data('page') == 'edit' && isUpdate) {
                 section.status = getUpdateStatusOfSection(section);
+                var tempData = {};
+                ++ orderSection;
+
+                // if sections is no edit, small edit, and big edit
+                if (section.status == 0 || section.status == 1) {
+                    tempData.title = section.title;
+                    tempData.description = section.description;
+                    tempData.order = orderSection;
+                    tempData.update = section.status;
+
+                    sectionsUpdate[sectionId] = tempData;
+                    sectionsUpdateId.push(sectionId);
+                } else if (section.status == 2) {       // if is create
+                    section.order = orderSection;
+                    sectionsCreate.push(section);
+                }
             }
 
             if (!$.isEmptyObject(section)) {
@@ -938,9 +1025,9 @@ jQuery(document).ready(function () {
         var section = $('.page-section.sortable.ui-sortable');
 
 
-        // if just have 1 question on section
+        // if just have 1 question in section
         if (question.length == 1) {
-            // if just have 1 section on page, then can not delete
+            // if just have 1 section in page, then can not delete
             if (section.length == 1) {
                 alertDanger({message: Lang.get('lang.can_not_remove_last_question')})
 
@@ -2713,6 +2800,7 @@ jQuery(document).ready(function () {
         $(window.questionSelected).find('.question-input').attr('data-autoresize', 'data-autoresize');
 
         $(window.questionSelected).find('.image-question-hidden').attr('name', `media[section_${sectionId}][question_${questionId}]`);
+        $(window.questionSelected).find('.checkbox-question-required').attr('name', `require[section_${sectionId}][question_${questionId}]`);
 
         $(window.questionSelected).find('.question-description-input').attr('name', `description[section_${sectionId}][question_${questionId}]`);
         $(window.questionSelected).find('.question-description-input').attr('data-autoresize', 'data-autoresize');
@@ -2770,6 +2858,7 @@ jQuery(document).ready(function () {
             $(this).find('.question-input').attr('data-autoresize', 'data-autoresize');
 
             $(this).find('.image-question-hidden').attr('name', `media[section_${sectionId}][question_${questionId}]`);
+            $(this).find('.checkbox-question-required').attr('name', `require[section_${sectionId}][question_${questionId}]`);
 
             $(this).find('.question-description-input').attr('name', `description[section_${sectionId}][question_${questionId}]`);
             $(this).find('.question-description-input').attr('data-autoresize', 'data-autoresize');
@@ -2869,6 +2958,7 @@ jQuery(document).ready(function () {
                 $(this).find('.question-input').attr('name', `title[section_${prevSectionId}][question_${questionId}]`);
                 $(this).find('.image-question-hidden').attr('name', `media[section_${prevSectionId}][question_${questionId}]`);
                 $(this).find('.question-description-input').attr('name', `description[section_${prevSectionId}][question_${questionId}]`)
+                $(this).find('.checkbox-question-required').attr('name', `require[section_${prevSectionId}][question_${questionId}]`);
                 $(this).insertAfter($(prevSection).find('.form-line.sort').last());
             });
 
@@ -3027,7 +3117,14 @@ jQuery(document).ready(function () {
                     $('body').css('overflow', '');
 
                 if (!data.success) {
-                    alertDanger({message: data.message});
+                    if (data.redirect == '') {
+                        alertDanger({message: data.message});
+
+                        return;
+                    }
+
+                    window.onbeforeunload = null;
+                    $(window).attr('location', data.redirect);
                 }
             });
         }
@@ -3380,7 +3477,7 @@ jQuery(document).ready(function () {
             if ($(this).hasClass('input-email-message')) {
                 return;
             }
-
+            
             autoResizeTextarea();
             $(this).focus();
             $(this).keyup();
@@ -3399,6 +3496,7 @@ jQuery(document).ready(function () {
         // focus first section title
         $('.input-area.section-header-title').first().focus();
         $('.input-area.section-header-title').first().click();
+        $('.question-input.input-area').first().click();
 
         // re-load validation
         $('ul.page-section').each(function () {
@@ -3504,8 +3602,114 @@ jQuery(document).ready(function () {
             return status;
         }
 
+        // get list id of element (section, question, answer) has deleted
+        function getElementsDeleteId(elementsOldId, elementsUpdateId) {
+
+            for (var i = 0; i < elementsUpdateId.length; i ++) {
+                var index = elementsOldId.indexOf(elementsUpdateId[i]);
+
+                if (index != -1) {
+                    elementsOldId.splice(index, 1);
+                }
+            }
+
+            return elementsOldId;
+        }
+
+        // get update, create, delete data to edit survey
+        function getSurveyUpdateData() {
+            var updateData = {};
+
+            // refresh variables data before use
+            sectionsUpdate = {};
+            questionsUpdate = {};
+            answersUpdate = {};
+            
+            sectionsCreate = [];
+            questionsCreate = [];
+            answersCreate = [];
+
+            sectionsUpdateId = [];
+            questionsUpdateId = [];
+            answersUpdateId = [];
+
+            var dataArray = $('form.survey-form').serializeArray();
+            var survey = getSurvey(dataArray);
+
+            // get update data of survey
+            updateData.title = survey.title;
+            updateData.start_time = survey.start_time;
+            updateData.end_time = survey.end_time;
+            updateData.description = survey.description;
+
+            // get update data and create data of sections, questions, answers
+            updateData.update = {
+                sections:  sectionsUpdate,
+                questions: questionsUpdate,
+                answers: answersUpdate
+            };
+
+            updateData.create = {
+                sections: sectionsCreate,
+                questions: questionsCreate,
+                answers: answersCreate
+            };
+
+            // get list id of old sections, questions, answers
+            var oldSections = collect(oldSurveyData);
+            var oldSectionsId = oldSections.pluck('id').all();
+            var oldQuestionsId = [];
+            var oldAnswersId = [];
+            
+            oldSections.each(section => {
+                var questionsId = collect(section.questions).pluck('id').all();
+                oldQuestionsId = [... new Set(oldQuestionsId.concat(questionsId))];
+                
+                var oldQuestions = collect(section.questions);
+
+                oldQuestions.each(question => {
+                    var answersId = collect(question.answers).pluck('id').all();
+                    oldAnswersId = [... new Set(oldAnswersId.concat(answersId))];
+                });
+            });
+
+            // get list id of sections, questions, answers has deleted
+            var sectionsDeleteId = getElementsDeleteId(oldSectionsId, sectionsUpdateId);
+            var questionsDeleteId = getElementsDeleteId(oldQuestionsId, questionsUpdateId);
+            var answersDeleteId = getElementsDeleteId(oldAnswersId, answersUpdateId);
+
+            updateData.delete = {
+                sections: sectionsDeleteId,
+                questions: questionsDeleteId,
+                answers: answersDeleteId
+            };
+
+            return updateData;
+        }
+
+        // validate survey data when open modal option
+        $('#open-send-option-modal').on('click', function () {
+            $('#option-update-modal .container-radio-setting-survey input').first().prop('checked', true);
+            
+            return validateSurvey();
+        });
+
+        $('#update-survey-draft-to-open').on('click', function () {
+            if (!validateSurvey()) {
+                return false;
+            }
+
+            $(this).next('#edit-survey-btn').click();
+        });
+
         // close modal option and click btn edit survey
         $('#send-update-btn').on('click', function (e) {
+            $(this).closest('.option-update-content').find('.container-radio-setting-survey input').each(function () {
+                if ($(this).prop('checked')) {
+                    $(this).closest('.option-update-content').attr('val', $(this).attr('val'));
+                }
+            });
+
             $(this).next('#edit-survey-btn').click();
         });
 
@@ -3514,16 +3718,10 @@ jQuery(document).ready(function () {
             e.preventDefault();
             e.stopPropagation();
 
-            var valid = validateSurvey();
-
-            if (!valid) {
-                return;
-            }
-
-            var dataArray = $('form.survey-form').serializeArray();
-            var survey = getSurvey(dataArray);
+            var surveyUpdateData = getSurveyUpdateData();
+            surveyUpdateData.option = $('#option-update-modal .option-update-content').attr('val');
             
-            if (!survey) {
+            if (!surveyUpdateData) {
                 return;
             }
 
@@ -3531,19 +3729,66 @@ jQuery(document).ready(function () {
             $('body').append('<div class="modal-backdrop send-loader fade show"></div>');
             $('body').css('overflow', 'hidden');
 
-            var data = JSON.stringify(survey);
+            $.ajax({
+                method: 'PUT',
+                url: $(this).data('url'),
+                type: 'json',
+                data: JSON.stringify(surveyUpdateData)
+            })
+            .done(function (data) {
+                if (data.success) {
+                    window.onbeforeunload = null;
+                    $(window).attr('location', data.redirect);
+                } else {
+                    if (data.redirect != '') {
+                        window.onbeforeunload = null;
+                        $(window).attr('location', data.redirect);
+
+                        return;
+                    }
+
+                    $('#send-modal-loader').removeClass('show');
+                    $('.send-loader').remove();
+                    $('body').css('overflow', '');
+
+                    alertDanger({message: data.message});
+                }
+            });
+        });
+
+        // update survey with draft
+        $('#update-survey-draft').on('click', function () {
+            var surveyUpdateData = getSurveyUpdateData();
+
+            $('#send-modal-loader').addClass('show');
+            $('body').append('<div class="modal-backdrop send-loader fade show"></div>');
+            $('body').css('overflow', 'hidden');
 
             $.ajax({
                 method: 'PUT',
                 url: $(this).data('url'),
                 type: 'json',
-                data: data
+                data: JSON.stringify(surveyUpdateData)
             })
             .done(function (data) {
-                $('#send-modal-loader').removeClass('show');
-                $('.send-loader').remove();
-                $('body').css('overflow', '');
-            });
+                if (data.success) {
+                    window.onbeforeunload = null;
+                    $(window).attr('location', data.redirect);
+                } else {
+                    if (data.redirect != '') {
+                        window.onbeforeunload = null;
+                        $(window).attr('location', data.redirect);
+
+                        return;
+                    }
+
+                    $('#send-modal-loader').removeClass('show');
+                    $('.send-loader').remove();
+                    $('body').css('overflow', '');
+
+                    alertDanger({message: data.message});
+                }
+            })
         });
     }
 });

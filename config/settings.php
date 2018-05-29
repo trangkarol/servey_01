@@ -177,12 +177,15 @@ return [
         ],
         'section_update' => [
             'default' => 0,
+            'updated' => 1,
         ],
         'question_update' => [
             'default' => 0,
+            'updated' => 1,
         ],
         'answer_update' => [
             'default' => 0,
+            'updated' => 1,
         ],
         'option' => [
             'first' => 1,
@@ -287,6 +290,10 @@ return [
         'next_remind_time' => [
             'content' => 'next_time',
             'key' => 8,
+        ],
+        'option_update_survey' => [
+            'content' => 'option_update',
+            'key' => 9,
         ],
     ],
 
