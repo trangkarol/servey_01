@@ -21,7 +21,7 @@ class Section extends Model
 
     public function settings()
     {
-        return $this->morphMany(Setting::class, 'settingable');
+        return $this->morphMany(Setting::class, 'settingable')->withTrashed();
     }
 
     public function survey()
@@ -31,7 +31,7 @@ class Section extends Model
 
     public function questions()
     {
-        return $this->hasMany(Question::class);
+        return $this->hasMany(Question::class)->withTrashed();
     }
 
     public function withTrashedQuestions()

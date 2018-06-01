@@ -35,7 +35,7 @@ class Survey extends Model
 
     public function invite()
     {
-        return $this->hasOne(Invite::class);
+        return $this->hasOne(Invite::class)->withTrashed();
     }
 
     public function withTrashedInvite()
@@ -52,7 +52,7 @@ class Survey extends Model
 
     public function settings()
     {
-        return $this->morphMany(Setting::class, 'settingable');
+        return $this->morphMany(Setting::class, 'settingable')->withTrashed();
     }
 
     public function withTrashedSettings()
@@ -62,7 +62,7 @@ class Survey extends Model
 
     public function sections()
     {
-        return $this->hasMany(Section::class)->orderBy('order');
+        return $this->hasMany(Section::class)->withTrashed()->orderBy('order');
     }
 
     public function withTrashedSections()
@@ -72,7 +72,7 @@ class Survey extends Model
 
     public function results()
     {
-        return $this->hasMany(Result::class);
+        return $this->hasMany(Result::class)->withTrashed();
     }
 
     public function withTrashedResults()

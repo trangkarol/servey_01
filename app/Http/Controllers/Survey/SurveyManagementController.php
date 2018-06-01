@@ -132,7 +132,7 @@ class SurveyManagementController extends Controller
         }
     }
 
-    public function managementSurvey($tokenManage)
+    public function managementSurvey(Request $request, $tokenManage)
     {
         try {
             $survey = $this->surveyRepository->getSurveyFromTokenManage($tokenManage); 

@@ -26,7 +26,7 @@ class Question extends Model
 
     public function settings()
     {
-        return $this->morphMany(Setting::class, 'settingable');
+        return $this->morphMany(Setting::class, 'settingable')->withTrashed();
     }
 
     public function withTrashedSettings()
@@ -36,7 +36,7 @@ class Question extends Model
 
     public function media()
     {
-        return $this->morphMany(Media::class, 'mediable');
+        return $this->morphMany(Media::class, 'mediable')->withTrashed();
     }
 
     public function withTrashedMedia()
@@ -46,17 +46,17 @@ class Question extends Model
 
     public function section()
     {
-        return $this->belongsTo(Section::class);
+        return $this->belongsTo(Section::class)->withTrashed();
     }
 
     public function results()
     {
-        return $this->hasManyThrough(Result::class, Answer::class);
+        return $this->hasManyThrough(Result::class, Answer::class)->withTrashed();
     }
 
     public function answerResults()
     {
-        return $this->hasMany(Result::class);
+        return $this->hasMany(Result::class)->withTrashed();
     }
 
     public function answers()
@@ -66,7 +66,7 @@ class Question extends Model
         * The config other checkbox will be larger than the type checkbox, orther radio will be larger than the type radio
         * Config radio and checkbox = [1, 2], config orther radio and orther checkbox = [5, 6]
         */
-        return $this->hasMany(Answer::class);
+        return $this->hasMany(Answer::class)->withTrashed();
     }
 
     public function withTrashedAnswers()

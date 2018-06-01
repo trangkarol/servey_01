@@ -23,12 +23,12 @@ class Answer extends Model
 
     public function question()
     {
-        return $this->belongsTo(Question::class);
+        return $this->belongsTo(Question::class)->withTrashed();
     }
 
     public function results()
     {
-         return $this->hasMany(Result::class);
+         return $this->hasMany(Result::class)->withTrashed();
     }
 
     public function settings()
@@ -43,7 +43,7 @@ class Answer extends Model
 
     public function media()
     {
-        return $this->morphMany(Media::class, 'mediable');
+        return $this->morphMany(Media::class, 'mediable')->withTrashed();
     }
 
     public function withTrashedMedia()
@@ -58,11 +58,11 @@ class Answer extends Model
 
     public function getTypeAttribute()
     {
-        return $this->settings->first()->key;
+        return $this->settings()->withTrashed()->first()->key;
     }
 
     public function getUrlMediaAttribute()
     {
-        return $this->media->first()->url;
+        return $this->media()->withTrashed()->first()->url;
     }
 }
