@@ -44,17 +44,18 @@ class User extends Authenticatable
 
     public function likes()
     {
-        return $this->hasMany(Like::class);
+        return $this->hasMany(Like::class)->withTrashed();
     }
 
     public function results()
     {
-        return $this->hasMany(Result::class);
+        return $this->hasMany(Result::class)->withTrashed();
     }
 
     public function members()
     {
         return $this->belongsToMany(Survey::class, 'members', 'user_id', 'survey_id')
+            ->withTrashed()
             ->withPivot('role', 'status')
             ->withTimestamps();
     }
@@ -99,22 +100,22 @@ class User extends Authenticatable
 
     public function reciveResults()
     {
-        return $this->hasMany(Result::class, 'reciver_id');
+        return $this->hasMany(Result::class, 'reciver_id')->withTrashed();
     }
 
     public function sendResults()
     {
-        return $this->hasMany(Result::class, 'sender_id');
+        return $this->hasMany(Result::class, 'sender_id')->withTrashed();
     }
 
     public function reciveSurveys()
     {
-        return $this->hasMany(Invite::class, 'reciver_id');
+        return $this->hasMany(Invite::class, 'reciver_id')->withTrashed();
     }
 
     public function sendSurveys()
     {
-        return $this->hasMany(Invite::class, 'sender_id');
+        return $this->hasMany(Invite::class, 'sender_id')->withTrashed();
     }
 
     public function isAdmin()

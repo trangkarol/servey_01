@@ -22,40 +22,7 @@
     </head>
     <body>
         <div class="background-user-profile"></div>
-        <!-- .cd-main-header -->
-        <main class="cd-main-content">
-            <div class="image-header"></div>
-            <!-- Content Wrapper  -->
-            <div class="content-wrapper" id="user-id" data-user-id="{{ Auth::user()->id }}">
-                <!-- /Scroll buttons -->
-                {!! Form::open(['class' => 'form-doing-survey']) !!}
-                    <ul class="clearfix form-wrapper content-margin-top-preview ul-preview">
-                        <li class="form-line">
-                            <div class="form-group">
-                                <h2 class="title-survey-preview" id="id-survey-preview" data-token="{{ $survey->token }}">
-                                    {{ $survey->title }}
-                                </h2>
-                            </div>
-                            <div class="form-group">
-                                <span class="description-survey">{{ $survey->description }}</span>
-                            </div>
-                        </li>
-                    </ul>
-                    <div class="content-section-preview">
-                        @include ('clients.survey.detail.content-survey')
-                    </div>
-                {!! Form::close() !!}
-            </div>
-            <!-- Content Wrapper  -->
-        </main>
-        <div class="modal fade" id="loader-section-survey-doing">
-            <section>
-                <div class="loader-spin">
-                    <div class="loader-outter-spin"></div>
-                    <div class="loader-inner-spin"></div>
-                </div>
-            </section>
-        </div>
+        @include('clients.survey.detail.detail_survey')
     </body>
     <!-- Plugins -->
     {!! Html::script(asset(config('settings.plugins') . 'jquery/jquery.min.js')) !!}

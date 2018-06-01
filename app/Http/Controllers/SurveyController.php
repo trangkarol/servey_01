@@ -27,10 +27,11 @@ use App\Http\Requests\SurveyRequest;
 use App\Http\Requests\ResultRequest;
 use Auth;
 use App\Traits\SurveyProcesser;
+use App\Traits\DoSurvey;
 
 class SurveyController extends Controller
 {
-    use DispatchesJobs, SurveyProcesser;
+    use DispatchesJobs, SurveyProcesser, DoSurvey;
 
     protected $surveyRepository;
     protected $questionRepository;
@@ -216,12 +217,12 @@ class SurveyController extends Controller
 
     public function show(Request $request, $token)
     {
+        if (!$request->ajax() && Session::has('url_current')) {
+            Session::forget('url_current');
+        }
+
         $survey = $this->surveyRepository->getSurvey($token);
         $numOfSection = $survey->sections->count();
-
-        if (Auth::user()->cannot('view', $survey)) {
-            return view('clients.layout.403');
-        }
 
         if ($request->ajax()) {
             $currentSection = $request->session()->get('current_section_survey');
@@ -229,30 +230,24 @@ class SurveyController extends Controller
             $section = $this->surveyRepository->getSectionCurrent($survey, $currentSection);
             $sectionOrder = 'section-' . $section->order;
 
+            $data = [
+                'section' => $section,
+                'currentSection' => $currentSection,
+                'numOfSection' => $numOfSection,
+                'survey' => $survey,
+            ];
+
             return response()->json([
                 'success' => true,
-                'html' => view('clients.survey.detail.content-survey', compact([
-                    'section',
-                    'currentSection',
-                    'numOfSection',
-                    'survey',
-                ]))->render(),
+                'html' => view('clients.survey.detail.content-survey', compact('data'))->render(),
                 'section_order' => $sectionOrder,
             ]);
         }
 
-        Session::put('current_section_survey', config('settings.section_order_default'));
-        $currentSection = config('settings.section_order_default');
-        $section = $this->surveyRepository->getSectionCurrent($survey, $currentSection);
+        // at line 42 of file app/Traits/DoSurvey.php
+        $data = $this->getDetailSurvey($survey, $numOfSection);
 
-        return view('clients.survey.detail.index', compact([
-                'survey',
-                'section',
-                'numOfSection',
-                'currentSection',
-                'questionPrevious',
-            ])
-        );
+        return view('clients.survey.detail.index', compact('data'));
     }
 
     public function edit($tokenManage)

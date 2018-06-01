@@ -8,6 +8,12 @@
     {!! Html::style(asset(config('settings.plugins') . 'highcharts/highcharts.css')) !!}
     {!! Html::style(elixir(config('settings.public_template') . 'css/preview.css')) !!}
     {!! Html::style(elixir(config('settings.public_template') . 'css/result.css')) !!}
+       
+    {!! Html::style(asset(config('settings.plugins') . 'js-offcanvas/js-offcanvas.css')) !!}
+    {!! Html::style(asset(config('settings.plugins') . 'tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.css')) !!}
+    {!! Html::style(asset(config('settings.plugins') . 'metismenu/metisMenu.min.css')) !!}
+    {!! Html::style(asset(config('settings.public_template') . 'css/fontsv2/fonts-v2.css')) !!}
+    {!! Html::style(elixir(config('settings.public_template') . 'css/form-builder-custom.css')) !!}
 @endpush
 
 @section ('content')
@@ -38,8 +44,9 @@
                                                     @lang('survey.result')
                                                 </a>
                                             </li>
-                                            <li>
-                                                <a href="javascript:void(0)" class="menu-management">
+                                           <li>
+                                                <a href="javascript:void(0)" class="menu-management" id="setting-survey"
+                                                    data-url="{{ route('ajax-setting-survey', $survey->token) }}">
                                                     @lang('survey.setting')
                                                 </a>
                                             </li>

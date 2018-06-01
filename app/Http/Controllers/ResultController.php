@@ -58,7 +58,7 @@ class ResultController extends Controller
         $data = [];
         $message = '';
         $flag = false;
-        $survey = $this->surveyRepository->where('token', $token)->first();
+        $survey = $this->surveyRepository->getSurveyFromToken($token);
 
         // check limit the number of answers when submit answers for survey
         $settings = $survey->settings->pluck('value', 'key')->all();
