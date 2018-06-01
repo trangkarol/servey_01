@@ -4257,3 +4257,7 @@ tr, th, td {
 .ul-result-management {
     max-width: 100% !important;
 }
+
+.hide-div {
+    display: none;
+}

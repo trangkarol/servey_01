@@ -21,4 +21,9 @@ return [
     'survey_editor' => 'Editor',
     'remaining_date' => ' days remaining.',
     'no_title' => '(No title)',
+    'edit' => 'Edit',
+    'delete' => 'Delete',
+    'close' => 'Close',
+    'open' => 'Open',
+    'coppy' => 'Coppy',
 ];

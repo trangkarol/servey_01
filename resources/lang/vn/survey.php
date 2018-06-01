@@ -21,4 +21,9 @@ return [
     'survey_editor' => 'Survey Editor',
     'remaining_date' => ' ngày còn lại.',
     'no_title' => '(Không có tiêu đề)',
+    'edit' => 'Sửa',
+    'delete' => 'Xóa',
+    'close' => 'Đóng',
+    'open' => 'Mở',
+    'coppy' => 'Bản Sao',
 ];

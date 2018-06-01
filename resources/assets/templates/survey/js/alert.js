@@ -1,18 +1,16 @@
-function baseConfirm(event, element, data) {
-    event.preventDefault();
+function baseConfirm(data, callback) {
+    if (typeof callback === 'undefined' && !$.isFunction(callback)) {
+        return false;
+    }
 
     data.title = '';
     data.text = data.message;
-    data.closeOnConfirm = true;
-    data.allowOutsideClick = true;
-    data.showCancelButton = true;
-    data.cancelButtonText = data.cancelText;
-    data.cancelButtonClass = 'btn-default';
+    data.buttons = true,
     data.confirmButtonText = data.confirmText;
 
-    swal(data, function (isConfirm) {
-        if (isConfirm) {
-            $(element).trigger('click', {});
+    swal(data).then(iscomfirm => {
+        if (iscomfirm) {
+            callback();
         }
     });
 }
@@ -29,19 +27,25 @@ function baseAlert(data) {
 function confirmInfo(event, element, data) {
     data.icon = 'info';
     data.confirmButtonClass = 'btn-info';
-    baseConfirm(event, element, data);
+    baseConfirm(data, callback);
 }
 
 function confirmWarning(event, element, data) {
     data.icon = 'warning';
     data.confirmButtonClass = 'btn-warning';
-    baseConfirm(event, element, data);
+    baseConfirm(data, callback);
 }
 
-function confirmDanger(event, element, data) {
+function confirmDanger(data, callback) {
     data.icon = 'error';
     data.confirmButtonClass = 'btn-danger';
-    baseConfirm(event, element, data);
+    baseConfirm(data, callback);
+}
+
+function alertSuccess(data) {
+    data.icon = 'success';
+    data.confirmButtonClass = "btn-success";
+    baseAlert(data);
 }
 
 function alertInfo(data) {

@@ -215,7 +215,7 @@ return [
     'setting' => 'Setting',
     'other' => 'Other:',
     'preview' => 'Preview',
-    'save_as_draff' => 'Save as draff',
+    'save_as_draft' => 'Save as draft',
     'require_length_short' => 'Do not enter more than 100 characters',
 
     /*
@@ -264,8 +264,11 @@ return [
    
    'close_survey_success' => 'Close survey successful!',
    'delete_survey_success' => 'Delete survey successful!',
-   'open_survey_success' => 'Delete survey successful!',
+   'open_survey_success' => 'Open survey successful!',
    'process_failed' => 'Failed! Try again!',
+   'comfirm_close_survey' => 'Do you want to close this survey?',
+   'comfirm_delete_survey' => 'Do you want to delete this survey?',
+   'comfirm_open_survey' => 'Do you want to open this survey?',
 
     /*
         Edit survey page

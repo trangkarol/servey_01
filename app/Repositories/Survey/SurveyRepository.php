@@ -647,7 +647,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
     {
         $userId = Auth::user()->id;
 
-        $survey = $this->model;
+        $survey = $this->model->withTrashed();
 
         //check flag
         if ($flag == config('settings.survey.members.owner') ||
@@ -684,7 +684,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
     //get survey by token
     public function getSurvey($token)
     {
-        $survey =  $this->model->where('token', $token)->with(['sections.questions' => function ($query) {
+        $survey =  $this->model->withTrashed()->where('token', $token)->with(['sections.questions' => function ($query) {
             $query->with(['settings', 'media', 'answers' => function ($queryAnswer) {
                     $queryAnswer->with('settings', 'media');
                 }]);
@@ -700,7 +700,19 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
     //get survey by token
     public function getSurveyFromTokenManage($token_manage)
     {
-        $survey = $this->model->where('token_manage', $token_manage)->first();
+        $survey = $this->model->withTrashed()->where('token_manage', $token_manage)->first();
+
+        if (!$survey) {
+            throw new Exception("Error Processing Request", 1);
+        }
+
+        return $survey;
+    }
+
+    //get survey by token
+    public function getSurveyFromToken($token)
+    {
+        $survey = $this->model->withTrashed()->where('token', $token)->first();
 
         if (!$survey) {
             throw new Exception("Error Processing Request", 1);
@@ -766,14 +778,14 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
 
     public function getSurveyForResult($tokenManage)
     {
-        $result = $this->model->with([
-            'withTrashedSections.withTrashedQuestions' => function ($query) {
+        $result = $this->model->withTrashed()->with([
+            'sections.questions' => function ($query) {
                 $query->with([
-                    'withTrashedSettings',
-                    'withTrashedAnswers.withTrashedSettings',
+                    'settings',
+                    'answers.settings',
                 ]);
             },
-            'withTrashedResults',
+            'results',
         ])->where('token_manage', $tokenManage)->first();
 
         if (empty($result)) {

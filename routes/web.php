@@ -215,6 +215,14 @@ Route::group(['namespace' => 'Ajax', 'prefix' => 'ajax'], function () {
         ->name('ajax-list-survey');
     Route::get('get-overview/{tokenManage}', 'ManagementSurvey@getOverviewSurvey')
         ->name('ajax-get-overview');
+    Route::get('get-setting/{token}', 'ManagementSurvey@settingSurvey')
+        ->name('ajax-setting-survey');
+    Route::get('surveys-delete/{tokenManage}', 'ManagementSurvey@deleteSurvey')
+        ->name('ajax-survey-delete');
+    Route::get('surveys-close/{tokenManage}', 'ManagementSurvey@closeSurvey')
+        ->name('ajax-survey-close');
+    Route::get('surveys-open/{tokenManage}', 'ManagementSurvey@openSurvey')
+        ->name('ajax-survey-open');
 });
 
 Route::get('/languages', 'LanguageController@index')->name('set-language');

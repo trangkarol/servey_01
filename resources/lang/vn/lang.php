@@ -266,6 +266,9 @@ return [
    'delete_survey_success' => 'Xóa survey thành công!',
    'open_survey_success' => 'Mở survey thành công!',
    'process_failed' => 'Thất bại! Hãy thử lại!',
+   'comfirm_close_survey' => 'Bạn có muốn đóng khảo sát này lại không?',
+   'comfirm_delete_survey' => 'Bạn có muốn xóa khảo sát này lại không?',
+   'comfirm_open_survey' => 'Bạn có muốn mở khảo sát này lại không?',
 
     /*
         Edit survey page
