@@ -12,7 +12,7 @@ function getOverviewSurvey() {
         },
 
         subtitle: {
-            text: Lang.get('image_preview')
+            //
         },
 
         xAxis: {

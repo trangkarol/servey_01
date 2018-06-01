@@ -1,9 +1,4 @@
 $(document).ready(function() {
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
     $('.datepicker-preview').each(function() {
         var dateFormat = $(this).attr('data-dateformat');
 
@@ -134,7 +129,7 @@ $(document).ready(function() {
         return false;
     });
 
-    $('.content-section-preview').on('click', '.next-section-survey', function(event) {
+    $(document).on('click', '.next-section-survey', function(event) {
         event.preventDefault();
         event.stopPropagation();
 
@@ -145,7 +140,7 @@ $(document).ready(function() {
         }
 
         showLoaderSection();
-
+        
         if ($(selector).attr('data-next')) {
             $(selector).hide();
             $(`#${$(selector).attr('data-next')}`).show();

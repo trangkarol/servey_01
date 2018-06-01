@@ -53,4 +53,6 @@ interface SurveyInterface
     public function getSurveyFromTokenManage($token_manage);
 
     public function getSurveyForResult($tokenManage);
+
+    public function getSurveyFromToken($token);
 }
