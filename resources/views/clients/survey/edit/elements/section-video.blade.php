@@ -5,9 +5,11 @@
     <div class="form-row draggable-area"></div>
     <div class="form-row image-block">
         <div class="col-xl-9 col-lg-9 col-md-9 col-sm-8 col-10">
-            {!! Form::text("title[section_$sectionId][question_$question->id]", $question->title, [
-                'class' => 'form-control question-input active',
-                'placeholder' => trans('lang.video_title')
+            {!! Form::textarea("title[section_$sectionId][question_$question->id]", $question->title, [
+                'class' => 'form-control input-area auto-resize question-input active',
+                'data-autoresize',
+                'placeholder' => trans('lang.video_title'),
+                'rows' => 1,
             ]) !!}
         </div>
         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-4 col-2 button-group-block">

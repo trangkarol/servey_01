@@ -348,14 +348,13 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         $deleteData = $data->get('delete');
         $updateData = $data->get('update');
         $createData = $data->get('create');
-
         // update base information of survey
         $survey->update($surveyInputs);
         
         // update or create option update survey setting
         if ($status == config('settings.survey.status.open')) {
             $optionUpdateSetting = $survey->settings()->where('key', config('settings.setting_type.option_update_survey.key'))->first();
-            
+
             if (empty($optionUpdateSetting)) {
                 $survey->settings()->create([
                     'key' => config('settings.setting_type.option_update_survey.key'),
@@ -365,7 +364,6 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                 $optionUpdateSetting->update(['value' => $data->get('option')]);
             }
         }
-
         // delete sections, questions, answers has deleted
         $answerRepo->deleteAnswersById($deleteData['answers']);
         $questionRepo->deleteQuestionsById($deleteData['questions']);
@@ -378,12 +376,20 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
 
         // update questions
         foreach ($updateData['questions'] as $key => $data) {
-            $questionRepo->where('id', $key)->first()->update($data);
+            $question = $questionRepo->where('id', $key)->first();
+            $question->update($data);
+
+            // update question media if has
+            $this->updateQuestionMedia($question, $data, Auth::user()->id);
         }
 
         // update answers
         foreach ($updateData['answers'] as $key => $data) {
-            $answerRepo->where('id', $key)->first()->update($data);
+            $answer = $answerRepo->where('id', $key)->first();
+            $answer->update($data);
+
+            // update answer media if has
+            $this->updateAnswerMedia($answer, $data, Auth::user()->id);
         }
 
         // create new sections, questions, answers when update

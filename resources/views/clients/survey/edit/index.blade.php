@@ -200,7 +200,7 @@
     </div>
     @include('clients.survey.elements.insert-image')
     @include('clients.survey.elements.insert-video')
-
+    @include('clients.survey.elements.reorder-section')
     <!-- pupup setting survey -->
     @include('clients.survey.edit.setting')
     <div class="modal fade" id="send-modal-loader">
