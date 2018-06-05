@@ -27,4 +27,6 @@ interface QuestionInterface
     public function closeFromSectionId($idSections);
     
     public function openFromSectionId($idSections);
+
+    public function deleteQuestionsById($idQuestions);
 }

@@ -176,7 +176,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
 
                     $questionCreated = $sectionCreated->questions()->create($questionData);
 
-                    // create type question on setting
+                    // create type question in setting
                     $valueSetting = $question['type'] == config('settings.question_type.date') ? $question['date_format'] : '';
                     $questionCreated->settings()->create([
                         'key' => $question['type'],
@@ -200,11 +200,11 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                     if (isset($question['answers'])) {
                         foreach ($question['answers'] as $answer) {
                             $answerData['content'] = $answer['content'];
-                            $answerData['update'] = config('settings.survey.answer_update.default');;
+                            $answerData['update'] = config('settings.survey.answer_update.default');
 
                             $answerCreated = $questionCreated->answers()->create($answerData);
 
-                            // create type answer on setting
+                            // create type answer in setting
                             $answerCreated->settings()->create([
                                 'key' => $answer['type'],
                             ]);
@@ -261,7 +261,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         $ownerId = $survey->members()->wherePivot('role', Survey::OWNER)->first()->id;
 
         foreach ($data['members'] as $member) {
-            $memberId = app(UserInterface::class)->where('email', $member['email'])->first()->id;
+            $memberId = $userRepo->where('email', $member['email'])->first()->id;
 
             if ($memberId == $ownerId || $memberId == Auth::user()->id || $member['role'] == Survey::OWNER) {
                 throw new Exception("Can not edit member", 1);
@@ -327,6 +327,67 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         $survey->settings()->createMany($settingsData);
 
         return true;
+    }
+
+    public function updateSurvey($survey, $data, $status, $questionRepo, $answerRepo)
+    {
+        $surveyInputs = [
+            'title' => $data->get('title'),
+            'description' => $data->get('description'),
+            'start_time' => $data->get('start_time'),
+            'end_time' => $data->get('end_time'),
+        ];
+        
+        $surveyInputs['status'] = $status;
+        $deleteData = $data->get('delete');
+        $updateData = $data->get('update');
+        $createData = $data->get('create');
+
+        // update base information of survey
+        $survey->update($surveyInputs);
+        
+        // update or create option update survey setting
+        if ($status == config('settings.survey.status.open')) {
+            $optionUpdateSetting = $survey->settings()->where('key', config('settings.setting_type.option_update_survey.key'))->first();
+            
+            if (empty($optionUpdateSetting)) {
+                $survey->settings()->create([
+                    'key' => config('settings.setting_type.option_update_survey.key'),
+                    'value' => $data->get('option'),
+                ]);
+            } else {
+                $optionUpdateSetting->update(['value' => $data->get('option')]);
+            }
+        }
+
+        // delete sections, questions, answers has deleted
+        $answerRepo->deleteAnswersById($deleteData['answers']);
+        $questionRepo->deleteQuestionsById($deleteData['questions']);
+        DB::table('sections')->whereIn('id', $deleteData['sections'])->delete();
+
+        // update sections
+        foreach ($updateData['sections'] as $key => $data) {
+            $survey->sections()->where('id', $key)->first()->update($data);
+        }
+
+        // update questions
+        foreach ($updateData['questions'] as $key => $data) {
+            $questionRepo->where('id', $key)->first()->update($data);
+        }
+
+        // update answers
+        foreach ($updateData['answers'] as $key => $data) {
+            $answerRepo->where('id', $key)->first()->update($data);
+        }
+
+        // create new sections, questions, answers when update
+        $this->createNewSections($survey, $createData['sections'], Auth::user()->id);
+
+        // create new questions in old sections when update
+        $this->createNewQuestions('', $survey, $createData['questions'], Auth::user()->id);
+
+        // create new answers in old questions when update
+        $this->createNewAnswers('', $questionRepo, $createData['answers'], Auth::user()->id);
     }
 
     public function checkCloseSurvey($inviteIds, $surveyIds)
@@ -758,11 +819,6 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         $survey->invite()->onlyTrashed()->restore();
 
         return $survey->restore();
-    }
-
-    public function updateSurvey($survey, $values)
-    {
-        return $survey->update($values);
     }
 
     public function getOverviewSurvey($survey)

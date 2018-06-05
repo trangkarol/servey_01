@@ -80,18 +80,27 @@
                             <div class="survey-action" data-placement="right"
                                 data-trigger="hover"
                                 data-toggle="tooltip" title="@lang('lang.save_as_draft')">
-                                <button type="button" class="btn btn-outline-light text-dark" id="" data-url="">
+                                <button type="button" class="btn btn-outline-light text-dark" id="update-survey-draft" data-url="{{ route('survey.update-draft', $survey->token_manage) }}">
                                     <i class="fa fa-fw fa-save text-dark"></i>
                                 </button>
                             </div>
+                            <div class="survey-action" data-placement="right"
+                                data-trigger="hover"
+                                data-toggle="tooltip" title="@lang('lang.send')">
+                                <button type="button" class="btn btn-outline-light text-dark" id="update-survey-draft-to-open">
+                                    <i class="fa fa-fw fa-paper-plane text-dark"></i>
+                                </button>
+                                <a href="#" id="edit-survey-btn" data-url="{{ route('surveys.update', $survey->token_manage) }}"></a>
+                            </div>
+                        @else
+                            <div class="survey-action" data-placement="right"
+                                data-trigger="hover"
+                                data-toggle="tooltip" title="@lang('lang.send')">
+                                <button type="button" data-target="#option-update-modal" data-toggle="modal" class="btn btn-outline-light text-dark" id="open-send-option-modal">
+                                    <i class="fa fa-fw fa-paper-plane text-dark"></i>
+                                </button>
+                            </div>
                         @endif
-                        <div class="survey-action" data-placement="right"
-                            data-trigger="hover"
-                            data-toggle="tooltip" title="@lang('lang.send')">
-                            <button type="button" data-target="#option-update-modal" data-toggle="modal" class="btn btn-outline-light text-dark">
-                                <i class="fa fa-fw fa-paper-plane text-dark"></i>
-                            </button>
-                        </div>
                     </div>
                 </div>
                 <!-- /Scroll buttons -->

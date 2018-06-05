@@ -255,7 +255,7 @@ return [
 
     'confirm_save_as_draft' => 'Do you want to save this survey as draft?',
     'over_limit_save_draft' => 'Can not save! Number of survey draft is over limit! Your limit is :limit survey draft!',
-    'save_survey_draft_failed' => 'Failed! Try again!',
+    'save_survey_draft_failed' => 'Save as daft failed! Try again!',
     'save_survey_draft_success' =>  'Success! Has saved survey as draft!',
 
     /*
@@ -292,4 +292,6 @@ return [
     'only_send_updated_question_survey' => 'Only send updated questions of this survey',
     'confirm_delete_answered_email' => 'This email has answered survey! Are you sure want to remove this email and all involve results ?',
     'error_update_setting_survey' => 'Save setting error! Try again!',
+    'edit_survey_success' => 'Update survey success!',
+    'edit_survey_error' => 'Update survey error! Try again!',
 ];

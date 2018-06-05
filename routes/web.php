@@ -317,7 +317,12 @@ Route::group(['middleware' => 'profile'], function () {
 
     Route::put('/surveys/update-setting/{token}', [
         'uses' => 'SurveyController@updateSetting',
-        'as' => 'update-setting',
+        'as' => 'survey.update-setting',
+    ]);
+
+    Route::put('/surveys/update-draft/{token}', [
+        'uses' => 'SurveyController@updateDraft',
+        'as' => 'survey.update-draft',
     ]);
 
     Route::post('store-result', [
@@ -369,3 +374,9 @@ Route::get('answer-complete/{title}', [
     'uses' => 'SurveyController@showCompleteAnswer',
     'as' => 'show-complete-answer',
 ]);
+
+Route::group(['error'], function () {
+    Route::get('/error/404', 'Survey\ErrorController@error404')->name('404');
+
+    Route::get('/error/403', 'Survey\ErrorController@error403')->name('403');
+});

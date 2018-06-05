@@ -255,7 +255,7 @@ return [
 
     'confirm_save_as_draft' => 'Bạn có muốn lưu khảo sát này dưới dạng bản nháp không?',
     'over_limit_save_draft' => 'Không thể lưu! Số lượng bản nháp quá giới hạn! Giới hạn của bạn là :limit khảo sát nháp!',
-    'save_survey_draft_failed' => 'Thất bại! Hãy thử lại!',
+    'save_survey_draft_failed' => 'Lưu nháp thất bại! Hãy thử lại!',
     'save_survey_draft_success' =>  'Thành công! Đã lưu khảo sát dưới dạng bản nháp!',
 
     /*
@@ -292,4 +292,6 @@ return [
     'only_send_updated_question_survey' => 'Chỉ gửi những câu hỏi đã được cập nhật của khảo sát',
     'confirm_delete_answered_email' => 'Email này đã trả lời khảo sát! Bạn thực sự muốn xóa email này và tất cả kết quả liên quan không?',
     'error_update_setting_survey' => 'Lưu cài đặt thất bại! Hãy thử lại!',
+    'edit_survey_success' => 'Cập nhật khảo sát thành công!',
+    'edit_survey_error' => 'Cập nhật khảo sát thất bại! Hãy thử lại',
 ];

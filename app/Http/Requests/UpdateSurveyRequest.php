@@ -24,36 +24,26 @@ class UpdateSurveyRequest extends FormRequest
      */
     public function rules()
     {
-        $realTime = Carbon::now()->addMinutes(30)->format(trans('temp.format_with_trans'));
-
         return [
-            'start_time' => 'date_format:' . trans('temp.format_with_trans'),
-            'deadline' => 'date_format:' . trans('temp.format_with_trans') . '|after:start_time|after:' . $realTime,
             'title' => 'required|max:255',
+            'start_time' => 'date',
+            'end_time' => 'date|after:start_time',
+            'option' => 'between:0,1',
+            'update.sections.*.title' => 'distinct',
+            'create.sections.*.title' => 'distinct',
+            'delete.sections.*' => 'integer',
+            'delete.questions.*' => 'integer',
+            'delete.answers.*' => 'integer',
         ];
     }
 
-    public function messages()
+    /**
+     * Get data to be validated from the request.
+     *
+     * @return array
+     */
+    protected function validationData()
     {
-        $deadline = trans('survey.deadline');
-        $title = trans('survey.title');
-
-        return [
-            'deadline.date_format' => trans('validation.date_format', [
-                'attribute' => $deadline,
-                'format' => trans('temp.format_with_trans'),
-            ]),
-            'deadline.after' => trans('validation.after', [
-                'attribute' => $deadline,
-                'date' => Carbon::now()->addMinutes(30)->format(trans('temp.format_with_trans')),
-            ]),
-            'title.required' => trans('validation.filled', [
-                'attribute' => $title,
-            ]),
-            'title.max' => trans('validation.max.string', [
-                'attribute' => $title,
-                'max' => 255,
-            ]),
-        ];
+        return $this->json()->all();
     }
 }
