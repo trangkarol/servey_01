@@ -25,6 +25,8 @@ use App\Http\Requests\UpdateSurveyRequest;
 use Predis\Connection\ConnectionException;
 use App\Http\Requests\SurveyRequest;
 use App\Http\Requests\ResultRequest;
+use App\Http\Requests\UpdateTokenRequest;
+use App\Http\Requests\UpdateTokenManageRequest;
 use Auth;
 use App\Traits\SurveyProcesser;
 use App\Traits\DoSurvey;
@@ -904,6 +906,76 @@ class SurveyController extends Controller
                 'success' => false,
                 'message' => trans('lang.error_update_setting_survey'),
             ]);
+        }
+    }
+
+    public function updateTokenSurvey(UpdateTokenRequest $request)
+    {
+        try {
+            if (!$request->ajax()) {
+                throw new Exception("Error Processing Ajax Request", 1);
+            }
+
+            $survey = $this->surveyRepository->getSurveyFromToken($request->old_token);
+
+            if (Auth::user()->cannot('edit', $survey)) {
+                throw new Exception("Not permitted edit!", 403);
+            }
+
+            $array['token'] = $request->input('token');
+            $surveyId = $request->input('survey_id');
+            $survey = $this->surveyRepository->update($surveyId, $array);
+            $newToken = $survey->token;
+
+            return response()->json([
+                'success' => true,
+                'new_token' => $newToken,
+                'next_section_url' => route('survey.create.do-survey', $newToken),
+            ]);
+        } catch (Exception $e) {
+            return [
+                'success' => false,
+                'redirect' => ($e->getCode() == 403) ? route('403') : '',
+            ];
+        }
+
+        
+    }
+
+    public function updateTokenManageSurvey(UpdateTokenManageRequest $request)
+    {
+        try {
+            if (!$request->ajax()) {
+                throw new Exception("Error Processing Ajax Request", 1);
+            }
+
+            $survey = $this->surveyRepository->getSurveyFromTokenManage($request->old_token_manage);
+
+            if (Auth::user()->cannot('edit', $survey)) {
+                throw new Exception("Not permitted edit!", 403);
+            }
+
+            $array['token_manage'] = $request->input('token_manage');
+            $surveyId = $request->input('survey_id');
+            $survey = $this->surveyRepository->update($surveyId, $array);
+            $newTokenManage = $survey->token_manage;
+
+            return response()->json([
+                'success' => true,
+                'new_token_manage' => $newTokenManage,
+                'delete_survey_url' => route('ajax-survey-delete', $newTokenManage),
+                'edit_survey_url' => route('surveys.edit', $newTokenManage),
+                'close_survey_url' => route('ajax-survey-close', $newTokenManage),
+                'open_survey_url' => route('ajax-survey-open', $newTokenManage),
+                'overview_url' => route('ajax-get-overview', $newTokenManage),
+                'result_url' => route('survey.result.index', $newTokenManage),
+                'setting_url' => route('ajax-setting-survey', $newTokenManage),
+            ]);
+        } catch (Exception $e) {
+            return [
+                'success' => false,
+                'redirect' => ($e->getCode() == 403) ? route('403') : '',
+            ];
         }
     }
 }

@@ -1,0 +1,97 @@
+ul.content-margin-top-management,
+ul.content-margin-top-preview,
+.ul-preview.ul-content-preview {
+    margin-top: 0px !important;
+    width: 100%;
+    max-width: none;
+}
+
+.content-wrapper-management {
+    padding: 20px 0px 0px 0px !important;
+    margin-bottom: 0px !important;
+}
+
+.cd-main-content .content-wrapper {
+    padding: 0px;
+}
+
+.form-wrapper {
+    box-shadow: none;
+}
+
+.container {
+    padding-right: 0px;
+    padding-left: 0px;
+}
+.ui-block-content {
+    padding: 0px !important;
+    color: #333;
+}
+
+.font-profile {
+    padding-bottom: 15px;
+}
+
+.image-header {
+    position: none;
+    display: none;
+}
+
+.input-edit-token, .input-edit-token-manage {
+    display: inline-block;
+    width: auto;
+    padding-left: 0px;
+    width: 200px;
+    color: #ce3b3b;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.config-link-survey {
+    padding: 0px 55px;
+    border-bottom: 1px solid #edf2f6;
+}
+
+.swal-text {
+    text-align: center !important;
+}
+
+.col-form-label-custom {
+    color: #272629 !important;
+    font-size: 15px !important;
+    font-weight: normal !important;
+}
+
+.edit-token-survey, .edit-token-manage-survey {
+    display: none;
+}
+
+.form-group-custom {
+    margin-bottom: 0px !important;
+}
+
+textarea {
+    min-height: unset !important;
+}
+
+span.url-config-management {
+    color: #333;
+}
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 900px;
+    }
+}
+
+@media (min-width: 1600px) {
+    .container {
+        max-width: 1050px;
+    }
+}
+
+@media (min-width: 1800px) {
+    .container {
+        max-width: 1150px;
+    }
+}

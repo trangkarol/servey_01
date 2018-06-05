@@ -38,4 +38,14 @@ class Section extends Model
     {
         return $this->hasMany(Question::class)->withTrashed();
     }
+
+    public function getLimitTitleAttribute()
+    {
+        return ucfirst(str_limit($this->attributes['title'], config('settings.title_length_default')));
+    }
+
+    public function getCustomDescriptionAttribute()
+    {
+        return ucfirst($this->attributes['description']);
+    }
 }

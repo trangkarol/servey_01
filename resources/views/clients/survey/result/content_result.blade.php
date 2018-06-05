@@ -2,14 +2,14 @@
 <!-- .cd-main-header -->
 <main class="cd-main-content">
     @include('clients.profile.notice')
-    <div class="content-wrapper">
+    <div class="content-wrapper content-wrapper-management">
         <!-- /Scroll buttons -->
-        <ul class="clearfix form-wrapper content-margin-top-preview ul-result">
+        <ul class="clearfix form-wrapper content-margin-top-preview ul-result content-margin-top-management">
             <li class="form-line-title-survey-result">
                 <div class="form-group-title-survey">
                     <h2 class="title-survey-result" data-placement="bottom" data-toggle="tooltip"
                             title="{{ $survey->title }}">
-                        {{ ucfirst(str_limit($survey->title, config('settings.title_length_default'))) }}
+                        {{ $survey->limit_title }}
                     </h2>
                 </div>
                 <div class="form-group">
@@ -17,7 +17,7 @@
                 </div>
                 <div class="row">
                     <div class="btn-group col-md-6 col-xs-9" role="group">
-                        <a href="{{ route('survey.result.index', $survey->token) }}" class="btn btn-secondary-result-answer
+                        <a href="{{ route('survey.result.index', $survey->token_manage) }}" class="btn btn-secondary-result-answer
                             btn-secondary-result-answer-actived">@lang('result.summary')</a>
                         <a href="" class="btn btn-secondary-result-answer">@lang('result.personal')</a>
                     </div>
@@ -77,7 +77,7 @@
                                     <span class="total-section"></span>{{ count($resultsSurveys) }}
                                 </span>
                                 <div class="right-header-section">
-                                    <a href="" class="zoom-in-btn zoom-btn zoom-btn-result">
+                                    <a href="#" class="zoom-in-btn zoom-btn zoom-btn-result">
                                         <span class="zoom-icon"></span>
                                     </a>
                                 </div>
@@ -85,9 +85,9 @@
                             <hr/>
                             <h3 class="title-section" data-placement="bottom" data-toggle="tooltip"
                                 title="{{ $resultsSurvey['section']->title }}">
-                                {{ ucfirst(str_limit($resultsSurvey['section']->title, config('settings.title_length_default'))) }}
+                                {{ $resultsSurvey['section']->limit_title }}
                             </h3>
-                            <span class="description-section-result">{{ ucfirst($resultsSurvey['section']->description) }}</span>
+                            <span class="description-section-result">{{ $resultsSurvey['section']->custom_description }}</span>
                         </div>
                     </li>
                 </ul>
@@ -112,6 +112,11 @@
                                         <span class="notice-required-question"> *</span>
                                     @endif
                                 </h4>
+                                @if ($result['question']->media->count())
+                                    <div class="img-preview-question-survey">
+                                        {!! Html::image($result['question']->url_media) !!}
+                                    </div>
+                                @endif
                                 <div class="form-group form-group-description-section">
                                     <span class="number-result-answer">{{ $result['count_answer'] }} @lang('result.number_answer')</span>
                                 </div>

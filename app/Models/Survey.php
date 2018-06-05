@@ -124,6 +124,11 @@ class Survey extends Model
         return ucwords($this->attributes['title'], config('settings.title_length_default'));
     }
 
+    public function getLimitTitleAttribute()
+    {
+        return ucfirst(str_limit($this->attributes['title'], config('settings.title_length_default')));
+    }
+
     // public function getIsExpiredAttribute()
     // {
     //     return empty($this->attributes['deadline']) ? false : $this->attributes['deadline'] <= Carbon::now()->toDateTimeString();

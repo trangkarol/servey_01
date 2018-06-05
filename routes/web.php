@@ -301,6 +301,10 @@ Route::group(['namespace' => 'Auth'], function () {
 Route::group(['middleware' => 'profile'], function () {
     Route::resource('surveys', 'SurveyController');
 
+    Route::post('change-token', 'SurveyController@updateTokenSurvey')->name('change-token');
+
+    Route::post('change-token-manage', 'SurveyController@updateTokenManageSurvey')->name('change-token-manage');
+
     Route::get('/surveys/complete/{token}', [
         'uses' => 'SurveyController@complete',
         'as' => 'survey.create.complete',
@@ -341,6 +345,7 @@ Route::group(['middleware' => 'profile'], function () {
             'uses' => 'PreviewSurveyController@nextSection',
             'as' => 'survey.create.preview.next'
         ]);
+
         Route::get('previous-preview', [
             'uses' => 'PreviewSurveyController@previousSection',
             'as' => 'survey.create.preview.previous'

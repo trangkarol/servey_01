@@ -3,17 +3,11 @@
 @push('styles')
     {!! Html::style(elixir(config('settings.public_template') . 'css/theme-styles.css')) !!}
     {!! Html::style(elixir(config('settings.public_template') . 'css/blocks.css')) !!}
-    {!! Html::style(asset(config('settings.plugins') . 'datatables/css/jquery.dataTables.css')) !!}
-    {!! Html::style(elixir(config('settings.public_template') . 'css/datatables-custom.css')) !!}
     {!! Html::style(asset(config('settings.plugins') . 'highcharts/highcharts.css')) !!}
-    {!! Html::style(elixir(config('settings.public_template') . 'css/preview.css')) !!}
-    {!! Html::style(elixir(config('settings.public_template') . 'css/result.css')) !!}
-       
-    {!! Html::style(asset(config('settings.plugins') . 'js-offcanvas/js-offcanvas.css')) !!}
-    {!! Html::style(asset(config('settings.plugins') . 'tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.css')) !!}
-    {!! Html::style(asset(config('settings.plugins') . 'metismenu/metisMenu.min.css')) !!}
-    {!! Html::style(asset(config('settings.public_template') . 'css/fontsv2/fonts-v2.css')) !!}
     {!! Html::style(elixir(config('settings.public_template') . 'css/form-builder-custom.css')) !!}
+    {!! Html::style(elixir(config('settings.public_template') . 'css/result.css')) !!}
+    {!! Html::style(elixir(config('settings.public_template') . 'css/preview.css')) !!}
+    {!! Html::style(elixir(config('settings.public_template') . 'css/management.css')) !!}
 @endpush
 
 @section ('content')
@@ -69,8 +63,9 @@
     </div>
 @endsection
 @push('scripts')
-    {!! Html::script(asset(config('settings.plugins') . 'datatables/js/jquery.dataTables.js')) !!}
-    {!! Html::script(elixir(config('settings.public_template') . 'js/datatables-script.js')) !!}
+    {!! Html::script(asset(config('settings.plugins') . 'jquery-ui/jquery-ui.min.js')) !!}
+    {!! Html::script(asset(config('settings.plugins') . 'popper/popper.min.js')) !!}
+    {!! Html::script(asset(config('settings.plugins') . 'bootstrap/dist/js/bootstrap.min.js')) !!}
     {!! Html::script(asset(config('settings.plugins') . 'highcharts/highcharts.js')) !!}
     {!! Html::script(asset(config('settings.plugins') . 'highcharts/highcharts-3d.js')) !!}
     {!! Html::script(elixir(config('settings.public_template') . 'js/management-chart.js')) !!}

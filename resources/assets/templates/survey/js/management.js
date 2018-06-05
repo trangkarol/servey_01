@@ -11,7 +11,7 @@ $(document).ready(function () {
                 $('#div-management-survey').html(data.html).promise().done(function () {
                     getOverviewSurvey();// use to render chart of overview at line 4 of file /resources/assets/templates/survey/js/management-chart.js
                 });
-            }
+            },
         });
     });
 
@@ -28,6 +28,10 @@ $(document).ready(function () {
                     results(); // use to render chart of result of survey at line 35 of file resources/assets/templates/survey/js/result.js
                     $(this).find('.ul-result').addClass('ul-result-management');
                 });
+
+                $('[data-toggle="tooltip"]').tooltip();
+
+                autoScroll(); // use function autoScroll() from file resources/assets/templates/survey/js/result.js
             }
         });
     });
@@ -45,6 +49,8 @@ $(document).ready(function () {
                     results(); // use to render chart of result of survey at line 35 of file resources/assets/templates/survey/js/result.js
                     $(this).find('.ul-result').addClass('ul-result-management');
                 });
+
+                $('[data-toggle="tooltip"]').tooltip();
             }
         });
     });
@@ -109,9 +115,144 @@ $(document).ready(function () {
             });
         });
     });
+
+    // show btn change token survey
+    $(document).on('keyup', '.input-edit-token', function () {
+        var element = $(this).closest('.form-group-custom').find('.input-edit-token');
+        var oldToken = element.data('token');
+        var newToken = element.val().replace(' ', '_');
+
+        if (oldToken != newToken && newToken) {
+            $('.edit-token-survey').show();
+        } else {
+            $('.edit-token-survey').hide();
+        }
+    })
+
+    $(document).on('click', '.edit-token-survey', function () {
+        changeToken($(this).closest('.form-group-custom').find('.input-edit-token'));
+    })
+
+    // show change token manage survey
+    $(document).on('keyup', '.input-edit-token-manage', function () {
+        var element = $(this).closest('.form-group-custom').find('.input-edit-token-manage');
+        var oldTokenManage = element.data('token-manage');
+        var newTokenManage = element.val().replace(' ', '_');
+
+        if (oldTokenManage != newTokenManage && newTokenManage) {
+            $('.edit-token-manage-survey').show();
+        } else {
+            $('.edit-token-manage-survey').hide();
+        }
+    })
+
+    $(document).on('click', '.edit-token-manage-survey', function () {
+        changeTokenManage($(this).closest('.form-group-custom').find('.input-edit-token-manage'));
+    })
+
 });
 
 function handelManagement(event) {
     $('.menu-management').removeClass('active');
     event.addClass('active');
+}
+
+function changeToken(element) {
+    var oldToken = element.data('token');
+    var newToken = element.val().replace(' ', '_');
+
+    if (oldToken != newToken && newToken) {
+        confirmInfo(
+            {message: Lang.get('lang.confirm_change_token', {token: oldToken, new_token: newToken})},
+            function () {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    method: 'POST',
+                    url: element.data('url'),
+                    dataType: 'json',
+                    data: {
+                        'survey_id': element.data('survey-id'),
+                        'token': newToken,
+                        'old_token': oldToken,
+                    }
+                })
+                .done(function (data) {
+                    if (data.success) {
+                        alertSuccess({message: Lang.get('lang.change_success')});
+                        $('.next-section-survey').attr('data-url', data.next_section_url);
+                        $('.edit-token-survey').hide();
+                        $('.input-edit-token').attr('data-token', data.new_token);
+                        element.val(data.new_token);
+                    }
+                })
+                .fail(function (data) {
+                    alertWarning({message: data.responseJSON.token[0]});
+                });
+            }
+        );
+    } else {
+        element.val(oldToken);
+    }
+}
+
+function changeTokenManage(element) {
+    var oldTokenManage = element.data('token-manage');
+    var newTokenManage = element.val().replace(' ', '_');
+
+    if (oldTokenManage != newTokenManage && newTokenManage) {
+        confirmInfo(
+            {message: Lang.get('lang.confirm_change_token_manage', {token_manage: oldTokenManage, new_token_manage: newTokenManage})},
+            function () {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    method: 'POST',
+                    url: element.data('url'),
+                    dataType: 'json',
+                    data: {
+                        'survey_id': element.data('survey-id'),
+                        'token_manage': newTokenManage,
+                        'old_token_manage': oldTokenManage,
+                    }
+                })
+                .done(function (data) {
+                    if (data.success) {
+                        alertSuccess({message: Lang.get('lang.change_success')});
+                        $('#overview-survey').attr('data-url', data.overview_url);
+                        $('#results-survey').attr('data-url', data.result_url);
+                        $('#setting-survey').attr('data-url', data.setting_url);
+                        $('#delete-survey').attr('data-url', data.delete_survey_url);
+                        $('#close-survey').attr('data-url', data.close_survey_url);
+                        $('#open-survey').attr('data-url', data.open_survey_url);
+                        $('#edit-survey').attr('data-url', data.edit_survey_url);
+                        $('.input-edit-token-manage').attr('data-token-manage', data.new_token_manage);
+
+                        if (typeof (history.pushState) != 'undefined') {
+                            var obj = { Page: 'update-url', Url: data.new_token_manage };
+                            history.pushState(obj, obj.Page, obj.Url);
+                        }
+
+                        $('.edit-token-manage-survey').hide();
+                        element.val(data.new_token_manage);
+                    } else {
+                        $(window).attr('location', data.redirect);
+                    }
+                })
+                .fail(function (data) {
+                    alertWarning({message: data.responseJSON.token_manage[0]});
+                });
+            }
+        );
+    } else {
+        element.val(oldTokenManage);
+    }
 }
