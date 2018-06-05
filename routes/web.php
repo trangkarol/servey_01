@@ -338,7 +338,7 @@ Route::group(['middleware' => 'profile'], function () {
             'uses' => 'ResultController@result',
         ]);
 
-        Route::get('surveys/result/detail', [
+        Route::get('surveys/result/detail/{tokenManage}', [
             'as' => 'survey.result.detail-result',
             'uses' => 'ResultController@detail',
         ]);

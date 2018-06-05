@@ -111,6 +111,18 @@ class SurveyPolicy
         return false;
     }
 
+    public function viewResult(User $user, Survey $survey)
+    {
+        $members = $survey->members->pluck('id')->all();
+
+        // only creator, editor can view result survey.
+        if (in_array($user->id, $members)) {
+            return true;
+        }
+
+        return false;
+    }
+
     public function before(User $user)
     {
         if ($user->isAdmin()) {
