@@ -10,11 +10,14 @@ use Auth;
 use FAuth;
 use Exception;
 use Session;
+use URL;
 
 class SocialAuthController extends Controller
 {
     public function redirect($provider)
     {
+        Session::put('backUrl', URL::previous());
+
         return $provider == config('settings.framgia') ? FAuth::redirect() : Socialite::driver($provider)->redirect();
     }
 
@@ -28,9 +31,9 @@ class SocialAuthController extends Controller
             if ($user->isActive()) {
                 auth()->login($user);
 
-                if (Session::has('nextUrl')) {
-                    $url = Session::get('nextUrl');
-                    Session::forget('nextUrl');
+                if (Session::has('backUrl')) {
+                    $url = Session::get('backUrl');
+                    Session::forget('backUrl');
 
                     return redirect()->intended($url);
                 }

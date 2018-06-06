@@ -2,7 +2,7 @@
 <main class="cd-main-content">
     <div class="image-header"></div>
     <!-- Content Wrapper  -->
-    <div class="content-wrapper" id="user-id" data-user-id="{{ Auth::user()->id }}">
+    <div class="content-wrapper" id="user-id" data-user-id="{{ Auth::check() ? Auth::user()->id : '' }}">
         <!-- /Scroll buttons -->
         {!! Form::open(['class' => 'form-doing-survey']) !!}
             <ul class="clearfix form-wrapper content-margin-top-preview ul-preview">
@@ -34,7 +34,7 @@
 </div>
 
 {!! Html::script(asset(config('settings.plugins') . 'jquery/jquery.min.js')) !!}
-{!! Html::script(asset(config('settings.plugins') . 'bootstrap/bootstrap.min.js')) !!}
+{!! Html::script(asset(config('settings.plugins') . 'bootstrap/dist/js/bootstrap.min.js')) !!}
 {!! Html::script(asset(config('settings.plugins') . 'moment/moment-with-locales.min.js')) !!}
 {!! Html::script(asset(config('settings.plugins') . 'sweetalert/dist/sweetalert.min.js')) !!}
 {!! Html::script(asset(config('settings.plugins') . 'jquery-ui/jquery-ui.min.js')) !!}

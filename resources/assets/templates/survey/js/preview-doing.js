@@ -141,8 +141,10 @@ $(document).ready(function() {
 
         var selector = $(this).closest('.ul-content-preview');
 
-        if (!validateDoingSection(selector)) {
-            return false;
+        if($('.page-doing-survey').is(':visible')) {
+            if (!validateDoingSection(selector)) {
+                return false;
+            }
         }
 
         showLoaderSection();
@@ -226,8 +228,11 @@ $(document).ready(function() {
         event.stopPropagation();
         var selector = $(this).closest('.ul-content-preview');
 
-        if (!validateDoingSection(selector)) {
-            return false;
+
+        if($('.page-doing-survey').is(':visible')) {
+            if (!validateDoingSection(selector)) {
+                return false;
+            }
         }
 
         var redirect = $(this).attr('data-redirect');

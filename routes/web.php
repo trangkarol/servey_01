@@ -367,10 +367,10 @@ Route::group(['middleware' => 'profile'], function () {
     });
 });
 
-Route::get('surveys/{token}', [
+Route::get('surveys-{token}', [
     'uses' => 'SurveyController@show',
     'as' => 'survey.create.do-survey',
-]);
+])->middleware('doingsurvey');
 
 Route::get('answer-complete/{title}', [
     'uses' => 'SurveyController@showCompleteAnswer',

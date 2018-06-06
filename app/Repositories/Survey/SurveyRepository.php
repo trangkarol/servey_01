@@ -645,7 +645,6 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                     return Carbon::parse($date->created_at)->format('Y-m-d H:m:s.u');
                 }
             );
-
         return [
             'questions' => $questions,
             'results' => $results,
@@ -751,11 +750,14 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
     //get survey by token
     public function getSurvey($token)
     {
-        $survey =  $this->model->withTrashed()->where('token', $token)->with(['sections.questions' => function ($query) {
-            $query->with(['settings', 'media', 'answers' => function ($queryAnswer) {
-                    $queryAnswer->with('settings', 'media');
-                }]);
-            }])->first();
+        $survey =  $this->model->withTrashed()->where('token', $token)->with([
+            'settings',
+            'sections.questions' => function ($query) {
+                $query->with(['settings', 'media', 'answers' => function ($queryAnswer) {
+                        $queryAnswer->with('settings', 'media');
+                    }]);
+                }
+            ])->first();
 
         if (!$survey) {
             throw new Exception("Error Processing Request", 1);

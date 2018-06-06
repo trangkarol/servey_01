@@ -296,4 +296,11 @@ return [
     'error_update_setting_survey' => 'Lưu cài đặt thất bại! Hãy thử lại!',
     'edit_survey_success' => 'Cập nhật khảo sát thành công!',
     'edit_survey_error' => 'Cập nhật khảo sát thất bại! Hãy thử lại',
+
+    /*
+        Required login
+    */
+
+    'require_login_wsm_to_answer' => 'Khảo sát yêu cầu đăng nhập wsm để trả lời!',
+    'require_login_to_answer' => 'Khảo sát yêu cầu đăng nhập để trả lời!',
 ];
