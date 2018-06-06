@@ -35,7 +35,7 @@
                     </div>
                     <div class="ui-block-content">
                         <p>@lang('lang.survey_link_message')</p>
-                        <p><a href="{{ $link }}" class="c-orange link-survey"> {{ $link }}</a></p>
+                        <p><a href="{{ $link }}" target="_blank" class="c-orange link-survey"> {{ $link }}</a></p>
                         <div class="row">
                             <div class="col-xl-3 col-lg-4 col-md-4 col-sm-5 col-xs-2">
                                 <a href="#" class="btn btn-green btn-sm full-width copy-link-survey">
@@ -63,7 +63,7 @@
                     </div>
                     <div class="ui-block-content">
                         <p>@lang('lang.manage_link_message')</p>
-                        <p><a href="{{ $linkManage }}" class="c-orange link-manage"> {{ $linkManage }}</a></p>
+                        <p><a href="{{ $linkManage }}" target="_blank" class="c-orange link-manage"> {{ $linkManage }}</a></p>
                         <div class="row">
                             <div class="col-xl-3 col-lg-4 col-md-4 col-sm-5 col-xs-2">
                                 <a href="#" class="btn btn-green btn-sm full-width copy-link-manage">
@@ -82,12 +82,12 @@
                 <div class="ui-block">
                     <div class="ui-block-content control-btn">
                         <div class="row col-12 col-md-8 col-lg-7">
-                            <div class="col-12 col-sm-5">
-                                <a href="{{ route('home') }}" class="btn btn-white btn-md full-width">
-                                    @lang('lang.home')
+                            <div class="col-12 col-sm-6">
+                                <a href="{{ route('surveys.create') }}" class="btn btn-white btn-md full-width">
+                                    @lang('lang.create_other')
                                 </a>
                             </div>
-                            <div class="col-12 col-sm-7">
+                            <div class="col-12 col-sm-6">
                                 <a href="{{ route('survey.survey.show-surveys') }}" class="btn btn-orange btn-md full-width">
                                     @lang('lang.my_surveys')
                                 </a>

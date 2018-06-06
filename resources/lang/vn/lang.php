@@ -239,6 +239,7 @@ return [
     'exit' => 'Thoát',
     'export' => 'Tải xuống',
     'export_error' => 'Lổi khi tải xuống!',
+    'create_other' => 'Tạo khảo sát khác',
 
     /*
         date time format

@@ -10,6 +10,8 @@
     {!! Html::style(elixir(config('settings.public_template') . 'css/management.css')) !!}
 @endpush
 
+@section('btn-create-survey', 'show')
+
 @section ('content')
     <div class="font-profile">
         @include('clients.profile.notice')
