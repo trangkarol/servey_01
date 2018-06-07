@@ -43,36 +43,19 @@
                             <li class="li-question-review form-line">
                                 <!-- tittle -->
                                 @if ($question->type === config('settings.question_type.title'))
-                                    <div class="title-question-preview">
-                                        <span>{{ $question->title }}</span>
-                                    </div>
-                                    <div class="form-group form-group-description-section">
-                                        <span class="description-section">{{ $question->description }}</span>
-                                    </div>
+                                    @include ('clients.survey.create.elements-preview.title')
                                 <!-- video -->
                                 @elseif ($question->type === config('settings.question_type.video'))
-                                    <h4 class="title-question">{{ $question->title }}</h4>
-
-                                    @if ($question->media)
-                                        <div class="img-preview-question-survey videoWrapper">
-                                            <iframe src="{{ $question->media }}"
-                                                frameborder="0">
-                                            </iframe>
-                                        </div>
-                                    @endif
-
-                                    <div class="form-group form-group-description-section">
-                                        <span>{{ $question->description }}</span>
-                                    </div>
+                                    @include ('clients.survey.create.elements-preview.video')
                                 <!-- image -->
                                 @elseif ($question->type === config('settings.question_type.image'))
-                                    <h4 class="title-question">{{ $question->title }}</h4>
-                                    <div class="img-preview-question-survey">
-                                        {!! Html::image($question->media, '', ['title' => $question->description]) !!}
-                                    </div>
+                                    @include ('clients.survey.create.elements-preview.image')
                                 @else
                                     <h4 class="title-question">
                                         <span class="index-question">{{ ++ $indexQuestion}}</span>{{ $question->title }}
+                                        @if ($question->require)
+                                            <span class="notice-required-question"> *</span>
+                                        @endif
                                     </h4>
                                     <div class="form-group">
                                         <span>{{ $question->description }}</span>
@@ -84,96 +67,22 @@
                                     @endif
                                     <!-- short answer -->
                                     @if ($question->type === config('settings.question_type.short_answer'))
-                                        <div class="item-answer">
-                                            <div class="magic-box-preview short-answer-preview">
-                                                {!! Form::textarea('', '', ['class' => 'input-answer-other auto-resize',
-                                                    'data-autoresize', 'rows' => 1,
-                                                    'placeholder' => trans('lang.your_answer')]) !!}
-                                            </div>
-                                        </div>
+                                        @include ('clients.survey.create.elements-preview.short')
                                     <!-- long answer -->
                                     @elseif ($question->type === config('settings.question_type.long_answer'))
-                                        <div class="item-answer">
-                                            <div class="magic-box-preview long-answer-preview">
-                                                {!! Form::textarea('', '', ['class' => 'input-answer-other auto-resize',
-                                                    'data-autoresize', 'rows' => 1,
-                                                    'placeholder' => trans('lang.your_answer')]) !!}
-                                            </div>
-                                        </div>
+                                        @include ('clients.survey.create.elements-preview.long')
                                     <!-- multi choice -->
                                     @elseif ($question->type === config('settings.question_type.multiple_choice'))
-                                        @foreach ($question->answers as $answer)
-                                            <div class="item-answer">
-                                                @if ($answer->media)
-                                                    <div class="img-preview-answer-survey img-radio-preview">
-                                                        {!! Html::image($answer->media, '',
-                                                            ['class' => 'img-answer']) !!}
-                                                    </div>
-                                                @endif
-                                                @if ($answer->type === config('settings.anser_type.option_other'))
-                                                    <label class="container-radio-setting-survey">@lang('lang.other')
-                                                        {!! Form::radio('answer', '', false, ['class' => 'radio-answer-preview']) !!}
-                                                        <span class="checkmark-radio"></span>
-                                                    </label>
-                                                    <div class="magic-box-preview">
-                                                        {!! Form::text('', '', ['class' => 'input-answer-other input-multiple-choice-other']) !!}
-                                                    </div>
-                                                @else
-                                                    <label class="container-radio-setting-survey">{{ $answer->content }}
-                                                        {!! Form::radio('answer', '', false, ['class' => 'radio-answer-preview']) !!}
-                                                        <span class="checkmark-radio"></span>
-                                                    </label>
-                                                @endif
-                                            </div>
-                                        @endforeach
+                                        @include ('clients.survey.create.elements-preview.multichoice')
                                     <!-- check boxes -->
                                     @elseif ($question->type === config('settings.question_type.checkboxes'))
-                                        @foreach ($question->answers as $answer)
-                                            <div class="item-answer">
-                                                @if ($answer->media)
-                                                    <div class="img-preview-answer-survey img-checkbox-preview">
-                                                        {!! Html::image($answer->media, '',
-                                                            ['class' => 'img-answer']) !!}
-                                                    </div>
-                                                @endif
-                                                @if ($answer->type === config('settings.anser_type.option_other'))
-                                                    <label class="container-checkbox-setting-survey">
-                                                        <span>@lang('lang.other')</span>
-                                                        {!! Form::checkbox('', '', false, ['class' => 'checkbox-answer-preview']) !!}
-                                                        <span class="checkmark-setting-survey"></span>
-                                                    </label>
-                                                    <div class="magic-box-preview">
-                                                        {!! Form::text('', '', ['class' => 'input-answer-other input-checkbox-other']) !!}
-                                                    </div>
-                                                @else
-                                                    <label class="container-checkbox-setting-survey">
-                                                        <span>{{ $answer->content }}</span>
-                                                        {!! Form::checkbox('', '', false, ['class' => 'checkbox-answer-preview']) !!}
-                                                        <span class="checkmark-setting-survey"></span>
-                                                    </label>
-                                                @endif
-                                            </div>
-                                        @endforeach
+                                        @include ('clients.survey.create.elements-preview.checkboxes')
                                     <!-- date -->
                                     @elseif ($question->type === config('settings.question_type.date'))
-                                        <div class="item-answer">
-                                            <span class="description-date-time">@lang('lang.date') :</span>
-                                            <div class="input-group date">
-                                                <input type="text" class="input-answer-other datetimepicker-input date-answer-preview datepicker-preview"
-                                                    id="datepicker-preview{{ $question->id }}" data-toggle="datetimepicker"  data-dateformat="{{ $question->date_format }}"
-                                                    data-target="#datepicker-preview{{ $question->id }}" placeholder="{{ strtolower($question->date_format) }}" />
-                                            </div>
-                                        </div>
+                                        @include ('clients.survey.create.elements-preview.date')
                                     <!-- time -->
                                     @elseif ($question->type === config('settings.question_type.time'))
-                                        <div class="item-answer">
-                                            <span class="description-date-time">@lang('lang.hour') :</span>
-                                            <div class="input-group date">
-                                                <input type="text" class="input-answer-other datetimepicker-input time-answer-preview timepicker-preview"
-                                                    id="timepicker-preview{{ $question->id }}" data-toggle="datetimepicker"
-                                                    data-target="#timepicker-preview{{ $question->id }}" placeholder="@lang('lang.time_placeholder')" />
-                                            </div>
-                                        </div>
+                                        @include ('clients.survey.create.elements-preview.time')
                                     @endif
                                 @endif
                             </li>
@@ -197,6 +106,14 @@
         </div>
         <!-- Content Wrapper  -->
     </main>
+    <div class="modal fade" id="loader-section-survey-doing">
+        <section>
+            <div class="loader-spin">
+                <div class="loader-outter-spin"></div>
+                <div class="loader-inner-spin"></div>
+            </div>
+        </section>
+    </div>
 @endsection
 @push('scripts')
     <!-- Plugins -->

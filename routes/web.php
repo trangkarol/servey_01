@@ -344,8 +344,13 @@ Route::group(['middleware' => 'profile'], function () {
         ]);
 
         Route::get('surveys-preview', [
-            'uses' => 'PreviewSurveyController@show',
+            'uses' => 'PreviewSurveyController@preview',
             'as' => 'survey.create.preview',
+        ]);
+
+        Route::get('surveys-show', [
+            'uses' => 'PreviewSurveyController@show',
+            'as' => 'survey.create.show',
         ]);
 
         Route::get('next-preview', [

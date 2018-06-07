@@ -1057,22 +1057,14 @@ jQuery(document).ready(function () {
                 return false;
             }
 
-            swal({
-                text: Lang.get('lang.confirm_remove_last_question'),
-                icon: 'warning',
-                buttons: true
-            }).then(function (isConfirm) {
-                if (isConfirm) {
-                    selectSection = element.closest('.page-section.sortable.ui-sortable').prev('.page-section.sortable.ui-sortable');
+            selectSection = element.closest('.page-section.sortable.ui-sortable').prev('.page-section.sortable.ui-sortable');
 
-                    if (!selectSection.length) {
-                        selectSection = element.closest('.page-section.sortable.ui-sortable').next('.page-section.sortable.ui-sortable');
-                    }
+            if (!selectSection.length) {
+                selectSection = element.closest('.page-section.sortable.ui-sortable').next('.page-section.sortable.ui-sortable');
+            }
 
-                    selectSection.find('li.form-line.sort').click();
-                    element.closest('.page-section.sortable.ui-sortable').find('.delete-section').click();
-                }
-            });
+            selectSection.find('li.form-line.sort').click();
+            element.closest('.page-section.sortable.ui-sortable').find('.delete-section').click();
 
             return false;
         }
@@ -2937,12 +2929,8 @@ jQuery(document).ready(function () {
         if ($(currentSectionSelected).find('.section-header-title').val() != '' ||
             $(currentSectionSelected).find('.section-header-description').val() != '' ||
             $(question).first().find('.question-input').val() != ''){
-            swal({
-                text: Lang.get('lang.confirm_remove_last_question'),
-                icon: 'warning',
-                buttons: true
-            }).then(function (isConfirm) {
-                if (isConfirm) {
+
+            confirmWarning({message: Lang.get('lang.confirm_remove_last_question')}, function () {
                     // remove validation tooltip
                     currentSectionSelected.find('textarea[data-toggle="tooltip"], input[data-toggle="tooltip"]').each(function () {
                         $(`#${element.attr('aria-describedby')}`).remove();
@@ -2953,13 +2941,13 @@ jQuery(document).ready(function () {
                     $('.total-section').html(numberOfSections - 1);
 
                     $('.survey-form').find('.page-section').each(function (i) {
-                        element.find('.section-index').text(i + 1);
+                        $(this).find('.section-index').text(i + 1);
                     });
 
                     $(prevSection).find('.form-line.sort').first().click();
                     scrollToSection($(prevSection).data('section-id'));
                 }
-            });
+            );
 
             return false;
         }

@@ -28,23 +28,48 @@ class PreviewSurveyController extends Controller
         ]);
     }
 
+    public function preview()
+    {
+        try {
+            if (Session::has('current_section')) {
+                Session::forget('current_section');
+            }
+
+            if (!Session::has('data-preview')) {
+                throw new Exception("Not found data", 1);
+            }
+
+            return redirect()->route('survey.create.show');
+        } catch (Exception $e) {
+            return redirect()->route('404');
+        }
+    }
+
     public function show()
     {
-        $survey = json_decode(Session::get('data-preview'));
-        $numOfSection = count($survey->sections);
+        try {
+            if (!Session::has('data-preview')) {
+                throw new Exception("Not found data", 1);
+            }
+            
+            $survey = json_decode(Session::get('data-preview'));
+            $numOfSection = count($survey->sections);
 
-        $this->reloadPage('current_section', $numOfSection + config('settings.number_1'), config('settings.number_0'));
+            $this->reloadPage('current_section', $numOfSection, config('settings.number_0'));
 
-        $currentSection = Session::get('current_section');
-        $section = $survey->sections[$currentSection];
+            $currentSection = Session::get('current_section');
+            $section = $survey->sections[$currentSection];
 
-        return view('clients.survey.create.preview', compact([
-                'survey',
-                'numOfSection',
-                'section',
-                'currentSection',
-            ])
-        );
+            return view('clients.survey.create.preview', compact([
+                    'survey',
+                    'numOfSection',
+                    'section',
+                    'currentSection',
+                ])
+            );
+        } catch (Exception $e) {
+            return redirect()->route('404');
+        }
     }
 
     public function nextSection()
@@ -52,7 +77,7 @@ class PreviewSurveyController extends Controller
         $currentSection = Session::get('current_section');
         Session::put('current_section', ++ $currentSection);
 
-        return redirect()->route('survey.create.preview');
+        return redirect()->route('survey.create.show');
     }
 
     public function previousSection()
@@ -60,6 +85,6 @@ class PreviewSurveyController extends Controller
         $currentSection = Session::get('current_section');
         Session::put('current_section', -- $currentSection);
 
-        return redirect()->route('survey.create.preview');
+        return redirect()->route('survey.create.show');
     }
 }

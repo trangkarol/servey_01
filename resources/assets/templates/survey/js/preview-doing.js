@@ -289,7 +289,7 @@ $(document).ready(function() {
         setTimeout(function() {
             $('#loader-section-survey-doing').removeClass('show');
             document.body.style.overflow = 'visible';
-        }, 500);
+        }, 300);
     }
 
     function showLoaderSection() {
@@ -448,6 +448,10 @@ $(document).ready(function() {
 
         return true;
     }
+    $(document).on('click', '.btn-action-preview', function(event) {
+        showLoaderSection();
+        hideLoaderSection();
+    });
 
     function checkCheckbox(selector) {
         event.preventDefault();
