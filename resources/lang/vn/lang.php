@@ -290,12 +290,17 @@ return [
     */
 
     'option_update' => 'Tùy chọn cập nhật',
+    'dont_send_survey' => 'Không gửi lại khảo sát',
     'send_all_question_survey_again' => 'Gửi lại tất cả các câu hỏi của khảo sát',
     'only_send_updated_question_survey' => 'Chỉ gửi những câu hỏi đã được cập nhật của khảo sát',
     'confirm_delete_answered_email' => 'Email này đã trả lời khảo sát! Bạn thực sự muốn xóa email này và tất cả kết quả liên quan không?',
     'error_update_setting_survey' => 'Lưu cài đặt thất bại! Hãy thử lại!',
     'edit_survey_success' => 'Cập nhật khảo sát thành công!',
     'edit_survey_error' => 'Cập nhật khảo sát thất bại! Hãy thử lại',
+    'dont_save_old_result' => 'Không lưu kết quả cũ',
+    'save_old_result' => 'Lưu kết quả cũ',
+    'option_send_survey' => 'Gửi khảo sát',
+    'option_save_result' => 'Lưu kết quả khảo sát',
 
     /*
         Required login

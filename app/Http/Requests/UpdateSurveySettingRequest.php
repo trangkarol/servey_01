@@ -30,7 +30,7 @@ class UpdateSurveySettingRequest extends FormRequest
             'setting.reminder_email.next_time' => 'date|after:start_time',
             'setting.privacy' => 'required|integer|between:1,2',
             'invited_email.subject' => 'required',
-            'invited_email.send_mail_to_wsm' => 'required|integer|between:0,1',
+            'invited_email.send_mail_to_wsm' => 'integer|between:0,1',
             'invited_email.emails.*' => 'email|distinct',
             'members.*.email' => 'email|distinct',
             'members.*.role' => 'integer|in:1',

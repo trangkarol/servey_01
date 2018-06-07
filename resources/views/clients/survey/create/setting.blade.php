@@ -38,6 +38,7 @@
                                         'default' => config('settings.survey_setting.answer_required.none'),
                                     ]) !!}
                                     <span class="checkmark-setting-survey"></span>
+                                </label><br>
                             </div>
                             <div class="setting-choose-confirm-reply">
                                 <label class="container-radio-setting-survey">@lang('lang.login')
@@ -88,6 +89,7 @@
                                         'default' => config('settings.survey_setting.reminder_email.none')
                                     ]) !!}
                                     <span class="checkmark-setting-survey"></span>
+                                </label><br>
                             </div>
                             <div class="setting-mail-remind">
                                 <div class="col-sm-6 col-12 setting-mail-remind-option">
@@ -168,18 +170,20 @@
                             <div class="col-md-8">
                                 <label for="" class="label-email">@lang('lang.email')</label>
                             </div>
-                            <div class="col-md-4">
-                                <label class="container-checkbox-setting-survey send-to-all">
-                                    <span>@lang('lang.send_to_all')</span>
-                                    {!! Form::checkbox('send_all', '', false, [
-                                        'class' => 'send-to-all-wsm-acc',
-                                        'id' => 'send-to-all-wsm-acc',
-                                        'default' => config('settings.survey.send_mail_to_wsm.none'),
-                                        'val' => config('settings.survey.send_mail_to_wsm.all')
-                                    ]) !!}
-                                    <span class="checkmark-setting-survey"></span>
-                                </label>
-                            </div>
+                            @if (Auth::user()->checkLoginWsm())
+                                <div class="col-md-4">
+                                    <label class="container-checkbox-setting-survey send-to-all">
+                                        <span>@lang('lang.send_to_all')</span>
+                                        {!! Form::checkbox('send_all', '', false, [
+                                            'class' => 'send-to-all-wsm-acc',
+                                            'id' => 'send-to-all-wsm-acc',
+                                            'default' => config('settings.survey.send_mail_to_wsm.none'),
+                                            'val' => config('settings.survey.send_mail_to_wsm.all')
+                                        ]) !!}
+                                        <span class="checkmark-setting-survey"></span>
+                                    </label>
+                                </div>
+                            @endif
                         </div>
                         <div class="row">
                             <div class="col-md-12 div-show-all-email">

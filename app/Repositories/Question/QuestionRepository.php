@@ -539,7 +539,8 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
 
         DB::table('settings')->where('settingable_type', Question::class)
             ->whereIn('settingable_id', $idQuestions)->delete();
-            
+        
+        DB::table('results')->whereIn('question_id', $idQuestions)->delete();
         DB::table('questions')->whereIn('id', $idQuestions)->delete();  
     }
 

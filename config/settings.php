@@ -318,8 +318,9 @@ return [
     */
 
     'option_update' => [
-        'send_all_question_survey_again' => 0,
-        'only_send_updated_question_survey' => 1,
+        'dont_send_survey_again' => 0,
+        'send_all_question_survey_again' => 1,
+        'only_send_updated_question_survey' => 2,
     ],
     'invited' => 1,
 ];

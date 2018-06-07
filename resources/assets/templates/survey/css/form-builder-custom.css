@@ -3842,9 +3842,37 @@ input[name="quantity-answer"]::-webkit-outer-spin-button, input[type="number"]::
 }
 
 #option-update-modal {
-    top: 100px !important;
+    top: 70px !important;
 }
 
 .option-update-content {
-    padding: 3% 5%;
+    padding: 2% 5%;
+}
+
+.save-result {
+    padding-left: 10%;
+    display: none;
+}
+
+.result-file-type, .result-file-name {
+    display: inline-block;
+}
+
+.save-old-result {
+    display: none;
+    padding-left: 4%;
+}
+
+.save-old-result label {
+    color: #333;
+    font-weight: lighter;
+}
+
+.option-update-block {
+    padding-left: 10%;
+    padding-top: 5px;
+}
+
+.option-update-content .item-setting {
+    margin-bottom: 10px;
 }

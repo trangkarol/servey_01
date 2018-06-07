@@ -38,6 +38,7 @@
                                         'default' => config('settings.survey_setting.answer_required.none'),
                                     ]) !!}
                                     <span class="checkmark-setting-survey"></span>
+                                </label><br>
                             </div>
                             <div class="setting-choose-confirm-reply">
                                 <label class="container-radio-setting-survey">@lang('lang.login')
@@ -175,18 +176,20 @@
                                     </span>
                                 </label>
                             </div>
-                            <div class="col-md-4">
-                                <label class="container-checkbox-setting-survey send-to-all">
-                                    <span>@lang('lang.send_to_all')</span>
-                                    {!! Form::checkbox('send_all', '', false, [
-                                        'class' => 'send-to-all-wsm-acc',
-                                        'id' => 'send-to-all-wsm-acc',
-                                        'default' => config('settings.survey.send_mail_to_wsm.none'),
-                                        'val' => config('settings.survey.send_mail_to_wsm.all')
-                                    ]) !!}
-                                    <span class="checkmark-setting-survey"></span>
-                                </label>
-                            </div>
+                            @if (Auth::user()->checkLoginWsm())
+                                <div class="col-md-4">
+                                    <label class="container-checkbox-setting-survey send-to-all">
+                                        <span>@lang('lang.send_to_all')</span>
+                                        {!! Form::checkbox('send_all', '', false, [
+                                            'class' => 'send-to-all-wsm-acc',
+                                            'id' => 'send-to-all-wsm-acc',
+                                            'default' => config('settings.survey.send_mail_to_wsm.none'),
+                                            'val' => config('settings.survey.send_mail_to_wsm.all')
+                                        ]) !!}
+                                        <span class="checkmark-setting-survey"></span>
+                                    </label>
+                                </div>
+                            @endif
                         </div>
                         <div class="row">
                             <div class="col-md-12 div-show-all-email">
@@ -288,22 +291,65 @@
                 <!-- start tab settings -->
                 <div class="tab-content tab-content-setting">
                     <div class="container tab-pane active"><br>
-                        <div class="option-update-content" val="{{ config('settings.option_update.send_all_question_survey_again') }}">
+                        <div class="option-update-content" val="{{ config('settings.option_update.dont_send_survey_again') }}">
                             <div class="item-setting">
-                                <label class="container-radio-setting-survey">@lang('lang.send_all_question_survey_again')
-                                    {!! Form::radio('option_send_survey', '', true, [
-                                        'class' => '',
-                                        'val' => config('settings.option_update.send_all_question_survey_again'),
-                                    ]) !!}
-                                    <span class="checkmark-radio"></span>
-                                </label><br>
-                                <label class="container-radio-setting-survey">@lang('lang.only_send_updated_question_survey')
-                                    {!! Form::radio('option_send_survey', '', false, [
-                                        'class' => '',
-                                        'val' => config('settings.option_update.only_send_updated_question_survey'),
-                                    ]) !!}
-                                    <span class="checkmark-radio"></span>
-                                </label>
+                                <label>@lang('lang.option_send_survey')</label>
+                                <div class="option-update-block">
+                                    <label class="container-radio-setting-survey">@lang('lang.dont_send_survey')
+                                        {!! Form::radio('option_send_survey', '', true, [
+                                            'class' => 'option-send-survey',
+                                            'val' => config('settings.option_update.dont_send_survey_again'),
+                                        ]) !!}
+                                        <span class="checkmark-radio"></span>
+                                    </label><br>
+                                    <label class="container-radio-setting-survey">@lang('lang.send_all_question_survey_again')
+                                        {!! Form::radio('option_send_survey', '', false, [
+                                            'class' => 'option-send-survey',
+                                            'val' => config('settings.option_update.send_all_question_survey_again'),
+                                        ]) !!}
+                                        <span class="checkmark-radio"></span>
+                                    </label>
+                                    <label class="container-radio-setting-survey">@lang('lang.only_send_updated_question_survey')
+                                        {!! Form::radio('option_send_survey', '', false, [
+                                            'class' => 'option-send-survey',
+                                            'val' => config('settings.option_update.only_send_updated_question_survey'),
+                                        ]) !!}
+                                        <span class="checkmark-radio"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="item-setting">
+                                <label>@lang('lang.option_save_result')</label>
+                                <div class="option-update-block">
+                                    <label class="container-radio-setting-survey">@lang('lang.dont_save_old_result')
+                                        {!! Form::radio('option_save_result', '', true, [
+                                            'class' => 'option-save-result',
+                                            'val' => '',
+                                        ]) !!}
+                                        <span class="checkmark-radio"></span>
+                                    </label><br>
+                                    <label class="container-radio-setting-survey">@lang('lang.save_old_result')
+                                        {!! Form::radio('option_save_result', '', false, [
+                                            'class' => 'option-save-result save',
+                                            'val' => '',
+                                        ]) !!}
+                                        <span class="checkmark-radio"></span>
+                                    </label>
+                                    <div class="save-old-result" data-url="{{ route('export-result', [$survey->token, '', '']) }}">
+                                        <div class="form-group">
+                                            <label for="file-name" class="col-5 col-md-3">@lang('lang.name')</label>
+                                            {{ Form::text('file-name', str_limit($survey->title, config('settings.limit_title_excel')),[
+                                                'class' => 'form-control result-file-name col-md-7 col-6',
+                                                'data-name' => str_limit($survey->title, config('settings.limit_title_excel'))
+                                            ]) }}
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="file-type" class="col-5 col-md-3">@lang('lang.type')</label>
+                                            {{ Form::select('file-type', ['xls' => '.xls', 'csv' => '.csv'], 'xls', [
+                                                'class' => 'form-control result-file-type col-md-7 col-6']) }}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="div-action-setting">
                                 <a href="#" class="btn-option-update-cancel" data-dismiss="modal">@lang('lang.cancel')</a>

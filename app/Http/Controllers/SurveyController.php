@@ -70,7 +70,7 @@ class SurveyController extends Controller
     {
         $data['users'] = count($this->userRepository->lists('id'));
         $data['surveys'] = count($this->surveyRepository->lists('id'));
-        $data['surveys_open'] = count($this->surveyRepository->getSurveysByStatus(config('survey.status.available'))->get());
+        $data['surveys_open'] = count($this->surveyRepository->getSurveysByStatus(config('settings.survey.status.open'))->get());
         $data['feedbacks'] = count($this->feedbackRepository->lists('id'));
 
         return view('clients.home.index', compact('data'));
@@ -95,7 +95,8 @@ class SurveyController extends Controller
             $survey = $this->surveyRepository->createSurvey(
                 Auth::user()->id,
                 $request->json(),
-                config('settings.survey.status.open')
+                config('settings.survey.status.open'),
+                $this->userRepository
             );
 
             if (!$survey) {
@@ -292,7 +293,8 @@ class SurveyController extends Controller
                 $request->json(),
                 config('settings.survey.status.open'),
                 $this->questionRepository,
-                $this->answerRepository
+                $this->answerRepository,
+                $this->userRepository
             );
 
             DB::commit();
@@ -726,7 +728,8 @@ class SurveyController extends Controller
             $survey = $this->surveyRepository->createSurvey(
                 Auth::user()->id,
                 $request->json(),
-                config('settings.survey.status.draft')
+                config('settings.survey.status.draft'),
+                $this->userRepository
             );
 
             if (!$survey) {
