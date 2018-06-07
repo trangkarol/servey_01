@@ -282,6 +282,8 @@ return [
    'token_manage_is_too_long' => 'Token manage không được quá :number kí tự!',
    'change_token' => 'Thay đổi token',
    'change_token_manage' => 'Thay đổi token manage',
+   'clone_survey_success' => 'Sao chép survey thành công!',
+   'comfirm_clone_survey' => 'Bạn có muốn sao chép khảo sát này không?',
 
     /*
         Edit survey page

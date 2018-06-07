@@ -282,6 +282,8 @@ return [
    'token_manage_is_too_long' => 'Token manage can not be more than :number characters!',
    'change_token' => 'Change token',
    'change_token_manage' => 'Change token manage',
+   'clone_survey_success' => 'Clone survey successful!',
+   'comfirm_clone_survey' => 'Do you want to clone this survey?',
 
     /*
         Edit survey page

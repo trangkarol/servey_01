@@ -37,15 +37,15 @@
             {!! Form::open() !!}
                 <div class="form-group row form-group-custom">
                     {!! Form::label('token', trans('lang.link_doing_survey'), ['class' => 'col-sm-3 col-form-label col-form-label-custom']) !!}
-                    <div class="col-sm-8">
+                    <div class="col-sm-9">
                         {!! Url('/') . '/surveys/' . Form::text('token', $survey->token, [
                                 'class' => 'form-control-plaintext input-edit-token',
                                 'data-survey-id' => $survey->id,
                                 'data-token' => $survey->token,
                                 'data-url' => route('change-token'),
+                                'data-toggle' => 'tooltip',
+                                'title' => $survey->token,
                             ]) !!}
-                    </div>
-                    <div class="col-sm-1">
                         <a href="javascript:void(0)" class="btn btn-warning edit-token-survey"
                             data-toggle="tooltip" title="@lang('lang.change_token')">
                             <i class="fa fa-edit"></i>
@@ -54,15 +54,15 @@
                 </div>
                 <div class="form-group row form-group-custom">
                     {!! Form::label('token_manage', trans('lang.link_manage_survey'), ['class' => 'col-sm-3 col-form-label col-form-label-custom']) !!}
-                    <div class="col-sm-8">
+                    <div class="col-sm-9">
                         {!! Url('/') . '/management-survey/' . Form::text('token_manage', $survey->token_manage, [
                                 'class' => 'form-control-plaintext input-edit-token-manage',
                                 'data-survey-id' => $survey->id,
                                 'data-token-manage' => $survey->token_manage,
                                 'data-url' => route('change-token-manage'),
+                                'data-toggle' => 'tooltip',
+                                'title' => $survey->token_manage,
                             ]) !!}
-                    </div>
-                    <div class="col-sm-1">
                         <a href="javascript:void(0)" class="btn btn-warning edit-token-manage-survey"
                             data-toggle="tooltip" title="@lang('lang.change_token_manage')">
                             <i class="fa fa-edit"></i>

@@ -12,7 +12,7 @@ trait ManageSurvey
         $this->answerRepository->closeFromQuestionId($idQuestions);
         $this->questionRepository->closeFromSectionId($idSections);
         $this->sectionRepository->closeFromSurvey($survey);
-        $this->surveyRepository->updateSurvey($survey, ['status' => config('settings.survey.status.close')]);
+        $this->surveyRepository->updateSurveyByObject($survey, ['status' => config('settings.survey.status.close')]);
         $this->surveyRepository->closeSurvey($survey);
     }
 
@@ -24,7 +24,7 @@ trait ManageSurvey
         $this->answerRepository->openFromQuestionId($idQuestions);
         $this->questionRepository->openFromSectionId($idSections);
         $this->sectionRepository->openFromSurvey($survey);
-        $this->surveyRepository->updateSurvey($survey, ['status' => config('settings.survey.status.open')]);
+        $this->surveyRepository->updateSurveyByObject($survey, ['status' => config('settings.survey.status.open')]);
         $this->surveyRepository->openSurvey($survey);
     }
 

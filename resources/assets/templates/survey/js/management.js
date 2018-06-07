@@ -187,6 +187,7 @@ function changeToken(element) {
                         $('.next-section-survey').attr('data-url', data.next_section_url);
                         $('.edit-token-survey').hide();
                         $('.input-edit-token').attr('data-token', data.new_token);
+                        $('#setting-survey').attr('data-url', data.setting_url);
                         element.val(data.new_token);
                     }
                 })
@@ -229,7 +230,6 @@ function changeTokenManage(element) {
                         alertSuccess({message: Lang.get('lang.change_success')});
                         $('#overview-survey').attr('data-url', data.overview_url);
                         $('#results-survey').attr('data-url', data.result_url);
-                        $('#setting-survey').attr('data-url', data.setting_url);
                         $('#delete-survey').attr('data-url', data.delete_survey_url);
                         $('#close-survey').attr('data-url', data.close_survey_url);
                         $('#open-survey').attr('data-url', data.open_survey_url);
