@@ -11,13 +11,50 @@
         {!! Html::style(asset(config('settings.plugins') . 'bootstrap/dist/css/bootstrap.min.css')) !!}
         {!! Html::style(asset(config('settings.plugins') . 'font-awesome/css/font-awesome.min.css')) !!}
         <!-- Theme CSS -->
+        @if (isset($requiredLogin))
+            {!! Html::style(asset(config('settings.plugins') . 'ionicons/css/ionicons.min.css')) !!}
+            {!! Html::style(elixir(config('settings.public_template') . 'css/home.css')) !!}
+            {!! Html::style(elixir(config('settings.public_template') . 'css/home-effect.css')) !!}
+            {!! Html::style(elixir(config('settings.public_template') . 'css/modal-auth.min.css')) !!}
+        @endif
+
         {!! Html::style(elixir(config('settings.public_template') . 'css/style.css')) !!}
-        {!! Html::style(asset(config('settings.plugins') . 'tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.css')) !!}
-        {!! Html::style(elixir(config('settings.public_template') . 'css/form-builder-custom.css')) !!}
-        {!! Html::style(elixir(config('settings.public_template') . 'css/preview.css')) !!}
+
+        @if (!isset($requiredLogin))
+            {!! Html::style(asset(config('settings.plugins') . 'tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.css')) !!}
+            {!! Html::style(elixir(config('settings.public_template') . 'css/form-builder-custom.css')) !!}
+            {!! Html::style(elixir(config('settings.public_template') . 'css/preview.css')) !!}
+        @endif
     </head>
     <body>
         <div class="background-user-profile"></div>
-        @include('clients.survey.detail.detail_survey')
+        @if (!isset($requiredLogin))
+            <div class="page-doing-survey">
+                @include('clients.survey.detail.detail_survey')
+            </div>
+        @endif
+
+        @if (!Auth::guard()->check())
+            {{ Html::link('#', '', [
+                'id' => 'login',
+                'data-toggle' => 'modal',
+                'data-target' => '#modalLogin',
+                'data-required-login' => isset($requiredLogin) ? $requiredLogin : '',
+                'data-login-wsm' => route('socialRedirect', config('settings.framgia')),
+            ]) }}
+            @include('clients.user.auth.register')
+            @include('clients.user.auth.login')
+        @endif
     </body>
+    
+    @if (isset($requiredLogin))
+        {!! Html::script(asset(config('settings.plugins') . 'jquery/jquery.min.js')) !!}
+        {!! Html::script(asset(config('settings.plugins') . 'bootstrap/dist/js/bootstrap.min.js')) !!}
+        {!! Html::script(asset(config('settings.plugins') . 'sweetalert/dist/sweetalert.min.js')) !!}
+        {!! Html::script(elixir(config('settings.plugins') . 'languages/messages.js')) !!}
+        {!! Html::script(elixir(config('settings.public_template') . 'js/auth.js')) !!}
+        {!! Html::script(elixir(config('settings.public_template') . 'js/alert.js')) !!}
+        {!! Html::script(elixir(config('settings.public_template') . 'js/required-login.js')) !!}
+        </script>
+    @endif
 </html>

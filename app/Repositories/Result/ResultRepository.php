@@ -37,9 +37,6 @@ class ResultRepository extends BaseRepository implements ResultInterface
 
             foreach ($sections as $section) {
                 $temp = [
-                    'question_id' => 0,
-                    'answer_id' => 0,
-                    'content' => '',
                     'user_id' => auth()->user()->id,
                 ];
 
@@ -47,6 +44,8 @@ class ResultRepository extends BaseRepository implements ResultInterface
                     $temp['question_id'] = $question['question_id'];
 
                     foreach ($question['results'] as $result) {
+                        $temp['answer_id'] = 0;
+
                         if (in_array($question['type'], [
                             config('settings.question_type.short_answer'),
                             config('settings.question_type.long_answer'),

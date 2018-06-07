@@ -296,4 +296,11 @@ return [
     'error_update_setting_survey' => 'Save setting error! Try again!',
     'edit_survey_success' => 'Update survey success!',
     'edit_survey_error' => 'Update survey error! Try again!',
+
+    /*
+        Required login
+    */
+        
+    'require_login_wsm_to_answer' => 'Survey require login wsm to answer!',
+    'require_login_to_answer' => 'Survey require login to answer!',
 ];

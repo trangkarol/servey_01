@@ -56,5 +56,6 @@ class Kernel extends HttpKernel
         'admin' => \App\Http\Middleware\RedirectIfNotAdmin::class,
         'supperadmin' => \App\Http\Middleware\RedirectIfNotSupperAdmin::class,
         'profile' => \App\Http\Middleware\ProfileMiddleware::class,
+        'doingsurvey' => \App\Http\Middleware\DoingSurveyMiddleware::class,
     ];
 }
