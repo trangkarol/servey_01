@@ -223,6 +223,12 @@ Route::group(['namespace' => 'Ajax', 'prefix' => 'ajax'], function () {
         ->name('ajax-survey-close');
     Route::get('surveys-open/{tokenManage}', 'ManagementSurvey@openSurvey')
         ->name('ajax-survey-open');
+    Route::get('surveys-clone/{tokenManage}', 'ManagementSurvey@cloneSurvey')
+        ->name('ajax-survey-clone');
+    Route::post('change-token', 'ManagementSurvey@updateTokenSurvey')
+        ->name('change-token');
+    Route::post('change-token-manage', 'ManagementSurvey@updateTokenManageSurvey')
+        ->name('change-token-manage');
 });
 
 Route::get('/languages', 'LanguageController@index')->name('set-language');
@@ -300,11 +306,7 @@ Route::group(['namespace' => 'Auth'], function () {
 
 Route::group(['middleware' => 'profile'], function () {
     Route::resource('surveys', 'SurveyController');
-
-    Route::post('change-token', 'SurveyController@updateTokenSurvey')->name('change-token');
-
-    Route::post('change-token-manage', 'SurveyController@updateTokenManageSurvey')->name('change-token-manage');
-
+    
     Route::get('/surveys/complete/{token}', [
         'uses' => 'SurveyController@complete',
         'as' => 'survey.create.complete',

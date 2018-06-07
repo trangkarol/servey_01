@@ -329,6 +329,12 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         return true;
     }
 
+
+    public function updateSurveyByObject($survey, $values)
+    {
+        return $survey->update($values);
+    }
+
     public function updateSurvey($survey, $data, $status, $questionRepo, $answerRepo)
     {
         $surveyInputs = [

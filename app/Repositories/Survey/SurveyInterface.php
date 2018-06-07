@@ -10,6 +10,8 @@ interface SurveyInterface
 
     public function updateSettingSurvey($survey, $data, $userRepo);
 
+    public function updateSurveyByObject($survey, $values);
+
     public function updateSurvey($survey, $data, $status, $questionRepo, $answerRepo);
 
     public function checkCloseSurvey($inviteIds, $surveyIds);
