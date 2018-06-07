@@ -15,9 +15,17 @@
                     ['class' => 'image-answer-hidden']) !!}
             </div>
             <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-3 answer-image-btn-group">
-                {{ Html::link('#', '', ['class' => 'answer-image-btn fa fa-image upload-choice-image', 'data-url' => route('ajax-fetch-image-answer')]) }}
+                {{ Html::link('#', '', [
+                    'class' => 'answer-image-btn fa fa-image upload-choice-image ' . ($answer->media->count() ? 'invisible' : ''), 
+                    'data-url' => route('ajax-fetch-image-answer')
+                ]) }}
                 {{ Html::link('#', '', ['class' => 'answer-image-btn fa fa-times remove-choice-option hidden']) }}
             </div>
+            @if ($answer->media->count()) 
+                @include('clients.survey.edit.elements.image-answer', [
+                    'imageURL' => $answer->media->first()->url
+                ])
+            @endif
         </div>
     @endforeach
     <div class="form-row other-choice">

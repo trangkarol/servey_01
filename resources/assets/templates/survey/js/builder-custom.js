@@ -75,7 +75,7 @@ jQuery(document).ready(function () {
             stop: function (event, ui) {
                 $(ui.item).removeAttr('style');
 
-                // when move question, change name of question follow new section
+                // when move question, refresh name of question follow new section
                 var sectionId = ui.item.closest('ul.page-section.sortable').data('section-id');
                 var questionId = ui.item.data('question-id');
                 var name = `[section_${sectionId}][question_${questionId}]`;
@@ -83,6 +83,8 @@ jQuery(document).ready(function () {
                 ui.item.find('.question-description-input').attr('name', 'description' + name);
                 ui.item.find('.checkbox-question-required').attr('name', 'require' + name);
                 ui.item.find('.image-question-hidden').attr('name', 'media' + name);
+                ui.item.find('.input-image-section-hidden').attr('name', 'media' + name);
+                ui.item.find('.video-section-url-hidden').attr('name', 'media' + name);
             },
         });
     }
@@ -557,10 +559,17 @@ jQuery(document).ready(function () {
         var currentQuestion = option.closest('li.sort');
         var questionType = currentQuestion.data('question-type');
         var answers = [];
+        var otherAnswers = false;
 
         // get answers if is multi choice
         if (questionType == 3) {
             currentQuestion.find('.option.choice').each(function() {
+                if (!$(this).hasClass('choice-sortable')) {
+                    otherAnswers = true;
+
+                    return;
+                }
+                
                 answers.push($(this).find('.image-answer-hidden').prev().val());
             });
         }
@@ -568,6 +577,12 @@ jQuery(document).ready(function () {
         // get answers if is checkboxes
         if (questionType == 4) {
             currentQuestion.find('.option.checkbox').each(function() {
+                if (!$(this).hasClass('checkbox-sortable')) {
+                    otherAnswers = true;
+
+                    return;
+                }
+
                 answers.push($(this).find('.image-answer-hidden').prev().val());
             });
         }
@@ -632,6 +647,10 @@ jQuery(document).ready(function () {
                             element.find('.option.choice .image-answer-hidden').last().prev().val(answers[i + 1]);
                         }
                     }
+
+                    if (otherAnswers) {
+                        element.find('.add-other-choice').click();
+                    }
                 }
 
                 // add sortable event for checkboxes
@@ -644,6 +663,10 @@ jQuery(document).ready(function () {
                             element.find('.other-checkbox .other-checkbox-block .add-checkbox').click();
                             element.find('.option.checkbox .image-answer-hidden').last().prev().val(answers[i + 1]);
                         }
+                    }
+
+                    if (otherAnswers) {
+                        element.find('.add-other-checkbox').click();
                     }
                 }
 
@@ -1721,6 +1744,7 @@ jQuery(document).ready(function () {
                             window.questionSelected = $(element).insertAfter(window.questionSelected);
                         }
 
+                        autoResizeTextarea();
                         window.questionSelected.click();
 
                         // scroll to image element
@@ -1784,6 +1808,7 @@ jQuery(document).ready(function () {
                             window.questionSelected = $(element).insertAfter(window.questionSelected);
                         }
 
+                        autoResizeTextarea();
                         window.questionSelected.click();
                         $('#modal-insert-video').modal('hide');
 
@@ -1924,18 +1949,14 @@ jQuery(document).ready(function () {
     });
 
     function removeImage(url, imageURL) {
-        var regexURL = /^http+/;
-
-        if (!regexURL.test(imageURL)) {
-            $.ajax({
-                method: 'POST',
-                url: url,
-                dataType: 'json',
-                data: {
-                    imageURL: imageURL.replace('/storage', 'public'),
-                }
-            });
-        }
+        $.ajax({
+            method: 'POST',
+            url: url,
+            dataType: 'json',
+            data: {
+                imageURL: imageURL,
+            }
+        });
     }
 
     // remove image choice answer
@@ -1946,17 +1967,21 @@ jQuery(document).ready(function () {
         var inputImageCheckboxHidden = $(this).closest('.checkbox-sortable').find('.image-answer-hidden');
 
         if ($(btUploadChoiceImage).attr('class')) {
-            $(btUploadChoiceImage).removeClass('hidden');
+            $(btUploadChoiceImage).removeClass('invisible');
             $(inputImageChoiceHidden).val('');
         } else {
-            $(btUploadCheckboxImage).removeClass('hidden');
+            $(btUploadCheckboxImage).removeClass('invisible');
             $(inputImageCheckboxHidden).val('');
         }
 
         var url = $(this).data('url');
         var imageAnswerTag = $(this).parent().children('.answer-image-url');
         var imageURL = $(imageAnswerTag).attr('src');
-        removeImage(url, imageURL);
+
+        if (surveyData.data('page') == 'create') {
+            removeImage(url, imageURL);
+        }
+
         $(this).closest('.image-answer').remove();
     });
 
@@ -1991,7 +2016,11 @@ jQuery(document).ready(function () {
         var imageQuestionTag = $(this).closest('.show-image-question').children('.image-question-url');
         var imageURL = $(imageQuestionTag).attr('src');
         var url = $(this).data('url');
-        removeImage(url, imageURL);
+
+        if (surveyData.data('page') == 'create') {
+            removeImage(url, imageURL);
+        }
+
         var imageQuestionHidden = $(this).closest('.form-line').find('.image-question-hidden');
         $(imageQuestionHidden).val('');
         $(btQuestionImage).removeClass('hidden');
@@ -2004,7 +2033,11 @@ jQuery(document).ready(function () {
         var imageSectionTag = $(this).closest('.box-show-image').children('.show-image-insert-section');
         var imageURL = $(imageSectionTag).attr('src');
         var url = $(this).data('url');
-        removeImage(url, imageURL);
+
+        if (surveyData.data('page') == 'create') {
+            removeImage(url, imageURL);
+        }
+        
         $(this).closest('.section-show-image-insert').remove();
     });
 
@@ -2801,6 +2834,8 @@ jQuery(document).ready(function () {
 
         $(window.questionSelected).find('.image-question-hidden').attr('name', `media[section_${sectionId}][question_${questionId}]`);
         $(window.questionSelected).find('.checkbox-question-required').attr('name', `require[section_${sectionId}][question_${questionId}]`);
+        $(window.questionSelected).find('.input-image-section-hidden').attr('name', `media[section_${sectionId}][question_${questionId}]`);
+        $(window.questionSelected).find('.video-section-url-hidden').attr('name', `media[section_${sectionId}][question_${questionId}]`);
 
         $(window.questionSelected).find('.question-description-input').attr('name', `description[section_${sectionId}][question_${questionId}]`);
         $(window.questionSelected).find('.question-description-input').attr('data-autoresize', 'data-autoresize');
@@ -2859,6 +2894,9 @@ jQuery(document).ready(function () {
 
             $(this).find('.image-question-hidden').attr('name', `media[section_${sectionId}][question_${questionId}]`);
             $(this).find('.checkbox-question-required').attr('name', `require[section_${sectionId}][question_${questionId}]`);
+            $(this).find('.input-image-section-hidden').attr('name', `media[section_${sectionId}][question_${questionId}]`);
+            $(this).find('.video-section-url-hidden').attr('name', `media[section_${sectionId}][question_${questionId}]`);
+
 
             $(this).find('.question-description-input').attr('name', `description[section_${sectionId}][question_${questionId}]`);
             $(this).find('.question-description-input').attr('data-autoresize', 'data-autoresize');
@@ -2959,6 +2997,8 @@ jQuery(document).ready(function () {
                 $(this).find('.image-question-hidden').attr('name', `media[section_${prevSectionId}][question_${questionId}]`);
                 $(this).find('.question-description-input').attr('name', `description[section_${prevSectionId}][question_${questionId}]`)
                 $(this).find('.checkbox-question-required').attr('name', `require[section_${prevSectionId}][question_${questionId}]`);
+                $(this).find('.input-image-section-hidden').attr('name', `media[section_${prevSectionId}][question_${questionId}]`);
+                $(this).find('.video-section-url-hidden').attr('name', `media[section_${prevSectionId}][question_${questionId}]`);
                 $(this).insertAfter($(prevSection).find('.form-line.sort').last());
             });
 

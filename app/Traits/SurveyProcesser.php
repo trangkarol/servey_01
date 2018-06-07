@@ -3,6 +3,8 @@
 namespace App\Traits;
 
 use Session;
+use App\Models\Question;
+use App\Models\Answer;
 
 trait SurveyProcesser
 {
@@ -263,6 +265,65 @@ trait SurveyProcesser
 
                 $answerCreated->media()->create($answerMedia);
             }
+        }
+    }
+
+    public function updateQuestionMedia($question, $data, $userId)
+    {
+        $questionMedia['url'] = $this->cutUrlImage($data['media']);
+        
+        if (!empty($questionMedia['url'])) {
+            if ($question->media()->count()) {
+                // if question has media and media no change
+                if ($questionMedia['url'] == $question->media()->first()->url) {
+                    return;
+                }
+
+                $question->media()->forceDelete();
+            }
+
+            $questionMedia['type'] = config('settings.media_type.image');
+            $questionMedia['user_id'] = $userId;
+
+            if ($question->type == config('settings.question_type.video')) {
+                $questionMedia['type'] = config('settings.media_type.video');
+            }
+
+            $question->media()->create($questionMedia);
+
+            return;
+        }
+
+        // if delete media
+        if ($question->media()->count()) {
+            $question->media()->forceDelete();
+        }
+    }
+
+    public function updateAnswerMedia($answer, $data, $userId)
+    {
+        $answerMedia['url'] = $this->cutUrlImage($data['media']);
+        
+        if (!empty($answerMedia['url'])) {
+            if ($answer->media()->count()) {
+                // if answer has media and media no change
+                if ($answerMedia['url'] == $answer->media()->first()->url) {
+                    return;
+                }
+
+                $answer->media()->forceDelete();
+            }
+
+            $answerMedia['user_id'] = $userId;
+            $answerMedia['type'] = config('settings.media_type.image');
+            $answer->media()->create($answerMedia);
+
+            return;
+        }
+
+        // if delete media
+        if ($answer->media()->count()) {
+            $answer->media()->forceDelete();
         }
     }
 }
