@@ -542,4 +542,18 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
             
         DB::table('questions')->whereIn('id', $idQuestions)->delete();  
     }
+
+    public function cloneQuestion($question, $newSection)
+    {
+        $data = $question->replicate()->toArray();
+        $newQuestion = $newSection->questions()->create($data);
+        // clone setting question
+        $dataSettings = $question->settings->toArray();
+        $newQuestion->settings()->createMany($dataSettings);
+        // clone media question
+        $dataMedia = $question->media->toArray();
+        app(MediaInterface::class)->cloneMedia($dataMedia, $newQuestion);
+
+        return $newQuestion;
+    }
 }

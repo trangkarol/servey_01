@@ -72,8 +72,16 @@ $(document).ready(function () {
                 success: function (data) {
                     if (data.success) {
                         window.location.replace(data.url_redirect);
+
+                        return;
                     }
 
+                    if (data.redirect) {
+                        $(window).attr('location', data.redirect);
+
+                        return;
+                    }
+                    
                     alertDanger({message: data.message});
                 }
             });
@@ -94,6 +102,10 @@ $(document).ready(function () {
                         $('#open-survey').removeClass('hide-div');
                         alertSuccess({message: data.message});
                     } else {
+                        if (data.redirect) {
+                            $(window).attr('location', data.redirect);
+                        }
+                        
                         alertDanger({message: data.message});
                     }
                 }
@@ -115,6 +127,40 @@ $(document).ready(function () {
                         $('#open-survey').addClass('hide-div');
                         alertSuccess({message: data.message});
                     } else {
+                        if (data.redirect) {
+                            $(window).attr('location', data.redirect);
+                        }
+                        
+                        alertDanger({message: data.message});
+                    }
+                }
+            });
+        });
+    });
+
+    // clone survey survey
+    $(document).on('click', '#clone-survey', function () {
+        var url = $(this).attr('data-url');
+        
+        confirmDanger({message: Lang.get('lang.comfirm_clone_survey')}, function () {
+            $.ajax({
+                method: 'GET',
+                url: url,
+                dataType: 'json',
+                success: function (data) {
+                    if (data.success) {
+                        alertSuccess(
+                            {message: data.message},
+                            function () {
+                                var redirectWindow = window.open(data.redirect, '_blank');
+                                redirectWindow.location;
+                            }
+                        );
+                    } else {
+                        if (data.redirect) {
+                            $(window).attr('location', data.redirect);
+                        }
+                        
                         alertDanger({message: data.message});
                     }
                 }

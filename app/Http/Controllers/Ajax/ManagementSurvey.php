@@ -112,8 +112,8 @@ class ManagementSurvey extends Controller
         try {
             $survey = $this->surveyRepository->getSurveyFromTokenManage($tokenManage);
 
-            if (Auth::user()->cannot('delete', $survey)) {
-                return view('clients.layout.403');
+            if (Auth::user()->cannot('edit', $survey)) {
+                throw new Exception("Not permitted edit!", 403);
             }
 
             $this->delete($survey);
@@ -130,6 +130,7 @@ class ManagementSurvey extends Controller
             return response()->json([
                 'success' => false,
                 'message' => trans('lang.process_failed'),
+                'redirect' => ($e->getCode() == 403) ? route('403') : '',
             ]);
         }
     }
@@ -146,8 +147,8 @@ class ManagementSurvey extends Controller
         try {
             $survey = $this->surveyRepository->getSurveyFromTokenManage($tokenManage);
 
-            if (Auth::user()->cannot('close', $survey)) {
-                return view('clients.layout.403');
+            if (Auth::user()->cannot('edit', $survey)) {
+                throw new Exception("Not permitted edit!", 403);
             }
 
             $this->close($survey);
@@ -164,6 +165,7 @@ class ManagementSurvey extends Controller
             return response()->json([
                 'success' => false,
                 'message' => trans('lang.process_failed'),
+                'redirect' => ($e->getCode() == 403) ? route('403') : '',
             ]);
         }
     }
@@ -178,10 +180,10 @@ class ManagementSurvey extends Controller
         
         DB::beginTransaction();
         try {
-            $survey = $this->surveyRepository->onlyTrashed()->where('token_manage', $tokenManage)->first();
+            $survey = $this->surveyRepository->withTrashed()->where('token_manage', $tokenManage)->first();
 
-            if (Auth::user()->cannot('open', $survey)) {
-                return view('clients.layout.403');
+            if (Auth::user()->cannot('edit', $survey)) {
+                throw new Exception("Not permitted edit!", 403);
             }
 
             $this->open($survey);
@@ -198,6 +200,7 @@ class ManagementSurvey extends Controller
             return response()->json([
                 'success' => false,
                 'message' => trans('lang.process_failed'),
+                'redirect' => ($e->getCode() == 403) ? route('403') : '',
             ]);
         }
     }
@@ -269,6 +272,42 @@ class ManagementSurvey extends Controller
                 'success' => false,
                 'redirect' => ($e->getCode() == 403) ? route('403') : '',
             ];
+        }
+    }
+    
+    public function cloneSurvey(Request $request, $tokenManage)
+    {
+        if (!$request->ajax()) {
+            return response()->json([
+                'success' => false,
+            ]);
+        }
+        
+        DB::beginTransaction();
+        try {
+            $survey = $this->surveyRepository->getSurveyForClone($tokenManage);
+
+            if (Auth::user()->cannot('edit', $survey)) {
+                throw new Exception("Not permitted edit!", 403);
+            }
+
+            $newSurvey = $this->clone($survey);
+
+            DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'message' => trans('lang.clone_survey_success'),
+                'redirect' => route('survey.management', $newSurvey->token_manage),
+            ]);
+        } catch (Exception $e) {
+            DB::rollback();
+
+            return response()->json([
+                'success' => false,
+                'message' => trans('lang.process_failed'),
+                'redirect' => ($e->getCode() == 403) ? route('403') : '',
+            ]);
         }
     }
 }

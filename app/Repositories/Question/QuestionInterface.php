@@ -29,4 +29,6 @@ interface QuestionInterface
     public function openFromSectionId($idSections);
 
     public function deleteQuestionsById($idQuestions);
+
+    public function cloneQuestion($question, $newSection);
 }

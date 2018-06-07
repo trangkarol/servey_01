@@ -870,4 +870,57 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
 
         return $result;
     }
+
+    public function getSurveyForClone($tokenManage)
+    {
+        $survey = $this->model->withTrashed()->with([
+            'settings',
+            'invite',
+            'members',
+            'sections' => function ($query) {
+                $query->with([
+                    'questions' => function ($queryQuestion) {
+                        $queryQuestion->with([
+                            'settings',
+                            'media',
+                            'answers' => function ($queryAnswer) {
+                                $queryAnswer->with([
+                                    'media',
+                                    'settings',
+                                ]);
+                            },
+                        ]);
+                    },
+                ]);
+            },
+        ])->where('token_manage', $tokenManage)->first();
+
+        if (!$survey) {
+            throw new Exception("Error Processing Request", 1);
+        }
+
+        return $survey;
+    }
+
+    public function cloneSurvey($survey)
+    {
+        // clone survey
+        $newSurvey = $survey->replicate();
+        $newSurvey->token = md5(uniqid(rand(), true));
+        $newSurvey->token_manage = md5(uniqid(rand(), true));
+        $newSurvey->status = config('settings.survey.status.close');
+        $newSurvey = $this->model->create($newSurvey->toArray());
+
+        // clone members
+        $newSurvey->members()->attach(Auth::user()->id, [
+            'role' => Survey::OWNER,
+            'status' => Survey::APPROVE,
+        ]);
+
+        // clone settings
+        $dataSettings = $survey->settings->toArray();
+        $newSurvey->settings()->createMany($dataSettings);
+
+        return $newSurvey;
+    }
 }

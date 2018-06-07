@@ -5,10 +5,12 @@ namespace App\Repositories\Media;
 use App\Repositories\BaseRepository;
 use App\Models\Media;
 use App\Repositories\Media\MediaInterface;
-use Storage;
+use App\Traits\FileProcesser;
 
 class MediaRepository extends BaseRepository implements MediaInterface
 {
+    use FileProcesser;
+
     public function getModel()
     {
         return Media::class;
@@ -33,5 +35,24 @@ class MediaRepository extends BaseRepository implements MediaInterface
         }
 
         return $media->delete();
+    }
+
+    public function cloneMedia($media, $object)
+    {
+        $newMedia = [];
+        $regex = '/^http+/';
+
+        foreach ($media as $item) {
+            preg_match($regex, $item['url'], $matches);
+
+            if (!$matches) {
+                $newUrl = $this->copyFile($item['url']);
+                $item['url'] = $newUrl;
+            }
+
+            $newMedia[] = $item;
+        }
+
+        return $object->media()->createMany($newMedia);
     }
 }
