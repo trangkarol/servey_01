@@ -24,8 +24,25 @@ class Invite extends Model
 
     protected $dates = ['deleted_at'];
 
+    protected $appends = [
+        'invite_mails_array',
+        'answer_mails_array',
+    ];
+
     public function survey()
     {
         return $this->belongsTo(Survey::class);
+    }
+
+    public function getInviteMailsArrayAttribute()
+    {
+        return !empty($this->attributes['invite_mails']) ? 
+            array_filter(explode('/', $this->attributes['invite_mails'])) : [];
+    }
+
+    public function getAnswerMailsArrayAttribute()
+    {
+        return !empty($this->attributes['answer_mails']) ? 
+            array_filter(explode('/', $this->attributes['answer_mails'])) : [];
     }
 }

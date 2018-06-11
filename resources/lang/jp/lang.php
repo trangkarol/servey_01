@@ -290,12 +290,18 @@ return [
     */
 
     'option_update' => 'Option update',
+    'dont_send_survey' => 'Don\'t send this survey again',
     'send_all_question_survey_again' => 'Send all question of this survey again',
     'only_send_updated_question_survey' => 'Only send updated questions of this survey',
     'confirm_delete_answered_email' => 'This email has answered survey! Are you sure want to remove this email and all involve results ?',
     'error_update_setting_survey' => 'Save setting error! Try again!',
     'edit_survey_success' => 'Update survey success!',
     'edit_survey_error' => 'Update survey error! Try again!',
+    'dont_save_old_result' => 'Don\'t save old result',
+    'save_old_result' => 'Save old result',
+    'option_send_survey' => 'Send survey',
+    'option_save_result' => 'Save result survey',
+
 
     /*
         Required login

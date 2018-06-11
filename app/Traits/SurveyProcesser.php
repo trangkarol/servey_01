@@ -5,6 +5,10 @@ namespace App\Traits;
 use Session;
 use App\Models\Question;
 use App\Models\Answer;
+use App\Models\Survey;
+use App\Mail\ManageSurvey;
+use App\Mail\InviteSurvey;
+use Mail;
 
 trait SurveyProcesser
 {
@@ -325,5 +329,91 @@ trait SurveyProcesser
         if ($answer->media()->count()) {
             $answer->media()->forceDelete();
         }
+    }
+
+    public function sendMailCreateSurvey($survey, $owner, $userRepo, $data)
+    {
+        // send mail manage to owner
+        $emailData = [
+            'name' => $owner->name,
+            'title' => $data['subject'],
+            'messages' => $data['message'],
+            'description' => $survey->description,
+            'linkManage' => route('surveys.edit', $survey->token_manage),
+            'link' => route('survey.create.do-survey', $survey->token),
+        ];
+
+        Mail::to($owner->email)->queue((new ManageSurvey($emailData))->onConnection('database'));
+
+        // send mail manage to members
+        foreach ($data['members'] as $member) {
+            $emailData['name'] = $userRepo->where('email', $member['email'])->first()->name;
+            Mail::to($member['email'])->queue((new ManageSurvey($emailData))->onConnection('database'));
+        }
+
+        // send mail invite
+        if (count($data['invite_mails'])) {
+            foreach ($data['invite_mails'] as $inviteMail) {
+                Mail::to($inviteMail)->queue((new InviteSurvey($emailData))->onConnection('database'));
+            }
+        }
+
+        // send mail invite to all staff, just be available with accounts login with wsm
+        if ($owner->checkLoginWsm() && $data['setting_mail_to_wsm'] == config('settings.survey.send_mail_to_wsm.all')) {
+            Mail::to(config('mail.framgia_mail_staff'))->queue((new InviteSurvey($emailData))->onConnection('database'));
+        }
+    }
+
+    public function sendMailUpdateSurvey($optionUpdate, $survey, $owner, $userRepo)
+    {
+        $inviter = $survey->invite;
+        $message = '';
+        $subject = '';
+        
+        // refresh invite_mails and answer_mail
+        if (!empty($inviter)) {
+            $message = $inviter->message;
+            $subject = $inviter->subject;
+            $inviteMails = $inviter->invite_mails_array;
+            $answerMails = $inviter->answer_mails_array;
+            $inviteMails = array_unique(array_merge($inviteMails, $answerMails));
+
+            $survey->invite()->update([
+                'invite_mails' => $this->formatInviteMailsString($inviteMails),
+                'answer_mails' => '',
+                'status' => config('settings.survey.invite_status.not_finish'),
+                'number_invite' => count($inviteMails),
+                'number_answer' => config('settings.survey.number_answer_default'),
+            ]);  
+        }
+
+        // if option is dont send survey
+        if ($optionUpdate == config('settings.option_update.dont_send_survey_again')) {
+            return;
+        }
+
+        // update or create option update survey
+        $optionUpdateSetting = $survey->settings()->where('key', config('settings.setting_type.option_update_survey.key'))->first();
+        
+        if (empty($optionUpdateSetting)) {
+            $survey->settings()->create([
+                'key' => config('settings.setting_type.option_update_survey.key'),
+                'value' => $optionUpdate,
+            ]);
+        } else {
+            $optionUpdateSetting->update(['value' => $optionUpdate]);
+        }
+
+        $members = $survey->members()->wherePivot('role', '!=', Survey::OWNER)->get();
+        $settingMailToWsm = $survey->settings()->where('key', config('settings.setting_type.send_mail_to_wsm.key'))->first();
+        $settingMailToWsm = !empty($settingMailToWsm) ? $settingMailToWsm->value : '';
+
+        $this->sendMailCreateSurvey($survey, $owner, $userRepo, [
+            'message' => $message,
+            'subject' => $subject,
+            'members' => $members,
+            'invite_mails' => !empty($inviteMails) ? $inviteMails : [],
+            'setting_mail_to_wsm' => $settingMailToWsm,
+        ]);
     }
 }

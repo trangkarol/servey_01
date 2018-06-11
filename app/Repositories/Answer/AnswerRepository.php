@@ -258,7 +258,7 @@ class AnswerRepository extends BaseRepository implements AnswerInterface
         DB::table('settings')->where('settingable_type', Answer::class)
             ->whereIn('settingable_id', $idAnswers)->delete();
 
-        DB::table('questions')->whereIn('id', $idAnswers)->delete(); 
+        DB::table('answers')->whereIn('id', $idAnswers)->delete(); 
     }
 
     public function cloneAnswer($answer, $newQuestion)

@@ -84,7 +84,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         return $resultsSurveys;
     }
 
-    public function createSurvey($userId, $data, $status)
+    public function createSurvey($userId, $data, $status, $userRepo)
     {
         $surveyInputs = [
             'title' => $data->get('title'),
@@ -113,7 +113,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
 
         // create members
         foreach ($data['members'] as $member) {
-            $memberId = app(UserInterface::class)->where('email', $member['email'])->first()->id;
+            $memberId = $userRepo->where('email', $member['email'])->first()->id;
 
             if ($member['role'] == Survey::OWNER) {
                 throw new Exception("Role not permited!", 1);
@@ -144,12 +144,15 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
 
         // create settings of survey
         $settingsData = $this->createSettingDataArray($data['setting']);
-        $settingMailToWsm = [
-            'key' => config('settings.setting_type.send_mail_to_wsm.key'),
-            'value' => $inviteData['send_mail_to_wsm'],
-        ];
 
-        array_push($settingsData, $settingMailToWsm);
+        if (Auth::user()->checkLoginWsm()) {
+            $settingMailToWsm = [
+                'key' => config('settings.setting_type.send_mail_to_wsm.key'),
+                'value' => $inviteData['send_mail_to_wsm'],
+            ];
+            array_push($settingsData, $settingMailToWsm);
+        }
+
         $survey->settings()->createMany($settingsData);
 
         $orderSection = 0;
@@ -223,30 +226,15 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
             }
         }
 
-        // if survey is create
+        // if survey is create then send mail after created
         if ($status == config('settings.survey.status.open')) {
-            // send mail manage to owner
-            $emailData = [
-                'name' => Auth::user()->name,
-                'title' => $data['invited_email']['subject'],
-                'messages' => $data['invited_email']['message'],
-                'description' => $survey->description,
-                'linkManage' => route('surveys.edit', $survey->token_manage),
-                'link' => route('survey.create.do-survey', $survey->token),
-            ];
-
-            Mail::to(Auth::user()->email)->queue((new ManageSurvey($emailData))->onConnection('database'));
-
-            // send mail manage to members
-            foreach ($data['members'] as $member) {
-                $emailData['name'] = app(UserInterface::class)->where('email', $member['email'])->first()->name;
-                Mail::to($member['email'])->queue((new ManageSurvey($emailData))->onConnection('database'));
-            }
-
-            // send mail invite
-            if (count($inviteData['emails'])) {
-                Mail::to($inviteData['emails'])->queue((new InviteSurvey($emailData))->onConnection('database'));
-            }
+            $this->sendMailCreateSurvey($survey, Auth::user(), $userRepo, [
+                'message' => $data['invited_email']['message'],
+                'subject' => $data['invited_email']['subject'],
+                'members' => $data['members'],
+                'invite_mails' => $inviteData['emails'],
+                'setting_mail_to_wsm' => !empty($settingMailToWsm['value']) ? $settingMailToWsm['value'] : '',
+            ]);
         }
 
         return $survey;
@@ -304,7 +292,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                 'message' => $inviteData['message'],
                 'status' => config('settings.survey.invite_status.not_finish'),
                 'number_invite' => count($inviteData['emails']),
-                'number_answer' => config('settings.survey.number_answer_default'),
+                'number_answer' => count($inviteData['answer_emails']),
             ];
 
             if (empty($survey->invite)) {
@@ -316,26 +304,27 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
 
         // update settings of survey
         $survey->settings()->forceDelete();
-
         $settingsData = $this->createSettingDataArray($data['setting']);
-        $settingMailToWsm = [
-            'key' => config('settings.setting_type.send_mail_to_wsm.key'),
-            'value' => $inviteData['send_mail_to_wsm'],
-        ];
-        array_push($settingsData, $settingMailToWsm);
+
+        if (Auth::user()->checkLoginWsm()) {
+            $settingMailToWsm = [
+                'key' => config('settings.setting_type.send_mail_to_wsm.key'),
+                'value' => $inviteData['send_mail_to_wsm'],
+            ];
+            array_push($settingsData, $settingMailToWsm);
+        }
 
         $survey->settings()->createMany($settingsData);
 
         return true;
     }
 
-
     public function updateSurveyByObject($survey, $values)
     {
         return $survey->update($values);
     }
 
-    public function updateSurvey($survey, $data, $status, $questionRepo, $answerRepo)
+    public function updateSurvey($survey, $data, $status, $questionRepo, $answerRepo, $userRepo = null)
     {
         $surveyInputs = [
             'title' => $data->get('title'),
@@ -348,48 +337,46 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         $deleteData = $data->get('delete');
         $updateData = $data->get('update');
         $createData = $data->get('create');
+        $updatedQuestionIds = [];
+        $isDraftToOpen = false;
+
+        if ($survey->isDraft() && $status == config('settings.survey.status.open')) {
+            $isDraftToOpen = true;
+        }
+
         // update base information of survey
         $survey->update($surveyInputs);
         
-        // update or create option update survey setting
-        if ($status == config('settings.survey.status.open')) {
-            $optionUpdateSetting = $survey->settings()->where('key', config('settings.setting_type.option_update_survey.key'))->first();
-
-            if (empty($optionUpdateSetting)) {
-                $survey->settings()->create([
-                    'key' => config('settings.setting_type.option_update_survey.key'),
-                    'value' => $data->get('option'),
-                ]);
-            } else {
-                $optionUpdateSetting->update(['value' => $data->get('option')]);
-            }
-        }
         // delete sections, questions, answers has deleted
         $answerRepo->deleteAnswersById($deleteData['answers']);
         $questionRepo->deleteQuestionsById($deleteData['questions']);
         DB::table('sections')->whereIn('id', $deleteData['sections'])->delete();
 
         // update sections
-        foreach ($updateData['sections'] as $key => $data) {
-            $survey->sections()->where('id', $key)->first()->update($data);
+        foreach ($updateData['sections'] as $key => $value) {
+            $survey->sections()->where('id', $key)->first()->update($value);
         }
 
         // update questions
-        foreach ($updateData['questions'] as $key => $data) {
+        foreach ($updateData['questions'] as $key => $value) {
+            if ($value['update'] == config('settings.survey.section_update.updated')) {
+                array_push($updatedQuestionIds, $key);
+            }
+
             $question = $questionRepo->where('id', $key)->first();
-            $question->update($data);
+            $question->update($value);
 
             // update question media if has
-            $this->updateQuestionMedia($question, $data, Auth::user()->id);
+            $this->updateQuestionMedia($question, $value, Auth::user()->id);
         }
 
         // update answers
-        foreach ($updateData['answers'] as $key => $data) {
+        foreach ($updateData['answers'] as $key => $value) {
             $answer = $answerRepo->where('id', $key)->first();
-            $answer->update($data);
+            $answer->update($value);
 
             // update answer media if has
-            $this->updateAnswerMedia($answer, $data, Auth::user()->id);
+            $this->updateAnswerMedia($answer, $value, Auth::user()->id);
         }
 
         // create new sections, questions, answers when update
@@ -400,6 +387,50 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
 
         // create new answers in old questions when update
         $this->createNewAnswers('', $questionRepo, $createData['answers'], Auth::user()->id);
+
+        // if current survey is draft and saved to open
+        if ($isDraftToOpen) {
+            $inviter = $survey->invite;
+            $inviteMails = [];
+            $message = '';
+            $subject = '';
+
+            if (!empty($inviter)) {
+                $message = $inviter->message;
+                $subject = $inviter->subject;
+                $inviteMails = $inviter->invite_mails_array;
+            }
+
+            $members = $survey->members()->wherePivot('role', '!=', Survey::OWNER)->get();
+            $settingMailToWsm = $survey->settings()->where('key', config('settings.setting_type.send_mail_to_wsm.key'))->first();
+            $settingMailToWsm = !empty($settingMailToWsm) ? $settingMailToWsm->value : '';
+
+            $this->sendMailCreateSurvey($survey, Auth::user(), $userRepo, [
+                'message' => $message,
+                'subject' => $subject,
+                'members' => $members,
+                'invite_mails' => $inviteMails,
+                'setting_mail_to_wsm' => $settingMailToWsm,
+            ]);
+
+            return;
+        }
+
+        // process follow option update
+        if ($status == config('settings.survey.status.open')) {
+            
+            $optionUpdate = $data->get('option');
+
+            // if option update is "send all question of survey again" then delete all old results
+            if ($optionUpdate == config('settings.option_update.send_all_question_survey_again')) {
+                $survey->results()->forceDelete();
+            } else {
+                // if option update is "dont send survey again" OR is "send question has updated" then delete all result of these questions
+                DB::table('results')->whereIn('question_id', $updatedQuestionIds)->delete();
+            }
+
+            $this->sendMailUpdateSurvey($optionUpdate, $survey, Auth::user(), $userRepo);
+        }
     }
 
     public function checkCloseSurvey($inviteIds, $surveyIds)
@@ -694,7 +725,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
 
     public function getSurveyByTokenManage($token)
     {
-        return $this->model->with([
+        $survey = $this->model->with([
             'settings',
             'invite',
             'members' => function ($query) {
@@ -703,11 +734,23 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
             'sections' => function ($query) {
                 $query->with([
                     'questions' => function ($query) {
-                        $query->with('answers.media', 'settings', 'media');
+                        $query->with([
+                            'answers' => function ($query) {
+                                $query->with('media', 'settings');
+                            }, 
+                            'settings', 
+                            'media',
+                        ]);
                     },
                 ]);
             },
         ])->where('token_manage', $token)->first();
+
+        if (!$survey) {
+            throw new Exception("Error Processing Request", 1);
+        }
+
+        return $survey;
     }
 
     public function getSurveysByStatus($status)

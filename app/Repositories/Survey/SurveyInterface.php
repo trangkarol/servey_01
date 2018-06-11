@@ -6,13 +6,13 @@ interface SurveyInterface
 {
     public function getResutlSurvey($token);
 
-    public function createSurvey($userId, $data, $status);
+    public function createSurvey($userId, $data, $status, $userRepo);
 
     public function updateSettingSurvey($survey, $data, $userRepo);
 
     public function updateSurveyByObject($survey, $values);
 
-    public function updateSurvey($survey, $data, $status, $questionRepo, $answerRepo);
+    public function updateSurvey($survey, $data, $status, $questionRepo, $answerRepo, $userRepo = null);
 
     public function checkCloseSurvey($inviteIds, $surveyIds);
 

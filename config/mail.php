@@ -113,4 +113,5 @@ return [
 
     'sendmail' => '/usr/sbin/sendmail -bs',
 
+    'framgia_mail_staff' => env('FRAMGIA_MAIL_STAFF'),
 ];
