@@ -4211,7 +4211,7 @@ tr:nth-child(even) {
 }
 
 .select-list-survey {
-    padding: 0.9rem 1.1rem !important;
+    padding: 0.5rem 1.1rem !important;
     font-weight: 400 !important;
     color: #8c8f92 !important;
     border-color: #dddddd !important;

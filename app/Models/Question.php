@@ -128,15 +128,18 @@ class Question extends Model
 
     public function getDateContentAttribute()
     {
-        switch ($this->value_setting) {
-            case config('settings.date_format_vn'):
+        switch (strtolower($this->value_setting)) {
+            case strtolower(config('settings.date_format_vn')):
                 return trans('lang.date_format_vn');
 
-            case config('settings.date_format_en'):
+            case strtolower(config('settings.date_format_en')):
                 return trans('lang.date_format_en');
 
-            default:
+            case strtolower(config('settings.date_format_jp')):
                 return trans('lang.date_format_jp');
+
+            default:
+                throw new Exception("Error Processing Request", 1);
         }
     }
 

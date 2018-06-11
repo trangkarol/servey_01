@@ -207,4 +207,11 @@ class Survey extends Model
 
         return 0;
     }
+
+    public function getPrivacy()
+    {
+        return $this->settings
+            ->where('key', config('settings.setting_type.privacy.key'))
+            ->first()->value;
+    }
 }

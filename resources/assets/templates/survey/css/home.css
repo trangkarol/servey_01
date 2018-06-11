@@ -37,6 +37,7 @@ a.btn {
 a.btn .fa {
     color: #fff;
     margin-right: 5px;
+    margin-left: 5px;
 }
 .btn:focus,
 a.btn:focus {

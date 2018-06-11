@@ -384,6 +384,10 @@ jQuery(document).ready(function () {
                     tempData.update = question.status;
                     tempData.required = question.require;
 
+                    if (type == 5) {
+                        tempData.date_format = question.date_format;
+                    }
+
                     questionsUpdate[questionId] = tempData;
                     questionsUpdateId.push(questionId);
                 } else if (question.status == 2) {       // if is create         
@@ -988,25 +992,57 @@ jQuery(document).ready(function () {
         format: 'DD/MM/YYYY h:mm A',
     });
 
-    if ($('#start-time').data('time')) {
-        $('#start-time').data('datetimepicker').date(new Date($('#start-time').data('time')));
-    }
-
     $('#end-time').datetimepicker({
-        useCurrent: false,
         format: 'DD/MM/YYYY h:mm A',
     });
 
-    if ($('#end-time').data('time')) {
-        $('#end-time').data('datetimepicker').date(new Date($('#end-time').data('time')));
-    }
+    // select start-time
+    $('.page-section-header').on('change.datetimepicker', '#start-time', function (e) {
+        if ($(this).val() == '') {
+            $('#end-time').data('datetimepicker').clear();
 
-    $("#start-time").on("change.datetimepicker", function (e) {
-        $('#end-time').datetimepicker('minDate', e.date);
+            return;
+        }   
+
+        var dateSelect = new Date(e.date);
+        var dateNow = new Date();
+        var diffdateNow = Math.round((dateNow - dateSelect) / (1000 * 60));
+
+        // if start-time select <= time now
+        if (diffdateNow >= 0) {
+            // start-time must after time now 30 min
+            dateSelect =  new Date(dateNow.getTime() + 30 * 1000 * 60);
+            $(this).data('datetimepicker').date(dateSelect);
+            
+            return;
+        }
     });
 
-    $("#end-time").on("change.datetimepicker", function (e) {
-        $('#start-time').datetimepicker('maxDate', e.date);
+    // select end-time
+    $('.page-section-header').on('change.datetimepicker', '#end-time', function (e) {
+        if ($(this).val() == '') {
+            return;
+        }
+
+        var dateSelect = new Date(e.date);
+        var startDate = $('#start-time').val();
+
+        // if start-time is empty then add start-time
+        if (startDate == '') {
+            $('#start-time').data('datetimepicker').date(new Date());
+            startDate = $('#start-time').val();
+        }
+
+        startDate = startDate.split('/')[1] + '-' + startDate.split('/')[0] + startDate.substring(5);
+        startDate = new Date(startDate);
+        var diffdateNow = Math.round((startDate - dateSelect) / (1000 * 60));
+
+        // if end-time select <= start-time
+        if (diffdateNow >= 0) {
+            // end-time must after start-time now 30 min
+            dateSelect =  new Date(startDate.getTime() + 30 * 1000 * 60);
+            $(this).data('datetimepicker').date(dateSelect);
+        }
     });
 
     $('#next-remind-time').datetimepicker({
@@ -2714,7 +2750,7 @@ jQuery(document).ready(function () {
         $('#next-remind-time').data('datetimepicker').date(new Date());
     });
 
-    $('.next-remind-block').on('change.datetimepicker', '#next-remind-time', function() {
+    $('.next-remind-block').on('change.datetimepicker', '#next-remind-time', function () {
         var dateSelect = $(this).val();
         dateSelect = dateSelect.split('/')[1] + '-' + dateSelect.split('/')[0] + dateSelect.substring(5);
         dateSelect = new Date(dateSelect);
@@ -3592,6 +3628,11 @@ jQuery(document).ready(function () {
                 status = 2; // create
             } else if (oldQuestion.title != question.title || oldQuestion.media != question.media || oldQuestion.require != question.require) {
                status = 1; // edit
+            }
+
+            // check edit if type question is date
+            if (!status && question.type == 5 && oldQuestion.date_format != question.date_format) {
+                status = 1;
             }
 
             // check answers of this question is change ?
