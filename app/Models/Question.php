@@ -123,7 +123,7 @@ class Question extends Model
 
     public function getValueSettingAttribute()
     {
-        return $this->settings->first()->value;
+        return strtolower($this->settings->first()->value);
     }
 
     public function getDateContentAttribute()
