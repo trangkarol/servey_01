@@ -16,7 +16,7 @@ $(document).ready(function () {
     });
 
     // get result
-    $(document).on('click', '#results-survey', function () {
+    $(document).on('click', '#results-survey, #btn-summary-result, #btn-personal-result', function () {
         var url = $(this).attr('data-url');
         handelManagement($(this));
         $.ajax({
@@ -24,16 +24,22 @@ $(document).ready(function () {
             url: url,
             dataType: 'json',
             success: function (data) {
-                $('#div-management-survey').html(data.html).promise().done(function () {
-                    results(); // use to render chart of result of survey at line 35 of file resources/assets/templates/survey/js/result.js
-                    $(this).find('.ul-result').addClass('ul-result-management');
-                });
+                if (data.success) {
+                    $('#div-management-survey').html(data.html).promise().done(function () {
+                        results(); // use to render chart of result of survey at line 35 of file resources/assets/templates/survey/js/result.js
+                        $(this).find('.ul-result').addClass('ul-result-management');
+                    });
 
-                $('[data-toggle="tooltip"]').tooltip();
+                    $('[data-toggle="tooltip"]').tooltip();
 
-                autoScroll(); // use function autoScroll() from file resources/assets/templates/survey/js/result.js
+                    autoScroll(); // use function autoScroll() from file resources/assets/templates/survey/js/result.js
+                } else {
+                    $('.content-section-preview').html(`<span class="message-result">${data.message}</span>`);
+                }
             }
         });
+
+        return false;
     });
 
     // setting survey

@@ -849,10 +849,16 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
     public function getSurveyForResult($tokenManage)
     {
         $result = $this->model->withTrashed()->with([
-            'sections.questions' => function ($query) {
-                $query->with([
+            'sections.questions' => function ($queryQuestion) {
+                $queryQuestion->with([
                     'settings',
-                    'answers.settings',
+                    'media',
+                    'answers' => function ($queryAnswer) {
+                        $queryAnswer->with([
+                            'settings',
+                            'media',
+                        ]);
+                    },
                 ]);
             },
             'results',

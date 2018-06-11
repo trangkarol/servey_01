@@ -13,13 +13,22 @@
                     </h2>
                 </div>
                 <div class="form-group">
-                    <span>@lang('result.number_answer')</span>
+                    <span class="description-survey">{{ $survey->description }}</span>
                 </div>
                 <div class="row">
                     <div class="btn-group col-md-6 col-xs-9" role="group">
-                        <a href="{{ route('survey.result.index', $survey->token_manage) }}" class="btn btn-secondary-result-answer
-                            btn-secondary-result-answer-actived">@lang('result.summary')</a>
-                        <a href="" class="btn btn-secondary-result-answer">@lang('result.personal')</a>
+                        <a href="{{ route('survey.result.index', $survey->token_manage) }}"
+                            class="btn btn-secondary-result-answer btn-secondary-result-answer-actived"
+                            id="btn-summary-result"
+                            data-url="{{ route('survey.result.index', $survey->token_manage) }}">
+                            @lang('result.summary')
+                        </a>
+                        <a href="{{ route('survey.result.detail-result', $survey->token_manage) }}"
+                            class="btn btn-secondary-result-answer"
+                            id="btn-personal-result"
+                            data-url="{{ route('survey.result.detail-result', $survey->token_manage) }}">
+                            @lang('result.personal')
+                        </a>
                     </div>
                     <div class="btn-export-excel col-md-6 col-xs-3">
                         <a href="#" class="option-menu" id="export-file-excel" data-toggle="modal" data-target="#rename-excel"

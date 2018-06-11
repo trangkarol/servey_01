@@ -74,12 +74,20 @@ ul.content-margin-top-preview,
     margin-bottom: 0px !important;
 }
 
+.unset-max-with {
+    max-width: unset !important;
+}
+
 textarea {
     min-height: unset !important;
 }
 
 span.url-config-management {
     color: #333;
+}
+
+.div-list-survey {
+    min-height: unset;
 }
 
 @media (min-width: 1200px) {

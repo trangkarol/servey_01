@@ -23,6 +23,57 @@ $(document).ready(function(){
     });
     
     results();
+
+    $(document).on('change', '.page-answer-detail', function(event) {
+        event.preventDefault();
+        var page = parseInt($(this).val());
+        var countPage = parseInt($('.count-result').text());
+
+        if (!Number.isInteger(page) || page > countPage || page < 1) {
+            page = 1;
+        }
+
+        $('.page-answer-detail').val(page);
+        getPageDetail(page);
+    });
+
+    $(document).on('click', '.preview-answer-detail', function(event) {
+        event.preventDefault();
+        var page = parseInt($('.page-answer-detail').val()) - 1;
+
+        if (page < 1) {
+            page = 1;
+        }
+
+        $('.page-answer-detail').val(page);
+        getPageDetail(page);
+    });
+
+    $(document).on('click', '.next-answer-detail', function(event) {
+        event.preventDefault();
+        var countPage = parseInt($('.count-result').text());
+        var page = parseInt($('.page-answer-detail').val()) + 1;
+
+        if (page > countPage) {
+            page = countPage;
+        }
+
+        $('.page-answer-detail').val(page);
+        getPageDetail(page);
+    });
+
+    function getPageDetail(page) {
+        var url = $('#btn-personal-result').data('url');
+
+        $.ajax({
+            url : url + '?page=' + page,
+            dataType: 'json',
+        })
+        .done(function (data) {
+            $('#div-management-survey').html(data.html);
+            location.hash = page;
+        });
+    }
 });
 
 function autoScroll() {

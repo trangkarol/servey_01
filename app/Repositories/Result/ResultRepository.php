@@ -8,6 +8,7 @@ use App\Traits\ClientInformation;
 use Exception;
 use DB;
 use Carbon\Carbon;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ResultRepository extends BaseRepository implements ResultInterface
 {
@@ -93,6 +94,31 @@ class ResultRepository extends BaseRepository implements ResultInterface
         $this->multiCreate($input);
     }
 
+    public function getDetailResultSurvey($request, $survey)
+    {
+        $results = $survey->results->groupBy(
+            function($date) {
+                return Carbon::parse($date->created_at)->format('Y-m-d H:m:s');
+            }
+        );
+
+        $countResult = $results->count();
+        $page = isset($request->page) ? $request->page : 1;
+        $perPage = 1;
+
+        $paginate = new LengthAwarePaginator(
+            $results->forPage($page, $perPage),
+            $results->count(),
+            $perPage,
+            $page,
+            ['path' => route('survey.result.detail-result', $survey->token_manage)]
+        );
+
+        return [
+            'results' => $paginate,
+            'countResult' => $countResult,
+        ];
+    }
 
     public function closeFromSurvey($survey)
     {
