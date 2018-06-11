@@ -21,4 +21,6 @@ interface AnswerInterface
     public function openFromQuestionId($idQuestions);
 
     public function deleteAnswersById($idAnswers);   
+
+    public function cloneAnswer($answer, $newQuestion);
 }

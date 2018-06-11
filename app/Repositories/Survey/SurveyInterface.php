@@ -57,4 +57,8 @@ interface SurveyInterface
     public function getSurveyForResult($tokenManage);
 
     public function getSurveyFromToken($token);
+
+    public function getSurveyForClone($tokenManage);
+
+    public function cloneSurvey($survey);
 }

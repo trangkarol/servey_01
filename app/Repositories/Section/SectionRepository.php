@@ -39,4 +39,11 @@ class SectionRepository extends BaseRepository implements SectionInterface
     {
         return $survey->sections()->withTrashed()->forceDelete();
     }
+
+    public function cloneSection($section, $newSurvey)
+    {
+        $newSection = $section->replicate()->toArray();
+
+        return $newSurvey->sections()->create($newSection);
+    }
 }

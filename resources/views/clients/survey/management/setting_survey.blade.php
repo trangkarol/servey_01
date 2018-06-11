@@ -29,7 +29,9 @@
             </a>
 
             <a href="javascript:void(0)" class="btn btn-dark"
-               data-toggle="tooltip" title="@lang('survey.coppy')">
+                id="clone-survey"
+                data-toggle="tooltip" title="@lang('survey.coppy')"
+                data-url="{{ route('ajax-survey-clone', $survey->token_manage) }}">
                 <i class="fa fa-copy"></i>
             </a>
         </div>

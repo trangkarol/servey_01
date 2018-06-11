@@ -11,4 +11,6 @@ interface SectionInterface
     public function openFromSurvey($survey);
 
     public function deleteFromSurvey($survey);
+
+    public function cloneSection($section, $newSurvey);
 }

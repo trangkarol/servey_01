@@ -28,6 +28,28 @@ trait ManageSurvey
         $this->surveyRepository->openSurvey($survey);
     }
 
+    public function clone($survey)
+    {
+        $newSurvey = $this->surveyRepository->cloneSurvey($survey);
+
+        foreach ($survey->sections as $section) {
+            // clone section
+            $newSection = $this->sectionRepository->cloneSection($section, $newSurvey);
+
+            foreach ($section->questions as $question) {
+                // clone question
+                $newQuestion = $this->questionRepository->cloneQuestion($question, $newSection);
+
+                foreach ($question->answers as $answer) {
+                    // clone answer
+                    $this->answerRepository->cloneAnswer($answer, $newQuestion);
+                }
+            }
+        }
+
+        return $newSurvey;
+    }
+
     public function delete($survey)
     {
         $idSections = $survey->sections()->withTrashed()->pluck('id')->all();

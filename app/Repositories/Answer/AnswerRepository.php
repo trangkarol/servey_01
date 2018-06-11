@@ -259,5 +259,19 @@ class AnswerRepository extends BaseRepository implements AnswerInterface
             ->whereIn('settingable_id', $idAnswers)->delete();
 
         DB::table('questions')->whereIn('id', $idAnswers)->delete(); 
-    }  
+    }
+
+    public function cloneAnswer($answer, $newQuestion)
+    {
+        $data = $answer->replicate()->toArray();
+        $newAnswer = $newQuestion->answers()->create($data);        
+        // clone setting answer
+        $dataSettings = $answer->settings->toArray();
+        $newAnswer->settings()->createMany($dataSettings);
+        // clone media answer
+        $dataMedia = $answer->media->toArray();
+        app(MediaInterface::class)->cloneMedia($dataMedia, $newAnswer);
+
+        return $newAnswer;
+    }
 }
