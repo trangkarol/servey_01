@@ -26,8 +26,12 @@
                             $invites = $survey->getInvites();
                         @endphp
                         
-                        <div class="progress process-bar-survey">
-                            <div class="progress-bar progress-bar-striped bg-success" role="progressbar" aria-valuenow="{{ $survey->getInvites() }}" aria-valuemin="0" aria-valuemax="100" style="width:{{ $invites }}%">{{ $invites }}%</div>
+                        <div class="progress process-bar-survey"
+                            data-toggle="modal"
+                            data-target="#pupup-invite-survey"
+                            data-emails="{{ $survey->invite()->count() ? $survey->invite->invite_mails : '' }}"
+                            data-emails-answered="{{ $survey->invite()->count() ? $survey->invite->answer_mails : '' }}">
+                            <div class="progress-bar progress-bar-striped bg-success" role="progressbar" aria-valuenow="{{ $invites }}" aria-valuemin="0" aria-valuemax="100" style="width:{{ $invites }}%">{{ $survey->getNumberAnswer() }}/{{ $survey->getNumberInvite() }}</div>
                         </div>
                     </td>
                     <td>
@@ -48,3 +52,4 @@
 @else
     @include('clients.layout.empty_data')
 @endif
+@include('clients.profile.survey.inviting_status')

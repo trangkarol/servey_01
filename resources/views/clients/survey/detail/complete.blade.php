@@ -13,8 +13,8 @@
     </head>
     <body>
         <main>
-            <div class="image-header-complete"></div>
-            <div class="image-content-complete"></div>
+            <div class="{{ isset($content) ? 'image-header-warning' : 'image-header-complete' }}"></div>
+            <div class="{{ isset($content) ? 'image-content-warning' : 'image-content-complete' }}"></div>
             <!-- Content Wrapper  -->
                 <div class="wrapper-content-complete">
                     <div class="content-complete-result">
@@ -24,7 +24,9 @@
                             </h2>
                         </div>
                         <div>
-                            <span class="description-complete">@lang('lang.your_answer_has_been_recorded')</span>
+                            <span class="{{ isset($content) ? 'description-warning' : 'description-complete' }}">
+                                {{ isset($content) ? $content : trans('lang.your_answer_has_been_recorded') }}
+                            </span>
                         </div>
                         <div class="back-home-complete">
                             <span class="back-home-description-complete"><a href="{{ route('home') }}">&#10149; @lang('lang.home')</a></span>

@@ -25,14 +25,18 @@ class DoingSurveyMiddleware
 
     public function handle($request, Closure $next)
     {
-        $survey = $this->surveyRepository->getSurveyFromToken($request->token);
-        $requiredLogin = $survey->settings
-            ->where('key', config('settings.setting_type.answer_required.key'))
-            ->first()
-            ->value;
+        if (!Auth::check()) {
+            $survey = $this->surveyRepository->getSurveyFromToken($request->token);
+            $requiredLogin = $survey->required;
+            $privacy = $survey->getPrivacy();
 
-        if ($requiredLogin && !Auth::check()) {
-            return new Response(view('clients.survey.detail.index', compact('requiredLogin')));
+            if ($privacy == config('settings.survey_setting.privacy.private')) {
+                $requiredLogin = config('settings.survey_setting.answer_required.login');
+            }
+
+            if ($requiredLogin) {
+                return new Response(view('clients.survey.detail.index', compact('requiredLogin')));
+            }
         }
 
         return $next($request);

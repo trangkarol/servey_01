@@ -3,6 +3,7 @@
 @push('styles')
     {!! Html::style(elixir(config('settings.public_template') . 'css/theme-styles.css')) !!}
     {!! Html::style(elixir(config('settings.public_template') . 'css/blocks.css')) !!}
+    {!! Html::style(elixir(config('settings.public_template') . 'css/form-builder-custom.css')) !!}
     {!! Html::style(asset(config('settings.plugins') . 'datatables/css/jquery.dataTables.css')) !!}
     {!! Html::style(elixir(config('settings.public_template') . 'css/datatables-custom.css')) !!}
 @endpush
@@ -231,6 +232,9 @@
     </div>
 @endsection
 @push('scripts')
+    {!! Html::script(asset(config('settings.plugins') . 'popper/popper.min.js')) !!}
+    {!! Html::script(asset(config('settings.plugins') . 'bootstrap/dist/js/bootstrap.min.js')) !!}
     {!! Html::script(asset(config('settings.plugins') . 'datatables/js/jquery.dataTables.js')) !!}
     {!! Html::script(elixir(config('settings.public_template') . 'js/datatables-script.js')) !!}
+    {!! Html::script(elixir(config('settings.public_template') . 'js/manage-invite.js')) !!}
 @endpush
