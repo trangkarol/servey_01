@@ -92,11 +92,11 @@
                             @if ($numOfSection > config('settings.number_1'))
                                 @if (config('settings.number_0') !== $currentSection)
                                     <a href="{{ route('survey.create.preview.previous') }}"
-                                        class="btn-action-preview">@lang('lang.previous')</a>
+                                        class="btn-action-preview btn-action-preview-survey">@lang('lang.previous')</a>
                                 @endif
                                 @if ($numOfSection - config('settings.number_1') !== $currentSection)
                                     <a href="{{ route('survey.create.preview.next') }}"
-                                        class="btn-action-preview">@lang('lang.next')</a>
+                                        class="btn-action-preview btn-action-preview-survey">@lang('lang.next')</a>
                                 @endif
                             @endif
                         </li>

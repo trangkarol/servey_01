@@ -6,7 +6,7 @@
                     ['class' => 'img-answer']) !!}
             </div>
         @endif
-        @if ($answer->type === config('settings.anser_type.option_other'))
+        @if ($answer->type === config('settings.answer_type.other_option'))
             <label class="container-radio-setting-survey">@lang('lang.other')
                 {!! Form::radio('answer', '', false, ['class' => 'radio-answer-preview']) !!}
                 <span class="checkmark-radio"></span>

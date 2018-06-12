@@ -228,7 +228,6 @@ $(document).ready(function() {
         event.stopPropagation();
         var selector = $(this).closest('.ul-content-preview');
 
-
         if($('.page-doing-survey').is(':visible')) {
             if (!validateDoingSection(selector)) {
                 return false;
@@ -448,7 +447,7 @@ $(document).ready(function() {
 
         return true;
     }
-    $(document).on('click', '.btn-action-preview', function(event) {
+    $(document).on('click', '.btn-action-preview-survey', function(event) {
         showLoaderSection();
         hideLoaderSection();
     });
