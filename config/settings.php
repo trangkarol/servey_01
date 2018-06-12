@@ -12,6 +12,8 @@ return [
     'image_path_system' => '/user/images/',
     'path_upload' => 'public/uploads/',
     'path_upload_image' => 'public/uploads/images',
+    'path_storage_image_direct' => 'storage/app/public/uploads/images',
+    'path_storage_image' => 'storage/uploads/images',
     'path_upload_avatar' => 'public/uploads/avatars',
     'cover-profile' => [
         'default' => 'templates/survey/images/cover-profile.jpg',
