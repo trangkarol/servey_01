@@ -310,7 +310,10 @@ jQuery(document).ready(function () {
                     tempData.type = answer.type;
                     tempData.content = answer.content;
                     tempData.media = answer.media;
-                    tempData.update = answer.status;
+
+                    if (answers.status == 1) {
+                        tempData.update = answer.status;
+                    }
 
                     answersUpdate[answerId] = tempData;
                     answersUpdateId.push(answerId);
@@ -381,8 +384,11 @@ jQuery(document).ready(function () {
                     tempData.description = question.description;
                     tempData.media = question.media;
                     tempData.order = orderQuestion;
-                    tempData.update = question.status;
                     tempData.required = question.require;
+
+                    if (question.status == 1) {
+                        tempData.update = question.status;
+                    }
 
                     if (type == 5) {
                         tempData.date_format = question.date_format;
@@ -439,7 +445,10 @@ jQuery(document).ready(function () {
                     tempData.title = section.title;
                     tempData.description = section.description;
                     tempData.order = orderSection;
-                    tempData.update = section.status;
+
+                    if (section.status == 1) {
+                        tempData.update = section.status;
+                    }
 
                     sectionsUpdate[sectionId] = tempData;
                     sectionsUpdateId.push(sectionId);
@@ -3636,6 +3645,8 @@ jQuery(document).ready(function () {
             }
 
             // check answers of this question is change ?
+            var answersId = [];
+
             if (!status) {
                 collect(question.answers).each(function (answer) {
                     if (answer.status) {
@@ -3643,7 +3654,18 @@ jQuery(document).ready(function () {
 
                         return;
                     }
+
+                    answersId.push(answer.id);
                 });
+            }
+
+            if (!status) {
+                var oldAnswersId = collect(oldQuestion.answers).pluck('id');
+                var answersDeleteId = oldAnswersId.diff(answersId);
+
+                if (!answersDeleteId.isEmpty()) {
+                    status = 1;
+                }
             }
 
             return status;
@@ -3764,11 +3786,45 @@ jQuery(document).ready(function () {
             window.location.href = `${url}/${fileType}/${fileName}`;
         }
 
+        // check change value sections questions, answers
+        function isUpdate() {
+            var surveyUpdateData = getSurveyUpdateData();
+            var isUpdate = false;
+
+            collect(surveyUpdateData.update.sections).each(function (section) {
+                if (section.update != undefined && section.update != 0) {
+                    isUpdate = true;
+
+                    return;
+                }
+            })
+
+            if (isUpdate) {
+                return isUpdate;
+            }
+
+            var createData = surveyUpdateData.create;
+
+            if (!createData.sections.length && !createData.questions.length && !createData.answers.length) {
+                return false;
+            }
+
+            return true;
+        }
+
         // validate survey data when open modal option
         $('#open-send-option-modal').on('click', function () {
-            $('#option-update-modal .container-radio-setting-survey input').first().prop('checked', true);
+            if (!validateSurvey()) {
+                return false;
+            }
+
+            if (isUpdate()) {
+                $('#option-update-modal .only-send-update').show();
+            } else {
+                $('#option-update-modal .only-send-update').hide();
+            }
             
-            return validateSurvey();
+            $('#option-update-modal .container-radio-setting-survey input').first().prop('checked', true);
         });
 
         $('#update-survey-draft-to-open').on('click', function () {
@@ -3804,8 +3860,14 @@ jQuery(document).ready(function () {
             e.stopPropagation();
 
             var surveyUpdateData = getSurveyUpdateData();
-            surveyUpdateData.option = $('#option-update-modal .option-update-content').attr('val');
-            
+            var option = $('#option-update-modal .option-update-content').attr('val');
+
+            if (!isUpdate() && parseInt(option) == 2) {
+                return;
+            }
+
+            surveyUpdateData.option = option;
+
             if (!surveyUpdateData) {
                 return;
             }

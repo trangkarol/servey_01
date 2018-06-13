@@ -235,7 +235,8 @@ class SurveyController extends Controller
         if ($request->ajax()) {
             $currentSection = $request->session()->get('current_section_survey');
             $request->session()->put('current_section_survey', ++ $currentSection);
-            $section = $this->surveyRepository->getSectionCurrent($survey, $currentSection);
+            $sectionsId = $survey->sections->sortBy('order')->pluck('id')->all();
+            $section = $this->surveyRepository->getSectionCurrent($survey, $sectionsId[$currentSection - 1]);
             $sectionOrder = 'section-' . $section->order;
 
             $data = [
@@ -781,7 +782,6 @@ class SurveyController extends Controller
     {
         return view('clients.survey.detail.complete', compact('title'));
     }
-
 
     public function updateSetting(UpdateSurveySettingRequest $request, $token)
     {

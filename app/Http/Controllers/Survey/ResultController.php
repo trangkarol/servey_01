@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repositories\Survey\SurveyInterface;
 use App\Repositories\Result\ResultInterface;
+use App\Repositories\User\UserInterface;
 use Exception;
 use Auth;
 
@@ -13,13 +14,16 @@ class ResultController extends Controller
 {
     protected $surveyRepository;
     protected $resultRepository;
+    protected $userRepository;
 
     public function __construct(
         SurveyInterface $surveyRepository,
-        ResultInterface $resultRepository
+        ResultInterface $resultRepository,
+        UserInterface $userRepository
     ) {
         $this->surveyRepository = $surveyRepository;
         $this->resultRepository = $resultRepository;
+        $this->userRepository = $userRepository;
     }
 
     public function result(Request $request, $tokenManage)
@@ -31,7 +35,7 @@ class ResultController extends Controller
                 return view('clients.layout.403');
             }
 
-            $resultsSurveys = $this->surveyRepository->getResutlSurvey($survey);
+            $resultsSurveys = $this->surveyRepository->getResutlSurvey($survey, $this->userRepository);
 
             if ($request->ajax()) {
                 return response()->json([
@@ -55,7 +59,7 @@ class ResultController extends Controller
                 return view('clients.layout.403');
             }
 
-            $data = $this->resultRepository->getDetailResultSurvey($request, $survey);
+            $data = $this->resultRepository->getDetailResultSurvey($request, $survey, $this->userRepository);
             $details = $data['results'];
             $countResult = $data['countResult'];
             $pageCurrent = isset($request->page) ? $request->page : 1;
@@ -79,6 +83,7 @@ class ResultController extends Controller
                 'pageCurrent',
             ]));
         } catch (Exception $e) {
+
             return view('clients.layout.404');
         }
     }

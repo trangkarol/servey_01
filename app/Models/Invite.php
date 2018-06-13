@@ -15,6 +15,7 @@ class Invite extends Model
         'survey_id',
         'invite_mails',
         'answer_mails',
+        'send_update_mails',
         'subject',
         'message',
         'status',
@@ -27,6 +28,7 @@ class Invite extends Model
     protected $appends = [
         'invite_mails_array',
         'answer_mails_array',
+        'send_update_mails_array',
     ];
 
     public function survey()
@@ -44,5 +46,11 @@ class Invite extends Model
     {
         return !empty($this->attributes['answer_mails']) ? 
             array_filter(explode('/', $this->attributes['answer_mails'])) : [];
+    }
+
+    public function getSendUpdateMailsArrayAttribute()
+    {
+        return !empty($this->attributes['send_update_mails']) ?
+            array_filter(explode('/', $this->attributes['send_update_mails'])) : [];
     }
 }
