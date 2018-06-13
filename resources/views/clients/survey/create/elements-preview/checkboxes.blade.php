@@ -6,7 +6,7 @@
                     ['class' => 'img-answer']) !!}
             </div>
         @endif
-        @if ($answer->type === config('settings.anser_type.option_other'))
+        @if ($answer->type === config('settings.answer_type.other_option'))
             <label class="container-checkbox-setting-survey">
                 <span>@lang('lang.other')</span>
                 {!! Form::checkbox('', '', false, ['class' => 'checkbox-answer-preview']) !!}
