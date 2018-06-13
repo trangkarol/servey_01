@@ -308,4 +308,5 @@ return [
 
     'require_login_wsm_to_answer' => 'Khảo sát yêu cầu đăng nhập wsm để trả lời!',
     'require_login_to_answer' => 'Khảo sát yêu cầu đăng nhập để trả lời!',
+    'send_result_failed' => 'Gửi kết quả thất bại! Hãy thử lại',
 ];

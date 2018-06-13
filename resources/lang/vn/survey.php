@@ -15,7 +15,7 @@ return [
     'name_survey' => 'Tên khảo sát',
     'status' => 'Trạng thái',
     'search' => 'Tìm kiếm',
-    'privacy' => 'Bảo mật',
+    'privacy' => 'Quyền riêng tư',
     'survey_owner' => 'Khảo sát của bạn',
     'survey_invited' => 'Khảo sát được mời',
     'survey_editor' => 'Survey Editor',

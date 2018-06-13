@@ -308,4 +308,5 @@ return [
         
     'require_login_wsm_to_answer' => 'Survey require login wsm to answer!',
     'require_login_to_answer' => 'Survey require login to answer!',
+    'send_result_failed' => 'Send result failed! Try again!',
 ];

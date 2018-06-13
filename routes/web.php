@@ -327,11 +327,6 @@ Route::group(['middleware' => 'profile'], function () {
         'as' => 'survey.update-draft',
     ]);
 
-    Route::post('store-result', [
-        'uses' => 'SurveyController@storeResult',
-        'as' => 'survey.create.storeresult',
-    ]);
-
     Route::group(['namespace' => 'Survey'], function () {
         Route::get('surveys/result/{tokenManage}', [
             'as' => 'survey.result.index',
@@ -371,6 +366,11 @@ Route::group(['middleware' => 'profile'], function () {
         ]);
     });
 });
+
+Route::post('store-result', [
+    'uses' => 'SurveyController@storeResult',
+    'as' => 'survey.create.storeresult',
+]);
 
 Route::get('surveys-{token}', [
     'uses' => 'SurveyController@show',

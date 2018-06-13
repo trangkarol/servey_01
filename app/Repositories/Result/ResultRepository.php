@@ -21,62 +21,44 @@ class ResultRepository extends BaseRepository implements ResultInterface
 
     public function storeResult($data, $survey)
     {
-        DB::beginTransaction();
+        $surveyToken = $data->get('survey_token');
+        $survey = $survey->getSurveyFromToken($surveyToken);
 
-        try {
-            $surveyToken = $data->get('survey_token');
-            $survey = $survey->where('token', $surveyToken)->first();
+        $clientInfo = $this->processAnswererInformation($data, $survey, $survey->getPrivacy());
 
-            if (!$survey) {
-                throw new Exception("Error Processing Request", 1);
-            }
+        $resultsData = [];
+        $sections = $data->get('sections');
 
-            $clientInfo = $this->processAnswererInformation($data, $survey);
+        foreach ($sections as $section) {
+            $temp = [];
 
-            $resultsData = [];
-            $sections = $data->get('sections');
+            foreach ($section['questions'] as $question) {
+                $temp['question_id'] = $question['question_id'];
 
-            foreach ($sections as $section) {
-                $temp = [
-                    'user_id' => auth()->user()->id,
-                ];
+                foreach ($question['results'] as $result) {
+                    $temp['answer_id'] = 0;
 
-                foreach ($section['questions'] as $question) {
-                    $temp['question_id'] = $question['question_id'];
+                    if (in_array($question['type'], [
+                        config('settings.question_type.short_answer'),
+                        config('settings.question_type.long_answer'),
+                        config('settings.question_type.date'),
+                        config('settings.question_type.time'),
+                    ])) {
+                        $temp['content'] = $result['content'];
+                    } elseif ($result['answer_id']) {
+                        $temp['answer_id'] = $result['answer_id'];
 
-                    foreach ($question['results'] as $result) {
-                        $temp['answer_id'] = 0;
-
-                        if (in_array($question['type'], [
-                            config('settings.question_type.short_answer'),
-                            config('settings.question_type.long_answer'),
-                            config('settings.question_type.date'),
-                            config('settings.question_type.time'),
-                        ])) {
+                        if ($result['answer_type'] == config('settings.answer_type.other_option')) {
                             $temp['content'] = $result['content'];
-                        } elseif ($result['answer_id']) {
-                            $temp['answer_id'] = $result['answer_id'];
-
-                            if ($result['answer_type'] == config('settings.answer_type.other_option')) {
-                                $temp['content'] = $result['content'];
-                            }
                         }
-
-                        array_push($resultsData, array_merge($temp, $clientInfo));
                     }
+
+                    array_push($resultsData, array_merge($temp, $clientInfo));
                 }
             }
-
-            $survey->results()->createMany($resultsData);
-
-            DB::commit();
-
-            return true;
-        } catch (Exception $e) {
-            DB::rollback();
-
-            return false;
         }
+
+        $survey->results()->createMany($resultsData);
     }
 
     // === old ===

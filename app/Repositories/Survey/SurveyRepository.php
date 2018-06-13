@@ -291,7 +291,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                 'subject' => $inviteData['subject'],
                 'message' => $inviteData['message'],
                 'status' => config('settings.survey.invite_status.not_finish'),
-                'number_invite' => count($inviteData['emails']),
+                'number_invite' => count($inviteData['emails']) + count($inviteData['answer_emails']),
                 'number_answer' => count($inviteData['answer_emails']),
             ];
 
@@ -365,6 +365,12 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
 
             $question = $questionRepo->where('id', $key)->first();
             $question->update($value);
+
+            if ($question->type == config('settings.question_type.date')) {
+                $question->settings()->first()->update([
+                    'value' => $value['date_format'],
+                ]);
+            }
 
             // update question media if has
             $this->updateQuestionMedia($question, $value, Auth::user()->id);

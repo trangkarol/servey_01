@@ -685,21 +685,25 @@ class SurveyController extends Controller
             ]);
         }
 
-        $success = true;
-        $survey = $this->resultRepository->storeResult($request->json(), $this->surveyRepository);
+        DB::beginTransaction();
 
-        if (!$survey) {
-            $success = false;
-            $message = trans('lang.save_survey_draft_failed');
+        try {
+            $this->resultRepository->storeResult($request->json(), $this->surveyRepository);
+            $request->session()->forget('current_section_survey');
+
+            DB::commit();
+            
+            return response()->json([
+                'success' => true,
+            ]);
+        } catch (Exception $e) {
+            DB::rollback();
+
+            return response()->json([
+                'success' => false,
+                'message' => trans('lang.send_result_failed'),
+            ]);
         }
-
-        $request->session()->forget('current_section_survey');
-
-        return response()->json([
-            'success' => $success,
-            'json' => $survey,
-            'message' => isset($message) ? $message : '',
-        ]);
     }
 
     // write new

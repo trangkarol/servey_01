@@ -240,7 +240,6 @@ $(document).ready(function() {
         obj.survey_token = $('#id-survey-preview').attr('data-token');
         obj.email = '';
         obj.user_id = $('#user-id').attr('data-user-id');
-        obj.client_ip = '';
         obj.sections = getSections();
         var result = JSON.stringify(obj);
         showLoaderSection();
