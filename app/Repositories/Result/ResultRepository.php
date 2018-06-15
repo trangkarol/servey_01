@@ -5,14 +5,16 @@ namespace App\Repositories\Result;
 use App\Models\Result;
 use App\Repositories\BaseRepository;
 use App\Traits\ClientInformation;
+use App\Traits\SurveyProcesser;
 use Exception;
 use DB;
+use Auth;
 use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class ResultRepository extends BaseRepository implements ResultInterface
 {
-    use ClientInformation;
+    use ClientInformation, SurveyProcesser;
 
     public function getModel()
     {
@@ -59,6 +61,19 @@ class ResultRepository extends BaseRepository implements ResultInterface
         }
 
         $survey->results()->createMany($resultsData);
+
+        // update created_at of pairs result has updated
+        $inviter = $survey->invite;
+        $sendUpdateMails = collect(!empty($inviter) ? $inviter->send_update_mails_array : []);
+        $userMails = Auth::check() ? Auth::user()->email : '';
+
+        if ($survey->isSendUpdateOption() && $sendUpdateMails->contains($userMails)) {
+            $results = $survey->results()->where('user_id', $clientInfo['user_id'])->orderBy('created_at', 'desc')->get();
+            $createdAt = $results->first()->created_at;
+            $resultsId = $results->pluck('id');
+
+            DB::table('results')->whereIn('id', $resultsId)->update(['created_at' => $createdAt]);
+        }
     }
 
     // === old ===
@@ -76,9 +91,12 @@ class ResultRepository extends BaseRepository implements ResultInterface
         $this->multiCreate($input);
     }
 
-    public function getDetailResultSurvey($request, $survey)
+    public function getDetailResultSurvey($request, $survey, $userRepo)
     {
-        $results = $survey->results->groupBy(
+        $results = $survey->results();
+        $results = $this->getResultsFollowOptionUpdate($survey, $results, $userRepo)->get();
+
+        $results = $results->groupBy(
             function($date) {
                 return Carbon::parse($date->created_at)->format('Y-m-d H:m:s');
             }

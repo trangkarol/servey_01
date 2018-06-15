@@ -105,11 +105,26 @@ trait SurveyProcesser
         ];
     }
 
+    // if option update is "only send updated question survey" or dont have option then get results except results of users in send_update_mails
+    public function getResultsFollowOptionUpdate($survey, $results, $userRepo)
+    {
+        if ($survey->isSendUpdateOption()) {
+            $inviter = $survey->invite;
+            $sendUpdateMails = !empty($inviter) ? $inviter->send_update_mails_array : [];
+            $usersSendUpdateId = $userRepo->whereIn('email', $sendUpdateMails)->pluck('id')->all();
+
+            $results = $results->whereNotIn('user_id', $usersSendUpdateId);
+        }
+
+        return $results;
+    }
+
     // get result text question
-    public function getTextQuestionResult($question)
+    public function getTextQuestionResult($question, $survey, $userRepo)
     {
         $temp = [];
-        $answerResults = $question->answerResults->where('content', '<>', config('settings.group_content_result'));
+        $answerResults = $question->answerResults()->where('content', '<>', config('settings.group_content_result'));
+        $answerResults = $this->getResultsFollowOptionUpdate($survey, $answerResults, $userRepo)->get();
         $totalAnswerResults = $answerResults->count();
 
         if ($totalAnswerResults) {
@@ -134,16 +149,18 @@ trait SurveyProcesser
     }
 
     // get result choice quesion
-    public function getResultChoiceQuestion($question)
+    public function getResultChoiceQuestion($question, $survey, $userRepo)
     {
         $temp = [];
-        $totalAnswerResults = $question->results->count();
+        $results = $question->results();
+        $results = $this->getResultsFollowOptionUpdate($survey, $results, $userRepo)->get();
+        $totalAnswerResults = $results->count();
 
         foreach ($question->answers as $answer) {
             if ($totalAnswerResults) {
                 // get choice answer other
                 if ($answer->type == config('settings.answer_type.other_option')) {
-                    $answerOthers = $answer->results->groupBy('content');
+                    $answerOthers = $results->where('answer_id', $answer->id)->groupBy('content');
 
                     foreach ($answerOthers as $answerOther) {
                         $count = $answerOther->count();
@@ -158,7 +175,7 @@ trait SurveyProcesser
                         ];
                     }
                 } else {
-                    $answerResults = $answer->results->count();
+                    $answerResults = $results->where('answer_id', $answer->id)->count();
 
                     $temp[] = [
                         'answer_id' => $answer->id,
@@ -378,18 +395,24 @@ trait SurveyProcesser
             $answerMails = $inviter->answer_mails_array;
             $inviteMails = array_unique(array_merge($inviteMails, $answerMails));
 
-            $survey->invite()->update([
+            $updateData = [
                 'invite_mails' => $this->formatInviteMailsString($inviteMails),
                 'answer_mails' => '',
                 'status' => config('settings.survey.invite_status.not_finish'),
                 'number_invite' => count($inviteMails),
                 'number_answer' => config('settings.survey.number_answer_default'),
-            ]);  
-        }
+                'send_update_mails' => '',
+            ];
 
-        // if option is dont send survey
-        if ($optionUpdate == config('settings.option_update.dont_send_survey_again')) {
-            return;
+            // if option is only send updated question then update send_update_mails column
+            if (in_array($optionUpdate, [
+                    config('settings.option_update.only_send_updated_question_survey'),
+                    config('settings.option_update.dont_send_survey_again'),
+                ])) {
+                $updateData['send_update_mails'] = $inviter->send_update_mails . $this->formatInviteMailsString($answerMails);
+            }
+
+            $survey->invite()->update($updateData);  
         }
 
         // update or create option update survey
@@ -402,6 +425,11 @@ trait SurveyProcesser
             ]);
         } else {
             $optionUpdateSetting->update(['value' => $optionUpdate]);
+        }
+
+        // if option is dont send survey
+        if ($optionUpdate == config('settings.option_update.dont_send_survey_again')) {
+            return;
         }
 
         $members = $survey->members()->wherePivot('role', '!=', Survey::OWNER)->get();

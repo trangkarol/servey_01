@@ -8,7 +8,7 @@ interface ResultInterface
 
     public function storeResult($data, $survey);
 
-    public function getDetailResultSurvey($request, $survey);
+    public function getDetailResultSurvey($request, $survey, $userRepo);
 
     public function closeFromSurvey($survey);
 

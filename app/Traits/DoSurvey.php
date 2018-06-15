@@ -9,7 +9,8 @@ trait DoSurvey
     {
         Session::put('current_section_survey', config('settings.section_order_default'));
         $currentSection = config('settings.section_order_default');
-        $section = $this->surveyRepository->getSectionCurrent($survey, $currentSection);
+        $sectionsId = $survey->sections->sortBy('order')->pluck('id')->all();
+        $section = $this->surveyRepository->getSectionCurrent($survey, $sectionsId[$currentSection - 1]);
 
         return [
             'survey' => $survey,

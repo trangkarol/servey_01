@@ -4,7 +4,7 @@ namespace App\Repositories\Survey;
 
 interface SurveyInterface
 {
-    public function getResutlSurvey($token);
+    public function getResutlSurvey($survey, $userRepo);
 
     public function createSurvey($userId, $data, $status, $userRepo);
 
@@ -38,7 +38,7 @@ interface SurveyInterface
     public function getSurvey($token);
 
     //get section current
-    public function getSectionCurrent($survey, $currentSection);
+    public function getSectionCurrent($survey, $sectionId);
 
     public function deleteSurvey($survey);
 

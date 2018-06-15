@@ -309,7 +309,7 @@
                                         ]) !!}
                                         <span class="checkmark-radio"></span>
                                     </label>
-                                    <label class="container-radio-setting-survey">@lang('lang.only_send_updated_question_survey')
+                                    <label class="container-radio-setting-survey only-send-update">@lang('lang.only_send_updated_question_survey')
                                         {!! Form::radio('option_send_survey', '', false, [
                                             'class' => 'option-send-survey',
                                             'val' => config('settings.option_update.only_send_updated_question_survey'),

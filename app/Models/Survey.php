@@ -214,6 +214,7 @@ class Survey extends Model
             ->where('key', config('settings.setting_type.privacy.key'))
             ->first()->value;
     }
+
     
     public function getNumberInvite()
     {
@@ -235,5 +236,23 @@ class Survey extends Model
         }
 
         return 0;
+    }
+
+    public function getOptionUpdate()
+    {
+        $option = $this->settings
+            ->where('key', config('settings.setting_type.option_update_survey.key'))->first();
+
+        return !empty($option) ? $option->value : '';
+    }
+
+    public function isSendUpdateOption()
+    {
+        $optionUpdate = $this->getOptionUpdate();
+
+        return in_array($optionUpdate, [
+            config('settings.option_update.only_send_updated_question_survey'),
+            config('settings.option_update.dont_send_survey_again'),
+        ]);        
     }
 }

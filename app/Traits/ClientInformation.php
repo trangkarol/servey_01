@@ -116,7 +116,8 @@ trait ClientInformation
         if (!empty($inviter)) {
             $inviteMails = collect($inviter->invite_mails_array);
             $answerMails = $inviter->answer_mails_array;
-            
+            $sendUpdateMails = collect($inviter->send_update_mails_array);
+
             // if user in invite list
             if ($inviteMails->contains($userMail)) {
                 $inviteMails = $inviteMails->reject(function ($mail) use ($userMail) {
@@ -125,10 +126,34 @@ trait ClientInformation
 
                 array_push($answerMails, $userMail);
 
+                if ($survey->isSendUpdateOption() && $sendUpdateMails->contains($userMail)) {
+                    $sendUpdateMails = $sendUpdateMails->reject(function ($mail) use ($userMail) {
+                        return $mail == $userMail;
+                    });
+
+                    if (!$sendUpdateMails->count()) {
+                        foreach ($survey->sections as $section) {
+                            $section->update([
+                                'update' => config('settings.survey.section_update.default'),
+                            ]);
+                            
+                            $section->questions()->update([
+                                'update' => config('settings.survey.question_update.default'),
+                            ]);
+                        }
+
+                        $survey->settings()->where('key', config('settings.setting_type.option_update_survey.key'))
+                            ->update([
+                                'value' => config('settings.option_update.send_all_question_survey_again'),
+                            ]);
+                    }
+                }
+
                 $updateData = [
                     'invite_mails' => join('/', $inviteMails->all()) . '/',
                     'answer_mails' => join('/', $answerMails) . '/',
                     'number_answer' => ++ $inviter->number_answer,
+                    'send_update_mails' => join('/', $sendUpdateMails->all()) . '/',
                 ];
             } else {
                 // if user has answered -- current just process permit 1 user answer 1 times
