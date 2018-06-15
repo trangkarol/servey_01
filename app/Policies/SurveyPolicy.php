@@ -125,10 +125,10 @@ class SurveyPolicy
 
     public function clone(User $user, Survey $survey)
     {
-        $creator = $survey->members->where('role', config('settings.survey.members.owner'))->first();
+        $members = $survey->members->pluck('id')->all();
 
-        // only creator can clone survey
-        if ($user->id == $creator->id) {
+        // only creator, editor can edit survey.
+        if (in_array($user->id, $members)) {
             return true;
         }
 

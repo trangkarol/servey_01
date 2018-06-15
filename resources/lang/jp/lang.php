@@ -301,6 +301,7 @@ return [
     'save_old_result' => 'Save old result',
     'option_send_survey' => 'Send survey',
     'option_save_result' => 'Save result survey',
+    'not_permisstion_message' => 'You do not have permission to perform this operation!',
 
 
     /*
@@ -310,4 +311,6 @@ return [
     'require_login_wsm_to_answer' => 'Survey require login wsm to answer!',
     'require_login_to_answer' => 'Survey require login to answer!',
     'send_result_failed' => 'Send result failed! Try again!',
+    'you_have_answered_this_survey' => 'You have answered this survey!',
+    'you_do_not_have_permission' => 'You do not have permission to doing this survey!',
 ];

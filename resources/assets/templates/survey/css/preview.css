@@ -338,10 +338,22 @@ span.no-answer {
     height: 35vh;
 }
 
+.image-header-warning {
+    width: 100%;
+    background: #b51212;
+    height: 35vh;
+}
+
 .image-content-complete {
     width: 100%;
     height: 65vh;
     background: #39aafc24;
+}
+
+.image-content-warning {
+    width: 100%;
+    height: 65vh;
+    background: #fc393924;
 }
 
 h2#id-survey-preview {
@@ -376,6 +388,14 @@ span.description-complete {
     display: block;
     font-size: 15px;
     color: #05790e;
+    padding-bottom: 35px;
+}
+
+span.description-warning {
+    padding-top: 13px;
+    display: block;
+    font-size: 15px;
+    color: #ff0000;
     padding-bottom: 35px;
 }
 

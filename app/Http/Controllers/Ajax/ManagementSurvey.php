@@ -112,7 +112,7 @@ class ManagementSurvey extends Controller
         try {
             $survey = $this->surveyRepository->getSurveyFromTokenManage($tokenManage);
 
-            if (Auth::user()->cannot('edit', $survey)) {
+            if (Auth::user()->cannot('delete', $survey)) {
                 throw new Exception("Not permitted edit!", 403);
             }
 
@@ -129,8 +129,7 @@ class ManagementSurvey extends Controller
 
             return response()->json([
                 'success' => false,
-                'message' => trans('lang.process_failed'),
-                'redirect' => ($e->getCode() == 403) ? route('403') : '',
+                'message' => ($e->getCode() == 403) ? trans('lang.not_permisstion_message') : trans('lang.process_failed'),
             ]);
         }
     }
@@ -147,7 +146,7 @@ class ManagementSurvey extends Controller
         try {
             $survey = $this->surveyRepository->getSurveyFromTokenManage($tokenManage);
 
-            if (Auth::user()->cannot('edit', $survey)) {
+            if (Auth::user()->cannot('close', $survey)) {
                 throw new Exception("Not permitted edit!", 403);
             }
 
@@ -164,8 +163,7 @@ class ManagementSurvey extends Controller
 
             return response()->json([
                 'success' => false,
-                'message' => trans('lang.process_failed'),
-                'redirect' => ($e->getCode() == 403) ? route('403') : '',
+                'message' => ($e->getCode() == 403) ? trans('lang.not_permisstion_message') : trans('lang.process_failed'),
             ]);
         }
     }
@@ -182,7 +180,7 @@ class ManagementSurvey extends Controller
         try {
             $survey = $this->surveyRepository->withTrashed()->where('token_manage', $tokenManage)->first();
 
-            if (Auth::user()->cannot('edit', $survey)) {
+            if (Auth::user()->cannot('open', $survey)) {
                 throw new Exception("Not permitted edit!", 403);
             }
 
@@ -199,8 +197,7 @@ class ManagementSurvey extends Controller
 
             return response()->json([
                 'success' => false,
-                'message' => trans('lang.process_failed'),
-                'redirect' => ($e->getCode() == 403) ? route('403') : '',
+                'message' => ($e->getCode() == 403) ? trans('lang.not_permisstion_message') : trans('lang.process_failed'),
             ]);
         }
     }
@@ -305,8 +302,7 @@ class ManagementSurvey extends Controller
 
             return response()->json([
                 'success' => false,
-                'message' => trans('lang.process_failed'),
-                'redirect' => ($e->getCode() == 403) ? route('403') : '',
+                'message' => ($e->getCode() == 403) ? trans('lang.not_permisstion_message') : trans('lang.process_failed'),
             ]);
         }
     }

@@ -41,6 +41,7 @@ return [
     'are_you_sure_want_to_delete' => 'Bạn có chắc muốn xóa?',
     'update_cover_photo' => 'Cập nhật ảnh bìa',
     'cancel' => 'Hủy bỏ',
+    'search' => 'Tìm kiếm...',
 
     /*
         Manage survey

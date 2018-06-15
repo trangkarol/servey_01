@@ -7998,3 +7998,59 @@ ol ol li {
 .content-bg-wrap-answer-complete {
     top: 70px;
 }
+
+.table-body-scroll tbody {
+    display:block;
+    max-height:250px;
+    overflow-y:scroll;
+}
+
+.table-body-scroll thead, .table-body-scroll tbody tr {
+    display:table;
+    width:100%;
+    table-layout:fixed;
+}
+
+.table-show-email-manager td, .table-show-email-manager th {
+    border: none;
+}
+
+.tab-content-setting {
+    padding-top: 15px !important;
+}
+
+.emails-not-answer, .emails-answered, .label-email, .process-bar-survey {
+    cursor: pointer;
+}
+
+.emails-answered:hover {
+    color: #5cbe26;
+}
+
+.emails-not-answer:hover {
+    color: #42add1;
+}
+
+.search-mail-invite {
+    height: 32px !important;
+    border-radius: 5px 0px 0px 5px;
+}
+
+.btn-search-invite {
+    pointer-events: none;
+    background: #43add1;
+    box-shadow: unset;
+    border-radius: 0px 4px 4px 0px;
+}
+
+label.label-email {
+    padding-top: 6px;
+}
+
+.notice-data-empty {
+    display: none;
+}
+
+button.btn.btn-secondary.btn-search-invite {
+    height: 32px;
+}

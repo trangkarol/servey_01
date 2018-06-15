@@ -252,6 +252,24 @@ class SurveyController extends Controller
             ]);
         }
 
+        $privacy = $survey->getPrivacy();
+        
+        if ($privacy == config('settings.survey_setting.privacy.private')
+            && !in_array(Auth::user()->id, $survey->members()->pluck('user_id')->all())) {
+            $inviter = $survey->invite;
+
+            if (empty($inviter) || !in_array(Auth::user()->email, $inviter->invite_mails_array)) {
+                $title = $survey->title;
+
+                if (in_array(Auth::user()->email, $inviter->answer_mails_array)) {
+                    $content = trans('lang.you_have_answered_this_survey');
+                } else {
+                    $content = trans('lang.you_do_not_have_permission');
+                }
+
+                return view('clients.survey.detail.complete', compact('title', 'content'));
+            }
+        }
         // at line 42 of file app/Traits/DoSurvey.php
         $data = $this->getDetailSurvey($survey, $numOfSection);
 

@@ -214,4 +214,26 @@ class Survey extends Model
             ->where('key', config('settings.setting_type.privacy.key'))
             ->first()->value;
     }
+    
+    public function getNumberInvite()
+    {
+        $invite = $this->invite;
+
+        if (!empty($invite)) {
+            return $invite->number_invite;
+        }
+
+        return 0;
+    }
+
+    public function getNumberAnswer()
+    {
+        $invite = $this->invite;
+
+        if (!empty($invite)) {
+            return $invite->number_answer;
+        }
+
+        return 0;
+    }
 }

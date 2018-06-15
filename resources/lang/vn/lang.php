@@ -301,6 +301,7 @@ return [
     'save_old_result' => 'Lưu kết quả cũ',
     'option_send_survey' => 'Gửi khảo sát',
     'option_save_result' => 'Lưu kết quả khảo sát',
+    'not_permisstion_message' => 'Bạn không có quyền để thực hiện thao tác này!',
 
     /*
         Required login
@@ -309,4 +310,6 @@ return [
     'require_login_wsm_to_answer' => 'Khảo sát yêu cầu đăng nhập wsm để trả lời!',
     'require_login_to_answer' => 'Khảo sát yêu cầu đăng nhập để trả lời!',
     'send_result_failed' => 'Gửi kết quả thất bại! Hãy thử lại',
+    'you_have_answered_this_survey' => 'Bạn đã trả lời khảo sát này!',
+    'you_do_not_have_permission' => 'Bạn không được phép thực hiện khảo sát này!',
 ];
