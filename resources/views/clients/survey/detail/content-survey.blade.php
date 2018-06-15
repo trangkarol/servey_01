@@ -2,11 +2,13 @@
     <li class="form-line content-title-section">
         <div class="form-group">
             <h3 class="title-section {{ $data['section']->order }}" id="section-id-preview" data-order="{{ $data['section']->order }}">
-                {{ $data['section']->title }}
+                {!! nl2br(e($data['section']->title)) !!}
             </h3>
         </div>
         <div class="form-group form-group-description-section">
-            <span class="description-section">{!! $data['section']->description !!}</span>
+            <span class="description-section">
+                {!! nl2br(e($data['section']->description)) !!}
+            </span>
         </div>
     </li>
     @php
@@ -28,16 +30,17 @@
             @elseif ($questionSetting == config('settings.question_type.image'))
                 @include ('clients.survey.detail.elements.image')
             @else
+                <span class="index-question">{{ ++ $indexQuestion }}</span>
                 <h4 class="title-question question-survey {{ $question->required ? 'required-question' : '' }}"
                     data-type="{{ $questionSetting }}" data-id="{{ $question->id }}"
                     data-required="{{ $question->required }}">
-                    <span class="index-question">{{ ++ $indexQuestion }}</span>{{ $question->title }}
+                    {!! nl2br(e($question->title)) !!}
                     @if ($question->required)
                         <span class="notice-required-question"> *</span>
                     @endif
                 </h4>
-                <div class="form-group">
-                    <span class="description-question">{!! $question->description !!}</span>
+                <div class="form-group form-description">
+                    <span class="description-question">{!! nl2br(e($question->description)) !!}</span>
                 </div>
                 @if ($countQuestionMedia)
                     <div class="img-preview-question-survey">

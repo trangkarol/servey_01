@@ -9,11 +9,13 @@
                 <li class="form-line">
                     <div class="form-group">
                         <h2 class="title-survey-preview" id="id-survey-preview" data-token="{{ $data['survey']->token }}">
-                            {{ $data['survey']->title }}
+                            {!! nl2br(e($data['survey']->title)) !!}
                         </h2>
                     </div>
                     <div class="form-group">
-                        <span class="description-survey">{{ $data['survey']->description }}</span>
+                        <span class="description-survey">
+                            {!! nl2br(e($data['survey']->description)) !!}
+                        </span>
                     </div>
                 </li>
             </ul>

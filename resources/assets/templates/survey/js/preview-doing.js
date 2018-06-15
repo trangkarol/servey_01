@@ -4,6 +4,20 @@ $(document).ready(function() {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+
+    // auto align center multi-choice icon
+    $('.li-question-review .item-answer .checkmark-radio').each(function () {
+        var height = $(this).parent().height();
+        var top = 12.5 * (height / 25 - 1);
+        $(this).css('top', top + 'px');
+    });
+
+    // auto align center checkboxes icon
+    $('.li-question-review .item-answer .checkmark-setting-survey').each(function () {
+        var height = $(this).parent().height();
+        var top = 12.5 * (height / 25 - 1);
+        $(this).css('top', top + 'px');
+    });
     
     $('.datepicker-preview').each(function() {
         var dateFormat = $(this).attr('data-dateformat');

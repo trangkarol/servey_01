@@ -15,7 +15,8 @@
                 {!! Form::text('', '', ['class' => 'input-answer-other input-multiple-choice-other']) !!}
             </div>
         @else
-            <label class="container-radio-setting-survey">{{ $answer->content }}
+            <label class="container-radio-setting-survey">
+                {!! nl2br(e($answer->content)) !!}
                 {!! Form::radio('answer', '', false, ['class' => 'radio-answer-preview']) !!}
                 <span class="checkmark-radio"></span>
             </label>

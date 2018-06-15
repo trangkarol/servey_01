@@ -153,8 +153,8 @@
         <div class="form-row option choice other-choice-option">
             <div class="radio-choice-icon"><i class="fa fa-circle-thin"></i></div>
             <div class="col-xl-9 col-lg-9 col-md-9 col-sm-8 col-8 choice-input-block">
-                {!! Form::text('name', trans('lang.other_option'), [
-                    'class' => 'form-control',
+                {!! Form::textarea('name', trans('lang.other_option'), [
+                    'class' => 'form-control answer-option-input auto-resize',
                     'readonly' => true,
                 ]) !!}
             </div>
@@ -167,8 +167,8 @@
         <div class="form-row option checkbox other-checkbox-option">
             <div class="square-checkbox-icon"><i class="fa fa-square-o"></i></div>
             <div class="col-xl-9 col-lg-9 col-md-9 col-sm-8 col-8 checkbox-input-block">
-                {!! Form::text('name', trans('lang.other_option'), [
-                    'class' => 'form-control',
+                {!! Form::textarea('name', trans('lang.other_option'), [
+                    'class' => 'form-control answer-option-input auto-resize',
                     'readonly' => true,
                 ]) !!}
             </div>
