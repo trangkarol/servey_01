@@ -612,7 +612,7 @@ class SurveyController extends Controller
         }
 
         $user = Auth::user();
-        $linkManage = route('surveys.edit', $survey->token_manage);
+        $linkManage = route('survey.management', $survey->token_manage);
         $link = route('survey.create.do-survey', $survey->token);
 
         return view('clients.survey.create.complete', compact('user', 'linkManage', 'link'));

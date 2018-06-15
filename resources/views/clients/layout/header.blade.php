@@ -19,6 +19,11 @@
         @stack('styles')
     </head>
     <body class="home-page">
+        <section class="create-survey-btn @yield('btn-create-survey')" title="@lang('lang.create_survey')">
+            <a href="{{ route('surveys.create') }}">
+                <span class="fa fa-plus"></span>
+            </a>
+        </section>
         <div class="site">
             <div class="loader" id="loader">
               <div class="loader-spinner"></div>

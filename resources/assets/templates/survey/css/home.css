@@ -2954,3 +2954,31 @@ img.fnone {
 .div-list-survey {
     min-height: 350px;
 }
+
+.create-survey-btn {
+    z-index: 1000000;
+    display: inline-block;
+    position: fixed;
+    background: #4e4e4ee6;
+    padding: 5px 20px;
+    font-size: 30px;
+    border-bottom-left-radius: 8px;
+    border-top-left-radius: 8px;
+    right: 0;
+    top: 30%;
+    line-height: 1.5;
+    display: none;
+}
+
+.create-survey-btn.show {
+    display: block !important;
+}
+
+.create-survey-btn a {
+    color: #fdfdfd;
+}
+
+.create-survey-btn a:hover {
+    color: #fff;
+
+}

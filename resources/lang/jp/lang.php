@@ -239,6 +239,7 @@ return [
     'exit' => 'Exit',
     'export' => 'Download',
     'export_error' => 'Export error!',
+    'create_other' => 'Create other survey',
 
     /*
         date time format
