@@ -1818,11 +1818,6 @@ li .multiple-choice-block {
     margin-top: 10px;
 }
 
-li .multiple-choice-block .choice {
-    position: relative;
-    padding-left: 10px;
-}
-
 li.question-active .multiple-choice-block .choice {
     position: relative;
     padding-left: 0px;
@@ -1852,7 +1847,7 @@ li .multiple-choice-block .choice:hover:after {
     font-family: FontAwesome;
 }
 
-li .multiple-choice-block .choice input {
+li .multiple-choice-block .choice textarea {
     border: 0;
     border-color: #ced4da;
     height: 25px;
@@ -1863,6 +1858,10 @@ li .multiple-choice-block .choice input {
 }
 
 li .multiple-choice-block .radio-choice-icon {
+    padding-left: 16px;
+}
+
+li.question-active .multiple-choice-block .radio-choice-icon {
     padding: 1px 6px 0px;
 }
 
@@ -1874,7 +1873,7 @@ li .multiple-choice-block .choice .choice-input-block {
     margin-bottom: 5px;
 }
 
-li .multiple-choice-block .choice input:focus {
+li .multiple-choice-block .choice textarea:focus {
     outline: 0;
 }
 
@@ -1885,7 +1884,7 @@ li.question-active .multiple-choice-block .choice.hightlight {
     opacity: 0.9;
 }
 
-li.question-active .multiple-choice-block .choice input {
+li.question-active .multiple-choice-block .choice textarea {
     border: 0;
     border-color: #ced4da;
     height: 25px;
@@ -1895,13 +1894,13 @@ li.question-active .multiple-choice-block .choice input {
     margin-left: 5px;
 }
 
-li.question-active .multiple-choice-block .choice input:focus {
+li.question-active .multiple-choice-block .choice textarea:focus {
     outline: 0;
     border-bottom: 1px solid #ced4da;
     border-radius: 0;
 }
 
-li.question-active .multiple-choice-block .choice input:hover {
+li.question-active .multiple-choice-block .choice textarea:hover {
     border-bottom: 1px solid #ced4da;
     border-radius: 0;
 }
@@ -1991,7 +1990,6 @@ li .checkboxes-block {
 
 li .checkboxes-block .checkbox {
     position: relative;
-    padding-left: 10px;
 }
 
 li.question-active .checkboxes-block .checkbox {
@@ -2023,7 +2021,7 @@ li .checkboxes-block .checkbox:hover:after {
     font-family: FontAwesome;
 }
 
-li .checkboxes-block .checkbox input {
+li .checkboxes-block .checkbox textarea {
     border: 0;
     border-color: #ced4da;
     height: 25px;
@@ -2034,6 +2032,10 @@ li .checkboxes-block .checkbox input {
 }
 
 li .checkboxes-block .square-checkbox-icon {
+    padding-left: 16px;
+}
+
+li.question-active .checkboxes-block .square-checkbox-icon {
     padding: 1px 6px 0px;
 }
 
@@ -2045,7 +2047,7 @@ li .checkboxes-block .checkbox .checkbox-input-block {
     margin-bottom: 5px;
 }
 
-li .checkboxes-block .checkbox input:focus {
+li .checkboxes-block .checkbox textarea:focus {
     outline: 0;
 }
 
@@ -2056,7 +2058,7 @@ li.question-active .checkboxes-block .checkbox.hightlight {
     opacity: 0.9;
 }
 
-li.question-active .checkboxes-block .checkbox input {
+li.question-active .checkboxes-block .checkbox textarea {
     border: 0;
     border-color: #ced4da;
     height: 25px;
@@ -2066,13 +2068,13 @@ li.question-active .checkboxes-block .checkbox input {
     margin-left: 5px;
 }
 
-li.question-active .checkboxes-block .checkbox input:focus {
+li.question-active .checkboxes-block .checkbox textarea:focus {
     outline: 0;
     border-bottom: 1px solid #ced4da;
     border-radius: 0;
 }
 
-li.question-active .checkboxes-block .checkbox input:hover {
+li.question-active .checkboxes-block .checkbox textarea:hover {
     border-bottom: 1px solid #ced4da;
     border-radius: 0;
 }
@@ -3875,4 +3877,10 @@ input[name="quantity-answer"]::-webkit-outer-spin-button, input[type="number"]::
 
 .option-update-content .item-setting {
     margin-bottom: 10px;
+}
+
+.answer-option-input {
+    overflow: hidden;
+    padding-top: 2px;
+    padding-bottom: 2px;
 }

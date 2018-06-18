@@ -248,3 +248,7 @@ span.message-result {
     font-size: 18px;
     color: #09191f;
 }
+
+.content-section-preview .title-question-preview {
+    left: -15px;
+}

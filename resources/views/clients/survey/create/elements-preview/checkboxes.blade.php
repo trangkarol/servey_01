@@ -17,7 +17,7 @@
             </div>
         @else
             <label class="container-checkbox-setting-survey">
-                <span>{{ $answer->content }}</span>
+                <span>{!! nl2br(e($answer->content)) !!}</span>
                 {!! Form::checkbox('', '', false, ['class' => 'checkbox-answer-preview']) !!}
                 <span class="checkmark-setting-survey"></span>
             </label>

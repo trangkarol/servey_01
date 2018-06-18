@@ -89,6 +89,7 @@ input.input-answer-other:focus {
 .item-answer {
     padding-top: 15px;
     word-break: break-word;
+    margin-left: 40px;
 }
 
 h4.title-question {
@@ -97,6 +98,9 @@ h4.title-question {
     word-break: break-word;
     line-height: 30px;
     font-weight: bold;
+    display: inline-block;
+    margin-bottom: 0;
+    width: 90%;
 }
 
 h2.title-survey-preview {
@@ -200,6 +204,9 @@ span.index-question {
     width: 30px;
     text-align: center;
     color: #fff;
+    line-height: 30px;
+    font-weight: bold;
+    float: left;
 }
 
 .magic-box-preview::after, .magic-box-preview::before {
@@ -230,7 +237,6 @@ span.description-survey {
 }
 
 span.description-section {
-    color: #fff;
     font-size: 13px;
 }
 
@@ -475,4 +481,22 @@ span.back-home-description-complete a {
     h3.title-section {
         line-height: 30px;
     }
+}
+
+.li-question-review .form-description {
+    margin: 6px 0 2px 40px;
+    width: 90%;
+}
+
+.li-question-review .item-answer .checkmark-radio {
+    margin-top: 1px;
+}
+
+.li-question-review .item-answer .checkmark-setting-survey {
+    margin-top: 2px;
+}
+
+.li-question-review .item-answer label.container-radio-setting-survey,
+.li-question-review .item-answer label.container-checkbox-setting-survey {
+    line-height: 25px;
 }

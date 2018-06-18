@@ -11,9 +11,11 @@
                 data-option-id="{{ $loop->iteration }}">
                 <div class="radio-choice-icon"><i class="fa fa-circle-thin"></i></div>
                 <div class="col-xl-9 col-lg-9 col-md-9 col-sm-8 col-8 choice-input-block">
-                    {!! Form::text("answer[question_$question->id][answer_$answer->id][option_$loop->iteration]",
-                        $answer->content,
-                        ['class' => 'form-control']) !!}
+                    {!! Form::textarea("answer[question_$question->id][answer_$answer->id][option_$loop->iteration]", $answer->content, [
+                        'class' => 'form-control auto-resize answer-option-input',
+                        'data-autoresize',
+                        'rows' => 1,
+                    ]) !!}
                     {!! Form::hidden("media[question_$question->id][answer_$answer->id][option_$loop->iteration]",
                         $answer->media->count() ? $answer->media->first()->url : null,
                         ['class' => 'image-answer-hidden']) !!}
@@ -41,8 +43,8 @@
                 data-option-id="{{ $loop->iteration }}">
                 <div class="radio-choice-icon"><i class="fa fa-circle-thin"></i></div>
                 <div class="col-xl-9 col-lg-9 col-md-9 col-sm-8 col-8 choice-input-block">
-                    {!! Form::text("answer[question_$question->id][answer_$answer->id][option_$loop->iteration]", trans('lang.other_option'), [
-                        'class' => 'form-control',
+                    {!! Form::textarea("answer[question_$question->id][answer_$answer->id][option_$loop->iteration]", trans('lang.other_option'), [
+                        'class' => 'form-control answer-option-input auto-resize',
                         'readonly' => true,
                     ]) !!}
                 </div>

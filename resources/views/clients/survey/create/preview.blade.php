@@ -19,18 +19,20 @@
                 <ul class="clearfix form-wrapper content-margin-top-preview ul-preview">
                     <li class="form-line">
                         <div class="form-group">
-                            <h2 class="title-survey-preview">{{ $survey->title }}</h2>
+                            <h2 class="title-survey-preview">{!! nl2br(e($survey->title)) !!}</h2>
                         </div>
                         <div class="form-group">
-                            <span>{{ $survey->description }}</span>
+                            <span>{!! nl2br(e($survey->description)) !!}</span>
                         </div>
                     </li>
                     <li class="form-line content-title-section">
                         <div class="form-group">
-                            <h3 class="title-section">{{ $section->title }}</h3>
+                            <h3 class="title-section">{!! nl2br(e($section->title)) !!}</h3>
                         </div>
                         <div class="form-group form-group-description-section">
-                            <span class="description-section">{{ $section->description }}</span>
+                            <span class="description-section">
+                                {!! nl2br(e($section->description)) !!}
+                            </span>
                         </div>
                     </li>
                 </ul>
@@ -51,14 +53,15 @@
                                 @elseif ($question->type === config('settings.question_type.image'))
                                     @include ('clients.survey.create.elements-preview.image')
                                 @else
+                                    <span class="index-question">{{ ++ $indexQuestion}}</span>
                                     <h4 class="title-question">
-                                        <span class="index-question">{{ ++ $indexQuestion}}</span>{{ $question->title }}
+                                        {!! nl2br(e($question->title)) !!}
                                         @if ($question->require)
                                             <span class="notice-required-question"> *</span>
                                         @endif
                                     </h4>
-                                    <div class="form-group">
-                                        <span>{{ $question->description }}</span>
+                                    <div class="form-group form-description">
+                                        <span>{!! nl2br(e($question->description)) !!}</span>
                                     </div>
                                     @if ($question->media)
                                         <div class="img-preview-question-survey">

@@ -692,6 +692,7 @@ jQuery(document).ready(function () {
 
                 element.find('.question-input').val(questionData['content']);
                 element.find('.question-input').keyup();
+                element.find('.answer-option-input').keyup();
 
                 if (questionData['description']) {
                     element.find('.question-description-input').val(questionData['description']);
@@ -891,7 +892,7 @@ jQuery(document).ready(function () {
         var timeRepeated = 0;
 
         if (value.trim()) {
-            $(parentForm.find('input:regex(name, ^answer\\[question_.*\\]\\[answer_.*\\]\\[option_.*\\]$)')).each(function () {
+            $(parentForm.find('textarea:regex(name, ^answer\\[question_.*\\]\\[answer_.*\\]\\[option_.*\\]$)')).each(function () {
                 if ($(this).val() === value) {
                     timeRepeated++;
                 }
@@ -926,7 +927,7 @@ jQuery(document).ready(function () {
 
     // add validation rule for answer input element
     function addValidationRuleForAnswer(answerId) {
-        $(`#answer_${answerId} input:regex(name, ^answer\\[question_.*\\]\\[answer_.*\\]\\[option_.*\\]$)`).each(function () {
+        $(`#answer_${answerId} textarea:regex(name, ^answer\\[question_.*\\]\\[answer_.*\\]\\[option_.*\\]$)`).each(function () {
             $(this).rules('add', {
                 required: true,
                 maxlength: 255,
@@ -1222,8 +1223,8 @@ jQuery(document).ready(function () {
         $(this).closest('li.form-line').find('.description-input .question-description-input').keyup();
     });
 
-    $('.survey-form').on('keypress', '.question-input, .question-description-input', function(e) {
-        if ((e.keyCode || e.which) === 13) {
+    $('.survey-form').on('keydown', '.question-input, .question-description-input', function(e) {
+        if (((e.keyCode || e.which) === 13) && !e.shiftKey) {
             return false;
         }
     });
@@ -1237,7 +1238,7 @@ jQuery(document).ready(function () {
             return;
         }
 
-        if (e.keyCode === 13) {
+        if (e.keyCode === 13 && !e.shiftKey) {
             // reshow remove button when copy answer element from first element
             $(this).find('.remove-choice-option').removeClass('hidden');
 
@@ -1264,16 +1265,19 @@ jQuery(document).ready(function () {
             image.attr('name', `media[question_${questionId}][answer_${answerId}][option_${optionId}]`);
             image.val('');
 
-            var input = nextElement.find('input.form-control');
+            var input = nextElement.find('.answer-option-input');
             input.attr('name', `answer[question_${questionId}][answer_${answerId}][option_${optionId}]`);
             input.val(Lang.get('lang.option', {index: nextElement.index() + 1}));
+            input.attr('data-autoresize', 'data-autoresize');
+            autoResizeTextarea();
             input.select();
             input.focus();
 
             // add validation rule for answer input element
             addValidationRuleForAnswer(answerId);
+            e.preventDefault();
         } else if (e.keyCode == 8 || e.keyCode == 46) {
-            var currentInput = $(this).find('input');
+            var currentInput = $(this).find('.answer-option-input');
             var previousElement = $(this).prev();
 
             if (!currentInput.val()) {
@@ -1284,7 +1288,7 @@ jQuery(document).ready(function () {
                 }
 
                 // focus next element
-                previousElement.find('input').select();
+                previousElement.find('.answer-option-input').select();
                 // deny key action
                 e.preventDefault();
             }
@@ -1292,20 +1296,11 @@ jQuery(document).ready(function () {
     });
 
     $('.survey-form').on('click', '.form-line .multiple-choice-block .choice', function (e) {
-        var input = $(this).find('input');
+        var input = $(this).find('.answer-option-input');
+        input.select();
 
-        if (!input.val()) {
+        if (input.val() == '') {
             input.val(Lang.get('lang.option', {index: $(this).index() + 1}));
-            input.select();
-        }
-    });
-
-    $('.survey-form').on('blur', '.form-line .multiple-choice-block .choice', function (e) {
-        var input = $(this).find('input');
-
-        if (!input.val()) {
-            input.val(Lang.get('lang.option', {index: $(this).index() + 1}));
-            $(this).next().find('input').select();
         }
     });
 
@@ -1366,7 +1361,7 @@ jQuery(document).ready(function () {
         image.attr('name', `media[question_${questionId}][answer_${answerId}][option_${optionId}]`);
         image.val('');
 
-        var input = nextElement.find('input.form-control');
+        var input = nextElement.find('.answer-option-input');
         input.attr('name', `answer[question_${questionId}][answer_${answerId}][option_${optionId}]`);
         input.val(Lang.get('lang.option', {index: nextElement.index() + 1}));
         input.select();
@@ -1395,7 +1390,7 @@ jQuery(document).ready(function () {
             otherChoiceOption.attr('data-option-id', optionId);
             questionElement.data('number-answer', numberOfAnswers + 1);
 
-            var input = otherChoiceOption.find('input.form-control');
+            var input = otherChoiceOption.find('.answer-option-input');
             input.attr('name', `answer[question_${questionId}][answer_${answerId}][option_${optionId}]`);
         }
     });
@@ -1409,7 +1404,7 @@ jQuery(document).ready(function () {
             return;
         }
 
-        if (e.keyCode === 13) {
+        if (e.keyCode === 13 && !e.shiftKey) {
             // reshow remove button when copy answer element from first element
             $(this).find('.remove-checkbox-option').removeClass('hidden');
 
@@ -1436,16 +1431,19 @@ jQuery(document).ready(function () {
             image.attr('name', `media[question_${questionId}][answer_${answerId}][option_${optionId}]`);
             image.val('');
 
-            var input = nextElement.find('input.form-control');
+            var input = nextElement.find('.answer-option-input');
             input.attr('name', `answer[question_${questionId}][answer_${answerId}][option_${optionId}]`);
             input.val(Lang.get('lang.option', {index: nextElement.index() + 1}));
+            input.attr('data-autoresize', 'data-autoresize');
+            autoResizeTextarea();
             input.select();
             input.focus();
 
             // add validation rule for answer input element
             addValidationRuleForAnswer(answerId);
+            e.preventDefault();
         } else if (e.keyCode == 8 || e.keyCode == 46) {
-            var currentInput = $(this).find('input');
+            var currentInput = $(this).find('.answer-option-input');
             var previousElement = $(this).prev();
 
             if (!currentInput.val()) {
@@ -1456,7 +1454,7 @@ jQuery(document).ready(function () {
                 }
 
                 // focus next element
-                previousElement.find('input').select();
+                previousElement.find('.answer-option-input').select();
                 // deny key action
                 e.preventDefault();
             }
@@ -1464,20 +1462,11 @@ jQuery(document).ready(function () {
     });
 
     $('.survey-form').on('click', '.form-line .checkboxes-block .checkbox', function (e) {
-        var input = $(this).find('input');
+        var input = $(this).find('.answer-option-input');
+        input.select();
 
-        if (!input.val()) {
+        if (input.val() == '') {
             input.val(Lang.get('lang.option', {index: $(this).index() + 1}));
-            input.select();
-        }
-    });
-
-    $('.survey-form').on('blur', '.form-line .checkboxes-block .checkbox', function (e) {
-        var input = $(this).find('input');
-
-        if (!input.val()) {
-            input.val(Lang.get('lang.option', {index: $(this).index() + 1}));
-            $(this).next().find('input').select();
         }
     });
 
@@ -1537,7 +1526,7 @@ jQuery(document).ready(function () {
         image.attr('name', `media[question_${questionId}][answer_${answerId}][option_${optionId}]`);
         image.val('');
 
-        var input = nextElement.find('input.form-control');
+        var input = nextElement.find('.answer-option-input');
         input.attr('name', `answer[question_${questionId}][answer_${answerId}][option_${optionId}]`);
         input.val(Lang.get('lang.option', {index: nextElement.index() + 1}));
         input.select();
@@ -1566,7 +1555,7 @@ jQuery(document).ready(function () {
             otherCheckboxOption.attr('data-option-id', optionId);
             questionElement.data('number-answer', numberOfAnswers + 1);
 
-            var input = otherCheckboxOption.find('input.form-control');
+            var input = otherCheckboxOption.find('.answer-option-input');
             input.attr('name', `answer[question_${questionId}][answer_${answerId}][option_${optionId}]`);
         }
     });
@@ -2881,7 +2870,7 @@ jQuery(document).ready(function () {
             i ++;
             var answerId = refreshAnswerId();
             $(this).data('answer-id', answerId);
-            $(this).find('input[type=text]').attr('name', `answer[question_${questionId}][answer_${answerId}][option_${i}]`);
+            $(this).find('.answer-option-input').attr('name', `answer[question_${questionId}][answer_${answerId}][option_${i}]`);
             $(this).find('input[type=hidden]').attr('name', `media[question_${questionId}][answer_${answerId}][option_${i}]`);
         });
 
@@ -2941,7 +2930,7 @@ jQuery(document).ready(function () {
                 i ++;
                 var answerId = refreshAnswerId();
                 $(this).data('answer-id', answerId);
-                $(this).find('input[type=text]').attr('name', `answer[question_${questionId}][answer_${answerId}][option_${i}]`);
+                $(this).find('.answer-option-input').attr('name', `answer[question_${questionId}][answer_${answerId}][option_${i}]`);
                 $(this).find('input[type=hidden]').attr('name', `media[question_${questionId}][answer_${answerId}][option_${i}]`);
             });
         });
@@ -3546,7 +3535,7 @@ jQuery(document).ready(function () {
 
     if (surveyData.data('page') == 'edit') {
         // re-load event
-        $('.input-area').each(function () {
+        $('.input-area, .answer-option-input').each(function () {
             if ($(this).hasClass('input-email-message')) {
                 return;
             }
