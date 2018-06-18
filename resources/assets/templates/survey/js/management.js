@@ -192,7 +192,7 @@ function handelManagement(event) {
 }
 
 function changeToken(element) {
-    var oldToken = element.data('token');
+    var oldToken = element.attr('data-token');
     var newToken = element.val().replace(' ', '_');
 
     if (oldToken != newToken && newToken) {
@@ -221,8 +221,11 @@ function changeToken(element) {
                         $('.next-section-survey').attr('data-url', data.next_section_url);
                         $('.edit-token-survey').hide();
                         $('.input-edit-token').attr('data-token', data.new_token);
+                        $('.input-edit-token').attr('data-original-title', data.new_token);
                         $('#setting-survey').attr('data-url', data.setting_url);
                         element.val(data.new_token);
+                    } else {
+                        alertDanger({message: data.message});
                     }
                 })
                 .fail(function (data) {
@@ -236,7 +239,7 @@ function changeToken(element) {
 }
 
 function changeTokenManage(element) {
-    var oldTokenManage = element.data('token-manage');
+    var oldTokenManage = element.attr('data-token-manage');
     var newTokenManage = element.val().replace(' ', '_');
 
     if (oldTokenManage != newTokenManage && newTokenManage) {
@@ -268,7 +271,10 @@ function changeTokenManage(element) {
                         $('#close-survey').attr('data-url', data.close_survey_url);
                         $('#open-survey').attr('data-url', data.open_survey_url);
                         $('#edit-survey').attr('data-url', data.edit_survey_url);
+                        $('#edit-survey').attr('href', data.edit_survey_url);
+                        $('#clone-survey').attr('data-url', data.clone_survey_url);
                         $('.input-edit-token-manage').attr('data-token-manage', data.new_token_manage);
+                        $('.input-edit-token-manage').attr('data-original-title', data.new_token_manage);
 
                         if (typeof (history.pushState) != 'undefined') {
                             var obj = { Page: 'update-url', Url: data.new_token_manage };
@@ -278,7 +284,7 @@ function changeTokenManage(element) {
                         $('.edit-token-manage-survey').hide();
                         element.val(data.new_token_manage);
                     } else {
-                        $(window).attr('location', data.redirect);
+                        alertDanger({message: data.message});
                     }
                 })
                 .fail(function (data) {

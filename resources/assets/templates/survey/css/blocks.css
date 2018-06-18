@@ -8054,3 +8054,7 @@ label.label-email {
 button.btn.btn-secondary.btn-search-invite {
     height: 32px;
 }
+
+.color-white {
+    color: #fff;
+}

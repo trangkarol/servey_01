@@ -26,8 +26,6 @@ use App\Http\Requests\UpdateSurveyRequest;
 use Predis\Connection\ConnectionException;
 use App\Http\Requests\SurveyRequest;
 use App\Http\Requests\ResultRequest;
-use App\Http\Requests\UpdateTokenRequest;
-use App\Http\Requests\UpdateTokenManageRequest;
 use App\Http\Requests\UpdateSurveySettingRequest;
 use Auth;
 use App\Traits\SurveyProcesser;

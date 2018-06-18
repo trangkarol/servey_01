@@ -19,6 +19,8 @@ use Exception, Auth, Datatables, Session, DB, Storage;
 use Carbon\Carbon;
 use App\Traits\ManageSurvey;
 use App\Traits\DoSurvey;
+use App\Http\Requests\UpdateTokenRequest;
+use App\Http\Requests\UpdateTokenManageRequest;
 
 class ManagementSurvey extends Controller
 {
@@ -229,7 +231,7 @@ class ManagementSurvey extends Controller
         } catch (Exception $e) {
             return [
                 'success' => false,
-                'redirect' => ($e->getCode() == 403) ? route('403') : '',
+                'message' => ($e->getCode() == 403) ? trans('lang.not_permisstion_message') : trans('lang.process_failed'),
             ];
         }
 
@@ -263,11 +265,13 @@ class ManagementSurvey extends Controller
                 'open_survey_url' => route('ajax-survey-open', $newTokenManage),
                 'overview_url' => route('ajax-get-overview', $newTokenManage),
                 'result_url' => route('survey.result.index', $newTokenManage),
+                'clone_survey_url' => route('ajax-survey-clone', $newTokenManage),
             ]);
         } catch (Exception $e) {
+            dd($e);
             return [
                 'success' => false,
-                'redirect' => ($e->getCode() == 403) ? route('403') : '',
+                'message' => ($e->getCode() == 403) ? trans('lang.not_permisstion_message') : trans('lang.process_failed'),
             ];
         }
     }
