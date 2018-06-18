@@ -53,4 +53,8 @@ class Invite extends Model
         return !empty($this->attributes['send_update_mails']) ?
             array_filter(explode('/', $this->attributes['send_update_mails'])) : [];
     }
+    public function getNumberIncognitoAnswerAttribute()
+    {
+        return $this->attributes['number_answer'] - count($this->getAnswerMailsArrayAttribute());
+    }
 }

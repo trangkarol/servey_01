@@ -48,4 +48,11 @@ class Section extends Model
     {
         return ucfirst($this->attributes['description']);
     }
+
+    public function showTitleTooltip()
+    {
+        return strlen($this->attributes['title']) >= config('settings.title_length_default')
+            ? $this->attributes['title']
+            : '';
+    }
 }

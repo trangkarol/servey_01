@@ -285,6 +285,8 @@ return [
    'change_token_manage' => 'Change token manage',
    'clone_survey_success' => 'Clone survey successful!',
    'comfirm_clone_survey' => 'Do you want to clone this survey?',
+   'count_incognito_answer' => 'There are :count people has answered incognito',
+   'incognito' => 'Incognito',
 
     /*
         Edit survey page

@@ -1006,6 +1006,9 @@ jQuery(document).ready(function () {
         format: 'DD/MM/YYYY h:mm A',
     });
 
+    $('#start-time').data('datetimepicker').date(new Date($('#start-time').data('time')));
+    $('#end-time').data('datetimepicker').date(new Date($('#end-time').data('time')));
+
     // select start-time
     $('.page-section-header').on('change.datetimepicker', '#start-time', function (e) {
         if ($(this).val() == '') {

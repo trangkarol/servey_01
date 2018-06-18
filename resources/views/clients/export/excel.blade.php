@@ -30,10 +30,19 @@
                     <tr>
                         <td>{{ $result->first()->created_at }}</td>
                         @if ($data['requiredSurvey'] != config('settings.survey_setting.answer_required.none'))
-                            <td>{{ $result->first()->user->email }}</td>
+                            <td>{{ $result->first()->user ? $result->first()->user->email : trans('lang.incognito') }}</td>
                         @endif
-                        @foreach ($result as $answer)
-                            <td>{!! $answer->content_answer !!}</td>
+                        @foreach ($result->groupBy('question_id') as $answers)
+                            @if ($answers->count() == 1)
+                                <td>{!! $answers->first()->content_answer !!}</td>
+                            @else
+                                <td>
+                                    @foreach ($answers as $answer)
+                                        {!! $answer->content_answer !!}
+                                        {{ ($answer == $answers->last()) ? '' : ',' }}
+                                    @endforeach
+                                </td>
+                            @endif
                         @endforeach
                     </tr>
                 @endforeach

@@ -465,7 +465,10 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
             } elseif (count($updatedQuestionIds)){
                 // if option update is "dont send survey again" OR is "send question has updated" then delete all result of these questions has updated and these resluts incognito
                 DB::table('results')->whereIn('question_id', $updatedQuestionIds)->delete();
-                DB::table('results')->where('user_id', '')->where('client_ip', '<>', '')->delete();
+                DB::table('results')->where('survey_id', $survey->id)
+                    ->whereNull('user_id')
+                    ->whereNotNull('client_ip')
+                    ->delete();
             } elseif (empty($createData['sections']) && empty($createData['questions']) && empty($createData['answers'])) {
                 return;
             }
@@ -716,13 +719,14 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         $requiredSurvey = $survey->required;
         $questions = app(QuestionInterface::class)
             ->whereIn('section_id', $survey->sections->pluck('id')->all())
-            ->with('answerResults', 'settings')->get();
-        $results = app(ResultInterface::class)->whereIn('question_id', $questions->pluck('id')->all())
-            ->with('answer.settings', 'user')->get()->groupBy(
-                function($date) {
-                    return Carbon::parse($date->created_at)->format('Y-m-d H:m:s.u');
-                }
-            );
+            ->with('settings')->get();
+        $results = $this->getResultsFollowOptionUpdate($survey, $survey->results(), app(UserInterface::class));
+        $results = $results->with('answer.settings', 'user')->get()->groupBy(
+            function($date) {
+                return Carbon::parse($date->created_at)->format('Y-m-d H:m:s.u');
+            }
+        );
+
         return [
             'questions' => $questions,
             'results' => $results,
@@ -766,7 +770,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
 
     public function getSurveyByTokenManage($token)
     {
-        $survey = $this->model->with([
+        $survey = $this->model->withTrashed()->with([
             'settings',
             'invite',
             'members' => function ($query) {
