@@ -547,6 +547,7 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
     public function cloneQuestion($question, $newSection)
     {
         $data = $question->replicate()->toArray();
+        $data['update'] = config('settings.survey.question_update.default');
         $newQuestion = $newSection->questions()->create($data);
         // clone setting question
         $dataSettings = $question->settings->toArray();

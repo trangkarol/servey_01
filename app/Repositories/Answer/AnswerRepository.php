@@ -264,6 +264,7 @@ class AnswerRepository extends BaseRepository implements AnswerInterface
     public function cloneAnswer($answer, $newQuestion)
     {
         $data = $answer->replicate()->toArray();
+        $data['update'] = config('settings.survey.answer_update.default');
         $newAnswer = $newQuestion->answers()->create($data);        
         // clone setting answer
         $dataSettings = $answer->settings->toArray();

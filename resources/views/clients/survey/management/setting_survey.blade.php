@@ -40,7 +40,7 @@
                 <div class="form-group row form-group-custom">
                     {!! Form::label('token', trans('lang.link_doing_survey'), ['class' => 'col-sm-3 col-form-label col-form-label-custom']) !!}
                     <div class="col-sm-9">
-                        {!! Url('/') . '/surveys/' . Form::text('token', $survey->token, [
+                        {!! Url('/') . '/surveys-' . Form::text('token', $survey->token, [
                                 'class' => 'form-control-plaintext input-edit-token',
                                 'data-survey-id' => $survey->id,
                                 'data-token' => $survey->token,

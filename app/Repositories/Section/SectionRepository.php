@@ -43,6 +43,7 @@ class SectionRepository extends BaseRepository implements SectionInterface
     public function cloneSection($section, $newSurvey)
     {
         $newSection = $section->replicate()->toArray();
+        $newSection['update'] = config('settings.survey.section_update.default');
 
         return $newSurvey->sections()->create($newSection);
     }
