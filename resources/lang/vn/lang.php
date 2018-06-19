@@ -285,6 +285,8 @@ return [
    'change_token_manage' => 'Thay đổi token manage',
    'clone_survey_success' => 'Sao chép survey thành công!',
    'comfirm_clone_survey' => 'Bạn có muốn sao chép khảo sát này không?',
+   'count_incognito_answer' => 'Có :count người trả lời ẩn danh',
+   'incognito' => 'Ẩn danh',
 
     /*
         Edit survey page

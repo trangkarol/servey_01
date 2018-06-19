@@ -29,6 +29,9 @@
                             </div>
                         </div>
                     </div>
+                    <div>
+                        <span class="number-incognito-answer"></span>
+                    </div>
                     <div class="content-table-invite">
                         <table class="table-body-scroll table-invite table-show-email-manager" cellspacing="0">
                             <thead>

@@ -71,6 +71,7 @@ $(document).ready(function(){
         })
         .done(function (data) {
             $('#div-management-survey').html(data.html);
+            $('[data-toggle="tooltip"]').tooltip();
             location.hash = page;
         });
     }

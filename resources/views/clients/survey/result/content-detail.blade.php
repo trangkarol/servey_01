@@ -7,7 +7,7 @@
             <li class="form-line-title-survey-result">
                 <div class="form-group-title-survey">
                     <h2 class="title-survey-result" data-placement="bottom" data-toggle="tooltip"
-                            title="{{ $survey->title }}">
+                            title="{{ $survey->showTitleTooltip() }}">
                         {{ $survey->limit_title }}
                     </h2>
                 </div>
@@ -68,7 +68,7 @@
                                 </div>
                                 <hr/>
                                 <h3 class="title-section" data-placement="bottom" data-toggle="tooltip"
-                                    title="{{ $section->title }}">
+                                    title="{{ $section->showTitleTooltip() }}">
                                     {{ $section->limit_title }}
                                 </h3>
                                 <span class="description-section-result">{{ $section->custom_description }}</span>

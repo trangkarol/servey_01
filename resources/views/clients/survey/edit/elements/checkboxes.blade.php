@@ -4,7 +4,7 @@
         $existsOtherOption = false;
     @endphp
     @foreach ($question->answers as $answer)
-        @if ($answer->settings->first()->key == config('settings.answer_type.option'))
+        @if ($answer->settings->count() && $answer->settings->first()->key == config('settings.answer_type.option'))
             <div class="form-row option checkbox checkbox-sortable"
                 id="answer_{{ $answer->id }}"
                 data-answer-id="{{ $answer->id }}"

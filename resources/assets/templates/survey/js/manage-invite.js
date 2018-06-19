@@ -11,6 +11,12 @@ $(document).ready(function() {
         emailAnswereds = $(this).data('emails-answered').split('/');
         emails = [...new Set([...emailInviteds ,...emailAnswereds])];
         $('.search-mail-invite').val('');
+        var numberIncognitoAnswer = $(this).attr('data-incognito-answer');
+
+        if (parseInt(numberIncognitoAnswer)) {
+            $('.number-incognito-answer').text(Lang.get('lang.count_incognito_answer', { count: numberIncognitoAnswer }));
+        }
+
         showStatusAnswer(emails, emailAnswereds);
     });
 

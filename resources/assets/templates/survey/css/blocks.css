@@ -8058,3 +8058,7 @@ button.btn.btn-secondary.btn-search-invite {
 .color-white {
     color: #fff;
 }
+
+.number-incognito-answer {
+    color: #444 !important;
+}

@@ -255,4 +255,11 @@ class Survey extends Model
             config('settings.option_update.dont_send_survey_again'),
         ]);        
     }
+
+    public function showTitleTooltip()
+    {
+        return strlen($this->attributes['title']) >= config('settings.title_length_default')
+            ? $this->attributes['title']
+            : '';
+    }
 }

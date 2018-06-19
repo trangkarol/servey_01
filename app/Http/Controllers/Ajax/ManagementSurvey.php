@@ -121,6 +121,7 @@ class ManagementSurvey extends Controller
             $this->delete($survey);
 
             DB::commit();
+            $request->session()->flash('success', trans('lang.delete_survey_success'));
 
             return response()->json([
                 'success' => true,
@@ -268,7 +269,6 @@ class ManagementSurvey extends Controller
                 'clone_survey_url' => route('ajax-survey-clone', $newTokenManage),
             ]);
         } catch (Exception $e) {
-            dd($e);
             return [
                 'success' => false,
                 'message' => ($e->getCode() == 403) ? trans('lang.not_permisstion_message') : trans('lang.process_failed'),
