@@ -8,4 +8,5 @@ return [
     'other' => 'Khác',
     'number_user' => 'Số người dùng thực hiện.',
     'activity_survey' => 'Tình hình hoạt động của khảo sát.',
+    'nothing_to_collect' => 'Không có dữ liệu nào để thu thập',
 ];

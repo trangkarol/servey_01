@@ -20,7 +20,7 @@
                     <div class="content-complete-result">
                         <div>
                             <h2 class="title-survey-preview-comlete">
-                                {{ $title }}
+                                {!! nl2br(e($title)) !!}
                             </h2>
                         </div>
                         <div>

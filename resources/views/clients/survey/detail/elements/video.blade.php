@@ -1,4 +1,4 @@
-<h4 class="title-question">{{ $question->title }}</h4>
+<h4 class="title-question">{!! nl2br(e($question->title)) !!}</h4>
 @if ($countQuestionMedia)
     <div class="img-preview-question-survey videoWrapper">
         <iframe src="{{ $question->url_media }}"
@@ -7,5 +7,5 @@
     </div>
 @endif
 <div class="form-group form-group-description-section">
-    <span class="description-question">{!! $question->description !!}</span>
+    <span class="description-question">{!! nl2br(e($question->description)) !!}</span>
 </div>

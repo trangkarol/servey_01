@@ -8,12 +8,12 @@
             <li class="form-line-title-survey-result">
                 <div class="form-group-title-survey">
                     <h2 class="title-survey-result" data-placement="bottom" data-toggle="tooltip"
-                            title="{{ $survey->showTitleTooltip() }}">
-                        {{ $survey->limit_title }}
+                        title="{{ $survey->showTitleTooltip() }}">
+                        {!! nl2br(e($survey->limit_title)) !!}
                     </h2>
                 </div>
                 <div class="form-group">
-                    <span class="description-survey">{{ $survey->description }}</span>
+                    <span class="description-survey">{!! nl2br(e($survey->description)) !!}</span>
                 </div>
                 <div class="row">
                     <div class="btn-group col-md-6 col-xs-9" role="group">
@@ -94,9 +94,11 @@
                             <hr/>
                             <h3 class="title-section" data-placement="bottom" data-toggle="tooltip"
                                 title="{{ $resultsSurvey['section']->showTitleTooltip() }}">
-                                {{ $resultsSurvey['section']->limit_title }}
+                                {!! nl2br(e($resultsSurvey['section']->limit_title)) !!}
                             </h3>
-                            <span class="description-section-result">{{ $resultsSurvey['section']->custom_description }}</span>
+                            <span class="description-section-result">
+                                {!! nl2br(e($resultsSurvey['section']->custom_description)) !!}
+                            </span>
                         </div>
                     </li>
                 </ul>
@@ -109,14 +111,17 @@
                         <li class="li-question-review form-line li-question-result">
                             @if ($result['question_type'] == config('settings.question_type.title'))
                                 <div class="title-question-preview">
-                                    <span>{{ $result['question']->title }}</span>
+                                    <span>{!! nl2br(e($result['question']->title)) !!}</span>
                                 </div>
                                 <div class="form-group form-group-description-section">
-                                    <span class="description-section">{{ $result['question']->description }}</span>
+                                    <span class="description-section">
+                                        {!! nl2br(e($result['question']->description)) !!}
+                                    </span>
                                 </div>
                             @else
+                                <span class="index-question">{{ ++ $indexQuestion }}</span>
                                 <h4 class="title-question">
-                                    <span class="index-question">{{ ++ $indexQuestion }}</span>{{ $result['question']->title }}
+                                    {!! nl2br(e($result['question']->title)) !!}
                                     @if ($result['question']->required)
                                         <span class="notice-required-question"> *</span>
                                     @endif
@@ -167,6 +172,9 @@
                             @endif
                         </li>
                     @endforeach
+                    @if (!count($resultsSurvey['question_result']))
+                        <div class="nothing-to-collect">@lang('result.nothing_to_collect')</div>
+                    @endif
                 </ul>
             @endforeach
         </div>

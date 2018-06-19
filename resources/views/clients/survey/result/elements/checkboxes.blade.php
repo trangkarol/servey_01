@@ -22,7 +22,7 @@
             </div>
         @else
             <label class="container-checkbox-setting-survey block-hover">
-                <span>{{ $answer->content }}</span>
+                <span>{!! nl2br(e($answer->content)) !!}</span>
                 {!! Form::checkbox('answer' . $question->id,
                     '',
                     $detailResult->answer_id ==  $answer->id ? true : false,

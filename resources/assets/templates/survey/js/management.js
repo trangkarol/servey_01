@@ -33,6 +33,7 @@ $(document).ready(function () {
                     $('[data-toggle="tooltip"]').tooltip();
 
                     autoScroll(); // use function autoScroll() from file resources/assets/templates/survey/js/result.js
+                    autoAlignChoiceAndCheckboxIcon(); // this function has defined in file resources/assets/templates/survey/js/result.js
                 } else {
                     $('.content-section-preview').html(`<span class="message-result">${data.message}</span>`);
                 }

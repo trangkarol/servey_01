@@ -21,7 +21,8 @@
                     ['class' => 'option-other input-answer-other input-multiple-choice-other', 'disabled']) !!}
             </div>
         @else
-            <label class="container-radio-setting-survey block-hover">{{ $answer->content }}
+            <label class="container-radio-setting-survey block-hover">
+                {!! nl2br(e($answer->content)) !!}
                 {!! Form::radio('answer' . $question->id,
                     '',
                     $detailResult->answer_id ==  $answer->id ? true : false,

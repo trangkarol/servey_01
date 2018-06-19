@@ -354,6 +354,12 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         $createData = $data->get('create');
         $isDraftToOpen = false;
         $inviter = $survey->invite;
+        $isDeleteClientResult = false;
+
+        if (count($createData['sections']) || count($createData['questions']) 
+            || count($createData['answers']) || count($deleteData['answers'])) {
+            $isDeleteClientResult = true;
+        }
 
         if ($survey->isDraft() && $status == config('settings.survey.status.open')) {
             $isDraftToOpen = true;
@@ -385,6 +391,11 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
 
         // update questions
         foreach ($updateData['questions'] as $key => $value) {
+            if (!$isDeleteClientResult && !empty($value['update']) 
+                && $value['update'] == config('settings.survey.question_update.updated')) {
+                $isDeleteClientResult = true;
+            }
+
             if (isset($updateStatus)) {
                 $value['update'] = $updateStatus;
             }
@@ -462,7 +473,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
             // if option update is "send all question of survey again" then delete all old results
             if ($optionUpdate == config('settings.option_update.send_all_question_survey_again')) {
                 $survey->results()->forceDelete();
-            } elseif (count($updatedQuestionIds)){
+            } elseif (count($updatedQuestionIds) || $isDeleteClientResult) {
                 // if option update is "dont send survey again" OR is "send question has updated" then delete all result of these questions has updated and these resluts incognito
                 DB::table('results')->whereIn('question_id', $updatedQuestionIds)->delete();
                 DB::table('results')->where('survey_id', $survey->id)
