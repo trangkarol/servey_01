@@ -69,7 +69,7 @@ class OpenSurveyCommand extends Command
     {
         $surveys = $this->surveyRepository->where('status', config('settings.survey.status.close'))
             ->where('start_time', '<', Carbon::now())
-            ->all();
+            ->get();
         foreach ($surveys as $survey) {
             $this->open($survey);
         }

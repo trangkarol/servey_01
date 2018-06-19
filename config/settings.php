@@ -197,6 +197,7 @@ return [
                 'approve' => 1,
             ],
         ],
+        'invited' => 2,
         'send_mail_to_wsm' => [
             'none' => 0,
             'all' => 1,
@@ -322,5 +323,4 @@ return [
         'send_all_question_survey_again' => 1,
         'only_send_updated_question_survey' => 2,
     ],
-    'invited' => 1,
 ];

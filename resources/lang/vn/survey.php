@@ -20,6 +20,8 @@ return [
     'survey_invited' => 'Khảo sát được mời',
     'survey_editor' => 'Survey Editor',
     'remaining_date' => ' ngày còn lại.',
+    'remaining_hour' => ' giờ còn lại.',
+    'remaining_minute' => ' phút còn lại.',
     'no_title' => '(Không có tiêu đề)',
     'edit' => 'Sửa',
     'delete' => 'Xóa',

@@ -26,7 +26,14 @@ class SurveyController extends Controller
         $flag = $request->flag;
         $data = $request->only('name', 'status', 'privacy');
         $surveys = $this->surveyRepository->getAuthSurveys($flag, $data);
-        $html = view('clients.profile.survey.list_survey_owner', compact('surveys'))->render();
+        $html = '';
+
+        if ($flag == config('settings.survey.members.owner') ||
+            $flag == config('settings.survey.members.editor')) {
+            $html = view('clients.profile.survey.list_survey_owner', compact('surveys'))->render();
+        } elseif ($flag == config('settings.survey.invited')) {
+            $html = view('clients.profile.survey.list_survey_invite', compact('surveys'))->render();
+        }
 
         return response()->json([
             'success' => true,
