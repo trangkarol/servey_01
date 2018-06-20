@@ -1,4 +1,4 @@
-@foreach ($question->answers as $answer)
+@foreach ($question->answers->sortBy('type') as $answer)
     <div class="item-answer" data-id="{{ $answer->id }}" data-type="{{ $answer->type }}">
         @if ($answer->media->count())
             <div class="img-preview-answer-survey img-radio-preview

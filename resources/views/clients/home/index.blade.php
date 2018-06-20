@@ -8,6 +8,11 @@
 @section('header-change', 'header-change')
 
 @section('content')
+    @if (Session::has('check_show_login'))
+        {{ Html::link('#', '', [
+            'class' => 'btn-show-pupup-login',
+        ]) }}
+    @endif
     <main class="site-main">
         <div id="home" class="section block-primary align-c">
             <div id="siteBg" class="site-bg">

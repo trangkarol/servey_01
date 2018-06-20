@@ -33,7 +33,7 @@ class Answer extends Model
 
     public function settings()
     {
-        return $this->morphMany(Setting::class, 'settingable');
+        return $this->morphMany(Setting::class, 'settingable')->withTrashed();
     }
 
     public function withTrashedSettings()
@@ -58,7 +58,7 @@ class Answer extends Model
 
     public function getTypeAttribute()
     {
-        return $this->settings()->withTrashed()->first()->key;
+        return $this->settings->first()->key;
     }
 
     public function getUrlMediaAttribute()

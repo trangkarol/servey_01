@@ -5,6 +5,14 @@
         }
     });
 
+    if ($('.btn-show-pupup-login').is(':visible')) {
+        setTimeout(function() {
+            $('#modalLogin').modal('show');
+        }, 1000);
+    }
+    
+    $('#navbarDropdownProfile').dropdown();
+    
     // use regex in selector
     $.expr[':'].regex = function (elem, index, match) {
         var matchParams = match[3].split(','),

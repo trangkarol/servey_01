@@ -3,7 +3,7 @@
     @php
         $existsOtherOption = false;
     @endphp
-    @foreach ($question->answers as $answer)
+    @foreach ($question->answers->sortBy('type') as $answer)
         @if ($answer->settings->count() && $answer->settings->first()->key == config('settings.answer_type.option'))
             <div class="form-row option choice choice-sortable"
                 id="answer_{{ $answer->id }}"

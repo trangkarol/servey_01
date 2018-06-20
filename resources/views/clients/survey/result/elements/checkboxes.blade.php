@@ -1,8 +1,13 @@
-@foreach ($question->answers as $answer)
+@foreach ($question->answers->sortBy('type') as $answer)
     <div class="item-answer" data-id="{{ $answer->id }}" data-type="{{ $answer->type }}">
+        @php
+            $idResults = $detailResult->pluck('answer_id')->all();
+            $check = in_array($answer->id, $idResults) ? true : false;
+            $detailResults = $detailResult->pluck('content', 'answer_id')->all();
+        @endphp
         @if ($answer->media->count())
             <div class="img-preview-answer-survey img-checkbox-preview
-                {{ $detailResult->answer_id ==  $answer->id ? 'image-active-result' : '' }}">
+                {{ $check ? 'image-active-result' : '' }}">
                 {!! Html::image($answer->url_media, '',
                     ['class' => 'img-answer']) !!}
             </div>
@@ -12,12 +17,12 @@
                 <span>@lang('lang.other')</span>
                 {!! Form::checkbox('answer' . $question->id,
                     '',
-                    $detailResult->answer_id ==  $answer->id ? true : false,
+                    $check,
                     ['class' => 'choice-answer checkbox-answer-preview']) !!}
                 <span class="checkmark-setting-survey"></span>
             </label>
             <div class="magic-box-preview">
-                {!! Form::text('', $detailResult->answer_id ==  $answer->id ? $detailResult->content : '',
+                {!! Form::text('', $check ? $detailResults[$answer->id] : '',
                     ['class' => 'option-other input-answer-other input-checkbox-other', 'disabled']) !!}
             </div>
         @else
@@ -25,7 +30,7 @@
                 <span>{!! nl2br(e($answer->content)) !!}</span>
                 {!! Form::checkbox('answer' . $question->id,
                     '',
-                    $detailResult->answer_id ==  $answer->id ? true : false,
+                    $check,
                     ['class' => 'choice-answer checkbox-answer-preview', 'disabled']) !!}
                 <span class="checkmark-setting-survey"></span>
             </label>

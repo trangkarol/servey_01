@@ -2606,6 +2606,16 @@ jQuery(document).ready(function () {
         if (!urlImage) {
             showMessageImage(Lang.get('lang.url_is_required'));
         } else {
+            var expression = /^http+/;
+            var regex = new RegExp(expression);
+
+            if (!urlImage.match(regex)) {
+                setPreviewImage('');
+                showMessageImage(Lang.get('lang.url_is_invalid'));
+
+                return false;
+            }
+
             checkTimeLoadImage(urlImage, function (result) {
                 if (result == 'success') { // is image url
                     setPreviewImage(urlImage);

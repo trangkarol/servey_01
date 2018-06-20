@@ -147,4 +147,9 @@ class Question extends Model
     {
         return $this->media->first()->url;
     }
+
+    public function getSectionOrderAttribute()
+    {
+        return $this->section->order;
+    }
 }
