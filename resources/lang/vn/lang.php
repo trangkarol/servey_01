@@ -238,7 +238,7 @@ return [
     'type' => 'Loại file',
     'exit' => 'Thoát',
     'export' => 'Tải xuống',
-    'export_error' => 'Lổi khi tải xuống!',
+    'export_error' => 'Lỗi khi tải xuống!',
     'create_other' => 'Tạo khảo sát khác',
 
     /*

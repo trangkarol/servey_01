@@ -100,9 +100,23 @@ class Survey extends Model
     public function getRemainingTimeAttribute()
     {
         if (!empty($this->attributes['end_time'])) {
-            $start_time = $this->attributes['start_time'] ? $this->attributes['start_time'] : $this->attributes['created_at'];
+            $now = new Carbon();
 
-            return Carbon::parse($this->attributes['end_time'])->diffInDays(Carbon::parse($start_time));
+            if ($now > $this->attributes['end_time']) {
+                return '';
+            }
+            
+            $time = Carbon::parse($this->attributes['end_time'])->diffInDays(Carbon::parse($now));
+
+            if (!$time) {
+                $time = Carbon::parse($this->attributes['end_time'])->diffInHours(Carbon::parse($now))
+                ? Carbon::parse($this->attributes['end_time'])->diffInHours(Carbon::parse($now)) . trans('survey.remaining_hour')
+                : Carbon::parse($this->attributes['end_time'])->diffInMinutes(Carbon::parse($now)) . trans('survey.remaining_minute');
+            } else {
+                $time .= trans('survey.remaining_date');
+            }
+
+            return $time;
         }
 
         return '';

@@ -6,6 +6,7 @@ use Closure;
 use App\Repositories\Survey\SurveyInterface;
 use Auth;
 use Illuminate\Http\Response;
+use App\Policies\SurveyPolicy;
 
 class DoingSurveyMiddleware
 {
@@ -25,8 +26,17 @@ class DoingSurveyMiddleware
 
     public function handle($request, Closure $next)
     {
+        $survey = $this->surveyRepository->getSurveyFromToken($request->token);
+        $status = $survey->status;
+
+        if ($status != config('settings.survey.status.open') && Auth::user()->cannot('edit', $survey)) {
+            $title = $survey->title;
+            $content = trans('lang.you_do_not_have_permission');
+
+            return  new Response(view('clients.survey.detail.complete', compact('title', 'content')));
+        }
+
         if (!Auth::check()) {
-            $survey = $this->surveyRepository->getSurveyFromToken($request->token);
             $requiredLogin = $survey->required;
             $privacy = $survey->getPrivacy();
 

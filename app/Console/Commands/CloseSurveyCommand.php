@@ -77,7 +77,7 @@ class CloseSurveyCommand extends Command
     {
         $surveys = $this->surveyRepository->where('status', config('settings.survey.status.open'))
             ->where('end_time', '<', Carbon::now())
-            ->all();
+            ->get();
 
         foreach ($surveys as $survey) {
             $this->close($survey);

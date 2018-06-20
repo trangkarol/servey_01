@@ -66,4 +66,6 @@ return [
     'enter_mail_placeholder' => 'Nhập email mà bạn muốn gửi...',
     'exit' => 'Thoát',
     'image_not_found' => 'Không tìm thấy hình ảnh.',
+    'finished' => 'Đã làm',
+    'not_finished' => 'Chưa làm',
 ];

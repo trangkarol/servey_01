@@ -818,6 +818,15 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
             });
         }
 
+        if ($flag == config('settings.survey.invited')) {
+            $survey = $survey->whereHas('invite', function ($query) {
+                $query->where('invite_mails', 'LIKE', '%/' . Auth::user()->email . '%')
+                    ->orWhere('invite_mails', 'LIKE', Auth::user()->email . '%')
+                    ->orWhere('answer_mails', 'LIKE', '%/' . Auth::user()->email . '%')
+                    ->orWhere('answer_mails', 'LIKE', Auth::user()->email . '%');
+            });
+        }
+
         //check paramater
         if (isset($data['name']) && $data['name']) {
             $survey = $survey->where('title', 'like', '%' . $data['name'] . '%');

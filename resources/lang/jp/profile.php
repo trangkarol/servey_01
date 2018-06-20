@@ -66,4 +66,6 @@ return [
     'enter_mail_placeholder' => 'Enter the email you want to send...',
     'exit' => 'Exit',
     'image_not_found' => 'Image not found',
+    'finished' => 'Finished',
+    'not_finished' => 'Not finished',
 ];

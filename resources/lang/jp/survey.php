@@ -20,6 +20,8 @@ return [
     'survey_invited' => 'Invited',
     'survey_editor' => 'Editor',
     'remaining_date' => ' days remaining.',
+    'remaining_hour' => ' hours remaining.',
+    'remaining_minute' => ' minutes remaining.',
     'no_title' => '(No title)',
     'edit' => 'Edit',
     'delete' => 'Delete',
