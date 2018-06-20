@@ -107,3 +107,7 @@ span.url-config-management {
         max-width: 1150px;
     }
 }
+
+.content-section-preview .title-question-preview {
+    left: -15px;
+}

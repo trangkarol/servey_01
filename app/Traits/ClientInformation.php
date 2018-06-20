@@ -42,14 +42,15 @@ trait ClientInformation
     public function processAnswererInformation($data, $survey, $privacy)
     {
         $clientInfo['client_ip'] = '';
-        $answerRequiredSetting = $survey->settings()->where('key', config('settings.setting_type.answer_required.key'))->first()->value;
+        $answerRequiredSetting = $survey->settings->where('key', config('settings.setting_type.answer_required.key'))->first()->value;
+        $limitAnswer = $survey->getLimitAnswer();
 
         // check answer_required setting
         switch ($answerRequiredSetting) {
             case config('settings.survey_setting.answer_required.none'):
                 // if user is login
                 if (Auth::check()) {
-                    $this->updateInviteWithLogin($survey, Auth::user(), $privacy);
+                    $this->updateInviteWithLogin($survey, Auth::user(), $privacy, $limitAnswer);
                     $clientInfo['user_id'] = Auth::user()->id;
 
                     break;
@@ -62,7 +63,7 @@ trait ClientInformation
 
                 // if user is incognito - just be available with survey public
                 $clientInfo['client_ip'] = $this->getClientIP();
-                $this->updateInviteWithIncognito($survey, $clientInfo['client_ip']);
+                $this->updateInviteWithIncognito($survey, $clientInfo['client_ip'], $limitAnswer);
 
                 break;
 
@@ -73,7 +74,7 @@ trait ClientInformation
                     throw new Exception("Error Processing Request", 1);
                 }
 
-                $this->updateInviteWithLogin($survey, Auth::user(), $privacy);
+                $this->updateInviteWithLogin($survey, Auth::user(), $privacy, $limitAnswer);
                 $clientInfo['user_id'] = $userId;
 
                 break;
@@ -85,7 +86,7 @@ trait ClientInformation
                     throw new Exception("Error Processing Request", 1);
                 }
 
-                $this->updateInviteWithLogin($survey, Auth::user(), $privacy);
+                $this->updateInviteWithLogin($survey, Auth::user(), $privacy, $limitAnswer);
                 $clientInfo['user_id'] = $userId;
 
                 break;
@@ -107,7 +108,7 @@ trait ClientInformation
                     + privacy privare -> error
                     + privacy public -> update invite
     */
-    public function updateInviteWithLogin($survey, $user, $privacy)
+    public function updateInviteWithLogin($survey, $user, $privacy, $limitAnswer)
     {
         $inviter = $survey->invite;
         $userMail = $user->email;
@@ -156,14 +157,24 @@ trait ClientInformation
                     'send_update_mails' => join('/', $sendUpdateMails->all()) . '/',
                 ];
             } else {
-                // if user has answered -- current just process permit 1 user answer 1 times
-                if (collect($answerMails)->contains($userMail)) {
-                    throw new Exception("Has answered", 1);
-                }
-
                 // if user not in invite list and survey is private
                 if ($privacy == config('settings.survey_setting.privacy.private')) {
                     throw new Exception("Not permitted", 1);
+                }
+
+                // process limit number of times answer
+                $timesAnswer = $survey->results->where('user_id', $user->id)
+                    ->pluck('created_at')
+                    ->unique()->count();
+
+                if ($limitAnswer != config('settings.survey_setting.answer_unlimited') 
+                    && $timesAnswer >= $limitAnswer) {
+                    throw new Exception("Number of times answer overed limit", 1);
+                }
+
+                // if answers more 2 times then dont update answer_mail, number_invite, and number_answer
+                if ($timesAnswer >= 1) {
+                    return;
                 }
 
                 array_push($answerMails, $userMail);
@@ -197,11 +208,21 @@ trait ClientInformation
         ]);
     }
 
-    public function updateInviteWithIncognito($survey, $clientIp) 
+    public function updateInviteWithIncognito($survey, $clientIp, $limitAnswer) 
     {
-        // if user has answered -- current just process permit 1 user answer 1 times
-        if ($survey->results->where('client_ip', $clientIp)->count()) {
-            throw new Exception("Has answered", 1);
+        // process limit number of times answer
+        $timesAnswer = $survey->results->where('client_ip', $clientIp)
+            ->pluck('created_at')
+            ->unique()->count();
+
+        if ($limitAnswer != config('settings.survey_setting.answer_unlimited') 
+            && $timesAnswer >= $limitAnswer) {
+            throw new Exception("Number of times answer overed limit", 1);
+        }
+
+        // if answers more 2 times then dont update answer_mail, number_invite, and number_answer
+        if ($timesAnswer >= 1) {
+            return;
         }
 
         $inviter = $survey->invite;

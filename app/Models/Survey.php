@@ -276,4 +276,11 @@ class Survey extends Model
             ? $this->attributes['title']
             : '';
     }
+
+    public function getLimitAnswer()
+    {
+        $limit = $this->settings->where('key', config('settings.setting_type.answer_limited.key'))->first();
+
+        return !empty($limit) ? $limit->value : config('settings.survey_setting.answer_unlimited');
+    }
 }

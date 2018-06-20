@@ -263,12 +263,26 @@ jQuery(document).ready(function () {
         $('.input-upload-image').val('');
     }
 
-    //
+    // reset modal video
     function resetModalVideo() {
         $('.input-url-video').val('');
         $('.messages-validate-video').text('');
         $('.video-preview').attr('src', '');
         $('.video-preview').attr('data-thumbnail', '');
+    }
+
+    function showLoaderAnimation()
+    {
+        $('#send-modal-loader').addClass('show');
+        $('body').append('<div class="modal-backdrop send-loader fade show"></div>');
+        $('body').css('overflow', 'hidden');
+    }
+
+    function hideLoaderAnimation()
+    {
+        $('#send-modal-loader').removeClass('show');
+        $('.send-loader').remove();
+        $('body').css('overflow', '');
     }
 
     /**
@@ -2175,10 +2189,7 @@ jQuery(document).ready(function () {
             return;
         }
 
-        $('#send-modal-loader').addClass('show');
-        $('body').append('<div class="modal-backdrop send-loader fade show"></div>');
-        $('body').css('overflow', 'hidden');
-
+        showLoaderAnimation();
         var data = JSON.stringify(survey);
 
         $.ajax({
@@ -2191,12 +2202,13 @@ jQuery(document).ready(function () {
                 window.onbeforeunload = null;
                 $(window).attr('location', data.redirect);
             } else {
-                $('#send-modal-loader').removeClass('show');
-                $('.send-loader').remove();
-                $('body').css('overflow', '');
-
+                hideLoaderAnimation();
                 alertDanger({message: data.message});
             }
+        })
+        .fail(function (data) {
+            hideLoaderAnimation();
+            alertDanger({message: Lang.get('lang.wrong_data')});
         });
     });
 
@@ -3177,9 +3189,7 @@ jQuery(document).ready(function () {
             // members
             data.members = getMembers();
 
-            $('#send-modal-loader').addClass('show');
-            $('body').append('<div class="modal-backdrop send-loader fade show"></div>');
-            $('body').css('overflow', 'hidden');
+            showLoaderAnimation();
 
             $.ajax({
                 method: 'PUT',
@@ -3187,9 +3197,7 @@ jQuery(document).ready(function () {
                 data: JSON.stringify(data),
             })
             .done(function (data) {
-                $('#send-modal-loader').removeClass('show');
-                    $('.send-loader').remove();
-                    $('body').css('overflow', '');
+                hideLoaderAnimation();
 
                 if (!data.success) {
                     if (data.redirect == '') {
@@ -3201,6 +3209,10 @@ jQuery(document).ready(function () {
                     window.onbeforeunload = null;
                     $(window).attr('location', data.redirect);
                 }
+            })
+            .fail(function (data) {
+                hideLoaderAnimation();
+                alertDanger({message: Lang.get('lang.wrong_data')});
             });
         }
     });
@@ -3515,11 +3527,8 @@ jQuery(document).ready(function () {
                     return;
                 }
 
+                showLoaderAnimation();
                 var data = JSON.stringify(survey);
-
-                $('#send-modal-loader').addClass('show');
-                $('body').append('<div class="modal-backdrop send-loader fade show"></div>');
-                $('body').css('overflow', 'hidden');
 
                 $.ajax({
                     method: 'POST',
@@ -3530,10 +3539,7 @@ jQuery(document).ready(function () {
                             window.onbeforeunload = null;
                             $(window).attr('location', data.redirect);
                         } else {
-                            $('#send-modal-loader').removeClass('show');
-                            $('.send-loader').remove();
-                            $('body').css('overflow', '');
-
+                            hideLoaderAnimation();
                             alertDanger({message: data.message});
                         }
                     }
@@ -3874,9 +3880,7 @@ jQuery(document).ready(function () {
                 return;
             }
 
-            $('#send-modal-loader').addClass('show');
-            $('body').append('<div class="modal-backdrop send-loader fade show"></div>');
-            $('body').css('overflow', 'hidden');
+            showLoaderAnimation();
 
             $.ajax({
                 method: 'PUT',
@@ -3896,22 +3900,20 @@ jQuery(document).ready(function () {
                         return;
                     }
 
-                    $('#send-modal-loader').removeClass('show');
-                    $('.send-loader').remove();
-                    $('body').css('overflow', '');
-
+                    hideLoaderAnimation();
                     alertDanger({message: data.message});
                 }
+            })
+            .fail(function (data) {
+                hideLoaderAnimation();
+                alertDanger({message: Lang.get('lang.wrong_data')});
             });
         });
 
         // update survey with draft
         $('#update-survey-draft').on('click', function () {
             var surveyUpdateData = getSurveyUpdateData();
-
-            $('#send-modal-loader').addClass('show');
-            $('body').append('<div class="modal-backdrop send-loader fade show"></div>');
-            $('body').css('overflow', 'hidden');
+            showLoaderAnimation();
 
             $.ajax({
                 method: 'PUT',
@@ -3930,11 +3932,8 @@ jQuery(document).ready(function () {
 
                         return;
                     }
-
-                    $('#send-modal-loader').removeClass('show');
-                    $('.send-loader').remove();
-                    $('body').css('overflow', '');
-
+                    
+                    hideLoaderAnimation();
                     alertDanger({message: data.message});
                 }
             })

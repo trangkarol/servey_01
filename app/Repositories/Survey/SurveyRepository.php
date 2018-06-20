@@ -858,7 +858,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
 
         return $survey->with(['settings' => function ($query) {
                 $query->where('key', config('settings.setting_type.privacy.key'));
-            }])->paginate(config('settings.survey.paginate'));
+            }])->orderBy('created_at', 'desc')->paginate(config('settings.survey.paginate'));
     }
 
     //get survey by token
