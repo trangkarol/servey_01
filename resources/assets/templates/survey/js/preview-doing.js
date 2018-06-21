@@ -37,8 +37,8 @@ $(document).ready(function() {
     });
 
     //event click img answer
-
-    $('.img-checkbox-preview').click(function() {
+    $(document).on('click', '.img-checkbox-preview', function(event) {
+        event.preventDefault();
         var selector = $(this).next('label').children('input');
 
         if (selector.prop('checked')) {
@@ -49,8 +49,9 @@ $(document).ready(function() {
             $(this).css('border', '2px solid #43add1');
         }
     });
-
-    $('.img-radio-preview').click(function() {
+    
+    $(document).on('click', '.img-radio-preview', function(event) {
+        event.preventDefault();
         var selector = $(this).next('label').children('input');
 
         if (!selector.prop('checked')) {
@@ -71,8 +72,9 @@ $(document).ready(function() {
             }
         })
     });
-
-    $('.checkbox-answer-preview').change(function() {
+    
+    $(document).on('change', '.checkbox-answer-preview', function(event) {
+        event.preventDefault();
         var selector = $(this).parent('.container-checkbox-setting-survey')
             .prev('.img-preview-answer-survey');
 
@@ -84,8 +86,9 @@ $(document).ready(function() {
             }
         }
     });
-
-    $('.radio-answer-preview').change(function() {
+    
+    $(document).on('change', '.radio-answer-preview', function(event) {
+        event.preventDefault();
         if ($(this).prop('checked')) {
             var selector = $(this).parent('.container-radio-setting-survey')
                 .prev('.img-preview-answer-survey');

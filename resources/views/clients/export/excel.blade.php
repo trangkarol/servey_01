@@ -27,6 +27,9 @@
         <tbody>
             @if (count($data['results']))
                 @foreach ($data['results'] as $result)
+                    @php
+                        $result = $result->sortBy('order')->sortBy('section_order');
+                    @endphp
                     <tr>
                         <td>{{ $result->first()->created_at }}</td>
                         @if ($data['requiredSurvey'] != config('settings.survey_setting.answer_required.none'))

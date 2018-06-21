@@ -36,7 +36,7 @@
                         </div>
                     </td>
                     <td>
-                        <span class="badge badge-info badge-list-survey">{{ $survey->remaining_time ? $survey->remaining_time . trans('survey.remaining_date') : '' }}</span>
+                        <span class="badge badge-info badge-list-survey">{{ $survey->remaining_time ? $survey->remaining_time : '' }}</span>
                     </td>
                     <td>
                         <a href="{{ route('survey.management', $survey->token_manage) }}" class="btn btn-info" data-toggle="tooltip" title="Setting">

@@ -85,7 +85,9 @@
                             @php
                                 $questionSetting = $question->type;
                                 $countQuestionMedia = $question->media->count();
-                                $detailResult = $details->first()->where('question_id', $question->id)->first();
+                                $detailResult = $questionSetting != config('settings.question_type.checkboxes')
+                                    ? $details->first()->where('question_id', $question->id)->first()
+                                    : $details->first()->where('question_id', $question->id);
                             @endphp
                             <li class="li-question-review form-line">
                                 <!-- tittle -->

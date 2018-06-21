@@ -18,7 +18,7 @@ class ProfileMiddleware
     public function handle($request, Closure $next)
     {
         if (!Auth::check()) {
-            return redirect()->route('home');
+            return redirect()->route('home')->with('check_show_login', true);
         }
 
         return $next($request);

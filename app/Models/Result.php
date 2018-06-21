@@ -54,6 +54,16 @@ class Result extends Model
         return $this->attributes['content'];
     }
 
+    public function getOrderAttribute()
+    {
+        return $this->question->order;
+    }
+    
+    public function getSectionOrderAttribute()
+    {
+        return $this->question->section_order;
+    }
+
     public function getUpperContentAttribute()
     {
         return strtoupper($this->attributes['content']);

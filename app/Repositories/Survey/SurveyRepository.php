@@ -730,9 +730,9 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         $requiredSurvey = $survey->required;
         $questions = app(QuestionInterface::class)
             ->whereIn('section_id', $survey->sections->pluck('id')->all())
-            ->with('settings')->get();
+            ->with('settings', 'section')->get()->sortBy('order')->sortBy('section_order');
         $results = $this->getResultsFollowOptionUpdate($survey, $survey->results(), app(UserInterface::class));
-        $results = $results->with('answer.settings', 'user')->get()->groupBy(
+        $results = $results->with('question.section', 'answer.settings', 'user')->get()->groupBy(
             function($date) {
                 return Carbon::parse($date->created_at)->format('Y-m-d H:m:s.u');
             }
