@@ -73,9 +73,27 @@ $(document).ready(function(){
             $('#div-management-survey').html(data.html);
             $('[data-toggle="tooltip"]').tooltip();
             location.hash = page;
+            autoAlignChoiceAndCheckboxIcon();
         });
     }
 });
+
+function autoAlignChoiceAndCheckboxIcon()
+{
+    // auto align center multi-choice icon
+    $('.li-question-review .item-answer .checkmark-radio').each(function () {
+        var height = $(this).parent().height();
+        var top = 12.5 * (height / 25 - 1);
+        $(this).css('top', top + 'px');
+    });
+
+    // auto align center checkboxes icon
+    $('.li-question-review .item-answer .checkmark-setting-survey').each(function () {
+        var height = $(this).parent().height();
+        var top = 12.5 * (height / 25 - 1);
+        $(this).css('top', top + 'px');
+    });
+}
 
 function autoScroll() {
     if ($('.scroll-answer-result').height() >= 250) {
@@ -87,8 +105,8 @@ function autoScroll() {
 }
 
 function results() {
-    $('.checkboxes-result').each(function(){
-        var data = $.parseJSON($(this).attr('data'));
+    $('.checkboxes-result').each(function() {
+        var data = $.parseJSON($(this).attr('data').replace(/\\r\\n/g, " / "));
         var text = '';
 
         $.each(data, function(index, item) {
@@ -101,7 +119,7 @@ function results() {
         });
 
         text = '[' + text + ']';
-        var dataCheckboxes = $.parseJSON(text);
+        var dataCheckboxes = $.parseJSON((text));
 
         Highcharts.chart($(this).attr('id'), {
             chart: {
@@ -183,8 +201,8 @@ function results() {
         });
     });
 
-    $('.multiple-choice-result').each(function(){
-        var data = $.parseJSON($(this).attr('data'));
+    $('.multiple-choice-result').each(function() {
+        var data = $.parseJSON($(this).attr('data').replace(/\\r\\n/g, " / "));
         var text = '';
 
         $.each(data, function(index, item) {

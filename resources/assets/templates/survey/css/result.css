@@ -252,3 +252,10 @@ span.message-result {
 .content-section-preview .title-question-preview {
     left: -15px;
 }
+
+.nothing-to-collect {
+    padding: 4%;
+    color: #000;
+    font-size: 17px;
+    font-weight: 400;
+}

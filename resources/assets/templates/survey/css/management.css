@@ -91,19 +91,19 @@ span.url-config-management {
 }
 
 @media (min-width: 1200px) {
-    .container {
+    .container.div-list-survey {
         max-width: 900px;
     }
 }
 
 @media (min-width: 1600px) {
-    .container {
+    .container.div-list-survey {
         max-width: 1050px;
     }
 }
 
 @media (min-width: 1800px) {
-    .container {
+    .container.div-list-survey {
         max-width: 1150px;
     }
 }

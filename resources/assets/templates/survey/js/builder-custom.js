@@ -311,7 +311,7 @@ jQuery(document).ready(function () {
                     tempData.content = answer.content;
                     tempData.media = answer.media;
 
-                    if (answers.status == 1) {
+                    if (answer.status == 1) {
                         tempData.update = answer.status;
                     }
 

@@ -7,12 +7,12 @@
             <li class="form-line-title-survey-result">
                 <div class="form-group-title-survey">
                     <h2 class="title-survey-result" data-placement="bottom" data-toggle="tooltip"
-                            title="{{ $survey->showTitleTooltip() }}">
-                        {{ $survey->limit_title }}
+                        title="{{ $survey->showTitleTooltip() }}">
+                        {!! nl2br(e($survey->limit_title)) !!}
                     </h2>
                 </div>
                 <div class="form-group">
-                    <span class="description-survey">{{ $survey->description }}</span>
+                    <span class="description-survey">{!! nl2br(e($survey->description)) !!}</span>
                 </div>
                 <div class="row">
                     <div class="btn-group col-md-6 col-xs-9" role="group">
@@ -69,9 +69,11 @@
                                 <hr/>
                                 <h3 class="title-section" data-placement="bottom" data-toggle="tooltip"
                                     title="{{ $section->showTitleTooltip() }}">
-                                    {{ $section->limit_title }}
+                                    {!! nl2br(e($section->limit_title)) !!}
                                 </h3>
-                                <span class="description-section-result">{{ $section->custom_description }}</span>
+                                <span class="description-section-result">
+                                    {!! nl2br(e($section->custom_description)) !!}
+                                </span>
                             </div>
                         </li>
                     </ul>
@@ -88,24 +90,27 @@
                             <li class="li-question-review form-line">
                                 <!-- tittle -->
                                 @if ($questionSetting == config('settings.question_type.title'))
-                                    @include ('clients.survey.detail.elements.title')
+                                    @include ('clients.survey.result.elements.title')
                                 <!-- video -->
                                 @elseif ($questionSetting == config('settings.question_type.video'))
-                                    @include ('clients.survey.detail.elements.video')
+                                    @include ('clients.survey.result.elements.video')
                                 <!-- image -->
                                 @elseif ($questionSetting == config('settings.question_type.image'))
-                                    @include ('clients.survey.detail.elements.image')
+                                    @include ('clients.survey.result.elements.image')
                                 @else
+                                    <span class="index-question">{{ ++ $indexQuestion }}</span>
                                     <h4 class="title-question question-survey {{ $question->required ? 'required-question' : '' }}"
                                         data-type="{{ $questionSetting }}" data-id="{{ $question->id }}"
                                         data-required="{{ $question->required }}">
-                                        <span class="index-question">{{ ++ $indexQuestion }}</span>{{ $question->title }}
+                                        {!! nl2br(e($question->title)) !!}
                                         @if ($question->required)
                                             <span class="notice-required-question"> *</span>
                                         @endif
                                     </h4>
                                     <div class="form-group">
-                                        <span class="description-question">{!! $question->description !!}</span>
+                                        <span class="description-question">
+                                            {!! nl2br(e($question->description)) !!}
+                                        </span>
                                     </div>
                                     @if ($countQuestionMedia)
                                         <div class="img-preview-question-survey">

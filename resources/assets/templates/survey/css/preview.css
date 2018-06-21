@@ -45,6 +45,8 @@ h3.title-section {
 .form-group.form-group-description-section {
     margin-bottom: 0px;
     font-size: 15px;
+    margin-left: 40px;
+    margin-top: 5px;
 }
 
 input.input-answer-other, textarea.input-answer-other {
@@ -336,6 +338,7 @@ span.no-answer {
     padding: 10px 0 0 0;
     display: block;
     font-size: 16px;
+    margin-left: 40px;
 }
 
 .image-header-complete {

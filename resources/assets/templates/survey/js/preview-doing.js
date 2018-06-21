@@ -5,19 +5,24 @@ $(document).ready(function() {
         }
     });
 
-    // auto align center multi-choice icon
-    $('.li-question-review .item-answer .checkmark-radio').each(function () {
-        var height = $(this).parent().height();
-        var top = 12.5 * (height / 25 - 1);
-        $(this).css('top', top + 'px');
-    });
+    function autoAlignChoiceAndCheckboxIcon()
+    {
+        // auto align center multi-choice icon
+        $('.li-question-review .item-answer .checkmark-radio').each(function () {
+            var height = $(this).parent().height();
+            var top = 12.5 * (height / 25 - 1);
+            $(this).css('top', top + 'px');
+        });
 
-    // auto align center checkboxes icon
-    $('.li-question-review .item-answer .checkmark-setting-survey').each(function () {
-        var height = $(this).parent().height();
-        var top = 12.5 * (height / 25 - 1);
-        $(this).css('top', top + 'px');
-    });
+        // auto align center checkboxes icon
+        $('.li-question-review .item-answer .checkmark-setting-survey').each(function () {
+            var height = $(this).parent().height();
+            var top = 12.5 * (height / 25 - 1);
+            $(this).css('top', top + 'px');
+        });
+    }
+
+    autoAlignChoiceAndCheckboxIcon();
     
     $('.datepicker-preview').each(function() {
         var dateFormat = $(this).attr('data-dateformat');
@@ -143,6 +148,7 @@ $(document).ready(function() {
             showLoaderSection();
             $(selector).hide();
             $(`#${$(selector).attr('data-prev')}`).show();
+            autoAlignChoiceAndCheckboxIcon();
             hideLoaderSection();
         }
 
@@ -166,6 +172,7 @@ $(document).ready(function() {
         if ($(selector).attr('data-next')) {
             $(selector).hide();
             $(`#${$(selector).attr('data-next')}`).show();
+            autoAlignChoiceAndCheckboxIcon();
             hideLoaderSection();
         } else {
             var sectionOrderPrev = $(selector).attr('id');
@@ -220,6 +227,7 @@ $(document).ready(function() {
                         checkCheckboxCheckRequired(this);
                     })
 
+                    autoAlignChoiceAndCheckboxIcon();
                     autoResizeTextarea();
                     hideLoaderSection();
                 }
