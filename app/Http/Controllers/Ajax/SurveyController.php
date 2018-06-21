@@ -5,14 +5,22 @@ namespace App\Http\Controllers\Ajax;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repositories\Survey\SurveyInterface;
+use App\Repositories\User\UserInterface;
+use App\Traits\SurveyProcesser;
 
 class SurveyController extends Controller
 {
-    protected $surveyRepository;
+    use SurveyProcesser;
 
-    public function __construct(SurveyInterface $surveyRepository)
-    {
+    protected $surveyRepository;
+    protected $userRepository;
+
+    public function __construct(
+        SurveyInterface $surveyRepository,
+        UserInterface $userRepository
+    ) {
         $this->surveyRepository = $surveyRepository;
+        $this->userRepository = $userRepository;
     }
 
     public function getListSurvey(Request $request)
@@ -38,6 +46,41 @@ class SurveyController extends Controller
         return response()->json([
             'success' => true,
             'html' => $html,
+        ]);
+    }
+
+    public function getStatusInvite(Request $request)
+    {
+        if (!$request->ajax()) {
+            return response()->json([
+                'success' => false,
+            ]);
+        }
+
+        $tokenManage = $request->token_manage;
+        $survey = $this->surveyRepository->getSurveyFromTokenManage($tokenManage);
+        $results = $this->getResultsFollowOptionUpdate($survey, $survey->results(), $this->userRepository)->get();
+
+        $invite = $survey->invite;
+        $emailInviteds = $invite ? $invite->invite_mails_array : [];
+        $emailAnswereds = $invite ? $invite->answer_mails_array : [];
+        $emails = array_unique(array_merge($emailInviteds, $emailAnswereds));
+        sort($emails);
+        $data = [];
+
+        foreach ($emails as $key => $email) {
+            $item['email'] = $email;
+            $userId = $this->userRepository->where('email', $email)->first()->id;
+            $timesAnswer = $results->where('user_id', $userId)
+                ->pluck('created_at')
+                ->unique()->count();
+            $item['count'] = $timesAnswer;
+            array_push($data, $item);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $data,
         ]);
     }
 }

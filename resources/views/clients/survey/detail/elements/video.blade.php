@@ -2,7 +2,7 @@
 @if ($countQuestionMedia)
     <div class="img-preview-question-survey videoWrapper">
         <iframe src="{{ $question->url_media }}"
-            frameborder="0">
+            frameborder="0" allowfullscreen>
         </iframe>
     </div>
 @endif

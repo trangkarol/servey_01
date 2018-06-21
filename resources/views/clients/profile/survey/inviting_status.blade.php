@@ -9,7 +9,7 @@
             <div class="tab-content tab-content-setting">
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-7">
                             <label for="" class="label-email">
                                 <span class="all-email" title="all" data-toggle="tooltip" title="all">@lang('lang.email')</span>
                                 <span class="inviter-description">
@@ -18,7 +18,7 @@
                                 </span>
                             </label>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-5">
                             <div class="input-group">
                                 <input type="text" class="form-control search-mail-invite" placeholder="@lang('profile.search')">
                                 <span class="input-group-btn">
@@ -36,9 +36,10 @@
                         <table class="table-body-scroll table-invite table-show-email-manager" cellspacing="0">
                             <thead>
                                 <tr>
-                                    <th width="20%">@lang('profile.index')</th>
+                                    <th width="15%">@lang('profile.index')</th>
                                     <th>@lang('lang.email')</th>
                                     <th width="20%">@lang('profile.status')</th>
+                                    <th width="15%">@lang('profile.count')</th>
                                 </tr>
                             </thead>
                             <tbody class="body-table-invite-status" id="style-scroll-custom">

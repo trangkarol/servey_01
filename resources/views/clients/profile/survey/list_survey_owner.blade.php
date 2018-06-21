@@ -28,9 +28,9 @@
                         
                         <div class="progress process-bar-survey"
                             data-toggle="modal"
+                            data-token-manage="{{ $survey->token_manage }}"
+                            data-url="{{ route('survey.status-invite') }}"
                             data-target="#pupup-invite-survey"
-                            data-emails="{{ $survey->invite()->count() ? $survey->invite->invite_mails : '' }}"
-                            data-emails-answered="{{ $survey->invite()->count() ? $survey->invite->answer_mails : '' }}"
                             data-incognito-answer="{{ $survey->invite()->count() ? $survey->invite->number_incognito_answer : '' }}">
                             <div class="progress-bar progress-bar-striped bg-success" role="progressbar" aria-valuenow="{{ $invites }}" aria-valuemin="0" aria-valuemax="100" style="width:{{ $invites }}%">{{ $survey->getNumberAnswer() }}/{{ $survey->getNumberInvite() }}</div>
                         </div>

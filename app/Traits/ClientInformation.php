@@ -157,10 +157,6 @@ trait ClientInformation
                     'send_update_mails' => join('/', $sendUpdateMails->all()) . '/',
                 ];
             } else {
-                // if user not in invite list and survey is private
-                if ($privacy == config('settings.survey_setting.privacy.private')) {
-                    throw new Exception("Not permitted", 1);
-                }
 
                 // process limit number of times answer
                 $timesAnswer = $survey->results->where('user_id', $user->id)
@@ -177,6 +173,11 @@ trait ClientInformation
                     return;
                 }
 
+                // if user not in invite list and survey is private
+                if ($privacy == config('settings.survey_setting.privacy.private')) {
+                    throw new Exception("Not permitted", 1);
+                }
+                
                 array_push($answerMails, $userMail);
 
                 $updateData = [

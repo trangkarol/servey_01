@@ -15,7 +15,7 @@
                     <span class="description-survey">{!! nl2br(e($survey->description)) !!}</span>
                 </div>
                 <div class="row">
-                    <div class="btn-group col-md-6 col-xs-9" role="group">
+                    <div class="btn-group col-md-6 col-xs-12" role="group">
                         <a href="{{ route('survey.result.index', $survey->token_manage) }}"
                             class="btn btn-secondary-result-answer"
                             id="btn-summary-result"
@@ -30,7 +30,7 @@
                         </a>
                     </div>
                     @if ($countResult)
-                        <div class="btn-export-excel col-md-6 col-xs-3">
+                        <div class="btn-export-excel col-md-6 col-xs-12">
                             <div class="action-view-detail-answer">
                                 <a class="preview-answer-detail" href="#">❮</a>
                                 <input value="{{ $pageCurrent }}" type="number" name="" class="page-answer-detail">
@@ -39,6 +39,15 @@
                                 <a class="next-answer-detail" href="#">❯</a>
                             </div>
                         </div>
+                        @if ($survey->required != config('settings.survey_setting.answer_required.none'))
+                            @php
+                                $email = $details->first()->first()->user
+                                    ? $details->first()->first()->user->email : trans('lang.incognito');
+                            @endphp
+                            <div class="col-md-12 col-xs-12">
+                                <span class="show-email-result">@lang('lang.email'): {{ $email }}</span>
+                            </div>
+                        @endif
                     @endif
                 </div>
             </li>

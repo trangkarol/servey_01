@@ -393,31 +393,43 @@ body.no-header-wrapper {
     -moz-border-radius: 4px;
     -ms-border-radius: 4px;
     -o-border-radius: 4px;
-    border-radius: 4px;
+    border-radius: unset;
     -moz-background-clip: padding;
     -webkit-background-clip: padding-box;
     background-clip: padding-box;
     margin: 0;
     border: none;
     text-transform: none;
-    min-width: 300px;
-    background: #4d4e4e;
+    min-width: 200px;
+    background: rgba(48, 56, 67, 0.9) !important;
 }
 
 .header .main-nav .nav .dropdown-menu:before {
     content: "";
-    display: block;
+    display: none;
     width: 0;
     height: 0;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-bottom: 10px solid #47b3d7;
+    border-left: 9px solid transparent;
+    border-right: 9px solid transparent;
+    border-bottom: 9px solid #47b3d7;
     position: absolute;
     right: 13px;
     top: -8px;
 }
+
+.header-menu li a {
+    border-radius: unset !important;
+    font-weight: unset !important;
+    font-size: 14px !important;
+}
+
+.header-menu li a .fa {
+    color: unset;
+}
+
 .header .main-nav .nav .dropdown-menu a {
-    border-bottom: 1px solid #32aad2;
+    border-top: 1px solid #32aad2;
+    border-bottom: none;
     padding: 8px 20px;
     color: #fff;
     -webkit-opacity: 1;
@@ -427,8 +439,8 @@ body.no-header-wrapper {
     line-height: 30px;
 }
 .header .main-nav .nav .dropdown-menu a:hover {
+    color: #47b3d7;
     background: #696969;
-    color: #fff;
 }
 /* Override bootstrap default */
 .nav .open > a,
@@ -2495,6 +2507,18 @@ body.no-header-wrapper {
     .footer .footer-content .contact-info-title {
         margin-top: 30px !important;
     }
+
+    .select-options {
+        top: 170% !important;
+    }
+
+    .select-styled {
+        top: 42% !important; 
+    }
+
+    .navbar-nav a {
+        line-height: 50px !important;
+    }
 }
 
 @media (max-width: 767px) {
@@ -2505,7 +2529,22 @@ body.no-header-wrapper {
     #header .navbar-dark .nav-item:last-child {
         padding-bottom: 5px;
     }
+    
+    .select-styled {
+        top: 0 !important; 
+    }
+
+    .select-options {
+        top: 128% !important;
+    }
 }
+
+@media(max-width:480px) {
+    .select-options {
+        top: 132%;
+    }
+}
+
 
 .logo {
     margin: 50px auto;
@@ -2629,7 +2668,7 @@ img.fnone {
 .select-options {
     display: none;
     position: absolute;
-    top: 157%;
+    top: 176%;
     right: 0;
     left: 0;
     z-index: 999;
@@ -2637,7 +2676,6 @@ img.fnone {
     padding: 0;
     list-style: none;
     background-color: rgba(48, 56, 67, 0.9) !important;
-
 }
 .select-options li {
     margin: 0;

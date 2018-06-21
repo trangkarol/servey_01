@@ -68,4 +68,5 @@ return [
     'image_not_found' => 'Image not found',
     'finished' => 'Finished',
     'not_finished' => 'Not finished',
+    'count' => 'count',
 ];
