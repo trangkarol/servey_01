@@ -1,7 +1,8 @@
 $(document).ready(function () {
+    var url = $('.url_onwer').val();
     $('.list-survey-ajax').click(function (e) {
         e.preventDefault();
-        var url = $(this).attr('data-url');
+        url = $(this).attr('data-url');
         $('.list-survey-ajax').removeClass('active');
         $(this).addClass('active');
         listSurvey(url, 'list-survey-ajax');
@@ -22,12 +23,11 @@ $(document).ready(function () {
             page = page_current - 1;
         }
 
-        var url = $('.url_onwer').val() + '?page=' + page;
-        listSurvey(url);
+        urlPaginate = url + '?page=' + page;
+        listSurvey(urlPaginate);
     });
 
     $(document).on('click', '.btn-search-survey', function (e) {
-        var url = $(this).attr('data-url');
         listSurvey(url);
     });
 });

@@ -2027,6 +2027,7 @@ body.no-header-wrapper {
 }
 .social-icons li {
     float: left;
+    margin-left: 0 !important;
 }
 .social-icons li.last {
     margin-right: 0;

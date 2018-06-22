@@ -356,7 +356,7 @@ trait SurveyProcesser
             'title' => $data['subject'],
             'messages' => $data['message'],
             'description' => $survey->description,
-            'linkManage' => route('surveys.edit', $survey->token_manage),
+            'linkManage' => route('survey.management', $survey->token_manage),
             'link' => route('survey.create.do-survey', $survey->token),
         ];
 
