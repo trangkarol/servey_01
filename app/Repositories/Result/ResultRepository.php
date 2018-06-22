@@ -25,6 +25,7 @@ class ResultRepository extends BaseRepository implements ResultInterface
     {
         $surveyToken = $data->get('survey_token');
         $survey = $survey->getSurveyFromToken($surveyToken);
+        $survey = $survey->load('results', 'settings', 'invite');
 
         $clientInfo = $this->processAnswererInformation($data, $survey, $survey->getPrivacy());
 
@@ -39,6 +40,7 @@ class ResultRepository extends BaseRepository implements ResultInterface
 
                 foreach ($question['results'] as $result) {
                     $temp['answer_id'] = 0;
+                    $temp['content'] = '';
 
                     if (in_array($question['type'], [
                         config('settings.question_type.short_answer'),
@@ -60,15 +62,32 @@ class ResultRepository extends BaseRepository implements ResultInterface
             }
         }
 
-        $survey->results()->createMany($resultsData);
-
-        // update created_at of pairs result has updated
         $inviter = $survey->invite;
         $sendUpdateMails = collect(!empty($inviter) ? $inviter->send_update_mails_array : []);
         $userMails = Auth::check() ? Auth::user()->email : '';
 
+        // when update result with option update is "only send question update", if user answer many times then delete old results 
         if ($survey->isSendUpdateOption() && $sendUpdateMails->contains($userMails)) {
-            $results = $survey->results()->where('user_id', $clientInfo['user_id'])->orderBy('created_at', 'desc')->get();
+            $timesAnswer = $survey->results->where('user_id', Auth::user()->id)
+                ->pluck('created_at')
+                ->unique()->count();
+
+            if ($timesAnswer > 1) {
+                $newestCreated = $survey->results->where('user_id', Auth::user()->id)
+                    ->sortByDesc('created_at')
+                    ->first()->created_at;
+
+                $survey->results()->where('user_id', Auth::user()->id)
+                    ->where('created_at', '!=', $newestCreated)->forceDelete();
+            }
+        }
+
+        $survey->results()->createMany($resultsData);
+
+        // update created_at of pairs result has updated
+        if ($survey->isSendUpdateOption() && $sendUpdateMails->contains($userMails)) {
+            $results = $survey->results()->where('user_id', $clientInfo['user_id'])
+                ->orderBy('created_at', 'desc')->get();
             $createdAt = $results->first()->created_at;
             $resultsId = $results->pluck('id');
 

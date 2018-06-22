@@ -161,6 +161,7 @@ return [
     'confirm_remove_question' => 'Bạn có chắc chắn muốn xóa câu hỏi này không?',
     'can_not_remove_last_section' => 'Không thể xóa! Khảo sát phải có ít nhất 1 phần!',
     'can_not_remove_last_question' => 'Không thể xóa! Khảo sát phải có ít nhất 1 câu hỏi!',
+    'wrong_data' => 'Thất bại! Dữ liệu sai! Hãy thử lại!',
 
     /*
     | 404 page

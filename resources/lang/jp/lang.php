@@ -161,6 +161,7 @@ return [
     'confirm_remove_question' => 'Are you sure want to remove this question?',
     'can_not_remove_last_section' => 'Can not remove! Survey must be have least a section!',
     'can_not_remove_last_question' => 'Can not remove! Survey must be have least a question!',
+    'wrong_data' => 'Failed! Wrong data! Try again!',
 
     /*
     | 404 page
@@ -305,7 +306,6 @@ return [
     'option_send_survey' => 'Send survey',
     'option_save_result' => 'Save result survey',
     'not_permisstion_message' => 'You do not have permission to perform this operation!',
-
 
     /*
         Required login

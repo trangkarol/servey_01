@@ -8062,3 +8062,8 @@ button.btn.btn-secondary.btn-search-invite {
 .number-incognito-answer {
     color: #444 !important;
 }
+
+#show-list-surveys table td a {
+    margin-bottom: 10px;
+    margin-top: 5px;
+}
