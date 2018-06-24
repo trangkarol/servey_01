@@ -1287,14 +1287,6 @@ i {
 }
 
 @media (max-width: 768px) {
-    .select-styled {
-        top: 42% !important; 
-    }
-
-    .select-options {
-        top: 170% !important;
-    }
-
     .user-dropdown .dropdown-menu {
         right: 13px !important;
         top: 75px !important;
@@ -1315,15 +1307,4 @@ i {
     .header .main-nav .nav .nav-item {
         margin-right: -8px !important;
     }
-}
-
-@media (max-width: 767px) {
-    .select-styled {
-        top: 0 !important; 
-    }
-
-    .select-options {
-        top: 128% !important;
-    }
-
 }

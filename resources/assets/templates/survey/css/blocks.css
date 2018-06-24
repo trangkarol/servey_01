@@ -8012,7 +8012,7 @@ ol ol li {
 }
 
 .table-show-email-manager td, .table-show-email-manager th {
-    border: none;
+    border: none !important;
 }
 
 .tab-content-setting {

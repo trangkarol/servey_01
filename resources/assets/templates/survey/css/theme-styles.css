@@ -778,9 +778,6 @@
     .header .page-title {
         display: none;
     }
-    .header {
-        padding-left: 70px;
-    }
     .header-content-wrapper {
         display: flex;
         justify-content: space-between;

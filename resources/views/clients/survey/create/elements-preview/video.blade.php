@@ -3,7 +3,7 @@
 @if ($question->media)
     <div class="img-preview-question-survey videoWrapper">
         <iframe src="{{ $question->media }}"
-            frameborder="0">
+            frameborder="0" allowfullscreen>
         </iframe>
     </div>
 @endif

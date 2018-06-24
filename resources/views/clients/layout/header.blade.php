@@ -131,19 +131,15 @@
                                             </span>
                                         </a>
                                         <ul class="dropdown-menu dropdown-menu-right header-menu" aria-labelledby="navbarDropdownProfile">
-                                            <li class="notify-header">
-                                                @lang('lang.hello') {{ Auth::user()->name }}
+                                            <li>
+                                                {!! html_entity_decode(Html::link( route('survey.survey.show-surveys'), '<i class="fa fa-list"></i> ' . trans('lang.my_surveys'), ['class' => 'dropdown-item'])) !!}
                                             </li>
                                             <li>
-                                                {{ Html::link( route('survey.survey.show-surveys'), trans('lang.my_surveys'), ['class' => 'dropdown-item']) }}
+                                                {!! html_entity_decode(Html::link(route('survey.profile.index'), '<i class="fa fa-user"></i> ' . trans('profile.profile'), ['class' => 'dropdown-item'])) !!}
                                             </li>
                                             <li>
-                                                {{ Html::link(route('survey.profile.index'), trans('profile.profile'), ['class' => 'dropdown-item']) }}
+                                                {!! html_entity_decode(Html::link(route('logout'), '<i class="fa fa-power-off"></i> ' . trans('lang.logout'), ['class' => 'dropdown-item'])) !!}
                                             </li>
-                                            <li>
-                                                {{ Html::link(route('logout'), trans('lang.logout'), ['class' => 'dropdown-item']) }}
-                                            </li>
-                                            <li class="notify-footer"></li>
                                         </ul>
                                     </li>
                                 @endif

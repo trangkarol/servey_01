@@ -255,3 +255,10 @@ span.message-result {
     font-size: 17px;
     font-weight: 400;
 }
+
+span.show-email-result {
+    padding-top: 20px;
+    display: block;
+    color: #333;
+    font-size: 14px;
+}

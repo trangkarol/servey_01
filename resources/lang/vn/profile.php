@@ -68,4 +68,5 @@ return [
     'image_not_found' => 'Không tìm thấy hình ảnh.',
     'finished' => 'Đã làm',
     'not_finished' => 'Chưa làm',
+    'count' => 'Số lần',
 ];
