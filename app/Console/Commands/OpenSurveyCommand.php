@@ -38,6 +38,16 @@ class OpenSurveyCommand extends Command
      *
      * @return void
      */
+
+    protected $surveyRepository;
+    protected $sectionRepository;
+    protected $questionRepository;
+    protected $answerRepository;
+    protected $settingRepository;
+    protected $mediaRepository;
+    protected $resultRepository;
+    protected $inviteRepository;
+    
     public function __construct(
         SurveyInterface $surveyRepository,
         QuestionInterface $questionRepository,

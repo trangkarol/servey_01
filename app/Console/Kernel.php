@@ -18,6 +18,7 @@ class Kernel extends ConsoleKernel
         Commands\ResendReminderEmailCommand::class,
         Commands\BackupDatabaseCommand::class,
         Commands\ResendEmailRemindTimeRemaining::class,
+        Commands\CleanMediaCommand::class,
     ];
 
     /**
@@ -33,6 +34,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('backup:database')->weekly();
         $schedule->command('command:resend-email-remind-time-remaining')->everyMinute();
         $schedule->command('command:send-reminder-email')->everyMinute();
+        $schedule->command('command:clean-media')->dailyAt('00:00');
     }
 
     /**
