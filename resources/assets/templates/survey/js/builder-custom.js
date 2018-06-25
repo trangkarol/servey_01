@@ -1133,14 +1133,8 @@ jQuery(document).ready(function () {
         }
 
         if ($(element).closest('li.form-line.sort').find('.question-input').val() != '') {
-            swal({
-                text: Lang.get('lang.confirm_remove_question'),
-                icon: 'warning',
-                buttons: true
-            }).then(function (isConfirm) {
-                if (isConfirm) {
-                    removeElement(event, element);
-                }
+            confirmWarning({message: Lang.get('lang.confirm_remove_question')}, function () {
+                removeElement(event, element);
             });
         } else {
             removeElement(event, element);
@@ -2990,23 +2984,22 @@ jQuery(document).ready(function () {
             $(question).first().find('.question-input').val() != ''){
 
             confirmWarning({message: Lang.get('lang.confirm_remove_last_question')}, function () {
-                    // remove validation tooltip
-                    currentSectionSelected.find('textarea[data-toggle="tooltip"], input[data-toggle="tooltip"]').each(function () {
-                        $(`#${element.attr('aria-describedby')}`).remove();
-                    });
+                // remove validation tooltip
+                currentSectionSelected.find('textarea[data-toggle="tooltip"], input[data-toggle="tooltip"]').each(function () {
+                    $(`#${element.attr('aria-describedby')}`).remove();
+                });
 
-                    element.closest('.page-section').remove();
-                    surveyData.data('number-section', numberOfSections - 1);
-                    $('.total-section').html(numberOfSections - 1);
+                element.closest('.page-section').remove();
+                surveyData.data('number-section', numberOfSections - 1);
+                $('.total-section').html(numberOfSections - 1);
 
-                    $('.survey-form').find('.page-section').each(function (i) {
-                        $(this).find('.section-index').text(i + 1);
-                    });
+                $('.survey-form').find('.page-section').each(function (i) {
+                    $(this).find('.section-index').text(i + 1);
+                });
 
-                    $(prevSection).find('.form-line.sort').first().click();
-                    scrollToSection($(prevSection).data('section-id'));
-                }
-            );
+                $(prevSection).find('.form-line.sort').first().click();
+                scrollToSection($(prevSection).data('section-id'));
+            });
 
             return false;
         }
@@ -3514,37 +3507,31 @@ jQuery(document).ready(function () {
 
         var url = $(this).data('url');
 
-        swal({
-            text: Lang.get('lang.confirm_save_as_draft'),
-            icon: 'info',
-            buttons: true
-        }).then(function (isConfirm) {
-            if (isConfirm) {
-                var dataArray = $('form.survey-form').serializeArray();
-                var survey = getSurvey(dataArray);
+        confirmInfo({message: Lang.get('lang.confirm_save_as_draft')}, function () {
+            var dataArray = $('form.survey-form').serializeArray();
+            var survey = getSurvey(dataArray);
 
-                if (!survey) {
-                    return;
-                }
-
-                showLoaderAnimation();
-                var data = JSON.stringify(survey);
-
-                $.ajax({
-                    method: 'POST',
-                    url: url,
-                    data: data,
-                    success: function (data) {
-                        if (data.success) {
-                            window.onbeforeunload = null;
-                            $(window).attr('location', data.redirect);
-                        } else {
-                            hideLoaderAnimation();
-                            alertDanger({message: data.message});
-                        }
-                    }
-                })
+            if (!survey) {
+                return;
             }
+
+            showLoaderAnimation();
+            var data = JSON.stringify(survey);
+
+            $.ajax({
+                method: 'POST',
+                url: url,
+                data: data,
+                success: function (data) {
+                    if (data.success) {
+                        window.onbeforeunload = null;
+                        $(window).attr('location', data.redirect);
+                    } else {
+                        hideLoaderAnimation();
+                        alertDanger({message: data.message});
+                    }
+                }
+            })
         });
     });
 
@@ -3599,16 +3586,10 @@ jQuery(document).ready(function () {
         // some of function of edit-page
 
         function removeEmailAnswered(email, labelEmail) {
-            swal({
-                buttons: true,
-                icon: 'warning',
-                text: Lang.get('lang.confirm_delete_answered_email'),
-            }).then(function (isConfirm) {
-                if (isConfirm) {
-                    removeEmail(email);
-                    $(labelEmail).remove();
-                    $('.input-email-send').focus();
-                }
+            confirmWarning({message: Lang.get('lang.confirm_delete_answered_email')}, function () {
+                removeEmail(email);
+                $(labelEmail).remove();
+                $('.input-email-send').focus();
             });
         }
 
