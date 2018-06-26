@@ -118,7 +118,7 @@
                                             <span class="notice-required-question"> *</span>
                                         @endif
                                     </h4>
-                                    <div class="form-group">
+                                    <div class="form-group form-description">
                                         <span class="description-question">
                                             {!! nl2br(e($question->description)) !!}
                                         </span>

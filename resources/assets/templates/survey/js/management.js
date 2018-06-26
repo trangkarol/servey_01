@@ -224,6 +224,7 @@ function changeToken(element) {
                         $('.input-edit-token').attr('data-token', data.new_token);
                         $('.input-edit-token').attr('data-original-title', data.new_token);
                         $('#setting-survey').attr('data-url', data.setting_url);
+                        $('.link-survey').attr('href', data.link_doing);
                         element.val(data.new_token);
                     } else {
                         alertDanger({message: data.message});
@@ -276,6 +277,7 @@ function changeTokenManage(element) {
                         $('#clone-survey').attr('data-url', data.clone_survey_url);
                         $('.input-edit-token-manage').attr('data-token-manage', data.new_token_manage);
                         $('.input-edit-token-manage').attr('data-original-title', data.new_token_manage);
+                        $('.link-manage').attr('href', data.link_manage);
 
                         if (typeof (history.pushState) != 'undefined') {
                             var obj = { Page: 'update-url', Url: data.new_token_manage };

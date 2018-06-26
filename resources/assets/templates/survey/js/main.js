@@ -135,11 +135,11 @@
     });
 
     // create survey complete page
-    $('.complete-content .copy-link-survey').on('click', function () {
+    $(document).on('click', '.complete-content .copy-link-survey', function () {
         // copy link
         var $temp = $('<input>');
         $('body').append($temp);
-        $temp.val($('.complete-content .link-survey').text()).select();
+        $temp.val($('.complete-content .link-survey').attr('href')).select();
         document.execCommand('copy');
         $temp.remove();
 
@@ -149,15 +149,15 @@
         return false;
     });
 
-    $('.complete-content .copy-link-survey').on('mouseover', function () {
+    $(document).on('mouseover', '.complete-content .copy-link-survey', function () {
         $(this).find('.tooltiptext').text(Lang.get('lang.copy_link'));
     });
 
-    $('.complete-content .copy-link-manage').on('click', function () {
+    $(document).on('click', '.complete-content .copy-link-manage', function () {
         // copy link
         var $temp = $('<input>');
         $('body').append($temp);
-        $temp.val($('.complete-content .link-manage').text()).select();
+        $temp.val($('.complete-content .link-manage').attr('href')).select();
         document.execCommand('copy');
         $temp.remove();
         
@@ -167,7 +167,7 @@
         return false;
     });
 
-    $('.complete-content .copy-link-manage').on('mouseover', function () {
+    $(document).on('mouseover', '.complete-content .copy-link-manage', function () {
         $(this).find('.tooltiptext').text(Lang.get('lang.copy_link'));
     });
 });

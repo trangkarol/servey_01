@@ -61,7 +61,7 @@
                                         @endif
                                     </h4>
                                     <div class="form-group form-description">
-                                        <span>{!! nl2br(e($question->description)) !!}</span>
+                                        <span class="description-question">{!! nl2br(e($question->description)) !!}</span>
                                     </div>
                                     @if ($question->media)
                                         <div class="img-preview-question-survey">
