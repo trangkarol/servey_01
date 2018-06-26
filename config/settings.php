@@ -325,4 +325,6 @@ return [
         'send_all_question_survey_again' => 1,
         'only_send_updated_question_survey' => 2,
     ],
+    'link_doing' => '.../surveys-',
+    'link_manage' => '.../management-survey/',
 ];

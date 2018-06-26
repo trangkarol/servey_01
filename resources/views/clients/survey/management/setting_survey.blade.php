@@ -40,7 +40,7 @@
                 <div class="form-group row form-group-custom">
                     {!! Form::label('token', trans('lang.link_doing_survey'), ['class' => 'col-sm-3 col-form-label col-form-label-custom']) !!}
                     <div class="col-sm-9">
-                        {!! Url('/') . '/surveys-' . Form::text('token', $survey->token, [
+                        {!! config('settings.link_doing') . Form::text('token', $survey->token, [
                                 'class' => 'form-control-plaintext input-edit-token',
                                 'data-survey-id' => $survey->id,
                                 'data-token' => $survey->token,
@@ -48,6 +48,13 @@
                                 'data-toggle' => 'tooltip',
                                 'title' => $survey->token,
                             ]) !!}
+                        <span class="complete-content">
+                            <a href="{{ $link }}" class="link-survey"></a>
+                            <a href="#" class="btn btn-info copy-link-survey">
+                                <i class="fa fa-paperclip"></i>
+                                <span class="tooltiptext">@lang('lang.copy_link')</span>
+                            </a>
+                        </span>
                         <a href="javascript:void(0)" class="btn btn-warning edit-token-survey"
                             data-toggle="tooltip" title="@lang('lang.change_token')">
                             <i class="fa fa-edit"></i>
@@ -57,7 +64,7 @@
                 <div class="form-group row form-group-custom">
                     {!! Form::label('token_manage', trans('lang.link_manage_survey'), ['class' => 'col-sm-3 col-form-label col-form-label-custom']) !!}
                     <div class="col-sm-9">
-                        {!! Url('/') . '/management-survey/' . Form::text('token_manage', $survey->token_manage, [
+                        {!! config('settings.link_manage') . Form::text('token_manage', $survey->token_manage, [
                                 'class' => 'form-control-plaintext input-edit-token-manage',
                                 'data-survey-id' => $survey->id,
                                 'data-token-manage' => $survey->token_manage,
@@ -65,6 +72,13 @@
                                 'data-toggle' => 'tooltip',
                                 'title' => $survey->token_manage,
                             ]) !!}
+                        <span class="complete-content">
+                            <a href="{{ $linkManage }}" class="link-manage"></a>
+                            <a href="#" class="btn btn-info copy-link-manage">
+                                <i class="fa fa-paperclip"></i>
+                                <span class="tooltiptext">@lang('lang.copy_link')</span>
+                            </a>
+                        </span>
                         <a href="javascript:void(0)" class="btn btn-warning edit-token-manage-survey"
                             data-toggle="tooltip" title="@lang('lang.change_token_manage')">
                             <i class="fa fa-edit"></i>

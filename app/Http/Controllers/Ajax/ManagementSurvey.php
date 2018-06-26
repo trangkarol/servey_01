@@ -90,10 +90,14 @@ class ManagementSurvey extends Controller
         $numOfSection = $survey->sections->count();
         // at line 42 of file app/Traits/DoSurvey.php
         $data = $this->getDetailSurvey($survey, $numOfSection);
+        $linkManage = route('survey.management', $survey->token_manage);
+        $link = route('survey.create.do-survey', $token);
 
         $html = view('clients.survey.management.setting_survey', compact([
             'data',
             'survey',
+            'link',
+            'linkManage',
         ]))->render();
 
         return response()->json([
@@ -228,6 +232,7 @@ class ManagementSurvey extends Controller
                 'new_token' => $newToken,
                 'next_section_url' => route('survey.create.do-survey', $newToken),
                 'setting_url' => route('ajax-setting-survey', $newToken),
+                'link_doing' => route('survey.create.do-survey', $newToken),
             ]);
         } catch (Exception $e) {
             return [
@@ -267,6 +272,7 @@ class ManagementSurvey extends Controller
                 'overview_url' => route('ajax-get-overview', $newTokenManage),
                 'result_url' => route('survey.result.index', $newTokenManage),
                 'clone_survey_url' => route('ajax-survey-clone', $newTokenManage),
+                'link_manage' => route('survey.management', $newTokenManage),
             ]);
         } catch (Exception $e) {
             return [

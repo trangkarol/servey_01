@@ -33,17 +33,16 @@
                                                     @lang('survey.overview')
                                                 </a>
                                             </li>
-
-                                            <li>
-                                                <a href="javascript:void(0)" class="menu-management" id="results-survey"
-                                                    data-url="{{ route('survey.result.index', $survey->token_manage) }}">
-                                                    @lang('survey.result')
-                                                </a>
-                                            </li>
                                            <li>
                                                 <a href="javascript:void(0)" class="menu-management" id="setting-survey"
                                                     data-url="{{ route('ajax-setting-survey', $survey->token) }}">
                                                     @lang('survey.setting')
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(0)" class="menu-management" id="results-survey"
+                                                    data-url="{{ route('survey.result.index', $survey->token_manage) }}">
+                                                    @lang('survey.result')
                                                 </a>
                                             </li>
                                         </ul>
