@@ -93,7 +93,7 @@ return [
     'delete_video' => 'Delete video',
     'send_survey' => 'Send survey',
     'send' => 'Send',
-    'send_to_all' => 'Send to all',
+    'send_to_all' => 'Send to all staffs',
     'message' => 'Message',
     'subject' => 'Subject',
     'subject_default_email' => 'Untitled form',

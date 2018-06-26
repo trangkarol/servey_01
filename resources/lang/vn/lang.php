@@ -93,7 +93,7 @@ return [
     'delete_video' => 'Xóa',
     'send_survey' => 'Gửi khảo sát',
     'send' => 'Gửi',
-    'send_to_all' => 'Gửi tới tất cả',
+    'send_to_all' => 'Gửi tới tất cả nhân viên',
     'message' => 'Tin nhắn',
     'subject' => 'Chủ đề',
     'subject_default_email' => 'Mẫu không có tiêu đề',
@@ -303,7 +303,7 @@ return [
     'edit_survey_error' => 'Cập nhật khảo sát thất bại! Hãy thử lại',
     'dont_save_old_result' => 'Không lưu kết quả cũ',
     'save_old_result' => 'Lưu kết quả cũ',
-    'option_send_survey' => 'Gửi khảo sát',
+    'option_send_survey' => 'Gửi bảng câu hỏi',
     'option_save_result' => 'Lưu kết quả khảo sát',
     'not_permisstion_message' => 'Bạn không có quyền để thực hiện thao tác này!',
 

@@ -6,6 +6,7 @@ jQuery(document).ready(function () {
 
     var questionSelected = null;
     var surveyData = $('#survey-data');
+    var isClickSendSurvey = false;
 
     // get oldSsurveyData in edit-page
     if (surveyData.data('page') == 'edit') {
@@ -2176,6 +2177,13 @@ jQuery(document).ready(function () {
             return;
         }
 
+        $('#setting-survey .btn-action-setting-save').text(Lang.get('lang.send'));
+        isClickSendSurvey = true;
+        $('#survey-setting-btn').click();
+    });
+
+    function sendSurvey()
+    {
         var dataArray = $('form.survey-form').serializeArray();
         var survey = getSurvey(dataArray);
 
@@ -2188,7 +2196,7 @@ jQuery(document).ready(function () {
 
         $.ajax({
             method: 'POST',
-            url: $(this).data('url'),
+            url: $('#submit-survey-btn').data('url'),
             data: data
         })
         .done(function (data) {
@@ -2204,7 +2212,7 @@ jQuery(document).ready(function () {
             hideLoaderAnimation();
             alertDanger({message: Lang.get('lang.wrong_data')});
         });
-    });
+    }
 
     //preview
 
@@ -3170,6 +3178,11 @@ jQuery(document).ready(function () {
         $('#invite-setting').attr('subject', subject);
             // save message mail
         $('#invite-setting').attr('msg', $('#input-email-message').val());
+        if (surveyData.data('page') == 'create' && isClickSendSurvey) {
+            sendSurvey();
+
+            return;
+        }
 
         if (surveyData.data('page') == 'edit') {
             var data = {};
@@ -3183,6 +3196,7 @@ jQuery(document).ready(function () {
             data.members = getMembers();
 
             showLoaderAnimation();
+            var check = isClickSendSurvey;
 
             $.ajax({
                 method: 'PUT',
@@ -3201,6 +3215,15 @@ jQuery(document).ready(function () {
 
                     window.onbeforeunload = null;
                     $(window).attr('location', data.redirect);
+                }
+                
+                if (check) {
+                    if ($('#option-update-modal').length) {
+                        showUpdateModal();
+                    } else {
+                        $('#update-survey-draft-to-open').next('#edit-survey-btn').click();
+                    }
+                    
                 }
             })
             .fail(function (data) {
@@ -3265,6 +3288,8 @@ jQuery(document).ready(function () {
         }
 
         // member setting tab
+        $('.table-show-email-manager tbody').text('');
+        $('.table-show-email-manager').hide();
         var membersData = $('#members-setting').attr('members-data');
         membersData = membersData.split('/').filter(Boolean);
 
@@ -3281,6 +3306,9 @@ jQuery(document).ready(function () {
 
         // invite setting tab
         var sendMailAllWsm = $('#invite-setting').attr('all');
+        $('.div-show-all-email').find('.emails-invite-hidden').val('');
+        $('.div-show-all-email').find('.label-show-email').remove();
+        $('.div-show-all-email').removeClass('overflow-y-scroll');
 
         if (sendMailAllWsm != '' && sendMailAllWsm != $('#send-to-all-wsm-acc').attr('default')) {
             $('#send-to-all-wsm-acc').prop('checked', 'checked');
@@ -3311,6 +3339,17 @@ jQuery(document).ready(function () {
         }
 
         $('#input-email-message').val($('#invite-setting').attr('msg'));
+    });
+
+    $('.btn-action-setting-cancel').on('click', function () {
+        isClickSendSurvey = false;
+        $('#setting-survey .btn-action-setting-save').text(Lang.get('lang.save'));
+    });
+
+    $('#setting-survey').on('hide.bs.modal', function (e) {
+        e.stopPropagation();
+        isClickSendSurvey = false;
+        $('#setting-survey .btn-action-setting-save').text(Lang.get('lang.save'));
     });
 
     // move section
@@ -3801,12 +3840,8 @@ jQuery(document).ready(function () {
             return true;
         }
 
-        // validate survey data when open modal option
-        $('#open-send-option-modal').on('click', function () {
-            if (!validateSurvey()) {
-                return false;
-            }
-
+        function showUpdateModal()
+        {
             if (isUpdate()) {
                 $('#option-update-modal .only-send-update').show();
             } else {
@@ -3814,6 +3849,17 @@ jQuery(document).ready(function () {
             }
             
             $('#option-update-modal .container-radio-setting-survey input').first().prop('checked', true);
+            $('#option-update-modal').modal('show');
+        }
+
+        // validate survey data when open modal option
+        $('#open-send-option-modal').on('click', function () {
+            if (!validateSurvey()) {
+                return false;
+            }
+
+            isClickSendSurvey = true;
+            $('#survey-setting-btn').click();
         });
 
         $('#update-survey-draft-to-open').on('click', function () {
@@ -3821,7 +3867,9 @@ jQuery(document).ready(function () {
                 return false;
             }
 
-            $(this).next('#edit-survey-btn').click();
+            $('#setting-survey .btn-action-setting-save').text(Lang.get('lang.send'));
+            isClickSendSurvey = true;
+            $('#survey-setting-btn').click();
         });
 
         // close modal option and click btn edit survey
@@ -3840,7 +3888,7 @@ jQuery(document).ready(function () {
             
             setTimeout(function() {
                 $('#send-update-btn').next('#edit-survey-btn').click();
-            }, 100);
+            }, 200);
         });
 
         // edit and send survey

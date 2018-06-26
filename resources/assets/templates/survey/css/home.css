@@ -2611,6 +2611,7 @@ img.fnone {
     height: 11px;
     margin: 0px 4px 2px 0px !important;
     background: url(/templates/survey/images/icon/flagssprite_small.png) no-repeat;
+    border-radius: unset;
 }
 
 .select-hidden {
