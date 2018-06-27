@@ -168,7 +168,7 @@
                         msg="{{ trans('lang.message_default_email') }}">
                     <div class="form-group">
                         <div class="row">
-                            <div class="col-md-8">
+                            <div class="col-md-7">
                                 <label for="" class="label-email">@lang('lang.email')
                                     <span class="inviter-description">
                                         (<span class="fa fa-circle blue"></span> @lang('lang.not_yet_answered')
@@ -177,7 +177,7 @@
                                 </label>
                             </div>
                             @if (Auth::user()->checkLoginWsm())
-                                <div class="col-md-4">
+                                <div class="col-md-5 send-to-all-block">
                                     <label class="container-checkbox-setting-survey send-to-all">
                                         <span>@lang('lang.send_to_all')</span>
                                         {!! Form::checkbox('send_all', '', false, [

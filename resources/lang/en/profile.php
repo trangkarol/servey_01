@@ -42,7 +42,7 @@ return [
     'update_cover_photo' => 'Update cover photo',
     'cancel' => 'Cancel',
     'search' => 'Search...',
-
+    'email' => 'Email',
     /*
         Manage survey
     */

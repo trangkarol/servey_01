@@ -96,7 +96,7 @@
                             <div class="survey-action" data-placement="right"
                                 data-trigger="hover"
                                 data-toggle="tooltip" title="@lang('lang.send')">
-                                <button type="button" data-target="#option-update-modal" data-toggle="modal" class="btn btn-outline-light text-dark" id="open-send-option-modal">
+                                <button type="button" class="btn btn-outline-light text-dark" id="open-send-option-modal">
                                     <i class="fa fa-fw fa-paper-plane text-dark"></i>
                                 </button>
                             </div>

@@ -42,6 +42,7 @@ return [
     'update_cover_photo' => 'Cập nhật ảnh bìa',
     'cancel' => 'Hủy bỏ',
     'search' => 'Tìm kiếm...',
+    'email' => 'Email',
 
     /*
         Manage survey

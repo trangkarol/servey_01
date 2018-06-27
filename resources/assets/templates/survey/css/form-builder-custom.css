@@ -3884,3 +3884,7 @@ input[name="quantity-answer"]::-webkit-outer-spin-button, input[type="number"]::
     padding-top: 2px;
     padding-bottom: 2px;
 }
+
+.send-to-all-block {
+    text-align: right;
+}
