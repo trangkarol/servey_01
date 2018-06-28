@@ -22,7 +22,7 @@
                             <h2 class="title-survey-preview">{!! nl2br(e($survey->title)) !!}</h2>
                         </div>
                         <div class="form-group">
-                            <span>{!! nl2br(e($survey->description)) !!}</span>
+                            <span class="description-survey">{!! nl2br(e($survey->description)) !!}</span>
                         </div>
                     </li>
                     <li class="form-line content-title-section">
@@ -127,5 +127,7 @@
     <!-- Custom Script -->
     {!! Html::script(asset(config('settings.plugins') . 'metismenu/metisMenu.min.js')) !!}
     {!! Html::script(asset(config('settings.plugins') . 'jquery-menu-aim/jquery.menu-aim.js')) !!}
+    {!! Html::script(asset(config('settings.plugins') . 'linkifyjs/dist/linkify.min.js')) !!}
+    {!! Html::script(asset(config('settings.plugins') . 'linkifyjs/dist/linkify-jquery.min.js')) !!}
     {!! Html::script(elixir(config('settings.public_template') . 'js/preview-doing.js')) !!}
 @endpush

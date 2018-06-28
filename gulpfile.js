@@ -46,5 +46,7 @@ elixir(function(mix) {
         .copy('node_modules/popper.js/dist/umd/popper.min.js', 'public/plugins/popper/popper.min.js')
         .copy('node_modules/jquery-validation/dist', 'public/plugins/jquery-validation')
         .copy('node_modules/collect.js/build/collect.min.js', 'public/plugins/collect/')
+        .copy('node_modules/linkifyjs/dist/linkify.min.js', 'public/plugins/linkifyjs/dist/linkify.min.js')
+        .copy('node_modules/linkifyjs/dist/linkify-jquery.min.js', 'public/plugins/linkifyjs/dist/linkify-jquery.min.js')
         .version(['public/templates/survey/css/*.css', 'public/templates/survey/js/*.js']);
 });

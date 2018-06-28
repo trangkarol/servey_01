@@ -283,4 +283,11 @@ class Survey extends Model
 
         return !empty($limit) ? $limit->value : config('settings.survey_setting.answer_unlimited');
     }
+
+    public function getNameFileExcelAttribute()
+    {
+        return !empty($this->attributes['title']) ? 
+            str_slug(str_limit($this->attributes['title'], config('settings.limit_title_excel'))) :
+            trans('survey.no_title');
+    }
 }
