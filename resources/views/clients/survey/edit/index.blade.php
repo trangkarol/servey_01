@@ -149,7 +149,7 @@
                         <label>@lang('lang.description')</label>
                         <div class="form-group">
                             {!! Form::textarea('description', $survey->description, [
-                                'class' => 'form-control auto-resize',
+                                'class' => 'form-control auto-resize input-area',
                                 'data-autoresize',
                                 'placeholder' => trans('lang.description_placeholder'),
                                 'rows' => 3,
