@@ -728,7 +728,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
     public function getResultExport($survey)
     {
         $requiredSurvey = $survey->required;
-        $questions = app(QuestionInterface::class)
+        $questions = app(QuestionInterface::class)->withTrashed()
             ->whereIn('section_id', $survey->sections->pluck('id')->all())
             ->with('settings', 'section')->get()->sortBy('order')->sortBy('section_order');
         $results = $this->getResultsFollowOptionUpdate($survey, $survey->results(), app(UserInterface::class));
