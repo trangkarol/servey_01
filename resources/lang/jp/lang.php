@@ -316,4 +316,27 @@ return [
     'send_result_failed' => 'Send result failed! Try again!',
     'you_have_answered_this_survey' => 'You have answered this survey!',
     'you_do_not_have_permission' => 'You do not have permission to doing this survey!',
+
+    /*
+        Feedback
+    */
+
+    'your_name' => 'Your name',
+    'your_email' => 'Your email',
+    'feedback_content' => 'Feedback content',
+    'feedback_content_placeholder' => 'Enter your feedback content',
+    'send_feedback' => 'Send feedback',
+    'send_feedback_success' => 'Thank you :name! Your feedback has been saved',
+    'send_feedback_error' => 'Send feedback failed! Try again!',
+    'list_feedback' => 'List of feedbacks',
+    'enter_name_or_email' => 'Enter name or email',
+    'all' => 'All',
+    'by_name' => 'By name',
+    'by_email' => 'By email',
+    'detail' => 'Detail',
+    'remove' => 'Remove',
+    'feedback_detail' => 'Feedback Detail',
+    'confirm_delete_feedback' => 'Are you sure want to remove this feedback?',
+    'delete_feedback_success' => 'Remove feedback success!',
+    'delete_feedback_error' => 'Remove feedback failed! Try again!',
 ];

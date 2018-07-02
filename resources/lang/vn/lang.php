@@ -316,4 +316,27 @@ return [
     'send_result_failed' => 'Gửi kết quả thất bại! Hãy thử lại',
     'you_have_answered_this_survey' => 'Bạn đã trả lời khảo sát này!',
     'you_do_not_have_permission' => 'Bạn không được phép thực hiện khảo sát này!',
+
+    /*
+        Feedback
+    */
+
+    'your_name' => 'Tên của bạn',
+    'your_email' => 'Email của bạn',
+    'feedback_content' => 'Nội dung phản hồi',
+    'feedback_content_placeholder' => 'Nhập nội dung phản hồi của bạn',
+    'send_feedback' => 'Gửi phản hồi',
+    'send_feedback_success' => 'Cảm ơn :name! Phản hồi của bạn đã được lưu lại',
+    'send_feedback_error' => 'Gửi phản hồi thất bại! Hãy thử lại!',
+    'list_feedback' => 'Danh sách phản hồi',
+    'enter_name_or_email' => 'Nhập tên hoặc email',
+    'all' => 'Tất cả',
+    'by_name' => 'Theo tên',
+    'by_email' => 'Theo email',
+    'detail' => 'Chi tiết',
+    'remove' => 'Xóa',
+    'feedback_detail' => 'Chi tiết phản hồi',
+    'confirm_delete_feedback' => 'Bạn có chắc chắn muốn xóa phản hồi này không?',
+    'delete_feedback_success' => 'Xóa phản hồi thành công!',
+    'delete_feedback_error' => 'Xóa phản hồi thất bại! Hãy thử lại!',
 ];
