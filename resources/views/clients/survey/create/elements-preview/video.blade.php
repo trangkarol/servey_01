@@ -9,5 +9,5 @@
 @endif
 
 <div class="form-group form-group-description-section">
-    <span>{!! nl2br(e($question->description)) !!}</span>
+    <span class="description-question">{!! nl2br(e($question->description)) !!}</span>
 </div>

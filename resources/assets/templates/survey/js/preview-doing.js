@@ -5,6 +5,17 @@ $(document).ready(function() {
         }
     });
 
+    $(`.description-question,
+        .description-section,
+        .description-survey,
+        .title-section,
+        .title-question,
+        .title-survey-preview,
+        .container-checkbox-setting-survey,
+        .container-radio-setting-survey`).linkify({
+        target: '_blank',
+    });
+
     function autoAlignChoiceAndCheckboxIcon()
     {
         // auto align center multi-choice icon

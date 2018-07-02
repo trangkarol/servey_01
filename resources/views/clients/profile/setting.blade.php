@@ -27,7 +27,7 @@
                         {!! Form::open(['route' => ['survey.profile.update', $user->id],
                             'class' => 'install-form', 'files' => true,
                             'method' => 'put', 'id' => 'form-update-profile']) !!}
-                            <h6 class="form-header color-white">&#9758; @lang('profile.important_settings')</h6>
+                            <h6>&#9758; @lang('profile.important_settings')</h6>
                             <div class="form-group row">
                                 {!! Form::label('name', trans('profile.name'), ['class' => 'col-sm-3 col-form-label-profile']) !!}
                                 <div class="col-sm-7">
@@ -41,7 +41,7 @@
                                 </div>
                             </div>
                             <hr>
-                            <h6 class="form-header color-white">&#9758; @lang('profile.general_settings')</h6>
+                            <h6>&#9758; @lang('profile.general_settings')</h6>
                             <div class="form-group row">
                                 {!! Form::label('birthday', trans('profile.birthday'), ['class' => 'col-sm-3 col-form-label-profile']) !!}
                                 <div class="col-sm-7">

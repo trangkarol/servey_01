@@ -379,7 +379,7 @@ Route::get('surveys-{token}', [
     'as' => 'survey.create.do-survey',
 ])->middleware('doingsurvey');
 
-Route::get('answer-complete/{title}', [
+Route::get('answer-complete/{token}', [
     'uses' => 'SurveyController@showCompleteAnswer',
     'as' => 'show-complete-answer',
 ]);

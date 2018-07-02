@@ -776,9 +776,16 @@ class SurveyController extends Controller
         }
     }
 
-    public function showCompleteAnswer($title)
+    public function showCompleteAnswer($token)
     {
-        return view('clients.survey.detail.complete', compact('title'));
+        try {
+            $survey = $this->surveyRepository->getSurveyFromToken($token);
+            $title = $survey->title;
+
+            return view('clients.survey.detail.complete', compact('title'));
+        } catch (Exception $e) {
+            return redirect()->route('404');
+        }
     }
 
     public function updateSetting(UpdateSurveySettingRequest $request, $token)

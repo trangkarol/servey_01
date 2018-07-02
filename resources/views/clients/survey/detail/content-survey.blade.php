@@ -95,7 +95,7 @@
             && $data['survey']->isOpen() && $currentUrl  == route('survey.create.do-survey', $data['survey']->token))
             {!! Form::button(trans('profile.send'), ['class' => 'btn-action-preview btn-action-preview-submit',
                 'data-url' => route('survey.create.storeresult', $data['survey']->token),
-                'data-redirect' => route('show-complete-answer', str_replace("\r\n", ' ', $data['survey']->title))]) !!}
+                'data-redirect' => route('show-complete-answer', $data['survey']->token)]) !!}
         @endif
     </li>
 </ul>

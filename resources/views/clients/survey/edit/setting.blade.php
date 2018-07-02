@@ -338,9 +338,9 @@
                                     <div class="save-old-result" data-url="{{ route('export-result', [$survey->token, '', '']) }}">
                                         <div class="form-group">
                                             <label for="file-name" class="col-5 col-md-3">@lang('lang.name')</label>
-                                            {{ Form::text('file-name', str_limit($survey->title, config('settings.limit_title_excel')),[
+                                            {{ Form::text('file-name', $survey->name_file_excel, [
                                                 'class' => 'form-control result-file-name col-md-7 col-6',
-                                                'data-name' => str_limit($survey->title, config('settings.limit_title_excel'))
+                                                'data-name' => $survey->name_file_excel,
                                             ]) }}
                                         </div>
                                         <div class="form-group">

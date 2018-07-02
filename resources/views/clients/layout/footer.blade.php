@@ -87,6 +87,8 @@
         {!! Html::script(asset(config('settings.plugins') . 'sweetalert/dist/sweetalert.min.js')) !!}
         {!! Html::script(elixir(config('settings.plugins') . 'languages/messages.js')) !!}
         {!! Html::script(asset(config('settings.plugins') . 'pace-progress/pace.min.js')) !!}
+        {!! Html::script(asset(config('settings.plugins') . 'linkifyjs/dist/linkify.min.js')) !!}
+        {!! Html::script(asset(config('settings.plugins') . 'linkifyjs/dist/linkify-jquery.min.js')) !!}
         {!! Html::script(elixir(config('settings.public_template') . 'js/main.js')) !!}
         {!! Html::script(elixir(config('settings.public_template') . 'js/datepicker/bootstrap-datepicker.min.js')) !!}
         {!! Html::script(elixir(config('settings.public_template') . 'js/auth.js')) !!}

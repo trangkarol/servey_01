@@ -53,9 +53,9 @@
                             <div class="content-pupup-export">
                                 <div class="form-group">
                                     <label for="name">@lang('lang.name')</label>
-                                    {{ Form::text('name', str_limit($survey->title, config('settings.limit_title_excel')),
+                                    {{ Form::text('name', $survey->name_file_excel,
                                         ['class' => 'form-control name-file-export',
-                                        'data-name' => str_limit($survey->title, config('settings.limit_title_excel'))]) }}
+                                        'data-name' => $survey->name_file_excel]) }}
                                 </div>
                                 <div class="form-group">
                                     <label for="type">@lang('lang.type')</label>

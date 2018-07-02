@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@lang('lang.403')</title>
+    {{ Html::favicon(asset('templates/survey/images/icon/favicon.ico')) }}
     {!! Html::style(asset(config('settings.plugins') . 'bootstrap/bootstrap.min.css')) !!}
     {!! Html::style(elixir('/user/errors/404.css')) !!}
 </head>
