@@ -11,8 +11,6 @@ class Result extends Model
 
     protected $fillable = [
         'answer_id',
-        'question_id',
-        'survey_id',
         'user_id',
         'question_id',
         'survey_id',
@@ -41,7 +39,7 @@ class Result extends Model
 
     public function survey()
     {
-        return $this->belongsTo(Survey::class);
+        return $this->belongsTo(Survey::class)->withTrashed();
     }
 
     public function getContentAnswerAttribute()
@@ -57,7 +55,7 @@ class Result extends Model
 
     public function getOrderAttribute()
     {
-        return $this->question->order;
+        return $this->question ? $this->question->order : '';
     }
     
     public function getSectionOrderAttribute()
