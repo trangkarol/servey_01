@@ -162,6 +162,9 @@ return [
     'can_not_remove_last_section' => 'Can not remove! Survey must be have least a section!',
     'can_not_remove_last_question' => 'Can not remove! Survey must be have least a question!',
     'wrong_data' => 'Failed! Wrong data! Try again!',
+    'creator' => 'Creator: ',
+    'date_create' => 'Date create: ',
+    'time_finish' => 'Time finish: ',
 
     /*
     | 404 page

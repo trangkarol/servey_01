@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Session;
 use App\Traits\SurveyProcesser;
+use Exception;
 
 class PreviewSurveyController extends Controller
 {

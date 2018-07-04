@@ -29,6 +29,7 @@ class Survey extends Model
         'status_custom',
         'trim_title',
         'remaining_time',
+        'owner_name',
     ];
 
     protected $dates = ['deleted_at'];
@@ -293,5 +294,17 @@ class Survey extends Model
         return !empty($this->attributes['title']) ? 
             str_slug(str_limit($this->attributes['title'], config('settings.limit_title_excel'))) :
             trans('survey.no_title');
+    }
+
+    public function getOwnerNameAttribute()
+    {
+        return strtoupper($this->members->where('pivot.role', Survey::OWNER)->first()->name);
+    }
+
+    public function getTimeFinishAttribute()
+    {
+        return (!empty($this->attributes['end_time']))
+            ? Carbon::parse($this->attributes['end_time'])->format('H:i - d/m/Y')
+            : null;
     }
 }
