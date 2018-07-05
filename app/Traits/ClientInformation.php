@@ -153,7 +153,7 @@ trait ClientInformation
                 $updateData = [
                     'invite_mails' => join('/', $inviteMails->all()) . '/',
                     'answer_mails' => join('/', $answerMails) . '/',
-                    'number_answer' => ++ $inviter->number_answer,
+                    'number_answer' => ++ $survey->invite()->first()->number_answer,
                     'send_update_mails' => join('/', $sendUpdateMails->all()) . '/',
                 ];
             } else {
@@ -182,8 +182,8 @@ trait ClientInformation
 
                 $updateData = [
                     'answer_mails' => join('/', $answerMails) . '/',
-                    'number_invite' => ++ $inviter->number_invite,
-                    'number_answer' => ++ $inviter->number_answer,
+                    'number_invite' => ++ $survey->invite()->first()->number_invite,
+                    'number_answer' => ++ $survey->invite()->first()->number_answer,
                 ];
             }
 
@@ -217,8 +217,8 @@ trait ClientInformation
 
         if (!empty($inviter)) {
             $survey->invite()->update([
-                'number_answer' => ++ $inviter->number_answer,
-                'number_invite' => ++ $inviter->number_invite,
+                'number_answer' => ++ $survey->invite()->first()->number_answer,
+                'number_invite' => ++ $survey->invite()->first()->number_invite,
             ]);
 
             return;
