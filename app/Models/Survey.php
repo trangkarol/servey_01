@@ -240,7 +240,8 @@ class Survey extends Model
         $invite = $this->invite;
 
         if (!empty($invite)) {
-            return $invite->number_invite;
+            return count($invite->invite_mails_array) + count($invite->answer_mails_array) 
+                + $this->getNumberIncognitoAnswer();
         }
 
         return 0;
@@ -251,10 +252,15 @@ class Survey extends Model
         $invite = $this->invite;
 
         if (!empty($invite)) {
-            return $invite->number_answer;
+            return count($invite->answer_mails_array) + $this->getNumberIncognitoAnswer();
         }
 
         return 0;
+    }
+
+    public function getNumberIncognitoAnswer()
+    {
+        return $this->results->where('user_id', '')->pluck('token')->unique()->count();
     }
 
     public function getOptionUpdate()
