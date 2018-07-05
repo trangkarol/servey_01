@@ -363,8 +363,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         $inviter = $survey->invite;
         $isDeleteClientResult = false;
 
-        if (count($createData['sections']) || count($createData['questions']) 
-            || count($createData['answers']) || count($deleteData['answers'])) {
+        if (count($createData['sections']) || count($createData['questions']) || count($createData['answers'])) {
             $isDeleteClientResult = true;
         }
 

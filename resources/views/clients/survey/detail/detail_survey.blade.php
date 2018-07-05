@@ -1,6 +1,16 @@
 <!-- .cd-main-header -->
 <main class="cd-main-content">
     <div class="image-header"></div>
+    <div class="info-survey-block">
+        <span>{{ trans('lang.creator') . $data['survey']->owner_name }}</span><br/>
+        <span>{{ trans('lang.date_create') . $data['survey']->created_at }}</span><br/>
+        <span>{{ !empty($data['survey']->time_finish) ? trans('lang.time_finish') . $data['survey']->time_finish : '' }}</span>
+    </div>
+    @can('config', $data['survey'])
+        <a href="{{ route('survey.management', $data['survey']->token_manage) }}" class="btn btn-primary member-config-btn">
+            <i class="fa fa-cog"></i>
+        </a>
+    @endcan
     <!-- Content Wrapper  -->
     <div class="content-wrapper" id="user-id" data-user-id="{{ Auth::check() ? Auth::user()->id : '' }}">
         <!-- /Scroll buttons -->

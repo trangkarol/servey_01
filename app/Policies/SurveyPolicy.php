@@ -146,4 +146,16 @@ class SurveyPolicy
 
         return false;
     }
+
+    public function config(User $user, Survey $survey)
+    {
+        $members = $survey->members->pluck('id')->all();
+
+        // only creator, editor can config survey.
+        if (in_array($user->id, $members)) {
+            return true;
+        }
+
+        return false;
+    }
 }

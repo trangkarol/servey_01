@@ -229,7 +229,7 @@ trait SurveyProcesser
             $questionData['order'] = !empty($question['order']) ? $question['order'] : ++ $orderQuestion;
             $questionData['update'] = config('settings.survey.question_update.updated');
 
-            if (empty($sectionCreated) && !empty($survey)) {
+            if (!empty($survey)) {
                 $sectionCreated = $survey->sections()->where('id', $question['section_id'])->first();
             }
 
@@ -269,7 +269,7 @@ trait SurveyProcesser
             $answerData['content'] = $answer['content'];
             $answerData['update'] = config('settings.survey.answer_update.updated');
 
-            if (empty($questionCreated) && !empty($questionRepo)) {
+            if (!empty($questionRepo)) {
                 $questionCreated = $questionRepo->withTrashed()->where('id', $answer['question_id'])->first();
             }
 

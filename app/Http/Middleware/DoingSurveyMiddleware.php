@@ -4,14 +4,15 @@ namespace App\Http\Middleware;
 
 use Closure;
 use App\Repositories\Survey\SurveyInterface;
+use App\Repositories\User\UserInterface;
 use Auth;
 use Illuminate\Http\Response;
 use App\Policies\SurveyPolicy;
-use App\Traits\ClientInformation;
+use App\Traits\SurveyProcesser;
 
 class DoingSurveyMiddleware
 {
-    use ClientInformation;
+    use SurveyProcesser;
 
     /**
      * Handle an incoming request.
@@ -21,10 +22,12 @@ class DoingSurveyMiddleware
      * @return mixed
      */
     protected $surveyRepository;
+    protected $userRepository;
 
-    public function __construct(SurveyInterface $surveyRepository)
+    public function __construct(SurveyInterface $surveyRepository, UserInterface $userRepository)
     {
         $this->surveyRepository = $surveyRepository;
+        $this->userRepository = $userRepository;
     }
 
     public function handle($request, Closure $next)
@@ -54,16 +57,22 @@ class DoingSurveyMiddleware
             }
         }
 
-        $inforAnswerer = Auth::check() ? Auth::user()->id : $this->getClientIP();
-        $keyCheck = Auth::check() ? 'user_id' : 'client_ip';
-        // process limit number of times answer
-        $timesAnswer = $survey->results->where($keyCheck, $inforAnswerer)
-            ->pluck('created_at')
-            ->unique()->count();
+        // process limit number of times answer if user login, if user is Incognito then not limit number answers
+        if (Auth::check()) {
+            $timesAnswer = $this->getResultsFollowOptionUpdate(
+                $survey,
+                $survey->results(),
+                $this->userRepository
+            );
 
-        if ($limitAnswer != config('settings.survey_setting.answer_unlimited') 
-            && $timesAnswer >= $limitAnswer) {
-            return  new Response(view('clients.survey.detail.complete', compact('title')));
+            $timesAnswer = $timesAnswer->where('user_id', Auth::user()->id)
+                ->pluck('created_at')
+                ->unique()->count();
+
+            if ($limitAnswer != config('settings.survey_setting.answer_unlimited') 
+                && $timesAnswer >= $limitAnswer) {
+                return  new Response(view('clients.survey.detail.complete', compact('title')));
+            }
         }
 
         return $next($request);

@@ -101,6 +101,9 @@ return [
     'delete_survey_success' => 'Xóa khảo sát thành công!',
     'delete_survey_success' => 'Xóa khảo sát thất bại!',
     'not_allowed_to_delete_survey' => 'Bạn không được phép khảo sát này!',
+    'creator' => 'Người tạo: ',
+    'date_create' => 'Ngày tạo: ',
+    'time_finish' => 'Thời gian kết thúc: ',
 
     /*
     | Survey Create Page
