@@ -17,26 +17,26 @@ class ExportController extends Controller
         $this->surveyRepository = $surveyRepository;
     }
 
-    public function export($token, $type, $name)
+    public function export(Request $request)
     {
         try {
-            $survey = $this->surveyRepository->getSurveyFromToken($token);
+            $survey = $this->surveyRepository->getSurveyFromToken($request->token);
 
             if (!$survey) {
                 throw new Exception('Survey not found', 1);
             }
 
-            $data = $this->surveyRepository->getResultExport($survey);
+            $data = $this->surveyRepository->getResultExport($survey, $request->month);
             $title = str_limit($survey->title, config('settings.limit_title_excel'));
 
-            $title = $name ? $name : str_limit($survey->title, config('settings.limit_title_excel'));
+            $title = $request->name ? str_limit($request->name, config('settings.limit_title_excel')) : str_limit($survey->title, config('settings.limit_title_excel'));
 
             return Excel::create($title, function($excel) use ($title, $data) {
                 $excel->sheet($title, function($sheet) use ($data) {
                     $sheet->loadView('clients.export.excel', compact('data'));
                     $sheet->setOrientation('landscape');
                 });
-            })->export($type);
+            })->export($request->type);
         } catch (Exception $e) {
             return redirect()->back()->with('error', trans('lang.export_error'));
         }

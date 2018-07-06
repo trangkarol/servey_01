@@ -3876,12 +3876,15 @@ jQuery(document).ready(function () {
         }
 
         function exportOldResult() {
-            var url = $('.save-old-result').attr('data-url');
-            var fileName = $('.result-file-name').val();
-            var fileType = $('.result-file-type').val();
             window.onbeforeunload = null;
-            window.location.href = `${url}/${fileType}/${fileName}`;
+            $('#export-form').submit();
         }
+
+        $('#export-form').on('keydown', '.result-file-name', function(event) {            
+            if (event.keyCode == 13) {
+                event.preventDefault();
+            }
+        });
 
         // check change value sections questions, answers
         function isUpdate() {

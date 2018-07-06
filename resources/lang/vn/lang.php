@@ -140,6 +140,7 @@ return [
     'time_answer' => 'Giờ',
     'checkboxes' => 'Hộp kiểm',
     'date' => 'Ngày',
+    'month' => 'Tháng',
     'section' => 'Phần',
     'duplicate_section' => 'Sao chép phần',
     'move_section' => 'Di chuyển phần',

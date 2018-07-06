@@ -360,7 +360,7 @@ Route::group(['middleware' => 'profile'], function () {
             'as' => 'survey.create.preview.previous'
         ]);
 
-        Route::get('surveys/export/{token}/{type}/{name}', 'ExportController@export')->name('export-result');
+        Route::post('surveys/export', 'ExportController@export')->name('export-result');
 
         Route::post('surveys/preview/get-json', [
             'uses' => 'PreviewSurveyController@getJson',

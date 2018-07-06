@@ -731,13 +731,24 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
     }
 
     /* new */
-    public function getResultExport($survey)
+    public function getResultExport($survey, $month = '')
     {
         $requiredSurvey = $survey->required;
         $questions = app(QuestionInterface::class)->withTrashed()
             ->whereIn('section_id', $survey->sections->pluck('id')->all())
             ->with('settings', 'section')->get()->sortBy('order')->sortBy('section_order');
-        $results = $this->getResultsFollowOptionUpdate($survey, $survey->results(), app(UserInterface::class));
+        $results = '';
+
+        if ($month) {
+            $dateMonthArray = explode('-', $month);
+            $startMonth = Carbon::createFromDate($dateMonthArray[1], $dateMonthArray[0])->startOfMonth();
+            $endMonth = Carbon::createFromDate($dateMonthArray[1], $dateMonthArray[0])->endOfMonth();
+            $results = $survey->results()->where('created_at', '>=', $startMonth)->where('created_at', '<', $endMonth);
+        } else {
+            $results = $survey->results();
+        }
+
+        $results = $this->getResultsFollowOptionUpdate($survey, $results, app(UserInterface::class));
         $results = $results->with('question.section', 'answer.settings', 'user')->get()->groupBy('token');
 
         return [

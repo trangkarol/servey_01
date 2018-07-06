@@ -342,18 +342,21 @@
                                         <span class="checkmark-radio"></span>
                                     </label>
                                     <div class="save-old-result" data-url="{{ route('export-result', [$survey->token, '', '']) }}">
-                                        <div class="form-group">
-                                            <label for="file-name" class="col-5 col-md-3">@lang('lang.name')</label>
-                                            {{ Form::text('file-name', $survey->name_file_excel, [
-                                                'class' => 'form-control result-file-name col-md-7 col-6',
-                                                'data-name' => $survey->name_file_excel,
-                                            ]) }}
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="file-type" class="col-5 col-md-3">@lang('lang.type')</label>
-                                            {{ Form::select('file-type', ['xls' => '.xls', 'csv' => '.csv'], 'xls', [
-                                                'class' => 'form-control result-file-type col-md-7 col-6']) }}
-                                        </div>
+                                        {{ Form::open(['route' => 'export-result', 'id' => 'export-form']) }}
+                                            {{ Form::hidden('token', $survey->token) }}
+                                            <div class="form-group">
+                                                <label for="name" class="col-5 col-md-3">@lang('lang.name')</label>
+                                                {{ Form::text('name', $survey->name_file_excel, [
+                                                    'class' => 'form-control result-file-name col-md-7 col-6',
+                                                    'data-name' => $survey->name_file_excel,
+                                                ]) }}
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="type" class="col-5 col-md-3">@lang('lang.type')</label>
+                                                {{ Form::select('type', ['xls' => '.xls', 'csv' => '.csv'], 'xls', [
+                                                    'class' => 'form-control result-file-type col-md-7 col-6']) }}
+                                            </div>
+                                        {{ Form::close() }}
                                     </div>
                                 </div>
                             </div>

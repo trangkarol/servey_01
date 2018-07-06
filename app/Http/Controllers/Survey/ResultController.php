@@ -9,6 +9,7 @@ use App\Repositories\Result\ResultInterface;
 use App\Repositories\User\UserInterface;
 use Exception;
 use Auth;
+use Carbon\Carbon;
 
 class ResultController extends Controller
 {
@@ -36,15 +37,33 @@ class ResultController extends Controller
             }
 
             $resultsSurveys = $this->surveyRepository->getResutlSurvey($survey, $this->userRepository);
+            $startTimeStr = $survey->start_time;
+            $months = [];
+
+            if ($startTimeStr) {
+                $startTime = new Carbon($startTimeStr);
+                $now = Carbon::now();
+                $endTime = new Carbon($survey->end_time);
+                $endTime = ($endTime < $now) ? $endTime : $now;
+                $numberMonth = $startTime->diffInMonths($endTime);
+                $months[''] = trans('lang.all');
+
+                for ($index = 0; $index <= $numberMonth; ++ $index) {
+                    $value = new Carbon($startTimeStr);
+                    $value = $value->addMonth($index);
+                    $value = $value->format('m-Y');
+                    $months[$value] = $value;
+                }
+            }
 
             if ($request->ajax()) {
                 return response()->json([
                     'success' => true,
-                    'html' => view('clients.survey.result.content_result', compact('survey', 'resultsSurveys'))->render(),
+                    'html' => view('clients.survey.result.content_result', compact('survey', 'resultsSurveys', 'months'))->render(),
                 ]);
             }
 
-            return view('clients.survey.result.index', compact('survey', 'resultsSurveys'));
+            return view('clients.survey.result.index', compact('survey', 'resultsSurveys', 'months'));
         } catch (Exception $e) {
             return view('clients.layout.404');
         }

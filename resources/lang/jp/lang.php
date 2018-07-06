@@ -134,6 +134,7 @@ return [
     'time_answer' => 'Time',
     'checkboxes' => 'Checkboxes',
     'date' => 'Date',
+    'month' => 'Month',
     'section' => 'Section',
     'duplicate_section' => 'Duplicate section',
     'move_section' => 'Move section',
