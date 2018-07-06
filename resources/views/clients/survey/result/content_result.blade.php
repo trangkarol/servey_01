@@ -48,9 +48,10 @@
                         <h4 class="modal-title">@lang('lang.export_excel')</h4>
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
-                    {{ Form::open(['class' => 'info-export']) }}
+                    {{ Form::open(['class' => 'info-export', 'url' => route('export-result'), 'method' => 'post']) }}
                         <div class="modal-body">
                             <div class="content-pupup-export">
+                                {{ Form::hidden('token', $survey->token) }}
                                 <div class="form-group">
                                     <label for="name">@lang('lang.name')</label>
                                     {{ Form::text('name', $survey->name_file_excel,
@@ -62,6 +63,13 @@
                                     {{ Form::select('type', ['xls' => '.xls', 'csv' => '.csv'], 'xls',
                                         ['class' => 'form-control type-file-export']) }}
                                 </div>
+                                @if ($months)
+                                    <div class="form-group">
+                                        <label for="type">@lang('lang.month')</label>
+                                        {{ Form::select('month', $months, 'all',
+                                            ['class' => 'form-control type-file-export']) }}
+                                    </div>
+                                @endif
                             </div>
                         </div>
                         <div class="modal-footer">

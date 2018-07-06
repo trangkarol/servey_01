@@ -24,7 +24,7 @@ interface SurveyInterface
 
     public function getUserAnswer($token);
 
-    public function getResultExport($survey);
+    public function getResultExport($survey, $month = '');
 
     public function duplicateSurvey($survey);
 

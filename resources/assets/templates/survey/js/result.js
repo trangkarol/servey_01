@@ -303,12 +303,8 @@ function results() {
         $('.option-menu-dropdown').hide();
     });
 
-    $('.submit-export-excel').click(function() {
-        var formSelector = $(this).closest('.info-export');
-        var name = $(formSelector).find('.name-file-export').val();
-        name = name ? name : $(formSelector).find('.name-file-export').attr('data-name');
-        var type = $(formSelector).find('.type-file-export').val();
-        var dataUrl = $('#export-file-excel').attr('data-url');
-        window.location.href = `${dataUrl}/${type}/${name}`;
-    })
+    $(document).on('click', '.submit-export-excel', function(event) {
+        event.preventDefault();
+        $('.info-export').submit();
+    });
 }
