@@ -2567,7 +2567,7 @@ jQuery(document).ready(function () {
 
         if (isExist == -1) {
             emailsMember.push(email);
-            var colDelete = $('#input-email-member').is(':visible')
+            var colDelete = $('#input-email-member').length
                 ? `<td><a href="#" class="delete-member"><i class="fa fa-times"></i></a></td>`
                 : '';
 
