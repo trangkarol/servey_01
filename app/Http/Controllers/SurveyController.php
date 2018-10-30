@@ -71,10 +71,10 @@ class SurveyController extends Controller
 
     public function index()
     {
-        $data['users'] = count($this->userRepository->lists('id'));
-        $data['surveys'] = count($this->surveyRepository->lists('id'));
-        $data['surveys_open'] = count($this->surveyRepository->getSurveysByStatus(config('settings.survey.status.open'))->get());
-        $data['feedbacks'] = count($this->feedbackRepository->lists('id'));
+        $data['users'] = $this->userRepository->count();
+        $data['surveys'] = $this->surveyRepository->count();
+        $data['surveys_open'] = $this->surveyRepository->getSurveysByStatus(config('settings.survey.status.open'))->count();
+        $data['feedbacks'] = $this->feedbackRepository->count();
 
         return view('clients.home.index', compact('data'));
     }
@@ -257,7 +257,7 @@ class SurveyController extends Controller
         }
 
         $privacy = $survey->getPrivacy();
-        
+
         if ($privacy == config('settings.survey_setting.privacy.private')
             && !in_array(Auth::user()->id, $survey->members()->pluck('user_id')->all())) {
             $inviter = $survey->invite;
@@ -315,18 +315,18 @@ class SurveyController extends Controller
             }
 
             $this->surveyRepository->updateSurvey(
-                $survey, 
+                $survey,
                 $request->json(),
                 config('settings.survey.status.open'),
                 $this->questionRepository,
                 $this->answerRepository,
                 $this->userRepository
             );
-                
+
             $this->open($survey);
 
             DB::commit();
-            
+
             $request->session()->flash('success', trans('lang.edit_survey_success'));
 
             return response()->json([
@@ -720,7 +720,7 @@ class SurveyController extends Controller
             $request->session()->forget('current_section_survey');
 
             DB::commit();
-            
+
             return response()->json([
                 'success' => true,
             ]);
@@ -817,7 +817,7 @@ class SurveyController extends Controller
             }
 
             $result = $this->surveyRepository->updateSettingSurvey(
-                $survey, 
+                $survey,
                 $request->json(),
                 $this->userRepository
             );
@@ -838,7 +838,7 @@ class SurveyController extends Controller
         }
     }
 
-    public function updateDraft($token, Request $request) 
+    public function updateDraft($token, Request $request)
     {
         if (!$request->ajax()) {
             return [
@@ -856,7 +856,7 @@ class SurveyController extends Controller
             }
 
             $this->surveyRepository->updateSurvey(
-                $survey, 
+                $survey,
                 $request->json(),
                 config('settings.survey.status.draft'),
                 $this->questionRepository,
@@ -864,7 +864,7 @@ class SurveyController extends Controller
             );
 
             DB::commit();
-            
+
             $request->session()->flash('success', trans('lang.save_survey_draft_success'));
 
             return response()->json([
