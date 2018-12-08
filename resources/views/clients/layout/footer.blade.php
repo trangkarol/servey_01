@@ -27,7 +27,7 @@
                                     <li>
                                         <i class="fa fa-envelope"></i>
                                         @lang('lang.email'):
-                                        <a href="#">{{ config('settings.company.hr_email_company') }}</a>
+                                        <a href="mailto:{{ config('settings.company.hr_email_company') }}">{{ config('settings.company.hr_email_company') }}</a>
                                     </li>
                                 </ul>
                             </div>

@@ -73,6 +73,7 @@ class SurveyController extends Controller
     {
         $data['users'] = $this->userRepository->count();
         $data['surveys'] = $this->surveyRepository->count();
+
         $data['surveys_open'] = $this->surveyRepository->getSurveysByStatus(config('settings.survey.status.open'))->count();
         $data['feedbacks'] = $this->feedbackRepository->count();
 

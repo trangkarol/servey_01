@@ -2514,7 +2514,7 @@ body.no-header-wrapper {
     }
 
     .select-styled {
-        top: 42% !important; 
+        top: 42% !important;
     }
 
     .navbar-nav a {
@@ -2530,9 +2530,9 @@ body.no-header-wrapper {
     #header .navbar-dark .nav-item:last-child {
         padding-bottom: 5px;
     }
-    
+
     .select-styled {
-        top: 0 !important; 
+        top: 0 !important;
     }
 
     .select-options {
@@ -2741,7 +2741,7 @@ img.fnone {
 }
 
 .text-require-login {
-    color: #b92908;
+    color: #fbb03b;
     margin-top: 1%;
 }
 /* modal insert image */
