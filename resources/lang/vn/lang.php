@@ -354,4 +354,7 @@ return [
     'confirm_delete_feedback' => 'Bạn có chắc chắn muốn xóa phản hồi này không?',
     'delete_feedback_success' => 'Xóa phản hồi thành công!',
     'delete_feedback_error' => 'Xóa phản hồi thất bại! Hãy thử lại!',
+
+    //export
+    'framgia_vn' => 'Công ty Framgia Việt Nam',
 ];

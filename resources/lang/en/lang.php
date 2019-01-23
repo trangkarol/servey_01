@@ -354,4 +354,7 @@ return [
     'confirm_delete_feedback' => 'Are you sure want to remove this feedback?',
     'delete_feedback_success' => 'Remove feedback success!',
     'delete_feedback_error' => 'Remove feedback failed! Try again!',
+
+    //export
+    'framgia_vn' => 'Framgia Vietnam Company',
 ];
