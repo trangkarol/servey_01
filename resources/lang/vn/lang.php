@@ -358,4 +358,11 @@ return [
 
     //export
     'framgia_vn' => 'Công ty Framgia Việt Nam',
+
+    /*
+        Result
+    */
+    'see_more' => 'Xem thêm',
+    'close' => 'Đóng lại',
+    'select_option' => 'Bạn chưa chọn tùy chọn nào cả!',
 ];
